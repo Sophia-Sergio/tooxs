@@ -1,0 +1,33 @@
+<%= simple_form_for(@sale_real) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :store %>
+    <%= f.association :department %>
+    <%= f.input :date_sale %>
+    <%= f.input :nine %>
+    <%= f.input :ten %>
+    <%= f.input :eleven %>
+    <%= f.input :twelve %>
+    <%= f.input :thirteen %>
+    <%= f.input :fourteen %>
+    <%= f.input :fifteen %>
+    <%= f.input :sixteen %>
+    <%= f.input :seventeen %>
+    <%= f.input :eigthteen %>
+    <%= f.input :nineteen %>
+    <%= f.input :twenty %>
+    <%= f.input :twenty_one %>
+    <%= f.input :twenty_two %>
+    <%= f.input :twenty_three %>
+    <%= f.input :twenty_four %>
+    <%= f.input :week %>
+    <%= f.input :month %>
+    <%= f.input :year %>
+    <%= f.input :day_number %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

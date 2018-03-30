@@ -1,0 +1,131 @@
+<%= form_with(model: available_shift, local: true) do |form| %>
+  <% if available_shift.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(available_shift.errors.count, "error") %> prohibited this available_shift from being saved:</h2>
+
+      <ul>
+      <% available_shift.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :store_id %>
+    <%= form.select :store_id,
+                    options_from_collection_for_select(Store.all, :id, :name, available_shift.try(:store_id)), 
+                    { include_blank: false },
+                    { id: :available_shift_store_id }
+    %>
+  </div>
+
+  <div class="field">
+    <%= form.label :num %>
+    <%= form.number_field :num, id: :available_shift_num %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :available_shift_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :month %>
+    <%= form.number_field :month, id: :available_shift_month %>
+  </div>
+
+  <div class="field">
+    <%= form.label :week %>
+    <%= form.number_field :week, id: :available_shift_week %>
+  </div>
+
+  <div class="field">
+    <%= form.label :day %>
+    <%= form.text_field :day, id: :available_shift_day %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nine %>
+    <%= form.check_box :nine, id: :available_shift_nine %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ten %>
+    <%= form.check_box :ten, id: :available_shift_ten %>
+  </div>
+
+  <div class="field">
+    <%= form.label :eleven %>
+    <%= form.check_box :eleven, id: :available_shift_eleven %>
+  </div>
+
+  <div class="field">
+    <%= form.label :twelve %>
+    <%= form.check_box :twelve, id: :available_shift_twelve %>
+  </div>
+
+  <div class="field">
+    <%= form.label :thirteen %>
+    <%= form.check_box :thirteen, id: :available_shift_thirteen %>
+  </div>
+
+  <div class="field">
+    <%= form.label :fourteen %>
+    <%= form.check_box :fourteen, id: :available_shift_fourteen %>
+  </div>
+
+  <div class="field">
+    <%= form.label :fifteen %>
+    <%= form.check_box :fifteen, id: :available_shift_fifteen %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sixteen %>
+    <%= form.check_box :sixteen, id: :available_shift_sixteen %>
+  </div>
+
+  <div class="field">
+    <%= form.label :seventeen %>
+    <%= form.check_box :seventeen, id: :available_shift_seventeen %>
+  </div>
+
+  <div class="field">
+    <%= form.label :eighteen %>
+    <%= form.check_box :eighteen, id: :available_shift_eighteen %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nineteen %>
+    <%= form.check_box :nineteen, id: :available_shift_nineteen %>
+  </div>
+
+  <div class="field">
+    <%= form.label :twenty %>
+    <%= form.check_box :twenty, id: :available_shift_twenty %>
+  </div>
+
+  <div class="field">
+    <%= form.label :twenty_one %>
+    <%= form.check_box :twenty_one, id: :available_shift_twenty_one %>
+  </div>
+
+  <div class="field">
+    <%= form.label :twenty_two %>
+    <%= form.check_box :twenty_two, id: :available_shift_twenty_two %>
+  </div>
+
+  <div class="field">
+    <%= form.label :twenty_three %>
+    <%= form.check_box :twenty_three, id: :available_shift_twenty_three %>
+  </div>
+
+  <div class="field">
+    <%= form.label :twenty_four %>
+    <%= form.check_box :twenty_four, id: :available_shift_twenty_four %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

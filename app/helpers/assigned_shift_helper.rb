@@ -1,0 +1,2 @@
+module AssignedShiftHelper
+end

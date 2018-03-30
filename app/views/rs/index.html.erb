@@ -1,0 +1,84 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Rs</h1>
+
+<table class="table table-stripped table-condensed table-hover table-smallFont" id="table-r">
+  <thead>
+    <tr>
+      <th>Store</th>
+      <th>Department</th>
+      <th>Date</th>
+      <th>Year</th>
+      <th>Month</th>
+      <th>Week</th>
+      <th>Dow</th>
+      <th>Nine</th>
+      <th>Ten</th>
+      <th>Eleven</th>
+      <th>Twelve</th>
+      <th>Thirteen</th>
+      <th>Fourteen</th>
+      <th>Fifteen</th>
+      <th>Sixteen</th>
+      <th>Seventeen</th>
+      <th>Eighteen</th>
+      <th>Nineteen</th>
+      <th>Twenty</th>
+      <th>Twenty one</th>
+      <th>Twenty two</th>
+      <th>Twenty three</th>
+      <th>Total day</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rs.each do |r| %>
+      <tr>
+                <td><%= r.store %></td>
+                <td><%= r.department %></td>
+                <td><%= r.date %></td>
+                <td><%= r.year %></td>
+                <td><%= r.month %></td>
+                <td><%= r.week %></td>
+                <td><%= r.dow %></td>
+                <td><%= r.nine %></td>
+                <td><%= r.ten %></td>
+                <td><%= r.eleven %></td>
+                <td><%= r.twelve %></td>
+                <td><%= r.thirteen %></td>
+                <td><%= r.fourteen %></td>
+                <td><%= r.fifteen %></td>
+                <td><%= r.sixteen %></td>
+                <td><%= r.seventeen %></td>
+                <td><%= r.eighteen %></td>
+                <td><%= r.nineteen %></td>
+                <td><%= r.twenty %></td>
+                <td><%= r.twenty_one %></td>
+                <td><%= r.twenty_two %></td>
+                <td><%= r.twenty_three %></td>
+                <td><%= r.total_day %></td>
+        
+        <td>
+
+        <%= link_to r_path(r), :class => 'btn btn-default' do %>
+        <i class="fa fa-eye"></i> Ver ##R
+        <% end %>
+
+        <%= link_to edit_r_path(r), :class => 'btn btn-default' do %>
+        <i class="fa fa-edit"></i> Editar ##R
+        <% end %>
+
+        <%= link_to r_path(r), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
+        <i class="fa fa-trash-o"></i> Eliminar ##R
+        <% end %>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New R', new_r_path %>

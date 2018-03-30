@@ -1,0 +1,18 @@
+<%= simple_form_for(@sp) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :store %>
+    <%= f.association :department %>
+    <%= f.input :date %>
+    <%= f.input :year %>
+    <%= f.input :month %>
+    <%= f.input :week %>
+    <%= f.input :dow %>
+    <%= f.input :sale %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

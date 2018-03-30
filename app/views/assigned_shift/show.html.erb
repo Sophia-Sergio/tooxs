@@ -1,0 +1,26 @@
+<%= params %>
+
+<div class="container-fluid p-t-0 p-l-30 bg-white">
+   <div class="card card-transparent">
+    <div class="card-header ">
+      <div class="card-title">
+      	Detalle Asignación de Turno
+      </div>
+    </div>
+
+    <div class="card-block">
+
+    	<div class="row">
+    		<div class="col-lg-12">
+    			Turno Asignado: <span class="label label-default"><%= @as.name %> </span> - Funcionario: <span class="label label-default"><%= @seller.fullname %></span>
+    		</div>
+    		<div class="col-lg-12">
+    			<% @shifts.each_with_index do |s, i| %>
+    			<%= i+1  %> - <%= s.shift %><br>
+    			<% end -%>
+    		</div>
+    	</div>
+
+    </div>
+  </div>
+</div>

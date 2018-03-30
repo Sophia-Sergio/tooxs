@@ -1,0 +1,123 @@
+<div class="container-fluid p-t-0 p-l-30 bg-white" id="sales_week">
+  
+
+
+ <div class="card card-transparent">
+    <div class="card-header ">
+      <div class="row">
+        <div class="col-sm-3 col-6">
+          <div class="card-title">
+            Resultado
+          </div>
+        </div>
+        <div class="col-sm-9 col-6">
+          <div class="pull-right">
+            <button type="button" class="btn btn-sm btn-info btn-params-sales"><i class="fa fa-cog"></i> Parametros de Búsqueda </button>
+            <button type="button" class="btn btn-sm btn-warning btn-compare-sales"><i class="fa fa-exchange"></i> Comparar </button>
+          </div>
+        </div>        
+      </div>
+    </div>
+
+    <%= render 'search_form', locals: { status: 'hidden', path: week_sales_path} %>
+
+    <input type="hidden" id="week" name="week" value="<%= params[:week] %>">
+
+    <div class="card-block">
+
+      <h4>Estadisticas de Ventas - Semana: <%= params[:week] %>  - <%= @year %>  <small>(<%= @dates_week[0] %> / <%= @dates_week[6] %>)</small> </h4>
+      <p class="m-t-20">Cluster: <span class="label label-default"><%= "#{@store.economic_segment} - #{@store.size}"  %></span>
+      Tienda: <span class="label label-default"><%= @store.name %></span>
+      Departamento: <span class="label label-default"><%= @dep.name %></span>
+      </p>
+
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 col-sm-12">
+          <table class="table table-stripped">
+            <thead>
+              <tr class="bg-success">
+                <td class="text-center fs-15 text-bold text-uppercase bold"> <%= link_to "#{I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize }", month_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year), class: 'text-white'  %></td>
+                <td class="fs-15 text-white">Lunes<br> <%= link_to "#{@dates_week[0]}", day_sales_path(:d => @dates_week[0]), class: 'text-white fs-15' %> </td>
+                <td class="fs-15 text-white">Martes<br> <%= link_to "#{@dates_week[1]}", day_sales_path(:d => @dates_week[1]), class: 'text-white fs-15' %> </td>
+                <td class="fs-15 text-white">Miércoles<br> <%= link_to "#{@dates_week[2]}", day_sales_path(:d => @dates_week[2]), class: 'text-white fs-15' %> </td>
+                <td class="fs-15 text-white">Jueves<br> <%= link_to "#{@dates_week[3]}", day_sales_path(:d => @dates_week[3]), class: 'text-white fs-15' %> </td>
+                <td class="fs-15 text-white">Viernes<br> <%= link_to "#{@dates_week[4]}", day_sales_path(:d => @dates_week[4]), class: 'text-white fs-15' %> </td>
+                <td class="fs-15 text-white">Sábado<br> <%= link_to "#{@dates_week[5]}", day_sales_path(:d => @dates_week[5]), class: 'text-white fs-15' %> </td>
+                <td class="fs-15 text-white">Domingo<br> <%= link_to "#{@dates_week[6]}", day_sales_path(:d => @dates_week[6]), class: 'text-white fs-15' %> </td>
+                <th class="text-center text-white" class="text-center"> <strong class="text-center text-white fs-15"> Σ </strong> </th>
+              </tr>
+            </thead>
+            <tbody class="week_detail">
+            <tr>
+              <td>PLAN </td>
+              <% @sale_plan_week.each do |v|
+              %>
+              <td><%= number_to_currency v %></td>
+              <% end %>
+              <td><%= number_to_currency @sale_plan_week.sum %></td>
+            </tr>
+
+            <tr>
+              <td>REAL </td>
+              <% @real_sale_week.each do |v|
+              %>
+              <td><%= number_to_currency v %></td>
+              <% end %>
+              <td><%= number_to_currency @real_sale_week.sum %></td>
+            </tr>
+            <tr>
+              <td>Histórica </td>
+              <% @historic_sale_week.each do |v|
+              %>
+              <td><%= number_to_currency v %></td>
+              <% end %>
+              <td><%= number_to_currency @historic_sale_week.sum %></td>
+            </tr>
+            </tbody>
+            <tfoot>
+              <tr class="table-warning">
+                <td><b>Real vs Plan  </b></td>
+                <% @dif1.each do |v|%>
+                <td class="text-centerx"><%= v.round(2) %>%
+                  <% if v > 0  %>
+                  <i class="text-success fa fa-caret-up"></i>
+                  <% else %>
+                  <i class="text-danger fa fa-caret-down"></i>
+                  <% end -%>
+                </td>
+                <% end %>
+                <td> - </td>
+              </tr>
+              <tr class="table-warning">
+                <td><b>Real vs Histórico</b> </td>
+                <% @dif2.each do |v|%>
+                <td class="text-centerx"><%= v.round(2) %>%
+                  <% if v > 0  %>
+                  <i class="text-success fa fa-caret-up"></i>
+                  <% else %>
+                  <i class="text-danger fa fa-caret-down"></i>
+                  <% end -%>
+                </td>
+                <% end %>
+                <td> - </td>
+                
+              </tr>              
+            </tfoot>            
+          </table>
+        </div>
+
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 col-sm-12">
+          
+          <div style="width:95%;">
+            <canvas id="canvas"></canvas>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>   
+
+</div> 

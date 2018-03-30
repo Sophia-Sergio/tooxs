@@ -1,0 +1,619 @@
+/* mta custom js file sales force */
+if ( $('#sales_year').length > 0) {
+  console.log('init sale_plan search')
+  $(document).ready(function(){
+        console.log('ready');
+
+        window.chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
+        var datasets =   
+
+                        $.ajax({ 
+                          type: "get",
+                          url: "/sales/json_year",
+                          data: 'y='+$('#year').val()+'&'+$('.simple_form').serialize(),
+                          dataType: 'json',
+                          success: function(data){ 
+
+                           var config = {
+                            type: 'line',
+                            data: {
+                                labels: data.labels,
+                                datasets: data.datasets
+                            },
+                            options: {
+                                responsive: true,
+                                title:{
+                                    display:true,
+                                    text:'Comparativa Plan de Ventas - Ventas Real - Venta Año Anterior'
+                                },
+                                tooltips: {
+                                    mode: 'index',
+                                    intersect: false,
+                                },
+                                hover: {
+                                    mode: 'nearest',
+                                    intersect: true
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Meses'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: '$MM'
+                                        },
+                                        ticks: {
+                                          beginAtZero: false,
+                                          callback: function(value, index, values) {
+                                            if(parseInt(value) >= 1000){
+                                              return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                            } else {
+                                              return '$' + value;
+                                            }
+                                          }
+                                        }
+                                      }]
+
+
+                                },
+
+                            }
+                        };
+
+                        var ctx = document.getElementById("canvas").getContext("2d");
+                        window.myLine = new Chart(ctx, config);
+
+                          }
+                        })
+  })
+}
+
+if ( $('#sales_month').length > 0) {
+  console.log('init sale_plan search')
+  $(document).ready(function(){
+
+    window.chartColors = {
+      red: 'rgb(255, 99, 132)',
+      orange: 'rgb(255, 159, 64)',
+      yellow: 'rgb(255, 205, 86)',
+      green: 'rgb(75, 192, 192)',
+      blue: 'rgb(54, 162, 235)',
+      purple: 'rgb(153, 102, 255)',
+      grey: 'rgb(201, 203, 207)'
+    };
+
+    //filter form
+    $(document).on('click','.btn-compare',function(){
+      console.log('compare month');
+
+      $.ajax({
+        url: "/sales/compare_month",
+        data: $('#compare').serialize(),
+        cache: false
+        }).done(function( html ) {
+          $('#modalFillIn').modal('hide');
+          $( "#compare_stores" ).html( html );
+
+          //llamo al 2o grafico
+
+          var datasets_compare =  $.ajax({ 
+                          type: "get",
+                          url: "/sales/compare_month_json",
+                          data: $('#compare').serialize(),
+                          dataType: 'json',
+                          success: function(data){ 
+
+                          var config2 = {
+                            type: 'line',
+                            data: {
+                                labels: data.labels,
+                                datasets: data.datasets
+                            },
+                            options: {
+                                responsive: true,
+                                title:{
+                                    display:true,
+                                    text:'Comparativa Tiendas'
+                                },
+                                tooltips: {
+                                    mode: 'index',
+                                    intersect: false,
+                                },
+                                hover: {
+                                    mode: 'nearest',
+                                    intersect: true
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Semana'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: '$MM'
+                                        },
+                                        ticks: {
+                                          beginAtZero: false,
+                                          callback: function(value, index, values) {
+                                            if(parseInt(value) >= 1000){
+                                              return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                            } else {
+                                              return '$' + value;
+                                            }
+                                          }
+                                        }
+                                      }]
+
+
+                                },
+
+                            }
+                          };
+
+                          var ctx2 = document.getElementById("canvas2").getContext("2d");
+                          window.myLine = new Chart(ctx2, config2);
+
+                          }
+                        })
+                    })
+
+      });
+
+  
+
+        var datasets =  $.ajax({ 
+                          type: "get",
+                          url: "/sales/json_month",
+                          data: $('.simple_form').serialize(),
+                          dataType: 'json',
+                          success: function(data){ 
+
+                           var config = {
+                            type: 'line',
+                            data: {
+                                labels: data.labels,
+                                datasets: data.datasets
+                            },
+                            options: {
+                                responsive: true,
+                                title:{
+                                    display:true,
+                                    text:'Comparativa Plan de Ventas - Ventas Real - Venta Año Anterior'
+                                },
+                                tooltips: {
+                                    mode: 'index',
+                                    intersect: false,
+                                },
+                                hover: {
+                                    mode: 'nearest',
+                                    intersect: true
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Semana'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: '$MM'
+                                        },
+                                        ticks: {
+                                          beginAtZero: false,
+                                          callback: function(value, index, values) {
+                                            if(parseInt(value) >= 1000){
+                                              return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                            } else {
+                                              return '$' + value;
+                                            }
+                                          }
+                                        }
+                                      }]
+
+
+                                },
+
+                            }
+                        };
+
+                        var ctx = document.getElementById("canvas").getContext("2d");
+                        window.myLine = new Chart(ctx, config);
+
+                          }
+                        })
+  })
+}
+
+if ( $('#sales_week').length > 0) {
+  console.log('init sale_plan_week search')
+
+    $(document).ready(function(){
+        console.log('ready');
+
+        window.chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
+        var datasets =   
+
+                        $.ajax({ 
+                          type: "get",
+                          url: "/sales/json_week",
+                          data: 'week='+$('#week').val()+'&'+$('.simple_form').serialize(),
+                          dataType: 'json',
+                          success: function(data){ 
+
+                           var config = {
+                            type: 'line',
+                            data: {
+                                labels: data.labels,
+                                datasets: data.datasets
+                            },
+                            options: {
+                                responsive: true,
+                                title:{
+                                    display:true,
+                                    text:'Comparativa Plan de Ventas - Ventas Real - Venta Año Anterior'
+                                },
+                                tooltips: {
+                                    mode: 'index',
+                                    intersect: false,
+                                },
+                                hover: {
+                                    mode: 'nearest',
+                                    intersect: true
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Semana'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: '$MM'
+                                        },
+                                        ticks: {
+                                          beginAtZero: false,
+                                          callback: function(value, index, values) {
+                                            if(parseInt(value) >= 1000){
+                                              return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                            } else {
+                                              return '$' + value;
+                                            }
+                                          }
+                                        }
+                                      }]
+
+
+                                },
+
+                            }
+                        };
+
+                        var ctx = document.getElementById("canvas").getContext("2d");
+                        window.myLine = new Chart(ctx, config);
+
+                          }
+                        })
+
+ 
+   })
+}
+
+if ( $('#sales_day').length > 0) {
+  console.log('init sale_plan_day search')
+
+    $(document).ready(function(){
+        console.log('ready');
+
+        window.chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
+        var datasets =   
+
+                        $.ajax({ 
+                          type: "get",
+                          url: "/sales/json_day",
+                          data: 'd='+$('#day').val()+'&'+$('.simple_form').serialize(),
+                          dataType: 'json',
+                          success: function(data){ 
+
+                           var config = {
+                            type: 'line',
+                            data: {
+                                labels: data.labels,
+                                datasets: data.datasets
+                            },
+                            options: {
+                                responsive: true,
+                                title:{
+                                    display:true,
+                                    text:'Comparativa Plan de Ventas - Ventas Real'
+                                },
+                                tooltips: {
+                                    mode: 'index',
+                                    intersect: false,
+                                },
+                                hover: {
+                                    mode: 'nearest',
+                                    intersect: true
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Horario'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: '$CLP'
+                                        },
+                                        ticks: {
+                                          beginAtZero: false,
+                                          callback: function(value, index, values) {
+                                            if(parseInt(value) >= 1000){
+                                              return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                            } else {
+                                              return '$' + value;
+                                            }
+                                          }
+                                        }
+                                      }]
+
+
+                                },
+
+                            }
+                        };
+
+                        var ctx = document.getElementById("canvas").getContext("2d");
+                        window.myLine = new Chart(ctx, config);
+
+                          }
+                        })
+
+ 
+   })
+}
+
+if ( $('#sales_search_form').length > 0) {
+ 
+  $(document).on('click','.btn-params-sales',function(){
+    $('#sales_form').slideToggle('slow');
+  });
+
+}
+
+if ( $('#seller_details').length > 0) {
+    console.log('init seller_details')
+
+           var myEvents =  
+                        $.parseJSON(
+                            $.ajax({
+                              method: "GET",
+                              url: "calendar_shift.json",
+                              data: { id: $('#seller_id').val() },
+                              dataType: "json", 
+                              async: false
+                            }).responseText)
+
+     $('#calendar_container').pagescalendar({
+        ui: {
+            year: {
+                visible: false,
+                format: 'YYYY',
+                startYear: '2017',
+                endYear: moment().add(1, 'year').format('YYYY'),
+                eventBubble: true
+            },
+            month: {
+                visible: true,
+                format: 'MMM',
+                eventBubble: true
+            },
+            date: {
+                format: 'MMMM YYYY, D dddd'
+            },
+            week: {
+                day: {
+                    format: 'D'
+                },
+                header: {
+                    format: 'dd'
+                },
+                eventBubble: true,
+                startOfTheWeek: '0',
+                endOfTheWeek:'6'
+            },
+            grid: {
+                dateFormat: 'D dddd',
+                timeFormat: 'h A',
+                eventBubble: true,
+                slotDuration: '30'
+            }
+        },
+        header: {
+            visible: false,
+            dateFormat: 'MMM YYYY'
+        },
+        miniCalendar: {
+            visible: true,
+            highlightWeek: true,
+            showEventBubbles: true
+        },
+        eventObj: {
+            editable: false
+        },
+        view:'month',
+        now: null,
+        locale: 'es',
+        timeFormat: 'h:mm a',
+        minTime:0,
+        maxTime:24,
+        dateFormat: 'MMMM Do YYYY',
+        slotDuration: '30', //In Mins : only supports 30 and 60
+        events: myEvents,
+        eventOverlap: true,
+        weekends:true,
+        disableDates:[],
+        //Event CallBacks
+     })
+}
+
+if ($('#productivity_demo').length > 0) { 
+    console.log('init productivity_demo');
+
+    $(document).ready(function(){
+      var datasets =   
+                        $.ajax({ 
+                          type: "get",
+                          url: "/productivity/json_current",
+                          data: 'week='+$('#week').val()+'&'+$('.simple_form').serialize(),
+                          dataType: 'json',
+                          success: function(data){ 
+
+                            var config = 
+
+                            {
+                              type: 'line',
+                              data: {
+                                datasets: [
+                                            {data: data.sp, label: 'Plan de Ventas $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 99, 132)'},
+                                            {data: data.prd, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 205, 86)'},
+                                            {data: data.sd, label: 'Dotación Actual',  yAxisID: 'right-y-axis', borderColor: 'rgb(153, 102, 255)'}
+                                          ],
+                                labels:   ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']
+                              },
+                              options: {
+                                scales: {
+                                  yAxes: [{
+                                    id: 'left-y-axis',
+                                    type: 'linear',
+                                    position: 'left'
+                                  }, {
+                                    id: 'right-y-axis',
+                                    type: 'linear',
+                                    position: 'right'
+                                  }]
+                                }
+                              }
+                            }     
+
+                          
+                            var ctx = document.getElementById("canvas").getContext("2d");
+                            var myChart = new Chart(ctx, config);
+
+                          }
+                        });
+    })
+
+      // boton simulación optimizacion
+    
+    $(document).on('click','.btn-optimize', function() {
+
+        $('.page-container').pgNotification({
+                    style: 'simple',
+                    message: 'Optimizando Turnos',
+                    timeout: 3000,
+                    type: 'warning',
+        }).show();
+
+           $('.page-container').pgNotification({
+                    style: 'simple',
+                    message: 'Realizando Calculos',
+                    timeout: 3000,
+                    type: 'info',
+        }).show(); 
+
+        //optimizado
+        $.ajax({ 
+          type: "get",
+          url: "/productivity/json_current",
+          data: 'w=2',
+          dataType: 'json',
+          success: function(data){ 
+
+            var config = 
+
+            {
+              type: 'line',
+              data: {
+                datasets: [
+                            {data: data.sp, label: 'Plan de Ventas $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 99, 132)'},
+                            {data: data.prd, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 205, 86)'},
+                            {data: data.sd, label: 'Dotación Actual',  yAxisID: 'right-y-axis', borderColor: 'rgb(153, 102, 255)'}
+                          ],
+                labels:   ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']
+              },
+              options: {
+                scales: {
+                  yAxes: [{
+                    id: 'left-y-axis',
+                    type: 'linear',
+                    position: 'left'
+                  }, {
+                    id: 'right-y-axis',
+                    type: 'linear',
+                    position: 'right'
+                  }]
+                }
+              }
+            }     
+
+          
+            var ctx = document.getElementById("canvas_opt").getContext("2d");
+            var myChart = new Chart(ctx, config);
+
+          }
+        });
+
+        $('#data_opt').slideDown('fast')
+        
+      })
+}

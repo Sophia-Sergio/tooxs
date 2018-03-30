@@ -1,0 +1,33 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+
+  
+  *= require pace/pace-theme-flash.css
+  *= require bootstrap/css/bootstrap.css
+  *= require font-awesome/css/font-awesome
+  *= require jquery-scrollbar/jquery.scrollbar.css
+  *= require select2/css/select2.min.css
+  *= require switchery/css/switchery.min.css
+  *= jquery-datatable/media/css/dataTables.bootstrap.css
+  *= jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css
+  *= datatables-responsive/css/datatables.responsive.css
+  *= require nvd3/nv.d3.min.css
+
+
+  *= require pages/css/pages-icons.css
+  *= require pages/css/themes/corporate.css
+  *= require mta/css/mta-custom.css
+
+*/

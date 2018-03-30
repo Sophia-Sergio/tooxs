@@ -1,0 +1,173 @@
+<div class="container-fluid p-t-0 p-l-30 bg-white" id="sales_month">
+
+  <div class="card card-transparent">
+    <div class="card-header ">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="card-title">
+            Resultado
+          </div>
+        </div>
+        <div class="col-sm-9">
+          <div class="pull-right">
+            <button type="button" class="btn btn-sm btn-info btn-params-sales"><i class="fa fa-cog"></i> Parametros de Búsqueda </button>
+            <button type="button" class="btn btn-sm btn-warning btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i class="fa fa-exchange"></i> Comparar </button>
+          </div>
+        </div>        
+      </div>
+    </div>
+
+    <%= render 'search_form', locals: { status: 'hidden', path: month_sales_path} %>
+
+
+    <div class="card-block">
+      <h4>Estadisticas de Ventas - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
+      <p class="m-t-20">Cluster: <span class="label label-default"><%= "#{@store.economic_segment} - #{@store.size}"  %></span>
+      Tienda: <span class="label label-default"><%= @store.name %></span>
+      Departamento: <span class="label label-default"><%= @dep.name %></span>
+      </p>
+     
+      <div class="row m-t-30">
+        <div class="col-xl-7 col-lg-12 col-md-12 col-12 col-sm-12">
+          <table class="table table-bordered table-smallFont">
+            <thead class="">
+              <tr>
+                <td colspan="6" class="bg-success-dark text-white fs-16 text-uppercase text-center"> <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %></td>
+              </tr>
+              <tr class="bg-success">
+              	<td class="text-center fs-15 text-bold"> <%= link_to "#{@year}", year_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year), class: 'text-white'  %></td>
+                <% @sale_plan.each do |k,v| %>
+                <td class="text-center text-uppercase text-white fs-15 text-bold"> <%= link_to "Semana #{k}", week_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year, week: k), class: 'text-white' %> </td>
+                <% end %>
+                <td class="text-center"> <strong class="text-center text-white fs-15"> Σ </strong> </td>
+              </tr>
+            </thead>
+            <tbody class="">
+              <tr>
+                <td>PLAN</td>
+                <%
+                @sale_plan.values.each do |v|
+                  %>
+                  <td><%= number_to_currency v %></td>
+                  <% end %>
+                  <td>
+                    <%= number_to_currency @sale_plan.values.sum %>
+                  </td>
+              </tr> 
+
+              <tr>
+                <td>REAL</td>
+                <%
+                @real_sale.values.each do |v|
+                  %>
+                  <td><%= number_to_currency v %></td>
+                  <% end %>
+                  <td>
+                    <%= number_to_currency @real_sale.values.sum %>
+                  </td>
+              </tr> 
+
+              <tr>
+                <td>HISTORICO</td>
+                <%
+                @historic_sale.values.each do |v|
+                  %>
+                  <td><%= number_to_currency v %></td>
+                  <% end %>
+                  <td>
+                    <%= number_to_currency @historic_sale.values.sum %>
+                  </td>
+              </tr>
+
+            </tbody>
+            <tfoot>
+              <tr class="table-warning">
+                <td><b>Real vs Plan  </b></td>
+                <% @dif1.each do |v|%>
+                <td class="text-centerx"><%= v.round(2) %>%
+                <% if v > 0  %>
+                  <i class="text-success fa fa-caret-up"></i>
+                <% else %>
+                  <i class="text-danger fa fa-caret-down"></i>
+                <% end -%>
+                </td>
+                <% end %>
+                <td> - </td>
+              </tr>
+              <tr class="table-warning">
+                <td><b>Real vs Histórico</b> </td>
+                <% @dif2.each do |v|%>
+                <td class="text-centerx"><%= v.round(2) %>%
+                <% if v > 0  %>
+                  <i class="text-success fa fa-caret-up"></i>
+                <% else %>
+                  <i class="text-danger fa fa-caret-down"></i>
+                <% end -%>
+                </td>
+                <% end %>
+                <td> - </td>
+              
+              </tr>              
+            </tfoot>
+          </table>
+        </div>
+        <div class="col-xl-5 col-lg-12 col-md-12 col-12 col-sm-12">
+
+         <div style="width:100%;">
+            <canvas id="canvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="row m-t-30" id="compare_stores">
+      </div>
+    </div>
+
+  </div>   
+
+</div> 
+
+<div class="modal fade slide-right" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+    <i class="pg-close"></i>
+  </button>
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="text-left p-b-5"><span class="semi-bold">Seleccione Tienda para Comparación</span></h5>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for @compare, :url => '#', :method => :post, :remote => true, html: { id: 'compare'} do |f| %>
+        <div class="row">
+          <div class="col-lg-9 ">
+            <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store], class: 'store_search' %>  
+          </div>
+          <div class="col-lg-3 no-padding sm-m-t-10 sm-text-center">
+            <button type="button" class="btn btn-primary btn-lg btn-large fs-15 btn-compare">Comparar</button>
+          </div>
+        </div>
+      
+        <div class="row dnx">
+          <div class="col-lg-9">
+            
+            <div class="dn">
+            <%= f.input :month, input_html: {value: params[:month]} %>
+            <%= f.input :year, input_html: {value: params[:year]} %>
+            <%= f.input :week, input_html: {value: params[:week]} %>
+
+            <%= f.input :store_source, input_html: {value: params[:store]} %>
+            <%= f.input :department_source, input_html: {value: params[:department]} %>
+            </div>
+
+          </div>
+        </div>
+
+        <% end -%>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

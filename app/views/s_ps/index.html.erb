@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Sps</h1>
+
+<table class="table table-stripped table-condensed table-hover table-smallFont" id="table-sp">
+  <thead>
+    <tr>
+      <th>Store</th>
+      <th>Department</th>
+      <th>Date</th>
+      <th>Year</th>
+      <th>Month</th>
+      <th>Week</th>
+      <th>Dow</th>
+      <th>Sale</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sps.each do |sp| %>
+      <tr>
+                <td><%= sp.store %></td>
+                <td><%= sp.department %></td>
+                <td><%= sp.date %></td>
+                <td><%= sp.year %></td>
+                <td><%= sp.month %></td>
+                <td><%= sp.week %></td>
+                <td><%= sp.dow %></td>
+                <td><%= sp.sale %></td>
+        
+        <td>
+
+        <%= link_to sp_path(sp), :class => 'btn btn-default' do %>
+        <i class="fa fa-eye"></i> Ver ##Sp
+        <% end %>
+
+        <%= link_to edit_sp_path(sp), :class => 'btn btn-default' do %>
+        <i class="fa fa-edit"></i> Editar ##Sp
+        <% end %>
+
+        <%= link_to sp_path(sp), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
+        <i class="fa fa-trash-o"></i> Eliminar ##Sp
+        <% end %>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Sp', new_sp_path %>
