@@ -2,13 +2,13 @@
 <html>
   <head>
     <title>tooxs - workforce management optimizer - beta</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-     
   </head>
-
-
-
  <body class="fixed-header menu-pin"> 
     <!-- BEGIN SIDEBAR -->
         <!-- BEGIN SIDEBPANEL-->
@@ -21,11 +21,7 @@
       <!-- BEGIN SIDEBAR MENU HEADER-->
       <div class="sidebar-header">
           <%= image_tag 'logo-tooxs-mini.png', class: 'brand' %>
-        <div class="sidebar-header-controls">
-          <button type="button" class="btn btn-xs sidebar-slide-toggle btn-link m-l-20" data-pages-toggle="#appMenu"><i class="fa fa-angle-down fs-16"></i>
-          </button>
-          <button type="button" class="btn btn-link hidden-sm-down" data-toggle-pin="sidebar"><i class="fa fs-12"></i>
-          </button>
+          <div class="sidebar-header-controls hidden-md-down">
         </div>
       </div>
       <!-- END SIDEBAR MENU HEADER-->
@@ -33,7 +29,7 @@
       <div class="sidebar-menu">
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <ul class="menu-items">
-
+          <li class="hidden-md-lg"><a href=""><span class="semi-bold"><%= current_user.name %> <%= current_user.lastname %></span></a></li>
           <li>
             <a href="javascript:;"><span class="title">Administración</span>
             <span class=" arrow"></span></a>
@@ -102,16 +98,20 @@
                   <%= link_to 'Dotación Personal', staffing_index_path %>
                   <span class="icon-thumbnail">T</span>
                 </li>
-
+<!--
                 <li class="">
                   <%= link_to 'Productividad', productivity_show_path %>
                   <span class="icon-thumbnail">T</span>
                 </li>
-
-
+-->
               </ul>
             </li> 
-
+            <li class="hidden-md-up">
+              <%= link_to destroy_user_session_path, :method => :delete, class: "" do %>
+                <span class="pull-left">Salir</span>
+              <% end %>
+                <span class="icon-thumbnail"><i class="pg-power"></i></span>
+            </li>
         </ul>
         <div class="clearfix"></div>
       </div>
@@ -134,12 +134,11 @@
           </div>
           <!-- START NOTIFICATION LIST -->
           <ul class="hidden-md-down notification-list no-margin hidden-sm-down b-grey b-l b-r no-style p-l-30 p-r-20 dn">
-            <li class="p-r-10 inline">
+            <!--<li class="p-r-10 inline">
               <div class="dropdown">
                 <a href="javascript:;" id="notification-center" class="header-icon pg pg-world" data-toggle="dropdown">
                   <span class="bubble"></span>
                 </a>
-
               </div>
             </li>
             <li class="p-r-10 inline">
@@ -147,7 +146,7 @@
             </li>
             <li class="p-r-10 inline">
               <a href="#" class="header-icon pg pg-thumbs"></a>
-            </li>
+            </li>-->
           </ul>
           <!-- END NOTIFICATIONS LIST -->
           
@@ -189,10 +188,8 @@
               <div class="inner">
                 <!-- START BREADCRUMB -->
                  <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Tooxs</a></li>
                   <li class="breadcrumb-item"><%= link_to 'Dashboard', root_path %></li>
-                  <li class="breadcrumb-item active"><%= @controller %></li>
-                  
+                  <li class="breadcrumb-item active"><%= controller.controller_name %></li>                 
                 </ol>
                 <!-- END BREADCRUMB --> 
               </div>
