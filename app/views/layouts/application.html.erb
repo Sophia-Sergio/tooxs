@@ -20,7 +20,9 @@
       <!-- END SIDEBAR MENU TOP TRAY CONTENT-->
       <!-- BEGIN SIDEBAR MENU HEADER-->
       <div class="sidebar-header">
-          <%= image_tag 'logo-tooxs-mini.png', class: 'brand' %>
+          <a href="<%= root_path %>">
+            <%= image_tag 'logo-tooxs-mini.png', class: 'brand' %>  
+          </a>
           <div class="sidebar-header-controls hidden-md-down">
         </div>
       </div>
@@ -98,12 +100,10 @@
                   <%= link_to 'Dotación Personal', staffing_index_path %>
                   <span class="icon-thumbnail">T</span>
                 </li>
-<!--
                 <li class="">
                   <%= link_to 'Productividad', productivity_show_path %>
                   <span class="icon-thumbnail">T</span>
                 </li>
--->
               </ul>
             </li> 
             <li class="hidden-md-up">

@@ -509,48 +509,47 @@ if ( $('#seller_details').length > 0) {
 if ($('#productivity_demo').length > 0) { 
     console.log('init productivity_demo');
 
+
     $(document).ready(function(){
-      var datasets =   
-                        $.ajax({ 
-                          type: "get",
-                          url: "/productivity/json_current",
-                          data: 'week='+$('#week').val()+'&'+$('.simple_form').serialize(),
-                          dataType: 'json',
-                          success: function(data){ 
+      var datasets = $.ajax({ 
+                    type: "get",
+                    url: "/productivity/json_current",
+                    data: 'week='+$('#week').val()+'&'+$('.simple_form').serialize(),
+                    dataType: 'json',
+                    success: function(data){ 
 
-                            var config = 
+                      mes = data.prd.concat(data.prd1).concat(data.prd2).concat(data.prd3);
+                      mes_h = data.prd_h.concat(data.prd1_h).concat(data.prd2_h).concat(data.prd3_h);
+                      mes_o = data.prd_o.concat(data.prd1_o).concat(data.prd2_o).concat(data.prd3_o);
+                      var config = 
 
-                            {
-                              type: 'line',
-                              data: {
-                                datasets: [
-                                            {data: data.sp, label: 'Plan de Ventas $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 99, 132)'},
-                                            {data: data.prd, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 205, 86)'},
-                                            {data: data.sd, label: 'Dotación Actual',  yAxisID: 'right-y-axis', borderColor: 'rgb(153, 102, 255)'}
-                                          ],
-                                labels:   ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']
-                              },
-                              options: {
-                                scales: {
-                                  yAxes: [{
-                                    id: 'left-y-axis',
-                                    type: 'linear',
-                                    position: 'left'
-                                  }, {
-                                    id: 'right-y-axis',
-                                    type: 'linear',
-                                    position: 'right'
-                                  }]
-                                }
-                              }
-                            }     
-
-                          
-                            var ctx = document.getElementById("canvas").getContext("2d");
-                            var myChart = new Chart(ctx, config);
-
+                      {
+                        type: 'line',
+                        data: {
+                          datasets: [
+                                      {data: mes , label: 'Productividad óptima $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 205, 86)'},
+                                      {data: mes_h, label: 'Productividad  real $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'}
+                                      
+                                    ],
+                          labels:   ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28']
+                        },
+                        options: {
+                          scales: {
+                            yAxes: [{
+                              id: 'left-y-axis',
+                              type: 'linear',
+                              position: 'left'
+                            }]
                           }
-                        });
+                        }
+                      }     
+
+                    
+                      var ctx = document.getElementById("canvas").getContext("2d");
+                      var myChart = new Chart(ctx, config);
+
+                    }
+                  });
     })
 
       // boton simulación optimizacion
@@ -578,37 +577,34 @@ if ($('#productivity_demo').length > 0) {
           data: 'w=2',
           dataType: 'json',
           success: function(data){ 
+                      mes = data.prd.concat(data.prd1).concat(data.prd2).concat(data.prd3);
+                      mes_h = data.prd_h.concat(data.prd1_h).concat(data.prd2_h).concat(data.prd3_h);
+                      mes_o = data.prd_o.concat(data.prd1_o).concat(data.prd2_o).concat(data.prd3_o);
+                     var config = 
 
-            var config = 
-
-            {
-              type: 'line',
-              data: {
-                datasets: [
-                            {data: data.sp, label: 'Plan de Ventas $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 99, 132)'},
-                            {data: data.prd, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 205, 86)'},
-                            {data: data.sd, label: 'Dotación Actual',  yAxisID: 'right-y-axis', borderColor: 'rgb(153, 102, 255)'}
-                          ],
-                labels:   ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']
-              },
-              options: {
-                scales: {
-                  yAxes: [{
-                    id: 'left-y-axis',
-                    type: 'linear',
-                    position: 'left'
-                  }, {
-                    id: 'right-y-axis',
-                    type: 'linear',
-                    position: 'right'
-                  }]
-                }
-              }
-            }     
-
-          
-            var ctx = document.getElementById("canvas_opt").getContext("2d");
-            var myChart = new Chart(ctx, config);
+                      {
+                        type: 'line',
+                        data: {
+                          datasets: [
+                                      {data: mes , label: 'Productividad Óptima $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 205, 86)'},
+                                      {data: mes_o, label: 'Productividad  Optimazada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 0)'},
+                                      {data: mes_h, label: 'Productividad  Real $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'}
+                                      
+                                    ],
+                          labels:   ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28']
+                        },
+                        options: {
+                          scales: {
+                            yAxes: [{
+                              id: 'left-y-axis',
+                              type: 'linear',
+                              position: 'left'
+                            }]
+                          }
+                        }
+                      }    
+                     var ctx = document.getElementById("canvas").getContext("2d");
+                      var myChart = new Chart(ctx, config);
 
           }
         });

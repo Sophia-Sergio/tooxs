@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  
+  get 'dashboard/administracion'
+  get 'dashboard/ventas'
+  get 'dashboard/productividad'
+  
   resources :rs
   resources :hs
   resources :sps
