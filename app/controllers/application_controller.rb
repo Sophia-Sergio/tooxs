@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
       (date_start..date_end).each do |d|
         #convierto en sym el dia
         day = d.strftime("%Y%m%d").to_sym
-
+        #crea un array desde el 01-01-2017 al 31-12-2019
         days[day] = {:hours => [], :sellers => []}
 
     end

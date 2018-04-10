@@ -59,3 +59,4 @@
 //= require js/scripts.js
 // require js/mta-components_init.js
 //= require mta/js/mta-custom.js
+//= require mta/js/api.js

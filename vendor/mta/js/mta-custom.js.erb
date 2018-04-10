@@ -518,20 +518,20 @@ if ($('#productivity_demo').length > 0) {
                     dataType: 'json',
                     success: function(data){ 
 
-                      mes = data.prd.concat(data.prd1).concat(data.prd2).concat(data.prd3);
-                      mes_h = data.prd_h.concat(data.prd1_h).concat(data.prd2_h).concat(data.prd3_h);
-                      mes_o = data.prd_o.concat(data.prd1_o).concat(data.prd2_o).concat(data.prd3_o);
+                      fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
+                      mes = data.spm1;
+                      //mes_h = data.prd_h.concat(data.prd1_h).concat(data.prd2_h).concat(data.prd3_h);
+                      //mes_o = data.prd_o.concat(data.prd1_o).concat(data.prd2_o).concat(data.prd3_o);
                       var config = 
 
                       {
                         type: 'line',
                         data: {
                           datasets: [
-                                      {data: mes , label: 'Productividad óptima $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 205, 86)'},
-                                      {data: mes_h, label: 'Productividad  real $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'}
-                                      
+                                      {data: mes , label: 'Plan de venta Histórico $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 205, 86)'},
+                                      {data: plan_venta_diario, label: 'Plan de venta Óptimo $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'}                                      
                                     ],
-                          labels:   ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28']
+                          labels: fecha
                         },
                         options: {
                           scales: {
@@ -552,64 +552,5 @@ if ($('#productivity_demo').length > 0) {
                   });
     })
 
-      // boton simulación optimizacion
-    
-    $(document).on('click','.btn-optimize', function() {
 
-        $('.page-container').pgNotification({
-                    style: 'simple',
-                    message: 'Optimizando Turnos',
-                    timeout: 3000,
-                    type: 'warning',
-        }).show();
-
-           $('.page-container').pgNotification({
-                    style: 'simple',
-                    message: 'Realizando Calculos',
-                    timeout: 3000,
-                    type: 'info',
-        }).show(); 
-
-        //optimizado
-        $.ajax({ 
-          type: "get",
-          url: "/productivity/json_current",
-          data: 'w=2',
-          dataType: 'json',
-          success: function(data){ 
-                      mes = data.prd.concat(data.prd1).concat(data.prd2).concat(data.prd3);
-                      mes_h = data.prd_h.concat(data.prd1_h).concat(data.prd2_h).concat(data.prd3_h);
-                      mes_o = data.prd_o.concat(data.prd1_o).concat(data.prd2_o).concat(data.prd3_o);
-                     var config = 
-
-                      {
-                        type: 'line',
-                        data: {
-                          datasets: [
-                                      {data: mes , label: 'Productividad Óptima $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 205, 86)'},
-                                      {data: mes_o, label: 'Productividad  Optimazada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 0)'},
-                                      {data: mes_h, label: 'Productividad  Real $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'}
-                                      
-                                    ],
-                          labels:   ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28']
-                        },
-                        options: {
-                          scales: {
-                            yAxes: [{
-                              id: 'left-y-axis',
-                              type: 'linear',
-                              position: 'left'
-                            }]
-                          }
-                        }
-                      }    
-                     var ctx = document.getElementById("canvas").getContext("2d");
-                      var myChart = new Chart(ctx, config);
-
-          }
-        });
-
-        $('#data_opt').slideDown('fast')
-        
-      })
 }

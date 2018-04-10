@@ -14,40 +14,39 @@ class ProductivityController < ApplicationController
     #dates per month
 
     m1 = Sp.where(:month => month).where(:dow => [1..7]).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
-
-    #dates per week
+    #dates per week fecha de comienzo de la semana
     w1 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 1).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
     w2 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 2).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
     w3 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 3).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
     w4 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 4).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
 
-    #days of the week for this query
+    #days of the week for this query dias de la semana según comienzo
     @w1_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 1).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
     @w2_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 2).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
     @w3_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 3).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
     @w4_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 4).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
 
-    #sales plan per week
+    #sales plan per week plan de venta total por semana
     @sp_w1 = Sp.where(year: year).where(month: month).where(week: 1).sum(:sale)
     @sp_w2 = Sp.where(year: year).where(month: month).where(week: 2).sum(:sale)
     @sp_w3 = Sp.where(year: year).where(month: month).where(week: 3).sum(:sale)
     @sp_w4 = Sp.where(year: year).where(month: month).where(week: 4).sum(:sale)
 
-    #sales plan per day
+    @sp_m1 = Sp.where(year: year).where(month: month).where("week IN(?,?,?,?)", 1, 2, 3, 4).pluck(:sale)
+    #sales plan per day plan de venta total por día 
 
     @sp_w1_daily = Sp.where(year: year).where(month:month).where(week: 1).pluck(:sale)
     @sp_w2_daily = Sp.where(year: year).where(month:month).where(week: 2).pluck(:sale)
     @sp_w3_daily = Sp.where(year: year).where(month:month).where(week: 3).pluck(:sale)
     @sp_w4_daily = Sp.where(year: year).where(month:month).where(week: 4).pluck(:sale)
 
-
-    #staffdrawing per week
+    #staffdrawing per week turnos hora por semana 
     @sd_w1 = staffing_draw(w1)[:draw].values.flatten.sum
     @sd_w2 = staffing_draw(w2)[:draw].values.flatten.sum
     @sd_w3 = staffing_draw(w3)[:draw].values.flatten.sum
     @sd_w4 = staffing_draw(w4)[:draw].values.flatten.sum
 
-    #staffdrawing per day-week
+    #staffdrawing per day-week turnos hora por semana
     @sd_w1_daily  = staffing_draw(w1)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
     @sd_w2_daily  = staffing_draw(w2)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
     @sd_w3_daily  = staffing_draw(w3)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
@@ -70,10 +69,11 @@ class ProductivityController < ApplicationController
     #/
 
     #staffing 
-    @staffing_w1  = staffing_draw(20180201)
-    @staffing_w2  = staffing_draw(20180207)
-    @staffing_w3  = staffing_draw(20180214)
-    @staffing_w4  = staffing_draw(20180221)
+    @staffing_w1  = staffing_draw(20180226)
+    @staffing_w2  = staffing_draw(20180305)
+    @staffing_w3  = staffing_draw(20180312)
+    @staffing_w4  = staffing_draw(20180319)
+ 
     #binding.pry
   end
 
@@ -104,7 +104,8 @@ class ProductivityController < ApplicationController
     @sp_w2 = Sp.where(year: year).where(month: month).where(week: 2).sum(:sale)
     @sp_w3 = Sp.where(year: year).where(month: month).where(week: 3).sum(:sale)
     @sp_w4 = Sp.where(year: year).where(month: month).where(week: 4).sum(:sale)
-
+    
+    @sp_m1 = Sp.where(year: year).where(month: month).where("week IN(?,?,?,?)", 1, 2, 3, 4).pluck(:sale)
     #sales plan per day
 
     @sp_w1_daily = Sp.where(year: year).where(month:month).where(week: 1).pluck(:sale)
@@ -194,14 +195,52 @@ class ProductivityController < ApplicationController
     @prd_w3_day_o = @sp_w3_daily_h.zip(@sd_w3_daily_h).map{|a,b| a/b - rand(50000 .. 100000) }
     @prd_w4_day_o = @sp_w4_daily_h.zip(@sd_w4_daily_h).map{|a,b| a/b  - rand(50000 .. 100000) }
 
-    @data = { :dates_week => @w1_days , :sp => @sp_w1_daily, :sd => @sd_w1_daily, :prd => @prd_w1_day, :prd1 => @prd_w2_day,:prd2 => @prd_w3_day, :prd3 => @prd_w4_day,
-                                        :sp_h => @sp_w1_daily_h, :sd_h => @sd_w1_daily_h, :prd_h => @prd_w1_day_h, :prd1_h => @prd_w2_day_h,:prd2_h => @prd_w3_day_h, :prd3_h => @prd_w4_day_h,
-                                        :prd_o => @prd_w1_day_o, :prd1_o => @prd_w2_day_o,:prd2_o => @prd_w3_day_o, :prd3_o => @prd_w4_day_o }
+    @data = { :dates_week => @w1_days ,
+              :dates_week_2 => @w2_days,
+              :dates_week_3 => @w3_days ,
+              :dates_week_4 => @w4_days , 
+              :sp => @sp_w1_daily, 
+              :sd => @sd_w1_daily, 
+              :prd => @prd_w1_day, 
+              :prd1 => @prd_w2_day,
+              :prd2 => @prd_w3_day, 
+              :prd3 => @prd_w4_day,
+              :sp_h => @sp_w1_daily_h, 
+              :sd_h => @sd_w1_daily_h, 
+              :prd_h => @prd_w1_day_h, 
+              :prd1_h => @prd_w2_day_h,
+              :prd2_h => @prd_w3_day_h, 
+              :prd3_h => @prd_w4_day_h,
+              :prd_o => @prd_w1_day_o, 
+              :prd1_o => @prd_w2_day_o,
+              :prd2_o => @prd_w3_day_o, 
+              :prd3_o => @prd_w4_day_o,
+              :spm1 => @sp_m1 
+            }
 
     if params[:w] == "2"
-    @data = { :dates_week => @w1_days , :sp => @sp_w1_daily, :sd => @sd_w1_daily, :prd => @prd_w1_day, :prd1 => @prd_w2_day,:prd2 => @prd_w3_day, :prd3 => @prd_w4_day,
-                                        :sp_h => @sp_w1_daily_h, :sd_h => @sd_w1_daily_h, :prd_h => @prd_w1_day_h, :prd1_h => @prd_w2_day_h,:prd2_h => @prd_w3_day_h, :prd3_h => @prd_w4_day_h,
-                                        :prd_o => @prd_w1_day_o, :prd1_o => @prd_w2_day_o,:prd2_o => @prd_w3_day_o, :prd3_o => @prd_w4_day_o }    
+    @data = { :dates_week => @w1_days ,
+              :dates_week_2 => @w2_days ,
+              :dates_week_3 => @w3_days ,
+              :dates_week_4 => @w4_days , 
+              :sp => @sp_w1_daily, 
+              :sd => @sd_w1_daily, 
+              :prd => @prd_w1_day, 
+              :prd1 => @prd_w2_day,
+              :prd2 => @prd_w3_day, 
+              :prd3 => @prd_w4_day,
+              :sp_h => @sp_w1_daily_h, 
+              :sd_h => @sd_w1_daily_h, 
+              :prd_h => @prd_w1_day_h, 
+              :prd1_h => @prd_w2_day_h,
+              :prd2_h => @prd_w3_day_h, 
+              :prd3_h => @prd_w4_day_h,
+              :prd_o => @prd_w1_day_o, 
+              :prd1_o => @prd_w2_day_o,
+              :prd2_o => @prd_w3_day_o, 
+              :prd3_o => @prd_w4_day_o,
+              :spm1 => @sp_m1 
+            }    
     end
 
     render json: @data
