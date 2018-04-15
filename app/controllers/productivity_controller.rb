@@ -73,7 +73,6 @@ class ProductivityController < ApplicationController
     @staffing_w2  = staffing_draw(20180305)
     @staffing_w3  = staffing_draw(20180312)
     @staffing_w4  = staffing_draw(20180319)
- 
     #binding.pry
   end
 
@@ -194,6 +193,8 @@ class ProductivityController < ApplicationController
     @prd_w2_day_o = @sp_w2_daily_h.zip(@sd_w2_daily_h).map{|a,b| a/b - rand(50000 .. 100000) }
     @prd_w3_day_o = @sp_w3_daily_h.zip(@sd_w3_daily_h).map{|a,b| a/b - rand(50000 .. 100000) }
     @prd_w4_day_o = @sp_w4_daily_h.zip(@sd_w4_daily_h).map{|a,b| a/b  - rand(50000 .. 100000) }
+
+
 
     @data = { :dates_week => @w1_days ,
               :dates_week_2 => @w2_days,

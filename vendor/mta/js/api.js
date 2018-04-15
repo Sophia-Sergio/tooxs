@@ -82,52 +82,6 @@ $("#btn_ejecutar_caso_1").click(function() {
 	}
 });
 
-$("#btn_ejecutar_caso_2").click(function() {
-	
-	if(!false)
-	{
-		hora_actual();
-		registrar_actividad(id_usuario_actividad,"Ejecuta caso (ID "+id_caso+")" );
-		var caja_json_entrada = $("#codemirror_js_code_1 .CodeMirror-code pre").text(); 
-		
-		$.ajax({
-	     		url: "https://compute.scipion.cl/servlet/apimot",
-	         	method: "POST",
-	         	data: {string_json_entrada:caja_json_entrada},
-	         	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-	         	dataType : "JSON",
-	         	success: function(datos)
-	         	{
-	         		limpiar_datos_ajax();
-	         		var string_json_salida = JSON.stringify(datos);
-	           		
-	           	if(datos.estado != undefined)
-	         			$("#estado_ajax").text(datos.estado);		
-	
-	              	string_json_salida = string_json_salida.replace(/\{/g, "{\n");
-	           	string_json_salida = string_json_salida.replace(/\,/g,',\n');
-	           	string_json_salida = string_json_salida.replace(/\}/g, "\n}");
-	           	
-	           	$("#codemirror_js_code_2 .CodeMirror-code pre").text(string_json_salida);
-	           	
-	           	enviar_datos_api_bbdd(id_caso,caja_json_entrada,datos.estado,null,null,null,string_json_salida);
-	         	},
-	         	error:function (response)
-			    {
-	        	    var msj_error = {};
-	        	    msj_error["estado"]  = "error";
-	        	    msj_error["mensaje"] = "Servidor no disponible";
-	        	    msj_error["soporte"] = "fatapia@scipion.cl";
-	        	    var string_json_error = JSON.stringify(msj_error);
-	        	    
-	        	    string_json_error = string_json_error.replace(/\{/g, "{\n   ");
-	        	    string_json_error = string_json_error.replace(/\,/g, ",\n   ");
-	        	    string_json_error = string_json_error.replace(/\}/g, "\n}");
-	 			    $("#codemirror_js_code_2 .CodeMirror-code pre").text(string_json_error);
-	 		    }
-	   	});
-	}
-});
 
 
 $("#btn_ver_json_caso").click(function() {
@@ -175,45 +129,84 @@ $("#btn_ver_datos_caso").click(function() {
 		
 });
 
-function enviar_datos_api(accion,id_caso,email_usuario) {
-	
+
+function ejecutarCaso()
+{
+	var caja_json_entrada = JSON.stringify(Cerebro.plan);
+
+	$.ajax({
+     		url: "https://compute.scipion.cl/servlet/apimot",
+         	method: "POST",
+         	data: {string_json_entrada:caja_json_entrada},
+         	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+         	dataType : "JSON",
+         	success: function(datos)
+         	{
+         		console.log(datos);
+         	},
+         	error:function (response)
+		    {
+		    	console.log(response);
+ 		    }
+   	});
+}
+
+function enviar_datos_api()
+{
 	var json_entrada = {};
-	json_entrada["accion"]  = accion;
-	json_entrada["id_caso"] = parseInt(id_caso);
-	json_entrada["usuario"] = email_usuario;
+	json_entrada["accion"]  = "ver_salida";
+	json_entrada["id_caso"] = parseInt(23);
+	json_entrada["usuario"] = "fatapia@scipion.cl";
 	
 	var string_json_entrada = JSON.stringify(json_entrada);
-	
-	$("#string_json_entrada").val(string_json_entrada);	
-	$("#frm-ver-caso-api").submit();
+	console.log(string_json_entrada);
+
+	var salida;
+
+	$.ajax({
+	      method: "POST",
+	      url: "https://compute.scipion.cl/servlet/apimot",
+	      data: { string_json_entrada: string_json_entrada},
+	      success: function (response) 
+	      {
+            salida = response;
+          },
+          error: function (xhr, status)
+          {
+
+          }    
+	});
+
+	return salida;
 }
 
 function enviar_datos_api_ajax(accion,id_caso,email_usuario) {
 	
 	var json_entrada = {};
+	var datos = "";
 	json_entrada["accion"]  = accion;
 	json_entrada["id_caso"] = parseInt(id_caso);
 	json_entrada["usuario"] = email_usuario;
 	
 	var string_json_entrada = JSON.stringify(json_entrada);
-	
-	if(!false)
-	{
-		$.ajax({
-			url: "https://compute.scipion.cl/servlet/apimot",
-			method: "POST",
-			data: {string_json_entrada: string_json_entrada},
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			dataType: 'JSON',
-			success: function (response) {
-                var resp = JSON.parse(response)
-                alert(resp.status);
-            },
-            error: function (xhr, status) {
-                alert("error");
-            }
-    	}); 
-	}	
+	$.ajax({
+		url: "https://compute.scipion.cl/servlet/apimot",
+		method: "POST",
+		async: false,
+		data: {string_json_entrada: string_json_entrada},
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		dataType: 'JSON',
+		success: function (response) 
+		{
+            datos = response;
+        },
+        error: function (xhr, status) 
+        {
+            datos = xhr.responseText;
+        }
+	});
+
+	return datos;
 }
 
 function enviar_datos_api_bbdd(id_caso,json_entrada,estado,tolerancia,margen,duracion,json_salida) {
@@ -359,23 +352,14 @@ function mensaje_notificacion(titulo,texto,tipo,icono) {
 	});
 }
 
-
-  // boton simulación optimizacion
-
-$(document).on('click','.btn-optimize', function() {
-
-
-
-
-
-
-    $('.page-container').pgNotification({
-                style: 'simple',
-                message: 'Obteniendo Turnos',
-                timeout: 3000,
-                type: 'warning',
-    }).show();
-
+function optimizar()
+{
+	$('.page-container').pgNotification({
+        style: 'simple',
+        message: 'Realizando Calculos',
+        timeout: 3000,
+        type: 'info',
+    }).show(); 
     //optimizado
     $.ajax({ 
       type: "get",
@@ -383,37 +367,42 @@ $(document).on('click','.btn-optimize', function() {
       data: 'w=2',
       dataType: 'json',
       success: function(data){ 
-                  fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
-                  mes = data.spm1;
+                fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
+                mes = data.spm1;
                 // enviando datos de plan de venta 
-			    $('.page-container').pgNotification({
-			                style: 'simple',
-			                message: 'Realizando Calculos',
-			                timeout: 3000,
-			                type: 'info',
-			    }).show(); 
-
+			    Cerebro.salida = enviar_datos_api_ajax("ver_salida",Cerebro.caso,Cerebro.email);
+			    Cerebro.setearResumen();
 			    
+			    matrizDelta 		  = Cerebro.calcularDelta();
+				matrixAlmuerzo 		  = Cerebro.calcularAlmuerzos();
+				sum_turnos_real       = Cerebro.totalTurnosReales();
+                productividad_diaria  = Cerebro.productividadDiaria();
+                productividad_optimizada = Cerebro.productividadOptimizada();
+                productividad_ideal = Cerebro.productividadIdeal();
+			    matrizSemana 		  = Cerebro.calcularPerdida(matrizDelta);
+
+							    	
+			    sumatoria_turnos_optimizados = Cerebro.totalTurnosOptimizados();
+
+	
 			    initOptimizado = new Array(281);
+
+			    for (var i = 0; i < sum_turnos_real.length; i++) 
+			    {
+			    	$("#optimo-"+[i+1]).html(sum_turnos_real[i]);
+			    }
 
 			    for (var i = initOptimizado.length-1; i >= 0; i--) 
 			    {
-			    	$("#optimizado-"+[i]).html($("#optimo-"+[i]).html());
+			    	$("#optimizado-"+[i]).html(sumatoria_turnos_optimizados[i-1]);
 			    }
 
 			    for (var i = matrixAlmuerzo.length - 1; i >= 0; i--) 
 			    {
 			    	if (matrixAlmuerzo[i])
 			    	{
-			    		$("#optimizado-"+[i]).html($("#optimo-"+[i]).html()-matrixAlmuerzo[i]);
+			    		$("#optimizado-"+[i]).html($("#optimizado-"+[i]).html()-matrixAlmuerzo[i]);
 			    	}
-			    }
-				
-			    mes_o = Array();
-
-			    for (var i = plan_venta_diario.length - 1; i >= 0; i--)
-			    {
-		    		mes_o[i] = plan_venta_diario[i] - matrixSemanaD[i];
 			    }
 			    
 
@@ -421,9 +410,9 @@ $(document).on('click','.btn-optimize', function() {
                     type: 'line',
                     data: {
                       datasets: [
-                      			  {data: mes, label: 'Plan de venta Histórico $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'},
-                      			  {data: plan_venta_diario, label: 'Plan de venta Óptimo $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'},
-                                  {data: mes_o, label: 'Plan de venta Optimizado $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 0)'}
+                                  {data: productividad_diaria, label: 'Productividad/Dotación Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'},   
+                                  {data: productividad_optimizada, label: 'Productividad/Dotación Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 0)'},
+                                  {data: productividad_ideal, label: 'Productividad/Dotación Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 255, 0)'}
                                   
                                 ],
                       labels: fecha
@@ -438,27 +427,80 @@ $(document).on('click','.btn-optimize', function() {
                       }
                     }
                   }    
-                 var ctx = document.getElementById("canvas").getContext("2d");
+                 document.getElementById("chartContainer").innerHTML = '&nbsp;';
+			     document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
+
+				 var ctx = document.getElementById("canvas").getContext("2d");
                  var myChart = new Chart(ctx, config);
+
+                 //
+                 $("#margen-optimizado").html(resumen_plan[1].margeAjuste);
+				 dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), Cerebro.sumatoriaTurnosOptimizado().length);
+                 $("#hh-optimizado").html(dotacion_m1);
+
+
+                  Cerebro.setearTurnos();
+                  turnos = Cerebro.turnos;                      
+                  num_turnos = Cerebro.plan.datos.num_turnos;
+                  count_turnos = 0;
+                  while(count_turnos < num_turnos)
+                  {
+                 	$("#turnos-"+count_turnos).html(turnos[count_turnos+num_turnos].vendedores);
+                    count_turnos++;
+                  }
+                  $('.page-container').pgNotification({
+			                style: 'simple',
+			                message: 'Calculos realizados',
+			                timeout: 3000,
+			                type: 'info',
+			      }).show(); 
+				$("#minutos_optimizando").prop('disabled', false);
+				$(".btn-optimize").prop('disabled', false);
 
       }
     });
-
-    $('.page-container').pgNotification({
-                style: 'simple',
-                message: 'Optimizando Turnos 1',
-                timeout: 3000,
-                type: 'warning',
-    }).show();
-
-    $('.page-container').pgNotification({
-                style: 'simple',
-                message: 'Optimizando Turnos 2',
-                timeout: 3000,
-                type: 'warning',
-    }).show();
-
-
     $('#data_opt').slideDown('fast')
     
-  })
+}
+
+// boton simulación optimizacion
+
+$(document).on('click','.btn-optimize', function()
+{
+	if ($("#minutos_optimizando").val() !== "")
+	{
+		Cerebro.brainJson = enviar_datos_api_ajax("resultado", Cerebro.caso, Cerebro.email);
+		Cerebro.plan.tiempo_maximo = parseInt($("#minutos_optimizando").val()); 
+		Cerebro.plan.id_caso = Cerebro.caso; 
+		ejecutarCaso();
+		
+		$("#minutos_optimizando").prop('disabled', true);
+		$(".btn-optimize").prop('disabled', true);
+
+		setTimeout(function()
+			{ 
+				optimizar(); 
+			}, //1000); 
+			parseInt(($("#minutos_optimizando").val()+'000')*60)+3000);
+	}
+	else
+	{
+		alert("Ingrese minutos de optimización");
+	}
+
+});
+
+
+
+$(".btn-detalle").on("click", function()
+{
+	if ($("#detalle-dotacion").css('display') == 'none')
+	{
+		$("#detalle-dotacion").show();
+	}
+	else
+	{
+		$("#detalle-dotacion").hide();
+	}
+});
+

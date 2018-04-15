@@ -16,3 +16,12 @@
 .table .t-p-5 td {
 	padding: 5px !important;
 }
+
+
+
+@media (min-width: 1215px) and (max-width: 1400px) {
+	.dotacion
+	{
+		padding: 3px 5px;
+	}
+}

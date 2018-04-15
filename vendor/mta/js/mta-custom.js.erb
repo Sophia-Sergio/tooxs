@@ -15,7 +15,6 @@ if ( $('#sales_year').length > 0) {
         };
 
         var datasets =   
-
                         $.ajax({ 
                           type: "get",
                           url: "/sales/json_year",
@@ -511,6 +510,12 @@ if ($('#productivity_demo').length > 0) {
 
 
     $(document).ready(function(){
+      $('.page-container').pgNotification({
+        style: 'simple',
+        message: 'Cargando datos',
+        timeout: 3000,
+        type: 'info',
+      }).show(); 
       var datasets = $.ajax({ 
                     type: "get",
                     url: "/productivity/json_current",
@@ -520,16 +525,26 @@ if ($('#productivity_demo').length > 0) {
 
                       fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
                       mes = data.spm1;
-                      //mes_h = data.prd_h.concat(data.prd1_h).concat(data.prd2_h).concat(data.prd3_h);
-                      //mes_o = data.prd_o.concat(data.prd1_o).concat(data.prd2_o).concat(data.prd3_o);
+
+                      // incializar api
+
+
+                      Cerebro.enviarDatos(plan_enviado);
+                      productividad_diaria = Cerebro.productividadDiaria();
+                      sum_turnos_real   = Cerebro.totalTurnosReales();
+                      resumen_plan = Cerebro.obtenerResumen();
+                       for (var i = 0; i < sum_turnos_real.length; i++) 
+                       {
+                          $("#optimo-"+[i+1]).html(sum_turnos_real[i]);
+                       }
+
                       var config = 
 
                       {
                         type: 'line',
                         data: {
                           datasets: [
-                                      {data: mes , label: 'Plan de venta Histórico $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 205, 86)'},
-                                      {data: plan_venta_diario, label: 'Plan de venta Óptimo $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'}                                      
+                                      {data: productividad_diaria, label: 'Productividad/Dotación Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'}                                      
                                     ],
                           labels: fecha
                         },
@@ -547,7 +562,59 @@ if ($('#productivity_demo').length > 0) {
                     
                       var ctx = document.getElementById("canvas").getContext("2d");
                       var myChart = new Chart(ctx, config);
+                      
+                      $('.page-container').pgNotification({
+                        style: 'simple',
+                        message: 'Caso '+Cerebro.caso+' cargado',
+                        timeout: 3000,
+                        type: 'info',
+                      }).show();
+                      // setear datos de resumen
+                      plan_w = Calculo.semanal(Cerebro.planVentaDiario(), 7);
+                      plan_w1 = plan_w[0]; 
+                      plan_w2 = plan_w[1];
+                      plan_w3 = plan_w[2];
+                      plan_w4 = plan_w[3];
+                      $("#plan-w1").html(plan_w1);
+                      $("#plan-w2").html(plan_w2);
+                      $("#plan-w3").html(plan_w3);
+                      $("#plan-w4").html(plan_w4);
 
+
+                      dotacion_w = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
+                      dotacion_w1 = dotacion_w[0]; 
+                      dotacion_w2 = dotacion_w[1];
+                      dotacion_w3 = dotacion_w[2];
+                      dotacion_w4 = dotacion_w[3];
+                      $("#dotacion-w1").html(dotacion_w1);
+                      $("#dotacion-w2").html(dotacion_w2);
+                      $("#dotacion-w3").html(dotacion_w3);
+                      $("#dotacion-w4").html(dotacion_w4);
+
+                      productividad_w = Calculo.semanal(Cerebro.productividadDiaria(), 7);
+                      productividad_w1 = productividad_w[0]; 
+                      productividad_w2 = productividad_w[1];
+                      productividad_w3 = productividad_w[2];
+                      productividad_w4 = productividad_w[3];
+                      $("#productividad-w1").html(productividad_w1);
+                      $("#productividad-w2").html(productividad_w2);
+                      $("#productividad-w3").html(productividad_w3);
+                      $("#productividad-w4").html(productividad_w4);
+                      //cargar turnos
+                      Cerebro.setearTurnos();
+                      turnos = Cerebro.turnos;                      
+                      num_turnos = Cerebro.plan.datos.num_turnos;
+                      count_turnos = 0;
+                      while(count_turnos < num_turnos)
+                      {
+                        $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
+                        count_turnos++;
+                      }
+
+                      //cargar margen de eficiencia                       
+                      dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), Cerebro.sumatoriaTurnosDiaria().length);
+                      $("#hh-actual").html(dotacion_m1);
+                      $("#margen-actual").html(resumen_plan[0].margeAjuste);
                     }
                   });
     })
