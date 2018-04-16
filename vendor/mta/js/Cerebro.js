@@ -100,6 +100,18 @@ Cerebro.productividadOptimizada = function()
 	return plan_venta_diario;
 }
 
+Cerebro.productividadObjetivo = function()
+{
+	num_dias_ventana = this.plan.datos.num_dias_ventana;
+	var plan_venta_diario = new Array(num_dias_ventana);
+
+	for (var i = 0; i < plan_venta_in.length; i++) 
+	{
+	    plan_hora = plan_venta_in[i].split("] ")
+	    plan_venta_diario[i] = Cerebro.plan.datos.prod_obj;
+	}	
+	return plan_venta_diario;
+}
 
 Cerebro.productividadIdeal = function()
 {
@@ -132,7 +144,7 @@ Cerebro.productividadIdeal = function()
 
 		for (var i = 0; i < plan_venta_diario.length; i++) 
 		{
-			plan_venta_diario[i] =  Math.round((parseFloat(plan_venta_diario[i] + deltas[i] ))/ parseFloat(sumatoriaTurnosDiaria[i]));
+			plan_venta_diario[i] =  Math.round((parseFloat(plan_venta_diario[i] - deltas[i] ))/ parseFloat(sumatoriaTurnosDiaria[i]));
 		}
 	}
 	else

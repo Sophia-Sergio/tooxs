@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   
+  resources :staffing_schedules
+  
+
   get 'dashboard/administracion'
   get 'dashboard/ventas'
   get 'dashboard/productividad'

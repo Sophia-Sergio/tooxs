@@ -1,0 +1,2 @@
+module StaffingSchedulesHelper
+end

@@ -378,9 +378,10 @@ function optimizar()
 				sum_turnos_real       = Cerebro.totalTurnosReales();
                 productividad_diaria  = Cerebro.productividadDiaria();
                 productividad_optimizada = Cerebro.productividadOptimizada();
+                productividad_objetivo = Cerebro.productividadObjetivo();
                 productividad_ideal = Cerebro.productividadIdeal();
-			    matrizSemana 		  = Cerebro.calcularPerdida(matrizDelta);
-
+			    matrizSemana = Cerebro.calcularPerdida(matrizDelta);
+			    resumen_plan = Cerebro.obtenerResumen();
 							    	
 			    sumatoria_turnos_optimizados = Cerebro.totalTurnosOptimizados();
 
@@ -412,7 +413,9 @@ function optimizar()
                       datasets: [
                                   {data: productividad_diaria, label: 'Productividad/Dotación Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'},   
                                   {data: productividad_optimizada, label: 'Productividad/Dotación Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 0)'},
-                                  {data: productividad_ideal, label: 'Productividad/Dotación Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 255, 0)'}
+                                  {data: productividad_ideal, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 255, 0)'},
+                                  {data: productividad_objetivo, label: 'Productividad/Dotación Objetivo $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(217, 255, 8)'}
+                                  
                                   
                                 ],
                       labels: fecha
@@ -434,7 +437,10 @@ function optimizar()
                  var myChart = new Chart(ctx, config);
 
                  //
-                 $("#margen-optimizado").html(resumen_plan[1].margeAjuste);
+                 eficiencia1 = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
+                 $("#margen-actual").html(eficiencia1+"%");
+                 eficiencia2 = 100-parseFloat(resumen_plan[1].margeAjuste.replace("%", ""));
+                 $("#margen-optimizado").html(eficiencia2+"%");
 				 dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), Cerebro.sumatoriaTurnosOptimizado().length);
                  $("#hh-optimizado").html(dotacion_m1);
 

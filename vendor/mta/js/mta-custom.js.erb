@@ -1,3 +1,22 @@
+var fn = {
+  validaEntero : function  ( value ) {
+      var RegExPattern = /[0-9]+$/;
+    return RegExPattern.test( value );
+  },
+  
+  formateaNumero : function ( value ) {
+      if ( fn.validaEntero ( value ) )  {  
+      var retorno = '';
+      value = value.toString().split('').reverse().join('');
+      var i = value.length;
+      while(i>0) retorno += ((i%3===0&&i!=value.length)?'.':'')+value.substring(i--,i);
+      return retorno;
+      }
+      return 0;
+    }
+}
+
+
 /* mta custom js file sales force */
 if ( $('#sales_year').length > 0) {
   console.log('init sale_plan search')
@@ -575,10 +594,10 @@ if ($('#productivity_demo').length > 0) {
                       plan_w2 = plan_w[1];
                       plan_w3 = plan_w[2];
                       plan_w4 = plan_w[3];
-                      $("#plan-w1").html(plan_w1);
-                      $("#plan-w2").html(plan_w2);
-                      $("#plan-w3").html(plan_w3);
-                      $("#plan-w4").html(plan_w4);
+                      $("#plan-w1").html(fn.formateaNumero(plan_w1));
+                      $("#plan-w2").html(fn.formateaNumero(plan_w2));
+                      $("#plan-w3").html(fn.formateaNumero(plan_w3));
+                      $("#plan-w4").html(fn.formateaNumero(plan_w4));
 
 
                       dotacion_w = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
@@ -596,10 +615,10 @@ if ($('#productivity_demo').length > 0) {
                       productividad_w2 = productividad_w[1];
                       productividad_w3 = productividad_w[2];
                       productividad_w4 = productividad_w[3];
-                      $("#productividad-w1").html(productividad_w1);
-                      $("#productividad-w2").html(productividad_w2);
-                      $("#productividad-w3").html(productividad_w3);
-                      $("#productividad-w4").html(productividad_w4);
+                      $("#productividad-w1").html(fn.formateaNumero(productividad_w1));
+                      $("#productividad-w2").html(fn.formateaNumero(productividad_w2));
+                      $("#productividad-w3").html(fn.formateaNumero(productividad_w3));
+                      $("#productividad-w4").html(fn.formateaNumero(productividad_w4));
                       //cargar turnos
                       Cerebro.setearTurnos();
                       turnos = Cerebro.turnos;                      
@@ -614,7 +633,9 @@ if ($('#productivity_demo').length > 0) {
                       //cargar margen de eficiencia                       
                       dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), Cerebro.sumatoriaTurnosDiaria().length);
                       $("#hh-actual").html(dotacion_m1);
-                      $("#margen-actual").html(resumen_plan[0].margeAjuste);
+                      
+                      eficiencia = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
+                      $("#margen-actual").html(eficiencia+"%");
                     }
                   });
     })
