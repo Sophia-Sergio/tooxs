@@ -38,25 +38,34 @@
             <span class="icon-thumbnail"><i class="pg-calender"></i></span>
             <ul class="sub-menu">
               <li class="">
-                <%= link_to 'Importación Tiendas', stores_path %>
+                <%= link_to 'Tiendas', stores_path %>
                 <span class="icon-thumbnail">T</span>
               </li>
 
               <li class="">
-              <%= link_to 'Imp. Departamentos', departments_path %>
+              <%= link_to 'Departamentos', departments_path %>
                 <span class="icon-thumbnail">D</span>
               </li>
 
 
 
               <li class="">
-              <%= link_to 'Carga de Turnos', available_shifts_path %>
+              <%= link_to 'Turnos', available_shifts_path %>
                 <span class="icon-thumbnail">T</span>
               </li>
 
               <li class="">
-              <%= link_to 'Adm. Usuarios', users_path %>
+              <%= link_to 'Usuarios', users_path %>
                 <span class="icon-thumbnail"><i class="fa fa-users"></i></span>
+              </li>
+              <li class="">
+              <%= link_to 'Cargar Plan de Ventas', sale_plans_path %>
+                <span class="icon-thumbnail">PV</span>
+              </li>
+
+              <li class="">
+              <%= link_to 'Cargar H. de Ventas', historic_sales_path %>
+                <span class="icon-thumbnail">HV</span>
               </li>
 
             </ul>
@@ -68,7 +77,7 @@
             <span class="icon-thumbnail"><i class="pg-calender"></i></span>
             <ul class="sub-menu">
               <li class="">
-                <%= link_to 'Estadisticas Ventas', sales_path %>
+                <%= link_to 'Estadísticas Ventas', sales_path %>
                 <span class="icon-thumbnail">T</span>
               </li>
 
@@ -76,17 +85,6 @@
               <%= link_to 'Perfil de Vendedores', sellers_path %>
                 <span class="icon-thumbnail">v</span>
               </li>
-
-              <li class="">
-              <%= link_to 'Cargar Plan de Ventas', sale_plans_path %>
-                <span class="icon-thumbnail">PV</span>
-              </li>
-
-              <li class="">
-              <%= link_to 'Cargar H. de Ventas', historic_sales_path %>
-                <span class="icon-thumbnail">HV</span>
-              </li>
-
 
             </ul>
           </li>  

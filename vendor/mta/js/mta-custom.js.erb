@@ -552,6 +552,7 @@ if ($('#productivity_demo').length > 0) {
                       productividad_diaria = Cerebro.productividadDiaria();
                       sum_turnos_real   = Cerebro.totalTurnosReales();
                       resumen_plan = Cerebro.obtenerResumen();
+                      productividad_objetivo = Cerebro.productividadObjetivo();
                        for (var i = 0; i < sum_turnos_real.length; i++) 
                        {
                           $("#optimo-"+[i+1]).html(sum_turnos_real[i]);
@@ -563,7 +564,8 @@ if ($('#productivity_demo').length > 0) {
                         type: 'line',
                         data: {
                           datasets: [
-                                      {data: productividad_diaria, label: 'Productividad/Dotación Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'}                                      
+                                      {  pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},
+                                      {data: productividad_diaria, label: 'Productividad/Dotación Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(75, 192, 192)'}                                      
                                     ],
                           labels: fecha
                         },
@@ -575,6 +577,7 @@ if ($('#productivity_demo').length > 0) {
                               position: 'left'
                             }]
                           }
+                          
                         }
                       }     
 
@@ -615,10 +618,10 @@ if ($('#productivity_demo').length > 0) {
                       productividad_w2 = productividad_w[1];
                       productividad_w3 = productividad_w[2];
                       productividad_w4 = productividad_w[3];
-                      $("#productividad-w1").html(fn.formateaNumero(productividad_w1));
-                      $("#productividad-w2").html(fn.formateaNumero(productividad_w2));
-                      $("#productividad-w3").html(fn.formateaNumero(productividad_w3));
-                      $("#productividad-w4").html(fn.formateaNumero(productividad_w4));
+                      $("#productividad-w1").html(fn.formateaNumero(parseInt(plan_w1/dotacion_w1)));
+                      $("#productividad-w2").html(fn.formateaNumero(parseInt(plan_w2/dotacion_w2)));
+                      $("#productividad-w3").html(fn.formateaNumero(parseInt(plan_w3/dotacion_w3)));
+                      $("#productividad-w4").html(fn.formateaNumero(parseInt(plan_w4/dotacion_w4)));
                       //cargar turnos
                       Cerebro.setearTurnos();
                       turnos = Cerebro.turnos;                      

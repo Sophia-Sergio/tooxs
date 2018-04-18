@@ -40,7 +40,7 @@
   <div class="card-block">
       <div class="row">
           <div class="col-lg-12">
-            <h4 class="bold">Productividad Esperada</h4>  
+            <h4 class="bold">Productividad</h4>  
           </div>
       </div>
 
@@ -48,7 +48,7 @@
           <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
             <h5 class="text-uppercase m-t-30 fs-13 bold">Productividad por Hora // Alto Las Condes - Rincon Juvenil Mujer - Marzo 2018 </h5>
             <div class="row ">
-              <div class="col-sm-12 col-xl-8 offset-xl-2">
+              <div class="col-sm-12 col-xl-10 offset-xl-1">
                 <div id="chartContainer" style="width:100%;">
                   <canvas id="canvas"> </canvas>
                 </div>
@@ -147,11 +147,26 @@
                     </table>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6 offset-md-3">
-                <h3>Optimización</h3>      
+            <div class="row m-t-30">
+              <div class="col-xl-1">
+                <input type="number" class="form-control" id="minutos_optimizando" name="minutos_optimizando" placeholder="minutos" min="0" max="10">
               </div>
-              <table  id="tabla-resumen" class="table table-bordered col-md-6 offset-md-3">
+              <div class="col-xl-11">
+                <button type="button" class="btn btn-info btn-optimize"> <i class="fa fa-cogs"></i> Optimizar </button>
+                <button type="button" class="btn btn-success btn-detalle"> <i class="fa fa-cogs"></i> Detalle </button>
+              </div>
+            </div>            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="detalle-dotacion" class="row" style="display: none">  
+            <div class="col-md-6 offset-md-3">
+              <div >
+                <h3>Resumen turnos</h3>      
+              </div>
+              <table  id="tabla-resumen" class="table table-bordered">
                 <thead>
                   <th>Turnos</th>
                   <th>Dotación actual</th>
@@ -173,21 +188,15 @@
                 </tfoot>
               </table>
             </div>
-            <div class="row m-t-30">
-              <div class="col-xl-1">
-                <input type="number" class="form-control" id="minutos_optimizando" name="minutos_optimizando" placeholder="minutos" min="0" max="10">
+          <div class="col-md-12">
+                <h3>Detalle por semanas</h3>      
               </div>
-              <div class="col-xl-11">
-                <button type="button" class="btn btn-info btn-optimize"> <i class="fa fa-cogs"></i> Optimizar </button>
-                <button type="button" class="btn btn-success btn-detalle"> <i class="fa fa-cogs"></i> Detalle </button>
-              </div>
-            </div>            
+          <div class="col-md-12">
+            <span class="dotacion label label-success tip" data-toggle="tooltip">Actual</span>
+            <span class="dotacion label label-primary tip" data-toggle="tooltip">Optimizado</span>
           </div>
-        </div>
-      </div>
-    </div>
-    <div id="detalle-dotacion" class="row" style="display: none">  
       <div class="col-xl-6 col-lg-12">
+           
             <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
               <thead>
                 <tr class="bg-success">

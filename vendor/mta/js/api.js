@@ -379,7 +379,6 @@ function optimizar()
                 productividad_diaria  = Cerebro.productividadDiaria();
                 productividad_optimizada = Cerebro.productividadOptimizada();
                 productividad_objetivo = Cerebro.productividadObjetivo();
-                productividad_ideal = Cerebro.productividadIdeal();
 			    matrizSemana = Cerebro.calcularPerdida(matrizDelta);
 			    resumen_plan = Cerebro.obtenerResumen();
 							    	
@@ -411,12 +410,9 @@ function optimizar()
                     type: 'line',
                     data: {
                       datasets: [
-                                  {data: productividad_diaria, label: 'Productividad/Dotación Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 255)'},   
-                                  {data: productividad_optimizada, label: 'Productividad/Dotación Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 102, 0)'},
-                                  {data: productividad_ideal, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(153, 255, 0)'},
-                                  {data: productividad_objetivo, label: 'Productividad/Dotación Objetivo $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(217, 255, 8)'}
-                                  
-                                  
+                                  {data: productividad_diaria, label: 'Productividad/Dotación Actual $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},    
+                                  {data: productividad_optimizada, label: 'Productividad/Dotación Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'},
+                                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'}                                  
                                 ],
                       labels: fecha
                     },
@@ -482,7 +478,12 @@ $(document).on('click','.btn-optimize', function()
 		
 		$("#minutos_optimizando").prop('disabled', true);
 		$(".btn-optimize").prop('disabled', true);
-
+	      $('.page-container').pgNotification({
+	        style: 'simple',
+	        message: 'Optimizando',
+	        timeout: 3000,
+	        type: 'info',
+	      }).show(); 
 		setTimeout(function()
 			{ 
 				optimizar(); 
