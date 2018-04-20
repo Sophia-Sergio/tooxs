@@ -31,7 +31,6 @@
       <div class="sidebar-menu">
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <ul class="menu-items">
-          <li class="hidden-md-lg"><a href=""><span class="semi-bold"><%= current_user.name %> <%= current_user.lastname %></span></a></li>
           <li>
             <a href="javascript:;"><span class="title">Administración</span>
             <span class=" arrow"></span></a>
@@ -104,6 +103,16 @@
                 </li>
               </ul>
             </li> 
+            <li>
+              <a href="javascript:;"><span class="title">Reportabilidad</span><span class=" arrow"></span></a>
+              <span class="icon-thumbnail"><i class="pg-calender"></i></span>
+              <ul class="sub-menu">
+                <li class="">
+                  <%= link_to 'Estadistica de ventas', sales_statistics %>
+                  <span class="icon-thumbnail">E</span>
+                </li>
+              </ul>
+            </li>
             <li class="hidden-md-up">
               <%= link_to destroy_user_session_path, :method => :delete, class: "" do %>
                 <span class="pull-left">Salir</span>

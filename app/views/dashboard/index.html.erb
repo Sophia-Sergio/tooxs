@@ -1,4 +1,5 @@
 <div class="container-fluid container-fixed-lg">	
+	<h1>Mes de Marzo 2018</h1>
 	<div class="row text-center">
 		<div class="card-block col-md-6">
 			<h3>Cumplimiento de plan</h3>
@@ -25,63 +26,18 @@
 			<thead>
 				<tr>
 					<th>Colaborador</th>
-					<th>Venta</th>
-					<th>Meta</th>
+					<th>Cumplimiento Alcanzado</th>
+					<th>Detalle</th>
 				</tr>
 			</thead>
 			<tbody>
+				<% @sellers.each do |seller| %> 
 				<tr>
-					<td>Juan Sandoval Perez</td>
-					<td>0</td>
-					<td>100000000</td>
+					<td><%= seller.fullname %></td>
+					<td><%= rand(1...100) %>%</td>
+					<td><%= link_to 'Ver', seller, class: 'btn btn-info btn-xs' %>
 				</tr>
-				<tr>
-					<td>Juan Sandoval Perez</td>
-					<td>0</td>
-					<td>100000000</td>
-				</tr>
-				<tr>
-					<td>Juan Sandoval Perez</td>
-					<td>0</td>
-					<td>100000000</td>
-				</tr>
-				<tr>
-					<td>Juan Sandoval Perez</td>
-					<td>0</td>
-					<td>100000000</td>
-				</tr>
-				<tr>
-					<td>Juan Sandoval Perez</td>
-					<td>0</td>
-					<td>100000000</td>
-				</tr>
-				<tr>
-					<td>Juan Sandoval Perez</td>
-					<td>0</td>
-					<td>100000000</td>
-				</tr>
-				<tr>
-					<td>Juan Sandoval Perez</td>
-					<td>0</td>
-					<td>100000000</td>
-				</tr>
-				<tr>
-					<td>Juan Sandoval Perez</td>
-					<td>0</td>
-					<td>100000000</td>
-				</tr>
-				<tr>
-					<td>Juan Sandoval Perez</td>
-					<td>0</td>
-					<td>100000000</td>
-				</tr>
-				<tr>
-					<td>Juan Sandoval Perez</td>
-					<td>0</td>
-					<td>100000000</td>
-				</tr>	
-
-
+				<% end %>
 			</tbody>
 			<tfoot></tfoot>
 			</table>
@@ -95,33 +51,36 @@
 		var randomScalingFactor = function() {
 			return Math.round(Math.random() * 100);
 		};
-
+		randomConfig1_1 = randomScalingFactor();
+		randomConfig1_2 = 100 - randomConfig1_1;
+		
 		var config1 = {
 			type: 'pie',
 			data: {
 				datasets: [{
-					data: [randomScalingFactor(), randomScalingFactor()],
+					data: [randomConfig1_1, randomConfig1_2],
 					backgroundColor: [ window.chartColors.blue, window.chartColors.grey],
 					label: 'Dataset 1'
 				}],
-				labels: [
-					'% de cumplimiento']
+				labels: [randomConfig1_1 + '% de cumplimiento']
 			},
 			options: {
 				responsive: true
 			}
 		};
+
+		randomConfig2_1 = randomScalingFactor();
+		randomConfig2_2 = 100 - randomConfig2_1;
+
 		var config2 = {
 			type: 'pie',
 			data: {
 				datasets: [{
-					data: [ randomScalingFactor(), randomScalingFactor()],
+					data: [ randomConfig2_1, randomConfig2_2],
 					backgroundColor: [  window.chartColors.red, window.chartColors.grey],
 					label: 'Dataset 1'
 				}],
-				labels: [
-					'Eficiencia'
-				]
+				labels: [ randomConfig2_1+'% de Eficiencia' ]
 			},
 			options: {
 				responsive: true
