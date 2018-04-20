@@ -126,7 +126,7 @@ if ( $('#sales_month').length > 0) {
         }).done(function( html ) {
           $('#modalFillIn').modal('hide');
           $( "#compare_stores" ).html( html );
-
+          $('.grafico-1').hide();
           //llamo al 2o grafico
 
           var datasets_compare =  $.ajax({ 

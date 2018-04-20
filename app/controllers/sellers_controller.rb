@@ -64,6 +64,23 @@ class SellersController < ApplicationController
     today     = Date.today.strftime("%Y%m%d")
     
     @productivity = productivity_seller(seller,2,2018)
+    @ventas_colaborador = Array.new(15)
+      
+    for i in 0..@ventas_colaborador.length-1
+      @ventas_colaborador[i] = Array.new(7)
+    end 
+
+    dia = 0
+
+    @productivity[:one].each do |p, k|
+      hora = 0
+      k.each do |a|
+        @ventas_colaborador[hora][dia]  = a
+      hora += 1
+      end
+      dia += 1
+    end
+
     #binding.pry
     
     @x        = seller.my_shift.index{|x| x[0]== today.to_s}
@@ -173,16 +190,16 @@ class SellersController < ApplicationController
 
         #totales week/month
         #sp_week_total         = SalePlan.where(week: @week, :store => @store, :department => @dep).group(:week).order(:week).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
-        sp_month_total        = SalePlan.where(month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+        sp_month_total = SalePlan.where(month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
 
         #sp_total_week = sp_week_total.first[1].to_i
         sp_total_month = sp_month_total.first[1].to_i
 
         #data de venta real año anterior de la semana en cuestion
-        @historic_week          = HistoricSale.where(week: @week , :store => @store, :department => @dep, year: @year-1)
+        @historic_week = HistoricSale.where(week: @week , :store => @store, :department => @dep, year: @year-1)
 
         #data total de la venta del mes en base al año anterior
-        @historic_total_month         = HistoricSale.where(year: @year-1 , month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+        @historic_total_month = HistoricSale.where(year: @year-1 , month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
         historic_total_month_amount   = @historic_total_month.first[1].to_i
 
         @dates_week = []

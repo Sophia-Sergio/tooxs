@@ -1,30 +1,142 @@
-<style type="text/css">
-@media (min-width: 700px) {
-	#botones-main
-	{
-		padding-top: 20%;
-	}
-}
-.botones
-{
-	padding:20px;
-}
-
-</style>
-<div id="botones-main" class="container">
+<div class="container-fluid container-fixed-lg">	
 	<div class="row text-center">
-		<div class="botones col-md-4">
-			<div><a href="#"><span class="fa fa-book fa-5x"></span></a></div>
-			<div>Administración</div>
+		<div class="card-block col-md-6">
+			<h3>Cumplimiento de plan</h3>
+			<canvas id="chart-area1"></canvas>
 		</div>
-		<div class="botones col-md-4">
-			<div><a href="#"><span class="fa fa-usd fa-5x"></span></a></div>
-			<div>Ventas</div> 
-		</div>
-		<div class="botones col-md-4">
-			<div><a href="#asd"><span class="fa fa-line-chart fa-5x"></span></a></div>
-			<div>Productividad</div>
+		<div class="card-block col-md-6">
+			<h3>Eficiencia</h3>
+			<canvas id="chart-area2"></canvas>
 		</div>
 	</div>
-</div>
+	<div class="row">
+		<div class="card-block col-md-4">
+			<div class="productividad">
+				<h3>Productividad</h3>
+				<div class="productividad-grafico"><h1><%= @productividad %></h1></div>
+			</div>
+			<div class="productividad">
+				<h3>Turnos cubiertos</h3>
+				<div class="turnos-grafico"><h1><%= @turnos_cubiertos %></h1></div> </div>
+		</div>
+		<div id="div-tabla" class="card-block col-md-8">
+			<h3>Cumplimiento de mis colaboradores</h3>
+			<table class="table table-bordered ">
+			<thead>
+				<tr>
+					<th>Colaborador</th>
+					<th>Venta</th>
+					<th>Meta</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Juan Sandoval Perez</td>
+					<td>0</td>
+					<td>100000000</td>
+				</tr>
+				<tr>
+					<td>Juan Sandoval Perez</td>
+					<td>0</td>
+					<td>100000000</td>
+				</tr>
+				<tr>
+					<td>Juan Sandoval Perez</td>
+					<td>0</td>
+					<td>100000000</td>
+				</tr>
+				<tr>
+					<td>Juan Sandoval Perez</td>
+					<td>0</td>
+					<td>100000000</td>
+				</tr>
+				<tr>
+					<td>Juan Sandoval Perez</td>
+					<td>0</td>
+					<td>100000000</td>
+				</tr>
+				<tr>
+					<td>Juan Sandoval Perez</td>
+					<td>0</td>
+					<td>100000000</td>
+				</tr>
+				<tr>
+					<td>Juan Sandoval Perez</td>
+					<td>0</td>
+					<td>100000000</td>
+				</tr>
+				<tr>
+					<td>Juan Sandoval Perez</td>
+					<td>0</td>
+					<td>100000000</td>
+				</tr>
+				<tr>
+					<td>Juan Sandoval Perez</td>
+					<td>0</td>
+					<td>100000000</td>
+				</tr>
+				<tr>
+					<td>Juan Sandoval Perez</td>
+					<td>0</td>
+					<td>100000000</td>
+				</tr>	
 
+
+			</tbody>
+			<tfoot></tfoot>
+			</table>
+		</div>		
+	</div>
+	<div class="padding-5em"></div>
+</div>
+<script type="text/javascript">
+	  window.chartColors = {red: "rgb(255, 99, 132)", orange: "rgb(255, 159, 64)", yellow: "rgb(255, 205, 86)", green: "rgb(75, 192, 192)", blue: "rgb(54, 162, 235)", grey: "rgb(201, 203, 207)"}
+	
+		var randomScalingFactor = function() {
+			return Math.round(Math.random() * 100);
+		};
+
+		var config1 = {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: [randomScalingFactor(), randomScalingFactor()],
+					backgroundColor: [ window.chartColors.blue, window.chartColors.grey],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					'% de cumplimiento']
+			},
+			options: {
+				responsive: true
+			}
+		};
+		var config2 = {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: [ randomScalingFactor(), randomScalingFactor()],
+					backgroundColor: [  window.chartColors.red, window.chartColors.grey],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					'Eficiencia'
+				]
+			},
+			options: {
+				responsive: true
+			}
+		};
+
+		window.onload = function() {
+			var ctx1 = document.getElementById('chart-area1').getContext('2d');
+			window.myPie1 = new Chart(ctx1, config1);
+			var ctx2 = document.getElementById('chart-area2').getContext('2d');
+			window.myPie2 = new Chart(ctx2, config2);
+		};
+
+		var colorNames = Object.keys(window.chartColors);
+
+
+	
+</script>

@@ -9,14 +9,21 @@
       Tienda: <span class="label label-default"><%= @store.name %></span>
       Departamento: <span class="label label-default"><%= @dep_source.name %></span>
       </p>
-
      
       <div class="row m-t-30">
-        <div class="col-xl-7 col-lg-12 col-md-12 col-12 col-sm-12">
+        <div class="col-sm-12 col-xl-8 offset-xl-2">
+            <div style="width:100%;">
+            <canvas id="canvas2"></canvas>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+          <h3>Detalle</h3>
+        </div>
+        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
           <table class="table table-bordered table-smallFont">
             <thead class="">
               <tr>
-                <td colspan="6" class="bg-success-dark text-white fs-16 text-uppercase text-center"> <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %></td>
+                <td colspan="7" class="bg-success-dark text-white fs-16 text-uppercase text-center"> <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %></td>
               </tr>
               <tr class="bg-success">
               	<td class="text-center fs-15 text-bold"> - </td>
@@ -77,11 +84,5 @@
             </tfoot>
           </table>
         </div>
-        <div class="col-xl-5 col-lg-12 col-md-12 col-12 col-sm-12">
-            <div style="width:100%;">
-            <canvas id="canvas2"></canvas>
-          </div>
-        </div>
-
       </div>
     </div>

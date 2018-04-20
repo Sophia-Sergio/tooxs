@@ -381,84 +381,90 @@ function optimizar()
                 productividad_objetivo = Cerebro.productividadObjetivo();
 			    matrizSemana = Cerebro.calcularPerdida(matrizDelta);
 			    resumen_plan = Cerebro.obtenerResumen();
-							    	
-			    sumatoria_turnos_optimizados = Cerebro.totalTurnosOptimizados();
+					
+				if (resumen_plan[1] == undefined)
+				{
+					setInterval( function(){ console.log("esperando...")}, 1000);
+					optimizar();
+				}
+				else
+				{
+				    sumatoria_turnos_optimizados = Cerebro.totalTurnosOptimizados();	
+				    initOptimizado = new Array(281);
 
-	
-			    initOptimizado = new Array(281);
+				    for (var i = 0; i < sum_turnos_real.length; i++) 
+				    {
+				    	$("#optimo-"+[i+1]).html(sum_turnos_real[i]);
+				    }
 
-			    for (var i = 0; i < sum_turnos_real.length; i++) 
-			    {
-			    	$("#optimo-"+[i+1]).html(sum_turnos_real[i]);
-			    }
+				    for (var i = initOptimizado.length-1; i >= 0; i--) 
+				    {
+				    	$("#optimizado-"+[i]).html(sumatoria_turnos_optimizados[i-1]);
+				    }
 
-			    for (var i = initOptimizado.length-1; i >= 0; i--) 
-			    {
-			    	$("#optimizado-"+[i]).html(sumatoria_turnos_optimizados[i-1]);
-			    }
+				    for (var i = matrixAlmuerzo.length - 1; i >= 0; i--) 
+				    {
+				    	if (matrixAlmuerzo[i])
+				    	{
+				    		$("#optimizado-"+[i]).html($("#optimizado-"+[i]).html()-matrixAlmuerzo[i]);
+				    	}
+				    }
+				    
 
-			    for (var i = matrixAlmuerzo.length - 1; i >= 0; i--) 
-			    {
-			    	if (matrixAlmuerzo[i])
-			    	{
-			    		$("#optimizado-"+[i]).html($("#optimizado-"+[i]).html()-matrixAlmuerzo[i]);
-			    	}
-			    }
-			    
+	                 var config = {
+	                    type: 'line',
+	                    data: {
+	                      datasets: [
+	                                  {data: productividad_diaria, label: 'Productividad/Dotación Actual $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},    
+	                                  {data: productividad_optimizada, label: 'Productividad/Dotación Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'},
+	                                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'}                                  
+	                                ],
+	                      labels: fecha
+	                    },
+	                    options: {
+	                      scales: {
+	                        yAxes: [{
+	                          id: 'left-y-axis',
+	                          type: 'linear',
+	                          position: 'left'
+	                        }]
+	                      }
+	                    }
+	                  }    
+	                 document.getElementById("chartContainer").innerHTML = '&nbsp;';
+				     document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
 
-                 var config = {
-                    type: 'line',
-                    data: {
-                      datasets: [
-                                  {data: productividad_diaria, label: 'Productividad/Dotación Actual $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},    
-                                  {data: productividad_optimizada, label: 'Productividad/Dotación Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'},
-                                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'}                                  
-                                ],
-                      labels: fecha
-                    },
-                    options: {
-                      scales: {
-                        yAxes: [{
-                          id: 'left-y-axis',
-                          type: 'linear',
-                          position: 'left'
-                        }]
-                      }
-                    }
-                  }    
-                 document.getElementById("chartContainer").innerHTML = '&nbsp;';
-			     document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
+					 var ctx = document.getElementById("canvas").getContext("2d");
+	                 var myChart = new Chart(ctx, config);
 
-				 var ctx = document.getElementById("canvas").getContext("2d");
-                 var myChart = new Chart(ctx, config);
-
-                 //
-                 eficiencia1 = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
-                 $("#margen-actual").html(eficiencia1+"%");
-                 eficiencia2 = 100-parseFloat(resumen_plan[1].margeAjuste.replace("%", ""));
-                 $("#margen-optimizado").html(eficiencia2+"%");
-				 dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), Cerebro.sumatoriaTurnosOptimizado().length);
-                 $("#hh-optimizado").html(dotacion_m1);
+	                 //
+	                 eficiencia1 = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
+	                 $("#margen-actual").html(eficiencia1+"%");
+	                 eficiencia2 = 100-parseFloat(resumen_plan[1].margeAjuste.replace("%", ""));
+	                 $("#margen-optimizado").html(eficiencia2+"%");
+					 dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), Cerebro.sumatoriaTurnosOptimizado().length);
+	                 $("#hh-optimizado").html(dotacion_m1);
 
 
-                  Cerebro.setearTurnos();
-                  turnos = Cerebro.turnos;                      
-                  num_turnos = Cerebro.plan.datos.num_turnos;
-                  count_turnos = 0;
-                  while(count_turnos < num_turnos)
-                  {
-                 	$("#turnos-"+count_turnos).html(turnos[count_turnos+num_turnos].vendedores);
-                    count_turnos++;
-                  }
-                  $('.page-container').pgNotification({
-			                style: 'simple',
-			                message: 'Calculos realizados',
-			                timeout: 3000,
-			                type: 'info',
-			      }).show(); 
-				$("#minutos_optimizando").prop('disabled', false);
-				$(".btn-optimize").prop('disabled', false);
-
+	                  Cerebro.setearTurnos();
+	                  turnos = Cerebro.turnos;                      
+	                  num_turnos = Cerebro.plan.datos.num_turnos;
+	                  count_turnos = 0;
+	                  while(count_turnos < num_turnos)
+	                  {
+	                 	$("#turnos-"+count_turnos).html(turnos[count_turnos+num_turnos].vendedores);
+	                    count_turnos++;
+	                  }
+	                  $('.page-container').pgNotification({
+				                style: 'simple',
+				                message: 'Calculos realizados',
+				                timeout: 3000,
+				                type: 'info',
+				      }).show(); 
+					$("#minutos_optimizando").prop('disabled', false);
+					$(".btn-optimize").prop('disabled', false);
+				}	
+      		
       }
     });
     $('#data_opt').slideDown('fast')

@@ -1,3 +1,59 @@
 // Place all the styles related to the Dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@media (min-width: 700px) {
+	#botones-main
+	{
+		padding-top: 20%;
+	}
+}
+.botones
+{
+	padding:20px;
+}
+
+.productividad-grafico {
+	display: table-cell;
+    background: rgb(255, 159, 64);
+    width: 16em;
+    height: 16em;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.productividad-grafico h1
+{
+	color: white;
+	font-weight: 400;
+}
+
+.turnos-grafico {
+	display: table-cell;
+    background: rgb(75, 192, 192);
+    width: 16em;
+    height: 16em;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.turnos-grafico h1
+{
+	color: white;
+	font-weight: 400;
+}
+
+
+.productividad
+{
+	display: inline-block;
+}
+
+.productividad h3, #div-tabla h3
+{
+	padding-bottom: 1em;
+}
+
+.padding-5em
+{
+	padding-bottom: 5em;
+}

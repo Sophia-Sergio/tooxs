@@ -21,14 +21,22 @@
 
 
     <div class="card-block">
-      <h4>Estadisticas de Ventas - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
-      <p class="m-t-20">Cluster: <span class="label label-default"><%= "#{@store.economic_segment} - #{@store.size}"  %></span>
+      <h4 class="grafico-1">Estadísticas de Ventas - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
+      <p class="m-t-20 grafico-1">Cluster: <span class="label label-default"><%= "#{@store.economic_segment} - #{@store.size}"  %></span>
       Tienda: <span class="label label-default"><%= @store.name %></span>
       Departamento: <span class="label label-default"><%= @dep.name %></span>
       </p>
-     
-      <div class="row m-t-30">
-        <div class="col-xl-7 col-lg-12 col-md-12 col-12 col-sm-12">
+     <div class="row" id="compare_stores"></div>
+      <div class="row grafico-1">
+        <div class="col-sm-12 col-xl-8 offset-xl-2">
+         <div style="width:100%;">
+            <canvas id="canvas"></canvas>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+          <h3>Detalle</h3>
+        </div>
+        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
           <table class="table table-bordered table-smallFont">
             <thead class="">
               <tr>
@@ -111,16 +119,10 @@
             </tfoot>
           </table>
         </div>
-        <div class="col-xl-5 col-lg-12 col-md-12 col-12 col-sm-12">
 
-         <div style="width:100%;">
-            <canvas id="canvas"></canvas>
-          </div>
-        </div>
       </div>
 
-      <div class="row m-t-30" id="compare_stores">
-      </div>
+      
     </div>
 
   </div>   

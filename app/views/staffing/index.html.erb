@@ -28,7 +28,7 @@
       <div class="col-12 col-sm-3 col-md-3 col-lg-1">
 
 
-        <%= button_tag type: 'submit', class: "btn btn-success btn-lg btn-larger" do %>
+        <%= button_tag type: 'submit', class: "btn btn-success btn-lg btn-larger", disabled: "disabled" do %>
         <i class="fa fa-search" aria-hidden="true"></i> Buscar
         <% end %>
 
@@ -47,21 +47,14 @@
         </div>
 
         <div class="row ">  
-
-          <div class="col-12">
-            <div class="pull-right">
-            <span class="label label-success">Personal Activo</span>
-            <span class="label label-danger ">Personal Ausente</span>
-
-
-            </div>
           </div>
-
-
           <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
             <h5 class="text-uppercase m-t-30 fs-13 bold">Dotación Personal // Alto Las Condes - Rincon Juvenil Mujer - Noviembre 2017</h5>
+            <div class="col-sm-12">
+              <span class="label label-success tip dotacion" data-toggle="tooltip">Disponible</span>
+              <span class="label label-danger tip dotacion" data-toggle="tooltip">Ausente</span>
+            </div>
             <div class="row ">
-              
               <div class="col-lg-6 col-xl-6 col-sm-12">
                     <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
                       <thead>
@@ -95,8 +88,8 @@
                           v.first.each do |n| %>
                             <% if n != 0 %>
                             <td class="text-center">
-                              <span class="label label-success tip" data-toggle="tooltip" data-original-title="'+sellers_on+'"><%= n %></span>
-                              <span class="label label-danger tip" data-toggle="tooltip" data-original-title="'+sellers_off+'"><%= 9-n %></span>
+                              <span class="label label-success tip dotacion" data-toggle="tooltip"><%= n %></span>
+                              <span class="label label-danger tip dotacion" data-toggle="tooltip"><%= 9-n %></span>
                             </td>  
                             <% else %>
                             <td>  </td>
@@ -142,8 +135,8 @@
                           v.first.each do |n| %>
                             <% if n != 0 %>
                             <td class="text-center">
-                              <span class="label label-success tip" data-toggle="tooltip" data-original-title="'+sellers_on+'"><%= n %></span>
-                              <span class="label label-danger tip" data-toggle="tooltip" data-original-title="'+sellers_off+'"><%= 9-n %></span>
+                              <span class="label label-success tip dotacion" data-toggle="tooltip"><%= n %></span>
+                              <span class="label label-danger tip dotacion" data-toggle="tooltip"><%= 9-n %></span>
                             </td>  
                             <% else %>
                             <td>  </td>
@@ -188,8 +181,8 @@
                           v.first.each do |n| %>
                             <% if n != 0 %>
                             <td class="text-center">
-                              <span class="label label-success tip" data-toggle="tooltip" data-original-title="'+sellers_on+'"><%= n %></span>
-                              <span class="label label-danger tip" data-toggle="tooltip" data-original-title="'+sellers_off+'"><%= 9-n %></span>
+                              <span class="label label-success tip dotacion" data-toggle="tooltip"><%= n %></span>
+                              <span class="label label-danger tip dotacion" data-toggle="tooltip"><%= 9-n %></span>
                             </td>  
                             <% else %>
                             <td>  </td>
@@ -234,8 +227,8 @@
                           v.first.each do |n| %>
                             <% if n != 0 %>
                             <td class="text-center">
-                              <span class="label label-success tip" data-toggle="tooltip" data-original-title="'+sellers_on+'"><%= n %></span>
-                              <span class="label label-danger tip" data-toggle="tooltip" data-original-title="'+sellers_off+'"><%= 9-n %></span>
+                              <span class="label label-success tip dotacion" data-toggle="tooltip"><%= n %></span>
+                              <span class="label label-danger tip dotacion" data-toggle="tooltip"><%= 9-n %></span>
                             </td>  
                             <% else %>
                             <td>  </td>
