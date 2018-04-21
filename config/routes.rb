@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   get 'dashboard/administracion'
   get 'dashboard/ventas'
   get 'dashboard/productividad'
-  
+
+  resources :sales_statistics  
   resources :rs
   resources :hs
   resources :sps
