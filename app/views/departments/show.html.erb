@@ -1,19 +1,39 @@
-<p id="notice"><%= notice %></p>
+<br>
+<br>
+<div class="col-md-6 offset-md-3">
+	<h1><%= @department.name %></h1>
+</div>
+<div class="row">
+	<p id="notice"><%= notice %></p>
+	<div class="col-md-6 offset-md-3">
+		<div class="card card-default">
+			<div class="card-header  separator">
+				<div class="card-title text-success">Detalle</div>
+			</div>
+			<div class="card-block">
+				<table class="table table-borxdered table-condensed table-stripped table-smaxllFont">
+					<tbody>
+						<tr>
+							<td>ID</td>
+							<td><%= @department.origin_id %></td>
+						</tr>
+						<tr>
+							<td>Nombre</td>
+							<td><%= @department.name %></td>
+						</tr>
+						<tr>
+							<td>Departamento</td>
+							<td><%= @department.store %></td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<br>
+				<div class="actions">
+					<%= link_to 'Editar', edit_department_path(@department), class: "btn btn-primary" %>  <%= link_to 'Volver', departments_path %>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
 
-<p>
-  <strong>Origin:</strong>
-  <%= @department.origin_id %>
-</p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @department.name %>
-</p>
-
-<p>
-  <strong>Store:</strong>
-  <%= @department.store %>
-</p>
-
-<%= link_to 'Edit', edit_department_path(@department) %> |
-<%= link_to 'Back', departments_path %>

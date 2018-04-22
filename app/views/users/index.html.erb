@@ -1,43 +1,43 @@
 <p id="notice"><%= notice %></p>
-
 <h1>Usuarios</h1>
-
-<table class="table table-stripped table-hover table-smallFont" id="table-user">
+<br><br>
+<table class="table-shift table table-bordered bg-master-lightest">
   <thead>
+    <tr class="bg-success text-center ">
+      <th colspan="13" class="no-margin text-uppercase text-white fs-15">
+        <h3 class="no-margin text-center text-uppercase text-white fs-15">Listado de usuarios</h3>
+      </th>
+    </tr>
     <tr>
-      <th>Name</th>
-      <th>Lastname</th>
-      <th>Role</th>
-      <th>Status</th>
+      <th>Nombre</th>
+      <th>Apellidos</th>
+      <th>Rol</th>
+      <th>Estado</th>
       <th>Rut</th>
-      <th colspan="1"> Actions </th>
+      <th colspan="1"> Acciones </th>
     </tr>
   </thead>
-
   <tbody>
     <% @users.each do |user| %>
-      <tr>
-                <td><%= user.name %></td>
-                <td><%= user.lastname %></td>
-                <td><%= user.role %></td>
-                <td><%= user.status %></td>
-                <td><%= user.rut %></td>
-      
-        <td>
+    <tr>
+      <td><%= user.name %></td>
+      <td><%= user.lastname %></td>
+      <td><%= user.role %></td>
+      <td><%= user.status %></td>
+      <td><%= user.rut %></td>
+    <td>
+      <%= link_to user_path(user), :class => 'btn btn-default' do %>
+      <i class="fa fa-eye"></i> 
+      <% end %>
 
-        <%= link_to user_path(user), :class => 'btn btn-default' do %>
-        <i class="fa fa-eye"></i> Ver Usuario
-        <% end %>
+      <%= link_to edit_user_path(user), :class => 'btn btn-default' do %>
+      <i class="fa fa-edit"></i>
+      <% end %>
 
-        <%= link_to edit_user_path(user), :class => 'btn btn-default' do %>
-        <i class="fa fa-edit"></i> Editar Usuario
-        <% end %>
-
-        <%= link_to user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
-        <i class="fa fa-trash-o"></i> Eliminar Usuario
-        <% end %>
-
-        </td>
+      <%= link_to user_path(user), method: :delete, data: { confirm: '¿Estás seguro que deseas eliminar este registro?' }, :class => 'btn btn-default' do %>
+      <i class="fa fa-trash-o"></i>
+      <% end %>
+    </td>
       </tr>
     <% end %>
   </tbody>
@@ -45,4 +45,4 @@
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
+<%= link_to 'Crear usuario', new_user_path, class: "btn btn-primary" %>

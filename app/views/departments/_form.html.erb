@@ -1,36 +1,34 @@
-<%= form_with(model: department, local: true) do |form| %>
-  <% if department.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(department.errors.count, "error") %> prohibited this department from being saved:</h2>
-
-      <ul>
-      <% department.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+<div class="card col-md-6 offset-md-3">
+  <div class="card-block">
+    <%= form_with(model: department, local: true) do |form| %>
+      <% if department.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(department.errors.count, "error") %> No se puede registrar este departamento:</h2>
+          <ul>
+          <% department.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
+      <div class="form-group">
+        <%= form.label :origin_id, "ID", class: "form-label"%>
+        <%= form.number_field :origin_id, id: :department_origin_id, class: "form-control" %>
+      </div>
 
-  <div class="field">
-    <%= form.label :origin_id, 'Origin ID' %>
-    <%= form.number_field :origin_id, id: :department_origin_id %>
-  </div>
+      <div class="form-group">
+        <%= form.label :name, "Nombre" ,class: "form-label" %>
+        <%= form.text_field :name, id: :department_name, class: "form-control"%>
+      </div>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :department_name %>
-  </div>
+      <div class="form-group">
+        <%= form.label :store_id, "Departamento", class: "form-label"%>
+        <%= form.select :store_id, options_from_collection_for_select(Store.all, :id, :name, department.try(:store_id)), { include_blank: false }, { id: :department_store_id, class: :'form-control' } %>
+      </div>
 
-  <div class="field">
-    <%= form.label :store_id %>
-    <%= form.select :store_id,
-                    options_from_collection_for_select(Store.all, :id, :name, department.try(:store_id)),
-                    { include_blank: false },
-                    { id: :department_store_id }
-    %>
+      <div class="actions">
+        <%= form.submit "Aceptar", class: "btn btn-primary" %> &nbsp; <%= link_to 'Volver', departments_path %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

@@ -1,44 +1,57 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>Lastname:</strong>
-  <%= @user.lastname %>
-</p>
-
-<p>
-  <strong>Surname:</strong>
-  <%= @user.surname %>
-</p>
-
-<p>
-  <strong>Role:</strong>
-  <%= @user.role %>
-</p>
-
-<p>
-  <strong>Picture:</strong>
-  <%= @user.picture %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @user.status %>
-</p>
-
-<p>
-  <strong>Position:</strong>
-  <%= @user.position %>
-</p>
-
-<p>
-  <strong>Rut:</strong>
-  <%= @user.rut %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<br>
+<br>
+<div class="col-md-6 offset-md-3">
+  <h1>Usuario</h1>
+</div>
+<div class="row">
+  <p id="notice"><%= notice %></p>
+  <div class="col-md-6 offset-md-3">
+    <div class="card card-default">
+      <div class="card-header  separator">
+        <div class="card-title text-success">Detalle</div>
+      </div>
+      <div class="card-block">
+        <table class="table table-borxdered table-condensed table-stripped table-smaxllFont">
+          <tbody>
+            <tr>
+              <td>Nombre</td>
+              <td><%= @user.name %></td>
+            </tr>
+            <tr>
+              <td>Apellido Paterno</td>
+              <td><%= @user.lastname %></td>
+            </tr>
+            <tr>
+              <td>Apellido Materno</td>
+              <td><%= @user.surname %></td>
+            </tr>
+            <tr>
+              <td>Rol</td>
+              <td><%= @user.role %></td>
+            </tr>
+            <tr>
+              <td>Imagen</td>
+              <td><%= @user.picture %></td>
+            </tr>
+            <tr>
+              <td>Estado</td>
+              <td><%= @user.status %></td>
+            </tr>
+            <tr>
+              <td>Posición</td>
+              <td><%= @user.position %></td>
+            </tr>
+            <tr>
+              <td>Rut</td>
+              <td><%= @user.rut %></td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <div class="actions">
+          <%= link_to 'Editar', edit_user_path(@user), class: "btn btn-primary" %>  <%= link_to 'Volver', users_path %>
+        </div>  
+      </div>
+    </div>  
+  </div>
+</div>

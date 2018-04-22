@@ -1,62 +1,61 @@
-<%= form_with(model: store, local: true) do |form| %>
-  <% if store.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(store.errors.count, "error") %> prohibited this store from being saved:</h2>
+<div class="card col-md-6 offset-md-3">
+  <div class="card-block">
+    <%= form_with(model: store, local: true) do |form| %>
+    <% if store.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(store.errors.count, "error") %> No se puede registrar esta tienda:</h2>
 
-      <ul>
-      <% store.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+        <ul>
+        <% store.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :name, "Nombre", class: "form-label"%>
+      <%= form.text_field :name, id: :store_name, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :street , "Dirección", class: "form-label"%>
+      <%= form.text_field :street, id: :store_street, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :number , "Número", class: "form-label"%>
+      <%= form.text_field :number, id: :store_number, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :city , "Ciudad", class: "form-label"%>
+      <%= form.text_field :city, id: :store_city, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :district , "Distrito", class: "form-label"%>
+      <%= form.text_field :district, id: :store_district, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :country , "Código País", class: "form-label"%>
+      <%= form.text_field :country, id: :store_country, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :size , "Tamaño tienda", class: "form-label"%>
+      <%= form.text_field :size, id: :store_size, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :economic_segment , "Segmento económico", class: "form-label"%>
+      <%= form.text_field :economic_segment, id: :store_economic_segment, class: "form-control" %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Aceptar", class: "btn btn-primary" %> &nbsp; <%= link_to 'Volver', stores_path %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :store_name %>
   </div>
-
-  <div class="field">
-    <%= form.label :street %>
-    <%= form.text_field :street, id: :store_street %>
-  </div>
-
-  <div class="field">
-    <%= form.label :number %>
-    <%= form.text_field :number, id: :store_number %>
-  </div>
-
-  <div class="field">
-    <%= form.label :city %>
-    <%= form.text_field :city, id: :store_city %>
-  </div>
-
-  <div class="field">
-    <%= form.label :district %>
-    <%= form.text_field :district, id: :store_district %>
-  </div>
-
-  <div class="field">
-    <%= form.label :county %>
-    <%= form.text_field :county, id: :store_county %>
-  </div>
-
-  <div class="field">
-    <%= form.label :country %>
-    <%= form.text_field :country, id: :store_country %>
-  </div>
-
-  <div class="field">
-    <%= form.label :size %>
-    <%= form.text_field :size, id: :store_size %>
-  </div>
-
-  <div class="field">
-    <%= form.label :economic_segment %>
-    <%= form.text_field :economic_segment, id: :store_economic_segment %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

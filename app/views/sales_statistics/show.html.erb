@@ -1,0 +1,339 @@
+<div class="card card-transparent">
+  <div class="card-header ">
+    <div class="card-title ">
+      Parámetros de Búsqueda
+    </div>
+  </div>
+
+  <div class="card-block">
+    <%= simple_form_for @search, :url => staffing_show_path, :method => :get do |f| %>
+    <div class="row" id="sales_search_form">
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: 1, :disabled => true %>  
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: 1, :disabled => true %>  
+      </div>
+
+      <div class="col-12 col-sm-3 col-md-3 col-lg-2">
+        <%= f.input :year, collection: (2016..2018), label: 'Año', wrapper: :select2, selected: 2018, :disabled => true %>  
+      </div>
+
+      <div class="col-12 col-sm-3 col-md-3 col-lg-2">
+        <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: 1, :disabled => true  %>  
+      </div>
+
+      <div class="col-12 col-sm-3 col-md-3 col-lg-1">
+        <%= button_tag type: 'submit', :disabled => true,class: "btn btn-success btn-lg btn-larger" do %>
+        <i class="fa fa-search" aria-hidden="true"></i> Buscar
+        <% end %>
+
+      </div>  
+    </div>
+    <% end %>
+  </div>
+</div>
+    <div class="card-block">
+      <h4 class="grafico-1">Estadísticas de Ventas</h4>
+      <p class="m-t-20 grafico-1">Cluster: <span class="label label-default"><%= "#{@store.economic_segment} - #{@store.size}"  %></span>
+      Tienda: <span class="label label-default"><%= @store.name %></span>
+      Departamento: <span class="label label-default"><%= @dep.name %></span>
+      </p>
+     <div class="row" id="compare_stores"></div>
+      <div class="row grafico-1">
+        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+          <table class="table-shift table table-bordered bg-master-lightest">
+            <thead>
+              <tr class="bg-success text-center ">
+                <th colspan="6" class="no-margin text-uppercase text-white fs-15"> 
+                  <h3 class="no-margin text-center text-uppercase text-white fs-15"> <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> - <%= @year %></h3>
+                </th>
+              </tr>
+              <tr>
+                <th class="text-center"> <%= @year %></th>
+                <% @sale_plan.each do |k,v| %>
+                <th class="text-center"> <%= "Semana #{k}" %> </th>
+                <% end %>
+                <th class="text-center"> <strong class="text-center"> Σ </strong> </th>
+              </tr>
+            </thead>
+            <tbody class="">
+              <tr>
+                <td>PLAN</td>
+                <%
+                @sale_plan.values.each do |v|
+                  %>
+                  <td><%= number_to_currency v %></td>
+                  <% end %>
+                  <td>
+                    <%= number_to_currency @sale_plan.values.sum %>
+                  </td>
+              </tr> 
+
+              <tr>
+                <td>REAL</td>
+                <%
+                @real_sale.values.each do |v|
+                  %>
+                  <td><%= number_to_currency v %></td>
+                  <% end %>
+                  <td>
+                    <%= number_to_currency @real_sale.values.sum %>
+                  </td>
+              </tr> 
+
+              <tr>
+                <td>HISTORICO</td>
+                <%
+                @historic_sale.values.each do |v|
+                  %>
+                  <td><%= number_to_currency v %></td>
+                  <% end %>
+                  <td>
+                    <%= number_to_currency @historic_sale.values.sum %>
+                  </td>
+              </tr>
+
+            </tbody>
+            <tfoot>
+              <tr class="table-warning">
+                <td><b>Real vs Plan  </b></td>
+                <% @dif1.each do |v|%>
+                <td class="text-centerx"><%= v.round(2) %>%
+                <% if v > 0  %>
+                  <i class="text-success fa fa-caret-up"></i>
+                <% else %>
+                  <i class="text-danger fa fa-caret-down"></i>
+                <% end -%>
+                </td>
+                <% end %>
+                <td> - </td>
+              </tr>
+              <tr class="table-warning">
+                <td><b>Real vs Histórico</b> </td>
+                <% @dif2.each do |v|%>
+                <td class="text-centerx"><%= v.round(2) %>%
+                <% if v > 0  %>
+                  <i class="text-success fa fa-caret-up"></i>
+                <% else %>
+                  <i class="text-danger fa fa-caret-down"></i>
+                <% end -%>
+                </td>
+                <% end %>
+                <td> - </td>              
+              </tr>              
+            </tfoot>
+          </table>
+        </div>
+      </div>      
+    </div>
+  <div class="card card-transparent">
+      <div class="card-block">
+        <div class="row">
+          <div class="col-lg-12">
+            <h4>Personal Disponible</h4>  
+          </div>
+        </div>
+
+        <div class="row ">  
+          </div>
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <h5 class="text-uppercase m-t-30 fs-13">Dotación Personal // Alto Las Condes - Rincon Juvenil Mujer</h5>
+            <div class="col-sm-12">
+              <span class="label label-success tip dotacion" data-toggle="tooltip">Disponible</span>
+              <span class="label label-danger tip dotacion" data-toggle="tooltip">Ausente</span>
+            </div>
+            <div class="row ">
+              <div class="col-lg-6 col-xl-6 col-sm-12">
+                    <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
+                      <thead>
+                        <tr class="bg-success">
+                          <td colspan="8" class="text-center no-padding">
+                            <h3 class="no-margin text-uppercase text-white fs-15">Semana 1</h3>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center">Horario</th>
+                          <th class="text-center">Lun</th>
+                          <th class="text-center">Mar</th>
+                          <th class="text-center">Mie</th>
+                          <th class="text-center">Jue</th>
+                          <th class="text-center">Vie</th>
+                          <th class="text-center">Sáb</th>
+                          <th class="text-center">Dom</th>  
+                        </tr>
+                        <tr>
+                            <th class="text-center"> </th>
+                          <% @staffing_w1[:dates].each do |d| %>
+                            <th class="text-center"> <%= d.to_date.strftime("%d-%m-%Y") %></th>
+                          <% end -%>
+                        </tr>
+                      </thead>
+                      <tbody class="t-p-3">
+                        <% @staffing_w1[:draw].each do |k,v|%>
+                        <tr>
+                          <td class="text-center" align="center"><%= k %>:00</td>
+                          <% 
+                          v.first.each do |n| %>
+                            <% if n != 0 %>
+                            <td class="text-center">
+                              <span class="label label-success tip dotacion" data-toggle="tooltip"><%= n %></span>
+                              <span class="label label-danger tip dotacion" data-toggle="tooltip"><%= 9-n %></span>
+                            </td>  
+                            <% else %>
+                            <td>  </td>
+                            <% end -%>
+                          <% end -%>
+                        </tr>
+                        <% end -%>
+                      </tbody>
+                    </table>
+              </div>
+
+
+              <div class="col-lg-6 col-xl-6 col-sm-12">
+                    <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
+                      <thead>
+                        <tr class="bg-success">
+                          <td colspan="8" class="text-center no-padding">
+                            <h3 class="no-margin text-uppercase text-white fs-15">Semana 2</h3>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center">Horario</th>
+                          <th class="text-center">Lun</th>
+                          <th class="text-center">Mar</th>
+                          <th class="text-center">Mie</th>
+                          <th class="text-center">Jue</th>
+                          <th class="text-center">Vie</th>
+                          <th class="text-center">Sáb</th>
+                          <th class="text-center">Dom</th>  
+                        </tr>
+                        <tr>
+                            <th class="text-center"> </th>
+                          <% @staffing_w2[:dates].each do |d| %>
+                            <th class="text-center"> <%= d.to_date.strftime("%d-%m-%Y") %></th>
+                          <% end -%>
+                        </tr>
+                      </thead>
+                      <tbody class="t-p-3">
+                        <% @staffing_w2[:draw].each do |k,v|%>
+                        <tr>
+                          <td class="text-center" align="center"><%= k %>:00</td>
+                          <% 
+                          v.first.each do |n| %>
+                            <% if n != 0 %>
+                            <td class="text-center">
+                              <span class="label label-success tip dotacion" data-toggle="tooltip"><%= n %></span>
+                              <span class="label label-danger tip dotacion" data-toggle="tooltip"><%= 9-n %></span>
+                            </td>  
+                            <% else %>
+                            <td>  </td>
+                            <% end -%>
+                          <% end -%>
+                        </tr>
+                        <% end -%>
+                      </tbody>
+                    </table>
+              </div>              
+
+              <div class="col-lg-6 col-xl-6 col-sm-12">
+                    <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
+                      <thead>
+                        <tr class="bg-success">
+                          <td colspan="8" class="text-center no-padding">
+                            <h3 class="no-margin text-uppercase text-white fs-15">Semana 3</h3>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center">Horario</th>
+                          <th class="text-center">Lun</th>
+                          <th class="text-center">Mar</th>
+                          <th class="text-center">Mie</th>
+                          <th class="text-center">Jue</th>
+                          <th class="text-center">Vie</th>
+                          <th class="text-center">Sáb</th>
+                          <th class="text-center">Dom</th>  
+                        </tr>
+                        <tr>
+                            <th class="text-center"> </th>
+                          <% @staffing_w3[:dates].each do |d| %>
+                            <th class="text-center"> <%= d.to_date.strftime("%d-%m-%Y") %></th>
+                          <% end -%>
+                        </tr>
+                      </thead>
+                      <tbody class="t-p-3">
+                        <% @staffing_w3[:draw].each do |k,v|%>
+                        <tr>
+                          <td class="text-center" align="center"><%= k %>:00</td>
+                          <% 
+                          v.first.each do |n| %>
+                            <% if n != 0 %>
+                            <td class="text-center">
+                              <span class="label label-success tip dotacion" data-toggle="tooltip"><%= n %></span>
+                              <span class="label label-danger tip dotacion" data-toggle="tooltip"><%= 9-n %></span>
+                            </td>  
+                            <% else %>
+                            <td>  </td>
+                            <% end -%>
+                          <% end -%>
+                        </tr>
+                        <% end -%>
+                      </tbody>
+                    </table>
+              </div>              
+
+              <div class="col-lg-6 col-xl-6 col-sm-12">
+                    <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
+                      <thead>
+                        <tr class="bg-success">
+                          <td colspan="8" class="text-center no-padding">
+                            <h3 class="no-margin text-uppercase text-white fs-15">Semana 4</h3>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center">Horario</th>
+                          <th class="text-center">Lun</th>
+                          <th class="text-center">Mar</th>
+                          <th class="text-center">Mie</th>
+                          <th class="text-center">Jue</th>
+                          <th class="text-center">Vie</th>
+                          <th class="text-center">Sáb</th>
+                          <th class="text-center">Dom</th>  
+                        </tr>
+                        <tr>
+                            <th class="text-center"> </th>
+                          <% @staffing_w4[:dates].each do |d| %>
+                            <th class="text-center"> <%= d.to_date.strftime("%d-%m-%Y") %></th>
+                          <% end -%>
+                        </tr>
+                      </thead>
+                      <tbody class="t-p-3">
+                        <% @staffing_w4[:draw].each do |k,v|%>
+                        <tr>
+                          <td class="text-center" align="center"><%= k %>:00</td>
+                          <% 
+                          v.first.each do |n| %>
+                            <% if n != 0 %>
+                            <td class="text-center">
+                              <span class="label label-success tip dotacion" data-toggle="tooltip"><%= n %></span>
+                              <span class="label label-danger tip dotacion" data-toggle="tooltip"><%= 9-n %></span>
+                            </td>  
+                            <% else %>
+                            <td>  </td>
+                            <% end -%>
+                          <% end -%>
+                        </tr>
+                        <% end -%>
+                      </tbody>
+                    </table>
+              </div>              
+
+       
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>

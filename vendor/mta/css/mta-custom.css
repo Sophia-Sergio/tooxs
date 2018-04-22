@@ -25,3 +25,19 @@
 		padding: 3px 4px;
 	}
 }
+
+@media screen and (max-width: 380px) and (orientation:portrait) {
+     table {
+       display: block;
+       overflow-x: auto;
+     }
+}
+
+
+@media screen and (max-width: 720px) and (orientation:landscape) 
+{
+     table {
+       display: block;
+       overflow-x: auto;
+     }
+}
