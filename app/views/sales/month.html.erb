@@ -37,17 +37,19 @@
           <h3>Detalle</h3>
         </div>
         <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-          <table class="table table-bordered table-smallFont">
-            <thead class="">
-              <tr>
-                <td colspan="6" class="bg-success-dark text-white fs-16 text-uppercase text-center"> <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %></td>
+          <table class="table-shift table table-bordered bg-master-lightest">
+            <thead>
+              <tr class="bg-success text-center">
+                <th colspan="6" class="no-margin text-uppercase text-white fs-15"> 
+                  <h3 class="no-margin text-center text-uppercase text-white fs-15"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %></h3>
+                </th>
               </tr>
-              <tr class="bg-success">
-              	<td class="text-center fs-15 text-bold"> <%= link_to "#{@year}", year_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year), class: 'text-white'  %></td>
+              <tr>
+              	<th> <%= link_to "#{@year}", year_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year) %></th>
                 <% @sale_plan.each do |k,v| %>
-                <td class="text-center text-uppercase text-white fs-15 text-bold"> <%= link_to "Semana #{k}", week_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year, week: k), class: 'text-white' %> </td>
+                <th> <%= link_to "Semana #{k}", week_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year, week: k) %> </th>
                 <% end %>
-                <td class="text-center"> <strong class="text-center text-white fs-15"> Σ </strong> </td>
+                <th> Σ </th>
               </tr>
             </thead>
             <tbody class="">

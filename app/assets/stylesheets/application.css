@@ -29,5 +29,6 @@
   *= require pages/css/pages-icons.css
   *= require pages/css/themes/corporate.css
   *= require mta/css/mta-custom.css
+  *= require mta/css/jquery.dataTables.min.css
 
 */

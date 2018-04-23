@@ -3,10 +3,10 @@
   <%= label_tag :file, 'Importar desde xlsx' %>
   <%= file_field_tag :file  %>
   <br>
-  <%= submit_tag 'Importar' %>
+  <%= submit_tag 'Importar', class: "btn btn-light" %>
 <% end %>
 
-<table class="table   table-hover table-smallFont">
+<table id="historic_sales" class="table-shift table table-bordered bg-master-lightest">
   <thead>
     <tr>
       <th>Store</th>
@@ -57,3 +57,8 @@
     <% end %>
   </tbody>
 </table>
+<br>
+<br>
+<br>
+<br>
+<br>
