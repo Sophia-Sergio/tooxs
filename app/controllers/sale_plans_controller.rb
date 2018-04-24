@@ -1,6 +1,8 @@
 class SalePlansController < ApplicationController
   def index
     @sale_plans = SalePlan.all
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Planes de venta", :sale_plans_path
   end
 
   def import

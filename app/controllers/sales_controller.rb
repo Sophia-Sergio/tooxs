@@ -1,6 +1,8 @@
 class SalesController < ApplicationController
 
   def index
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Estadísticas de Ventas", :sales_path       
     @search       = ''
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)
@@ -47,6 +49,10 @@ class SalesController < ApplicationController
 
   
   def month
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Estadísticas de Ventas", :sales_path  
+    add_breadcrumb "Venta mensual", :month_sales_path  
+
     @controller = 'Venta Mensual'
 
     @stores     = Store.all.order(:id)

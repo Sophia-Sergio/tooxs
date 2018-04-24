@@ -73,4 +73,4 @@ gem 'numbers_in_words'
 gem 'rails-i18n'
 gem 'seed_dump'
 gem 'smarter_csv'
-
+gem 'breadcrumbs_on_rails'

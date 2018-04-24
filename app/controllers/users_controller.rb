@@ -5,6 +5,8 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Usuarios", :users_path
   end
 
   # GET /users/1

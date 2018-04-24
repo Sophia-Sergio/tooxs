@@ -5,6 +5,8 @@ class StoresController < ApplicationController
   # GET /stores.json
   def index
     @stores = Store.all
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Tiendas", :stores_path
   end
 
   def import
@@ -20,15 +22,24 @@ class StoresController < ApplicationController
   # GET /stores/1
   # GET /stores/1.json
   def show
+        add_breadcrumb "Dashboard", :root_path
+        add_breadcrumb "Tiendas", :stores_path
+        add_breadcrumb "Mostrar", :store_path
   end
 
   # GET /stores/new
   def new
     @store = Store.new
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Tiendas", :stores_path
+    add_breadcrumb "crear", :new_store_path
   end
 
   # GET /stores/1/edit
   def edit
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Tiendas", :stores_path
+    add_breadcrumb "Editar", :edit_store_path
   end
 
   # POST /stores

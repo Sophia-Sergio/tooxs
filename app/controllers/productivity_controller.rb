@@ -1,6 +1,8 @@
 class ProductivityController < ApplicationController
   
   def show
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Productividad", :productivity_show_path    
   	@search       = ''
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)

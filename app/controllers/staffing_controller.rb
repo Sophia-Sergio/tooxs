@@ -1,5 +1,7 @@
 class StaffingController < ApplicationController
   def index
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Dotación personal", :staffing_index_path
   	@search       = ''
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)

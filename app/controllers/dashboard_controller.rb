@@ -24,6 +24,8 @@ class DashboardController < ApplicationController
 
 		@productividad =  ActiveSupport::NumberHelper::number_to_currency(85000,{delimiter: "."})  
 		@turnos_cubiertos = " #{turnosOpTotal} / #{turnosOptimizados.sum}"
+
+		add_breadcrumb "Dashboard", :root_path
 	end
 
 	def sale_real(seller,year,month)

@@ -5,6 +5,8 @@ class DepartmentsController < ApplicationController
   # GET /departments.json
   def index
     @departments = Department.all
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Departamentos", :departments_path
   end
 
   def import
@@ -20,15 +22,24 @@ class DepartmentsController < ApplicationController
   # GET /departments/1
   # GET /departments/1.json
   def show
+        add_breadcrumb "Dashboard", :root_path
+        add_breadcrumb "Departamentos", :departments_path
+        add_breadcrumb "Mostrar", :department_path
   end
 
   # GET /departments/new
   def new
     @department = Department.new
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Departamentos", :departments_path
+    add_breadcrumb "Crear", :new_department_path
   end
 
   # GET /departments/1/edit
   def edit
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Departamentos", :departments_path
+    add_breadcrumb "Editar", :edit_department_path
   end
 
   # POST /departments

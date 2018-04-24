@@ -43,6 +43,8 @@ class SellersController < ApplicationController
   end
 
   def index
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Colaboradores", :sellers_path
     @sellers = Seller.all
   end
 
@@ -59,7 +61,9 @@ class SellersController < ApplicationController
   # GET /sellers/1
   # GET /sellers/1.json
   def show
-
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Colaboradores", :sellers_path
+    add_breadcrumb "Detalle", :seller_path
     seller    = Seller.find(params[:id])
     today     = Date.today.strftime("%Y%m%d")
     
@@ -94,6 +98,9 @@ class SellersController < ApplicationController
 
   # GET /sellers/new
   def new
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Colaboradores", :sellers_path
+    add_breadcrumb "Crear", :new_seller_path
     @seller = Seller.new
   end
 

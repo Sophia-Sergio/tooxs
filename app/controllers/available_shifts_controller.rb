@@ -9,13 +9,14 @@ class AvailableShiftsController < ApplicationController
     @shifts = @available_shift.map do |s|
       { :id => s.id, :title => s.name, :class => 'bg-success-lighter', :start => s.date_time_shift.first, :end => s.date_time_shift.last  }
     end
-
     json = @shifts.to_json
     render json: json
     
   end
 
   def index
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Turnos", :available_shifts_path
     @available_shifts = AvailableShift.select('DISTINCT name,num,store_id,month').order(:num) # separo por nombre / num
   end
 
@@ -32,6 +33,10 @@ class AvailableShiftsController < ApplicationController
   # GET /available_shifts/1
   # GET /available_shifts/1.json
   def show
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Turnos", :available_shifts_path
+    add_breadcrumb "Detalle", :available_shift_path
+
     @as       = AvailableShift.where(num: params[:num])
     @sellers  = Seller.where(assigned_shift: params[:num])
     @w1       = shift_week(params[:num], 1)
@@ -98,6 +103,7 @@ class AvailableShiftsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_available_shift
+
       @available_shift = AvailableShift.find_by(num: params[:num])
     end
 

@@ -8,6 +8,31 @@
     <meta name="author" content="">
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <style type="text/css">
+      .breadcrumb li
+      {
+        float: left;
+        padding-left: 0px;
+      }
+      .breadcrumb li:last-of-type
+      {
+        font-weight: 500;
+        color: #0090d9;
+        margin-left: 5px;
+        margin-right: 5px;
+        font-size: 10.5px !important;
+        letter-spacing: 0.06em;
+      }
+      .breadcrumb > li + li:before
+      {
+        padding: 0 5px;
+        color: #515050;
+        font-family: FontAwesome;
+        content: "\f105";
+        font-size: 12px;
+        font-weight: bold;
+      }
+    </style>
   </head>
  <body class="fixed-header menu-pin"> 
     <!-- BEGIN SIDEBAR -->
@@ -194,10 +219,9 @@
             <div class=" container-fluid container-fixed-lg sm-p-l-0 sm-p-r-0">
               <div class="inner">
                 <!-- START BREADCRUMB -->
-                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><%= link_to 'Dashboard', root_path %></li>
-                  <li class="breadcrumb-item active"><%= controller.controller_name %></li>                 
-                </ol>
+                  <ol class="breadcrumb">
+                    <%= render_breadcrumbs :tag => :li, :separator => ""%>
+                  </ol>
                 <!-- END BREADCRUMB --> 
               </div>
             </div>
@@ -217,6 +241,7 @@
         
         <!-- END PAGE CONTENT -->
         <!-- START FOOTER -->
+        <br><br><br><br><br>
         <div class="container-fluid container-fixed-lg footer">
           <div class="copyright sm-text-center">
             <p class="small no-margin pull-left sm-pull-reset">
