@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180228072002) do
+ActiveRecord::Schema.define(version: 20180430142149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,20 @@ ActiveRecord::Schema.define(version: 20180228072002) do
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_rs_on_department_id"
     t.index ["store_id"], name: "index_rs_on_store_id"
+  end
+
+  create_table "sale_by_sellers", force: :cascade do |t|
+    t.integer "seller"
+    t.integer "month"
+    t.integer "week"
+    t.integer "day"
+    t.integer "time"
+    t.integer "store_id"
+    t.float "sale"
+    t.integer "turn"
+    t.integer "year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sale_plans", force: :cascade do |t|

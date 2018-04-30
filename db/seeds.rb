@@ -30,3 +30,20 @@ admin = User.create!(
   role: 'admin',
   status: 'active'
 )
+
+
+SaleBySeller.destroy_all
+
+200.times do |i| 
+  sale = SaleBySeller.create!(
+    seller: 25,
+    month: rand(2..3),
+    week: rand(1..4),
+    day: rand(1..7),
+    time: rand(1..10), 
+    store_id: 1,
+    sale: rand(10000..100000),
+    turn: 1,
+    year:2018
+    )
+end

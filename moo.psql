@@ -5305,22 +5305,22 @@ COPY public.schema_migrations (version) FROM stdin;
 COPY public.sellers (id, rut, name, lastname, email, phone, street, number, city, district, county, country, department_id, created_at, updated_at, store_id, assigned_shift, begin_shift) FROM stdin;
 25	10341986-7	Fernando Andrés	Pérez Díaz	perezdiaz.fernando@gmail.com	99990521	Costanera	1	Santiago	-	Vitacura	CL	1	2017-10-13 14:54:25.461079	2017-10-13 14:54:25.461079	1	1	2017-10-01
 26	5031807-9	Claudia Andréa	Bravo Lopez	calop@gf.com	48383221	Los Robles	2	Santiago	-	Nuñoa	CL	5	2017-10-13 14:54:25.472664	2017-10-13 14:54:25.472664	1	1	2017-10-02
-27	7777777-7	Juan 	Herrera	lala1@gmail.com	38383223	Av Siemre Viva	3	Viña del Mar	-	Recreo	COL	1	2017-10-13 14:54:25.482852	2017-10-13 14:54:25.482852	1	1	2017-10-03
-28	8888888-8	Ulises	Medina	lala2@gmail.com	78383224	Av. Barack Obama	4	Concepción	-	San Pedro de la Paz	ARG	5	2017-10-13 14:54:25.492239	2017-10-13 14:54:25.492239	1	2	2017-10-04
-29	9999999-9	Homero	Simpsons	lala3@gmail.com	88383225	Av. Sting	5	Santiago	-	La Reina	PER	1	2017-10-13 14:54:25.502116	2017-10-13 14:54:25.502116	1	2	2017-10-05
-30	5555555-5	Lisa	Simpsons	lala4@gmail.com	78383226	Av John Lennon	6	Temuco	-	Temuco	CL	5	2017-10-13 14:54:25.510929	2017-10-13 14:54:25.510929	1	2	2017-10-06
-31	1-1	Pedro	Picapiedras	lala5@gmail.com	99990522	Costanera	7	Santiago	-	Vitacura	CL	1	2017-10-13 14:54:25.519564	2017-10-13 14:54:25.519564	1	3	2017-10-07
-32	1-2	Pablo	Marmol	lala6@gmail.com	48383222	Los Robles	8	Santiago	-	Nuñoa	CL	5	2017-10-13 14:54:25.52828	2017-10-13 14:54:25.52828	1	4	2017-10-08
-33	1-3	Bart	Simpsons	lala6@gmail.com	38383224	Av Siemre Viva	9	Viña del Mar	-	Recreo	COL	1	2017-10-13 14:54:25.54668	2017-10-13 14:54:25.54668	1	5	2017-10-09
-34	1-4	Oliver	Atom	lala6@gmail.com	78383225	Av. Barack Obama	10	Concepción	-	San Pedro de la Paz	ARG	5	2017-10-13 14:54:25.555209	2017-10-13 14:54:25.555209	1	1	2017-10-10
-35	1-5	Clark	Kent	lala6@gmail.com	88383226	Av. Sting	11	Santiago	-	La Reina	PER	5	2017-10-13 14:54:25.563797	2017-10-13 14:54:25.563797	1	2	2017-10-01
-36	1-6	Bruce	Wayne	lala6@gmail.com	78383227	Av John Lennon	12	Temuco	-	Temuco	CL	1	2017-10-13 14:54:25.571887	2017-10-13 14:54:25.571887	1	7	2017-10-02
-37	1-7	Fernando Andrés	Picapiedras	lala6@gmail.com	48383223	Los Robles	13	Santiago	-	Nuñoa	CL	1	2017-10-13 14:54:25.579953	2017-10-13 14:54:25.579953	1	8	2017-10-03
-38	1-8	Claudia Andréa	Marmol	lala6@gmail.com	38383225	Av Siemre Viva	14	Viña del Mar	-	Recreo	COL	5	2017-10-13 14:54:25.587681	2017-10-13 14:54:25.587681	1	1	2017-10-04
-39	1-9	Juan 	Simpsons	lala6@gmail.com	78383226	Av. Barack Obama	15	Concepción	-	San Pedro de la Paz	ARG	1	2017-10-13 14:54:25.595473	2017-10-13 14:54:25.595473	1	1	2017-10-05
-40	1-10	Ulises	Atom	lala6@gmail.com	88383227	Av. Sting	16	Santiago	-	La Reina	PER	1	2017-10-13 14:54:25.603214	2017-10-13 14:54:25.603214	1	2	2017-10-06
-41	1-11	Homero	Kent	lala6@gmail.com	78383228	Av John Lennon	17	Temuco	-	Temuco	CL	5	2017-10-13 14:54:25.610789	2017-10-13 14:54:25.610789	1	9	2017-10-07
-42	1-12	Juan 	Wayne	lala6@gmail.com	48383224	Los Robles	18	Santiago	-	Nuñoa	CL	5	2017-10-13 14:54:25.618759	2017-10-13 14:54:25.618759	1	6	2017-10-08
+27	7777777-7	Juan 	Herrera	jherrera@gmail.com	38383223	Av Siempre Viva	3	Viña del Mar	-	Recreo	COL	1	2017-10-13 14:54:25.482852	2017-10-13 14:54:25.482852	1	1	2017-10-03
+28	8888888-8	Ulises	Medina	umedina2@gmail.com	78383224	Av. Conquistador	4	Concepción	-	San Pedro de la Paz	ARG	5	2017-10-13 14:54:25.492239	2017-10-13 14:54:25.492239	1	2	2017-10-04
+29	9999999-9	Rodrigo	Sanz	rsanz@gmail.com	88383225	Av. Sting	5	Santiago	-	La Reina	PER	1	2017-10-13 14:54:25.502116	2017-10-13 14:54:25.502116	1	2	2017-10-05
+30	5555555-5	Herminio	Cuevas	hcuevas@gmail.com	78383226	Av Manuel rodriguez	6	Temuco	-	Temuco	CL	5	2017-10-13 14:54:25.510929	2017-10-13 14:54:25.510929	1	2	2017-10-06
+31	1-1	Pedro	Silva	psilva@gmail.com	99990522	Costanera	7	Santiago	-	Vitacura	CL	1	2017-10-13 14:54:25.519564	2017-10-13 14:54:25.519564	1	3	2017-10-07
+32	1-2	Pablo	Marmolejo	pmarmolejo@gmail.com	48383222	Los Robles	8	Santiago	-	Nuñoa	CL	5	2017-10-13 14:54:25.52828	2017-10-13 14:54:25.52828	1	4	2017-10-08
+33	1-3	Luis	Sanchez	lsanchez@gmail.com	38383224	Av Siempre Viva	9	Viña del Mar	-	Recreo	COL	1	2017-10-13 14:54:25.54668	2017-10-13 14:54:25.54668	1	5	2017-10-09
+34	1-4	Oliver	Urrutia	ourrutia@gmail.com	78383225	Av. Alemania	10	Concepción	-	San Pedro de la Paz	ARG	5	2017-10-13 14:54:25.555209	2017-10-13 14:54:25.555209	1	1	2017-10-10
+35	1-5	Carlos	Paz	cpaz@gmail.com	88383226	Av. Sting	11	Santiago	-	La Reina	PER	5	2017-10-13 14:54:25.563797	2017-10-13 14:54:25.563797	1	2	2017-10-01
+36	1-6	Bruce	Brown	bbrown@gmail.com	78383227	Av Balmaceda	12	Temuco	-	Temuco	CL	1	2017-10-13 14:54:25.571887	2017-10-13 14:54:25.571887	1	7	2017-10-02
+37	1-7	Fernando Patricio	Capone	fcapone@gmail.com	48383223	Los Robles	13	Santiago	-	Nuñoa	CL	1	2017-10-13 14:54:25.579953	2017-10-13 14:54:25.579953	1	8	2017-10-03
+38	1-8	Claudia Andrea	Fuentes	cfuentes@gmail.com	38383225	Av Siempre Viva	14	Viña del Mar	-	Recreo	COL	5	2017-10-13 14:54:25.587681	2017-10-13 14:54:25.587681	1	1	2017-10-04
+39	1-9	Juan 	Garcia	jgarcia@gmail.com	78383226	Av. Pueblo nuevo	15	Concepción	-	San Pedro de la Paz	ARG	1	2017-10-13 14:54:25.595473	2017-10-13 14:54:25.595473	1	1	2017-10-05
+40	1-10	Ulises	Fredes	ufredes@gmail.com	88383227	Av. Sting	16	Santiago	-	La Reina	PER	1	2017-10-13 14:54:25.603214	2017-10-13 14:54:25.603214	1	2	2017-10-06
+41	1-11	Francisco	Lillo	flillo@gmail.com	78383228	Av Caupolicán	17	Temuco	-	Temuco	CL	5	2017-10-13 14:54:25.610789	2017-10-13 14:54:25.610789	1	9	2017-10-07
+42	1-12	Juan 	Moya	jmoya@gmail.com	48383224	Los Robles	18	Santiago	-	Nuñoa	CL	5	2017-10-13 14:54:25.618759	2017-10-13 14:54:25.618759	1	6	2017-10-08
 \.
 
 

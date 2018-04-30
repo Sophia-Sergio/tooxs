@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Seller:</strong>
+  <%= @sale_by_seller.seller %>
+</p>
+
+<p>
+  <strong>Month:</strong>
+  <%= @sale_by_seller.month %>
+</p>
+
+<p>
+  <strong>Week:</strong>
+  <%= @sale_by_seller.week %>
+</p>
+
+<p>
+  <strong>Day:</strong>
+  <%= @sale_by_seller.day %>
+</p>
+
+<p>
+  <strong>Time:</strong>
+  <%= @sale_by_seller.time %>
+</p>
+
+<p>
+  <strong>Store:</strong>
+  <%= @sale_by_seller.store_id %>
+</p>
+
+<p>
+  <strong>Sale:</strong>
+  <%= @sale_by_seller.sale %>
+</p>
+
+<p>
+  <strong>Turn:</strong>
+  <%= @sale_by_seller.turn %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @sale_by_seller.year %>
+</p>
+
+<%= link_to 'Edit', edit_sale_by_seller_path(@sale_by_seller) %> |
+<%= link_to 'Back', sale_by_sellers_path %>
