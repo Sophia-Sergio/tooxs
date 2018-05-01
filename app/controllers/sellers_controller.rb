@@ -87,9 +87,10 @@ class SellersController < ApplicationController
 
     #binding.pry
     
-    @x        = seller.my_shift.index{|x| x[0]== today.to_s}
-    @sp       = sale_plan(seller,2016,11)
-    @real     = sale_real(seller,2016,11)
+    @x         = seller.my_shift.index{|x| x[0]== today.to_s}
+    @sp        = sale_plan(seller,2016,11)
+    @real      = sale_real(seller,2016,11)
+    @real_hour = sale_real_per_hour(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
     
     #@staffing = staffing
 
@@ -449,6 +450,37 @@ class SellersController < ApplicationController
       return result
       #incluye toda la semana, independiente si pertenece a otro mes
       #sp_week   = SalePlan.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep)
+    end 
+
+    def sale_real_per_hour(seller,year,month)
+      @store        = seller.store.id
+      @dep          = seller.department.id
+      @year         = year #params[:year]    
+      @month        = month #params[:month]
+
+      beginning_of_month = "#{@year}-#{@month}-01".to_date
+      end_of_month = beginning_of_month.end_of_month
+
+      week_start = beginning_of_month.strftime("%V")
+      week_end   = end_of_month.strftime("%V")
+
+      result = []
+      day = Array.new(7)
+
+      (1..4).each do |w|
+        dayCount = 0
+        @week = w
+        day = Array.new(7)
+        (1..7).each do |d|
+          day[dayCount] = SaleBySeller.where(month: month, seller: seller.id, week: w, day: d, store_id: @store, year: @year).sum("sale")
+          dayCount +=1 
+        end
+          data = {:week => @week, :sale_per_day => day}
+          result << [ w => data ]
+        
+      end
+
+      return result
     end 
 
     def staffing_1
