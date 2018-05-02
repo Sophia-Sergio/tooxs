@@ -38,7 +38,7 @@ SaleBySeller.destroy_all
   sale = SaleBySeller.create!(
     seller: 33,
     month: 5,
-    week: rand(1..4),
+    week: rand(44..48),
     day: rand(1..7),
     time: rand(1..10), 
     store_id: 1,
@@ -47,3 +47,8 @@ SaleBySeller.destroy_all
     year:2018
     )
 end
+
+
+HistoricSale.create!([
+  {department_id: 5, nine: 0, ten: 0, eleven: 0, twelve: 264600, thirteen: 620439, fourteen: 991321, fifteen: 1126890, sixteen: 847833, seventeen: 1195260, eighteen: 1784051, nineteen: 1307062, twenty: 1639494, twenty_one: 605047, twenty_two: 0, twenty_three: 0, twenty_four: 0, historic_date: "2018-05-01", store_id: 1, week: 1, month: 5, year: 2018, day_number: 1},
+  {department_id: 5, nine: 0, ten: 0, eleven: 0, twelve: 264600, thirteen: 441251, fourteen: 1501939, fifteen: 884073, sixteen: 1011784, seventeen: 1025951, eighteen: 1451805, nineteen: 2147288, twenty: 931084, twenty_one: 1053913, twenty_two: 0, twenty_three: 0, twenty_four: 0, historic_date: "2018-05-02", store_id: 1, week: 1, month: 5, year: 2018, day_number: 2}])

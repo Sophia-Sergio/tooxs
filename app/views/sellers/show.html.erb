@@ -30,7 +30,7 @@
                                 <div class="social-user-profile col-xs-height text-center col-top">
                                   <div class="thumbnail-wrapper d48 circular bordered b-white">
                                     <%= image_tag 'avatar.jpg', width:80, height:80 %>
-z                                  </div>
+                                  </div>
                                   <br>
                                   <i class="fa fa-check-circle text-success fs-16 m-t-10"></i>
                                 </div>
@@ -157,7 +157,7 @@ z                                  </div>
 
                                   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
                                     <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Rincon Juvenil Mujer - <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h3>  
-                                    <h5>(Plan: <%= number_to_currency @sp.first.first.values.first[:total_month_historic] %> / Real: <%= number_to_currency @real.first.first.values.first[:real_total_month] %>) </h5>
+                                    <h5>(Plan: <%= number_to_currency @sp.first.first.values.first[:total_month_historic] %> / Real: <%= number_to_currency @real.first.first.values.first[:real_total_month]/100 %>) </h5>
                                     <div class="row ">
                                     <% 
                                       i = 0
@@ -167,7 +167,7 @@ z                                  </div>
                                               <thead>
                                                 <tr class="bg-success">
                                                   <td colspan="9" class="text-center no-padding">
-                                                    <h3 class="no-margin text-uppercase text-white fs-15">Semana <%= i+1 %> <%= k.keys %></h3>
+                                                    <h3 class="no-margin text-uppercase text-white fs-15">Semana <%= i+1 %></h3>
                                                   </td>
                                                 </tr>
                                                 <tr>
@@ -181,12 +181,12 @@ z                                  </div>
                                                   <th class="text-center">Dom</th>  
                                                   <th class="text-center">SUM</th>  
                                                 </tr>
-                                                <tr>
+                                                <!--<tr>
                                                   <th> - </th>
                                                   <% k.values.first[:dates].each do |day| %>
                                                   <th class="text-center"><%= day %></th>
-                                                  <% end -%>
-                                                </tr>
+                                                  <% end -%> 
+                                                </tr>-->
                                               </thead>
                                               <tbody class="t-p-3">
                                               <tr>
@@ -199,10 +199,10 @@ z                                  </div>
                                               </tr>                                                
                                               <tr>
                                                 <th class="text-center">Real</th>  
-                                                <% @real_hour[i-1].first.values.first[:sale_per_day].each do |r| %>
+                                                <% @real[i].first.values.first[:sale_per_day].each do |r| %>
                                                 <td class="text-center"><%= number_to_currency r %></td>  
                                                 <% end -%>
-                                                <td class="text-center"><%= number_to_currency @real_hour[i-1].first.values.first[:sale_per_day].inject(:+) %></td>  
+                                                <td class="text-center"><%= number_to_currency @real[i].first.values.first[:sale_per_day].inject(:+) %></td>  
                                               </tr>                                               
                                               </tbody>
                                             </table>
@@ -224,7 +224,7 @@ z                                  </div>
                                 <div class="row">
 
                                     <div class="col-sm-12">
-                                      <h2> Semana 1 - Febrero 2018 </h2>
+                                      <h2> <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %> </h2>
                                       <table class="table table-bordered table-hover m-b-30">
                                         <thead>
                                         <tr class="bg-success">

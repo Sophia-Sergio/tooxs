@@ -67,7 +67,7 @@ class SellersController < ApplicationController
     seller    = Seller.find(params[:id])
     today     = Date.today.strftime("%Y%m%d")
     
-    @productivity = productivity_seller(seller,2,2018)
+    @productivity = productivity_seller(seller,5,2018)
     @ventas_colaborador = Array.new(15)
       
     for i in 0..@ventas_colaborador.length-1
@@ -89,6 +89,7 @@ class SellersController < ApplicationController
     
     @x         = seller.my_shift.index{|x| x[0]== today.to_s}
     @sp        = sale_plan(seller,2016,11)
+    #@sp_hour   = sale_plan_per_hour(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
     @real      = sale_real(seller,2016,11)
     @real_hour = sale_real_per_hour(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
     
@@ -467,7 +468,7 @@ class SellersController < ApplicationController
       result = []
       day = Array.new(7)
 
-      (1..4).each do |w|
+      (week_start..week_end).each do |w|
         dayCount = 0
         @week = w
         day = Array.new(7)
@@ -479,10 +480,38 @@ class SellersController < ApplicationController
           result << [ w => data ]
         
       end
-
       return result
     end 
 
+    def sale_plan_per_hour(seller,year,month)
+      @store        = seller.store.id
+      @dep          = seller.department.id
+      @year         = year #params[:year]    
+      @month        = month #params[:month]
+
+      beginning_of_month = "#{@year}-#{@month}-01".to_date
+      end_of_month = beginning_of_month.end_of_month
+
+      week_start = beginning_of_month.strftime("%V")
+      week_end   = end_of_month.strftime("%V")
+
+      result = []
+      day = Array.new(7)
+
+      (1..4).each do |w|
+        dayCount = 0
+        @week = w
+        day = Array.new(7)
+        (1..7).each do |d|
+          day[dayCount] = Sp.where(month: month, week: w, dow: d, store_id: @store, year: @year).sum(:sale)
+          dayCount +=1 
+        end
+          data = {:week => @week, :sale_per_day => day}
+          result << [ w => data ]
+        
+      end
+      return result
+    end 
     def staffing_1
       
       days = {}
