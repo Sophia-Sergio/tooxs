@@ -157,7 +157,7 @@
 
                                   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
                                     <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Rincon Juvenil Mujer - <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h3>  
-                                    <h5>(Plan: <%= number_to_currency @sp.first.first.values.first[:total_month_historic] %> / Real: <%= number_to_currency @real.first.first.values.first[:real_total_month]/100 %>) </h5>
+                                    <h5>(Plan: ) </h5>
                                     <div class="row ">
                                     <% 
                                       i = 0
@@ -181,12 +181,12 @@
                                                   <th class="text-center">Dom</th>  
                                                   <th class="text-center">SUM</th>  
                                                 </tr>
-                                                <!--<tr>
+                                                <tr>
                                                   <th> - </th>
                                                   <% k.values.first[:dates].each do |day| %>
                                                   <th class="text-center"><%= day %></th>
                                                   <% end -%> 
-                                                </tr>-->
+                                                </tr>
                                               </thead>
                                               <tbody class="t-p-3">
                                               <tr>
@@ -199,10 +199,10 @@
                                               </tr>                                                
                                               <tr>
                                                 <th class="text-center">Real</th>  
-                                                <% @real[i].first.values.first[:sale_per_day].each do |r| %>
+                                                <% @real_week[i-1].first.values.first[:sale_per_day].each do |r| %>
                                                 <td class="text-center"><%= number_to_currency r %></td>  
                                                 <% end -%>
-                                                <td class="text-center"><%= number_to_currency @real[i].first.values.first[:sale_per_day].inject(:+) %></td>  
+                                                <td class="text-center"><%= number_to_currency @real_week[i-1].first.values.first[:sale_per_day].inject(:+) %></td>  
                                               </tr>                                               
                                               </tbody>
                                             </table>

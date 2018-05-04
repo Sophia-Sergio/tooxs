@@ -68,6 +68,7 @@ class SellersController < ApplicationController
     today     = Date.today.strftime("%Y%m%d")
     
     @productivity = productivity_seller(seller,5,2018)
+
     @ventas_colaborador = Array.new(15)
       
     for i in 0..@ventas_colaborador.length-1
@@ -88,11 +89,11 @@ class SellersController < ApplicationController
     #binding.pry
     
     @x         = seller.my_shift.index{|x| x[0]== today.to_s}
-    @sp        = sale_plan(seller,2016,11)
-    #@sp_hour   = sale_plan_per_hour(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
-    @real      = sale_real(seller,2016,11)
-    @real_hour = sale_real_per_hour(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
+    @sp        = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
+    @real_week = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
     
+
+    @staffing  = seller_staffing_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
     #@staffing = staffing
 
 
@@ -168,7 +169,7 @@ class SellersController < ApplicationController
         @s.my_shift.each do |d|
           ShiftBreak.create(seller_id:25, date: d[0].to_date, time: d[1].to_time+rand(1..2).hour) if d[1] != '0:00'
         end
- end
+    end
 
     #old 
     def sale_plan(seller,year,month)
@@ -205,10 +206,10 @@ class SellersController < ApplicationController
         sp_total_month = sp_month_total.first[1].to_i
 
         #data de venta real año anterior de la semana en cuestion
-        @historic_week = HistoricSale.where(week: @week , :store => @store, :department => @dep, year: @year-1)
+        @historic_week = HistoricSale.where(week: @week , :store => @store, :department => @dep, year: @year)
 
         #data total de la venta del mes en base al año anterior
-        @historic_total_month = HistoricSale.where(year: @year-1 , month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+        @historic_total_month = HistoricSale.where(year: @year, month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
         historic_total_month_amount   = @historic_total_month.first[1].to_i
 
         @dates_week = []
@@ -453,7 +454,7 @@ class SellersController < ApplicationController
       #sp_week   = SalePlan.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep)
     end 
 
-    def sale_real_per_hour(seller,year,month)
+    def sale_real_per_week(seller,year,month)
       @store        = seller.store.id
       @dep          = seller.department.id
       @year         = year #params[:year]    
@@ -468,12 +469,14 @@ class SellersController < ApplicationController
       result = []
       day = Array.new(7)
 
-      (week_start..week_end).each do |w|
+      week_total = week_end.to_i - week_start.to_i;
+
+      (1..week_total).each do |w|
         dayCount = 0
         @week = w
         day = Array.new(7)
         (1..7).each do |d|
-          day[dayCount] = SaleBySeller.where(month: month, seller: seller.id, week: w, day: d, store_id: @store, year: @year).sum("sale")
+          day[dayCount] = SaleBySeller.where(month: month, seller: seller.id, week: w, day: d, department: @dep, year: @year).sum("sale")
           dayCount +=1 
         end
           data = {:week => @week, :sale_per_day => day}
@@ -483,7 +486,7 @@ class SellersController < ApplicationController
       return result
     end 
 
-    def sale_plan_per_hour(seller,year,month)
+    def sale_plan_per_week(seller,year,month)
       @store        = seller.store.id
       @dep          = seller.department.id
       @year         = year #params[:year]    
@@ -497,18 +500,24 @@ class SellersController < ApplicationController
 
       result = []
       day = Array.new(7)
+      week_total = week_end.to_i - week_start.to_i;
 
-      (1..4).each do |w|
+      weekSet = 1
+
+      (week_start..week_end).each do |w|
         dayCount = 0
         @week = w
+        @dates_week = []
         day = Array.new(7)
+
         (1..7).each do |d|
-          day[dayCount] = Sp.where(month: month, week: w, dow: d, store_id: @store, year: @year).sum(:sale)
+          @dates_week << Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
+          day[dayCount] = Sp.where(month: month, week: weekSet, dow: d, store_id: @store, department_id: @dep, year: @year).pluck(:sale).first
           dayCount +=1 
         end
-          data = {:week => @week, :sale_per_day => day}
-          result << [ w => data ]
-        
+        data = {:week => weekSet, :dates => @dates_week, :sale_per_day => day}
+        weekSet += 1 
+        result << [ w => data ]
       end
       return result
     end 
@@ -551,12 +560,40 @@ class SellersController < ApplicationController
         #binding.pry
     end
 
+    def seller_staffing_per_week(seller,month,year)
+
+      @store        = seller.store.id
+      @dep          = seller.department.id
+      @year         = year #params[:year]    
+      @month        = month #params[:month]
+
+      @day = AvailableShift.where( num: 1, week: 1, day: 1)
+        
+      count = 0
+
+      @day.each do |s|
+        count += 1 if s.nine
+        count += 1 if s.ten
+        count += 1 if s.eleven
+        count += 1 if s.twelve
+        count += 1 if s.thirteen
+        count += 1 if s.fourteen
+        count += 1 if s.fifteen
+        count += 1 if s.sixteen
+        count += 1 if s.seventeen
+        count += 1 if s.eighteen
+        count += 1 if s.nineteen
+        count += 1 if s.twenty
+        count += 1 if s.twenty_one
+        count += 1 if s.twenty_two
+        count += 1 if s.twenty_three
+        count += 1 if s.twenty_four
+      end
+    end
 
     def productivity_seller(seller,month,year)
       
-
-
-      ##usaremos febrero 2018 para esta muestra:
+       ##usaremos febrero 2018 para esta muestra:
       ## sacamos el 1er dia lunes del mes "2" del 2018 desde el Plan de ventas.
       month_search = month
 
@@ -610,8 +647,7 @@ class SellersController < ApplicationController
       
       wp = {}
 
-      wp[:one] = week_productivity(week[:one])
-     
+      wp[:one] = week_productivity(week[:one])    
       
       return wp
 
