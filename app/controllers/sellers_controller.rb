@@ -215,7 +215,7 @@ class SellersController < ApplicationController
         @dates_week = []
         @dates_week_2 = []
 
-        @year_plus_one = @year + 1
+        @year_plus_one = @year.to_i + 1
 
         (1..7).each do |i|
           #@dates_week << Date.commercial(@year.to_i,@week.to_i,i).strftime('%d-%m-%Y')
@@ -367,12 +367,12 @@ class SellersController < ApplicationController
       (week_start..week_end).each do |w| 
         @week = w
 
-        @real_week          = SaleReal.where(week: @week, :store => @store, :department => @dep, year: @year)
+        @real_week  = SaleReal.where(week: @week, :store => @store, :department => @dep, year: @year)
 
         @real_total_month  = SaleReal.where(year: @year, month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
 
 
-        @year_plus_one = @year + 1
+        @year_plus_one = @year.to_i + 1
 
         @dates_week = []
         (1..7).each do |i|

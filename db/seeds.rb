@@ -34,7 +34,7 @@ admin = User.create!(
 
 SaleBySeller.destroy_all
 
-200.times do |i| 
+10.times do |i| 
   sale = SaleBySeller.create!(
     seller: 25,
     month: 5,

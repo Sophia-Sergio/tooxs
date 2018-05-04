@@ -13,7 +13,7 @@
 	<div class="row">
 		<div id="productividad-graficos" class="card-block col-md-4 col-xs-12">
 			<div class="productividad">
-				<h3>Productividad</h3>
+				<h3>Productividad Real</h3>
 				<div class="productividad-grafico"><h1><%= @productividad %></h1></div>
 			</div>
 			<div class="productividad">
@@ -34,7 +34,7 @@
 				<% @sellers.each do |seller| %> 
 				<tr>
 					<td><%= seller.fullname %></td>
-					<td><%= rand(1...10) %>%</td>
+					<td><%= rand(80...120) %>%</td>
 					<td><%= link_to 'Ver', seller, class: 'btn btn-info btn-xs' %>
 				</tr>
 				<% end %>
@@ -54,7 +54,7 @@
 
 	  window.chartColors = {red: "rgb(255, 99, 132)", orange: "rgb(255, 159, 64)", yellow: "rgb(255, 205, 86)", green: "rgb(75, 192, 192)", blue: "rgb(54, 162, 235)", grey: "rgb(201, 203, 207)"}
 	
-		randomConfig1_1 = generateRandomInteger(5, 10);
+		randomConfig1_1 = 87.5;
 		randomConfig1_2 = 100 - randomConfig1_1;
 		
 		var config1 = {
@@ -72,7 +72,7 @@
 			}
 		};
 
-		randomConfig2_1 = generateRandomInteger(60, 80);
+		randomConfig2_1 = 74.9;
 		randomConfig2_2 = 100 - randomConfig2_1;
 
 		var config2 = {
@@ -83,7 +83,7 @@
 					backgroundColor: [  window.chartColors.red, window.chartColors.grey],
 					label: 'Dataset 1'
 				}],
-				labels: [ randomConfig2_1+'% de Eficiencia' ]
+				labels: [ randomConfig2_1+'% de Eficiencia (Prod. obj. $85.000)' ]
 			},
 			options: {
 				responsive: true
