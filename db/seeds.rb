@@ -38,12 +38,12 @@ SaleBySeller.destroy_all
   sale = SaleBySeller.create!(
     seller: 25,
     month: 5,
-    week: rand(1..4),
-    day: rand(1..7),
-    hour: rand(1..10), 
+    week: 1,
+    day: 1,
+    hour: rand(4..9), 
     department: 1,
     sale: rand(10000..100000),
-    turn: 5,
+    turn: 1,
     year:2018
     )
 end

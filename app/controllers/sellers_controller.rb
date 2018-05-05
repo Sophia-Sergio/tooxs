@@ -88,9 +88,23 @@ class SellersController < ApplicationController
 
     #binding.pry
     
-    @x         = seller.my_shift.index{|x| x[0]== today.to_s}
-    @sp        = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
-    @real_week = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
+    @x           = seller.my_shift.index{|x| x[0]== today.to_s}
+    @sp          = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
+    @real_week   = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
+    @sp_staffing = seller_staffing_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
+    
+
+    #calcula el plan mensual
+    i = 0
+    @totalMonth = 0
+    @sp.each do |k,v|
+      @sp_staffing[i].first.values.first[:seller_plan_per_day].each do |d|
+        @totalMonth +=  d.to_i
+      end
+      (i < 3 ? i += 1 : i = 0) #permite cargar la primera semana para los meses de 5 semanas
+    end
+
+
     
 
     @staffing  = seller_staffing_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
@@ -513,6 +527,7 @@ class SellersController < ApplicationController
         (1..7).each do |d|
           @dates_week << Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
           day[dayCount] = Sp.where(month: month, week: weekSet, dow: d, store_id: @store, department_id: @dep, year: @year).pluck(:sale).first
+          day[dayCount] = 0 if day[dayCount] == nil 
           dayCount +=1 
         end
         data = {:week => weekSet, :dates => @dates_week, :sale_per_day => day}
@@ -567,28 +582,44 @@ class SellersController < ApplicationController
       @year         = year #params[:year]    
       @month        = month #params[:month]
 
-      @day = AvailableShift.where( num: 1, week: 1, day: 1)
+      @depInf = Department.find(@dep)
+     
+      @depInf.productivity_obj
         
-      count = 0
-
-      @day.each do |s|
-        count += 1 if s.nine
-        count += 1 if s.ten
-        count += 1 if s.eleven
-        count += 1 if s.twelve
-        count += 1 if s.thirteen
-        count += 1 if s.fourteen
-        count += 1 if s.fifteen
-        count += 1 if s.sixteen
-        count += 1 if s.seventeen
-        count += 1 if s.eighteen
-        count += 1 if s.nineteen
-        count += 1 if s.twenty
-        count += 1 if s.twenty_one
-        count += 1 if s.twenty_two
-        count += 1 if s.twenty_three
-        count += 1 if s.twenty_four
-      end
+      result = []  
+      (1..4).each do |w|
+        @week = w
+        @dates_week = []
+        dayResult = Array.new(7)
+        planResult = Array.new(7)
+        (1..7).each do |d|
+            @day = AvailableShift.where( num: seller.assigned_shift, week: w, day: d)  
+            count = 0 
+            @day.each do |s|
+              count += 1 if s.nine
+              count += 1 if s.ten
+              count += 1 if s.eleven
+              count += 1 if s.twelve
+              count += 1 if s.thirteen
+              count += 1 if s.fourteen
+              count += 1 if s.fifteen
+              count += 1 if s.sixteen
+              count += 1 if s.seventeen
+              count += 1 if s.eighteen
+              count += 1 if s.nineteen
+              count += 1 if s.twenty
+              count += 1 if s.twenty_one
+              count += 1 if s.twenty_two
+              count += 1 if s.twenty_three
+              count += 1 if s.twenty_four
+            end
+            dayResult[d-1] = count
+            planResult[d-1] = count.to_i * @depInf.productivity_obj.to_i
+        end
+        data = { :staffing_per_day => dayResult, :seller_plan_per_day => planResult}
+        result << [ w => data ]
+      end  
+      return result   
     end
 
     def productivity_seller(seller,month,year)

@@ -158,8 +158,8 @@
 
                                   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
                                     <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Rincon Juvenil Mujer - <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h3>  
-                                    <h5>(Plan: <%= number_to_currency @sp.first.first.values.first[:total_month_historic] %> / Real: <%= number_to_currency @real.first.first.values.first[:real_total_month]/100 %>) </h5>
-                                    <h5>Mi cumplimiento: 88%</h5>
+                                    <h5>(Plan: <%= number_to_currency @totalMonth %> / Real: ) </h5>
+                                    <h5>Mi cumplimiento: 0%</h5>
                                     <div class="row ">
                                     <% 
                                       i = 0
@@ -193,11 +193,11 @@
                                               <tbody class="t-p-3">
                                               <tr>
                                                   <th class="text-center">Plan</th>  
-                                                  <% 
-                                                  k.values.first[:sale_per_day].each do |d| %>
+                                                  <%
+                                                  @sp_staffing[i].first.values.first[:seller_plan_per_day].each do |d| %>
                                                   <td class="text-center"><%= number_to_currency d %></td>  
                                                   <% end -%>
-                                                  <td class="text-center"><%= number_to_currency k.values.first[:sale_per_day].inject(:+) %></td>  
+                                                  <td class="text-center"><%= number_to_currency @sp_staffing[i].first.values.first[:seller_plan_per_day].inject(:+) %></td>  
                                               </tr>                                                
                                               <tr>
                                                 <th class="text-center">Real</th>  
@@ -209,7 +209,7 @@
                                               </tbody>
                                             </table>
                                       </div>
-                                    <% i = i+1; end %>
+                                    <% (i < 3 ? i += 1 : i = 0) end %>
                                     </div>
                                   </div>
                                 </div>
