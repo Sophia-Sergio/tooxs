@@ -17,7 +17,7 @@ class SalesStatisticsController < ApplicationController
 		@dep    = Department.find(1)
 
 		@year  = 2018  
-		@month = 1
+		@month = 5
 
 		beginning_of_month = "#{@year}-#{@month}-01".to_date
 		end_of_month = beginning_of_month.end_of_month

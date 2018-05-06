@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180430142149) do
+ActiveRecord::Schema.define(version: 20180503170129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20180430142149) do
     t.bigint "store_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "productivity_obj"
     t.index ["origin_id"], name: "index_departments_on_origin_id"
     t.index ["store_id"], name: "index_departments_on_store_id"
   end
@@ -148,8 +149,8 @@ ActiveRecord::Schema.define(version: 20180430142149) do
     t.integer "month"
     t.integer "week"
     t.integer "day"
-    t.integer "time"
-    t.integer "store_id"
+    t.integer "hour"
+    t.integer "department"
     t.float "sale"
     t.integer "turn"
     t.integer "year"

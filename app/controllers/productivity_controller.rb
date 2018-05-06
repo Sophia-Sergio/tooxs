@@ -7,7 +7,7 @@ class ProductivityController < ApplicationController
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)
 
-    month = 3
+    month = 4
     year = 2018
 
     @store  = 1
@@ -81,7 +81,7 @@ class ProductivityController < ApplicationController
   def json_current
 
     #dummy demo data
-    month = 3
+    month = 4
     year = 2018
 
     @store  = 1
