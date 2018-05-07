@@ -34,12 +34,12 @@ admin = User.create!(
 
 SaleBySeller.destroy_all
 
-10.times do |i| 
+20.times do |i| 
   sale = SaleBySeller.create!(
     seller: 25,
     month: 5,
     week: 1,
-    day: 1,
+    day: rand(1..5),
     hour: rand(4..9), 
     department: 1,
     sale: rand(10000..100000),
