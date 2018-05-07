@@ -121,7 +121,7 @@ class SellersController < ApplicationController
 
     #calcula cumplimiento
 
-    @cumplimiento = (@totalRealMonth.to_f / @totalNow.to_f) * 100  #/
+    @cumplimiento = (@totalRealMonth.to_f / @totalNow.to_f) * 100
   end
 
   # GET /sellers/new

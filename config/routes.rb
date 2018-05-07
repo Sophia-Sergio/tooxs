@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :data_cases
+  resources :staffing_cases
   resources :sale_by_sellers
   get 'dashboard/administracion'
   get 'dashboard/ventas'

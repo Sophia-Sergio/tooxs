@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180503170129) do
+ActiveRecord::Schema.define(version: 20180507181518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,26 @@ ActiveRecord::Schema.define(version: 20180503170129) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["store_id"], name: "index_available_shifts_on_store_id"
+  end
+
+  create_table "data_cases", force: :cascade do |t|
+    t.integer "id_case"
+    t.integer "turn_num"
+    t.integer "dep_num"
+    t.integer "day_num"
+    t.integer "hour_day"
+    t.float "hp_val"
+    t.float "prod_obj"
+    t.string "vhp"
+    t.string "pov"
+    t.string "luch_in"
+    t.string "lunch_hours"
+    t.integer "hour_min"
+    t.string "turns_matrix"
+    t.string "real_dot"
+    t.string "sale_plan"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -262,6 +282,16 @@ ActiveRecord::Schema.define(version: 20180503170129) do
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_sps_on_department_id"
     t.index ["store_id"], name: "index_sps_on_store_id"
+  end
+
+  create_table "staffing_cases", force: :cascade do |t|
+    t.integer "id_case"
+    t.integer "tolerance"
+    t.integer "actual_staffing_eval"
+    t.integer "max_time"
+    t.string "user"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "store_categories", force: :cascade do |t|
