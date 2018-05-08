@@ -23,7 +23,6 @@ class SellersController < ApplicationController
       end
 
       #json = @shifts.to_json
-
       ## breaks 
 
       sb = ShiftBreak.where(seller_id: @seller)
@@ -92,25 +91,37 @@ class SellersController < ApplicationController
     @sp          = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
     @real_week   = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
     @sp_staffing = seller_staffing_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
-    
+    @dayNow      = day_now(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
 
     #calcula el plan mensual
     i = 0
+    day = 0
     @totalMonth = 0
+    @totalNow = 0    
     @sp.each do |k,v|
       @sp_staffing[i].first.values.first[:seller_plan_per_day].each do |d|
+        day += 1
         @totalMonth +=  d.to_i
+        if @dayNow[:day] >= day and @dayNow[:week] >= i + 1 
+          @totalNow += d.to_i        
+        end
       end
       (i < 3 ? i += 1 : i = 0) #permite cargar la primera semana para los meses de 5 semanas
     end
 
+    #cacula las ventas totales
+    j = 0
+    @totalRealMonth = 0
+    @sp.each do |k,v|
+      @real_week[j].first.values.first[:sale_per_day].each do |d|
+        @totalRealMonth +=  d.to_i
+      end
+      j += 1 #permite cargar la primera semana para los meses de 5 semanas
+    end
 
-    
+    #calcula cumplimiento
 
-    @staffing  = seller_staffing_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
-    #@staffing = staffing
-
-
+    @cumplimiento = (@totalRealMonth.to_f / @totalNow.to_f) * 100
   end
 
   # GET /sellers/new
@@ -485,7 +496,7 @@ class SellersController < ApplicationController
 
       week_total = week_end.to_i - week_start.to_i;
 
-      (1..week_total).each do |w|
+      (1..week_total + 1).each do |w|
         dayCount = 0
         @week = w
         day = Array.new(7)
@@ -495,10 +506,43 @@ class SellersController < ApplicationController
         end
           data = {:week => @week, :sale_per_day => day}
           result << [ w => data ]
-        
       end
       return result
     end 
+
+    def day_now(seller,year,month)
+      @store        = seller.store.id
+      @dep          = seller.department.id
+      @year         = year #params[:year]    
+      @month        = month #params[:month]
+
+      beginning_of_month = "#{@year}-#{@month}-01".to_date
+      end_of_month = beginning_of_month.end_of_month
+
+      week_start = beginning_of_month.strftime("%V")
+      week_end   = end_of_month.strftime("%V")
+
+      result = []
+      day = Array.new(7)
+      week_total = week_end.to_i - week_start.to_i;
+      weekSet = 1
+
+      (week_start..week_end).each do |w|
+        dayCount = 0
+        @week = w
+        @dates_week = []
+        day = Array.new(7)
+
+        (1..7).each do |d|
+          @dates_week << Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
+          if Date.today.strftime('%d-%m-%Y').to_s == Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
+            result = { :day => d, :week => weekSet }
+          end
+        end
+        weekSet += 1 
+      end
+      return result
+    end
 
     def sale_plan_per_week(seller,year,month)
       @store        = seller.store.id

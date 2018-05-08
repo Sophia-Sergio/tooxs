@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20180508004034) do
+=======
+ActiveRecord::Schema.define(version: 20180507200300) do
+>>>>>>> remotes/erwin254/salesforce/master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,9 +47,28 @@ ActiveRecord::Schema.define(version: 20180508004034) do
     t.index ["store_id"], name: "index_available_shifts_on_store_id"
   end
 
+<<<<<<< HEAD
   create_table "clusters", force: :cascade do |t|
     t.string "name"
     t.text "description"
+=======
+  create_table "data_cases", force: :cascade do |t|
+    t.integer "id_case"
+    t.integer "turn_num"
+    t.integer "dep_num"
+    t.integer "day_num"
+    t.integer "hour_day"
+    t.float "hp_val"
+    t.float "prod_obj"
+    t.string "vhp"
+    t.string "pov"
+    t.string "luch_in"
+    t.string "lunch_hours"
+    t.integer "hour_min"
+    t.string "turns_matrix"
+    t.string "real_dot"
+    t.string "sale_plan"
+>>>>>>> remotes/erwin254/salesforce/master
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -119,6 +142,32 @@ ActiveRecord::Schema.define(version: 20180508004034) do
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_hs_on_department_id"
     t.index ["store_id"], name: "index_hs_on_store_id"
+  end
+
+  create_table "return_cases", force: :cascade do |t|
+    t.integer "id_case"
+    t.string "eff_margin"
+    t.integer "total_surplus"
+    t.string "compensation_cost"
+    t.string "integer"
+    t.string "status"
+    t.string "user"
+    t.string "message"
+    t.integer "deficit_total"
+    t.string "tolerance"
+    t.string "version"
+    t.string "format_result"
+    t.string "max_time"
+    t.string "lunchs"
+    t.string "turns"
+    t.string "delta"
+    t.string "epsilon"
+    t.string "support"
+    t.string "model"
+    t.integer "sales_plan"
+    t.integer "obj_function"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "rs", force: :cascade do |t|
@@ -271,6 +320,16 @@ ActiveRecord::Schema.define(version: 20180508004034) do
     t.index ["store_id"], name: "index_sps_on_store_id"
   end
 
+  create_table "staffing_cases", force: :cascade do |t|
+    t.integer "id_case"
+    t.integer "tolerance"
+    t.integer "actual_staffing_eval"
+    t.integer "max_time"
+    t.string "user"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "store_categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -293,6 +352,18 @@ ActiveRecord::Schema.define(version: 20180508004034) do
     t.bigint "cluster_id"
     t.index ["cluster_id"], name: "index_stores_on_cluster_id"
     t.index ["origin_id"], name: "index_stores_on_origin_id"
+  end
+
+  create_table "summary_cases", force: :cascade do |t|
+    t.integer "id_case"
+    t.string "sale_plan"
+    t.string "coverange_deficit"
+    t.string "surplus_coverange"
+    t.string "total_deviation"
+    t.string "cost_of_remunerations"
+    t.string "margin_adjustment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

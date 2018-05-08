@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  resources :summary_cases
+  resources :return_cases
+  resources :data_cases
+  resources :staffing_cases
   resources :sale_by_sellers
   get 'dashboard/administracion'
   get 'dashboard/ventas'
@@ -11,6 +15,7 @@ Rails.application.routes.draw do
   resources :sps
 
   get 'productivity/show'
+  get 'productivity/index'
   get 'productivity/json_current'
 
   resources :shift_breaks

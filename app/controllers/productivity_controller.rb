@@ -1,17 +1,29 @@
 class ProductivityController < ApplicationController
-  
+
+  def index
+    params[:year]  = Date.today.strftime("%Y").to_i
+    params[:month] = Date.today.strftime("%m").to_i
+    params[:department] = 1
+    params[:store] = 1
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Buscar", :productivity_index_path    
+    @search       = ''
+    @stores       = Store.all.order(:id)
+    @departments  = Department.all.order(:id)
+  end
+
   def show
     add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Buscar", :productivity_index_path   
     add_breadcrumb "Productividad", :productivity_show_path    
   	@search       = ''
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)
 
-    month = 4
-    year = 2018
-
-    @store  = 1
-    @dep    = 1
+    month  = params[:month].to_i
+    year   = params[:year].to_i  
+    @store = params[:store].to_i
+    @dep   = params[:department].to_i
 
     #dates per month
 
@@ -68,25 +80,34 @@ class ProductivityController < ApplicationController
     @prd_w3 = (@sp_w3 / @sd_w3)
     @prd_w4 = (@sp_w4 / @sd_w4)
     
-    #/
+    #staffing
+    fecha1 = DateTime.parse(@w1_days[0].to_s) 
+    fecha1 = fecha1.strftime("%Y%m%d")
 
-    #staffing 
-    @staffing_w1  = staffing_draw(20180226)
-    @staffing_w2  = staffing_draw(20180305)
-    @staffing_w3  = staffing_draw(20180312)
-    @staffing_w4  = staffing_draw(20180319)
+    fecha2 = DateTime.parse(@w2_days[0].to_s) 
+    fecha2 = fecha2.strftime("%Y%m%d")
+
+    fecha3 = DateTime.parse(@w3_days[0].to_s) 
+    fecha3 = fecha3.strftime("%Y%m%d")
+
+    fecha4 = DateTime.parse(@w4_days[0].to_s) 
+    fecha4 = fecha4.strftime("%Y%m%d")
+
+    @staffing_w1  = staffing_draw(fecha1)
+    @staffing_w2  = staffing_draw(fecha2)
+    @staffing_w3  = staffing_draw(fecha3)
+    @staffing_w4  = staffing_draw(fecha4)
+
     #binding.pry
   end
 
   def json_current
 
     #dummy demo data
-    month = 4
-    year = 2018
-
-    @store  = 1
-    @dep    = 1
-
+    month  = params[:month].to_i
+    year   = params[:year].to_i  
+    @store = params[:store].to_i
+    @dep   = params[:department].to_i
     #dates per week
     w1 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 1).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
     w2 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 2).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
@@ -136,68 +157,6 @@ class ProductivityController < ApplicationController
     @prd_w4_day = @sp_w4_daily.zip(@sd_w4_daily).map{|a,b| a/b }
 
 
-    #history sales 2017
-    
-    year_h = 2018
-    month = 2
-
-    #dates per week
-    w1_h = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 1).where(:year => year_h).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
-    w2_h = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 2).where(:year => year_h).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
-    w3_h = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 3).where(:year => year_h).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
-    w4_h = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 4).where(:year => year_h).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
-
-
-    #days of the week for this query
-    @w1_days_h = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 1).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
-    @w2_days_h = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 2).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
-    @w3_days_h = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 3).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
-    @w4_days_h = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 4).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
-
-    #sales plan per week
-    @sp_w1_h = Sp.where(year: year).where(month: month).where(week: 1).sum(:sale)
-    @sp_w2_h = Sp.where(year: year).where(month: month).where(week: 2).sum(:sale)
-    @sp_w3_h = Sp.where(year: year).where(month: month).where(week: 3).sum(:sale)
-    @sp_w4_h = Sp.where(year: year).where(month: month).where(week: 4).sum(:sale)
-
-    #sales plan per day
-
-    @sp_w1_daily_h = Sp.where(year: year).where(month:month).where(week: 1).pluck(:sale)
-    @sp_w2_daily_h = Sp.where(year: year).where(month:month).where(week: 2).pluck(:sale)
-    @sp_w3_daily_h = Sp.where(year: year).where(month:month).where(week: 3).pluck(:sale)
-    @sp_w4_daily_h = Sp.where(year: year).where(month:month).where(week: 4).pluck(:sale)
-
-
-    #staffdrawing per week
-    @sd_w1_h = staffing_draw(w1_h)[:draw].values.flatten.sum
-    @sd_w2_h = staffing_draw(w2_h)[:draw].values.flatten.sum
-    @sd_w3_h = staffing_draw(w3_h)[:draw].values.flatten.sum
-    @sd_w4_h = staffing_draw(w4_h)[:draw].values.flatten.sum
-
-    #staffdrawing per day-week
-    @sd_w1_daily_h  = staffing_draw(w1_h)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
-    @sd_w2_daily_h  = staffing_draw(w2_h)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
-    @sd_w3_daily_h  = staffing_draw(w3_h)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
-    @sd_w4_daily_h  = staffing_draw(w4_h)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
-
-
-    #productivity per day-week
-
-    @prd_w1_day_h = @sp_w1_daily_h.zip(@sd_w1_daily_h).map{|a,b| a/b }
-    @prd_w2_day_h = @sp_w2_daily_h.zip(@sd_w2_daily_h).map{|a,b| a/b }
-    @prd_w3_day_h = @sp_w3_daily_h.zip(@sd_w3_daily_h).map{|a,b| a/b }
-    @prd_w4_day_h = @sp_w4_daily_h.zip(@sd_w4_daily_h).map{|a,b| a/b }
-
-
-    #productivity per day-week optimizer
-
-    @prd_w1_day_o = @sp_w1_daily_h.zip(@sd_w1_daily_h).map{|a,b| a/b - rand(50000 .. 100000) }
-    @prd_w2_day_o = @sp_w2_daily_h.zip(@sd_w2_daily_h).map{|a,b| a/b - rand(50000 .. 100000) }
-    @prd_w3_day_o = @sp_w3_daily_h.zip(@sd_w3_daily_h).map{|a,b| a/b - rand(50000 .. 100000) }
-    @prd_w4_day_o = @sp_w4_daily_h.zip(@sd_w4_daily_h).map{|a,b| a/b  - rand(50000 .. 100000) }
-
-
-
     @data = { :dates_week => @w1_days ,
               :dates_week_2 => @w2_days,
               :dates_week_3 => @w3_days ,
@@ -208,16 +167,6 @@ class ProductivityController < ApplicationController
               :prd1 => @prd_w2_day,
               :prd2 => @prd_w3_day, 
               :prd3 => @prd_w4_day,
-              :sp_h => @sp_w1_daily_h, 
-              :sd_h => @sd_w1_daily_h, 
-              :prd_h => @prd_w1_day_h, 
-              :prd1_h => @prd_w2_day_h,
-              :prd2_h => @prd_w3_day_h, 
-              :prd3_h => @prd_w4_day_h,
-              :prd_o => @prd_w1_day_o, 
-              :prd1_o => @prd_w2_day_o,
-              :prd2_o => @prd_w3_day_o, 
-              :prd3_o => @prd_w4_day_o,
               :spm1 => @sp_m1 
             }
 
@@ -232,16 +181,6 @@ class ProductivityController < ApplicationController
               :prd1 => @prd_w2_day,
               :prd2 => @prd_w3_day, 
               :prd3 => @prd_w4_day,
-              :sp_h => @sp_w1_daily_h, 
-              :sd_h => @sd_w1_daily_h, 
-              :prd_h => @prd_w1_day_h, 
-              :prd1_h => @prd_w2_day_h,
-              :prd2_h => @prd_w3_day_h, 
-              :prd3_h => @prd_w4_day_h,
-              :prd_o => @prd_w1_day_o, 
-              :prd1_o => @prd_w2_day_o,
-              :prd2_o => @prd_w3_day_o, 
-              :prd3_o => @prd_w4_day_o,
               :spm1 => @sp_m1 
             }    
     end
