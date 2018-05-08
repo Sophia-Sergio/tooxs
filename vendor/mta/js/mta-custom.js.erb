@@ -527,6 +527,10 @@ if ( $('#seller_details').length > 0) {
 if ($('#productivity_demo').length > 0) { 
     console.log('init productivity_demo');
 
+    var month = 5;
+    var year = 2018;
+    var store = 1;
+    var department = 1;
 
     $(document).ready(function(){
       $('.page-container').pgNotification({
@@ -538,7 +542,7 @@ if ($('#productivity_demo').length > 0) {
       var datasets = $.ajax({ 
                     type: "get",
                     url: "/productivity/json_current",
-                    data: 'week='+$('#week').val()+'&'+$('.simple_form').serialize(),
+                    data: 'month='+month+'&year='+year+'&store='+store+'&department='+department+'&week='+$('#week').val()+'&'+$('.simple_form').serialize(),
                     dataType: 'json',
                     success: function(data){ 
 
@@ -587,7 +591,7 @@ if ($('#productivity_demo').length > 0) {
                       
                       $('.page-container').pgNotification({
                         style: 'simple',
-                        message: 'Caso '+Cerebro.caso+' cargado',
+                        message: 'Cargado',
                         timeout: 3000,
                         type: 'info',
                       }).show();
