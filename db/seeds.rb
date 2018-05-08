@@ -7,7 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-User.destroy_all
+Cluster.create([{name:'ABC1'},{name:'C2'},{name:'C3'},{name:'D'},{name:'E'}])
+
+=begin User.destroy_all
 
 admin = User.create!(
   name: 'admin',
@@ -47,6 +49,7 @@ SaleBySeller.destroy_all
     year:2018
     )
 end
+=end
 
 DataCase.destroy_all
 StaffingCase.destroy_all

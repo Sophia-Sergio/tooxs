@@ -1,0 +1,2 @@
+class SummaryCase < ApplicationRecord
+end

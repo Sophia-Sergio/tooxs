@@ -43,6 +43,13 @@ ActiveRecord::Schema.define(version: 20180508162642) do
     t.index ["store_id"], name: "index_available_shifts_on_store_id"
   end
 
+  create_table "clusters", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "data_cases", force: :cascade do |t|
     t.integer "id_case"
     t.integer "turn_num"
@@ -339,6 +346,8 @@ ActiveRecord::Schema.define(version: 20180508162642) do
     t.string "county"
     t.string "size"
     t.string "economic_segment"
+    t.bigint "cluster_id"
+    t.index ["cluster_id"], name: "index_stores_on_cluster_id"
     t.index ["origin_id"], name: "index_stores_on_origin_id"
   end
 
@@ -397,4 +406,5 @@ ActiveRecord::Schema.define(version: 20180508162642) do
   add_foreign_key "shift_breaks", "sellers"
   add_foreign_key "sps", "departments"
   add_foreign_key "sps", "stores"
+  add_foreign_key "stores", "clusters"
 end

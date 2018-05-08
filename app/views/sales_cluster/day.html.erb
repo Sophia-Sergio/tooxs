@@ -1,0 +1,107 @@
+<div class="container-fluid p-t-0 p-l-30 bg-white" id="sales_day">
+  
+  <div class="card card-transparent dn">
+    <div class="card-header ">
+      <div class="card-title">Parámetros de Búsqueda
+      </div>
+    </div>
+    <div class="card-block">
+
+      <%= simple_form_for @search do |f| %>
+
+      <div class="row">
+
+        <div class="col-md-3">
+          <%= f.input :store, collection: @stores, label: 'Tienda' %>  
+        </div>
+
+        <div class="col-md-3">
+          <%= f.input :department, collection: nil, label: 'Departamento' %>  
+        </div>
+
+        <div class="col-md-3">
+          <%= f.button :submit %>
+        </div>  
+
+      </div>
+      <% end %>
+
+    </div>
+  </div>  
+
+ <div class="card card-transparent">
+    <div class="card-header ">
+      <div class="card-title">Resultado
+      </div>
+    </div>
+    <input type="hidden" id="day" name="day" value="<%= @date_search %>">
+
+    <div class="card-block">
+
+      <h4>Estadisticas de Ventas - Día: <%= params[:d] %> </h4>
+      <p class="m-t-20">Cluster: <span class="label label-default"><%= "#{@store.economic_segment} - #{@store.size}"  %></span>
+        Tienda: <span class="label label-default"><%= @store.name %></span>
+        Departamento: <span class="label label-default"><%= @dep.name %></span>
+      </p>
+
+
+      <div class="row">
+        <% if @sp_hour  %>
+        <div class="col-md-12">
+          <table class="table table-stripped table-bordered table-smallFont">
+            <thead>
+              <thead>
+              <tr class="bg-success-dark">
+                <td class="text-center fs-15 text-bold text-uppercase bold" colspan="25"> <%= link_to "#{I18n.l( Date.parse(@current_day.date.to_s), format: "%A %d de %B, %Y", locale: :es).capitalize }", month_sales_path(store: @store, department: @dep, month: @current_day.month, year: @current_day.year), class: 'text-white'  %></td>
+              </tr>
+
+              <tr class="bg-success">
+                <th> <%= link_to "Semana #{@current_day.week}", week_sales_path(store: @store, department: @dep, month: @current_day.month, year: @current_day.year, week: @current_day.week), class: 'text-white' %> </th>
+                <% (9..23).each do |i| %>
+                  <th><%= i %>:00</th>
+                <%end %>
+                <th class="text-center"> <strong class="text-center"> Σ </strong> </th>
+
+              </tr>
+            </thead>
+            <tbody class="day_detail">
+              <tr>
+                <td>Plan de Venta</td>
+                <% @sp_hour.values.each do |v| %>
+                <td><%= number_to_currency v  %></td>
+                <% end -%>
+              </tr>
+
+              <tr>
+                <td>Venta Real</td>
+                <% @real_day.each do |v| %>
+                <td><%= number_to_currency v  %></td>
+                <% end -%>
+              </tr>
+
+              <tr>
+                <td>Venta Historica</td>
+                <% @historic_day.each do |v| %>
+                <td><%= number_to_currency v  %></td>
+                <% end -%>
+              </tr>
+
+            </tbody>
+            
+          </table>
+        </div>
+        <% end %>
+        <div class="col-md-12">
+          
+          <div style="width:75%;">
+            <canvas id="canvas"></canvas>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>   
+
+</div> 
