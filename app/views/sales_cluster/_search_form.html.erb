@@ -1,0 +1,48 @@
+<div class="card card-transparent <%= 'dn' if locals[:status] == 'hidden' %>" id="sales_form">
+  <div class="card-header ">
+    <div class="card-title ">
+      Parámetros de Búsqueda - Segmento económico
+    </div>
+  </div>
+
+  <div class="card-block">
+    <%= simple_form_for @search, :url => locals[:path], :method => :get do |f| %>
+    <div class="row" id="sales_search_form">
+
+      <!--div class="col-12 col-sm-6 col-md-6 col-lg-3">
+        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] %>  
+      </div-->
+      <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+        <%= f.input :cluster, collection: @clusters, label: 'Segmento económico', wrapper: :select2, selected: params[:cluster] %>  
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] %>  
+      </div>
+
+      <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+        <%= f.input :year, collection: [2018], label: 'Año', wrapper: :select2, selected: params[:year] %>  
+      </div>
+
+      <!--div class="col-12 col-sm-3 col-md-3 col-lg-2">
+        <%= f.input :season, collection: [ ['Primavera - Verano', 1] , ['Otoño - Invierno', 2] ], label: 'Temporada', wrapper: :select2 %>  
+      </div-->
+
+      <div class="col-12 col-sm-3 col-md-3 col-lg-2">
+        <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: params[:month]  %>  
+      </div>
+
+      <input type="hidden" name="week" id="week" value="<%= params[:week] %>"
+
+      <div class="col-12 col-sm-3 col-md-3 col-lg-1">
+
+
+        <%= button_tag type: 'submit', class: "btn btn-success btn-lg btn-larger" do %>
+        <i class="fa fa-search" aria-hidden="true"></i> Buscar
+        <% end %>
+
+      </div>  
+    </div>
+    <% end %>
+  </div>
+</div>
