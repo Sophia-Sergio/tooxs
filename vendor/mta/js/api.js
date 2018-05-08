@@ -351,9 +351,25 @@ function mensaje_notificacion(titulo,texto,tipo,icono) {
 		icon: icono
 	});
 }
+function getQueryVariable(variable) {
+   var query = window.location.search.substring(1);
+   var vars = query.split("&");
+   for (var i=0; i < vars.length; i++) {
+       var pair = vars[i].split("=");
+       if(pair[0] == variable) {
+           return pair[1];
+       }
+   }
+   return false;
+}
 
 function optimizar()
 {
+	var month = getQueryVariable('month');
+    var year = getQueryVariable('year');
+    var store = getQueryVariable('store');
+    var department = getQueryVariable('department');
+	
 	$('.page-container').pgNotification({
         style: 'simple',
         message: 'Realizando Calculos',
@@ -364,7 +380,7 @@ function optimizar()
     $.ajax({ 
       type: "get",
       url: "/productivity/json_current",
-      data: 'w=2',
+      data: 'w=2&month='+month+'&year='+year+'&store='+store+'&department='+department,
       dataType: 'json',
       success: function(data){ 
                 fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);

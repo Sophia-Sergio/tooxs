@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id case:</strong>
+  <%= @summary_case.id_case %>
+</p>
+
+<p>
+  <strong>Sale plan:</strong>
+  <%= @summary_case.sale_plan %>
+</p>
+
+<p>
+  <strong>Coverange deficit:</strong>
+  <%= @summary_case.coverange_deficit %>
+</p>
+
+<p>
+  <strong>Surplus coverange:</strong>
+  <%= @summary_case.surplus_coverange %>
+</p>
+
+<p>
+  <strong>Total deviation:</strong>
+  <%= @summary_case.total_deviation %>
+</p>
+
+<p>
+  <strong>Cost of remunerations:</strong>
+  <%= @summary_case.cost_of_remunerations %>
+</p>
+
+<p>
+  <strong>Margin adjustment:</strong>
+  <%= @summary_case.margin_adjustment %>
+</p>
+
+<%= link_to 'Edit', edit_summary_case_path(@summary_case) %> |
+<%= link_to 'Back', summary_cases_path %>

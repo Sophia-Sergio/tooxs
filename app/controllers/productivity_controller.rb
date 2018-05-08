@@ -170,21 +170,6 @@ class ProductivityController < ApplicationController
               :spm1 => @sp_m1 
             }
 
-    if params[:w] == "2"
-    @data = { :dates_week => @w1_days ,
-              :dates_week_2 => @w2_days ,
-              :dates_week_3 => @w3_days ,
-              :dates_week_4 => @w4_days , 
-              :sp => @sp_w1_daily, 
-              :sd => @sd_w1_daily, 
-              :prd => @prd_w1_day, 
-              :prd1 => @prd_w2_day,
-              :prd2 => @prd_w3_day, 
-              :prd3 => @prd_w4_day,
-              :spm1 => @sp_m1 
-            }    
-    end
-
     render json: @data
   end
 end

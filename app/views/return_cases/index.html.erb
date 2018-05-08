@@ -1,0 +1,80 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Return Cases</h1>
+
+<table class="table table-stripped table-condensed table-hover table-smallFont" id="table-return_case">
+  <thead>
+    <tr>
+      <th>Id case</th>
+      <th>Eff margin</th>
+      <th>Total surplus</th>
+      <th>Compensation cost</th>
+      <th>Integer</th>
+      <th>Status</th>
+      <th>User</th>
+      <th>Message</th>
+      <th>Deficit total</th>
+      <th>Tolerance</th>
+      <th>Version</th>
+      <th>Format result</th>
+      <th>Max time</th>
+      <th>Lunchs</th>
+      <th>Turns</th>
+      <th>Delta</th>
+      <th>Epsilon</th>
+      <th>Support</th>
+      <th>Model</th>
+      <th>Sales plan</th>
+      <th>Obj function</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @return_cases.each do |return_case| %>
+      <tr>
+                <td><%= return_case.id_case %></td>
+                <td><%= return_case.eff_margin %></td>
+                <td><%= return_case.total_surplus %></td>
+                <td><%= return_case.compensation_cost %></td>
+                <td><%= return_case.integer %></td>
+                <td><%= return_case.status %></td>
+                <td><%= return_case.user %></td>
+                <td><%= return_case.message %></td>
+                <td><%= return_case.deficit_total %></td>
+                <td><%= return_case.tolerance %></td>
+                <td><%= return_case.version %></td>
+                <td><%= return_case.format_result %></td>
+                <td><%= return_case.max_time %></td>
+                <td><%= return_case.lunchs %></td>
+                <td><%= return_case.turns %></td>
+                <td><%= return_case.delta %></td>
+                <td><%= return_case.epsilon %></td>
+                <td><%= return_case.support %></td>
+                <td><%= return_case.model %></td>
+                <td><%= return_case.sales_plan %></td>
+                <td><%= return_case.obj_function %></td>
+        
+        <td>
+
+        <%= link_to return_case_path(return_case), :class => 'btn btn-default' do %>
+        <i class="fa fa-eye"></i> Ver ##Return Case
+        <% end %>
+
+        <%= link_to edit_return_case_path(return_case), :class => 'btn btn-default' do %>
+        <i class="fa fa-edit"></i> Editar ##Return Case
+        <% end %>
+
+        <%= link_to return_case_path(return_case), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
+        <i class="fa fa-trash-o"></i> Eliminar ##Return Case
+        <% end %>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Return Case', new_return_case_path %>

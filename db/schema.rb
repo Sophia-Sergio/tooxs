@@ -341,6 +341,7 @@ ActiveRecord::Schema.define(version: 20180508004034) do
     t.string "margin_adjustment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type_io"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,0 +1,2 @@
+class DataCase < ApplicationRecord
+end

@@ -1,0 +1,68 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Data Cases</h1>
+
+<table class="table table-stripped table-condensed table-hover table-smallFont" id="table-data_case">
+  <thead>
+    <tr>
+      <th>Id case</th>
+      <th>Turn num</th>
+      <th>Dep num</th>
+      <th>Day num</th>
+      <th>Hour day</th>
+      <th>Hp val</th>
+      <th>Prod obj</th>
+      <th>Vhp</th>
+      <th>Pov</th>
+      <th>Luch in</th>
+      <th>Lunch hours</th>
+      <th>Hour min</th>
+      <th>Turns matrix</th>
+      <th>Real dot</th>
+      <th>Sale plan</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @data_cases.each do |data_case| %>
+      <tr>
+                <td><%= data_case.id_case %></td>
+                <td><%= data_case.turn_num %></td>
+                <td><%= data_case.dep_num %></td>
+                <td><%= data_case.day_num %></td>
+                <td><%= data_case.hour_day %></td>
+                <td><%= data_case.hp_val %></td>
+                <td><%= data_case.prod_obj %></td>
+                <td><%= data_case.vhp %></td>
+                <td><%= data_case.pov %></td>
+                <td><%= data_case.luch_in %></td>
+                <td><%= data_case.lunch_hours %></td>
+                <td><%= data_case.hour_min %></td>
+                <td><%= data_case.turns_matrix %></td>
+                <td><%= data_case.real_dot %></td>
+                <td><%= data_case.sale_plan %></td>
+        
+        <td>
+
+        <%= link_to data_case_path(data_case), :class => 'btn btn-default' do %>
+        <i class="fa fa-eye"></i> Ver ##Data Case
+        <% end %>
+
+        <%= link_to edit_data_case_path(data_case), :class => 'btn btn-default' do %>
+        <i class="fa fa-edit"></i> Editar ##Data Case
+        <% end %>
+
+        <%= link_to data_case_path(data_case), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
+        <i class="fa fa-trash-o"></i> Eliminar ##Data Case
+        <% end %>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Data Case', new_data_case_path %>
