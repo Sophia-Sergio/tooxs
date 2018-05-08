@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20180508004034) do
-=======
-ActiveRecord::Schema.define(version: 20180507200300) do
->>>>>>> remotes/erwin254/salesforce/master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,28 +43,9 @@ ActiveRecord::Schema.define(version: 20180507200300) do
     t.index ["store_id"], name: "index_available_shifts_on_store_id"
   end
 
-<<<<<<< HEAD
   create_table "clusters", force: :cascade do |t|
     t.string "name"
     t.text "description"
-=======
-  create_table "data_cases", force: :cascade do |t|
-    t.integer "id_case"
-    t.integer "turn_num"
-    t.integer "dep_num"
-    t.integer "day_num"
-    t.integer "hour_day"
-    t.float "hp_val"
-    t.float "prod_obj"
-    t.string "vhp"
-    t.string "pov"
-    t.string "luch_in"
-    t.string "lunch_hours"
-    t.integer "hour_min"
-    t.string "turns_matrix"
-    t.string "real_dot"
-    t.string "sale_plan"
->>>>>>> remotes/erwin254/salesforce/master
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
