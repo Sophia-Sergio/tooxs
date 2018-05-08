@@ -3,13 +3,14 @@ require 'rubyXL'
 # Store class for stores table
 class Store < ApplicationRecord
   has_many :departments
+  belongs_to :cluster
   validates_presence_of :name,
                         :city,
                         :district,
                         :country,
                         :county,
                         :size,
-                        :economic_segment
+                     
   def to_s
     name
   end

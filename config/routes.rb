@@ -46,6 +46,26 @@ Rails.application.routes.draw do
     }
   end
 
+  resources :sales_cluster, only: [:index] do 
+    collection {
+      get 'quarter'
+      get 'week'
+      get 'month'
+      get 'day'
+      get 'year'
+      get 'season'
+
+      get 'compare_month'
+      get 'compare_month_json'
+
+      get 'json_day'
+      get 'json_week'
+      get 'json_month'
+      get 'json_year'
+
+    }
+  end
+
   resources :users
   devise_for :users, controllers: {
     registrations: 'users/registrations',

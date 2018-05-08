@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180503170129) do
+ActiveRecord::Schema.define(version: 20180508004034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,13 @@ ActiveRecord::Schema.define(version: 20180503170129) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["store_id"], name: "index_available_shifts_on_store_id"
+  end
+
+  create_table "clusters", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -283,6 +290,8 @@ ActiveRecord::Schema.define(version: 20180503170129) do
     t.string "county"
     t.string "size"
     t.string "economic_segment"
+    t.bigint "cluster_id"
+    t.index ["cluster_id"], name: "index_stores_on_cluster_id"
     t.index ["origin_id"], name: "index_stores_on_origin_id"
   end
 
@@ -328,4 +337,5 @@ ActiveRecord::Schema.define(version: 20180503170129) do
   add_foreign_key "shift_breaks", "sellers"
   add_foreign_key "sps", "departments"
   add_foreign_key "sps", "stores"
+  add_foreign_key "stores", "clusters"
 end
