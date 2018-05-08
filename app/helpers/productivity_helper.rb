@@ -1,35 +1,161 @@
 module ProductivityHelper
 
+  def staffing
+	  	days = {}
+	  	date_start  = Date.today.beginning_of_year - 1.year
+	  	date_end    = Date.today.end_of_year + 1.year
+	      #defino un array con los todos los dias del año
+
+	      (date_start..date_end).each do |d|
+	        #convierto en sym el dia
+	        day = d.strftime("%Y%m%d").to_sym
+	        #crea un array desde el 01-01-2017 al 31-12-2019
+	        days[day] = {:hours => [], :sellers => []}
+
+	    end
+
+	      ##busco los vendedores y veo sus turnos
+	      sellers = Seller.where(store: 1, department: 1)
+
+	      sellers.each do |s|
+	      	s.my_shift.each do |ms|
+	      		day = ms[0].to_sym
+
+	      		hours = []
+	      		active_sellers = []
+	      		(ms[1].to_i.. ms[2].to_i).each {|d| hours << d }
+
+	          binding.pry if days[day].nil?
+	          days[day][:hours] << hours
+	          days[day][:sellers]  << s.fullname
+	      end
+
+	  end
+
+
+	  days    = days.each { |k,v| days[k][:hours] = v[:hours].flatten }
+	  result  = days.each { |k,v| days[k][:hours] = v[:hours].inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }}
+
+	end
+	def staffing_draw(start_date)
+
+		@staffing = staffing
+		hours = []
+		dates = []
+
+		start_date 	= start_date.to_s.to_date
+		end_date	= start_date + 6.days
+
+    day_hours = [
+        :nine,
+        :ten,
+        :eleven,
+        :twelve,
+        :thirteen,
+        :fourteen,
+        :fifteen,
+        :sixteen,
+        :seventeen,
+        :eighteen,
+        :nineteen,
+        :twenty,
+        :twenty_one,
+        :twenty_two,
+        :twenty_three,
+      ]
+
+		(9..24).each {|h| hours << h }
+
+    #day_hours.each {|h| hours << h.second }
+
+		(start_date..end_date).each do |d|
+			dates << d.strftime("%Y%m%d")
+		end
+
+    #binding.pry
+
+		result = {}
+
+		hours.each_with_index do |h,i|
+      result[h.to_s.to_sym] = []
+			#result[h] = []
+			days = []
+
+			dates.each do |d|
+				days << @staffing[d.to_sym][:hours][h]
+			end
+
+      #result[h.to_s.to_sym] << days
+			result[h.to_s.to_sym] << days
+		end
+
+
+    spd = []
+
+    result.values.each{ |v| spd << v.first }
+    sellers_per_day = spd.transpose.map {|x| x.reduce(:+)}
+
+		week = { :dates => dates, :draw => result, :sellers_per_day => sellers_per_day}
+		
+		#binding.pry
+		return week
+
+	end
+
 	def brain_json()
+
+		month = params[:month].to_i
+		year = params[:year].to_i
+		store = params[:store].to_i
+		department = params[:department].to_i
+
+		#[1,hora 10,dia 28,1]
+		
+		m1 = Sp.where(month: month, year: year).pluck(:sale)
+	    w1 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 1).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
+	    w2 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 2).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
+	    w3 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 3).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
+	    w4 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 4).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
+
+		staffingM1 = staffing_draw(w1)[:sellers_per_day] + staffing_draw(w2)[:sellers_per_day] + staffing_draw(w3)[:sellers_per_day] + staffing_draw(w4)[:sellers_per_day]
+		plan_venta_set = ""
+		day = 0
+		m1.each do |r|
+			10.times do |i| 
+				plan_venta_set += " [1,#{i + 1},#{day + 1},1] #{(r/staffingM1[day]).to_i},"
+			end
+			day += 1
+		end
+		plan_venta_set = plan_venta_set.slice 1 .. -2
 		case_api = 23
 		staffingCase = StaffingCase.where(id_case: case_api.to_i).first
 		dataCase = DataCase.where(id_case: case_api.to_i).first 
 
 		json_code = { "accion": "ejecutar", 
-		"id_caso": staffingCase.id_case,    
-		"tolerancia": staffingCase.tolerance, 
-		"evaluar_dotacion_real": staffingCase.actual_staffing_eval,    
-		"tiempo_maximo": staffingCase.max_time,    
-		"usuario": staffingCase.user, 
-		"datos": 
-		{  
-			"num_turnos": dataCase.turn_num,
-			"num_departamentos": dataCase.dep_num,
-			"num_ventanas": 1,
-			"num_dias_ventana": dataCase.day_num,
-			"num_horas_dia": dataCase.hour_day,
-			"valor_hp": dataCase.hp_val,
-			"prod_obj": dataCase.prod_obj,
-			"VHP": "", 
-			"POV": dataCase.pov,
-			"Entrada_Almuerzo": dataCase.lunch_in,  
-			"Horas_Almuerzo": dataCase.lunch_hours,
-			"min_horas": dataCase.hour_min,  
-			"matriz_turnos": dataCase.turns_matrix, 
-			"dotacion_real": "[1,1,1] 0, [2,1,1] 3, [3,1,1] 2, [4,1,1] 1, [5,1,1] 0, [6,1,1] 1, [7,1,1] 0,[8,1,1] 1,[9,1,1] 1, [10,1,1] 0, [11,1,1] 0, [12,1,1] 0", 
-			"plan_venta": "[1,1,1,1] 200000, [1,2,1,1] 260000, [1,3,1,1] 400000, [1,4,1,1] 340000, [1,5,1,1] 320000, [1,6,1,1] 460000, [1,7,1,1] 680000, [1,8,1,1] 900000, [1,9,1,1] 700000, [1,10,1,1] 480000, [1,1,2,1] 200000, [1,2,2,1] 260000, [1,3,2,1] 400000, [1,4,2,1] 340000, [1,5,2,1] 320000, [1,6,2,1] 460000, [1,7,2,1] 680000, [1,8,2,1] 900000, [1,9,2,1] 700000, [1,10,2,1] 480000, [1,1,3,1] 200000, [1,2,3,1] 260000, [1,3,3,1] 400000, [1,4,3,1] 340000, [1,5,3,1] 320000, [1,6,3,1] 460000, [1,7,3,1] 680000, [1,8,3,1] 900000, [1,9,3,1] 700000, [1,10,3,1] 480000, [1,1,4,1] 200000, [1,2,4,1] 260000, [1,3,4,1] 400000, [1,4,4,1] 340000, [1,5,4,1] 320000, [1,6,4,1] 460000, [1,7,4,1] 680000, [1,8,4,1] 900000, [1,9,4,1] 700000, [1,10,4,1] 480000, [1,1,5,1] 200000, [1,2,5,1] 260000, [1,3,5,1] 400000, [1,4,5,1] 340000, [1,5,5,1] 320000, [1,6,5,1] 460000, [1,7,5,1] 680000, [1,8,5,1] 900000, [1,9,5,1] 700000, [1,10,5,1] 480000, [1,1,6,1] 400000, [1,2,6,1] 560000, [1,3,6,1] 800000, [1,4,6,1] 680000, [1,5,6,1] 680000, [1,6,6,1] 50000, [1,7,6,1] 1500000, [1,8,6,1] 1700000, [1,9,6,1] 1900000, [1,10,6,1] 1100000, [1,1,7,1] 320000, [1,2,7,1] 480000, [1,3,7,1] 600000, [1,4,7,1] 640000, [1,5,7,1] 560000, [1,6,7,1] 800000, [1,7,7,1] 1400000, [1,8,7,1] 1600000, [1,9,7,1] 1940000, [1,10,7,1] 800000, [1,1,8,1] 180000, [1,2,8,1] 234000, [1,3,8,1] 360000, [1,4,8,1] 306000, [1,5,8,1] 288000, [1,6,8,1] 414000, [1,7,8,1] 612000, [1,8,8,1] 810000, [1,9,8,1] 630000, [1,10,8,1] 432000, [1,1,9,1] 170000, [1,2,9,1] 221000, [1,3,9,1] 340000, [1,4,9,1] 289000, [1,5,9,1] 272000, [1,6,9,1] 391000, [1,7,9,1] 578000, [1,8,9,1] 765000, [1,9,9,1] 595000, [1,10,9,1] 408000, [1,1,10,1] 192000, [1,2,10,1] 249600, [1,3,10,1] 384000, [1,4,10,1] 326400, [1,5,10,1] 307200, [1,6,10,1] 441600, [1,7,10,1] 652800, [1,8,10,1] 864000, [1,9,10,1] 672000, [1,10,10,1] 460800, [1,1,11,1] 174000, [1,2,11,1] 226200, [1,3,11,1] 348000, [1,4,11,1] 295800, [1,5,11,1] 278400, [1,6,11,1] 400200, [1,7,11,1] 591600, [1,8,11,1] 783000, [1,9,11,1] 609000, [1,10,11,1] 417600, [1,1,12,1] 210000, [1,2,12,1] 273000, [1,3,12,1] 420000, [1,4,12,1] 357000, [1,5,12,1] 336000, [1,6,12,1] 483000, [1,7,12,1] 714000, [1,8,12,1] 945000, [1,9,12,1] 735000, [1,10,12,1] 504000, [1,1,13,1] 440000, [1,2,13,1] 616000, [1,3,13,1] 880000, [1,4,13,1] 748000, [1,5,13,1] 748000, [1,6,13,1] 55000, [1,7,13,1] 1650000, [1,8,13,1] 1870000, [1,9,13,1] 2090000, [1,10,13,1] 1210000, [1,1,14,1] 352000, [1,2,14,1] 528000, [1,3,14,1] 660000, [1,4,14,1] 704000, [1,5,14,1] 616000, [1,6,14,1] 880000, [1,7,14,1] 1540000, [1,8,14,1] 1760000, [1,9,14,1] 2134000, [1,10,14,1] 880000, [1,1,15,1] 190000, [1,2,15,1] 247000, [1,3,15,1] 380000, [1,4,15,1] 323000, [1,5,15,1] 304000, [1,6,15,1] 437000, [1,7,15,1] 646000, [1,8,15,1] 855000, [1,9,15,1] 665000, [1,10,15,1] 456000, [1,1,16,1] 185000, [1,2,16,1] 240500, [1,3,16,1] 370000, [1,4,16,1] 314500, [1,5,16,1] 296000, [1,6,16,1] 425500, [1,7,16,1] 629000, [1,8,16,1] 832500, [1,9,16,1] 647500, [1,10,16,1] 444000, [1,1,17,1] 196000, [1,2,17,1] 254800, [1,3,17,1] 392000, [1,4,17,1] 333200, [1,5,17,1] 313600, [1,6,17,1] 450800, [1,7,17,1] 666400, [1,8,17,1] 882000, [1,9,17,1] 686000, [1,10,17,1] 470400, [1,1,18,1] 187000, [1,2,18,1] 243100, [1,3,18,1] 374000, [1,4,18,1] 317900, [1,5,18,1] 299200, [1,6,18,1] 430100, [1,7,18,1] 635800, [1,8,18,1] 841500, [1,9,18,1] 654500, [1,10,18,1] 448800, [1,1,19,1] 205000, [1,2,19,1] 266500, [1,3,19,1] 410000, [1,4,19,1] 348500, [1,5,19,1] 328000, [1,6,19,1] 471500, [1,7,19,1] 697000, [1,8,19,1] 922500, [1,9,19,1] 717500, [1,10,19,1] 492000, [1,1,20,1] 420000, [1,2,20,1] 588000, [1,3,20,1] 840000, [1,4,20,1] 714000, [1,5,20,1] 714000, [1,6,20,1] 52500, [1,7,20,1] 1575000, [1,8,20,1] 1785000, [1,9,20,1] 1995000, [1,10,20,1] 1155000, [1,1,21,1] 336000, [1,2,21,1] 504000, [1,3,21,1] 630000, [1,4,21,1] 672000, [1,5,21,1] 588000, [1,6,21,1] 840000, [1,7,21,1] 1470000, [1,8,21,1] 1680000, [1,9,21,1] 2037000, [1,10,21,1] 840000, [1,1,22,1] 209000, [1,2,22,1] 271700, [1,3,22,1] 418000, [1,4,22,1] 355300, [1,5,22,1] 334400, [1,6,22,1] 480700, [1,7,22,1] 710600, [1,8,22,1] 940500, [1,9,22,1] 731500, [1,10,22,1] 501600, [1,1,23,1] 203500, [1,2,23,1] 264550, [1,3,23,1] 407000, [1,4,23,1] 345950, [1,5,23,1] 325600, [1,6,23,1] 468050, [1,7,23,1] 691900, [1,8,23,1] 915750, [1,9,23,1] 712250, [1,10,23,1] 488400, [1,1,24,1] 215600, [1,2,24,1] 280280, [1,3,24,1] 431200, [1,4,24,1] 366520, [1,5,24,1] 344960, [1,6,24,1] 495880, [1,7,24,1] 733040, [1,8,24,1] 970200, [1,9,24,1] 754600, [1,10,24,1] 517440, [1,1,25,1] 205700, [1,2,25,1] 267410, [1,3,25,1] 411400, [1,4,25,1] 349690, [1,5,25,1] 329120, [1,6,25,1] 473110, [1,7,25,1] 699380, [1,8,25,1] 925650, [1,9,25,1] 719950, [1,10,25,1] 493680, [1,1,26,1] 225500, [1,2,26,1] 293150, [1,3,26,1] 451000, [1,4,26,1] 383350, [1,5,26,1] 360800, [1,6,26,1] 518650, [1,7,26,1] 766700, [1,8,26,1] 1014750, [1,9,26,1] 789250, [1,10,26,1] 541200, [1,1,27,1] 462000, [1,2,27,1] 646800, [1,3,27,1] 924000, [1,4,27,1] 785400, [1,5,27,1] 785400, [1,6,27,1] 57750, [1,7,27,1] 1732500, [1,8,27,1] 1963500, [1,9,27,1] 2194500, [1,10,27,1] 1270500, [1,1,28,1] 369600, [1,2,28,1] 554400, [1,3,28,1] 693000, [1,4,28,1] 739200, [1,5,28,1] 646800, [1,6,28,1] 924000, [1,7,28,1] 1617000, [1,8,28,1] 1848000, [1,9,28,1] 2240700, [1,10,28,1] 924000"
-		}
-	}.to_json
+			"id_caso": staffingCase.id_case.to_i,    
+			"tolerancia": (3).round(1), 
+			"evaluar_dotacion_real": staffingCase.actual_staffing_eval.to_i,    
+			"tiempo_maximo": staffingCase.max_time.to_i,    
+			"usuario": staffingCase.user.to_s, 
+			"datos": 
+			{  
+				"num_turnos": dataCase.turn_num,
+				"num_departamentos": dataCase.dep_num,
+				"num_ventanas": 1,
+				"num_dias_ventana": dataCase.day_num,
+				"num_horas_dia": dataCase.hour_day,
+				"valor_hp": dataCase.hp_val.round(1),
+				"prod_obj": dataCase.prod_obj.round(1),
+				"VHP": "", 
+				"POV": dataCase.pov,
+				"Entrada_Almuerzo": dataCase.lunch_in,  
+				"Horas_Almuerzo": dataCase.lunch_hours,
+				"min_horas": dataCase.hour_min,  
+				"matriz_turnos": dataCase.turns_matrix.to_s, 
+				"dotacion_real": dataCase.real_dot.to_s, 
+				"plan_venta": plan_venta_set.to_s
+			}
+		}.to_json
 		return json_code
 	end
 end

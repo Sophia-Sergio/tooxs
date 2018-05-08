@@ -544,14 +544,12 @@ if ($('#productivity_demo').length > 0) {
                     url: "/productivity/json_current",
                     data: 'month='+month+'&year='+year+'&store='+store+'&department='+department+'&week='+$('#week').val()+'&'+$('.simple_form').serialize(),
                     dataType: 'json',
-                    success: function(data){ 
-
+                    success: function(data)
+                    { 
                       fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
                       mes = data.spm1;
 
                       // incializar api
-
-
                       Cerebro.enviarDatos(plan_enviado);
                       productividad_diaria = Cerebro.productividadDiaria();
                       sum_turnos_real   = Cerebro.totalTurnosReales();

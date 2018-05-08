@@ -5,6 +5,8 @@ class ProductivityController < ApplicationController
     params[:month] = Date.today.strftime("%m").to_i
     params[:department] = 1
     params[:store] = 1
+
+
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Buscar", :productivity_index_path    
     @search       = ''
@@ -59,7 +61,7 @@ class ProductivityController < ApplicationController
     @sd_w2 = staffing_draw(w2)[:draw].values.flatten.sum
     @sd_w3 = staffing_draw(w3)[:draw].values.flatten.sum
     @sd_w4 = staffing_draw(w4)[:draw].values.flatten.sum
-
+ 
     #staffdrawing per day-week turnos hora por semana
     @sd_w1_daily  = staffing_draw(w1)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
     @sd_w2_daily  = staffing_draw(w2)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
