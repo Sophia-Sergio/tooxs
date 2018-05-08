@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+ActiveRecord::Schema.define(version: 20180508004034) do
+=======
 ActiveRecord::Schema.define(version: 20180507200300) do
+>>>>>>> remotes/erwin254/salesforce/master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +47,11 @@ ActiveRecord::Schema.define(version: 20180507200300) do
     t.index ["store_id"], name: "index_available_shifts_on_store_id"
   end
 
+<<<<<<< HEAD
+  create_table "clusters", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+=======
   create_table "data_cases", force: :cascade do |t|
     t.integer "id_case"
     t.integer "turn_num"
@@ -59,6 +68,7 @@ ActiveRecord::Schema.define(version: 20180507200300) do
     t.string "turns_matrix"
     t.string "real_dot"
     t.string "sale_plan"
+>>>>>>> remotes/erwin254/salesforce/master
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -339,6 +349,8 @@ ActiveRecord::Schema.define(version: 20180507200300) do
     t.string "county"
     t.string "size"
     t.string "economic_segment"
+    t.bigint "cluster_id"
+    t.index ["cluster_id"], name: "index_stores_on_cluster_id"
     t.index ["origin_id"], name: "index_stores_on_origin_id"
   end
 
@@ -396,4 +408,5 @@ ActiveRecord::Schema.define(version: 20180507200300) do
   add_foreign_key "shift_breaks", "sellers"
   add_foreign_key "sps", "departments"
   add_foreign_key "sps", "stores"
+  add_foreign_key "stores", "clusters"
 end
