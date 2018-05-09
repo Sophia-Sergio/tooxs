@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180508004034) do
+ActiveRecord::Schema.define(version: 20180508162642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,25 +49,25 @@ ActiveRecord::Schema.define(version: 20180508004034) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-  
+
   create_table "data_cases", force: :cascade do |t|
-        t.integer "id_case"
-        t.integer "turn_num"
-        t.integer "dep_num"
-        t.integer "day_num"
-        t.integer "hour_day"
-        t.float "hp_val"
-        t.float "prod_obj"
-        t.string "vhp"
-        t.string "pov"
-        t.string "lunch_in"
-        t.string "lunch_hours"
-        t.integer "hour_min"
-        t.string "turns_matrix"
-        t.string "real_dot"
-        t.string "sale_plan"
-        t.datetime "created_at", null: false
-        t.datetime "updated_at", null: false
+    t.integer "id_case"
+    t.integer "turn_num"
+    t.integer "dep_num"
+    t.integer "day_num"
+    t.integer "hour_day"
+    t.float "hp_val"
+    t.float "prod_obj"
+    t.string "vhp"
+    t.string "pov"
+    t.string "lunch_in"
+    t.string "lunch_hours"
+    t.integer "hour_min"
+    t.string "turns_matrix"
+    t.string "real_dot"
+    t.string "sale_plan"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "departments", force: :cascade do |t|
