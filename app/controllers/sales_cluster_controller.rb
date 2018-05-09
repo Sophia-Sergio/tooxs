@@ -52,19 +52,20 @@ class SalesClusterController < ApplicationController
   def month
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Productividad por Segmento", :sales_cluster_index_path  
-    add_breadcrumb "Venta mensual", :sales_cluster_month_path 
+    add_breadcrumb "Productividad mensual", :month_sales_cluster_index_path 
 
-    @controller = 'Venta Mensual'
+    @controller = 'Productividad Mensual'
 
-    #@stores      = Store.where(["cluster_id"= :c,{c: cluster_id}])
-    @departments = Department.all.order(:id)
+    @stores      = Store.where(cluster_id: params[:cluster])
+    @clusters     = Cluster.all.order(:id)
+    @departments  = Department.distinct.pluck(:name)
 
   	@search = ''
     @compare = 'compare'
 
     #@store  = Store.find(params[:store])
-    @dep    = Department.find(params[:department])
-
+    @department_name = params[:department].to_s 
+    @cluster_name =  Cluster.find(params[:cluster]).name;
     @year  = params[:year].to_i  
     @month = params[:month].to_i
 
