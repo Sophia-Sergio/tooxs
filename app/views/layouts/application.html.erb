@@ -101,10 +101,13 @@
             <span class="icon-thumbnail"><i class="pg-calender"></i></span>
             <ul class="sub-menu">
               <li class="">
-                <%= link_to 'Estadísticas Ventas', sales_path %>
+                <%= link_to 'Estadísticas de Ventas', sales_path %>
                 <span class="icon-thumbnail">T</span>
               </li>
-
+              <li class="">
+                  <%= link_to 'Estadísticas de Ventas por Segmento', sales_cluster_index_path %>
+                  <span class="icon-thumbnail">T</span>
+                </li>
               <li class="">
               <%= link_to 'Perfil de Vendedores', sellers_path %>
                 <span class="icon-thumbnail">v</span>
@@ -137,7 +140,7 @@
                   <span class="icon-thumbnail">E</span>
                 </li>
                 <li class="">
-                   <%= link_to 'Reporte Productividad', productivity_show_path %>
+                   <%= link_to 'Reporte Productividad', productivity_report_path %>
                   <span class="icon-thumbnail">p</span>
                 </li>
                 <li class="">

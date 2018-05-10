@@ -23,7 +23,7 @@ class ProductivityController < ApplicationController
     @departments  = Department.all.order(:id)
 
     month  = params[:month].to_i
-    year   = params[:year].to_i  
+    year   = params[:year].to_i
     @store = params[:store].to_i
     @dep   = params[:department].to_i
 
@@ -70,7 +70,6 @@ class ProductivityController < ApplicationController
 
 
     #productivity per day-week
-
     @prd_w1_day = @sp_w1_daily.zip(@sd_w1_daily).map{|a,b| a/b }
     @prd_w2_day = @sp_w2_daily.zip(@sd_w2_daily).map{|a,b| a/b }
     @prd_w3_day = @sp_w3_daily.zip(@sd_w3_daily).map{|a,b| a/b }
@@ -99,7 +98,7 @@ class ProductivityController < ApplicationController
     @staffing_w2  = staffing_draw(fecha2)
     @staffing_w3  = staffing_draw(fecha3)
     @staffing_w4  = staffing_draw(fecha4)
-
+    @brain_json = brain_json()
     #binding.pry
   end
 
@@ -159,10 +158,10 @@ class ProductivityController < ApplicationController
     @prd_w4_day = @sp_w4_daily.zip(@sd_w4_daily).map{|a,b| a/b }
 
 
-    @data = { :dates_week => @w1_days ,
+    @data = { :dates_week => @w1_days,
               :dates_week_2 => @w2_days,
-              :dates_week_3 => @w3_days ,
-              :dates_week_4 => @w4_days , 
+              :dates_week_3 => @w3_days,
+              :dates_week_4 => @w4_days, 
               :sp => @sp_w1_daily, 
               :sd => @sd_w1_daily, 
               :prd => @prd_w1_day, 
@@ -174,4 +173,90 @@ class ProductivityController < ApplicationController
 
     render json: @data
   end
+    def brain_json()
+
+        month = params[:month].to_i
+        year = params[:year].to_i
+        store = params[:store].to_i
+        department = params[:department].to_i
+
+        #[1,hora 10,dia 28,1]       
+        m1 = Sp.where(month: month, year: year).pluck(:sale)
+        w1 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 1).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
+        w2 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 2).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
+        w3 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 3).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
+        w4 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 4).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
+
+        staffingM1 = staffing_draw(w1)[:sellers_per_day] + staffing_draw(w2)[:sellers_per_day] + staffing_draw(w3)[:sellers_per_day] + staffing_draw(w4)[:sellers_per_day]
+        plan_venta_set = ""
+        day = 0
+        m1.each do |r|
+            10.times do |i| 
+                plan_venta_set += " [1,#{i + 1},#{day + 1},1] #{(r/staffingM1[day]).to_i},"
+            end
+            day += 1
+        end
+
+        plan_venta_set = plan_venta_set.slice 1 .. -2
+        case_api = 23
+        staffingCase = StaffingCase.where(id_case: case_api.to_i).first
+        dataCase = DataCase.where(id_case: case_api.to_i).first 
+
+        @data = { "accion": "ejecutar", 
+            "id_caso": staffingCase.id_case.to_i,    
+            "tolerancia": (3).round(1), 
+            "evaluar_dotacion_real": staffingCase.actual_staffing_eval.to_i,    
+            "tiempo_maximo": staffingCase.max_time.to_i,    
+            "usuario": staffingCase.user.to_s, 
+            "datos": 
+            {  
+                "num_turnos": dataCase.turn_num,
+                "num_departamentos": dataCase.dep_num,
+                "num_ventanas": 1,
+                "num_dias_ventana": dataCase.day_num,
+                "num_horas_dia": dataCase.hour_day,
+                "valor_hp": dataCase.hp_val.round(1),
+                "prod_obj": dataCase.prod_obj.round(1),
+                "VHP": "", 
+                "POV": dataCase.pov,
+                "Entrada_Almuerzo": dataCase.lunch_in,  
+                "Horas_Almuerzo": dataCase.lunch_hours,
+                "min_horas": dataCase.hour_min,  
+                "matriz_turnos": get_real_dot.to_s, 
+                "dotacion_real": dataCase.real_dot.to_s, 
+                "plan_venta": plan_venta_set.to_s
+            }
+        }.to_json
+        return @data
+    end
+
+    def get_real_dot
+        turns      = AvailableShift.all
+        turnsTotal = AvailableShift.distinct.pluck(:num)
+        turns_matrix = ""
+        turnsTotal.each do |i|            
+            turn = AvailableShift.where(num: i)
+            j = 1
+            turn.each do |s|
+                (s.eleven) ? turns_matrix += " [#{i.to_i},1,#{j}] 1," : ""
+                (s.twelve) ? turns_matrix += " [#{i.to_i},2,#{j}] 1," : ""
+                (s.thirteen) ? turns_matrix += " [#{i.to_i},3,#{j}] 1," : ""
+                (s.fourteen) ? turns_matrix += " [#{i.to_i},4,#{j}] 1," : ""
+                (s.fifteen) ? turns_matrix += " [#{i.to_i},5,#{j}] 1," : ""
+                (s.sixteen) ? turns_matrix += " [#{i.to_i},6,#{j}] 1," : ""
+                (s.seventeen) ? turns_matrix += " [#{i.to_i},7,#{j}] 1," : ""
+                (s.eighteen) ? turns_matrix += " [#{i.to_i},8,#{j}] 1," : ""
+                (s.nineteen) ? turns_matrix += " [#{i.to_i},9,#{j}] 1," : ""
+                (s.twenty) ? turns_matrix += " [#{i.to_i},10,#{j}] 1," : ""
+                j += 1
+            end
+        end 
+        turns_matrix = turns_matrix.slice 1 .. -2
+        return turns_matrix
+    end
+
+    def report
+
+    end
 end
+
