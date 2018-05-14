@@ -45,7 +45,7 @@
                                   <p class="hint-text m-t-5 small">
                                     Activo desde : <%= I18n.l(@seller.begin_shift, format: "%a, %d %b %Y", locale: :es) %>
                                   </p>
-                                  <p class="hint-text m-t-5 small">Mi cumplimiento: 88%</p>
+                                  <p class="hint-text m-t-5 small">Mi cumplimiento: <%= @cumplimiento.round(2) %>%</p>
                                 </div>
                               </div>
                             </div>
@@ -155,8 +155,9 @@
 
                                   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
                                     <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Rincon Juvenil Mujer - <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h3>  
-                                    <h5>(Plan: <%= number_to_currency @totalMonth %> / Real: <%= number_to_currency @totalRealMonth %>) </h5>
-                                    <h5>Mi cumplimiento: <%= @cumplimiento %>%</h5>
+                                    <h5>Plan Mensual: <%= number_to_currency @totalMonth %></h5>
+                                    <h5>Ventas: <%= number_to_currency @totalRealMonth %></h5>
+                                    <h5>Mi cumplimiento a la fecha: <%= @cumplimiento.round(2) %>%</h5>
                                     <div class="row ">
                                     <% 
                                       i = 0

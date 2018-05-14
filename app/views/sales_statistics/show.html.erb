@@ -22,7 +22,7 @@
       </div>
 
       <div class="col-12 col-sm-3 col-md-3 col-lg-2">
-        <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: 4, :disabled => true  %>  
+        <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month, :disabled => true  %>  
       </div>
 
       <div class="col-12 col-sm-3 col-md-3 col-lg-1">
@@ -48,7 +48,7 @@
             <thead>
               <tr class="bg-success text-center ">
                 <th colspan="6" class="no-margin text-uppercase text-white fs-15"> 
-                  <h3 class="no-margin text-center text-uppercase text-white fs-15"> <%= I18n.l(Date.parse("#{'%02d' % (@month-1) }/01"), format: "%B", locale: :es).capitalize %> - <%= @year %></h3>
+                  <h3 class="no-margin text-center text-uppercase text-white fs-15"> <%= I18n.l(Date.parse("#{'%02d' % (@month) }/01"), format: "%B", locale: :es).capitalize %> - <%= @year %></h3>
                 </th>
               </tr>
               <tr>

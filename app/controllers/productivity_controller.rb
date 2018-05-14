@@ -186,19 +186,26 @@ class ProductivityController < ApplicationController
         w2 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 2).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
         w3 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 3).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
         w4 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 4).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
-
+        w5 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 5).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
         staffingM1 = staffing_draw(w1)[:sellers_per_day] + staffing_draw(w2)[:sellers_per_day] + staffing_draw(w3)[:sellers_per_day] + staffing_draw(w4)[:sellers_per_day]
+
+        if w5.count > 0
+            staffingM1 += staffing_draw(w5)[:sellers_per_day]           
+        end
+
         plan_venta_set = ""
         day = 0
         m1.each do |r|
-            10.times do |i| 
-                plan_venta_set += " [1,#{i + 1},#{day + 1},1] #{(r/staffingM1[day]).to_i},"
+            if  day < 28               
+                10.times do |i| 
+                    plan_venta_set += " [1,#{i + 1},#{day + 1},1] #{(r/staffingM1[day]).to_i},"
+                end
+                day += 1
             end
-            day += 1
         end
 
         plan_venta_set = plan_venta_set.slice 1 .. -2
-        case_api = 23
+        case_api = 29
         staffingCase = StaffingCase.where(id_case: case_api.to_i).first
         dataCase = DataCase.where(id_case: case_api.to_i).first 
 
@@ -256,7 +263,6 @@ class ProductivityController < ApplicationController
     end
 
     def report
-
     end
 end
 
