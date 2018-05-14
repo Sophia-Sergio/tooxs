@@ -95,6 +95,7 @@ class SellersController < ApplicationController
 
     #calcula el plan mensual
     i = 0
+    j = 1
     day = 0
     @totalMonth = 0
     @totalNow = 0    
@@ -102,10 +103,12 @@ class SellersController < ApplicationController
       @sp_staffing[i].first.values.first[:seller_plan_per_day].each do |d|
         day += 1
         @totalMonth +=  d.to_i
-        if @dayNow[:day] >= day and @dayNow[:week] >= i + 1 
+        if j < @dayNow[:week]
           @totalNow += d.to_i        
         end
+
       end
+      j += 1 
       (i < 3 ? i += 1 : i = 0) #permite cargar la primera semana para los meses de 5 semanas
     end
 

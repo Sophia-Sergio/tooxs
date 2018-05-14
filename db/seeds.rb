@@ -40,7 +40,7 @@ StaffingCase.destroy_all
 SummaryCase.destroy_all
 
 
-20.times do |i| 
+60.times do |i| 
   sale = SaleBySeller.create!(
     seller: 25,
     month: 5,
@@ -54,7 +54,7 @@ SummaryCase.destroy_all
     )
 end
 
-10.times do |i| 
+30.times do |i| 
   sale = SaleBySeller.create!(
     seller: 25,
     month: 5,
@@ -68,7 +68,7 @@ end
     )
 end
 
-10.times do |i| 
+40.times do |i| 
   sale = SaleBySeller.create!(
     seller: 25,
     month: 5,
