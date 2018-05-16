@@ -545,11 +545,11 @@ if ($('#productivity_demo').length > 0)
    return false;
   }
   console.log('init productivity_demo');
-  var month = getQueryVariable(month);
-  var year = getQueryVariable(year);
-  var store = getQueryVariable(store);
-  var department = getQueryVariable(department);
-  var week = getQueryVariable(week);
+  var month = getQueryVariable('month');
+  var year = getQueryVariable('year');
+  var store = getQueryVariable('store');
+  var department = getQueryVariable('department');
+  var week = getQueryVariable('week');
   var data_month = "";
   //si existen datos en la bd los trae
   $(document).ready(function()
@@ -559,7 +559,7 @@ if ($('#productivity_demo').length > 0)
       type: "GET",
       url: '/productivity/data_month',
       async: false,
-      data: 'month='+month+'&year='+year+'&store='+store+'&department='+department+'&id_caso'+plan_enviado.id_caso,
+      data: 'month='+month+'&year='+year+'&store='+store+'&department='+department,
       dataType: 'json',
       success: function(json)
       { 
