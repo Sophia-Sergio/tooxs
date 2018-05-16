@@ -13,7 +13,7 @@ Cerebro.enviarDatos = function(datos)
 	this.plan = datos;
 	var respuesta = "";
 	this.caso = Cerebro.plan.id_caso;
-	this.salida = enviar_datos_api_ajax("ver_salida",this.caso,this.email);
+	this.salida = enviar_datos_api_ajax("ver_salida", this.caso, this.email);
 	this.setearResumen();
 	return this.brainJson;
 }

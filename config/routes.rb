@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get 'productivity/index'
   get 'productivity/json_current'
   get 'productivity/report'
+  get 'productivity/data_month'
 
   resources :shift_breaks
   get 'staffing/index'
