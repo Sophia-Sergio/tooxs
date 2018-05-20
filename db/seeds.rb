@@ -7,8 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-Cluster.create([{name:'ABC1'},{name:'C2'},{name:'C3'},{name:'D'},{name:'E'}])
-
 =begin User.destroy_all
 
 admin = User.create!(
@@ -34,11 +32,47 @@ admin = User.create!(
 )
 
 =end
+Cluster.destroy_all
 SaleBySeller.destroy_all
 DataCase.destroy_all
 StaffingCase.destroy_all
 SummaryCase.destroy_all
+MasterDepartment.destroy_all
 
+
+Cluster.create!([{id:1, name:'ABC1'},{id:2, name:'C2'},{id:3, name:'C3'},{id:4, name:'D'},{id:5, name:'E'}])
+
+MasterDepartment.create!(
+[
+  {id: 1, name: 'Rincon juvenil Mujer'}, 
+  {id: 2, name: 'Moda Hombre'}, 
+  {id: 3, name: 'Tecnología'}, 
+  {id: 4, name: 'Deportes'}, 
+  {id: 5, name: 'Moda Mujer'}, 
+  {id: 6, name: 'Infantil'}
+])
+
+
+
+
+
+store = Store.find(1)
+store.update(cluster_id: 1)
+
+store = Store.find(2)
+store.update(cluster_id: 1)
+
+store = Store.find(3)
+store.update(cluster_id: 3, economic_segment: "C3")
+
+store = Store.find(4)
+store.update(cluster_id: 3, economic_segment: "C3")
+
+store = Store.find(5)
+store.update(cluster_id: 2, economic_segment: "C2")
+
+store = Store.find(6)
+store.update(cluster_id: 2, economic_segment: "C2")
 
 60.times do |i| 
   sale = SaleBySeller.create!(
@@ -309,3 +343,10 @@ dow_count = 1
   dow_count += 1
   id_count += 1
 end
+
+
+
+
+#SaleReal.where(department_id: 5).update_all(department_id: 7)
+#SaleReal.where(department_id: 7).update_all(year: 2018, store_id: 2)
+#SaleReal.where(department_id: 1).update_all(year: 2018)

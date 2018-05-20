@@ -62,4 +62,5 @@
 //= require mta/js/mta-custom.js
 //= require mta/js/api.js
 //= require mta/js/Calculo.js
+//= require mta/js/SalesCluster.js
 //= require mta/js/app.js

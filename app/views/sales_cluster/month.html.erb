@@ -1,5 +1,4 @@
-<div class="container-fluid p-t-0 p-l-30 bg-white" id="sales_month">
-
+<div class="container-fluid p-t-0 p-l-30 bg-white" id="sales_cluster">
   <div class="card card-transparent">
     <div class="card-header ">
       <div class="row">
@@ -11,19 +10,15 @@
         <div class="col-sm-9">
           <div class="pull-right">
             <button type="button" class="btn btn-sm btn-info btn-params-sales"><i class="fa fa-cog"></i> Parametros de Búsqueda </button>
-            <button type="button" class="btn btn-sm btn-warning btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i class="fa fa-exchange"></i> Comparar </button>
           </div>
         </div>        
       </div>
     </div>
-
     <%= render 'search_form', locals: { status: 'hidden', path: month_sales_cluster_index_path} %>
-
-
     <div class="card-block">
       <h4 class="grafico-1">Productividad por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
       <p class="m-t-20 grafico-1">Segmento: <span class="label label-default"><%= @cluster_name %></span>
-      Departamento: <span class="label label-default"><%= @department_name %></span>
+      Departamento: <span class="label label-default"><%= @masterDeparment[:name] %></span>
       Tiendas:
       <% @stores.each do |s| %>  
        <span class="label label-default"><%= s.name %></span>
@@ -47,47 +42,3 @@
   </div>
 </div> 
 
-<div class="modal fade slide-right" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true">
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-    <i class="pg-close"></i>
-  </button>
-  <div class="modal-dialog ">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="text-left p-b-5"><span class="semi-bold">Seleccione Tienda para Comparación</span></h5>
-      </div>
-      <div class="modal-body">
-        <%= simple_form_for @compare, :url => '#', :method => :post, :remote => true, html: { id: 'compare'} do |f| %>
-        <div class="row">
-          <div class="col-lg-9 ">
-            <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store], class: 'store_search' %>  
-          </div>
-          <div class="col-lg-3 no-padding sm-m-t-10 sm-text-center">
-            <button type="button" class="btn btn-primary btn-lg btn-large fs-15 btn-compare">Comparar</button>
-          </div>
-        </div>
-      
-        <div class="row dnx">
-          <div class="col-lg-9">
-            
-            <div class="dn">
-            <%= f.input :month, input_html: {value: params[:month]} %>
-            <%= f.input :year, input_html: {value: params[:year]} %>
-            <%= f.input :week, input_html: {value: params[:week]} %>
-
-            <%= f.input :store_source, input_html: {value: params[:store]} %>
-            <%= f.input :department_source, input_html: {value: params[:department]} %>
-            </div>
-
-          </div>
-        </div>
-
-        <% end -%>
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>

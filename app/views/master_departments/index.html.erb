@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Master Departments</h1>
+
+<table class="table table-stripped table-condensed table-hover table-smallFont" id="table-master_department">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @master_departments.each do |master_department| %>
+      <tr>
+                <td><%= master_department.name %></td>
+        
+        <td>
+
+        <%= link_to master_department_path(master_department), :class => 'btn btn-default' do %>
+        <i class="fa fa-eye"></i> Ver ##Master Department
+        <% end %>
+
+        <%= link_to edit_master_department_path(master_department), :class => 'btn btn-default' do %>
+        <i class="fa fa-edit"></i> Editar ##Master Department
+        <% end %>
+
+        <%= link_to master_department_path(master_department), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
+        <i class="fa fa-trash-o"></i> Eliminar ##Master Department
+        <% end %>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Master Department', new_master_department_path %>

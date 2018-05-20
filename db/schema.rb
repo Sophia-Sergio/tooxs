@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180513124427) do
+ActiveRecord::Schema.define(version: 20180519224229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20180513124427) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "productivity_obj"
+    t.integer "master_id"
     t.index ["origin_id"], name: "index_departments_on_origin_id"
     t.index ["store_id"], name: "index_departments_on_store_id"
   end
@@ -141,6 +142,12 @@ ActiveRecord::Schema.define(version: 20180513124427) do
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_hs_on_department_id"
     t.index ["store_id"], name: "index_hs_on_store_id"
+  end
+
+  create_table "master_departments", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "return_cases", force: :cascade do |t|

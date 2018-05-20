@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :master_departments
   resources :summary_cases
   resources :return_cases
   resources :data_cases

@@ -1,0 +1,2 @@
+class MasterDepartment < ApplicationRecord
+end

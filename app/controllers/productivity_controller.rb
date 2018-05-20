@@ -303,6 +303,43 @@ class ProductivityController < ApplicationController
     end
 
     def report
+        add_breadcrumb "Dashboard", :root_path
+        add_breadcrumb "Reporte de Productividad", :productivity_report_path    
+        @search       = ''
+        @stores       = Store.all.order(:id)
+        @departments  = Department.all.order(:id)
+
+        month  = 5
+        year   = 2018
+        @store = 1
+        @dep   = 1
+
+        #days of the week for this query dias de la semana según comienzo
+        @w1_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 1).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%d-%m-%Y').to_sym}
+        @w2_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 2).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%d-%m-%Y').to_sym}
+        @w3_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 3).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%d-%m-%Y').to_sym}
+        @w4_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 4).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%d-%m-%Y').to_sym}
+
+
+        #staffing
+        fecha1 = DateTime.parse(@w1_days[0].to_s) 
+        fecha1 = fecha1.strftime("%Y%m%d")
+
+        fecha2 = DateTime.parse(@w2_days[0].to_s) 
+        fecha2 = fecha2.strftime("%Y%m%d")
+
+        fecha3 = DateTime.parse(@w3_days[0].to_s) 
+        fecha3 = fecha3.strftime("%Y%m%d")
+
+        fecha4 = DateTime.parse(@w4_days[0].to_s) 
+        fecha4 = fecha4.strftime("%Y%m%d")
+
+        @staffing_w1  = staffing_draw(fecha1)
+        @staffing_w2  = staffing_draw(fecha2)
+        @staffing_w3  = staffing_draw(fecha3)
+        @staffing_w4  = staffing_draw(fecha4)
+        #@brain_json = brain_json()
+        #binding.pry        
     end
 end
 
