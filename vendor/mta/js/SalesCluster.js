@@ -28,7 +28,7 @@ if ( $('#sales_cluster').length > 0)
             responsive: true,
             title: {
               display: true,
-              text: 'Comparativa Plan de Ventas - Ventas Real - Venta Año Anterior'
+              text: 'Comparativa de Productividad'
             },
             tooltips: {
               mode: 'index',
