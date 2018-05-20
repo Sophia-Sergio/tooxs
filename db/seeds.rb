@@ -350,3 +350,13 @@ end
 #SaleReal.where(department_id: 5).update_all(department_id: 7)
 #SaleReal.where(department_id: 7).update_all(year: 2018, store_id: 2)
 #SaleReal.where(department_id: 1).update_all(year: 2018)
+
+=begin
+
+SaleReal.all.map{|s|
+  saleReal = SaleReal.find(s[:id])
+  saleReal.sale_date = s[:sale_date] + 730 
+  saleReal.save
+}
+
+=end

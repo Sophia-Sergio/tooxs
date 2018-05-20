@@ -28,7 +28,7 @@ if ( $('#sales_cluster').length > 0)
             responsive: true,
             title: {
               display: true,
-              text: 'Comparativa de Productividad'
+              text: 'Comparativa de Productividad Real'
             },
             tooltips: {
               mode: 'index',
@@ -44,7 +44,7 @@ if ( $('#sales_cluster').length > 0)
                   display: true,
                   scaleLabel: {
                     display: true,
-                    labelString: 'Semana'
+                    labelString: ''
                   }
                 }
               ],

@@ -16,7 +16,7 @@
     </div>
     <%= render 'search_form', locals: { status: 'hidden', path: month_sales_cluster_index_path} %>
     <div class="card-block">
-      <h4 class="grafico-1">Productividad por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
+      <h4 class="grafico-1">Productividad Real por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
       <p class="m-t-20 grafico-1">Segmento: <span class="label label-default"><%= @cluster_name %></span>
       Departamento: <span class="label label-default"><%= @masterDeparment[:name] %></span>
       Tiendas:
@@ -36,6 +36,44 @@
         </div>
         <div class="col-lg-12 col-md-12 col-12 col-sm-12">
         <!-- tabla -->
+        <% @resultStore.each do |store| %> 
+          <table class="table-shift table table-bordered bg-master-lightest">
+            <thead>
+              <tr class="bg-success text-center">
+                <th colspan="6" class="no-margin text-uppercase text-white fs-15"> 
+                  <h3 class="no-margin text-center text-uppercase text-white fs-15"><%= store[:label] %></h3>
+                </th>
+              </tr>
+              <tr>
+                <th></th>
+                <% week = 0 %>
+                <% store[:saleWeek].each do |i| %>
+                <th> <%= "Semana #{week += 1 }" %> </th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ventas</td>
+                <% store[:saleWeek].each do |v| %>
+                  <td><%= number_to_currency v %></td>
+                <% end %>
+              </tr> 
+              <tr>
+                <td>Dotación</td>
+                <% store[:dotWeek].each do |v|%>
+                  <td><%= v %></td>
+                <% end %>
+              </tr> 
+              <tr>
+                <td>Productividad</td>
+                <% store[:prodWeek].each do |v|%>
+                  <td><%= number_to_currency v %></td>
+                <% end %>
+              </tr>               
+            </tbody>
+          </table>       
+        <% end %> 
         </div>
       </div>      
     </div>

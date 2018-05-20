@@ -116,10 +116,10 @@ class DashboardController < ApplicationController
 
 
 			staffing_week = staffing_draw(@dates_week_2[0].to_i)
-			sale_per_day_total = week.values.transpose.map {|x| x.reduce(:+)}
-			sale_per_day_seller = sale_per_day_total.map{|x| (x/9).round(0)}
-			data = {:week => week, :sale_per_day => sale_per_day_seller, :dates => @dates_week, :real_total_month => @real_total_month.first[1].to_i}
-			result << [ w => data ]
+			#sale_per_day_total = week.values.transpose.map {|x| x.reduce(:+)}
+			#sale_per_day_seller = sale_per_day_total.map{|x| (x/9).round(0)}
+			#data = {:week => week, :sale_per_day => sale_per_day_seller, :dates => @dates_week, :real_total_month => @real_total_month.first[1].to_i}
+			#result << [ w => data ]
 		end
 
 		return result

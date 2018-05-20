@@ -49,8 +49,8 @@ class ProductivityController < ApplicationController
         @sp_w4 = Sp.where(year: year).where(month: month).where(week: 4).sum(:sale)
 
         @sp_m1 = Sp.where(year: year).where(month: month).where("week IN(?,?,?,?)", 1, 2, 3, 4).pluck(:sale)
-        #sales plan per day plan de venta total por día 
 
+        #sales plan per day plan de venta total por día 
         @sp_w1_daily = Sp.where(year: year).where(month:month).where(week: 1).pluck(:sale)
         @sp_w2_daily = Sp.where(year: year).where(month:month).where(week: 2).pluck(:sale)
         @sp_w3_daily = Sp.where(year: year).where(month:month).where(week: 3).pluck(:sale)
