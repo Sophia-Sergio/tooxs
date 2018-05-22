@@ -447,6 +447,17 @@ Cerebro.totalTurnosReales = function()
 	return sumatoria_turnos_real;
 }
 
+Cerebro.sumatoriaMatriz = function(matriz)
+{
+	sumatoria = 0;
+	for (var i = 0; i < matrixSemanaD.length; i++) 
+	{
+	 sumatoria += matrixSemanaD[i];
+	}
+
+	return sumatoria;
+}
+
 
 Cerebro.calcularPerdida = function(matrixAlfaD)
 {

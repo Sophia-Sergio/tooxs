@@ -4,7 +4,6 @@ class SalesClusterController < ApplicationController
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Productividad por Segmento", :sales_cluster_index_path       
     @search       = ''
-    #@stores       = Store.all.order(:id)
     @clusters     = Cluster.all.order(:id)
     @departments  = Department.distinct.pluck(:name)
     @masterDepartments = MasterDepartment.all.order(:id)
@@ -44,13 +43,13 @@ class SalesClusterController < ApplicationController
       week  = 0
       saleWeek[week] = 0
       element[:realMonth].each do |data|
-        saleWeek[week] += data.to_i        
-        count += 1 
-        if count == 7
+        if count > 6
           week += 1
           count = 0
           saleWeek[week] = 0
         end
+        saleWeek[week] += data.to_i        
+        count += 1 
       end
       
       #calcular dotación por semana
@@ -59,13 +58,13 @@ class SalesClusterController < ApplicationController
       week  = 0
       dotWeek[week] = 0
       element[:dotMonth].each do |data|
-        dotWeek[week] += data.to_i        
-        count += 1 
-        if count == 7
+        if count > 6
           week += 1
           count = 0
           dotWeek[week] = 0
         end
+        dotWeek[week] += data.to_i        
+        count += 1 
       end
 
       #calcular productividad por semana
@@ -97,9 +96,11 @@ class SalesClusterController < ApplicationController
     element = element(@month, @week, @year, @stores, @dep)
 
     labels = []
-    (month_start..month_end).each do |i|
-      labels << "#{'%02d' % i}-#{ '%02d' % @month }-#{@year}"    
+
+    element.first[:data].count.times do |i|
+      labels << i+1
     end
+
 
     @data = { :labels => labels, :datasets => element }
     render json: @data
@@ -154,8 +155,26 @@ class SalesClusterController < ApplicationController
         dotMonth   << totalDotDay
         totalMonth << (totalRealDay.to_f / totalDotDay.to_f).round
       end
+
       store = Store.find(department.first[:store_id])
-      element << { label: store[:name], fill: 'false', data: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
+
+      #calcular total por semana
+      saleWeek = []
+      count = 0
+      week  = 0
+      saleWeek[week] = 0
+      
+      realMonth.each do |data|
+        if count > 6
+          week += 1
+          count = 0
+          saleWeek[week] = 0
+        end
+        saleWeek[week] += data.to_i        
+        count += 1 
+      end
+      
+      element << { label: store[:name], fill: 'false', data: saleWeek, totalMonth: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
       colorCount += 1
     end
     return element

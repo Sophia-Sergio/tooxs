@@ -130,6 +130,19 @@ class ProductivityController < ApplicationController
 
         @sp_m1 = Sp.where(year: year).where(month: month).where("week IN(?,?,?,?)", 1, 2, 3, 4).pluck(:sale)
 
+        #obtener ventas reales del mes 
+        sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month) 
+        @totalMonth = []
+        @realMonth = []
+        @dotMonth = []
+        sale_reals.each do |sale|
+            totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+            totalDotDay = staffing[("#{sale[:sale_date].strftime("%Y%m%d")}").to_sym][:hours].values.sum
+            @realMonth  << totalRealDay
+            @dotMonth   << totalDotDay
+            @totalMonth << (totalRealDay.to_f / totalDotDay.to_f).round
+        end
+
         #sales plan per day
         @sp_w1_daily = Sp.where(year: year).where(month:month).where(week: 1).pluck(:sale)
         @sp_w2_daily = Sp.where(year: year).where(month:month).where(week: 2).pluck(:sale)
@@ -164,7 +177,8 @@ class ProductivityController < ApplicationController
               :prd1 => @prd_w2_day,
               :prd2 => @prd_w3_day, 
               :prd3 => @prd_w4_day,
-              :spm1 => @sp_m1 
+              :spm1 => @sp_m1,
+              :tsm1 => @totalMonth 
             }
 
         render json: @data
@@ -184,6 +198,9 @@ class ProductivityController < ApplicationController
         w3 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 3).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
         w4 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 4).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
         w5 = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 5).where(:year => year).where(:dow => 1).select(:date).pluck(:date).map{|x| x.strftime('%Y%m%d').to_sym}
+
+
+
         staffingM1 = staffing_draw(w1)[:sellers_per_day] + staffing_draw(w2)[:sellers_per_day] + staffing_draw(w3)[:sellers_per_day] + staffing_draw(w4)[:sellers_per_day]
 
         if w5.count > 0
@@ -309,17 +326,21 @@ class ProductivityController < ApplicationController
         @stores       = Store.all.order(:id)
         @departments  = Department.all.order(:id)
 
-        month  = 5
-        year   = 2018
-        @store = 1
-        @dep   = 1
+        params[:month] = 5
+        params[:year] = 2018
+        params[:store] = 1
+        params[:department] = 1
 
+        month = params[:month].to_i
+        year = params[:year].to_i
+        store = params[:store].to_i
+        department = params[:department].to_i
+        
         #days of the week for this query dias de la semana según comienzo
         @w1_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 1).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%d-%m-%Y').to_sym}
         @w2_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 2).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%d-%m-%Y').to_sym}
         @w3_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 3).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%d-%m-%Y').to_sym}
         @w4_days = Sp.where(:month => month).where(:dow => [1..7]).where(:week => 4).where(:year => year).select(:date).pluck(:date).map{|x| x.strftime('%d-%m-%Y').to_sym}
-
 
         #staffing
         fecha1 = DateTime.parse(@w1_days[0].to_s) 
@@ -338,7 +359,7 @@ class ProductivityController < ApplicationController
         @staffing_w2  = staffing_draw(fecha2)
         @staffing_w3  = staffing_draw(fecha3)
         @staffing_w4  = staffing_draw(fecha4)
-        #@brain_json = brain_json()
+        @brain_json = brain_json()
         #binding.pry        
     end
 end

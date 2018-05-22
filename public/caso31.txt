@@ -1,6 +1,6 @@
 -------------------------------------------------
-MOT: MODELO DE OPTIMIZACI覰 DE TURNOS
-Versi髇: v1.2, 18 de marzo de 2018
+MOT: MODELO DE OPTIMIZACI脫N DE TURNOS
+Versi贸n: v1.2, 18 de marzo de 2018
 Autor: Felipe Tapia, Scipion SpA, Santiago
 -------------------------------------------------
 
@@ -29,9 +29,9 @@ PROBLEMA: mot
 FLAG_OBJ: 1 (0:no existe fojb, 1:min, 2:max)
 
 
-MOT: Evaluando situaci髇 real...
+MOT: Evaluando situaci贸n real...
 
-MOT: Iniciando optimizaci髇
+MOT: Iniciando optimizaci贸n
 SOLVER: Glpk v4.65
 METODO: branch-and-cut
 PRESOLVE: si
@@ -63,7 +63,7 @@ Long-step dual simplex will be used
 RELATIVE MIP GAP TOLERANCE REACHED; SEARCH TERMINATED
 ADVERTENCIA: Tolerancia alcanzada, mip_gap = 3.00%
 
-MOT: Soluci髇 factible encontrada. OK
+MOT: Soluci贸n factible encontrada. OK
 STATUS: OK
 
 -------------------------------------------
@@ -75,7 +75,7 @@ RESUMEN
 Plan de venta          :   80037950
 Deficit de cobertura   :   11619016
 Excedente de cobertura :   54036066
-Desviaci髇 total       :   65655082
+Desviaci贸n total       :   65655082
 Costo remuneraciones   :          0
 Margen de ajuste       :       82.0%
 
@@ -93,7 +93,7 @@ VENTANA DE TIEMPO 1
 Plan de venta          :     80037950
 Deficit de cobertura   :     11619016
 Excedente de cobertura :     54036066
-Desviaci髇 total       :     65655082
+Desviaci贸n total       :     65655082
 Costo remuneraciones   :            0
 Margen de ajuste       :         82.0%
 
@@ -116,9 +116,9 @@ Turno 12           0             0
 
 
 
-MOT: Determinando dotaci髇 髉tima...
+MOT: Determinando dotaci贸n 贸ptima...
 
-MOT: Iniciando optimizaci髇
+MOT: Iniciando optimizaci贸n
 SOLVER: Glpk v4.65
 METODO: branch-and-cut
 PRESOLVE: si
@@ -161,9 +161,9 @@ Long-step dual simplex will be used
 Time used: 60.0 secs.  Memory used: 18.4 Mb.
 + 50171: mip =   3.711363800e+07 >=   3.591425569e+07   3.2% (17319; 833)
 TIME LIMIT EXCEEDED; SEARCH TERMINATED
-ADVERTENCIA: Tiempo l韒ite superado, tm_lim = 1.0 min
+ADVERTENCIA: Tiempo l铆mite superado, tm_lim = 1.0 min
 
-MOT: Soluci髇 factible encontrada. OK
+MOT: Soluci贸n factible encontrada. OK
 STATUS: OK
 
 -------------------------------------------
@@ -175,7 +175,7 @@ RESUMEN
 Plan de venta          :   80037950
 Deficit de cobertura   :   23870794
 Excedente de cobertura :   13242844
-Desviaci髇 total       :   37113638
+Desviaci贸n total       :   37113638
 Costo remuneraciones   :          0
 Margen de ajuste       :       46.4%
 
@@ -193,7 +193,7 @@ VENTANA DE TIEMPO 1
 Plan de venta          :     80037950
 Deficit de cobertura   :     23870794
 Excedente de cobertura :     13242844
-Desviaci髇 total       :     37113638
+Desviaci贸n total       :     37113638
 Costo remuneraciones   :            0
 Margen de ajuste       :         46.4%
 
@@ -214,11 +214,11 @@ Turno 12           1             0
 -----------------------------------------------------
 
 
-MOT: Archivo JSON generado con 閤ito en s31.json
+MOT: Archivo JSON generado con 茅xito en s31.json
 
-MOT: Funci髇 objetivo dotaci髇 real   : 65655082
-MOT: Funci髇 objetivo 髉tima          : 37113638
+MOT: Funci贸n objetivo dotaci贸n real   : 65655082
+MOT: Funci贸n objetivo 贸ptima          : 37113638
 MOT: Margen de eficiencia             : 76.9%
 
-MOT: Duraci髇 1.1 minutos
-MOT: Fin de ejecuci髇
+MOT: Duraci贸n 1.1 minutos
+MOT: Fin de ejecuci贸n

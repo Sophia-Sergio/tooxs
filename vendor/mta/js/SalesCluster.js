@@ -28,7 +28,7 @@ if ( $('#sales_cluster').length > 0)
             responsive: true,
             title: {
               display: true,
-              text: 'Comparativa de Productividad Real'
+              text: 'Comparativa de venta Real'
             },
             tooltips: {
               mode: 'index',

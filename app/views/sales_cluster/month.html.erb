@@ -16,7 +16,7 @@
     </div>
     <%= render 'search_form', locals: { status: 'hidden', path: month_sales_cluster_index_path} %>
     <div class="card-block">
-      <h4 class="grafico-1">Productividad Real por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
+      <h4 class="grafico-1">Venta Real por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
       <p class="m-t-20 grafico-1">Segmento: <span class="label label-default"><%= @cluster_name %></span>
       Departamento: <span class="label label-default"><%= @masterDeparment[:name] %></span>
       Tiendas:
