@@ -58,7 +58,17 @@ Cerebro.productividadDiaria = function()
 	}
 	return plan_venta_diario;
 }
+Cerebro.cacularProductividad = function(mes)
+{
+	sumatoriaTurnosDiaria = this.sumatoriaTurnosDiaria();
+	productividadMes = [];
+	for (var i = 0; i < mes.length; i++) 
+	{
+		productividadMes[i] =  Math.round(parseInt(mes[i]) / parseInt(sumatoriaTurnosDiaria[i]));
+	}
 
+	return productividadMes;
+}
 Cerebro.productividadOptimizada = function()
 {
 	sumatoriaTurnosDiaria = this.sumatoriaTurnosOptimizado();
@@ -450,9 +460,9 @@ Cerebro.totalTurnosReales = function()
 Cerebro.sumatoriaMatriz = function(matriz)
 {
 	sumatoria = 0;
-	for (var i = 0; i < matrixSemanaD.length; i++) 
+	for (var i = 0; i < matriz.length; i++) 
 	{
-	 sumatoria += matrixSemanaD[i];
+	 sumatoria += matriz[i];
 	}
 
 	return sumatoria;

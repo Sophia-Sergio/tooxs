@@ -67,213 +67,56 @@
                       </tbody>
                     </table>
               </div>
-            </div>
-            <div class="row m-t-30">
-              <div class="col-xl-1">
-                <input type="number" class="form-control" id="minutos_optimizando" name="minutos_optimizando" placeholder="minutos" min="0" max="10">
+              <div class="col-md-6">
+                <h2>Productividad al <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h2>
+                <table id="table_desviaciones" class="table-shift table table-bordered bg-master-lightest table-smallFont">
+                  <thead>
+                    <th>Item</th>
+                    <th>Valor</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Productividad Objetivo</td>
+                      <td id="prod_obj"></td>
+                    </tr>
+                    <tr>
+                      <td>Dotación Real</td>
+                      <td id="dot_real"></td>
+                    </tr>
+                    <tr>
+                      <td>Venta real</td>
+                      <td id="vent_real"></td>
+                    </tr>
+                    <tr>
+                      <td>Productividad Real</td>
+                      <td id="prod_real"></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="col-xl-11">
-                  <button type="button" class="btn btn-info btn-optimize"> <i class="fa fa-cogs"></i> Optimizar </button>
-                  <button type="button" class="btn btn-success btn-detalle"> <i class="fa fa-cogs"></i> Detalle </button>
-                </div>
-            </div>            
+
+              <div class="col-md-6">
+                <h2>Detalle</h2>
+                <table id="table_desviaciones" class="table-shift table table-bordered bg-master-lightest table-smallFont">
+                  <thead>
+                    <th>Item</th>
+                    <th>Valor</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Ganancia</td>
+                      <td id="sum-ganancia"></td>
+                    </tr>
+                    <tr>
+                      <td>Perdida</td>
+                      <td id="sum-perdida"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>    
           </div>
         </div>
       </div>
-    </div>
-    <div id="detalle-dotacion" class="row" style="display: none">  
-            <div class="col-md-6 offset-md-3">
-              <div >
-                <h3>Planificación de dotación</h3>      
-              </div>
-              <table  id="tabla-resumen" class="table table-bordered">
-                <thead>
-                  <th>Turnos</th>
-                  <th>Dotación actual</th>
-                  <th>Dotación optimizada</th>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td>Eficiencia dotación</td>
-                    <td id="margen-actual">%</td>
-                    <td id="margen-optimizado">%</td>
-                  </tr>
-                  <tr>
-                    <td>HH Totales</td>
-                    <td id="hh-actual">0</td>
-                    <td id="hh-optimizado">0</td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-          <div class="col-md-12">
-                <h3>Detalle por semanas</h3>      
-              </div>
-          <div class="col-md-12">
-            <span class="dotacion label label-success tip" data-toggle="tooltip">Actual</span>
-            <span class="dotacion label label-primary tip" data-toggle="tooltip">Optimizado</span>
-          </div>
-      <div class="col-xl-6 col-lg-12">
-            <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
-              <thead>
-                <tr class="bg-success">
-                  <td colspan="8" class="text-center no-padding">
-                    <h3 class="no-margin text-uppercase text-white fs-15">Semana 1</h3>
-                  </td>
-                </tr>
-                <tr>
-                    <th class="text-center"> Fecha </th>
-                  <% @staffing_w1[:dates].each do |d| %>
-                    <th class="text-center"> <%= d.to_date.strftime("%d-%m-%Y") %></th>
-                  <% end -%>
-                </tr>
-              </thead>
-              <tbody class="t-p-3">
-                <% hora = -1 
-                   dia = 0
-                   countTurnos = 0 %>                         
-                <% @staffing_w1[:draw].each do |k,v|%>
-                <tr>
-                  <td class="text-center" align="center"><%= k %>:00</td>
-                  <% dia = 0 %>
-                  <% v.first.each do |n| %>
-                    <% if n != 0 %>
-                    <td class="hora text-center">
-                      <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
-                      <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
-                    </td>  
-                  <% dia += 10 %>
-                    <% else %>
-                    <td>  </td>
-                    <% end -%>
-                  <% end -%>
-                </tr>
-                <% hora += 1 %>
-                <% end -%>
-              </tbody>
-            </table>
-      </div>
-      <div class="col-xl-6 col-lg-12">
-            <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
-              <thead>
-                <tr class="bg-success">
-                  <td colspan="8" class="text-center no-padding">
-                    <h3 class="no-margin text-uppercase text-white fs-15">Semana 2</h3>
-                  </td>
-                </tr>
-                <tr>
-                    <th class="text-center"> Fecha </th>
-                  <% @staffing_w2[:dates].each do |d| %>
-                    <th class="text-center"> <%= d.to_date.strftime("%d-%m-%Y") %></th>
-                  <% end -%>
-                </tr>
-              </thead>
-              <tbody class="t-p-3">
-                <% hora = 69 
-                   dia = 0
-                   countTurnos = 0 %>   
-                <% @staffing_w2[:draw].each do |k,v|%>
-                <tr>
-                  <td class="text-center" align="center"><%= k %>:00</td>
-                  <% dia = 0 %>
-                  <% v.first.each do |n| %>
-                    <% if n != 0 %>
-                    <td class="text-center">
-                      <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
-                      <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
-                    </td>  
-                    <% dia += 10 %>
-                    <% else %>
-                    <td>  </td>
-                    <% end -%>
-                  <% end -%>
-                </tr>
-                <% hora += 1 %>
-                <% end -%>
-              </tbody>
-            </table>
-      </div>              
-      <div class="col-xl-6 col-lg-12">
-            <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
-              <thead>
-                <tr class="bg-success">
-                  <td colspan="8" class="text-center no-padding">
-                    <h3 class="no-margin text-uppercase text-white fs-15">Semana 3</h3>
-                  </td>
-                </tr>
-                <tr>
-                    <th class="text-center"> Fecha </th>
-                  <% @staffing_w3[:dates].each do |d| %>
-                    <th class="text-center"> <%= d.to_date.strftime("%d-%m-%Y") %></th>
-                  <% end -%>
-                </tr>
-              </thead>
-              <tbody class="t-p-3">
-                <% hora = 139 
-                   dia = 0
-                   countTurnos = 0 %>   
-                <% @staffing_w3[:draw].each do |k,v|%>
-                <tr>
-                  <td class="text-center" align="center"><%= k %>:00</td>
-                  <% dia = 0 %>
-                  <% v.first.each do |n| %>
-                    <% if n != 0 %>
-                    <td class="text-center">
-                      <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
-                      <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
-                    </td>  
-                    <% dia += 10 %>
-                    <% else %>
-                    <td>  </td>
-                    <% end -%>
-                  <% end -%>
-                </tr>
-                <% hora += 1 %>
-                <% end -%>
-              </tbody>             
-            </table>
-      </div>              
-      <div class="col-xl-6 col-lg-12">
-            <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
-              <thead>
-                <tr class="bg-success">
-                  <td colspan="8" class="text-center no-padding">
-                    <h3 class="no-margin text-uppercase text-white fs-15">Semana 4</h3>
-                  </td>
-                </tr>
-                <tr>
-                    <th class="text-center"> Fecha </th>
-                  <% @staffing_w4[:dates].each do |d| %>
-                    <th class="text-center"> <%= d.to_date.strftime("%d-%m-%Y") %></th>
-                  <% end -%>
-                </tr>
-              </thead>
-              <tbody class="t-p-3">
-                <% hora = 209 
-                   dia = 0
-                   countTurnos = 0 %>   
-                <% @staffing_w4[:draw].each do |k,v|%>
-                <tr>
-                  <td class="text-center" align="center"><%= k %>:00</td>
-                  <% dia = 0 %>
-                  <% v.first.each do |n| %>
-                    <% if n != 0 %>
-                    <td class="text-center">
-                      <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
-                      <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
-                    </td>  
-                    <% dia += 10 %>
-                    <% else %>
-                    <td>  </td>
-                    <% end -%>
-                  <% end -%>
-                </tr>
-                <% hora += 1 %>
-                <% end -%>
-              </tbody>
-            </table>
-      </div>                
     </div>
 </div>

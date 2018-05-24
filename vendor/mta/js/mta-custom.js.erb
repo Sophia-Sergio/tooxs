@@ -587,6 +587,7 @@ if ($('#productivity_demo').length > 0)
             fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
             mes = data.spm1;
             tsm1 = data.tsm1;
+            pam1 = data.pam1;
             // incializar api
             Cerebro.enviarDatos(plan_enviado);
             productividad_diaria = Cerebro.productividadDiaria();
@@ -606,7 +607,7 @@ if ($('#productivity_demo').length > 0)
                 datasets: 
                 [
                   { pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},
-                  { data: productividad_diaria, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(75, 192, 192)'},
+                  { data: pam1, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(75, 192, 192)'},
                   { data: tsm1, label: 'Productividad Real $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 99, 132)'}                                      
                 ],
                 labels: fecha
@@ -695,6 +696,8 @@ if ($('#productivity_demo').length > 0)
             fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
             mes = data.spm1;
             tsm1 = data.tsm1;
+            pam1 = data.pam1;
+            vrm1 = data.vrm1;
             // incializar Datos guardados
             
             Cerebro.plan = plan_enviado;
@@ -707,7 +710,7 @@ if ($('#productivity_demo').length > 0)
             resumen_plan = Cerebro.obtenerResumen();
             productividad_objetivo = Cerebro.productividadObjetivo();
             // setear datos de resumen
-            plan_w = Calculo.semanal(Cerebro.planVentaDiario(), 7);
+            plan_w = Calculo.semanal(mes, 7);
             plan_w1 = plan_w[0]; 
             plan_w2 = plan_w[1];
             plan_w3 = plan_w[2];
@@ -777,15 +780,11 @@ if ($('#productivity_demo').length > 0)
             sum_turnos_real = Cerebro.totalTurnosReales();
             productividad_diaria  = Cerebro.productividadDiaria();
             productividad_optimizada = Cerebro.productividadOptimizada();
+            productividad_actual = Cerebro.cacularProductividad(mes);
+            productividad_real = Cerebro.cacularProductividad(vrm1);
             productividad_objetivo = Cerebro.productividadObjetivo();
             matrizSemana = Cerebro.calcularPerdida(matrizDelta);
             resumen_plan = Cerebro.obtenerResumen();
-
-
-
-            $("#sum-ganancia").html(Cerebro.sumatoriaMatriz(matrizDelta));
-            $("#sum-perdida").html(Cerebro.sumatoriaMatriz(matrizEpsilon));
-
 
             if (resumen_plan[1] == undefined)
             {
@@ -817,25 +816,29 @@ if ($('#productivity_demo').length > 0)
 
 
               var config = {
-              type: 'line',
-              data: {
-              datasets: [
-              {data: productividad_diaria, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
-              {data: tsm1, label: 'Productividad Real $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},  
-              {data: productividad_optimizada, label: 'Productividad Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'},
-              {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'}                                  
-              ],
-              labels: fecha
-              },
-              options: {
-              scales: {
-              yAxes: [{
-              id: 'left-y-axis',
-              type: 'linear',
-              position: 'left'
-              }]
-              }
-              }
+                type: 'line',
+                data: {
+                datasets: 
+                [
+                  {data: productividad_actual, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
+                  {data: productividad_real, label: 'Productividad Real $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},  
+                  {data: productividad_optimizada, label: 'Productividad Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'},
+                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'}                                  
+                ],
+                labels: fecha
+                },
+                options: 
+                {
+                  scales: 
+                  {
+                    yAxes: 
+                    [{
+                      id: 'left-y-axis',
+                      type: 'linear',
+                      position: 'left'
+                    }]
+                  }
+                }
               }    
               document.getElementById("chartContainer").innerHTML = '&nbsp;';
               document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';

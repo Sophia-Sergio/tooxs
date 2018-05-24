@@ -60,6 +60,10 @@ if ($('#productivity_report').length > 0)
             fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
             mes = data.spm1;
             tsm1 = data.tsm1;
+            vent_real = data.vent_real;
+            dot_real = data.dot_real;
+            pam1 = data.pam1;
+
             // incializar api
             Cerebro.enviarDatos(plan_enviado);
             productividad_diaria = Cerebro.productividadDiaria();
@@ -79,7 +83,7 @@ if ($('#productivity_report').length > 0)
                 datasets: 
                 [
                   { pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},
-                  { data: productividad_diaria, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(75, 192, 192)'},
+                  { data: pam1, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(75, 192, 192)'},
                   { data: tsm1, label: 'Productividad Real $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(255, 99, 132)'}                                      
                 ],
                 labels: fecha
@@ -105,7 +109,7 @@ if ($('#productivity_report').length > 0)
             }).show();
 
             // setear datos de resumen
-            plan_w = Calculo.semanal(Cerebro.planVentaDiario(), 7);
+            plan_w = Calculo.semanal(mes, 7);
             plan_w1 = plan_w[0]; 
             plan_w2 = plan_w[1];
             plan_w3 = plan_w[2];
@@ -140,6 +144,16 @@ if ($('#productivity_report').length > 0)
             turnos = Cerebro.turnos;                      
             num_turnos = Cerebro.plan.datos.num_turnos;
             count_turnos = 0;
+            matrizDelta = Cerebro.calcularDelta();
+            matrizEpsilon = Cerebro.calcularEpsilon();
+
+            $("#sum-ganancia").html(Cerebro.sumatoriaMatriz(matrizDelta));
+            $("#sum-perdida").html(Cerebro.sumatoriaMatriz(matrizEpsilon));
+            $("#prod_obj").html(fn.formateaNumero(plan_enviado.datos.prod_obj));
+            $("#vent_real").html(fn.formateaNumero(vent_real));
+            $("#dot_real").html(fn.formateaNumero(dot_real));
+            $("#prod_real").html(fn.formateaNumero(Math.round(vent_real/dot_real)));
+
             while(count_turnos < num_turnos)
             {
               $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
