@@ -676,7 +676,7 @@ if ($('#productivity_demo').length > 0)
 
             //cargar margen de eficiencia                       
             dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), Cerebro.sumatoriaTurnosDiaria().length);
-            $("#hh-actual").html(dotacion_m1);
+            $("#hh-actual").html(fn.formateaNumero(dotacion_m1));
 
             eficiencia = (100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""))).toFixed(2);
             $("#margen-actual").html(parseFloat(eficiencia).toFixed(2)+"%");
@@ -755,7 +755,7 @@ if ($('#productivity_demo').length > 0)
 
             //cargar margen de eficiencia                       
             dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), Cerebro.sumatoriaTurnosDiaria().length);
-            $("#hh-actual").html(dotacion_m1);
+            $("#hh-actual").html(fn.formateaNumero(dotacion_m1));
 
             eficiencia = (100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""))).toFixed(2);
             $("#margen-actual").html(parseFloat(eficiencia).toFixed(2)+"%");
@@ -852,7 +852,7 @@ if ($('#productivity_demo').length > 0)
               eficiencia2 = 100-parseFloat(resumen_plan[1].margeAjuste.replace("%", ""));
               $("#margen-optimizado").html(eficiencia2+"%");
               dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), Cerebro.sumatoriaTurnosOptimizado().length);
-              $("#hh-optimizado").html(dotacion_m1);
+              $("#hh-optimizado").html(fn.formateaNumero(dotacion_m1));
 
 
               Cerebro.setearTurnos();

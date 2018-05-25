@@ -16,8 +16,8 @@ class SalesStatisticsController < ApplicationController
 		@store  = Store.find(1)
 		@dep    = Department.find(1)
 
-		@year  = 2018  
-		@month = 4
+		@year  = Date.today.strftime("%Y").to_i  
+		@month = Date.today.strftime("%m").to_i
 
 		beginning_of_month = "#{@year}-#{@month}-01".to_date
 		end_of_month = beginning_of_month.end_of_month
