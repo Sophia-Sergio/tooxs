@@ -42,24 +42,24 @@ Preprocessing...
 321 rows, 363 columns, 1014 non-zeros
 279 integer variables, none of which are binary
 Scaling...
- A: min|aij| =  1.000e+00  max|aij| =  9.500e+04  ratio =  9.500e+04
-GM: min|aij| =  9.889e-01  max|aij| =  1.011e+00  ratio =  1.023e+00
+ A: min|aij| =  1.000e+00  max|aij| =  6.500e+04  ratio =  6.500e+04
+GM: min|aij| =  9.892e-01  max|aij| =  1.011e+00  ratio =  1.022e+00
 EQ: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
-2N: min|aij| =  5.000e-01  max|aij| =  1.000e+00  ratio =  2.000e+00
+2N: min|aij| =  9.918e-01  max|aij| =  1.000e+00  ratio =  1.008e+00
 Constructing initial basis...
 Size of triangular part is 321
 Solving LP relaxation...
 GLPK Simplex Optimizer, v4.65
 321 rows, 363 columns, 1014 non-zeros
-      0: obj =   5.331471000e+07 inf =   1.864e+04 (300)
-    153: obj =   8.365826800e+07 inf =   0.000e+00 (0)
-*   195: obj =   7.290648900e+07 inf =   0.000e+00 (0)
+      0: obj =   4.722231300e+07 inf =   1.464e+04 (305)
+    157: obj =   6.263725500e+07 inf =   0.000e+00 (0)
+*   196: obj =   5.876478400e+07 inf =   0.000e+00 (0)
 OPTIMAL LP SOLUTION FOUND
 Integer optimization begins...
 Long-step dual simplex will be used
-+   195: mip =     not found yet >=              -inf        (1; 0)
-+   676: >>>>>   7.408080600e+07 >=   7.296292500e+07   1.5% (463; 0)
-+   676: mip =   7.408080600e+07 >=   7.296292500e+07   1.5% (416; 52)
++   196: mip =     not found yet >=              -inf        (1; 0)
++   495: >>>>>   5.987527700e+07 >=   5.878612200e+07   1.8% (275; 0)
++   495: mip =   5.987527700e+07 >=   5.878612200e+07   1.8% (269; 10)
 RELATIVE MIP GAP TOLERANCE REACHED; SEARCH TERMINATED
 ADVERTENCIA: Tolerancia alcanzada, mip_gap = 3.00%
 
@@ -72,30 +72,30 @@ STATUS: OK
 
 RESUMEN
 
-Plan de venta          :  134641260
-Deficit de cobertura   :   43138533
-Excedente de cobertura :   30942273
-Desviación total       :   74080806
+Plan de venta          :  157924931
+Deficit de cobertura   :   52642604
+Excedente de cobertura :    7232673
+Desviación total       :   59875277
 Costo remuneraciones   :          0
-Margen de ajuste       :       55.0%
+Margen de ajuste       :       37.9%
 
 Ventanas         Vendedores         Costo       Plan_venta    Deficit       Excedente     Desviacion    Margen_ajuste
-Ventana 1                12             0     134641260      43138533      30942273      74080806          55.0%
-    TOTAL                12             0     134641260      43138533      30942273      74080806          55.0%
+Ventana 1                12             0     157924931      52642604       7232673      59875277          37.9%
+    TOTAL                12             0     157924931      52642604       7232673      59875277          37.9%
 
 Departamentos    Vendedores         Costo       Plan_venta    Deficit       Excedente     Desviacion    Margen_ajuste
-Departamento 1           12             0     134641260      43138533      30942273      74080806          55.0%
-         TOTAL           12             0     134641260      43138533      30942273      74080806          55.0%
+Departamento 1           12             0     157924931      52642604       7232673      59875277          37.9%
+         TOTAL           12             0     157924931      52642604       7232673      59875277          37.9%
 ------------------------------------------------------------------------------
 
 VENTANA DE TIEMPO 1
 
-Plan de venta          :    134641260
-Deficit de cobertura   :     43138533
-Excedente de cobertura :     30942273
-Desviación total       :     74080806
+Plan de venta          :    157924931
+Deficit de cobertura   :     52642604
+Excedente de cobertura :      7232673
+Desviación total       :     59875277
 Costo remuneraciones   :            0
-Margen de ajuste       :         55.0%
+Margen de ajuste       :         37.9%
 
 Turnos    Vendedores         Costo
 Turno 1            1             0
@@ -129,25 +129,39 @@ Preprocessing...
 559 rows, 571 columns, 3359 non-zeros
 291 integer variables, none of which are binary
 Scaling...
- A: min|aij| =  1.000e+00  max|aij| =  9.500e+04  ratio =  9.500e+04
-GM: min|aij| =  8.799e-01  max|aij| =  1.137e+00  ratio =  1.292e+00
-EQ: min|aij| =  7.753e-01  max|aij| =  1.000e+00  ratio =  1.290e+00
-2N: min|aij| =  3.624e-01  max|aij| =  1.000e+00  ratio =  2.759e+00
+ A: min|aij| =  1.000e+00  max|aij| =  6.500e+04  ratio =  6.500e+04
+GM: min|aij| =  8.794e-01  max|aij| =  1.137e+00  ratio =  1.293e+00
+EQ: min|aij| =  7.744e-01  max|aij| =  1.000e+00  ratio =  1.291e+00
+2N: min|aij| =  9.918e-01  max|aij| =  1.000e+00  ratio =  1.008e+00
 Constructing initial basis...
 Size of triangular part is 559
 Solving LP relaxation...
 GLPK Simplex Optimizer, v4.65
 559 rows, 571 columns, 3359 non-zeros
-*   676: obj =   1.346412600e+08 inf =   0.000e+00 (12)
-*   969: obj =   6.382842114e+07 inf =   4.238e-12 (0) 2
+*   495: obj =   1.579249310e+08 inf =   0.000e+00 (12)
+*   830: obj =   4.248678925e+07 inf =   1.990e-13 (0) 3
 OPTIMAL LP SOLUTION FOUND
 Integer optimization begins...
 Long-step dual simplex will be used
-+   969: mip =     not found yet >=              -inf        (1; 0)
-+  1350: >>>>>   6.532402600e+07 >=   6.391174427e+07   2.2% (253; 0)
-+  1350: mip =   6.532402600e+07 >=   6.391174427e+07   2.2% (245; 15)
-RELATIVE MIP GAP TOLERANCE REACHED; SEARCH TERMINATED
-ADVERTENCIA: Tolerancia alcanzada, mip_gap = 3.00%
++   830: mip =     not found yet >=              -inf        (1; 0)
++  1505: >>>>>   4.505802300e+07 >=   4.250359917e+07   5.7% (421; 0)
++  4644: >>>>>   4.501719700e+07 >=   4.256140000e+07   5.5% (2061; 15)
++  6862: >>>>>   4.481668500e+07 >=   4.258193211e+07   5.0% (3013; 99)
++  8488: >>>>>   4.481525700e+07 >=   4.258387900e+07   5.0% (3524; 1044)
++ 13259: mip =   4.481525700e+07 >=   4.258828100e+07   5.0% (5570; 1059)
++ 17741: mip =   4.481525700e+07 >=   4.258828100e+07   5.0% (7480; 1071)
++ 22073: mip =   4.481525700e+07 >=   4.258963100e+07   5.0% (9384; 1081)
++ 25951: >>>>>   4.475806500e+07 >=   4.258963100e+07   4.8% (11424; 1090)
++ 27611: >>>>>   4.473772100e+07 >=   4.258963100e+07   4.8% (11569; 2390)
++ 31505: mip =   4.473772100e+07 >=   4.258963100e+07   4.8% (13170; 3159)
++ 35354: mip =   4.473772100e+07 >=   4.258963100e+07   4.8% (15131; 3168)
++ 39168: mip =   4.473772100e+07 >=   4.258963100e+07   4.8% (16973; 3177)
++ 43135: mip =   4.473772100e+07 >=   4.258963100e+07   4.8% (18702; 3188)
++ 44050: >>>>>   4.468221900e+07 >=   4.259504611e+07   4.7% (19209; 3190)
++ 47117: mip =   4.468221900e+07 >=   4.260151700e+07   4.7% (19574; 5897)
++ 49488: mip =   4.468221900e+07 >=   4.260209300e+07   4.7% (20951; 5901)
+TIME LIMIT EXCEEDED; SEARCH TERMINATED
+ADVERTENCIA: Tiempo límite superado, tm_lim = 1.0 min
 
 MOT: Solución factible encontrada. OK
 STATUS: OK
@@ -158,53 +172,53 @@ STATUS: OK
 
 RESUMEN
 
-Plan de venta          :  134641260
-Deficit de cobertura   :   50852643
-Excedente de cobertura :   14471383
-Desviación total       :   65324026
+Plan de venta          :  157924931
+Deficit de cobertura   :   22816075
+Excedente de cobertura :   21866144
+Desviación total       :   44682219
 Costo remuneraciones   :          0
-Margen de ajuste       :       48.5%
+Margen de ajuste       :       28.3%
 
 Ventanas         Vendedores         Costo       Plan_venta    Deficit       Excedente     Desviacion    Margen_ajuste
-Ventana 1                 9             0     134641260      50852643      14471383      65324026          48.5%
-    TOTAL                 9             0     134641260      50852643      14471383      65324026          48.5%
+Ventana 1                19             0     157924931      22816075      21866144      44682219          28.3%
+    TOTAL                19             0     157924931      22816075      21866144      44682219          28.3%
 
 Departamentos    Vendedores         Costo       Plan_venta    Deficit       Excedente     Desviacion    Margen_ajuste
-Departamento 1            9             0     134641260      50852643      14471383      65324026          48.5%
-         TOTAL            9             0     134641260      50852643      14471383      65324026          48.5%
+Departamento 1           19             0     157924931      22816075      21866144      44682219          28.3%
+         TOTAL           19             0     157924931      22816075      21866144      44682219          28.3%
 ------------------------------------------------------------------------------
 
 VENTANA DE TIEMPO 1
 
-Plan de venta          :    134641260
-Deficit de cobertura   :     50852643
-Excedente de cobertura :     14471383
-Desviación total       :     65324026
+Plan de venta          :    157924931
+Deficit de cobertura   :     22816075
+Excedente de cobertura :     21866144
+Desviación total       :     44682219
 Costo remuneraciones   :            0
-Margen de ajuste       :         48.5%
+Margen de ajuste       :         28.3%
 
 Turnos    Vendedores         Costo
 Turno 1            1             0
 Turno 2            1             0
-Turno 3            1             0
-Turno 4            2             0
-Turno 5            0             0
-Turno 6            0             0
+Turno 3            2             0
+Turno 4            1             0
+Turno 5            2             0
+Turno 6            1             0
 Turno 7            1             0
-Turno 8            2             0
-Turno 9            0             0
-Turno 10           0             0
-Turno 11           0             0
-Turno 12           1             0
-   TOTAL           9             0
+Turno 8            0             0
+Turno 9            2             0
+Turno 10           2             0
+Turno 11           2             0
+Turno 12           4             0
+   TOTAL          19             0
 -----------------------------------------------------
 
 
 MOT: Archivo JSON generado con éxito en s30.json
 
-MOT: Función objetivo dotación real   : 74080806
-MOT: Función objetivo óptima          : 65324026
-MOT: Margen de eficiencia             : 13.4%
+MOT: Función objetivo dotación real   : 59875277
+MOT: Función objetivo óptima          : 44682219
+MOT: Margen de eficiencia             : 34.0%
 
-MOT: Duración 0.1 minutos
+MOT: Duración 1.1 minutos
 MOT: Fin de ejecución

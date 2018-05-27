@@ -34,6 +34,11 @@
   <strong>Margin adjustment:</strong>
   <%= @summary_case.margin_adjustment %>
 </p>
+<p>
+  <strong>I/O:</strong>
+  <%= @summary_case.type_io %>
+</p>
+
 
 <%= link_to 'Edit', edit_summary_case_path(@summary_case) %> |
 <%= link_to 'Back', summary_cases_path %>

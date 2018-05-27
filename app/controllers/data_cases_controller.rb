@@ -69,6 +69,6 @@ class DataCasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def data_case_params
-      params.require(:data_case).permit(:id_case, :turn_num, :dep_num, :day_num, :hour_day, :hp_val, :prod_obj, :vhp, :pov, :luch_in, :lunch_hours, :hour_min, :turns_matrix, :real_dot, :sale_plan)
+      params.require(:data_case).permit(:id_case, :turn_num, :dep_num, :day_num, :hour_day, :hp_val, :prod_obj, :vhp, :pov, :lunch_in, :lunch_hours, :hour_min, :turns_matrix, :real_dot, :sale_plan)
     end
 end

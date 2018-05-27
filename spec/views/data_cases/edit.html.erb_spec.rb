@@ -12,7 +12,7 @@ RSpec.describe "data_cases/edit", type: :view do
       :prod_obj => 1.5,
       :vhp => "MyString",
       :pov => "MyString",
-      :luch_in => "MyString",
+      :lunch_in => "MyString",
       :lunch_hours => "MyString",
       :hour_min => 1,
       :turns_matrix => "MyString",
@@ -44,7 +44,7 @@ RSpec.describe "data_cases/edit", type: :view do
 
       assert_select "input[name=?]", "data_case[pov]"
 
-      assert_select "input[name=?]", "data_case[luch_in]"
+      assert_select "input[name=?]", "data_case[lunch_in]"
 
       assert_select "input[name=?]", "data_case[lunch_hours]"
 

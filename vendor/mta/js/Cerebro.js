@@ -639,6 +639,32 @@ Cerebro.setearTurnos = function()
 				this.turnos = datosArray;
 			}
 		}
+
+		if (datosArray == {})
+		{	
+			//[1,1,1] 1, [2,1,1] 1, [3,1,1] 1, [4,1,1] 2, [5,1,1] 2, [6,1,1] 2, [7,1,1] 2,[8,1,1] 1,[9,1,1] 0, [10,1,1] 0, [11,1,1] 0, [12,1,1] 0
+			// obtener turnos del array de entrada
+			turnos = plan_enviado.datos.dotacion_real.split(", [");
+			matriz_turnos[0] = matriz_turnos[0].replace("[", "");
+			num_turnos = Cerebro.plan.datos.num_turnos;
+
+			datosArray = Array();
+
+			for (var j = 0; j < dotacion_real.length; j++)
+			{
+				dotacion = dotacion_real[j].split("] ")[0];
+				dotacion_cantidad = dotacion_real[j].split("] ")[1];
+				coordenadas = dotacion.split(",");
+				datos = {};
+				datos.turno = "Turno "+coordenadas[0];
+				datos.vendedores = dotacion_cantidad;
+				datos.costo = 0;
+				datosArray.push(datos);
+				count++;
+			}
+
+			this.turnos = datosArray;
+		}
 	}
 }
 

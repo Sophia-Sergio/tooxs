@@ -12,7 +12,7 @@ RSpec.describe "data_cases/show", type: :view do
       :prod_obj => 8.5,
       :vhp => "Vhp",
       :pov => "Pov",
-      :luch_in => "Luch In",
+      :lunch_in => "Luch In",
       :lunch_hours => "Lunch Hours",
       :hour_min => 9,
       :turns_matrix => "Turns Matrix",

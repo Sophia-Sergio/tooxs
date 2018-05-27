@@ -10,7 +10,7 @@ class CreateDataCases < ActiveRecord::Migration[5.1]
       t.float :prod_obj
       t.string :vhp
       t.string :pov
-      t.string :luch_in
+      t.string :lunch_in
       t.string :lunch_hours
       t.integer :hour_min
       t.string :turns_matrix
