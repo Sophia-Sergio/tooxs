@@ -56,56 +56,14 @@
                   <canvas id="canvas"> </canvas>
                 </div>
               </div>             
-              <div class="col-md-6 offset-md-3">
-                <h3>Productividad Actual por semanas</h3>                    
-                    <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest table-smallFont">
-                      <thead>
-                        <tr class="bg-success">
-                          <td colspan="8" class="text-center no-padding">
-                            <h3 class="no-margin text-uppercase text-white fs-15"></h3>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th class="text-center"></th>
-                          <th class="text-center">Semana 1</th>
-                          <th class="text-center">Semana 2</th>
-                          <th class="text-center">Semana 3</th>
-                          <th class="text-center">Semana 4</th>
-                        </tr>
-                      </thead>
-                      <tbody class="t-p-3">
-                      	<tr>
-                      		<td>Plan de Venta</td>
-                          <td id="plan-w1"></td>
-                          <td id="plan-w2"></td>
-                          <td id="plan-w3"></td>
-                          <td id="plan-w4"></td>
-                        </tr>
-
-                        <tr>
-                          <td>Dotación Semanal (HH)</td>
-                          <td id="dotacion-w1"></td>
-                          <td id="dotacion-w2"></td>
-                          <td id="dotacion-w3"></td>
-                          <td id="dotacion-w4"></td>
-                        </tr>
-
-                        <tr>
-                          <td>Productividad</td>
-                          <td id="productividad-w1"></td>
-                          <td id="productividad-w2"></td>
-                          <td id="productividad-w3"></td>
-                          <td id="productividad-w4"></td>
-                        </tr>                        
-                      </tbody>
-                    </table>
+              <div id="productividades" class="col-md-6 offset-md-3">
               </div>
             </div>
-            <div class="row m-t-30">
+            <div id="botones-optimizar" class="row m-t-30" style="display: none">
               <div class="col-xl-1">
                 <input type="number" class="form-control" id="minutos_optimizando" name="minutos_optimizando" placeholder="minutos" min="0" max="10">
               </div>
-              <div class="col-xl-11">
+              <div class="col-xl-11" >
                   <button type="button" class="btn btn-info btn-optimize"> <i class="fa fa-cogs"></i> Optimizar </button>
                   <button type="button" class="btn btn-success btn-detalle"> <i class="fa fa-cogs"></i> Detalle </button>
                 </div>

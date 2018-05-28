@@ -29,3 +29,34 @@ Calculo.semanal = function(datos, dias)
 	}
 	return arraySemana;
 }
+
+Calculo.exceso = function(prod_obj, matriz)
+{
+	var exceso = 0;
+	for (var i = 0; i < matriz.length; i++) 
+	{
+		if ((matriz[i] - prod_obj) > 0)
+		{
+			exceso += matriz[i];
+		}	
+	}
+
+	exceso = Math.round(exceso / prod_obj)
+
+	return fn.formateaNumero(exceso);
+}
+
+Calculo.faltante = function(prod_obj, matriz)
+{
+	var faltante = 0;
+	for (var i = 0; i < matriz.length; i++) 
+	{
+		if ((matriz[i] - prod_obj) < 0)
+		{
+			faltante += matriz[i];
+		}	
+	}
+	faltante = Math.round(faltante / prod_obj)
+
+	return fn.formateaNumero(faltante);
+}

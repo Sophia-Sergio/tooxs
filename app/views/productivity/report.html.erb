@@ -23,73 +23,32 @@
                   <canvas id="canvas"> </canvas>
                 </div>
               </div>             
-              <div class="col-md-6 offset-md-3">
-                <h3>Productividad Actual por semanas</h3>                    
-                    <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest table-smallFont>
-                      <thead>
-                        <tr class="bg-success">
-                          <td colspan="8" class="text-center no-padding">
-                            <h3 class="no-margin text-uppercase text-white fs-15"></h3>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th class="text-center"></th>
-                          <th class="text-center">Semana 1</th>
-                          <th class="text-center">Semana 2</th>
-                          <th class="text-center">Semana 3</th>
-                          <th class="text-center">Semana 4</th>
-                        </tr>
-                      </thead>
-                      <tbody class="t-p-3">
-                      	<tr>
-                      		<td>Plan de Venta</td>
-                          <td id="plan-w1"></td>
-                          <td id="plan-w2"></td>
-                          <td id="plan-w3"></td>
-                          <td id="plan-w4"></td>
-                        </tr>
-
-                        <tr>
-                          <td>Dotación Semanal (HH)</td>
-                          <td id="dotacion-w1"></td>
-                          <td id="dotacion-w2"></td>
-                          <td id="dotacion-w3"></td>
-                          <td id="dotacion-w4"></td>
-                        </tr>
-
-                        <tr>
-                          <td>Productividad Esperada por HH</td>
-                          <td id="productividad-w1"></td>
-                          <td id="productividad-w2"></td>
-                          <td id="productividad-w3"></td>
-                          <td id="productividad-w4"></td>
-                        </tr>                        
-                      </tbody>
-                    </table>
+              <div id="productividades" class="col-md-6 offset-md-3">
               </div>
               <div class="col-md-6">
-                <h2>Productividad al <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h2>
-                <table id="table_desviaciones" class="table-shift table table-bordered bg-master-lightest table-smallFont">
+                <h2>Productividad <h2> <!-- al <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h2> -->
+                <table id="table_desviaciones" class="table-shift table table-bordered bg-master-lightest">
                   <thead>
-                    <th>Item</th>
-                    <th>Valor</th>
+                    <th></th>
+                    <th>Productividad Objetivo</th>
+                    <th>Dotación</th>
+                    <th>Venta</th>
+                    <th>Productividad</th>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Productividad Objetivo</td>
-                      <td id="prod_obj"></td>
-                    </tr>
-                    <tr>
-                      <td>Dotación Real</td>
-                      <td id="dot_real"></td>
-                    </tr>
-                    <tr>
-                      <td>Venta real</td>
-                      <td id="vent_real"></td>
-                    </tr>
-                    <tr>
                       <td>Productividad Real</td>
+                      <td class="prod_obj"></td>
+                      <td id="dot_real"></td>
+                      <td id="vent_real"></td>
                       <td id="prod_real"></td>
+                    </tr>
+                    <tr>
+                      <td>Productividad Optimizada</td>
+                      <td class="prod_obj"></td>
+                      <td id="dot_op"></td>
+                      <td id="vent_op"></td>
+                      <td id="prod_op"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -97,22 +56,48 @@
 
               <div class="col-md-6">
                 <h2>Detalle</h2>
-                <table id="table_desviaciones" class="table-shift table table-bordered bg-master-lightest table-smallFont">
+                <table id="table_desviaciones" class="table-shift table table-bordered bg-master-lightest">
                   <thead>
-                    <th>Item</th>
-                    <th>Valor</th>
+                    <th></th>
+                    <th>Exceso de horas</th>
+                    <th>Horas faltantes</th>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Ganancia</td>
-                      <td id="sum-ganancia"></td>
+                      <td>Real</td>
+                      <td id="sum-exceso"></td>
+                      <td id="sum-faltante"></td>
                     </tr>
                     <tr>
-                      <td>Perdida</td>
-                      <td id="sum-perdida"></td>
+                      <td>Optimizada</td>
+                      <td id="sum-exceso-op"></td>
+                      <td id="sum-faltante-op"></td>
                     </tr>
                   </tbody>
                 </table>
+              </div>
+              <div class="col-md-6 col-md-offset-3">
+                <h2>Eficiencia</h2>
+                <table id="table_desviaciones" class="table-shift table table-bordered bg-master-lightest">
+                  <thead>
+                    <th>Item</th>
+                    <th>Valor %</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Nivel eficiencia optimizada</td>
+                      <td id="efinciencia-op"></td>
+                    </tr>
+                    <tr>
+                      <td>Nivel esfuerzo real</td>
+                      <td id="efinciencia-real"></td>
+                    </tr>
+                    <tr>
+                      <td>Total</td>
+                      <td id="eficiencia-total"></td>
+                    </tr>
+                  </tbody>
+                </table>                
               </div>
             </div>    
           </div>

@@ -518,7 +518,7 @@ $(document).on('click','.btn-optimize', function()
 		{ 
 			optimizar(); 
 		},
-		parseInt(($("#minutos_optimizando").val()*60000)+3000);
+		parseInt(($("#minutos_optimizando").val()*60000)+3000));
 	}
 	else
 	{

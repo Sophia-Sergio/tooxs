@@ -109,6 +109,44 @@ Cerebro.productividadOptimizada = function()
 	}
 	return plan_venta_diario;
 }
+Cerebro.planVentaOptimizada = function()
+{
+	if (Object.keys(Cerebro.plan).length !== 0)
+	{		
+		plan_venta_in = this.plan.datos.plan_venta.split(", [");
+		plan_venta_in[0] = plan_venta_in[0].replace("[", "");
+		num_horas_dia_in =  this.plan.datos.num_horas_dia;
+		num_dias_ventana = this.plan.datos.num_dias_ventana;
+		//sacar el plan de venta diario
+
+		var plan_venta_diario = new Array(num_dias_ventana);
+
+		//inicializar en 0
+
+		for (var i = 0; i < plan_venta_in.length; i++) 
+		{
+		    plan_hora = plan_venta_in[i].split("] ")
+		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] = 0;
+		}
+		//sumatoria por día 
+
+		for (var i = 0; i < plan_venta_in.length; i++) 
+		{
+		    plan_hora = plan_venta_in[i].split("] ")
+		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] += parseFloat(plan_hora[1]);
+		}
+
+		for (var i = 0; i < plan_venta_diario.length; i++) 
+		{
+			plan_venta_diario[i] =  Math.round(parseInt(plan_venta_diario[i]));
+		}
+	}
+	else
+	{
+		plan_venta_in = "";
+	}
+	return plan_venta_diario;
+}
 
 Cerebro.productividadObjetivo = function()
 {
