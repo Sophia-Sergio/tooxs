@@ -394,7 +394,7 @@ if ($('#productivity_report').length > 0)
               $("#prod_op").html(fn.formateaNumero(Math.round(vent_op/dot_op)));
               
               eficiencia_op = (100-parseFloat(Cerebro.resumen[1].margeAjuste));
-              eficiencia_real = (100-parseFloat(Cerebro.resumen[2].margeAjuste));
+              eficiencia_real = (100-parseFloat(Cerebro.resumen[0].margeAjuste));
 
 
               $("#efinciencia-op").html(eficiencia_op+"%");

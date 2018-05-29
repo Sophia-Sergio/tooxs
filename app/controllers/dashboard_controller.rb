@@ -1,12 +1,21 @@
 class DashboardController < ApplicationController
 	def index
 
-		@sellers = Seller.where(store: 1, department: 1)
-		seller   = Seller.find(25)
-		@real = sale_real(seller, 2016, 11)
+		department = 1
+		store = 1
+
+		@sellers = Seller.where(store: store, department: department)
+
+		year = Date.today.strftime("%Y").to_i
+        month = Date.today.strftime("%m").to_i
+
 
 		assigned_shift = Seller.where(store: 1, department: 1).pluck(:assigned_shift)
 		turnos = Array.new(12, 0)
+
+		dataCase = DataCase.where(dep_num: department, month: month).first
+		summaryCase = SummaryCase.where( id_case: dataCase.id_case, type_io: 'out').first
+		
 		turnosOptimizados = [1, 1, 1, 2, 2, 1, 1, 0, 1, 5, 2, 1]
 		
 		assigned_shift.each do |x|
@@ -28,7 +37,7 @@ class DashboardController < ApplicationController
 		add_breadcrumb "Dashboard", :root_path
 	end
 
-	def sale_real(seller,year,month)
+	def sale_real(seller, year, month)
 
 		@store        = seller.store.id
 		@dep          = seller.department.id
@@ -116,14 +125,7 @@ class DashboardController < ApplicationController
 
 
 			staffing_week = staffing_draw(@dates_week_2[0].to_i)
-			#sale_per_day_total = week.values.transpose.map {|x| x.reduce(:+)}
-			#sale_per_day_seller = sale_per_day_total.map{|x| (x/9).round(0)}
-			#data = {:week => week, :sale_per_day => sale_per_day_seller, :dates => @dates_week, :real_total_month => @real_total_month.first[1].to_i}
-			#result << [ w => data ]
 		end
-
 		return result
-		#incluye toda la semana, independiente si pertenece a otro mes
-		#sp_week   = SalePlan.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep)
 	end 
 end
