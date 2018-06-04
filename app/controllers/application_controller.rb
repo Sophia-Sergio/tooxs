@@ -110,4 +110,49 @@ end
 
 	end
 
+  def seller_staffing(seller, month, year)
+
+    @store        = seller.store.id
+    @dep          = seller.department.id
+    @year         = year
+    @month        = month
+
+    @depInf = Department.find(@dep)
+   
+    @depInf.productivity_obj
+      
+    result = []  
+    (1..4).each do |w|
+      @dates_week = []
+      dayResult = Array.new(7)
+      planResult = Array.new(7)
+      (1..7).each do |d|
+          @day = AvailableShift.where( num: seller.assigned_shift, week: w, day: d)  
+          count = 0 
+          @day.each do |s|
+            count += 1 if s.nine
+            count += 1 if s.ten
+            count += 1 if s.eleven
+            count += 1 if s.twelve
+            count += 1 if s.thirteen
+            count += 1 if s.fourteen
+            count += 1 if s.fifteen
+            count += 1 if s.sixteen
+            count += 1 if s.seventeen
+            count += 1 if s.eighteen
+            count += 1 if s.nineteen
+            count += 1 if s.twenty
+            count += 1 if s.twenty_one
+            count += 1 if s.twenty_two
+            count += 1 if s.twenty_three
+            count += 1 if s.twenty_four
+          end
+          dayResult[d-1] = count
+          planResult[d-1] = count.to_i * @depInf.productivity_obj.to_i
+      end
+      data = { :staffing_per_day => dayResult, :seller_plan_per_day => planResult}
+      result << [ w => data ]
+    end  
+    return result   
+  end
 end

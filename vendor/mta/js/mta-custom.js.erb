@@ -697,13 +697,11 @@ if ($('#productivity_demo').length > 0)
             turnos = Cerebro.turnos;                      
             num_turnos = Cerebro.plan.datos.num_turnos;
             count_turnos = 0;
-            if (turnos)
-            {              
-              while(count_turnos < num_turnos)
-              {
-                $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
-                count_turnos++;
-              }
+
+            while(count_turnos < num_turnos)
+            {
+              $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
+              count_turnos++;
             }
 
             //cargar margen de eficiencia                       

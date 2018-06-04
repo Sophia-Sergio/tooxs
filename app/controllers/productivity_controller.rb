@@ -19,8 +19,8 @@ class ProductivityController < ApplicationController
         add_breadcrumb "Buscar", :productivity_index_path   
         add_breadcrumb "Productividad", :productivity_show_path    
         @search       = ''
-        @stores       = Store.all.order(:id)
-        @departments  = Department.all.order(:id)
+        @stores       = Store.all.order(:id).joins("INNER JOIN departments ON stores.id = departments.store_id INNER JOIN data_cases ON departments.id = data_cases.dep_num").distinct 
+        @departments  = Department.all.order(:id).joins("INNER JOIN data_cases ON departments.id = data_cases.dep_num").distinct
 
         month  = params[:month].to_i
         year   = params[:year].to_i
@@ -242,16 +242,22 @@ class ProductivityController < ApplicationController
             json_result = ''
         else
             returnCase = ReturnCase.where(id_case: dataCase.first[:id_case]).first  
-            File.open(File.join(Rails.root, 'public', "caso#{dataCase.first[:id_case]}.txt"), 'r')do |f1|  
-              while line = f1.gets 
-                if line == ""
-                    line = "\n"    
-                end 
-                summary += "#{line}"
-              end  
+            if File.exist?(File.join(Rails.root, 'public', "caso#{dataCase.first[:id_case]}.txt"))
+                File.open(File.join(Rails.root, 'public', "caso#{dataCase.first[:id_case]}.txt"), 'r')do |f1|  
+                  while line = f1.gets 
+                    if line == ""
+                        line = "\n"    
+                    end 
+                    summary += "#{line}"
+                  end  
+                end
+                existe = true
+                json_result = "{\"margen_eficiencia\":\"#{returnCase.eff_margin}\",\"excedente_total\":#{returnCase.total_surplus},\"costo_remuneracion\":#{returnCase.compensation_cost}, \"status\":\"#{returnCase.status}\",\"usuario\":\"#{returnCase.user}\",\"id_caso\":\"#{returnCase.id_case}\",\"mensaje\":\"#{returnCase.message}\", \"deficit_total\":#{returnCase.deficit_total},\"tolerancia\":\"#{returnCase.tolerance}\",\"version\":\"#{returnCase.version}\", \"formato_resultado\":{\"almuerzo\":\"[turno_i,departamento_j,período_t] valor, [...\", \"delta\":\"[departamento_j,período_t] valor, [...\"}, \"tiempo_maximo\":\"#{returnCase.max_time}\",\"resultado\":{\"almuerzos\":\"#{returnCase.lunchs}\",\"turnos\":\"#{returnCase.turns}\",\"delta\":\"#{returnCase.delta}\", \"epsilon\":\"#{returnCase.epsilon}\"},\"soporte\":\"fatapia@scipion.cl\",\"modelo\":\"#{returnCase.model}\",\"plan_venta\":#{returnCase.sales_plan}, \"funcion_objetivo\":#{returnCase.obj_function}}"         
+            else
+                summary = ''
+                existe = false           
+                json_result = ''            
             end
-            existe = true
-           json_result = "{\"margen_eficiencia\":\"#{returnCase.eff_margin}\",\"excedente_total\":#{returnCase.total_surplus},\"costo_remuneracion\":#{returnCase.compensation_cost}, \"status\":\"#{returnCase.status}\",\"usuario\":\"#{returnCase.user}\",\"id_caso\":\"#{returnCase.id_case}\",\"mensaje\":\"#{returnCase.message}\", \"deficit_total\":#{returnCase.deficit_total},\"tolerancia\":\"#{returnCase.tolerance}\",\"version\":\"#{returnCase.version}\", \"formato_resultado\":{\"almuerzo\":\"[turno_i,departamento_j,período_t] valor, [...\", \"delta\":\"[departamento_j,período_t] valor, [...\"}, \"tiempo_maximo\":\"#{returnCase.max_time}\",\"resultado\":{\"almuerzos\":\"#{returnCase.lunchs}\",\"turnos\":\"#{returnCase.turns}\",\"delta\":\"#{returnCase.delta}\", \"epsilon\":\"#{returnCase.epsilon}\"},\"soporte\":\"fatapia@scipion.cl\",\"modelo\":\"#{returnCase.model}\",\"plan_venta\":#{returnCase.sales_plan}, \"funcion_objetivo\":#{returnCase.obj_function}}"         
         end
 
         @data = { :existe => existe, :summary => summary, :json_result => json_result}

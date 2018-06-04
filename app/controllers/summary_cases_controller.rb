@@ -69,6 +69,6 @@ class SummaryCasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def summary_case_params
-      params.require(:summary_case).permit(:id_case, :sale_plan, :coverange_deficit, :surplus_coverange, :total_deviation, :cost_of_remunerations, :margin_adjustment)
+      params.require(:summary_case).permit(:id_case, :sale_plan, :coverange_deficit, :surplus_coverange, :total_deviation, :cost_of_remunerations, :margin_adjustment, :type_io, :real_dot)
     end
 end
