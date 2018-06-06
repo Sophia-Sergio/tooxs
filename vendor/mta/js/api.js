@@ -438,22 +438,46 @@ function optimizar()
 	                    type: 'line',
 	                    data: {
 	                      datasets: [
+					                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},                                  
 					                  {data: productividad_actual, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
 					                  {data: productividad_real, label: 'Productividad Real $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},  
-					                  {data: productividad_optimizada, label: 'Productividad Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'},
-					                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'}                                  
+					                  {data: productividad_optimizada, label: 'Productividad Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'}
  	                                ],
 	                      labels: fecha
 	                    },
-	                    options: {
-	                      scales: {
-	                        yAxes: [{
-	                          id: 'left-y-axis',
-	                          type: 'linear',
-	                          position: 'left'
-	                        }]
-	                      }
-	                    }
+		                options: 
+		                {
+		                  scales: 
+		                  {
+		                    yAxes: 
+		                    [{
+		                      id: 'left-y-axis',
+		                      type: 'linear',
+		                      position: 'left',
+		                      ticks: {
+		                          callback: function(value, index, values) 
+		                          {
+		                            console.log("asd");
+		                            if (parseInt(value) >= 1000) {
+		                              return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+		                            } else {
+		                              return '$' + value;
+		                            }
+		                          }
+		                        }
+		                  }]
+		                  },
+		                  tooltips: {
+		                    mode: 'index',
+		                    intersect: false,
+		                    callbacks: {
+		                      label: function(tooltipItem, chart){
+		                          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+		                          return datasetLabel + ': $ ' + fn.formateaNumero(tooltipItem.yLabel);
+		                      }
+		                    }
+		                  }
+		                }
 	                  }    
 	                 document.getElementById("chartContainer").innerHTML = '&nbsp;';
 				     document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';

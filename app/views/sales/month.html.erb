@@ -40,7 +40,7 @@
           <table class="table-shift table table-bordered bg-master-lightest">
             <thead>
               <tr class="bg-success text-center">
-                <th colspan="6" class="no-margin text-uppercase text-white fs-15"> 
+                <th colspan="<%= @sale_plan.length+2  %>" class="no-margin text-uppercase text-white fs-15"> 
                   <h3 class="no-margin text-center text-uppercase text-white fs-15"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></h3>
                 </th>
               </tr>

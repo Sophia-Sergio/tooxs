@@ -17,7 +17,6 @@ class Seller < ApplicationRecord
 
     @shifts = AvailableShift.code(self.assigned_shift)
     begin_shift_day = self.begin_shift.strftime('%u').to_i
-
     @shift_dates = []
 
     (self.begin_shift..self.begin_shift+12.months).each do |i|

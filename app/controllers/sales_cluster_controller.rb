@@ -7,7 +7,7 @@ class SalesClusterController < ApplicationController
     @clusters     = Cluster.all.order(:id)
     @departments  = Department.distinct.pluck(:name)
     @masterDepartments = MasterDepartment.all.order(:id)
-
+    @month = Date.today.strftime("%m").to_i
 
     #@seasons      = [ [id: 1, name:'moo'] , [id: 2, name:'lala'] ]
   end
@@ -67,10 +67,14 @@ class SalesClusterController < ApplicationController
         count += 1 
       end
 
-      #calcular productividad por semana
-      prodWeek = []
-      saleWeek.each_with_index  do |sale, index|
-        prodWeek << (sale.to_f / dotWeek[index].to_f).round
+      if saleWeek == [0]
+        prodWeek = [0]
+      else
+        #calcular productividad por semana
+        prodWeek = []
+        saleWeek.each_with_index  do |sale, index|
+          prodWeek << (sale.to_f / dotWeek[index].to_f).round
+        end
       end
       @resultStore << { :label =>  element[:label], :saleWeek => saleWeek, :dotWeek => dotWeek, :prodWeek => prodWeek}
     end
@@ -100,7 +104,6 @@ class SalesClusterController < ApplicationController
     element.first[:data].count.times do |i|
       labels << i+1
     end
-
 
     @data = { :labels => labels, :datasets => element }
     render json: @data
@@ -173,7 +176,9 @@ class SalesClusterController < ApplicationController
         saleWeek[week] += data.to_i        
         count += 1 
       end
-      
+
+
+        
       element << { label: store[:name], fill: 'false', data: saleWeek, totalMonth: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
       colorCount += 1
     end

@@ -1,7 +1,7 @@
 class SalesStatisticsController < ApplicationController
 	def show
 	    add_breadcrumb "Dashboard", :root_path
-	    add_breadcrumb "Estadísticas de venta", :sales_statistic_path   
+	    add_breadcrumb "Reporte de venta", :sales_statistic_path   
 		@search = ''
     	@stores       = Store.all.order(:id)
     	@departments  = Department.all.order(:id)

@@ -6,7 +6,7 @@
   </div>
 </div>
     <div class="card-block">
-      <h4 class="grafico-1">Reporte de Ventas</h4>
+            <h4 class="grafico-1">Reporte de Ventas - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
       <p class="m-t-20 grafico-1">Cluster: <span class="label label-default"><%= "#{@store.economic_segment} - #{@store.size}"  %></span>
       Tienda: <span class="label label-default"><%= @store.name %></span>
       Departamento: <span class="label label-default"><%= @dep.name %></span>

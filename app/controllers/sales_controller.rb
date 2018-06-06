@@ -4,6 +4,8 @@ class SalesController < ApplicationController
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Estadísticas de Ventas", :sales_path       
     @search       = ''
+            params[:year]  = Date.today.strftime("%Y").to_i
+        params[:month] = Date.today.strftime("%m").to_i
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)
     @seasons      = [ [id: 1, name:'moo'] , [id: 2, name:'lala'] ]
@@ -13,7 +15,9 @@ class SalesController < ApplicationController
   end
 
   def week
- 
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Estadísticas de Ventas", :sales_path  
+    add_breadcrumb "Estadísticas de Venta Semanal", :week_sales_path     
     @controller   = 'Venta Semanal'
 
     @stores       = Store.all.order(:id)
@@ -91,7 +95,9 @@ class SalesController < ApplicationController
   end
 
   def day
-
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Estadísticas de Ventas", :sales_path  
+    add_breadcrumb "Estadísticas de Venta Diaria", :day_sales_path     
     @store  = Store.find(1)
     @dep    = Department.find(1)
 
@@ -179,7 +185,9 @@ class SalesController < ApplicationController
   end
 
   def year
-
+    add_breadcrumb "Dashboard", :root_path
+    add_breadcrumb "Estadísticas de Ventas", :sales_path  
+    add_breadcrumb "Estadística de Venta Anual", :year_sales_path     
     @controller = 'Venta Anual'
 
     @stores     = Store.all.order(:id)

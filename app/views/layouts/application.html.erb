@@ -32,6 +32,58 @@
         font-size: 12px;
         font-weight: bold;
       }
+      .sub-menu-title
+      {
+        font-family: Arial, sans-serif;
+        display: inline-block;
+        padding-left: 32px;
+        min-height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        clear: both;
+      }
+      .sub-menu-title span
+      {
+        color: #85858e;
+        float: left;
+        white-space: nowrap;
+        xtext-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .icon-thumbnail-two
+      {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+        text-align: center;
+        vertical-align: middle;
+        position: relative;
+        left: 0;
+        float: right;
+        margin-right: 14px;
+        color: #85858e;
+        font-size: 16px;
+        -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.05, 0.74, 0.27, 0.99);
+        transition: transform 0.4s cubic-bezier(0.05, 0.74, 0.27, 0.99);
+        -webkit-backface-visibility: hidden;
+        -webkit-perspective: 1000;
+        font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        font-weight: bold;
+        -webkit-transform: translate3d(-14px, 0, 0);
+        transform: translate3d(-14px, 0, 0);
+        -ms-transform: translate(-14px, 0);
+      }
+
+      .sub-menu
+      {
+        width: 100%;
+      }
+
     </style>
   </head>
  <body class="fixed-header menu-pin"> 
@@ -57,102 +109,93 @@
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <ul class="menu-items">
           <li>
-            <a href="javascript:;"><span class="title">Administración</span>
-            <span class=" arrow"></span></a>
-            <span class="icon-thumbnail"><i class="pg-calender"></i></span>
-            <ul class="sub-menu">
+            <div class="sub-menu-title"><span class="title">Ventas</span></div>
+            <span class="icon-thumbnail-two"><i class="pg-calender"></i></span>
+            <ul class="sub-menu" style="display: inline-block;">
+              <li class="">
+                <a href="/sales/month?utf8=✓&store=1&department=1&year=2018&month=<%= Date.today.strftime("%m").to_i %>">Estadísticas de Ventas</a>
+                <span class="icon-thumbnail">T</span>
+              </li>
+              <li class="">
+                <%= link_to 'Comparativo de Ventas por Segmento', sales_cluster_index_path %>
+                <span class="icon-thumbnail">T</span>
+              </li>
+              <li class="">
+              <%= link_to 'Colaboradores', sellers_path %>
+                <span class="icon-thumbnail">v</span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <div class="sub-menu-title"><span class="title">Planificación de prod.</span></div>
+            <span class="icon-thumbnail-two"><i class="pg-calender"></i></span>
+            <ul class="sub-menu" style="display: inline-block;">
+              <li class="">
+                <%= link_to 'Dotación Personal', staffing_index_path %>
+                <span class="icon-thumbnail">T</span>
+              </li>
+              <li class="">
+                <a href="/productivity/show?utf8=✓&store=1&department=1&year=2018&month=<%= Date.today.strftime("%m").to_i %>">Optimizador de turnos</a>
+                <span class="icon-thumbnail">T</span>
+              </li>
+            </ul>
+          </li> 
+          <li>
+            <div class="sub-menu-title"><span class="title">Reportabilidad</span></div>
+            <span class="icon-thumbnail-two"><i class="pg-calender"></i></span>
+            <ul class="sub-menu" style="display: inline-block;">
+              <li class="">
+                <a href="/sales_statistics/show">Reporte de ventas</a>
+                <span class="icon-thumbnail">E</span>
+              </li>
+              <li class=""> 
+                <a href="/productivity/report?utf8=✓&store=1&department=1&year=2018&month=<%= Date.today.strftime("%m").to_i %>">Reporte de Productividad</a>
+                <span class="icon-thumbnail">p</span>
+              </li>
+              <li class="">
+                <a href="#">Reporte de cumplimiento</a>
+                <span class="icon-thumbnail">C</span>
+              </li>
+              <li class="">
+                <a href="#">Reporte de turnos</a>
+                <span class="icon-thumbnail">T</span>
+              </li>
+            </ul>
+          </li>          
+          <li>
+            <div class="sub-menu-title"><span class="title">Administración</span></div>
+            <span class="icon-thumbnail-two"><i class="pg-calender"></i></span>
+            <ul class="sub-menu" style="display: inline-block;">
               <li class="">
                 <%= link_to 'Tiendas', stores_path %>
                 <span class="icon-thumbnail">T</span>
               </li>
-
               <li class="">
               <%= link_to 'Departamentos', departments_path %>
                 <span class="icon-thumbnail">D</span>
               </li>
-
-
-
               <li class="">
               <%= link_to 'Turnos', available_shifts_path %>
                 <span class="icon-thumbnail">T</span>
               </li>
-
               <li class="">
               <%= link_to 'Usuarios', users_path %>
                 <span class="icon-thumbnail"><i class="fa fa-users"></i></span>
               </li>
               <li class="">
-              <%= link_to 'Cargar Plan de Ventas', sale_plans_path %>
+              <%= link_to 'Carga Plan de Ventas', sale_plans_path %>
                 <span class="icon-thumbnail">PV</span>
               </li>
-
               <li class="">
-              <%= link_to 'Cargar H. de Ventas', historic_sales_path %>
+              <%= link_to 'Carga Histórico de Ventas', historic_sales_path %>
                 <span class="icon-thumbnail">HV</span>
               </li>
-
-            </ul>
-          </li>     
-
-          <li>
-            <a href="javascript:;"><span class="title">Ventas</span>
-            <span class=" arrow"></span></a>
-            <span class="icon-thumbnail"><i class="pg-calender"></i></span>
-            <ul class="sub-menu">
               <li class="">
-                <%= link_to 'Estadísticas de Ventas', sales_path %>
-                <span class="icon-thumbnail">T</span>
+                <a href="#">Carga venta real año en curso</a>
+                <span class="icon-thumbnail">E</span>
               </li>
-              <li class="">
-                  <%= link_to 'Estadísticas de Ventas por Segmento', sales_cluster_index_path %>
-                  <span class="icon-thumbnail">T</span>
-                </li>
-              <li class="">
-              <%= link_to 'Perfil de Vendedores', sellers_path %>
-                <span class="icon-thumbnail">v</span>
-              </li>
-
             </ul>
-          </li>  
-
-          <li>
-            <a href="javascript:;"><span class="title">Productividad</span>
-              <span class=" arrow"></span></a>
-              <span class="icon-thumbnail"><i class="pg-calender"></i></span>
-              <ul class="sub-menu">
-                <li class="">
-                  <%= link_to 'Dotación Personal', staffing_index_path %>
-                  <span class="icon-thumbnail">T</span>
-                </li>
-                <li class="">
-                  <a href="/productivity/show?utf8=✓&store=1&department=1&year=2018&month=<%= Date.today.strftime("%m").to_i %>">Productividad</a>
-                  <span class="icon-thumbnail">T</span>
-                </li>
-              </ul>
-            </li> 
-            <li>
-              <a href="javascript:;"><span class="title">Reportabilidad</span><span class=" arrow"></span></a>
-              <span class="icon-thumbnail"><i class="pg-calender"></i></span>
-              <ul class="sub-menu">
-                <li class="">
-                  <a href="/sales_statistics/show">Reporte de ventas</a>
-                  <span class="icon-thumbnail">E</span>
-                </li>
-                <li class=""> 
-                   <a href="/productivity/report?utf8=✓&store=1&department=1&year=2018&month=<%= Date.today.strftime("%m").to_i %>">Reporte de Productividad</a>
-                  <span class="icon-thumbnail">p</span>
-                </li>
-                <li class="">
-                  <a>Reporte de Turnos</a>
-                  <span class="icon-thumbnail">T</span>
-                </li>
-                <li class="">
-                  <a>Reporte de cumplimiento</a>
-                  <span class="icon-thumbnail">C</span>
-                </li>
-              </ul>
-            </li>
+          </li>
             <li class="hidden-md-up">
               <%= link_to destroy_user_session_path, :method => :delete, class: "" do %>
                 <span class="pull-left">Salir</span>
