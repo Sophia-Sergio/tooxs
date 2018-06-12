@@ -32,48 +32,36 @@
           </div>
         </div>
         <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-          <h3>Detalle</h3>
+          <h3>&nbsp;</h3>
         </div>
         <div class="col-lg-12 col-md-12 col-12 col-sm-12">
         <!-- tabla -->
-        <% @resultStore.each do |store| %> 
           <table class="table-shift table table-bordered bg-master-lightest">
             <thead>
               <tr class="bg-success text-center">
                 <th colspan="6" class="no-margin text-uppercase text-white fs-15"> 
-                  <h3 class="no-margin text-center text-uppercase text-white fs-15"><%= store[:label] %></h3>
+                  <h3 class="no-margin text-center text-uppercase text-white fs-15"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h3>
                 </th>
               </tr>
               <tr>
                 <th></th>
                 <% week = 0 %>
-                <% store[:saleWeek].each do |i| %>
+                <% (@resultStore.first[:saleWeek].length).times do |i| %>
                 <th> <%= "Semana #{week += 1 }" %> </th>
                 <% end %>
               </tr>
             </thead>
             <tbody>
+              <% @resultStore.each do |store| %>
               <tr>
-                <td>Ventas</td>
+                <td><%= store[:label] %></td>
                 <% store[:saleWeek].each do |v| %>
                   <td><%= number_to_currency v %></td>
                 <% end %>
-              </tr> 
-              <tr>
-                <td>Dotación</td>
-                <% store[:dotWeek].each do |v|%>
-                  <td><%= v %></td>
-                <% end %>
-              </tr> 
-              <tr>
-                <td>Productividad</td>
-                <% store[:prodWeek].each do |v|%>
-                  <td><%= number_to_currency v %></td>
-                <% end %>
-              </tr>               
+              </tr>      
+              <% end %>     
             </tbody>
           </table>       
-        <% end %> 
         </div>
       </div>      
     </div>

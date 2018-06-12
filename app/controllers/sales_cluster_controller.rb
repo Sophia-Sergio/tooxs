@@ -51,32 +51,8 @@ class SalesClusterController < ApplicationController
         saleWeek[week] += data.to_i        
         count += 1 
       end
-      
-      #calcular dotación por semana
-      dotWeek = []
-      count = 0
-      week  = 0
-      dotWeek[week] = 0
-      element[:dotMonth].each do |data|
-        if count > 6
-          week += 1
-          count = 0
-          dotWeek[week] = 0
-        end
-        dotWeek[week] += data.to_i        
-        count += 1 
-      end
 
-      if saleWeek == [0]
-        prodWeek = [0]
-      else
-        #calcular productividad por semana
-        prodWeek = []
-        saleWeek.each_with_index  do |sale, index|
-          prodWeek << (sale.to_f / dotWeek[index].to_f).round
-        end
-      end
-      @resultStore << { :label =>  element[:label], :saleWeek => saleWeek, :dotWeek => dotWeek, :prodWeek => prodWeek}
+      @resultStore << { :label =>  element[:label], :saleWeek => saleWeek}
     end
   end
   

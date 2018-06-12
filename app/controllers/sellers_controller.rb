@@ -42,9 +42,16 @@ class SellersController < ApplicationController
   end
 
   def index
+
+    if params[:department] == ""
+      params[:department] =  1
+    end
+
+    department = params[:department]
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Colaboradores", :sellers_path
     @sellers = Seller.all
+
   end
 
   def import

@@ -87,7 +87,9 @@
                           v.first.each do |n| %>
                             <% if n != 0 %>
                             <td class="text-center">
-                              <span class="label label-success tip" data-toggle="tooltip"><%= n %></span>
+                              <% data_names = "" %>
+                              <% n[:sellers].map { |e| data_names += "#{e}<br>" } %>
+                              <span class="label label-success tip" data-toggle="tooltip" data-original-title="<%=  data_names %>"><%= n[:hours] %></span>
                             </td>  
                             <% else %>
                             <td>  </td>
@@ -133,7 +135,9 @@
                           v.first.each do |n| %>
                             <% if n != 0 %>
                             <td class="text-center">
-                              <span class="label label-success tip" data-toggle="tooltip"><%= n %></span>
+                              <% data_names = "" %>
+                              <% n[:sellers].map { |e| data_names += "#{e}<br>" } %>
+                              <span class="label label-success tip" data-toggle="tooltip" data-original-title="<%=  data_names %>"><%= n[:hours] %></span>
                             </td>  
                             <% else %>
                             <td>  </td>
@@ -178,7 +182,9 @@
                           v.first.each do |n| %>
                             <% if n != 0 %>
                             <td class="text-center">
-                              <span class="label label-success tip" data-toggle="tooltip"><%= n %></span>
+                              <% data_names = "" %>
+                              <% n[:sellers].map { |e| data_names += "#{e}<br>" } %>
+                              <span class="label label-success tip" data-toggle="tooltip" data-original-title="<%=  data_names %>"><%= n[:hours] %></span>
                             </td>  
                             <% else %>
                             <td>  </td>
@@ -223,7 +229,9 @@
                           v.first.each do |n| %>
                             <% if n != 0 %>
                             <td class="text-center">
-                              <span class="label label-success tip" data-toggle="tooltip"><%= n %></span>
+                              <% data_names = "" %>
+                              <% n[:sellers].map { |e| data_names += "#{e}<br>" } %>
+                              <span class="label label-success tip" data-toggle="tooltip" data-original-title="<%=  data_names %>"><%= n[:hours] %></span>
                             </td>  
                             <% else %>
                             <td>  </td>
@@ -233,9 +241,7 @@
                         <% end -%>
                       </tbody>
                     </table>
-              </div>              
-
-       
+              </div>                    
             </div>
           </div>
         </div>

@@ -155,4 +155,71 @@ end
     end  
     return result   
   end
+
+    def setNum(num)
+      num_parse = ActiveSupport::NumberHelper::number_to_currency(num, { delimiter: "." })
+      return num_parse
+    end
+
+    def brain_json(month, year, store, department)
+
+        month = month.to_i
+        year = year.to_i
+        store = store.to_i
+        department = department.to_i
+
+        #[1,hora 10,dia 28,1]       
+        m1 = SalePlan.where(month: month, year: year).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
+
+        w1 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 1, store_id: store, department_id: department).where(:year => year).where(:day_number => 1).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
+        w2 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 2, store_id: store, department_id: department).where(:year => year).where(:day_number => 1).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
+        w3 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 3, store_id: store, department_id: department).where(:year => year).where(:day_number => 1).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
+        w4 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 4, store_id: store, department_id: department).where(:year => year).where(:day_number => 1).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
+        w5 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 5, store_id: store, department_id: department).where(:year => year).where(:day_number => 1).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
+
+
+        staffingM1 = staffing_draw(w1)[:sellers_per_day] + staffing_draw(w2)[:sellers_per_day] + staffing_draw(w3)[:sellers_per_day] + staffing_draw(w4)[:sellers_per_day]
+
+        if w5.length > 0
+            staffingM1 += staffing_draw(w5)[:sellers_per_day]           
+        end
+       
+        dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
+        
+        if dataCase.blank? == true
+            # debería crear un caso automático en este caso cargaremos uno predefinido
+            case_api = 33
+        else
+            case_api = dataCase.first[:id_case]
+        end
+            staffingCase = StaffingCase.where(id_case: case_api.to_i).first
+            dataCase = DataCase.where(id_case: case_api.to_i).first       
+
+        @data = { "accion": "ejecutar", 
+            "id_caso": staffingCase.id_case.to_i,    
+            "tolerancia": (3).round(1), 
+            "evaluar_dotacion_real": staffingCase.actual_staffing_eval.to_i,    
+            "tiempo_maximo": staffingCase.max_time.to_i,    
+            "usuario": staffingCase.user.to_s, 
+            "datos": 
+            {  
+                "num_turnos": dataCase.turn_num,
+                "num_departamentos": dataCase.dep_num,
+                "num_ventanas": 1,
+                "num_dias_ventana": dataCase.day_num,
+                "num_horas_dia": dataCase.hour_day,
+                "valor_hp": dataCase.hp_val.round(1),
+                "prod_obj": dataCase.prod_obj.round(1),
+                "VHP": "", 
+                "POV": dataCase.pov,
+                "Entrada_Almuerzo": dataCase.lunch_in,  
+                "Horas_Almuerzo": dataCase.lunch_hours,
+                "min_horas": dataCase.hour_min,  
+                "matriz_turnos": dataCase.turns_matrix.to_s, 
+                "dotacion_real": dataCase.real_dot.to_s, 
+                "plan_venta": dataCase.sale_plan.to_s
+            }
+        }.to_json
+        return @data
+    end
 end

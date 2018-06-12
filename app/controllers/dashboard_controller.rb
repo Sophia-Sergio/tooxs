@@ -71,10 +71,4 @@ class DashboardController < ApplicationController
       @month = month
       return SaleBySeller.where(month: month, seller: seller.id, department: @dep, year: @year).sum("sale")
     end
-
-
-    def setNum(num)
-    	num_parse = ActiveSupport::NumberHelper::number_to_currency(num, { delimiter: "." })
-    	return num_parse
-    end
 end
