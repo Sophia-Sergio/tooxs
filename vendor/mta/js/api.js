@@ -438,10 +438,10 @@ function optimizar()
 	                    type: 'line',
 	                    data: {
 	                      datasets: [
-					                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},                                  
-					                  {data: productividad_actual, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
-					                  {data: productividad_real, label: 'Productividad Real $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},  
-					                  {data: productividad_optimizada, label: 'Productividad Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'}
+					                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad Ideal', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},                                  
+					                  {data: productividad_actual, label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
+					                  {data: productividad_real, label: 'Productividad Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},  
+					                  {data: productividad_optimizada, label: 'Productividad Optimizada', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'}
  	                                ],
 	                      labels: fecha
 	                    },

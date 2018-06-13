@@ -30,7 +30,7 @@ Calculo.semanal = function(datos, dias)
 	return arraySemana;
 }
 
-Calculo.exceso = function(prod_obj, matriz)
+Calculo.excesoTotal = function(prod_obj, matriz)
 {
 	var exceso = 0;
 	for (var i = 0; i < matriz.length; i++) 
@@ -46,7 +46,35 @@ Calculo.exceso = function(prod_obj, matriz)
 	return fn.formateaNumero(exceso);
 }
 
-Calculo.faltante = function(prod_obj, matriz)
+Calculo.faltanteTotal = function(prod_obj, matriz)
+{
+	var faltante = 0;
+	for (var i = 0; i < matriz.length; i++) 
+	{
+		if ((matriz[i] - prod_obj) < 0)
+		{
+			faltante += matriz[i];
+		}	
+	}
+	faltante = Math.round(faltante / prod_obj)
+
+	return fn.formateaNumero(faltante);
+}
+
+Calculo.matrizExceso = function(prod_obj, matriz)
+{
+	var exceso = 0;
+	var matrizSet = [];
+
+	for (var i = 0; i < matriz.length; i++) 
+	{
+		matrizSet[i] = (matriz[i] - prod_obj) / prod_obj;
+	}
+
+	return matrizSet;
+}
+
+Calculo.faltanteMatriz = function(prod_obj, matriz)
 {
 	var faltante = 0;
 	for (var i = 0; i < matriz.length; i++) 

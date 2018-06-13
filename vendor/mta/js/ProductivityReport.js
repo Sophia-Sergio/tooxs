@@ -112,8 +112,8 @@ if ($('#productivity_report').length > 0)
               {
                 datasets: 
                 [
-                  {data: productividad_actual, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
-                  {data: productividad_real, label: 'Productividad Real $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},  
+                  {data: productividad_actual, label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
+                  {data: productividad_real, label: 'Productividad Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},  
                   {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'}
                 ],
                 labels: fecha
@@ -296,7 +296,7 @@ if ($('#productivity_report').length > 0)
               // setear plan actual
               plan_w = Calculo.semanal(mes, 7);
               dotacion_w = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
-              setearProductividad("Productividad actual por semanas", plan_w, dotacion_w);
+              setearProductividad("Prod. sin Optimizar por semanas", plan_w, dotacion_w);
 
               // setear plan optimizado
               plan_w_op = Calculo.semanal(Cerebro.planVentaOptimizada(), 7);
@@ -308,16 +308,17 @@ if ($('#productivity_report').length > 0)
               dotacion_w_real = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
               setearProductividad("Productividad real por semanas", plan_w_real, dotacion_w_real);
 
+              exceso = Calculo.matrizExceso(plan_enviado.datos.prod_obj, productividad_real);
 
               var config = {
                 type: 'line',
                 data: {
                 datasets: 
                 [
-                  {data: productividad_actual, label: 'Productividad Actual $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
-                  {data: productividad_real, label: 'Productividad Real $CLP', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},  
-                  {data: productividad_optimizada, label: 'Productividad Optimizada $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'},
-                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal $CLP', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'}                                  
+                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad Ideal', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'}                                  
+                  {data: exceso, label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
+                  {data: productividad_real, label: 'Productividad Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},  
+                  {data: productividad_optimizada, label: 'Productividad Optimizada', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'},
                 ],
                 labels: fecha
                 },
@@ -372,8 +373,8 @@ if ($('#productivity_report').length > 0)
               matrizEpsilon = Cerebro.calcularEpsilon();
 
               // obtener real
-              exceso = Calculo.exceso(plan_enviado.datos.prod_obj, productividad_real);
-              faltante = Calculo.faltante(plan_enviado.datos.prod_obj, productividad_real);
+              exceso = Calculo.excesoTotal(plan_enviado.datos.prod_obj, productividad_real);
+              faltante = Calculo.faltanteTotal(plan_enviado.datos.prod_obj, productividad_real);
               $("#sum-exceso").html(exceso);
               $("#sum-faltante").html(faltante);
               $(".prod_obj").html(fn.formateaNumero(plan_enviado.datos.prod_obj));
@@ -383,8 +384,8 @@ if ($('#productivity_report').length > 0)
 
 
               //obtener optimizada
-              exceso_op = Calculo.exceso(plan_enviado.datos.prod_obj, productividad_optimizada);
-              faltante_op = Calculo.faltante(plan_enviado.datos.prod_obj, productividad_optimizada);
+              exceso_op = Calculo.excesoTotal(plan_enviado.datos.prod_obj, productividad_optimizada);
+              faltante_op = Calculo.faltanteTotal(plan_enviado.datos.prod_obj, productividad_optimizada);
               vent_op = Cerebro.sumatoriaMatriz(Cerebro.planVentaOptimizada());
               dot_op = Cerebro.sumatoriaMatriz(Cerebro.sumatoriaTurnosOptimizado());
               $("#sum-exceso-op").html(exceso_op);

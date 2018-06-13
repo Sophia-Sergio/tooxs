@@ -654,7 +654,7 @@ if ($('#productivity_demo').length > 0)
                 datasets: 
                 [
                   {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad Ideal', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},
-                  {data: productividad_actual, label: 'Productividad Actual', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
+                  {data: productividad_actual, label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
                   {data: productividad_real, label: 'Productividad Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'}  
                 ],
                 labels: fecha
@@ -859,7 +859,7 @@ if ($('#productivity_demo').length > 0)
               // setear plan actual
               plan_w = Calculo.semanal(mes, 7);
               dotacion_w = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
-              setearProductividad("Productividad actual por semanas", plan_w, dotacion_w);
+              setearProductividad("Prod. sin Optimizar por semanas", plan_w, dotacion_w);
 
               // setear plan optimizado
               plan_w_op = Calculo.semanal(Cerebro.planVentaOptimizada(), 7);
@@ -877,8 +877,8 @@ if ($('#productivity_demo').length > 0)
                 data: {
                 datasets: 
                 [
-                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad/Dotación Ideal', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},                                  
-                  {data: productividad_actual, label: 'Productividad Actual', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
+                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad Ideal', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},                                  
+                  {data: productividad_actual, label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
                   {data: productividad_real, label: 'Productividad Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},  
                   {data: productividad_optimizada, label: 'Productividad Optimizada', yAxisID: 'left-y-axis', borderColor: 'rgb(54, 162, 235)'}
                 ],
@@ -896,7 +896,6 @@ if ($('#productivity_demo').length > 0)
                       ticks: {
                           callback: function(value, index, values) 
                           {
-                            console.log("asd");
                             if (parseInt(value) >= 1000) {
                               return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
                             } else {
