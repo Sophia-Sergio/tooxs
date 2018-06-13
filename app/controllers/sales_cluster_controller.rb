@@ -2,7 +2,7 @@ class SalesClusterController < ApplicationController
 
   def index
     add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Productividad por Segmento", :sales_cluster_index_path       
+    add_breadcrumb "Ventas por Segmento", :sales_cluster_index_path       
     @search       = ''
     @clusters     = Cluster.all.order(:id)
     @departments  = Department.distinct.pluck(:name)
@@ -14,8 +14,8 @@ class SalesClusterController < ApplicationController
   
   def month
     add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Productividad por Segmento", :sales_cluster_index_path  
-    add_breadcrumb "Productividad mensual", :month_sales_cluster_index_path 
+    add_breadcrumb "Ventas por Segmento", :sales_cluster_index_path  
+    add_breadcrumb "Ventas mensual", :month_sales_cluster_index_path 
 
     @search       = ''
 

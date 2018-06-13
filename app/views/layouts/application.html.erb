@@ -146,7 +146,11 @@
             <ul class="sub-menu" style="display: inline-block;">
               <li class=""> 
                 <a href="/productivity/report?utf8=✓&store=1&department=1&year=2018&month=<%= Date.today.strftime("%m").to_i %>">Reporte de Productividad</a>
-                <span class="icon-thumbnail">p</span>
+                <span class="icon-thumbnail">P</span>
+              </li>
+              <li class=""> 
+                <%= link_to 'Comparativo de Productividad por Segmento', productivity_cluster_index_path %>
+                <span class="icon-thumbnail">PS</span>
               </li>
               <li class="">
                 <a href="#">Reporte de cumplimiento</a>
