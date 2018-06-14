@@ -222,4 +222,216 @@ end
         }.to_json
         return @data
     end
+
+    def calculo_semanal(datos, dias)
+      semanasCount = 0
+      diasCount = 1
+      arraySemana = []
+
+      for i in 0..datos.length - 1 
+
+        if arraySemana[semanasCount] == nil
+          arraySemana[semanasCount] = 0
+        end
+
+        arraySemana[semanasCount] += datos[i].to_i
+
+        if diasCount < dias
+          diasCount += 1
+        else
+          diasCount = 1
+          semanasCount += 1
+        end
+      end
+      return arraySemana
+    end
+    def cerebro_plan_venta_opt(plan)
+
+      if plan.length != 0 
+        plan = JSON.parse(plan)
+        plan_venta_in = plan["datos"]["plan_venta"].to_s.split(", [")
+        plan_venta_in[0] = plan_venta_in[0].gsub("[", "")
+        num_horas_dia_in =  plan["datos"]["num_horas_dia"].to_i
+        num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
+
+        #sacar el plan de venta diario
+        plan_venta_diario = Array.new(num_dias_ventana) { |i| i = 0 }
+        #inicializar en 0
+        for i in 0..plan_venta_in.length-1 
+          plan_hora = plan_venta_in[i].to_s.split("] ")
+          plan_venta_diario[(plan_hora[0].to_s.split(",")[2]).to_i-1] = 0;
+        end
+
+        #sumatoria por día 
+        for i in 0..plan_venta_in.length-1 
+          plan_hora = plan_venta_in[i].to_s.split("] ")
+          plan_venta_diario[(plan_hora[0].to_s.split(",")[2]).to_i-1] += plan_hora[1].to_f
+        end
+
+        for i in 0..plan_venta_diario.length-1 
+          plan_venta_diario[i] =  (plan_venta_diario[i].to_i).round
+        end
+      else
+        plan_venta_in = ""
+      end
+      return plan_venta_diario
+    end
+
+
+    def total_turnos(plan, dotacion)
+      if plan.length != 0           
+        matriz_turnos = plan["datos"]["matriz_turnos"].to_s.split(", [")
+        matriz_turnos[0] = matriz_turnos[0].gsub("[", "")
+        num_turnos = plan["datos"]["num_turnos"]
+
+        matriz_turnos_in = []
+
+        for i in 0..matriz_turnos.length-1
+          turno = matriz_turnos[i].to_s.split("] ")[0]
+          turno_1 = matriz_turnos[i].to_s.split("] ")[1]
+          coordenadas = turno.to_s.split(",")
+          matriz_turnos_in[i] = { :turno => coordenadas[0], :hora => coordenadas[1], :dia => coordenadas[2] , :valor => (turno_1).to_f}
+        end
+
+
+        #//////////////// dotacion real //////////////////////////////////
+
+        dotacion_real = dotacion
+        dotacion_real[0] = dotacion_real[0].gsub("[", "")
+
+        matriz_dotacion_real = []
+
+        for i in 0..dotacion_real.length-1
+          dotacion = dotacion_real[i].to_s.split("] ")[0]
+          dotacion_cantidad = dotacion_real[i].to_s.split("] ")[1]
+          coordenadas = dotacion.to_s.split(",")
+          matriz_dotacion_real[i] = {:turno => coordenadas[0], :x => coordenadas[1], :y => coordenadas[2], :cantidad => dotacion_cantidad}
+        end
+
+        #//////////////////////////////////////////////////////////////////
+        #// sumatoria de turnos real para imprimir en la gráfica
+        #//////////////////////////////////////////////////////////////////
+
+        dia = 0 #// maximo  plan.datos.num_dias_ventana
+        hora = 0 #// máximo plan.datos.num_horas_dia
+
+        sumatoria_turnos_real = Array.new((plan["datos"]["num_dias_ventana"] * plan["datos"]["num_horas_dia"]).to_i) { |i| i = 0 }
+
+        for i in 0..matriz_turnos_in.length-1
+          hora_turno = matriz_turnos_in[i]
+          coordenada = ((hora_turno[:dia].to_i-1) * 10 + (hora_turno[:hora]).to_i) - 1
+
+          for j in 0..matriz_dotacion_real.length-1
+            if matriz_dotacion_real[j][:turno] == matriz_turnos_in[i][:turno]            
+              sumatoria_turnos_real[coordenada] += (matriz_dotacion_real[j][:cantidad] ).to_f
+            end
+          end
+        end
+        #/////////////////////////////////////////////////////////////////
+      else
+        sumatoria_turnos_real = ""
+      end 
+      return sumatoria_turnos_real      
+    end
+
+
+    def cerebro_sumatoria_turnos_diaria(plan)
+      if plan.length != 0 
+        plan = JSON.parse(plan)
+        num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
+        turnosSumatoria = Array.new(num_dias_ventana) { |i| i = 0 }
+
+        dotacion = plan["datos"]["dotacion_real"].to_s.split(", [")
+
+        totalTurnosReales = total_turnos(plan, dotacion)
+        diaSemana = 1
+        horasDiarias = 10
+        num_horas_dia_in = plan["datos"]["num_horas_dia"]
+        count = 1;
+        diaMes = 0;
+
+        countDia = 1;
+
+        for i in 0..turnosSumatoria.length-1 
+          turnosSumatoria[i] = 0
+        end
+
+        for i in 0..totalTurnosReales.length-1 
+          turnosSumatoria[diaMes] += (totalTurnosReales[i]).to_i
+          if countDia < num_horas_dia_in
+            countDia += 1
+          else
+            countDia = 1
+            diaMes += 1
+          end
+        end
+      else
+        turnosSumatoria = ""
+      end
+
+      return turnosSumatoria
+    end
+
+    def cerebro_sumatoria_turnos_optimizado(plan, id_case)
+      if plan.length != 0 
+        plan = JSON.parse(plan)
+        num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
+        turnosSumatoria = Array.new(num_dias_ventana) { |i| i = 0 }
+
+
+        # calcular turnos cubiertos
+        summaryCase = SummaryCase.where(id_case: id_case, type_io: "out").first  
+        opt_turn = summaryCase.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+        turnosOptimizados = Array.new(12, 0)
+
+        opt_turn.each do |turn|
+          turn = turn.split(":")
+          turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
+        end
+
+        count = 1
+        dotacion = [] 
+        turnosOptimizados.each do |turno|
+          dotacion << "#{count},1,1] #{turno}"
+          count += 1
+        end
+
+        totalTurnosReales = total_turnos(plan, dotacion)
+
+        diaSemana = 1
+        horasDiarias = 10
+        num_horas_dia_in = plan["datos"]["num_horas_dia"]
+        count = 1;
+        diaMes = 0;
+
+        countDia = 1;
+
+        for i in 0..turnosSumatoria.length-1 
+          turnosSumatoria[i] = 0
+        end
+
+        for i in 0..totalTurnosReales.length-1 
+          turnosSumatoria[diaMes] += (totalTurnosReales[i]).to_i
+          if countDia < num_horas_dia_in
+            countDia += 1
+          else
+            countDia = 1
+            diaMes += 1
+          end
+        end
+      else
+        turnosSumatoria = ""
+      end
+
+      return turnosSumatoria
+    end
+
+    def cerebro_calculo_productividades_week(plan, dotacion)
+      prod_week = []
+
+      (0..plan.length-1).each do |i|
+        prod_week << (plan[i].to_f / dotacion[i].to_f).round
+      end
+      return prod_week
+    end
 end
