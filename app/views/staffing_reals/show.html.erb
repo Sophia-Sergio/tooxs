@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Seller:</strong>
+  <%= @staffing_real.seller %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @staffing_real.date %>
+</p>
+
+<p>
+  <strong>Hour:</strong>
+  <%= @staffing_real.hour %>
+</p>
+
+<p>
+  <strong>Department:</strong>
+  <%= @staffing_real.department %>
+</p>
+
+<%= link_to 'Edit', edit_staffing_real_path(@staffing_real) %> |
+<%= link_to 'Back', staffing_reals_path %>

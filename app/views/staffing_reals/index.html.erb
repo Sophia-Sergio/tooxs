@@ -1,0 +1,46 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Staffing Reals</h1>
+
+<table class="table table-stripped table-condensed table-hover table-smallFont" id="table-staffing_real">
+  <thead>
+    <tr>
+      <th>Seller</th>
+      <th>Date</th>
+      <th>Hour</th>
+      <th>Department</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @staffing_reals.each do |staffing_real| %>
+      <tr>
+                <td><%= staffing_real.seller %></td>
+                <td><%= staffing_real.date %></td>
+                <td><%= staffing_real.hour %></td>
+                <td><%= staffing_real.department %></td>
+        
+        <td>
+
+        <%= link_to staffing_real_path(staffing_real), :class => 'btn btn-default' do %>
+        <i class="fa fa-eye"></i> Ver ##Staffing Real
+        <% end %>
+
+        <%= link_to edit_staffing_real_path(staffing_real), :class => 'btn btn-default' do %>
+        <i class="fa fa-edit"></i> Editar ##Staffing Real
+        <% end %>
+
+        <%= link_to staffing_real_path(staffing_real), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
+        <i class="fa fa-trash-o"></i> Eliminar ##Staffing Real
+        <% end %>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Staffing Real', new_staffing_real_path %>

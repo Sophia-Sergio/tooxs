@@ -1,0 +1,2 @@
+class StaffingReal < ApplicationRecord
+end

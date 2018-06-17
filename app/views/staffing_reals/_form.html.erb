@@ -1,0 +1,14 @@
+<%= simple_form_for(@staffing_real) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :seller %>
+    <%= f.input :date %>
+    <%= f.input :hour %>
+    <%= f.input :department %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

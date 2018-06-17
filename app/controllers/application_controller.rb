@@ -427,6 +427,8 @@ end
     end
 
     def cerebro_calculo_productividades_week(plan, dotacion)
+
+
       prod_week = []
 
       (0..plan.length-1).each do |i|

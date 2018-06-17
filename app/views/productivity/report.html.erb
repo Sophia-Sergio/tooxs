@@ -52,7 +52,7 @@
           <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
             <h5 class="text-uppercase m-t-30 fs-13 bold">Productividad por Hora // Alto Las Condes - Rincon Juvenil Mujer</h5>
             <div class="row ">
-              <div class="col-sm-12 col-xl-8 offset-xl-1">
+              <div class="col-sm-12 col-xl-10 offset-xl-1">
                 <div id="chartContainer" style="width:100%;">
                   <canvas id="canvas"> </canvas>
                 </div>
@@ -142,14 +142,14 @@
                   <tbody>
                     <tr>
                       <td>Prod. Real</td>
-                      <td class="prod_obj"></td>
+                      <td class="prod_obj"><%= number_to_currency @plan["datos"]["prod_obj"].to_i %></td>
                       <td id="dot_real"></td>
                       <td id="vent_real"></td>
                       <td id="prod_real"></td>
                     </tr>
                     <tr>
                       <td>Prod. Optimizada</td>
-                      <td class="prod_obj"></td>
+                      <td class="prod_obj"><%= number_to_currency @plan["datos"]["prod_obj"].to_i %></td>
                       <td id="dot_op"></td>
                       <td id="vent_op"></td>
                       <td id="prod_op"></td>
@@ -163,8 +163,8 @@
                 <table id="table_desviaciones" class="table table-bordered bg-master-lightest">
                   <thead>
                     <th></th>
-                    <th>Exceso de horas</th>
                     <th>Horas faltantes</th>
+                    <th>Exceso de horas</th>
                   </thead>
                   <tbody>
                     <tr>

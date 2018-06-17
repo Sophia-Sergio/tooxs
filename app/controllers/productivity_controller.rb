@@ -215,51 +215,45 @@ class ProductivityController < ApplicationController
         @store = params[:store].to_i
         @dep   = params[:department].to_i
 
-        #days of the week for this query dias de la semana según comienzo
-        @w1_days = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 1, store_id: @store, department_id: @dep).where(:year => year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m').to_sym}
-        @w2_days = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 2, store_id: @store, department_id: @dep).where(:year => year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m').to_sym}
-        @w3_days = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 3, store_id: @store, department_id: @dep).where(:year => year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m').to_sym}
-        @w4_days = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: @dep).where(:year => year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m').to_sym}
-
-        #staffing
-        fecha1 = DateTime.parse(@w1_days[0].to_s) 
-        fecha1 = fecha1.strftime("%Y%m%d")
-        
-        fecha2 = DateTime.parse(@w2_days[0].to_s) 
-        fecha2 = fecha2.strftime("%Y%m%d")
-
-        fecha3 = DateTime.parse(@w3_days[0].to_s) 
-        fecha3 = fecha3.strftime("%Y%m%d")
-
-        fecha4 = DateTime.parse(@w4_days[0].to_s) 
-        fecha4 = fecha4.strftime("%Y%m%d")
-        
-        @staffing_w1  = staffing_draw(fecha1)
-        @staffing_w2  = staffing_draw(fecha2)
-        @staffing_w3  = staffing_draw(fecha3)
-        @staffing_w4  = staffing_draw(fecha4)
-
         @report_data = report_data
         @brain_json = brain_json(month, year, @store, @dep)    
         dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
-
         
         plan_w = calculo_semanal(@report_data[:spm1], 7)
         plan_w_op = calculo_semanal(cerebro_plan_venta_opt(@brain_json), 7)
         plan_w_real = calculo_semanal(@report_data[:vrm1], 7)
 
+        dotReal = []
+        dotReal[1] = [59, 65, 71, 60, 72, 87, 67, 58, 71, 56, 81, 82, 90, 42, 54, 62, 74, 73, 69, 93, 58, 68, 64, 68, 58, 66, 89, 56]
+        dotReal[2] = [59, 65, 71, 60, 72, 87, 67, 58, 71, 56, 81, 82, 90, 42, 54, 62, 74, 73, 69, 93, 58, 68, 64, 68, 58, 66, 89, 56]
+        dotReal[3] = [59, 65, 71, 60, 72, 87, 67, 58, 71, 56, 81, 82, 90, 42, 54, 62, 74, 73, 69, 93, 58, 68, 64, 68, 58, 66, 89, 56, 68, 64, 68, 58, 66, 89, 56]
+        dotReal[4] = [59, 65, 71, 60, 72, 87, 67, 58, 71, 56, 81, 82, 90, 42, 54, 62, 74, 73, 69, 93, 58, 68, 64, 68, 58, 66, 89, 56]
+        dotReal[5] = [59, 65, 71, 60, 72, 87, 67, 58, 71, 56, 81, 82, 90, 42, 54, 62, 74, 73, 69, 93, 58]
+        dotReal[6] = []
+        dotReal[7] = []
+        dotReal[8] = []
+
+        @plan = JSON.parse(@brain_json)
+
+
         dotacion_w = calculo_semanal(cerebro_sumatoria_turnos_diaria(@brain_json), 7)       
         dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
-        #dotacion_w_real = calculo_semanal(@report_data[:vrm1], 7)
+        dotacion_w_real = calculo_semanal(dotReal[month], 7)
 
         prod_w = cerebro_calculo_productividades_week(plan_w, dotacion_w)
         prod_w_op = cerebro_calculo_productividades_week(plan_w_op, dotacion_w_op)
-        prod_w_real = ""
+        prod_w_real = cerebro_calculo_productividades_week(plan_w_real, dotacion_w_real)
+
+        if plan_w_real.length > 4 #limitación para muestra
+            plan_w_real.delete_at(4)
+            dotacion_w_real.delete_at(4)
+            prod_w_real.delete_at(4)
+        end
 
         @plan_w_total = []
-        @plan_w_total << { :name => "Prod. sin Optimizar por semanas", :plan_w => plan_w, :dot_w => dotacion_w, :prod_w => prod_w }
-        @plan_w_total << { :name => "Productividad Optimizada por semanas", :plan_w => plan_w_op, :dot_w => dotacion_w_op, :prod_w => prod_w_op }
-        @plan_w_total << { :name => "Productividad Real por semanas", :plan_w => plan_w_real, :dot_w => dotacion_w, :prod_w => prod_w_real }
+        @plan_w_total << { :type => "sop", :name => "Prod. sin Optimizar por semanas", :plan_w => plan_w, :dot_w => dotacion_w, :prod_w => prod_w }
+        @plan_w_total << { :type => "op", :name => "Productividad Optimizada por semanas", :plan_w => plan_w_op, :dot_w => dotacion_w_op, :prod_w => prod_w_op }
+        @plan_w_total << { :type => "real", :name => "Productividad Real por semanas", :plan_w => plan_w_real, :dot_w => dotacion_w_real, :prod_w => prod_w_real }
     end
 
         def report_data
@@ -288,6 +282,7 @@ class ProductivityController < ApplicationController
         @sp_w2 = SalePlan.where(year: year).where(month: month).where(week: 2, store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}.sum
         @sp_w3 = SalePlan.where(year: year).where(month: month).where(week: 3, store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}.sum
         @sp_w4 = SalePlan.where(year: year).where(month: month).where(week: 4, store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}.sum
+
 
         @sp_m1 = SalePlan.where(year: year).where(month: month, store_id: @store, department_id: @dep).where("week IN(?,?,?,?)", 1, 2, 3, 4).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
 
