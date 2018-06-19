@@ -451,5 +451,42 @@ end
       return dotReal
     end
 
+    def day_now(year, month)
 
+      @year         = year #params[:year]    
+      @month        = month #params[:month]
+
+      beginning_of_month = "#{@year}-#{@month}-01".to_date
+      end_of_month = beginning_of_month.end_of_month
+
+      week_start = beginning_of_month.strftime("%V")
+      week_end   = end_of_month.strftime("%V")
+
+      result = []
+      day = Array.new(7)
+      week_total = week_end.to_i - week_start.to_i;
+      weekSet = 1
+
+      (week_start..week_end).each do |w|
+        dayCount = 0
+        @week = w
+        @dates_week = []
+        day = Array.new(7)
+
+        (1..7).each do |d|
+          @dates_week << Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
+          if Date.today.strftime('%d-%m-%Y').to_s == Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
+            result = { :day => d, :week => weekSet }
+          end
+        end
+        weekSet += 1 
+      end
+      return result
+    end
+
+    def day_now_charged
+      lastSale = SaleBySeller.last(1)
+      result = { :day => lastSale.first.day, :week => lastSale.first.week }
+      return result
+    end
 end

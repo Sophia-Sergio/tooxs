@@ -10,14 +10,13 @@
         </div>
         <div class="col-sm-9">
           <div class="pull-right">
-            <button type="button" class="btn btn-sm btn-info btn-params-sales"><i class="fa fa-cog"></i> Parametros de Búsqueda </button>
-            <button type="button" class="btn btn-sm btn-warning btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i class="fa fa-exchange"></i> Comparar </button>
+            <button type="button" class="btn btn-sm btn-primary btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i class="fa fa-exchange"></i> Comparar </button>
           </div>
         </div>        
       </div>
     </div>
 
-    <%= render 'search_form', locals: { status: 'hidden', path: month_sales_path} %>
+    <%= render 'search_form', locals: { status: 'show', path: month_sales_path} %>
 
 
     <div class="card-block">

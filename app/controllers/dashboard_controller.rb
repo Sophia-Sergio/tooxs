@@ -7,16 +7,18 @@ class DashboardController < ApplicationController
 		@year = Date.today.strftime("%Y").to_i
         @month = Date.today.strftime("%m").to_i
         dayMonth = Date.today.strftime("%w").to_i
-        weekNow = ((7 - 1 )/ 7).to_i + 1 
+        dayNow = day_now_charged
+        #dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
 
         @setSellers = []
 
         @sellers.each do |seller|
 	        seller_plan = seller_staffing(seller, @month, @year)
 	        plan = 0
-	        (1..weekNow).each do |week|
+	        (1..dayNow[:week]).each do |week|
 	        	plan += seller_plan[week - 1].first.values.first[:seller_plan_per_day].inject(:+)
 	        end
+
 	       	sale = sale_real_per_seller(seller, @year, @month)
 			
 			cumplimiento = ((sale.to_f / plan.to_f) * 100).round(2)

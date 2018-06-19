@@ -70,10 +70,15 @@ class SellersController < ApplicationController
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Colaboradores", :sellers_path
     add_breadcrumb "Detalle", :seller_path
-    seller    = Seller.find(params[:id])
-    today     = Date.today.strftime("%Y%m%d")
+
+    seller = Seller.find(params[:id])
+    today  = Date.today.strftime("%Y%m%d")
+    @month = Date.today.strftime("%m").to_i
+    @year  = Date.today.strftime("%Y").to_i
+    @dayNow = day_now_charged
+    #@dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
     
-    @productivity = productivity_seller(seller,5,2018)
+    @productivity = productivity_seller(seller, @month, 2018)
 
     @ventas_colaborador = Array.new(15)
       
@@ -98,25 +103,12 @@ class SellersController < ApplicationController
     @sp          = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
     @real_week   = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
     @sp_staffing = seller_staffing_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
-    @dayNow      = day_now(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
 
     #calcula el plan mensual
-    i = 0
-    j = 1
-    day = 0
-    @totalMonth = 0
-    @totalNow = 0    
-    @sp.each do |k,v|
-      @sp_staffing[i].first.values.first[:seller_plan_per_day].each do |d|
-        day += 1
-        @totalMonth +=  d.to_i
-        if j < @dayNow[:week]
-          @totalNow += d.to_i        
-        end
-
-      end
-      j += 1 
-      (i < 3 ? i += 1 : i = 0) #permite cargar la primera semana para los meses de 5 semanas
+    seller_plan = seller_staffing(seller, @month, @year)
+    @totalNow = 0
+    (1..@dayNow[:week]).each do |week|
+      @totalNow += seller_plan[week - 1].first.values.first[:seller_plan_per_day].inject(:+)
     end
 
     #cacula las ventas totales
@@ -519,40 +511,6 @@ class SellersController < ApplicationController
       end
       return result
     end 
-
-    def day_now(seller,year,month)
-      @store        = seller.store.id
-      @dep          = seller.department.id
-      @year         = year #params[:year]    
-      @month        = month #params[:month]
-
-      beginning_of_month = "#{@year}-#{@month}-01".to_date
-      end_of_month = beginning_of_month.end_of_month
-
-      week_start = beginning_of_month.strftime("%V")
-      week_end   = end_of_month.strftime("%V")
-
-      result = []
-      day = Array.new(7)
-      week_total = week_end.to_i - week_start.to_i;
-      weekSet = 1
-
-      (week_start..week_end).each do |w|
-        dayCount = 0
-        @week = w
-        @dates_week = []
-        day = Array.new(7)
-
-        (1..7).each do |d|
-          @dates_week << Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
-          if Date.today.strftime('%d-%m-%Y').to_s == Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
-            result = { :day => d, :week => weekSet }
-          end
-        end
-        weekSet += 1 
-      end
-      return result
-    end
 
     def sale_plan_per_week(seller,year,month)
       @store        = seller.store.id
