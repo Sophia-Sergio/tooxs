@@ -70,3 +70,16 @@ Calculo.matrizExceso = function(prod_obj, matriz, dotacion)
 
 	return matrizSet;
 }
+
+Calculo.matrizExcesoVal = function(prod_obj, matriz, dotacion, valor_hora = null)
+{
+	var exceso = 0;
+	var matrizSet = [];
+
+	for (var i = 0; i < matriz.length; i++) 
+	{
+		matrizSet[i] = (Math.round(((matriz[i] - prod_obj) * dotacion[i]) / prod_obj)) * valor_hora;
+	}
+
+	return matrizSet;
+}

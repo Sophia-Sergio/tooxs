@@ -5,6 +5,12 @@
 */
 if ($('#productivity_report').length > 0) 
 {
+
+  function valuesReport(value)
+  {
+    window.location.href = "/productivity/report?utf8=%E2%9C%93&store="+store+"&department="+department+"&year="+year+"&month="+month+"&grafico=2&value="+value;
+  }
+
   function getQueryVariable(variable) 
   {
    var query = window.location.search.substring(1);
@@ -17,13 +23,60 @@ if ($('#productivity_report').length > 0)
    }
    return false;
   }
+
   console.log('init productivity_demo');
   var month = getQueryVariable('month');
   var year = getQueryVariable('year');
   var store = getQueryVariable('store');
   var department = getQueryVariable('department');
   var week = getQueryVariable('week');
+  var val = getQueryVariable('value');
+  var grafico = getQueryVariable('grafico');
   var data_month = "";
+
+  if (grafico == 1)
+  {
+    $("#button-horas").attr("class", "btn btn-primary");
+    $("#button-pesos").attr("class", "btn btn-secondary");      
+  }
+  else if (grafico == 2)
+  {
+    $("#button-horas").attr("class", "btn btn-secondary");
+    $("#button-pesos").attr("class", "btn btn-primary");    
+  }
+  else
+  {
+    $("#button-horas").attr("class", "btn btn-primary");
+    $("#button-pesos").attr("class", "btn btn-secondary");          
+  }
+
+
+  $("#evaluar").on("click", function()
+  {
+    valuesReport($("#values-hour").val())
+  });
+
+  $("#button-horas, #button-pesos").on("click", function()
+  {
+    graficoActual = this.dataset.grafico
+
+    if (graficoActual == 1)
+    {
+      $("#chartContainer").show();
+      $("#chartContainer-2").hide();
+      $("#button-horas").attr("class", "btn btn-primary");
+      $("#button-pesos").attr("class", "btn btn-secondary");      
+    }
+    else if(graficoActual == 2)
+    {
+      $("#chartContainer").hide();
+      $("#chartContainer-2").show();
+      $("#button-horas").attr("class", "btn btn-secondary");
+      $("#button-pesos").attr("class", "btn btn-primary");     
+    }
+      
+  });
+
   //si existen datos en la bd los trae
   $(document).ready(function()
   {
@@ -58,31 +111,19 @@ if ($('#productivity_report').length > 0)
         Cerebro.caso = Cerebro.plan.id_caso;
         Cerebro.salida = datasets1.responseJSON.summary;
         Cerebro.setearResumen();
-        productividad_diaria = Cerebro.productividadDiaria();
-        sum_turnos_real = Cerebro.totalTurnosReales();
-        resumen_plan = Cerebro.obtenerResumen();
-        productividad_objetivo = Cerebro.productividadObjetivo();
 
         //cargar turnos
         Cerebro.setearTurnos();
         turnos       = Cerebro.turnos;                      
         num_turnos   = Cerebro.plan.datos.num_turnos;
         count_turnos = 0;
-
         // fin
-        Cerebro.brainJson = JSON.parse(datasets1.responseJSON.json_result);          
-        productividad_diaria = Cerebro.productividadDiaria();
-        sum_turnos_real   = Cerebro.totalTurnosReales();
-        resumen_plan = Cerebro.obtenerResumen();
-        productividad_objetivo = Cerebro.productividadObjetivo();
 
-        sum_turnos_real = Cerebro.totalTurnosReales();
-        productividad_diaria  = Cerebro.productividadDiaria();
+        Cerebro.brainJson = JSON.parse(datasets1.responseJSON.json_result);        
         productividad_optimizada = Cerebro.productividadOptimizada();
-        productividad_actual = Cerebro.cacularProductividad(mes);
         productividad_real = Cerebro.cacularProductividad(vrm1);
-
         resumen_plan = Cerebro.obtenerResumen();
+
 
         excesoReal = Calculo.matrizExceso(plan_enviado.datos.prod_obj, productividad_real, Cerebro.sumatoriaTurnosDiaria());
         excesoOptimizado = Calculo.matrizExceso(plan_enviado.datos.prod_obj, productividad_optimizada, Cerebro.sumatoriaTurnosOptimizado());
@@ -92,8 +133,8 @@ if ($('#productivity_report').length > 0)
           data: {
           datasets: 
           [
-            {data: excesoReal, label: 'Productividad Real', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 192)'},
-            {data: excesoOptimizado, label: 'Productividad Optimizada', yAxisID: 'left-y-axis',borderColor: 'rgb(75, 192, 0)'}
+            {data: excesoReal, label: 'Horas Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
+            {data: excesoOptimizado, label: 'Horas Optimizada', yAxisID: 'left-y-axis',borderColor: 'rgb(54, 162, 235)'}
           ],
           labels: fecha
           },
@@ -105,16 +146,96 @@ if ($('#productivity_report').length > 0)
               [{
                 id: 'left-y-axis',
                 type: 'linear',
-                position: 'left'
+                position: 'left',
+                display: true,
+                  scaleLabel: {
+                    display: true,
+                    labelString: '(-)Exceso / (+)faltantes'
+                  }
               }]
+            },
+            tooltips: {
+              mode: 'index',
+              intersect: false,
+              callbacks: {
+                label: function(tooltipItem, chart){
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': ' + tooltipItem.yLabel;
+                }
+              }
             }
           }
         }    
+
+        excesoRealValorado = Calculo.matrizExcesoVal(plan_enviado.datos.prod_obj, productividad_real, Cerebro.sumatoriaTurnosDiaria(), val);
+        excesoOptimizadoValorado = Calculo.matrizExcesoVal(plan_enviado.datos.prod_obj, productividad_optimizada, Cerebro.sumatoriaTurnosOptimizado(), val);
+
+        var config2 = {
+          type: 'line',
+          data: {
+          datasets: 
+          [
+            {data: excesoRealValorado, label: 'Gasto Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
+            {data: excesoOptimizadoValorado, label: 'Gasto Optimizado', yAxisID: 'left-y-axis',borderColor: 'rgb(54, 162, 235)'}
+          ],
+          labels: fecha
+          },
+          options: 
+          {
+            scales: 
+            {
+              yAxes: 
+              [{
+                id: 'left-y-axis',
+                type: 'linear',
+                position: 'left',
+                display: true,
+                  scaleLabel: {
+                    display: true,
+                    labelString: '(-)Exceso / (+)faltantes'
+                  }
+              }]
+            },
+            tooltips: {
+              mode: 'index',
+              intersect: false,
+              callbacks: {
+                label: function(tooltipItem, chart){
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': $ ' + fn.formateaNumero(tooltipItem.yLabel);
+                }
+              }
+            }
+          }
+        }  
+
         document.getElementById("chartContainer").innerHTML = '&nbsp;';
         document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
 
+        document.getElementById("chartContainer-2").innerHTML = '&nbsp;';
+        document.getElementById("chartContainer-2").innerHTML = '<canvas id="canvas-2"></canvas>';
+
         var ctx = document.getElementById("canvas").getContext("2d");
         var myChart = new Chart(ctx, config);
+
+        var ctx2 = document.getElementById("canvas-2").getContext("2d");
+        var myChart = new Chart(ctx2, config2);
+        
+        if (grafico == 1)
+        {
+          $("#chartContainer").show();
+          $("#chartContainer-2").hide();
+        }
+        else if(grafico == 2)
+        {
+          $("#chartContainer").hide();
+          $("#chartContainer-2").show();
+        }
+        else
+        {
+          $("#chartContainer").show();
+          $("#chartContainer-2").hide();
+        }  
 
         //
         eficiencia1 = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
@@ -134,9 +255,6 @@ if ($('#productivity_report').length > 0)
         faltanteTotal = Calculo.faltanteTotal(excesoReal);
         $("#sum-exceso").html(excesoTotal);
         $("#sum-faltante").html(faltanteTotal);
-        $("#vent_real").html(fn.formateaNumero(vent_real));
-        $("#dot_real").html(fn.formateaNumero(dot_real));
-        $("#prod_real").html(fn.formateaNumero(Math.round(vent_real/dot_real)));
 
         //obtener optimizada
         exceso_op = Calculo.excesoTotal(excesoOptimizado);
@@ -145,9 +263,6 @@ if ($('#productivity_report').length > 0)
         dot_op = Cerebro.sumatoriaMatriz(Cerebro.sumatoriaTurnosOptimizado());
         $("#sum-exceso-op").html(exceso_op);
         $("#sum-faltante-op").html(faltante_op);
-        $("#vent_op").html(fn.formateaNumero(vent_op));
-        $("#dot_op").html(fn.formateaNumero(dot_op));
-        $("#prod_op").html(fn.formateaNumero(Math.round(vent_op/dot_op)));
         
         eficiencia_op = (100-parseFloat(Cerebro.resumen[1].margeAjuste));
         eficiencia_real = (100-parseFloat(Cerebro.resumen[0].margeAjuste));
