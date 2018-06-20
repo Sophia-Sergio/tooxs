@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get 'dashboard/ventas'
   get 'dashboard/productividad'
 
+  get 'data_master/index'
+
   resources :sales_statistics  
   resources :rs
   resources :hs

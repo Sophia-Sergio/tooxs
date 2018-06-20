@@ -1,9 +1,6 @@
 <p id="notice"><%= notice %></p>
-
+<%= render 'search_form', locals: { status: 'show', path: sellers_path } %>
 <h2 class="m-t-40">Colaboradores</h2>
-<br>
-<%= link_to 'Crear', new_seller_path , class: "btn btn-primary"%>
-<br>
 <br>
 <table class="table-shift table table-bordered bg-master-lightest">
   <thead>
@@ -36,6 +33,9 @@
     <% end %>
   </tbody>
 </table>
+<br>
+<%= link_to 'Crear', new_seller_path , class: "btn btn-primary"%>
+<br>
 <br>
 <br>
 <br>

@@ -1,0 +1,26 @@
+<div class="card card-transparent">
+  <div class="card-header ">
+    <div class="card-title ">
+      Parámetros de Búsqueda - Productividad Tiendas
+    </div>
+  </div>
+
+  <div class="card-block">
+    <%= simple_form_for @search, :url => locals[:path], :method => :get do |f| %>
+    <div class="row" id="sales_search_form">
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store]  %>  
+      </div>
+      <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] %>  
+      </div>
+      <div class="col-12 col-sm-3 col-md-3 col-lg-1">
+        <%= button_tag type: 'submit',class: "btn btn-success btn-lg btn-larger" do %>
+        <i class="fa fa-search" aria-hidden="true"></i> Buscar
+        <% end %>
+      </div>  
+    </div>
+    <% end %>
+  </div>
+</div>

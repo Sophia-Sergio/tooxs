@@ -42,15 +42,21 @@ class SellersController < ApplicationController
   end
 
   def index
-
-    if params[:department] == ""
-      params[:department] =  1
-    end
-
-    department = params[:department]
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Colaboradores", :sellers_path
-    @sellers = Seller.all
+
+    @search       = ''
+    @stores       = Store.all.order(:id)
+    @departments  = Department.all.order(:id)
+    store = params[:store]
+    department = params[:department]
+
+
+    if department != nil
+      @sellers = Seller.where(store: store, department: department)
+    else
+      @sellers = Seller.all
+    end
 
   end
 
