@@ -48,12 +48,14 @@ class SellersController < ApplicationController
     @search       = ''
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)
-    store = params[:store]
-    department = params[:department]
+    @available_shifts = AvailableShift.select("num as id, name").distinct
 
+    store           = params[:store]
+    department      = params[:department]
+    available_shift = params[:available_shift]
 
     if department != nil
-      @sellers = Seller.where(store: store, department: department)
+      @sellers = Seller.where(store: store, department: department, assigned_shift: available_shift)
     else
       @sellers = Seller.all
     end
