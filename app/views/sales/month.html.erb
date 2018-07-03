@@ -9,7 +9,7 @@
   </div>
 
   <%= render 'search_form', locals: { status: 'show', path: month_sales_path} %>
-  <div>
+  <div class="grafico-1">
     <div class="grafico-principal">
       <canvas id="canvas"></canvas>
     </div>
@@ -17,7 +17,7 @@
   
   <div id="compare_stores"></div>
   
-  <div class="formulario-comparacion">
+  <div class="formulario-comparacion grafico-1">
     <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
     <table class="table-shift table table-bordered">
       <thead>

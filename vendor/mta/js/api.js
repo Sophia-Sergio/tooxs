@@ -403,7 +403,6 @@ function optimizar()
 				}
 				else
 				{
-					clearInterval(myTimer);
 				    sumatoria_turnos_optimizados = Cerebro.totalTurnosOptimizados();	
 				    initOptimizado = new Array(281);
 

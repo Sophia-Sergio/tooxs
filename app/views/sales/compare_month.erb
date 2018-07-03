@@ -1,94 +1,74 @@
-    <div class="card-block">
-      <h4>Comparación Ventas - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
-      
-      <p class="m-t-20">Cluster: <span class="label label-default"><%= "#{@store_source.economic_segment} - #{@store_source.size}"  %></span>
-      Tienda: <span class="label label-default"><%= @store_source.name %></span>
-      Departamento: <span class="label label-default"><%= @dep_source.name %></span>
-      </p>
-      <p class="">Cluster: <span class="label label-default"><%= "#{@store.economic_segment} - #{@store.size}"  %></span>
-      Tienda: <span class="label label-default"><%= @store.name %></span>
-      Departamento: <span class="label label-default"><%= @dep_source.name %></span>
-      </p>
-     
-      <div class="row m-t-30">
-        <div class="col-sm-12 col-xl-8 offset-xl-2">
-            <div style="width:100%;">
-            <canvas id="canvas2"></canvas>
-          </div>
-        </div>
-        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-          <h3>&nbsp;</h3>
-        </div>
-        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-          <table class="table-shift table table-bordered bg-master-lightest">
-            <thead>
-              <tr class="bg-success text-center">
-                <th colspan="<%= @real_source.length+2  %>"  class="no-margin text-center text-uppercase text-white fs-15"> <h3 class="no-margin text-center text-uppercase text-white fs-15"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></h3></th>
-              </tr>
-              <tr>
-              	<th> Tienda </th>
-                <% @real_source.each do |k,v| %>
-                <th> Semana <%= k %> </th>
-                <% end %>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody class="">
-              <tr>
-            		<td><%= @store_source.name %></td>
+<div>
+  <div class="grafico-principal">
+    <canvas id="canvas2"></canvas>
+  </div>
+</div>
+<div class="formulario-comparacion">
+  <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
+  <table class="table-shift table table-bordered">
+    <thead>
+      <tr>
+        <th> Tienda </th>
+        <% @real_source.each do |k,v| %>
+        <th> Semana <%= k %> </th>
+        <% end %>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @store_source.name %></td>
 
-            		<%
-                  @real_source.each do |k,v|
-                  @sum1 += @real_source[k]
-                %>
-            		<td>
-                  <%= number_to_currency @real_source[k] %>
-                </td>
-            		<% end %>
-                <td>
-                  <%= number_to_currency @sum1 %>
-                </td>
-            	</tr>
+        <%
+          @real_source.each do |k,v|
+          @sum1 += @real_source[k]
+        %>
+        <td>
+          <%= number_to_currency @real_source[k] %>
+        </td>
+        <% end %>
+        <td>
+          <%= number_to_currency @sum1 %>
+        </td>
+      </tr>
 
-              <tr>
-                <td><%= @store.name %></td>
+      <tr>
+        <td><%= @store.name %></td>
 
-                <%
-                  @real_vs.each do |k,v|
-                  @sum2 += @real_vs[k]
-                %>
-                <td>
-                  <%= number_to_currency @real_vs[k] %>
-                </td>
-                <% end %>
-                <td>
-                  <%= number_to_currency @sum2 %>
-                </td>
-              </tr>  
-              <tr class="table-warning">
-                <td><b>  </b></td>
-                <% @dif1.each do |v|%>
-                <td class="text-centerx"><%= v.round(2) %>%
-                  <% if v > 0  %>
-                  <i class="text-success fa fa-caret-up"></i>
-                  <% else %>
-                  <i class="text-danger fa fa-caret-down"></i>
-                  <% end -%>
-                </td>
-                <% end %>
-                <td class="text-centerx"><%= @sum_dif %>%
-                  <% if @sum_dif > 0  %>
-                  <i class="text-success fa fa-caret-up"></i>
-                  <% else %>
-                  <i class="text-danger fa fa-caret-down"></i>
-                  <% end -%>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
+        <%
+          @real_vs.each do |k,v|
+          @sum2 += @real_vs[k]
+        %>
+        <td>
+          <%= number_to_currency @real_vs[k] %>
+        </td>
+        <% end %>
+        <td>
+          <%= number_to_currency @sum2 %>
+        </td>
+      </tr>  
+      <tr class="table-warning">
+        <td><b>  </b></td>
+        <% @dif1.each do |v|%>
+        <td class="text-centerx"><%= v.round(2) %>%
+          <% if v > 0  %>
+          <i class="text-success fa fa-caret-up"></i>
+          <% else %>
+          <i class="text-danger fa fa-caret-down"></i>
+          <% end -%>
+        </td>
+        <% end %>
+        <td class="text-centerx"><%= @sum_dif %>%
+          <% if @sum_dif > 0  %>
+          <i class="text-success fa fa-caret-up"></i>
+          <% else %>
+          <i class="text-danger fa fa-caret-down"></i>
+          <% end -%>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
 
-            </tfoot>
-          </table>
-        </div>
-      </div>
-    </div>
+    </tfoot>
+  </table>
+</div>
