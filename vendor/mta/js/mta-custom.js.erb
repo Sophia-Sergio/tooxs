@@ -529,6 +529,7 @@ if ( $('#seller_details').length > 0) {
         timeFormat: 'h:mm a',
         minTime:0,
         maxTime:24,
+        droppable: false,
         dateFormat: 'MMMM Do YYYY',
         slotDuration: '30', //In Mins : only supports 30 and 60
         events: myEvents,
@@ -653,9 +654,9 @@ if ($('#productivity_demo').length > 0)
               {
                 datasets: 
                 [
-                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad Ideal', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},
-                  {data: productividad_actual, label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',borderColor: '#65ff00'},
-                  {data: productividad_real, label: 'Productividad Real', yAxisID: 'left-y-axis',borderColor: '#ff566b'}  
+                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo,fill: 'false', label: 'Productividad Ideal', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},
+                  {data: productividad_actual,fill: 'false', label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',borderColor: '#65ff00'},
+                  {data: productividad_real,fill: 'false', label: 'Productividad Real', yAxisID: 'left-y-axis',borderColor: '#ff566b'}  
                 ],
                 labels: fecha
               },

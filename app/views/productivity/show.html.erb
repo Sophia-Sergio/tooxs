@@ -41,7 +41,7 @@
   </div>
 
   <div class="formulario-comparacion">
-    <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
+    <div class="sub-titulo-pantalla">Resultado</div>
     <div class="row ">  
       <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <h5 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Rincon Juvenil Mujer - <%= I18n.l(Date.parse("#{'%02d' % params[:month] }/01"), format: "%B", locale: :es).capitalize %> <%= params[:year] %></h5>
@@ -55,11 +55,12 @@
         </div>
         <div id="botones-optimizar" class="row m-t-30" style="display: none">
           <div class="col-xl-1">
-            <input type="number" class="form-control" id="minutos_optimizando" name="minutos_optimizando" placeholder="minutos" min="0" max="10">
+            <input type="number" style="height: 52px;" class="form-control" id="minutos_optimizando" name="minutos_optimizando" placeholder="minutos" min="0" max="10">
           </div>
           <div class="col-xl-11" >
-            <button type="button" class="btn btn-info btn-optimize"> <i class="fa fa-cogs"></i> Optimizar </button>
+            <button type="button" class="btn btn-info btn-optimize" style="height: 52px;"> <i class="fa fa-cogs"></i> Optimizar </button>
             <button type="button" class="btn btn-success btn-detalle"> <i class="fa fa-cogs"></i> Detalle </button>
+            <span id="countdown"></span><!-- /#Countdown Div -->
           </div>
         </div>            
       </div>

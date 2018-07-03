@@ -133,7 +133,7 @@ $("#btn_ver_datos_caso").click(function() {
 function ejecutarCaso()
 {
 	var caja_json_entrada = JSON.stringify(Cerebro.plan);
-
+	console.log(caja_json_entrada);
 	$.ajax({
      		url: "https://compute.scipion.cl/servlet/apimot",
          	method: "POST",
@@ -369,13 +369,6 @@ function optimizar()
     var year = getQueryVariable('year');
     var store = getQueryVariable('store');
     var department = getQueryVariable('department');
-	
-	$('.page-container').pgNotification({
-        style: 'simple',
-        message: 'Realizando Calculos',
-        timeout: 3000,
-        type: 'info',
-    }).show(); 
     //optimizado
     $.ajax({ 
       type: "get",
@@ -404,14 +397,13 @@ function optimizar()
 				{
 					setTimeout( function()
 					{ 
-						console.log("esperando...")
 						optimizar();
-
 					}, 1000);
 					
 				}
 				else
 				{
+					clearInterval(myTimer);
 				    sumatoria_turnos_optimizados = Cerebro.totalTurnosOptimizados();	
 				    initOptimizado = new Array(281);
 
@@ -438,10 +430,10 @@ function optimizar()
 	                    type: 'line',
 	                    data: {
 	                      datasets: [
-					                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, label: 'Productividad Ideal', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},                                  
-					                  {data: productividad_actual, label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',borderColor: '#65ff00'},
-					                  {data: productividad_real, label: 'Productividad Real', yAxisID: 'left-y-axis',borderColor: '#ff566b'},  
-					                  {data: productividad_optimizada, label: 'Productividad Optimizada', yAxisID: 'left-y-axis', borderColor: '#33d6ce'}
+					                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo,fill: 'false', label: 'Productividad Ideal', yAxisID: 'left-y-axis',backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},                                  
+					                  {data: productividad_actual,fill: 'false', label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',backgroundColor: '#65ff00', borderColor: '#65ff00'},
+					                  {data: productividad_real,fill: 'false', label: 'Productividad Real', yAxisID: 'left-y-axis',backgroundColor: '#ff566b', borderColor: '#ff566b'},  
+					                  {data: productividad_optimizada,fill: 'false', label: 'Productividad Optimizada', yAxisID: 'left-y-axis',backgroundColor: '#33d6ce', borderColor: '#33d6ce'}
  	                                ],
 	                      labels: fecha
 	                    },
@@ -503,14 +495,9 @@ function optimizar()
 	                 	$("#turnos-"+count_turnos).html(turnos[count_turnos+num_turnos].vendedores);
 	                    count_turnos++;
 	                  }
-	                  $('.page-container').pgNotification({
-				                style: 'simple',
-				                message: 'Calculos realizados',
-				                timeout: 3000,
-				                type: 'info',
-				      }).show(); 
 					$("#minutos_optimizando").prop('disabled', false);
 					$(".btn-optimize").prop('disabled', false);
+					$(".pace").attr("class", "pace pace-inactive");
 				}	
       		
       }
@@ -518,8 +505,6 @@ function optimizar()
     $('#data_opt').slideDown('fast')
     
 }
-
-// boton simulación optimizacion
 
 $(document).on('click','.btn-optimize', function()
 {
@@ -532,14 +517,17 @@ $(document).on('click','.btn-optimize', function()
 		
 		$("#minutos_optimizando").prop('disabled', true);
 		$(".btn-optimize").prop('disabled', true);
-	      $('.page-container').pgNotification({
-	        style: 'simple',
-	        message: 'Optimizando',
-	        timeout: 3000,
-	        type: 'info',
-	      }).show(); 
+
+		$(".pace").attr("class", "pace");
+
 		setTimeout(function()
 		{ 
+			$('.page-container').pgNotification({
+		        style: 'simple',
+		        message: 'Esperando..',
+		        timeout: 3000,
+		        type: 'info',
+		    }).show(); 
 			optimizar(); 
 		},
 		parseInt(($("#minutos_optimizando").val()*60000)+3000));

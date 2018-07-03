@@ -4,9 +4,8 @@ class SalesClusterController < ApplicationController
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Ventas por Segmento", :sales_cluster_index_path       
     @search       = ''
-    @clusters     = Cluster.all.order(:id)
-    @departments  = Department.distinct.pluck(:name)
-    @masterDepartments = MasterDepartment.all.order(:id)
+    @clusters     = Cluster.where(id: 1)
+    @masterDepartments = MasterDepartment.where(id: 1)
     @month = Date.today.strftime("%m").to_i
 
     #@seasons      = [ [id: 1, name:'moo'] , [id: 2, name:'lala'] ]
