@@ -55,7 +55,7 @@ class SellersController < ApplicationController
     available_shift = params[:available_shift]
 
     if department != nil
-      @sellers = Seller.where(store: store, department: department, assigned_shift: available_shift)
+      @sellers = Seller.where(store: store, department: department)
     else
       @sellers = Seller.all
     end
