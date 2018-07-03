@@ -42,7 +42,7 @@
       <!-- START Login Background Pic Wrapper-->
       <div class="bg-pic">
         <!-- START Background Pic-->
-         <%= image_tag 'bg_man.jpg', class: 'lazy' %>
+         <%= image_tag 'bg_man-2.jpg', class: 'lazy' %>
         <!-- END Background Pic-->
         <!-- START Background Caption-->
         <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20 dn">
@@ -58,31 +58,27 @@
       <!-- START Login Right Container-->
       <div class="login-container bg-white">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
-          <%= image_tag 'logo-tooxs' %>
-          <p class="p-t-35">Ingresa tus credenciales de acceso</p>
+          <%= image_tag 'logo-main.jpg' %>
+          <p class="p-t-35" style="font-size: 1.5em;">Ingresa tus credenciales de acceso</p>
           <!-- START Login Form -->
           <p class="notice"><%= notice %></p>
           <p class="alert"><%= alert %></p>
 
 
           <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "moo p-t-15"}) do |f| %>
-          <div class="form-inputs">
+          <div id="form-login-text" class="form-inputs">
             <%= f.input :email, required: false, autofocus: true %>
             <%= f.input :password, required: false %>
-            <%= f.input :remember_me, label: 'Recordar', as: :boolean if devise_mapping.rememberable? %>
           </div>
 
           <div class="form-actions">
-            <%= f.button :button, 'Ingresar', type: :submit,  class: 'btn btn-primary btn-cons m-t-10' %>
+            <%= f.button :button, 'Ingresar', type: :submit,  class: 'btn btn-primary btn-cons m-t-10', style: 'width:100%' %>
           </div>
           <% end %>
 
           <!--END Login Form-->
           <div class="pull-bottom sm-pull-bottom">
-            <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix">
-              <div class="col-sm-3 col-md-2 no-padding">
-                <img alt="" class="m-t-5" data-src="assets/img/demo/pages_icon.png" data-src-retina="assets/img/demo/pages_icon_2x.png" height="60" src="assets/img/demo/pages_icon.png" width="60">
-              </div>
+            <div style="width: 372px;">
               <div class="col-sm-12 no-padding m-t-10">
                 <p>
                   <small>

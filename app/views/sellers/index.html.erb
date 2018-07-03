@@ -15,14 +15,14 @@
     <table class="table-shift table table-bordered form-style">
       <thead>
         <tr>
-          <th>Rut</th>
+          <th class="hidden-md-down">Rut</th>
           <th>Nombre</th>
-          <th>Email</th>
-          <th>Telefono</th>
+          <th class="hidden-xl-down">Email</th>
+          <th class="hidden-xl-down">Teléfono</th>
           <th>Tienda</th>
-          <th>Departamento</th>
-          <th>Turno</th>
-          <th>Fecha Inicio Turno</th>
+          <th class="hidden-xs-down">Departamento</th>
+          <th class="hidden-xs-down">Turno</th>
+          <th class="hidden-xs-down">Fecha Inicio Turno</th>
           <th></th>
         </tr>
       </thead>
@@ -30,14 +30,14 @@
       <tbody>
         <% @sellers.each do |seller| %>
           <tr>
-            <td><%= seller.rut %></td>
+            <td class="hidden-md-down"><%= seller.rut %></td>
             <td><%= seller.fullname %></td>
-            <td><%= seller.email %></td>
-            <td><%= seller.phone %></td>
+            <td class="hidden-xl-down"><%= seller.email %></td>
+            <td class="hidden-xl-down"><%= seller.phone %></td>
             <td><%= seller.store %></td>
-            <td><%= seller.department %></td>
-            <td><%= seller.available_shift.first.name %></td>
-            <td><%= seller.begin_shift %></td>
+            <td class="hidden-xs-down"><%= seller.department %></td>
+            <td class="hidden-xs-down"><%= seller.available_shift.first.name %></td>
+            <td class="hidden-xs-down"><%= seller.begin_shift %></td>
             <td><%= link_to 'Ver Detalle', seller, class: '' %>
           </tr>
         <% end %>

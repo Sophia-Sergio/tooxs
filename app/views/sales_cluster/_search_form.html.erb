@@ -15,7 +15,7 @@
     </div>
 
     <div class="input-form">
-    <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month  %>  
+    <%= f.input :month, collection: (1..5).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month  %>  
     </div>
     <div>
       <input type="hidden" name="week" id="week" value="<%= params[:week] %>">

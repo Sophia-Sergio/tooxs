@@ -1,33 +1,37 @@
 <p id="notice"><%= notice %></p>
-<h1>Turnos</h1>
-<%= form_with url: import_available_shifts_path, multipart: true, local: true do %>
-  <%= label_tag :file, 'Importar desde xlsx' %>
-  <%= file_field_tag :file  %>
-  <br>
-  <%= submit_tag 'Importar', class: "btn btn-light"  %>
-<% end %>
-<br><br>
-<table class="table-shift table table-bordered bg-master-lightest">
-  <thead>
-    <tr class="bg-success text-center ">
-      <th colspan="13" class="no-margin text-uppercase text-white fs-15">
-        <h3 class="no-margin text-center text-uppercase text-white fs-15">Listado de turnos</h3>
-      </th>
-    </tr>
-    <tr>
-      <td>Numero Turno</td>
-      <td>Nombre</td>
-      <td colspan="1"></td>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @available_shifts.each do |available_shift| %>
-      <tr>
-        <td><%= available_shift.num %></td>
-        <td><%= available_shift.name %></td>
-        <td><%= link_to 'Detalle', available_shift_path(:num => available_shift.num)%></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="container-fluid">
+  <div class="pantalla-seccion d-flex justify-content-between mb-2">
+    <div class="align-self-end">
+      <div class="titulo-pantalla">Turnos</div>
+    </div>  
+    <div class="align-self-end text-right">
+      <%= form_with url: import_available_shifts_path, multipart: true, local: true do %>
+        <%= label_tag :file, 'Importar desde xlsx' %>
+        <%= file_field_tag :file  %>
+        <br>
+        <%= submit_tag '+ Importar', class: "btn btn-primary btn-compare-sales" , style: "line-height:52px; padding: 0 22px;" %>
+      <% end %>
+    </div>    
+  </div>
+  <div class="formulario-comparacion">
+    <div class="sub-titulo-pantalla">Listado de turnos</div>
+    <table class="table-shift table table-bordered">
+      <thead>
+        <tr>
+          <td>Numero Turno</td>
+          <td>Nombre</td>
+          <td colspan="1"></td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @available_shifts.each do |available_shift| %>
+          <tr>
+            <td><%= available_shift.num %></td>
+            <td><%= available_shift.name %></td>
+            <td><%= link_to 'Detalle', available_shift_path(:num => available_shift.num)%></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

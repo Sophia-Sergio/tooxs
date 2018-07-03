@@ -102,7 +102,7 @@
       <span class="dotacion label label-primary tip" data-toggle="tooltip">Optimizado</span>
     </div>
     <div class="row">  
-      <div class="col-lg-6 col-xl-6 col-sm-12">
+      <div class="col-xl-12">
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
@@ -121,6 +121,7 @@
                countTurnos = 0 %>                         
             <% @staffing_w1[:draw].each do |k,v|%>
             <tr>
+              <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
               <td class="text-center" align="center"><%= k %>:00</td>
               <% dia = 0 %>
               <% v.first.each do |n| %>
@@ -131,8 +132,12 @@
                 </td>  
               <% dia += 10 %>
                 <% else %>
-                <td>  </td>
+                <td class="text-center">
+                  <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                  <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                </td>
                 <% end -%>
+              <% end -%>
               <% end -%>
             </tr>
             <% hora += 1 %>
@@ -140,11 +145,11 @@
           </tbody>
         </table>
       </div>
-      <div class="col-lg-6 col-xl-6 col-sm-12">
+      <div class="col-xl-12">
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
-              <th colspan="8">Semana 1</th>
+              <th colspan="8">Semana 2</th>
             </tr>
             <tr>
                 <th class="text-center"> Hora </th>
@@ -159,6 +164,7 @@
                countTurnos = 0 %>   
             <% @staffing_w2[:draw].each do |k,v|%>
             <tr>
+              <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
               <td class="text-center" align="center"><%= k %>:00</td>
               <% dia = 0 %>
               <% v.first.each do |n| %>
@@ -169,8 +175,12 @@
                 </td>  
                 <% dia += 10 %>
                 <% else %>
-                <td>  </td>
+                <td class="text-center">
+                  <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                  <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                </td>
                 <% end -%>
+              <% end -%>
               <% end -%>
             </tr>
             <% hora += 1 %>
@@ -178,11 +188,11 @@
           </tbody>
         </table>
       </div>              
-      <div class="col-lg-6 col-xl-6 col-sm-12">
+      <div class="col-xl-12">
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
-              <th colspan="8">Semana 1</th>
+              <th colspan="8">Semana 3</th>
             </tr>
             <tr>
                 <th class="text-center"> Hora </th>
@@ -197,6 +207,7 @@
                countTurnos = 0 %>   
             <% @staffing_w3[:draw].each do |k,v|%>
             <tr>
+              <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
               <td class="text-center" align="center"><%= k %>:00</td>
               <% dia = 0 %>
               <% v.first.each do |n| %>
@@ -207,8 +218,12 @@
                 </td>  
                 <% dia += 10 %>
                 <% else %>
-                <td>  </td>
+                <td class="text-center">
+                  <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                  <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                </td>
                 <% end -%>
+              <% end -%>
               <% end -%>
             </tr>
             <% hora += 1 %>
@@ -216,11 +231,11 @@
           </tbody>             
         </table>
       </div>              
-      <div class="col-lg-6 col-xl-6 col-sm-12">
+      <div class="col-xl-12">
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
-              <th colspan="8">Semana 1</th>
+              <th colspan="8">Semana 4</th>
             </tr>
             <tr>
                 <th class="text-center"> Hora </th>
@@ -235,6 +250,7 @@
                countTurnos = 0 %>   
             <% @staffing_w4[:draw].each do |k,v|%>
             <tr>
+              <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
               <td class="text-center" align="center"><%= k %>:00</td>
               <% dia = 0 %>
               <% v.first.each do |n| %>
@@ -245,8 +261,12 @@
                 </td>  
                 <% dia += 10 %>
                 <% else %>
-                <td>  </td>
+                <td class="text-center">
+                  <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                  <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                </td>
                 <% end -%>
+              <% end -%>
               <% end -%>
             </tr>
             <% hora += 1 %>

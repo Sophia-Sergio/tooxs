@@ -30,7 +30,7 @@
             <div class="dropdown pull-right hidden-md-down">
               <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="thumbnail-wrapper d32 circular inline">
-                <img src="http://placehold.it/32x32" alt="" data-src="http://placehold.it/32x32" data-src-retina="assets/img/profiles/avatar_small2x.jpg" width="32" height="32">
+                <%= image_tag 'avatar.jpg', width: '32', height: '32' %>
                 </span>
               </button>
               <div class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
@@ -64,7 +64,7 @@
               </li>
               <li class="">
                 <span class="icon-thumbnail"><%= image_tag 'comparativo-venta.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Comparativo', sales_cluster_index_path %>
+                <a href="/sales_cluster/month?utf8=✓&cluster=1&department=1&year=2018&month=5">Comparativo</a>
               </li>
               <li class="">
                 <span class="icon-thumbnail"><%= image_tag 'colaboradores.jpg', class: 'icon-min-menu' %></span>
@@ -94,7 +94,7 @@
               </li>
               <li class=""> 
                 <span class="icon-thumbnail"><%= image_tag 'comparativo-venta.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Comparativo', productivity_cluster_index_path %>
+                <a href="/productivity_cluster/month?utf8=✓&cluster=1&department=1&year=2018&month=5">Comparativo</a>
               </li>
             </ul>
           </li>          
@@ -125,10 +125,10 @@
                 <span class="icon-thumbnail"><%= image_tag 'historico.jpg', class: 'icon-min-menu' %></span>
                 <%= link_to 'Histórico', historic_sales_path %>
               </li>
-              <li class="">
+              <!--<li class="">
                 <span class="icon-thumbnail"><%= image_tag 'venta.jpg', class: 'icon-min-menu' %></span>
                 <a href="#">Venta actual</a>
-              </li>
+              </li>-->
               <li class="">
                 <span class="icon-thumbnail"><%= image_tag 'datos.jpg', class: 'icon-min-menu' %></span>
                 <%= link_to 'Datos', data_master_index_path %>

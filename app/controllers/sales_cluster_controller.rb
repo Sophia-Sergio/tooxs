@@ -93,8 +93,8 @@ class SalesClusterController < ApplicationController
     colors = []
     colorCount = 0
 
-    colors << 'rgb(255, 205, 86)'
-    colors << 'rgb(153, 102, 255)'
+    colors << '#65ff00'
+    colors << '#33d6ce'
        
     beginning_of_month = "#{@year}-#{@month}-01".to_date
     end_of_month = beginning_of_month.end_of_month

@@ -1,42 +1,46 @@
 <p id="notice"><%= notice %></p>
+<div class="container-fluid">
+  <div class="pantalla-seccion d-flex justify-content-between mb-2">
+    <div class="align-self-end">
+      <div class="titulo-pantalla">Plan</div>
+    </div>  
+    <div class="align-self-end text-right">
+      <%= form_with url: import_sale_plans_path, multipart: true, local: true do %>
+        <%= label_tag :file, 'Importar desde xlsx' %>
+        <%= file_field_tag :file  %>
+        <br>
+        <%= submit_tag '+ Importar', class: "btn btn-primary btn-compare-sales" , style: "line-height:52px; padding: 0 22px;" %>
+      <% end %>
+    </div>    
+  </div>
+  <div class="formulario-comparacion">
+    <div class="sub-titulo-pantalla">Plan de ventas</div>
+    <table id="sale_plans" class="table-shift table table-bordered">
+      <thead>
+        <tr>
+          <th>Tienda</th>
+          <th>Departamento</th>
+          <th>Fecha</th>
+          <th>Semana</th>
+          <th>Mes</th>
+          <th>Dia</th>
+          <th>Total Dia</th>
+        </tr>
+      </thead>
 
-<h1>Plan de Ventas</h1>
-<%= form_with url: import_sale_plans_path, multipart: true, local: true do %>
-  <%= label_tag :file, 'Importar desde xlsx' %>
-  <%= file_field_tag :file  %>
-  <br>
-  <%= submit_tag 'Importar', class: "btn btn-light"  %>
-<% end %>
-
-<table id="sale_plans" class="table-shift table table-bordered bg-master-lightest">
-  <thead>
-    <tr>
-      <th>Tienda</th>
-      <th>Departamento</th>
-      <th>Fecha</th>
-      <th>Semana</th>
-      <th>Mes</th>
-      <th>Dia</th>
-      <th>Total Dia</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @sale_plans.each do |sale_plan| %>
-      <tr>
-        <td><%= sale_plan.store %></td>
-        <td><%= sale_plan.department %></td>
-        <td><%= l sale_plan.sale_date %></td>
-        <td><%= sale_plan.week %></td>
-        <td><%= sale_plan.month %></td>
-        <td><%= sale_plan.day %></td>
-        <td><%= number_to_currency sale_plan.total_day %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<br>
-<br>
-<br>
-<br>
-<br>
+      <tbody>
+        <% @sale_plans.each do |sale_plan| %>
+          <tr>
+            <td><%= sale_plan.store %></td>
+            <td><%= sale_plan.department %></td>
+            <td><%= l sale_plan.sale_date %></td>
+            <td><%= sale_plan.week %></td>
+            <td><%= sale_plan.month %></td>
+            <td><%= sale_plan.day %></td>
+            <td><%= number_to_currency sale_plan.total_day %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

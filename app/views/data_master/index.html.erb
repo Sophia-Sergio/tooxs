@@ -1,74 +1,83 @@
 <p id="notice"><%= notice %></p>
+<div class="container-fluid">
+  <div class="pantalla-seccion d-flex justify-content-between mb-2">
+    <div class="align-self-end">
+      <div class="titulo-pantalla">Datos</div>
+    </div>  
+  </div>
+  <div class="formulario-comparacion ">
+    <div class="sub-titulo-pantalla">Configuración</div>
+    <p>
+      <strong>Mes:</strong>
+      <%= @data_case.month %>
+    </p>
+    <p>
+      <strong>Año:</strong>
+      <%= @data_case.year %>
+    </p>
+    <p>
+      <strong>Número de turnos:</strong>
+      <%= @data_case.turn_num %>
+    </p>
 
-<p>
-  <strong>Mes:</strong>
-  <%= @data_case.month %>
-</p>
-<p>
-  <strong>Año:</strong>
-  <%= @data_case.year %>
-</p>
-<p>
-  <strong>Número de turnos:</strong>
-  <%= @data_case.turn_num %>
-</p>
+    <p>
+      <strong>Número de departamentos:</strong>
+      <%= @data_case.dep_num %>
+    </p>
 
-<p>
-  <strong>Número de departamentos:</strong>
-  <%= @data_case.dep_num %>
-</p>
+    <p>
+      <strong>Número de días:</strong>
+      <%= @data_case.day_num %>
+    </p>
 
-<p>
-  <strong>Número de días:</strong>
-  <%= @data_case.day_num %>
-</p>
+    <p>
+      <strong>Horas por día:</strong>
+      <%= @data_case.hour_day %>
+    </p>
 
-<p>
-  <strong>Horas por día:</strong>
-  <%= @data_case.hour_day %>
-</p>
+    <p>
+      <strong>Valor HP:</strong>
+      <%= @data_case.hp_val %>
+    </p>
 
-<p>
-  <strong>Valor HP:</strong>
-  <%= @data_case.hp_val %>
-</p>
+    <p>
+      <strong>Prod objetiva:</strong>
+      <%= @data_case.prod_obj %>
+    </p>
 
-<p>
-  <strong>Prod objetiva:</strong>
-  <%= @data_case.prod_obj %>
-</p>
+    <p>
+      <strong>Pov:</strong>
+      <%= @data_case.pov %>
+    </p>
 
-<p>
-  <strong>Pov:</strong>
-  <%= @data_case.pov %>
-</p>
+    <p>
+      <strong>Entrada almuerzo:</strong>
+      <%= @data_case.lunch_in %>
+    </p>
 
-<p>
-  <strong>Entrada almuerzo:</strong>
-  <%= @data_case.lunch_in %>
-</p>
+    <p>
+      <strong>Horas de colación:</strong>
+      <%= @data_case.lunch_hours %>
+    </p>
 
-<p>
-  <strong>Horas de colación:</strong>
-  <%= @data_case.lunch_hours %>
-</p>
+    <p>
+      <strong>Mínimo de horas:</strong>
+      <%= @data_case.hour_min %>
+    </p>
 
-<p>
-  <strong>Mínimo de horas:</strong>
-  <%= @data_case.hour_min %>
-</p>
+    <p>
+      <strong>Matriz de turnos:</strong>
+      <%= @data_case.turns_matrix %>
+    </p>
 
-<p>
-  <strong>Matriz de turnos:</strong>
-  <%= @data_case.turns_matrix %>
-</p>
+    <p>
+      <strong>Dotación real:</strong>
+      <%= @data_case.real_dot %>
+    </p>
 
-<p>
-  <strong>Dotación real:</strong>
-  <%= @data_case.real_dot %>
-</p>
-
-<p>
-  <strong>Plan de venta:</strong>
-  <%= @data_case.sale_plan %>
-</p>
+    <p>
+      <strong>Plan de venta:</strong>
+      <%= @data_case.sale_plan %>
+    </p>
+  </div>
+</div>

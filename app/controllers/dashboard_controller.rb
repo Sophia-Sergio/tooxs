@@ -58,7 +58,9 @@ class DashboardController < ApplicationController
 			end
 		end
 
-		@turnos_cubiertos = " #{turnosOpTotal} / #{turnosOptimizados.sum}"
+		@turnos_cubiertos = []
+
+		@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{turnosOptimizados.sum}", :porcentaje => ( turnosOpTotal* 100 / turnosOptimizados.sum).round }
 
 		# calcular cumplimiento del plan
 		ventaTotal = SaleBySeller.where(month: @month, department: department, year: @year).sum("sale").to_f

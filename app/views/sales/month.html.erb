@@ -21,10 +21,6 @@
     <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
     <table class="table-shift table table-bordered">
       <thead>
-        <tr class="text-center">
-          <th colspan="<%= @sale_plan.length+2  %>" class="no-margin"> 
-          </th>
-        </tr>
         <tr>
         	<th> <!--<%= link_to "#{@year}", year_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year) %> --></th>
           <% week = 0 %>

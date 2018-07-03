@@ -3,53 +3,76 @@
   var plan_enviado = JSON.parse(data.replace(/&quot;/g,'"'));
 </script>
 
-<div class="container-fluid container-fixed-lg">	
-	<h1><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></h1>
+<div class="container-fluid">	
+	<div class="pantalla-seccion d-flex justify-content-between mb-2">
+		<div class="align-self-end">
+			<div class="titulo-pantalla">Dashboard</div>
+		</div>  
+	</div>
+	<div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
 	<div class="row text-center">
-		<div class="card-block col-md-6">
-			<h3>Cumplimiento de plan</h3>
-			<canvas id="chart-area1"></canvas>
+		<div class="col-md-6">
+			<div class="chart-dashboard">
+				<div class="sub-titulo-pantalla">Cumplimiento de plan</div>
+				<canvas id="chart-area1"></canvas>
+			</div>
 		</div>
-		<div class="card-block col-md-6">
-			<h3>Eficiencia</h3>
-			<canvas id="chart-area2"></canvas>
+		<div class="col-md-6">
+			<div class="chart-dashboard">
+				<div class="sub-titulo-pantalla">Eficiencia</div>
+				<canvas id="chart-area2"></canvas>
+			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div id="productividad-graficos" class="card-block col-md-4 col-xs-12">
-			<div class="productividad">
-				<h3>Productividad Real</h3>
-				<div class="productividad-grafico"><h1><%= @prod_real %></h1></div>
+		<div id="productividad-graficos" class="col-md-4 col-xs-12">
+			<div class="chart-dashboard">
+				<div class="sub-titulo-pantalla">Productividad Real</div>
+				<div id="prod-real"><%= @prod_real %></div>
 			</div>
-			<div class="productividad">
-				<h3>Turnos cubiertos</h3>
-				<div class="turnos-grafico"><h1><%= @turnos_cubiertos %></h1></div> </div>
+			<div class="chart-dashboard">
+				<div class="sub-titulo-pantalla">Turnos cubiertos</div>
+				<div id="turnos-cubiertos">
+					<div class="progress">
+					  <div class="progress-bar" role="progressbar" style="width: <%= @turnos_cubiertos[:porcentaje] %>%" aria-valuenow="<%= @turnos_cubiertos[:porcentaje] %>" aria-valuemax="100"></div>
+					</div>
+					<div>
+						<div class="color-progress"></div>
+						<div class="text-progress">
+							<%= @turnos_cubiertos[:texto] %>
+						</div> 
+					</div>
+				</div>
+			</div>
 		</div>
-		<div id="div-tabla" class="card-block col-md-8">
-			<h3>Cumplimiento de mis colaboradores <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></h3>
-			<table class="table table-bordered ">
-			<thead>
-				<tr>
-					<th>Colaborador</th>
-					<th>Ventas</th>
-					<th>Meta</th>
-					<th>Cumplimiento Alcanzado</th>
-					<th>Detalle</th>
-				</tr>
-			</thead>
-			<tbody>
-				<% @setSellers.each do |data| %> 
-				<tr>
-					<td><%= data[:seller].fullname %></td>
-					<td><%= data[:sale] %></td>
-					<td><%= data[:plan] %></td>
-					<td><%= data[:cumplimiento] %>%</td>
-					<td><%= link_to 'Ver', data[:seller], class: 'btn btn-info btn-xs' %>
-				</tr>
-				<% end %>
-			</tbody>
-			<tfoot></tfoot>
-			</table>
+
+		<div id="div-tabla" class="col-md-8 ">
+			<div class="chart-dashboard">
+				<div class="sub-titulo-pantalla">Cumplimiento de mis colaboradores <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
+				<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Colaboradores</th>
+						<th>Ventas</th>
+						<th>Meta</th>
+						<th>Cumplimiento</th>
+						<th>Detalle</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @setSellers.each do |data| %> 
+					<tr>
+						<td><%= data[:seller].fullname %></td>
+						<td><%= data[:sale] %></td>
+						<td><%= data[:plan] %></td>
+						<td><%= data[:cumplimiento] %>%</td>
+						<td><%= link_to 'Ver', data[:seller] %>
+					</tr>
+					<% end %>
+				</tbody>
+				<tfoot></tfoot>
+				</table>
+			</div>
 		</div>		
 	</div>
 	<div class="padding-5em"></div>
