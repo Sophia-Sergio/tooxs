@@ -1,44 +1,55 @@
-<p id="notice"><%= notice %></p>
-<%= render 'search_form', locals: { status: 'show', path: sellers_path } %>
-<h2 class="m-t-40">Colaboradores</h2>
-<br>
-<table class="table-shift table table-bordered bg-master-lightest">
-  <thead>
-    <tr>
-      <th style="width: 10%">Rut</th>
-      <th>Nombre</th>
-      <th>Email</th>
-      <th>Telefono</th>
-      <th>Tienda</th>
-      <th>Departamento</th>
-      <th>Turno</th>
-      <th>Fecha Inicio Turno</th>
-      <th style="width: 20%"></th>
-    </tr>
-  </thead>
+<div class="container-fluid">
+  <div class="pantalla-seccion d-flex justify-content-between mb-2">
+    <div class="align-self-end">
+      <div class="titulo-pantalla">Colaboradores</div>
+    </div> 
+    <div class="align-self-end">
+      <%= link_to '+ Colaborador', new_seller_path , class: "btn btn-primary line-52"%>
+    </div>   
+  </div>
 
-  <tbody>
-    <% @sellers.each do |seller| %>
-      <tr>
-        <td><%= seller.rut %></td>
-        <td><%= seller.fullname %></td>
-        <td><%= seller.email %></td>
-        <td><%= seller.phone %></td>
-        <td><%= seller.store %></td>
-        <td><%= seller.department %></td>
-        <td><%= seller.available_shift.first.name %></td>
-        <td><%= seller.begin_shift %></td>
-        <td><%= link_to 'Ver Detalle', seller, class: 'btn btn-info btn-xs' %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<br>
-<%= link_to 'Crear', new_seller_path , class: "btn btn-primary"%>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+  <%= render 'search_form', locals: { status: 'show', path: sellers_path } %>
 
+  <div class="formulario-comparacion">
+    <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
+    <table class="table-shift table table-bordered form-style">
+      <thead>
+        <tr>
+          <th>Rut</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Telefono</th>
+          <th>Tienda</th>
+          <th>Departamento</th>
+          <th>Turno</th>
+          <th>Fecha Inicio Turno</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @sellers.each do |seller| %>
+          <tr>
+            <td><%= seller.rut %></td>
+            <td><%= seller.fullname %></td>
+            <td><%= seller.email %></td>
+            <td><%= seller.phone %></td>
+            <td><%= seller.store %></td>
+            <td><%= seller.department %></td>
+            <td><%= seller.available_shift.first.name %></td>
+            <td><%= seller.begin_shift %></td>
+            <td><%= link_to 'Ver Detalle', seller, class: '' %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <br>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</div>

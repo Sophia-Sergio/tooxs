@@ -1,144 +1,123 @@
-<div class="container-fluid p-t-0 p-l-30 bg-white" id="sales_month">
-
-  <div class="card card-transparent">
-    <div class="card-header ">
-      <div class="row">
-        <div class="col-sm-3">
-          <div class="card-title">
-            Resultado
-          </div>
-        </div>
-        <div class="col-sm-9">
-          <div class="pull-right">
-            <button type="button" class="btn btn-sm btn-primary btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i class="fa fa-exchange"></i> Comparar </button>
-          </div>
-        </div>        
-      </div>
+<div class="container-fluid" id="sales_month">
+  <div class="pantalla-seccion d-flex justify-content-between mb-2">
+    <div class="align-self-end">
+      <div class="titulo-pantalla">Estadísticas de Ventas</div>
     </div>
+    <div class="align-self-end">
+        <button type="button" class="btn btn-sm btn-primary btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i class="fa fa-exchange"></i> Comparar </button>
+    </div>        
+  </div>
 
-    <%= render 'search_form', locals: { status: 'show', path: month_sales_path} %>
-
-
-    <div class="card-block">
-      <h4 class="grafico-1">Estadísticas de Ventas - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
-      <p class="m-t-20 grafico-1">Cluster: <span class="label label-default"><%= "#{@store.economic_segment} - #{@store.size}"  %></span>
-      Tienda: <span class="label label-default"><%= @store.name %></span>
-      Departamento: <span class="label label-default"><%= @dep.name %></span>
-      </p>
-     <div class="row" id="compare_stores"></div>
-      <div class="row grafico-1">
-        <div class="col-sm-12 col-xl-8 offset-xl-2">
-         <div style="width:100%;">
-            <canvas id="canvas"></canvas>
-          </div>
-        </div>
-        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-          <h3>&nbsp;</h3>
-        </div>
-        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-          <table class="table-shift table table-bordered bg-master-lightest">
-            <thead>
-              <tr class="bg-success text-center">
-                <th colspan="<%= @sale_plan.length+2  %>" class="no-margin text-uppercase text-white fs-15"> 
-                  <h3 class="no-margin text-center text-uppercase text-white fs-15"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></h3>
-                </th>
-              </tr>
-              <tr>
-              	<th> <!--<%= link_to "#{@year}", year_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year) %> --></th>
-                <% week = 0 %>
-                <% @sale_plan.each do |k,v| %>
-                <% week += 1 %>
-                <th><%= "Semana #{week}" %></th>
-                <!--<th> <%= link_to "Semana #{week}", week_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year, week: k) %> </th> -->
-                <% end %>
-                <th> Total </th>
-              </tr>
-            </thead>
-            <tbody class="">
-              <tr>
-                <td>PLAN</td>
-                <%
-                @sale_plan.each do |v|
-                  %>
-                  <td><%= number_to_currency v %></td>
-                  <% end %>
-                  <td>
-                    <%= number_to_currency @sale_plan.sum %>
-                  </td>
-              </tr> 
-
-              <tr>
-                <td>REAL</td>
-                <%
-                @real_sale.each do |v|
-                  %>
-                  <td><%= number_to_currency v %></td>
-                  <% end %>
-                  <td>
-                    <%= number_to_currency @real_sale.sum %>
-                  </td>
-              </tr> 
-
-              <tr>
-                <td>HISTORICO</td>
-                <%
-                @historic_sale.each do |v|
-                  %>
-                  <td><%= number_to_currency v %></td>
-                  <% end %>
-                  <td>
-                    <%= number_to_currency @historic_sale.sum %>
-                  </td>
-              </tr>
-
-            </tbody>
-            <tfoot>
-              <tr class="table-warning">
-                <td><b>Real vs Plan  </b></td>
-                <% @dif1.each do |v|%>
-                <td class="text-centerx"><%= v.round(2) %>%
-                <% if v > 0  %>
-                  <i class="text-success fa fa-caret-up"></i>
-                <% else %>
-                  <i class="text-danger fa fa-caret-down"></i>
-                <% end -%>
-                </td>
-                <% end %>
-                <td class="text-centerx">
-                <%= @sum_dif.round(2) %>% 
-                <% if @sum_dif > 0 %>
-                  <i class="text-success fa fa-caret-up"></i>
-                <% else %>
-                  <i class="text-danger fa fa-caret-down"></i>
-                <% end -%>
-               </td>
-              </tr>
-              <tr class="table-warning">
-                <td><b>Real vs Histórico</b> </td>
-                <% @dif2.each do |v|%>
-                <td class="text-centerx"><%= v.round(2) %>%
-                <% if v > 0  %>
-                  <i class="text-success fa fa-caret-up"></i>
-                <% else %>
-                  <i class="text-danger fa fa-caret-down"></i>
-                <% end -%>
-                </td>
-                <% end %>
-                <td class="text-centerx">
-                <%= @sum_dif2.round(2) %>% 
-                <% if @sum_dif2 > 0 %>
-                  <i class="text-success fa fa-caret-up"></i>
-                <% else %>
-                  <i class="text-danger fa fa-caret-down"></i>
-                <% end -%>
-               </td>             
-              </tr>              
-            </tfoot>
-          </table>
-        </div>
-      </div>      
+  <%= render 'search_form', locals: { status: 'show', path: month_sales_path} %>
+  <div>
+    <div class="grafico-principal">
+      <canvas id="canvas"></canvas>
     </div>
   </div>
+  
+  <div id="compare_stores"></div>
+  
+  <div class="formulario-comparacion">
+    <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
+    <table class="table-shift table table-bordered">
+      <thead>
+        <tr class="text-center">
+          <th colspan="<%= @sale_plan.length+2  %>" class="no-margin"> 
+          </th>
+        </tr>
+        <tr>
+        	<th> <!--<%= link_to "#{@year}", year_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year) %> --></th>
+          <% week = 0 %>
+          <% @sale_plan.each do |k,v| %>
+          <% week += 1 %>
+          <th><%= "Semana #{week}" %></th>
+          <!--<th> <%= link_to "Semana #{week}", week_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year, week: k) %> </th> -->
+          <% end %>
+          <th> Total </th>
+        </tr>
+      </thead>
+      <tbody class="">
+        <tr>
+          <td>PLAN</td>
+          <%
+          @sale_plan.each do |v|
+            %>
+            <td><%= number_to_currency v %></td>
+            <% end %>
+            <td>
+              <%= number_to_currency @sale_plan.sum %>
+            </td>
+        </tr> 
+
+        <tr>
+          <td>REAL</td>
+          <%
+          @real_sale.each do |v|
+            %>
+            <td><%= number_to_currency v %></td>
+            <% end %>
+            <td>
+              <%= number_to_currency @real_sale.sum %>
+            </td>
+        </tr> 
+
+        <tr>
+          <td>HISTORICO</td>
+          <%
+          @historic_sale.each do |v|
+            %>
+            <td><%= number_to_currency v %></td>
+            <% end %>
+            <td>
+              <%= number_to_currency @historic_sale.sum %>
+            </td>
+        </tr>
+
+      </tbody>
+      <tfoot>
+        <tr class="table-warning">
+          <td><b>Real vs Plan  </b></td>
+          <% @dif1.each do |v|%>
+          <td class="text-centerx"><%= v.round(2) %>%
+          <% if v > 0  %>
+            <i class="text-success fa fa-caret-up"></i>
+          <% else %>
+            <i class="text-danger fa fa-caret-down"></i>
+          <% end -%>
+          </td>
+          <% end %>
+          <td class="text-centerx">
+          <%= @sum_dif.round(2) %>% 
+          <% if @sum_dif > 0 %>
+            <i class="text-success fa fa-caret-up"></i>
+          <% else %>
+            <i class="text-danger fa fa-caret-down"></i>
+          <% end -%>
+         </td>
+        </tr>
+        <tr class="table-warning">
+          <td><b>Real vs Histórico</b> </td>
+          <% @dif2.each do |v|%>
+          <td class="text-centerx"><%= v.round(2) %>%
+          <% if v > 0  %>
+            <i class="text-success fa fa-caret-up"></i>
+          <% else %>
+            <i class="text-danger fa fa-caret-down"></i>
+          <% end -%>
+          </td>
+          <% end %>
+          <td class="text-centerx">
+          <%= @sum_dif2.round(2) %>% 
+          <% if @sum_dif2 > 0 %>
+            <i class="text-success fa fa-caret-up"></i>
+          <% else %>
+            <i class="text-danger fa fa-caret-down"></i>
+          <% end -%>
+         </td>             
+        </tr>              
+      </tfoot>
+    </table>
+  </div>    
 </div> 
 
 <div class="modal fade slide-right" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true">

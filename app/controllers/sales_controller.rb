@@ -185,9 +185,10 @@ class SalesController < ApplicationController
     @historic_sale = historic_sale
 
 
-    element = [ { label: 'Plan', fill: 'false', data: @sale_plan.map(&:to_i), backgroundColor: 'rgb(255, 99, 132)', borderColor: 'rgb(255, 99, 132)'},
-      { label: 'Historico', fill: 'false', data: @historic_sale.map(&:to_i), backgroundColor: 'rgb(255, 205, 86)', borderColor: 'rgb(255, 205, 86)'},
-      { label: 'Real', fill: 'true', data: @real_sale.map(&:to_i), backgroundColor: 'rgb(153, 102, 255)', borderColor: 'rgb(153, 102, 255)'}
+    element = [ 
+      { label: 'Actual', fill: 'true', data: @real_sale.map(&:to_i), backgroundColor: '#65ff00', borderColor: '#65ff00'},
+      { label: 'Meta', fill: 'false', data: @sale_plan.map(&:to_i), backgroundColor: '#33d6ce', borderColor: '#33d6ce'},
+      { label: 'Histórico', fill: 'false', data: @historic_sale.map(&:to_i), backgroundColor: '#ff566b', borderColor: '#ff566b'}
     ]
 
     @data = { :labels => keys.map(&:to_s) , :datasets => element }

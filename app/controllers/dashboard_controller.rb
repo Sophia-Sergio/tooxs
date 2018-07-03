@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
 		store = 1
 		@sellers = Seller.where(store: store, department: department)
 		@year = Date.today.strftime("%Y").to_i
-        @month = Date.today.strftime("%m").to_i
+        @month = 6#Date.today.strftime("%m").to_i
         dayMonth = Date.today.strftime("%w").to_i
         dayNow = day_now_charged
         #dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)

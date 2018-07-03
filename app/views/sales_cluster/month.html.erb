@@ -1,70 +1,51 @@
-<div class="container-fluid p-t-0 p-l-30 bg-white" id="sales_cluster">
-  <div class="card card-transparent">
-    <div class="card-header ">
-      <div class="row">
-        <div class="col-sm-3">
-          <div class="card-title">
-            Resultado
-          </div>
-        </div>
-        <div class="col-sm-9">
-          <div class="pull-right">
-            <button type="button" class="btn btn-sm btn-info btn-params-sales"><i class="fa fa-cog"></i> Parametros de Búsqueda </button>
-          </div>
-        </div>        
-      </div>
-    </div>
-    <%= render 'search_form', locals: { status: 'hidden', path: month_sales_cluster_index_path} %>
-    <div class="card-block">
-      <h4 class="grafico-1">Venta Real por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h4>
-      <p class="m-t-20 grafico-1">Segmento: <span class="label label-default"><%= @cluster_name %></span>
-      Departamento: <span class="label label-default"><%= @masterDeparment[:name] %></span>
-      Tiendas:
-      <% @stores.each do |s| %>  
-       <span class="label label-default"><%= s.name %></span>
-      <% end %>
-       </p>
-     <div class="row" id="compare_stores"></div>
-      <div class="row grafico-1">
-        <div class="col-sm-12 col-xl-8 offset-xl-2">
-         <div style="width:100%;">
-            <canvas id="canvas"></canvas>
-          </div>
-        </div>
-        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-          <h3>&nbsp;</h3>
-        </div>
-        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-        <!-- tabla -->
-          <table class="table-shift table table-bordered bg-master-lightest">
-            <thead>
-              <tr class="bg-success text-center">
-                <th colspan="6" class="no-margin text-uppercase text-white fs-15"> 
-                  <h3 class="no-margin text-center text-uppercase text-white fs-15"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h3>
-                </th>
-              </tr>
-              <tr>
-                <th></th>
-                <% week = 0 %>
-                <% (@resultStore.first[:saleWeek].length).times do |i| %>
-                <th> <%= "Semana #{week += 1 }" %> </th>
-                <% end %>
-              </tr>
-            </thead>
-            <tbody>
-              <% @resultStore.each do |store| %>
-              <tr>
-                <td><%= store[:label] %></td>
-                <% store[:saleWeek].each do |v| %>
-                  <td><%= number_to_currency v %></td>
-                <% end %>
-              </tr>      
-              <% end %>     
-            </tbody>
-          </table>       
-        </div>
-      </div>      
-    </div>
+<div class="container-fluid" id="sales_cluster">
+  <div class="pantalla-seccion d-flex justify-content-between mb-2">
+    <div class="align-self-end">
+      <div class="titulo-pantalla">Comparativo de Ventas</div>
+    </div>        
   </div>
+
+  <%= render 'search_form', locals: { status: 'show', path: month_sales_cluster_index_path} %>
+
+ <div class="row" id="compare_stores"></div>
+  <div class="grafico-principal">
+    <div>    
+      <div class="grafico-1">Venta Real por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></div>
+      <p class="m-t-20 grafico-1">
+        Tiendas:
+        <% @stores.each do |s| %>  
+         <span><%= s.name %></span>
+        <% end %>
+      </p>
+    </div>
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <div class="formulario-comparacion">
+  <!-- tabla -->
+    <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
+    <table class="table-shift table table-bordered">
+      <thead>
+        <tr>
+          <th></th>
+          <% week = 0 %>
+          <% (@resultStore.first[:saleWeek].length).times do |i| %>
+          <th> <%= "Semana #{week += 1 }" %> </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @resultStore.each do |store| %>
+        <tr>
+          <td><%= store[:label] %></td>
+          <% store[:saleWeek].each do |v| %>
+            <td><%= number_to_currency v %></td>
+          <% end %>
+        </tr>      
+        <% end %>     
+      </tbody>
+    </table>       
+  </div>
+  
 </div> 
 
