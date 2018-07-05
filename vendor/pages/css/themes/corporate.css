@@ -14983,6 +14983,18 @@ body{
 
 @media (max-width: 991px)
 {
+
+  .chart-dashboard  .sub-titulo-pantalla
+  {
+    font-size: 1em;
+  }
+
+  .chart-dashboard #prod-real
+  {
+    font-size: 2em;
+  }
+
+
   .jumbotron, .container-fluid
   {
     margin-top: 2em;
@@ -15076,6 +15088,11 @@ body{
   .page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li
   {
     display: inline-block;
+  }
+
+  .input-form 
+  {
+    width: 10em;
   }
 
 }
