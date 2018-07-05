@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div id="productividad-graficos" class="col-md-4 col-xs-12">
+		<div id="productividad-graficos" class="col-md-3 col-xs-12">
 			<div class="chart-dashboard">
 				<div class="sub-titulo-pantalla">Productividad Real</div>
 				<div id="prod-real"><%= @prod_real %></div>
@@ -46,32 +46,32 @@
 			</div>
 		</div>
 
-		<div id="div-tabla" class="col-md-8 ">
+		<div id="div-tabla" class="col-md-9">
 			<div class="chart-dashboard">
-				<div class="sub-titulo-pantalla">Cumplimiento de mis colaboradores <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
-				<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>Colaboradores</th>
-						<th>Ventas</th>
-						<th>Meta</th>
-						<th>Cumplimiento</th>
-						<th>Detalle</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% @setSellers.each do |data| %> 
-					<tr>
-						<td><%= data[:seller].fullname %></td>
-						<td><%= data[:sale] %></td>
-						<td><%= data[:plan] %></td>
-						<td><%= data[:cumplimiento] %>%</td>
-						<td><%= link_to 'Ver', data[:seller] %>
-					</tr>
-					<% end %>
-				</tbody>
-				<tfoot></tfoot>
-				</table>
+				<div style="overflow-y: auto;">					
+					<div class="sub-titulo-pantalla">Cumplimiento de mis colaboradores <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
+					<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Colaboradores</th>
+							<th>Ventas</th>
+							<th>Meta</th>
+							<th>Cump.</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @setSellers.each do |data| %> 
+						<tr>
+							<td><%= data[:seller].fullname %></td>
+							<td><%= data[:sale] %></td>
+							<td><%= data[:plan] %></td>
+							<td><div class="row"> <div class="col"><%= data[:cumplimiento] %>% </div><%= link_to '<i class="fa fa-caret-right col ml-auto" aria-hidden="true"></i>'.html_safe, data[:seller] %></div></td>
+						</tr>
+						<% end %>
+					</tbody>
+					<tfoot></tfoot>
+					</table>
+				</div>
 			</div>
 		</div>		
 	</div>

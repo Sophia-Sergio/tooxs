@@ -8,25 +8,25 @@
   <div class="sub-titulo-pantalla">Parámetros</div>
   <div>
     <%= simple_form_for @search, :url => staffing_show_path, :method => :get do |f| %>
-    <div class="d-flex justify-content-end bd-highlight" id="sales_search_form">
+    <div class="d-flex flex-wrap justify-content-end bd-highlight" id="sales_search_form">
       <div class="input-form">
-        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] %>  
+        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] , label: false%>  
       </div>
 
       <div class="input-form">
-        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] %>  
+        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false%>  
       </div>
 
       <div class="input-form">
-        <%= f.input :year, collection: (2016..2018), label: 'Año', wrapper: :select2,selected: @year %>  
+        <%= f.input :year, collection: (2016..2018), label: 'Año', wrapper: :select2,selected: @year, label: false %>  
       </div>
 
       <div class="input-form">
-        <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month  %>  
+        <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month , label: false %>  
       </div>
 
-      <div>
-        <%= button_tag type: 'submit', class: "btn btn-success btn-lg btn-larger", disabled: "disabled" do %>
+      <div class="boton-buscar">
+        <%= button_tag type: 'submit', class: "btn btn-success", disabled: "disabled" do %>
         <i class="fa fa-search" aria-hidden="true"></i> Buscar
         <% end %>
       </div>  

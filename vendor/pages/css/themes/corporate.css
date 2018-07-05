@@ -67,6 +67,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-weight: 500 !important;
   background-color: #fff;
   direction: ltr;
   -moz-osx-font-smoothing: grayscale;
@@ -1647,7 +1648,7 @@ body.menu-pin .overlay .overlay-brand {
 .page-container .page-content-wrapper .content {
   /* Content holder */
   z-index: 10;
-  padding-top: 60px;
+  padding-top: 2em;
   padding-bottom: 69px;
   min-height: 100%;
   -webkit-transition: all 0.3s ease;
@@ -14765,21 +14766,21 @@ Main components
 
 .btn-primary
 {
-  line-height: 52px;
-  height: 52px;
+  line-height: 35px;
+  height: 35px;
 }
 
 .btn-primary.active, .btn-primary:active, .btn-primary.active:focus, .btn-primary:active:focus, .btn-primary:active:hover, .show .dropdown-toggle.btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .btn-success:active, .btn-success.active:focus, .btn-success:active:focus, .btn-success:active:hover, .show .dropdown-toggle.btn-success, .btn-success, .btn-success:focus
 {
   background: #3fabdc;
   border: 1px solid #3fabdc;
-  height: 52px;
+  height: 35px;
 }
 
 .btn-success.disabled, .btn-success[disabled], fieldset[disabled] .btn-success, .btn-success.disabled:hover, .btn-success[disabled]:hover, fieldset[disabled] .btn-success:hover, .btn-success.disabled:focus, .btn-success[disabled]:focus, fieldset[disabled] .btn-success:focus, .btn-success.disabled:active, .btn-success[disabled]:active, fieldset[disabled] .btn-success:active, .btn-success.disabled.active, .btn-success[disabled].active, fieldset[disabled] .btn-success.active {
   background-color: #1986b7;
   border-color: #1986b7;
-  height: 52px;
+  height: 35px;
   padding: 0 22px;
 }
 
@@ -14843,10 +14844,10 @@ body{
 
 .chart-dashboard
 {
-  margin-top: 2em;
+  margin-top: 1em;
   background: white;
   border: 1px solid #dce3e6;
-  padding: 2em;
+  padding: 1em;
   border-radius: 0.5em;
 }
 
@@ -14872,14 +14873,22 @@ body{
 
 #prod-real
 {
+  display: inline-block;
   font-weight: bold;
   font-size: 3em;
+  line-height: 1em;
   color: #46c4fd;
 }
 
 #turnos-cubiertos
 {
   font-weight: bold;
+}
+
+.chart-dashboard .sub-titulo-pantalla
+{
+  line-height: 1em;
+  display: inline-block;
 }
 
 #turnos-cubiertos .progress
@@ -14961,3 +14970,113 @@ body{
 {
   color: white;
 }
+
+.form-group-default.form-group-default-select2 .select2-container .select2-selection--single
+{
+  height: 35px;
+  padding-top: 2px;
+}
+.form-group-default.required:after
+{
+  content: "";
+}
+
+@media (max-width: 991px)
+{
+  .jumbotron, .container-fluid
+  {
+    margin-top: 2em;
+  } 
+
+  .titulo-pantalla 
+  {
+
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 1em;
+    color: #353e4f;
+  }
+  .pantalla-seccion 
+  {
+    text-align: center;
+  }
+
+  .pantalla-seccion div
+  {
+    width: 100%;
+  }
+  
+  .boton-comparar
+  {
+    margin-top: 2em;
+    width: 100%;
+  }
+
+  .boton-buscar
+  {
+    width: 100%;
+    text-align: center;
+    padding: 1em;
+  }
+
+  .input-form
+  {
+    width: 100%;
+    margin: 0px 0.5em;
+  }
+
+  .form-group-default.form-group-default-select2 .select2-container .select2-selection--single
+  {
+    height: 35px;
+    padding-top: 2px;
+  }
+
+  .dotacion-row
+  {
+    width: 4em;
+  }
+
+}
+
+.icon-menu
+{
+  display: none;
+}
+
+
+
+
+@media (min-width: 991px) and (max-width: 1216px)
+{
+  .icon-menu
+  {
+    display: block;
+  }
+
+  .page-sidebar:hover .icon-menu
+  {
+    display: none;
+  }
+
+  .logo-move
+  {
+    margin-right: 4em;
+  }
+
+  .sub-menu a
+  {
+    float: left;
+  }
+
+  .sub-menu .icon-thumbnail
+  {
+    float: right;
+  }
+
+  .page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li
+  {
+    display: inline-block;
+  }
+
+}
+

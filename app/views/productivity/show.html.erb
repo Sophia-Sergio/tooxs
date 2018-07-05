@@ -13,26 +13,26 @@
   <div class="sub-titulo-pantalla">Parámetros</div>
   <div>
     <%= simple_form_for @search, :url => productivity_show_path, :class => 'row', :method => :get do |f| %>
-    <div class="d-flex justify-content-end bd-highlight" id="sales_search_form">
+    <div class="d-flex flex-wrap justify-content-end bd-highlight" id="sales_search_form">
 
       <div class="input-form">
-        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store]  %>  
+        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store]  , label: false %>  
       </div>
 
       <div class="input-form">
-        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] %>  
+        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false %>  
       </div>
 
       <div class="input-form">
-        <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year] %>  
+        <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year] , label: false %>  
       </div>
 
       <div class="input-form">
-        <%= f.input :month, collection: (1..8).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: params[:month]  %>  
+        <%= f.input :month, collection: (1..8).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: params[:month] , label: false  %>  
       </div>
 
-      <div>
-        <%= button_tag type: 'submit', class: "btn btn-success btn-lg btn-larger" do %>
+      <div class="boton-buscar">
+        <%= button_tag type: 'submit', class: "btn btn-success" do %>
         <i class="fa fa-search" aria-hidden="true"></i> Buscar
         <% end %>
       </div>  
@@ -103,7 +103,7 @@
       <span class="dotacion label label-primary tip" data-toggle="tooltip">Optimizado</span>
     </div>
     <div class="row">  
-      <div class="col-xl-12">
+      <div class="col-xl-12" style="overflow-y: auto">
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
@@ -123,19 +123,23 @@
             <% @staffing_w1[:draw].each do |k,v|%>
             <tr>
               <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
-              <td class="text-center" align="center"><%= k %>:00</td>
+              <td class="text-center" align="center"><%= k %><span class="hidden-xs-down">:00</span></td>
               <% dia = 0 %>
               <% v.first.each do |n| %>
                 <% if n != 0 %>
                 <td class="hora text-center">
-                  <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
-                  <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                  <div class="dotacion-row">
+                    <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
+                    <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                  </div>
                 </td>  
               <% dia += 10 %>
                 <% else %>
                 <td class="text-center">
-                  <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
-                  <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                  <div class="dotacion-row">
+                    <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                    <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                  </div>
                 </td>
                 <% end -%>
               <% end -%>
@@ -171,14 +175,18 @@
               <% v.first.each do |n| %>
                 <% if n != 0 %>
                 <td class="text-center">
-                  <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
-                  <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                  <div class="dotacion-row">
+                    <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
+                    <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                  </div>
                 </td>  
                 <% dia += 10 %>
                 <% else %>
                 <td class="text-center">
-                  <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
-                  <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                  <div class="dotacion-row">
+                    <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                    <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                  </div>
                 </td>
                 <% end -%>
               <% end -%>
@@ -214,14 +222,18 @@
               <% v.first.each do |n| %>
                 <% if n != 0 %>
                 <td class="text-center">
-                  <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
-                  <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                  <div class="dotacion-row">
+                    <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
+                    <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                  </div>
                 </td>  
                 <% dia += 10 %>
                 <% else %>
                 <td class="text-center">
-                  <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
-                  <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                  <div class="dotacion-row">
+                    <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                    <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                  </div>
                 </td>
                 <% end -%>
               <% end -%>
@@ -257,14 +269,18 @@
               <% v.first.each do |n| %>
                 <% if n != 0 %>
                 <td class="text-center">
-                  <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
-                  <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                  <div class="dotacion-row">
+                    <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
+                    <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                  </div>
                 </td>  
                 <% dia += 10 %>
                 <% else %>
                 <td class="text-center">
-                  <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
-                  <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                  <div class="dotacion-row">
+                    <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                    <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                  </div>
                 </td>
                 <% end -%>
               <% end -%>
