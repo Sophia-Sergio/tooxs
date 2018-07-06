@@ -29,6 +29,7 @@
 			<div class="chart-dashboard">
 				<div class="sub-titulo-pantalla">Productividad Real</div>
 				<div id="prod-real"><%= @prod_real %></div>
+				<div id="prod-obj">Prod. obj <%= number_to_currency @prod_obj.to_i %></div>
 			</div>
 			<div class="chart-dashboard">
 				<div class="sub-titulo-pantalla">Turnos cubiertos</div>
@@ -119,7 +120,7 @@
 					backgroundColor: [  window.chartColors.red, window.chartColors.grey],
 					label: 'Dataset 1'
 				}],
-				labels: [ randomConfig2_1+'% de Eficiencia (Prod. obj. <%= @prod_obj %>)' ]
+				labels: [ randomConfig2_1+'% de Eficiencia (Prod. obj. <%= number_to_currency @prod_obj.to_i %>)' ]
 			},
 			options: {
 				responsive: true

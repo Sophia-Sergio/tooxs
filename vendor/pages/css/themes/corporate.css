@@ -15097,3 +15097,9 @@ body{
 
 }
 
+
+
+.sub-menu-title .title
+{
+  font-weight: bold;
+}

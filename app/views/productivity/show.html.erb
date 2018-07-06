@@ -55,12 +55,17 @@
         </div>
         <div id="botones-optimizar" class="row m-t-30" style="display: none">
           <div class="col-xl-1">
-            <input type="number" style="height: 52px;" class="form-control" id="minutos_optimizando" name="minutos_optimizando" placeholder="minutos" min="0" max="10">
+            <input type="number" class="form-control" id="minutos_optimizando" name="minutos_optimizando" placeholder="minutos" min="0" max="10">
           </div>
           <div class="col-xl-11" >
-            <button type="button" class="btn btn-info btn-optimize" style="height: 52px;"> <i class="fa fa-cogs"></i> Optimizar </button>
+            <button type="button" class="btn btn-info btn-optimize"> <i class="fa fa-cogs"></i> Optimizar </button>
             <button type="button" class="btn btn-success btn-detalle"> <i class="fa fa-cogs"></i> Detalle </button>
-            <span id="countdown"></span><!-- /#Countdown Div -->
+            <span id="contenedor">
+                <span class="reloj" id="Horas">00</span>
+                <span class="reloj" id="Minutos">:00</span>
+                <span class="reloj" id="Segundos">:00</span>
+                <span class="reloj" id="Centesimas">:00</span>
+            </span>
           </div>
         </div>            
       </div>
@@ -103,7 +108,7 @@
       <span class="dotacion label label-primary tip" data-toggle="tooltip">Optimizado</span>
     </div>
     <div class="row">  
-      <div class="col-xl-6" style="overflow-y: auto">
+      <div class="col-xl-12" style="overflow-y: auto">
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
@@ -150,7 +155,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col-xl-6">
+      <div class="col-xl-12">
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
@@ -197,7 +202,7 @@
           </tbody>
         </table>
       </div>              
-      <div class="col-xl-6">
+      <div class="col-xl-12">
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
@@ -244,7 +249,7 @@
           </tbody>             
         </table>
       </div>              
-      <div class="col-xl-6">
+      <div class="col-xl-12">
         <table class="table-shift table table-bordered">
           <thead>
             <tr>

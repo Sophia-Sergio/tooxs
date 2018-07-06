@@ -32,20 +32,33 @@ class DashboardController < ApplicationController
 		turnos = Array.new(12, 0)
 
 		dataCase = DataCase.where(dep_num: department, month: @month).first
-		summaryCase = SummaryCase.where( id_case: dataCase.id_case, type_io: 'out').first
+		summaryCaseOut = SummaryCase.where( id_case: dataCase.id_case, type_io: 'out').first
+		summaryCaseIn = SummaryCase.where( id_case: dataCase.id_case, type_io: 'in').first
 		
-		@margin_adjustment = summaryCase.margin_adjustment.to_f
+		@margin_adjustment = summaryCaseOut.margin_adjustment.to_f
 		@prod_obj = dataCase.prod_obj.to_f
 		@prod_real = setNum((@prod_obj * @margin_adjustment) / 100)
 		
 		# calcular turnos cubiertos
-		opt_turn = summaryCase.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+		opt_turn = summaryCaseOut.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+		ent_turn = summaryCaseIn.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
 		turnosOptimizados = Array.new(12, 0)
+		turnosEntrada = Array.new(12, 0)
+
+
+		ent_turn.each do |turn|
+			turn = turn.split(":")
+			turnosEntrada[turn[0].to_i-1] = turn[1].to_i
+		end
+
 
 		opt_turn.each do |turn|
 			turn = turn.split(":")
 			turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
 		end
+
+
+
 		assigned_shift.each do |x|
 			turnos[x] += 1
 		end
@@ -53,9 +66,11 @@ class DashboardController < ApplicationController
 		turnosOpTotal = turnosOptimizados.sum
 
 		for i in 0..turnosOptimizados.length - 1
-			if (turnosOptimizados[i] > turnos[i])
-				turnosOpTotal = turnosOpTotal - (turnosOptimizados[i] - turnos[i])
+
+			if turnosOptimizados[i] - turnosEntrada[i] > 0
+				turnosOpTotal = turnosOpTotal - (turnosOptimizados[i] - turnosEntrada[i])
 			end
+
 		end
 
 		@turnos_cubiertos = []
@@ -64,7 +79,7 @@ class DashboardController < ApplicationController
 
 		# calcular cumplimiento del plan
 		ventaTotal = SaleBySeller.where(month: @month, department: department, year: @year).sum("sale").to_f
-		planVenta = summaryCase.sale_plan.to_f
+		planVenta = summaryCaseOut.sale_plan.to_f
 
 		@cumplimientoPlan = (ventaTotal / planVenta * 100).round(2)	
 	end

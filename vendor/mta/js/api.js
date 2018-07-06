@@ -133,7 +133,6 @@ $("#btn_ver_datos_caso").click(function() {
 function ejecutarCaso()
 {
 	var caja_json_entrada = JSON.stringify(Cerebro.plan);
-	console.log(caja_json_entrada);
 	$.ajax({
      		url: "https://compute.scipion.cl/servlet/apimot",
          	method: "POST",
@@ -142,11 +141,9 @@ function ejecutarCaso()
          	dataType : "JSON",
          	success: function(datos)
          	{
-         		console.log(datos);
          	},
          	error:function (response)
 		    {
-		    	console.log(response);
  		    }
    	});
 }
@@ -159,8 +156,6 @@ function enviar_datos_api()
 	json_entrada["usuario"] = "fatapia@scipion.cl";
 	
 	var string_json_entrada = JSON.stringify(json_entrada);
-	console.log(string_json_entrada);
-
 	var salida;
 
 	$.ajax({
@@ -231,14 +226,11 @@ function enviar_datos_api_bbdd(id_caso,json_entrada,estado,tolerancia,margen,dur
       	dataType : "JSON",
       	success: function(datos)
       	{
-//           		if(datos.actualizado != )
-//           		{
-      			
-//           		}
+
       	},
       	error:function (response)
  		{
-  			console.log("¡Error (ajax)!");
+
   		}	
       	
 	}); 
@@ -448,7 +440,6 @@ function optimizar()
 		                      ticks: {
 		                          callback: function(value, index, values) 
 		                          {
-		                            console.log("asd");
 		                            if (parseInt(value) >= 1000) {
 		                              return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 		                            } else {
@@ -497,6 +488,7 @@ function optimizar()
 					$("#minutos_optimizando").prop('disabled', false);
 					$(".btn-optimize").prop('disabled', false);
 					$(".pace").attr("class", "pace pace-inactive");
+					reinicio();
 				}	
       		
       }
@@ -505,8 +497,102 @@ function optimizar()
     
 }
 
+var centesimas = 0;
+var segundos = 0;
+var minutos = 0;
+var horas = 0;
+function inicio () {
+	control = setInterval(cronometro,10);
+}
+function parar () {
+	clearInterval(control);
+}
+function reinicio () {
+	clearInterval(control);
+	centesimas = 0;
+	segundos = 0;
+	minutos = 0;
+	horas = 0;
+	Centesimas.innerHTML = ":00";
+	Segundos.innerHTML = ":00";
+	Minutos.innerHTML = ":00";
+	Horas.innerHTML = "00";
+}
+function cronometro () {
+	if (centesimas < 99) {
+		centesimas++;
+		if (centesimas < 10) { centesimas = "0"+centesimas }
+		Centesimas.innerHTML = ":"+centesimas;
+	}
+	if (centesimas == 99) {
+		centesimas = -1;
+	}
+	if (centesimas == 0) {
+		segundos ++;
+		if (segundos < 10) { segundos = "0"+segundos }
+		Segundos.innerHTML = ":"+segundos;
+	}
+	if (segundos == 59) {
+		segundos = -1;
+	}
+	if ( (centesimas == 0)&&(segundos == 0) ) {
+		minutos++;
+		if (minutos < 10) { minutos = "0"+minutos }
+		Minutos.innerHTML = ":"+minutos;
+	}
+	if (minutos == 59) {
+		minutos = -1;
+	}
+	if ( (centesimas == 0)&&(segundos == 0)&&(minutos == 0) ) {
+		horas ++;
+		if (horas < 10) { horas = "0"+horas }
+		Horas.innerHTML = horas;
+	}
+}
+
+
 $(document).on('click','.btn-optimize', function()
 {
+	var tiempo = {
+        hora: 0,
+        minuto: 0,
+        segundo: 0
+    };
+
+    var tiempo_corriendo = null;
+
+    var cronometro = function(){
+        if ( $(this).text() == 'Comenzar' )
+        {
+            $(this).text('Detener');                        
+            tiempo_corriendo = setInterval(function(){
+                // Segundos
+                tiempo.segundo++;
+                if(tiempo.segundo >= 60)
+                {
+                    tiempo.segundo = 0;
+                    tiempo.minuto++;
+                }      
+
+                // Minutos
+                if(tiempo.minuto >= 60)
+                {
+                    tiempo.minuto = 0;
+                    tiempo.hora++;
+                }
+
+                $("#hour").text(tiempo.hora < 10 ? '0' + tiempo.hora : tiempo.hora);
+                $("#minute").text(tiempo.minuto < 10 ? '0' + tiempo.minuto : tiempo.minuto);
+                $("#second").text(tiempo.segundo < 10 ? '0' + tiempo.segundo : tiempo.segundo);
+            }, 1000);
+        }
+        else 
+        {
+            $(this).text('Comenzar');
+            clearInterval(tiempo_corriendo);
+        }
+    }
+
 	if ($("#minutos_optimizando").val() !== "")
 	{
 		Cerebro.brainJson = enviar_datos_api_ajax("resultado", Cerebro.caso, Cerebro.email);
@@ -518,6 +604,7 @@ $(document).on('click','.btn-optimize', function()
 		$(".btn-optimize").prop('disabled', true);
 
 		$(".pace").attr("class", "pace");
+		inicio();
 
 		setTimeout(function()
 		{ 
