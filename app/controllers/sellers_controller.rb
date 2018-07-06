@@ -81,7 +81,7 @@ class SellersController < ApplicationController
 
     seller = Seller.find(params[:id])
     today  = Date.today.strftime("%Y%m%d")
-    @month = Date.today.strftime("%m").to_i
+    @month = 6#Date.today.strftime("%m").to_i
     @year  = Date.today.strftime("%Y").to_i
     @dayNow = day_now_charged
     #@dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
@@ -108,9 +108,9 @@ class SellersController < ApplicationController
     #binding.pry
     
     @x           = seller.my_shift.index{|x| x[0]== today.to_s}
-    @sp          = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
-    @real_week   = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
-    @sp_staffing = seller_staffing_per_week(seller, Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
+    @sp          = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
+    @real_week   = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
+    @sp_staffing = seller_staffing_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
 
     #calcula el plan mensual
     seller_plan = seller_staffing(seller, @month, @year)

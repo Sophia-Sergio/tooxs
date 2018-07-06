@@ -121,8 +121,9 @@ class SalesController < ApplicationController
 
     @sum_dif = ((@real_sale.sum / @sale_plan.sum) -1 ) * 100 
     @sum_dif2 = ((@real_sale.sum / @historic_sale.sum) -1 ) * 100 
+    
+    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m').to_sym}
 
-    #asd
   end
 
   def json_month
@@ -135,63 +136,34 @@ class SalesController < ApplicationController
     @store  = Store.find(params[:store])
     @dep    = Department.find(params[:department])
 
-
     countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store, department_id: @dep).pluck(:week).length
-    real_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
-    @historic_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year-1, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
 
-    @sale_plan = []
-    historic_sale = []
+    #days of the week for this query
+    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
+    @m_daily = SalePlan.where(year: @year, month: @month, week: [1..countWeek], store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
+    sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: @year, month: @month) 
 
-    (1..countWeek).each do |week|
-      @sale_plan << SalePlan.where(year: @year).where(month: @month).where(week: week, store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}.sum
-      if @historic_sale[week] == nil
-        historic_sale << 0
-      else
-        historic_sale << @historic_sale[week]
-      end
+    @realMonth = []
+    sale_reals.each do |sale|
+      totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+      @realMonth  << totalRealDay
     end
 
-    @dif1 =[]
-    @dif2 =[]
+    sale_reals_h = SaleReal.where(department_id: @dep, store_id: @store, year: @year-1, month: @month) 
 
-    @sale_plan.each_with_index  do |week, index|
-
-      if real_sale[index + 1] == nil
-        @dif1 << 0    
-      else
-        @dif1 << ( (real_sale[index + 1] / week) - 1) * 100
-      end      
-
-      if historic_sale[index] == 0 || real_sale[index + 1] == nil
-        @dif2 << 0
-      else
-        @dif2 << ( (real_sale[index + 1] / historic_sale[index] ) -1) * 100
-      end
-
+    @realMonth_h = []
+    sale_reals_h.each do |sale|
+      totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+      @realMonth_h  << totalRealDay
     end
-
-    @real_sale = []
-    keys = []
-    (1..countWeek).each do |week|
-      if real_sale[week] == nil
-        @real_sale << 0
-      else
-        @real_sale << real_sale[week]
-      end
-      keys << week
-    end
-    
-    @historic_sale = historic_sale
-
 
     element = [ 
-      { label: 'Real', fill: 'true', data: @real_sale.map(&:to_i), backgroundColor: '#65ff00', borderColor: '#65ff00'},
-      { label: 'Meta', fill: 'false', data: @sale_plan.map(&:to_i), backgroundColor: '#33d6ce', borderColor: '#33d6ce'},
-      { label: 'Histórico', fill: 'false', data: @historic_sale.map(&:to_i), backgroundColor: '#ff566b', borderColor: '#ff566b'}
+      { label: 'Real', fill: 'true', data: @realMonth, backgroundColor: '#65ff00', borderColor: '#65ff00'},
+      { label: 'Meta', fill: 'false', data: @m_daily, backgroundColor: '#33d6ce', borderColor: '#33d6ce'},
+      { label: 'Histórico', fill: 'false', data: @realMonth_h, backgroundColor: '#ff566b', borderColor: '#ff566b'}
     ]
 
-    @data = { :labels => keys.map(&:to_s) , :datasets => element }
+    @data = { :labels => @m_days , :datasets => element }
 
     render json: @data
     #binding.pry
@@ -223,68 +195,6 @@ class SalesController < ApplicationController
       @dif1 << ( (@real_day[i].to_f / v.to_f) -1) * 100
       @dif2 << ( (@real_day[i].to_f / historic_day[i].to_f ) -1) * 100    
     end
-  end
-
-  def old
-    nine         = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    ten          = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    eleven       = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    twelve       = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    thirteen     = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    fourteen     = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    fifteen      = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    sixteen      = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    seventeen    = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    eighteen     = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    nineteen     = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    twenty       = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    twenty_one   = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    twenty_two   = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    twenty_three = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-    twenty_four  = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
-
-    
-    sp_week.each_with_index do |d, i|
-      if d.day_number == 0 
-        d.day_number = 7
-      end
-
-      nine[d.day_number] = d.nine
-      ten[d.day_number] = d.ten
-      eleven[d.day_number] = d.eleven
-      twelve[d.day_number] = d.twelve
-      thirteen[d.day_number] = d.thirteen
-      fourteen[d.day_number] = d.fourteen
-      fifteen[d.day_number] = d.fifteen
-      sixteen[d.day_number] = d.sixteen
-      seventeen[d.day_number] = d.seventeen
-      eighteen[d.day_number] = d.eighteen
-      nineteen[d.day_number] = d.nineteen
-      twenty[d.day_number] = d.twenty
-      twenty_one[d.day_number] = d.twenty_one
-      twenty_two[d.day_number] = d.twenty_two
-      twenty_three[d.day_number] = d.twenty_three
-      twenty_four[d.day_number] = d.twenty_four
-    end
-
-    @week = {
-     '09:00': nine,
-     '10:00': ten,
-     '11:00': eleven,
-     '12:00': twelve,
-     '13:00': thirteen,
-     '14:00': fourteen,
-     '15:00': fifteen,
-     '16:00': sixteen,
-     '17:00': seventeen,
-     '18:00': eighteen,
-     '19:00': nineteen,
-     '20:00': twenty,
-     '21:00': twenty_one,
-     '22:00': twenty_two,
-     '23:00': twenty_three,
-     '00:00': twenty_four
-    }
   end
 
   def year
@@ -439,16 +349,37 @@ class SalesController < ApplicationController
     @sum1 = 0
     @sum2 = 0
     countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store_source.id, department_id: @dep_source.id).pluck(:week).length
-    @real_source = SaleReal.where(week: 1..countWeek, :store => @store_source.id, :department => @dep_source.id, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
-    @real_vs = SaleReal.where(week: 1..countWeek, :store => @store.id, :department => @dep_source.id, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    @real_source = SaleReal.where(week: 1..countWeek, :store => @store_source.id, :department => @dep_source.id, year: @year, :month => @month).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    @real_vs = SaleReal.where(week: 1..countWeek, :store => @store.id, :department => @dep_source.id, year: @year, :month => @month).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+
+    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store_source.id, department_id: @dep_source.id).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
+
+
+    sale_reals = SaleReal.where(department_id: @dep_source.id, store_id: @store_source.id, year: @year, month: @month) 
+    @realMonth = []
+    sale_reals.each do |sale|
+      totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+      @realMonth  << totalRealDay
+    end
+
+
+    sale_reals_vs = SaleReal.where(department_id: @dep_source.id, store_id: @store.id, year: @year, month: @month) 
+
+    @realMonth_vs = []
+    sale_reals_vs.each do |sale|
+      totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+      @realMonth_vs  << totalRealDay
+    end
+
+
 
     element = [ 
-                { label: @store_source.name, fill: 'false', data: @real_source.values.map(&:to_i), backgroundColor: 'rgb(255, 99, 132)', borderColor: 'rgb(255, 99, 132)'},
-                { label: @store.name, fill: 'false', data: @real_vs.values.map(&:to_i), backgroundColor: 'rgb(255, 205, 86)', borderColor: 'rgb(255, 205, 86)'},
+                { label: @store_source.name, fill: 'false', data: @realMonth, backgroundColor: 'rgb(255, 99, 132)', borderColor: 'rgb(255, 99, 132)'},
+                { label: @store.name, fill: 'false', data: @realMonth_vs, backgroundColor: 'rgb(255, 205, 86)', borderColor: 'rgb(255, 205, 86)'},
 
     ]
 
-    @data = { :labels => @real_source.keys.map(&:to_s) , :datasets => element }
+    @data = { :labels => @m_days , :datasets => element }
 
     render json: @data
     
