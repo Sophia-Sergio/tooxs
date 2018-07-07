@@ -122,9 +122,12 @@ class SellersController < ApplicationController
     #cacula las ventas totales
     j = 0
     @totalRealMonth = 0
+
     @sp.each do |k,v|
-      @real_week[j].first.values.first[:sale_per_day].each do |d|
-        @totalRealMonth +=  d.to_i
+      if @real_week[j] != nil
+        @real_week[j].first.values.first[:sale_per_day].each do |d|
+          @totalRealMonth +=  d.to_i
+        end
       end
       j += 1 #permite cargar la primera semana para los meses de 5 semanas
     end
@@ -494,19 +497,12 @@ class SellersController < ApplicationController
       @dep          = seller.department.id
       @year         = year #params[:year]    
       @month        = month #params[:month]
-
-      beginning_of_month = "#{@year}-#{@month}-01".to_date
-      end_of_month = beginning_of_month.end_of_month
-
-      week_start = beginning_of_month.strftime("%V")
-      week_end   = end_of_month.strftime("%V")
-
+      dayNow = day_now_charged
       result = []
       day = Array.new(7)
 
-      week_total = week_end.to_i - week_start.to_i;
 
-      (1..week_total + 1).each do |w|
+      (1..dayNow[:week]).each do |w|
         dayCount = 0
         @week = w
         day = Array.new(7)

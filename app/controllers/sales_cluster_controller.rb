@@ -72,15 +72,18 @@ class SalesClusterController < ApplicationController
     #binding.pry
 
     #generar element 
-    element = element(@month, @week, @year, @stores, @dep)
+    elements = element(@month, @week, @year, @stores, @dep)
 
     labels = []
 
-    element.first[:data].count.times do |i|
-      labels << i+1
+    elementSet = []
+
+    elements.each do |element|
+      elementSet << { label: element[:label], fill: element[:fill], data: element[:realMonth],  backgroundColor: element[:backgroundColor], borderColor: element[:borderColor]}
     end
 
-    @data = { :labels => labels, :datasets => element }
+
+    @data = { :labels => elements.first[:dates], :datasets => elementSet }
     render json: @data
     #binding.pry
   end
@@ -126,7 +129,10 @@ class SalesClusterController < ApplicationController
       totalMonth = []
       realMonth = []
       dotMonth = []
+      sale_date = []
+
       sale_reals.each do |sale|
+        sale_date << sale[:sale_date].strftime("%d")
         totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
         totalDotDay = @staffing[("#{sale[:sale_date].strftime("%Y%m%d")}").to_sym][:hours].values.sum
         realMonth  << totalRealDay
@@ -154,7 +160,7 @@ class SalesClusterController < ApplicationController
 
 
         
-      element << { label: store[:name], fill: 'false', data: saleWeek, totalMonth: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
+      element << { dates: sale_date, label: store[:name], fill: 'false', data: saleWeek, totalMonth: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
       colorCount += 1
     end
     return element
