@@ -1,10 +1,17 @@
 class StaffingController < ApplicationController
   def index
 
-    @month = Date.today.strftime("%m").to_i
-    @year = Date.today.strftime("%Y").to_i
-    @store = 1
-    @dep = 1
+    if params[:month] == nil
+      params[:year]  = Date.today.strftime("%Y")
+      params[:month] = Date.today.strftime("%m")
+      params[:department] = 1
+      params[:store] = 1
+    end
+  
+    @month = params[:month].to_i
+    @year = params[:year].to_i
+    @store = params[:department].to_i
+    @dep = params[:store].to_i
 
     #days of the week for this query dias de la semana según comienzo
     @w1_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 1, store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}

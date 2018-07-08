@@ -57,8 +57,6 @@ class DashboardController < ApplicationController
 			turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
 		end
 
-
-
 		assigned_shift.each do |x|
 			turnos[x] += 1
 		end
