@@ -743,12 +743,17 @@ if ($('#productivity_demo').length > 0)
             turnos = Cerebro.turnos;                      
             num_turnos = Cerebro.plan.datos.num_turnos;
             count_turnos = 0;
+            resumenTurnosNormal = 0;
+            
 
             while(count_turnos < num_turnos)
             {
               $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
+              resumenTurnosNormal += parseInt(turnos[count_turnos].vendedores);
               count_turnos++;
             }
+
+            $("#tabla-resumen tbody").append("<tr><td>Total</td><td>" + resumenTurnosNormal + "</td><td id='turnos-total-op'></td></tr>");
 
             //cargar margen de eficiencia                       
             dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), Cerebro.sumatoriaTurnosDiaria().length);
@@ -792,11 +797,16 @@ if ($('#productivity_demo').length > 0)
             num_turnos   = Cerebro.plan.datos.num_turnos;
             count_turnos = 0;
 
+            resumenTurnosNormal = 0;
+            resumenTurnosOptimizado = 0;
+
             while(count_turnos < num_turnos)
             {
               $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
+              resumenTurnosNormal += parseInt(turnos[count_turnos].vendedores);
               count_turnos++;
             }
+            $("#tabla-resumen tbody").append("<tr><td>Total</td><td>" + resumenTurnosNormal + "</td><td id='turnos-total-op'></td></tr>");
 
             //cargar margen de eficiencia                       
             dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), Cerebro.sumatoriaTurnosDiaria().length);
@@ -939,9 +949,12 @@ if ($('#productivity_demo').length > 0)
               count_turnos = 0;
               while(count_turnos < num_turnos)
               {
-              $("#turnos-"+count_turnos).html(turnos[count_turnos+num_turnos].vendedores);
-              count_turnos++;
+                $("#turnos-"+count_turnos).html(turnos[count_turnos+num_turnos].vendedores);
+                resumenTurnosOptimizado += parseInt(turnos[count_turnos+num_turnos].vendedores);
+                count_turnos++;
               }
+
+              $("#turnos-total-op").html(resumenTurnosOptimizado);
               $("#minutos_optimizando").prop('disabled', false);
               $(".btn-optimize").prop('disabled', false);
             } 

@@ -263,13 +263,16 @@ if ($('#productivity_report').length > 0)
         dot_op = Cerebro.sumatoriaMatriz(Cerebro.sumatoriaTurnosOptimizado());
         $("#sum-exceso-op").html(exceso_op);
         $("#sum-faltante-op").html(faltante_op);
+
+        $("#sum-ahorro").html(excesoTotal - exceso_op);
+        $("#sum-recuperada").html(faltanteTotal - faltante_op);
         
         eficiencia_op = (100-parseFloat(Cerebro.resumen[1].margeAjuste));
         eficiencia_real = (100-parseFloat(Cerebro.resumen[0].margeAjuste));
 
         $("#efinciencia-op").html(eficiencia_op+"%");
         $("#efinciencia-real").html(eficiencia_real+"%");
-        $("#eficiencia-total").html(parseFloat(eficiencia_op-eficiencia_real).toFixed(2)+"%");
+        $("#eficiencia-total").html(parseFloat((eficiencia_real/eficiencia_op)*100).toFixed(2)+"%");
 
      }
     });      

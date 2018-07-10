@@ -476,15 +476,19 @@ function optimizar()
 	                 $("#hh-optimizado").html(dotacion_m1);
 
 
-	                  Cerebro.setearTurnos();
-	                  turnos = Cerebro.turnos;                      
-	                  num_turnos = Cerebro.plan.datos.num_turnos;
-	                  count_turnos = 0;
-	                  while(count_turnos < num_turnos)
-	                  {
-	                 	$("#turnos-"+count_turnos).html(turnos[count_turnos+num_turnos].vendedores);
-	                    count_turnos++;
-	                  }
+					Cerebro.setearTurnos();
+					turnos = Cerebro.turnos;                      
+					num_turnos = Cerebro.plan.datos.num_turnos;
+					count_turnos = 0;
+					resumenTurnosOptimizado = 0;
+
+					while(count_turnos < num_turnos)
+					{
+						$("#turnos-"+count_turnos).html(turnos[count_turnos+num_turnos].vendedores);
+						resumenTurnosOptimizado += parseInt(turnos[count_turnos+num_turnos].vendedores);
+						count_turnos++;
+					}
+					$("#turnos-total-op").html(resumenTurnosOptimizado);
 					$("#minutos_optimizando").prop('disabled', false);
 					$(".btn-optimize").prop('disabled', false);
 					$(".pace").attr("class", "pace pace-inactive");
