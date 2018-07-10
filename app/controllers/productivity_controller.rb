@@ -231,15 +231,15 @@ class ProductivityController < ApplicationController
         @dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
         @dotacion_w_real = calculo_semanal(dotReal[month], 7)
 
+        if @plan_w_real.length > 4 #limitación para muestra
+            @plan_w_real.delete_at(4)
+            @dotacion_w_real.delete_at(4)
+        end
+
         @prod_w = cerebro_calculo_productividades_week(@plan_w, @dotacion_w)
         @prod_w_op = cerebro_calculo_productividades_week(@plan_w_op, @dotacion_w_op)
         @prod_w_real = cerebro_calculo_productividades_week(@plan_w_real, @dotacion_w_real)
 
-        if @plan_w_real.length > 4 #limitación para muestra
-            @plan_w_real.delete_at(4)
-            @dotacion_w_real.delete_at(4)
-            @prod_w_real.delete_at(4)
-        end
 
         @plan_w_total = []
         @plan_w_total << { :type => "sop", :name => "Prod. sin Optimizar por semanas", :plan_w => @plan_w, :dot_w => @dotacion_w, :prod_w => @prod_w }

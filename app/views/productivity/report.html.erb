@@ -28,7 +28,7 @@
       </div>
 
       <div class="input-form">
-        <%= f.input :month, collection: (1..Date.today.strftime("%m").to_i).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: params[:month], label: false  %>  
+        <%= f.input :month, collection: (1..6).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: params[:month], label: false  %>  
       </div>
 
       <div class="boton-buscar">
@@ -154,6 +154,8 @@
           <th>Dotación</th>
           <th>Venta</th>
           <th>Prod.</th>
+          <th>Horas faltantes</th>
+          <th>Horas exeso</th>
         </thead>
         <tbody>
           <tr>
@@ -161,12 +163,13 @@
             <td class="prod_obj"><%= number_to_currency @plan["datos"]["prod_obj"].to_i %></td>
             <td id="dot_real-"><%= @dotacion_w_real.sum %></td>
             <td id="vent_real-"><%= number_to_currency @plan_w_real.sum %></td>
-            
             <td id="prod_real-">
             <% if @dotacion_w_real.sum != 0 %>
               <%= number_to_currency (@plan_w_real.sum / @dotacion_w_real.sum).round %>
             <% end %> 
             </td>
+            <td id="sum-exceso"></td>
+            <td id="sum-faltante"></td>
           </tr>
           <tr>
             <td>Prod. Optimizada</td>
@@ -174,6 +177,8 @@
             <td id="dot_op-"><%= @dotacion_w_op.sum %></td>
             <td id="vent_op-"><%= number_to_currency @plan_w_op.sum %></td>
             <td id="prod_op-"><%= number_to_currency (@plan_w_op.sum / @dotacion_w_op.sum).round %></td>
+            <td id="sum-exceso-op"></td>
+            <td id="sum-faltante-op"></td>
           </tr>
         </tbody>
       </table>
@@ -182,34 +187,24 @@
       <div class="sub-titulo-pantalla">Detalle</div>
       <table id="table_desviaciones" class="table table-bordered">
         <thead>
-          <th></th>
-          <th>Horas faltantes</th>
-          <th>Horas sobrantes</th>
+          <tr>
+            <th>Item</th>
+            <th>Total</th>
+            <th>En pesos</th>
+          </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Real</td>
-            <td id="sum-exceso"></td>
-            <td id="sum-faltante"></td>
+            <td>Ahorro en costo</td>
+            <td id="sum-ahorro"></td>
+            <td id="ahorro-total"></td>
           </tr>
           <tr>
-            <td>Optimizada</td>
-            <td id="sum-exceso-op"></td>
-            <td id="sum-faltante-op"></td>
+            <td>Venta recuperada</td>
+            <td id="sum-recuperada"></td>
+            <td id="recuperada-total"></td>
           </tr>
         </tbody>
-        <tfoot>
-          <tr>
-          <th></th>
-          <th>Ahorro en costo</th>
-          <th>Venta recuperada</th>
-          </tr>
-          <tr>
-            <td></td>
-            <td id="sum-ahorro"></td>
-            <td id="sum-recuperada"></td>
-          </tr>
-        </tfoot>
       </table>
     </div>
   </div>
