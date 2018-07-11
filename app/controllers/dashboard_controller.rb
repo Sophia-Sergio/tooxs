@@ -3,30 +3,14 @@ class DashboardController < ApplicationController
 		add_breadcrumb "Dashboard", :root_path
 		department = 1
 		store = 1
-		@sellers = Seller.where(store: store, department: department)
+		
 		@year = Date.today.strftime("%Y").to_i
         @month = 6#Date.today.strftime("%m").to_i
         dayMonth = Date.today.strftime("%w").to_i
         dayNow = day_now_charged
         #dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
 
-        @setSellers = []
 
-        @sellers.each do |seller|
-	        seller_plan = seller_staffing(seller, @month, @year)
-	        plan = 0
-	        (1..dayNow[:week]).each do |week|
-	        	plan += seller_plan[week - 1].first.values.first[:seller_plan_per_day].inject(:+)
-	        end
-
-	       	sale = sale_real_per_seller(seller, @year, @month)
-			
-			cumplimiento = ((sale.to_f / plan.to_f) * 100).round(2)
-        	@setSellers << { :seller => seller, 
-        					 :sale => setNum(sale), 
-        					 :plan => setNum(plan),
-        					 :cumplimiento => cumplimiento }
-        end
 
 		assigned_shift = Seller.where(store: 1, department: 1).pluck(:assigned_shift)
 		turnos = Array.new(12, 0)
@@ -55,6 +39,7 @@ class DashboardController < ApplicationController
 		opt_turn.each do |turn|
 			turn = turn.split(":")
 			turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
+			#ads
 		end
 
 		assigned_shift.each do |x|
@@ -62,14 +47,38 @@ class DashboardController < ApplicationController
 		end
 
 		turnosOpTotal = turnosOptimizados.sum
+		turnosOpId = []
 
 		for i in 0..turnosOptimizados.length - 1
 
 			if turnosOptimizados[i] - turnosEntrada[i] > 0
 				turnosOpTotal = turnosOpTotal - (turnosOptimizados[i] - turnosEntrada[i])
+				turnosOpId << i
 			end
 
 		end
+		
+		@sellers = Seller.where(department: department).limit(11)
+
+		@setSellers = []
+
+        @sellers.each do |seller|
+	        seller_plan = seller_staffing(seller, @month, @year)
+	        plan = 0
+	        (1..dayNow[:week]).each do |week|
+	        	plan += seller_plan[week - 1].first.values.first[:seller_plan_per_day].inject(:+)
+	        end
+
+	       	sale = sale_real_per_seller(seller, @year, @month)
+			
+			cumplimiento = ((sale.to_f / plan.to_f) * 100).round(2)
+        	@setSellers << { :seller => seller, 
+        					 :sale => setNum(sale), 
+        					 :plan => setNum(plan),
+        					 :cumplimiento => cumplimiento }
+        end
+
+
 
 		@turnos_cubiertos = []
 

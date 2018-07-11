@@ -1,8 +1,26 @@
-<script type="text/javascript">
-  data = "<%= @brain_json %>";
-  var plan_enviado = JSON.parse(data.replace(/&quot;/g,'"'));
-</script>
+<style type="text/css">
+.dataTables_wrapper .row > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: column;
+}
 
+.dataTables_length, #tabla-colaboradores_filter
+{
+	display: none;
+}
+
+.table.dataTable.no-footer {
+    display: inline-table;
+    border: none;
+    overflow: auto;
+}
+
+table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class='sorting_disabled']) {
+    border-top: 1px solid #eceeef;
+}
+</style>
 <div class="container-fluid">	
 	<div class="pantalla-seccion d-flex justify-content-between mb-2">
 		<div class="align-self-end">
@@ -49,9 +67,11 @@
 
 		<div id="div-tabla" class="col-md-9">
 			<div class="chart-dashboard">
-				<div style="overflow-y: auto;">					
+				<div>					
 					<div class="sub-titulo-pantalla">Cumplimiento de mis colaboradores - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
-					<table class="table table-bordered">
+					<br>
+					<br>
+					<table id="tabla-colaboradores" class="table table-striped table-bordered" style="width: 100%">
 					<thead>
 						<tr>
 							<th>Colaboradores</th>
