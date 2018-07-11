@@ -1,7 +1,7 @@
 <div class="container-fluid" id="productivity_cluster">
   <div class="pantalla-seccion d-flex justify-content-between mb-2">
     <div class="align-self-end">
-      <div class="titulo-pantalla">Comparativo productividad</div>
+      <div class="titulo-pantalla">Comparativo de productividad</div>
     </div>    
   </div>
 
@@ -25,10 +25,10 @@
     <table class="table-shift table table-bordered">
       <thead>
         <tr>
-          <th></th>
+          <th class="text-center">TIENDA</th>
           <% week = 0 %>
           <% (@resultStore.first[:prodWeek].length).times do |i| %>
-          <th> <%= "Semana #{week += 1 }" %> </th>
+          <th class="text-center"> <%= "Semana #{week += 1 }" %> </th>
           <% end %>
         </tr>
       </thead>

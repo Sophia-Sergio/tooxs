@@ -153,7 +153,7 @@
 
                       <div class="row ">  
 
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                           <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Rincon Juvenil Mujer - <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h3>  
                           <h5>Plan Mensual: <%= number_to_currency @totalMonth %></h5>
                           <h5>Ventas Plan / Real:  <%= number_to_currency @totalNow %> / <%= number_to_currency @totalRealMonth %></h5>
@@ -165,46 +165,47 @@
                             @sp.each do |k,v|  %>
                             <% if @real_week[j] != nil %>  
                             <div class="col-lg-12 col-xl-12 col-sm-12 m-t-30">
-                                  <table id="table_shift_w1" class="table-shift table table-bordered bg-master-lightest">
+                                  <table id="table_shift_w1" class="table-shift table table-bordered">
                                     <thead>
                                       <tr class="bg-success">
-                                        <td colspan="9" class="text-center no-padding">
-                                          <h3 class="no-margin text-uppercase text-white fs-15">Semana <%= j+1 %></h3>
+                                        <td colspan="9" class="no-padding">
+                                          <h3 class="no-margin text-uppercase text-center text-white fs-15">Semana <%= j+1 %></h3>
                                         </td>
                                       </tr>
                                       <tr>
-                                        <th class="text-center">Ventas</th>
-                                        <th class="text-center">Lun</th>
-                                        <th class="text-center">Mar</th>
-                                        <th class="text-center">Mie</th>
-                                        <th class="text-center">Jue</th>
-                                        <th class="text-center">Vie</th>
-                                        <th class="text-center">Sáb</th>
-                                        <th class="text-center">Dom</th>  
-                                        <th class="text-center">Total</th>  
+                                        <th>Ventas</th>
+                                        <th>Lun</th>
+                                        <th>Mar</th>
+                                        <th>Mie</th>
+                                        <th>Jue</th>
+                                        <th>Vie</th>
+                                        <th>Sáb</th>
+                                        <th>Dom</th>  
+                                        <th>Total</th>  
                                       </tr>
                                       <tr>
                                         <th> - </th>
                                         <% k.values.first[:dates].each do |day| %>
-                                        <th class="text-center"><%= day %></th>
-                                        <% end -%> 
+                                        <th><%= DateTime.parse(day).strftime("%d") %></th>
+                                        <% end -%>
+                                        <th></th> 
                                       </tr>
                                     </thead>
                                     <tbody class="t-p-3">
                                     <tr>
-                                        <th class="text-center">Plan</th>  
+                                        <th>Plan</th>  
                                         <%
                                         @sp_staffing[i].first.values.first[:seller_plan_per_day].each do |d| %>
-                                        <td class="text-center"><%= number_to_currency d %></td>  
+                                        <td><%= number_to_currency d %></td>  
                                         <% end -%>
-                                        <td class="text-center"><%= number_to_currency @sp_staffing[i].first.values.first[:seller_plan_per_day].inject(:+) %></td>  
+                                        <td><%= number_to_currency @sp_staffing[i].first.values.first[:seller_plan_per_day].inject(:+) %></td>  
                                     </tr>                                                
                                     <tr>
-                                      <th class="text-center">Real</th> 
+                                      <th>Real</th> 
                                       <% @real_week[j].first.values.first[:sale_per_day].each do |r| %>
-                                      <td class="text-center"><%= number_to_currency r %></td>  
+                                      <td><%= number_to_currency r %></td>  
                                       <% end -%>
-                                      <td class="text-center"><%= number_to_currency @real_week[j-1].first.values.first[:sale_per_day].inject(:+) %></td>  
+                                      <td><%= number_to_currency @real_week[j-1].first.values.first[:sale_per_day].inject(:+) %></td>  
                                       
                                     </tr>                                               
                                     </tbody>

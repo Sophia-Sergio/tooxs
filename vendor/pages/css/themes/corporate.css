@@ -14789,6 +14789,11 @@ Main components
   font-size: 16px;
 }
 
+.table thead tr th
+{
+  font-weight: bold;
+}
+
 .icon-min-menu
 {
 
@@ -14981,6 +14986,15 @@ body{
   content: "";
 }
 
+.dotacion
+{
+  vertical-align: top;
+  width: 2em;
+  height: 1.5em;
+  padding: 3px 0px;
+  display: inline-block;
+}
+
 @media (max-width: 991px)
 {
 
@@ -15103,3 +15117,4 @@ body{
 {
   font-weight: bold;
 }
+

@@ -870,17 +870,17 @@ if ($('#productivity_demo').length > 0)
               // setear plan actual
               plan_w = Calculo.semanal(mes, 7);
               dotacion_w = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
-              setearProductividad("Prod. sin Optimizar por semanas", plan_w, dotacion_w);
+              setearProductividad("Productividad sin Optimizar", plan_w, dotacion_w);
 
               // setear plan optimizado
               plan_w_op = Calculo.semanal(Cerebro.planVentaOptimizada(), 7);
               dotacion_w_op = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), 7);
-              setearProductividad("Productividad optimizada por semanas", plan_w_op, dotacion_w_op);
+              setearProductividad("Productividad Optimizada", plan_w_op, dotacion_w_op);
 
               // setear plan real
               plan_w_real = Calculo.semanal(vrm1, 7);
               dotacion_w_real = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
-              setearProductividad("Productividad real por semanas", plan_w_real, dotacion_w_real);
+              setearProductividad("Productividad Real", plan_w_real, dotacion_w_real);
 
 
               var config = {

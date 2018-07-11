@@ -242,9 +242,9 @@ class ProductivityController < ApplicationController
 
 
         @plan_w_total = []
-        @plan_w_total << { :type => "sop", :name => "Prod. sin Optimizar por semanas", :plan_w => @plan_w, :dot_w => @dotacion_w, :prod_w => @prod_w }
-        @plan_w_total << { :type => "op", :name => "Productividad Optimizada por semanas", :plan_w => @plan_w_op, :dot_w => @dotacion_w_op, :prod_w => @prod_w_op }
-        @plan_w_total << { :type => "real", :name => "Productividad Real por semanas", :plan_w => @plan_w_real, :dot_w => @dotacion_w_real, :prod_w => @prod_w_real }
+        @plan_w_total << { :type => "sop", :name => "Productividad sin Optimizar", :plan_w => @plan_w, :dot_w => @dotacion_w, :prod_w => @prod_w }
+        @plan_w_total << { :type => "op", :name => "Productividad Optimizada", :plan_w => @plan_w_op, :dot_w => @dotacion_w_op, :prod_w => @prod_w_op }
+        @plan_w_total << { :type => "real", :name => "Productividad Real", :plan_w => @plan_w_real, :dot_w => @dotacion_w_real, :prod_w => @prod_w_real }
     end
 
         def report_data

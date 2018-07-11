@@ -43,6 +43,7 @@ if ( $('#sales_cluster').length > 0)
       dataType: 'json',
       success: function(data) {
         var config, ctx;
+        console.log(data);
         config = {
           type: 'line',
           data: {

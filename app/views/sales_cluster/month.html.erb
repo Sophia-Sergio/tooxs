@@ -13,8 +13,14 @@
       <div class="grafico-1">Venta Real por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></div>
       <p class="m-t-20 grafico-1">
         Tiendas:
+        <% count = 0 %>
         <% @stores.each do |s| %>  
-         <span><%= s.name %></span>
+          <% if count == 0 %>
+            <span><%= s.name %></span>
+            <% count = 1 %>
+          <% else %>
+            <span> - <%= s.name %></span>
+          <% end %>
         <% end %>
       </p>
     </div>

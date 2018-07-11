@@ -50,14 +50,14 @@
 		<div id="div-tabla" class="col-md-9">
 			<div class="chart-dashboard">
 				<div style="overflow-y: auto;">					
-					<div class="sub-titulo-pantalla">Cumplimiento de mis colaboradores <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
+					<div class="sub-titulo-pantalla">Cumplimiento de mis colaboradores - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
 					<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th>Colaboradores</th>
 							<th>Ventas</th>
 							<th>Meta</th>
-							<th>Cump.</th>
+							<th>Cumplimiento</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -120,7 +120,7 @@
 					backgroundColor: [  window.chartColors.red, window.chartColors.grey],
 					label: 'Dataset 1'
 				}],
-				labels: [ randomConfig2_1+'% de Eficiencia (Prod. obj. <%= number_to_currency @prod_obj.to_i %>)' ]
+				labels: [ randomConfig2_1+'% de Eficiencia (Productividad objetivo <%= number_to_currency @prod_obj.to_i %>)' ]
 			},
 			options: {
 				responsive: true

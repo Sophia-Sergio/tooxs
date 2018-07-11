@@ -158,8 +158,8 @@ if ($('#productivity_report').length > 0)
           data: {
           datasets: 
           [
-            {data: excesoReal, label: 'Horas Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
-            {data: excesoOptimizado, label: 'Horas Optimizada', yAxisID: 'left-y-axis',borderColor: 'rgb(54, 162, 235)'}
+            {data: excesoReal, label: 'Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
+            {data: excesoOptimizado, label: 'Optimizado', yAxisID: 'left-y-axis',borderColor: 'rgb(54, 162, 235)'}
           ],
           labels: fecha
           },
@@ -200,8 +200,8 @@ if ($('#productivity_report').length > 0)
           data: {
           datasets: 
           [
-            {data: excesoRealValorado, label: 'Gasto Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
-            {data: excesoOptimizadoValorado, label: 'Gasto Optimizado', yAxisID: 'left-y-axis',borderColor: 'rgb(54, 162, 235)'}
+            {data: excesoRealValorado, label: 'Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
+            {data: excesoOptimizadoValorado, label: 'Optimizado', yAxisID: 'left-y-axis',borderColor: 'rgb(54, 162, 235)'}
           ],
           labels: fecha
           },

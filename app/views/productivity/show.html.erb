@@ -51,7 +51,7 @@
               <canvas id="canvas"> </canvas>
             </div>
           </div>             
-          <div id="productividades" class="col-xl-6 offset-xl-3"></div>
+          <div id="productividades" class="col-xl-10 offset-xl-1"></div>
         </div>
         <div id="botones-optimizar" class="row m-t-30" style="display: none">
           <div class="col-xl-1">
@@ -104,15 +104,15 @@
   <div id="detalle-dotacion" class="formulario-comparacion">  
     <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
     <div>
-      <span class="dotacion label label-success tip" data-toggle="tooltip">Actual</span>
-      <span class="dotacion label label-primary tip" data-toggle="tooltip">Optimizado</span>
+      <span class="label label-success tip" data-toggle="tooltip">Actual</span>
+      <span class="label label-primary tip" data-toggle="tooltip">Optimizado</span>
     </div>
     <div class="row">  
       <div class="col-xl-12" style="overflow-y: auto">
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
-              <th colspan="8">Semana 1</th>
+              <th colspan="8" class="text-center">Semana 1</th>
             </tr>
             <tr>
                 <th class="text-center"> Hora</th>
@@ -159,7 +159,7 @@
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
-              <th colspan="8">Semana 2</th>
+              <th colspan="8" class="text-center">Semana 2</th>
             </tr>
             <tr>
                 <th class="text-center"> Hora </th>
@@ -206,7 +206,7 @@
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
-              <th colspan="8">Semana 3</th>
+              <th colspan="8" class="text-center">Semana 3</th>
             </tr>
             <tr>
                 <th class="text-center"> Hora </th>
@@ -228,16 +228,16 @@
                 <% if n != 0 %>
                 <td class="text-center">
                   <div class="dotacion-row">
-                    <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
-                    <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                    <div id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></div>
+                    <div id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></div>
                   </div>
                 </td>  
                 <% dia += 10 %>
                 <% else %>
                 <td class="text-center">
                   <div class="dotacion-row">
-                    <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
-                    <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                    <div class="dotacion label label-success tip" data-toggle="tooltip">0</div>
+                    <div class="dotacion label label-primary tip" data-toggle="tooltip">0</div>
                   </div>
                 </td>
                 <% end -%>
@@ -253,7 +253,7 @@
         <table class="table-shift table table-bordered">
           <thead>
             <tr>
-              <th colspan="8">Semana 4</th>
+              <th colspan="8" class="text-center">Semana 4</th>
             </tr>
             <tr>
                 <th class="text-center"> Hora </th>
