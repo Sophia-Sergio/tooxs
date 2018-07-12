@@ -88,7 +88,7 @@ class DashboardController < ApplicationController
 		ventaTotal = SaleBySeller.where(month: @month, department: department, year: @year).sum("sale").to_f
 		planVenta = summaryCaseOut.sale_plan.to_f
 
-		@cumplimientoPlan = (ventaTotal / planVenta * 100).round(2)	
+		@cumplimientoPlan = (ventaTotal / planVenta * 100).round(1)	
 	end
 
 	def sale_real_per_seller(seller,year,month)

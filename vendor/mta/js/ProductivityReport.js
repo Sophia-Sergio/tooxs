@@ -291,11 +291,12 @@ if ($('#productivity_report').length > 0)
 
         $("#sum-ahorro").html(parseInt(excesoTotal) - parseInt(exceso_op));
         $("#sum-recuperada").html(parseInt(faltanteTotal) - parseInt(faltante_op));
-        $("#recuperada-total").html(number_format(faltanteTotal * parseInt(Cerebro.plan.datos.prod_obj)));
         if (val > 0)
         {
-          $("#ahorro-total").html(number_format(parseInt($("#sum-ahorro").html()) * parseInt(val)));
+          $("#recuperada-total").html(number_format(faltanteTotal * parseInt(val)));
         }
+        
+        $("#ahorro-total").html(number_format(parseInt($("#sum-ahorro").html()) * parseInt(Cerebro.plan.datos.prod_obj)));
 
 
         eficiencia_op = (100-parseFloat(Cerebro.resumen[1].margeAjuste));
