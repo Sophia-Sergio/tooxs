@@ -71,7 +71,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 					<div class="sub-titulo-pantalla">Cumplimiento de mis colaboradores - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
 					<br>
 					<br>
-					<table id="tabla-colaboradores" class="table table-striped table-bordered" style="width: 100%">
+					<table id="tabla-colaboradores" class="table table-striped table-striped" style="width: 100%">
 					<thead>
 						<tr>
 							<th>Colaboradores</th>
@@ -112,38 +112,65 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 	  window.chartColors = {red: "rgb(255, 99, 132)", orange: "rgb(255, 159, 64)", yellow: "rgb(255, 205, 86)", green: "rgb(75, 192, 192)", blue: "rgb(54, 162, 235)", grey: "rgb(201, 203, 207)"}
 	
 		randomConfig1_1 = <%= @cumplimientoPlan %>;
-		randomConfig1_2 = 100 - randomConfig1_1;
+
+		if (randomConfig1_1 > 100)
+		{
+			rConfig1 = 100;
+			rConfig2 = 0;
+		}
+		else
+		{
+			rConfig1 = randomConfig1_1
+			rConfig2 = 100 - randomConfig1_1;
+		}
+
 		
 		var config1 = {
 			type: 'pie',
 			data: {
 				datasets: [{
-					data: [randomConfig1_1, randomConfig1_2],
+					data: [rConfig1, rConfig2],
 					backgroundColor: [ window.chartColors.blue, window.chartColors.grey],
 					label: 'Dataset 1'
 				}],
 				labels: [randomConfig1_1 + '% de cumplimiento']
 			},
 			options: {
-				responsive: true
+				responsive: true,
+				tooltips: {
+				    enabled: false
+				}
 			}
 		};
 
 		randomConfig2_1 = <%= @margin_adjustment %>;
-		randomConfig2_2 = 100 - randomConfig2_1;
+		if (randomConfig2_1 > 100)
+		{
+			rConfig1_2 = 100;
+			rConfig2_2 = 0;
+		}
+		else
+		{
+			rConfig1_2 = randomConfig2_1
+			rConfig2_2 = 100 - randomConfig2_1;
+		}
+
 
 		var config2 = {
 			type: 'pie',
 			data: {
 				datasets: [{
-					data: [ randomConfig2_1, randomConfig2_2],
+					data: [ rConfig1_2, rConfig2_2],
 					backgroundColor: [  window.chartColors.red, window.chartColors.grey],
 					label: 'Dataset 1'
 				}],
 				labels: [ randomConfig2_1+'% de Eficiencia (Productividad objetivo <%= number_to_currency @prod_obj.to_i %>)' ]
 			},
 			options: {
-				responsive: true
+				responsive: true,
+				tooltips: {
+				    enabled: false
+				}
 			}
 		};
 

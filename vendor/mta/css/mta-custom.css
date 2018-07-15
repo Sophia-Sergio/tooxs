@@ -1,27 +1,6 @@
 .dn {
 	display:none;
 }
-.table-smallFont td{
-	font-size: 11px !important;
-}
-
-.table .t-p-3 td {
-	padding: 3px !important;
-}
-
-.table .t-p-4 td {
-	padding: 4px !important;
-}
-
-.table .t-p-5 td {
-	padding: 5px !important;
-}
-
-
-
-@media (max-width: 1503px) {
-
-}
 
 @media screen and (max-width: 380px) and (orientation:portrait) {
      table {

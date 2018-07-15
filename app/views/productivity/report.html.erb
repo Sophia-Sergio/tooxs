@@ -86,11 +86,11 @@
         <table class="table-shift table table-striped">
             <thead>
                 <tr>
-                    <th class="text-center">
+                    <th>
                     </th>
                     <% countWeek = 0 %>
                     <% for semana in week[:plan_w] %>
-                    <th class="text-center"> Semana <%= countWeek +=1 %></th>           
+                    <th> Semana <%= countWeek +=1 %></th>           
                     <% end %>
                 </tr>
             </thead>
@@ -149,7 +149,7 @@
   <div class="row"> 
     <div class="col-sm-12 col-xl-10 offset-xl-1">
       <div class="sub-titulo-pantalla">Productividad</div><!-- al <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h2> -->
-      <table id="table_desviaciones" class="table-shift table table-bordered">
+      <table id="table_desviaciones" class="table-shift table table-striped">
         <thead>
           <th></th>
           <th>Prod. Objetivo</th>
@@ -164,10 +164,10 @@
             <td>Prod. Real</td>
             <td class="prod_obj"><%= number_to_currency @plan["datos"]["prod_obj"].to_i %></td>
             <td id="dot_real-"><%= @dotacion_w_real.sum %></td>
-            <td id="vent_real-"><%= number_to_currency @plan_w_real.sum %></td>
+            <td id="vent_real-"><%= number_to_currency @venta_w_real.sum %></td>
             <td id="prod_real-">
             <% if @dotacion_w_real.sum != 0 %>
-              <%= number_to_currency (@plan_w_real.sum / @dotacion_w_real.sum).round %>
+              <%= number_to_currency (@venta_w_real.sum / @dotacion_w_real.sum).round %>
             <% end %> 
             </td>
             <td id="sum-exceso"></td>
@@ -177,8 +177,8 @@
             <td>Prod. Optimizada</td>
             <td class="prod_obj"><%= number_to_currency @plan["datos"]["prod_obj"].to_i %></td>
             <td id="dot_op-"><%= @dotacion_w_op.sum %></td>
-            <td id="vent_op-"><%= number_to_currency @plan_w_op.sum %></td>
-            <td id="prod_op-"><%= number_to_currency (@plan_w_op.sum / @dotacion_w_op.sum).round %></td>
+            <td id="vent_op-"><%= number_to_currency @venta_w_real.sum %></td>
+            <td id="prod_op-"><%= number_to_currency (@venta_w_real.sum / @dotacion_w_op.sum).round %></td>
             <td id="sum-exceso-op"></td>
             <td id="sum-faltante-op"></td>
           </tr>
@@ -187,7 +187,7 @@
     </div>
     <div class="col-sm-12 col-xl-10 offset-xl-1">
       <div class="sub-titulo-pantalla">Detalle</div>
-      <table id="table_desviaciones" class="table table-bordered">
+      <table id="table_desviaciones" class="table table-striped">
         <thead>
           <tr>
             <th>Item</th>
@@ -213,7 +213,7 @@
   <div class="row"> 
     <div class="col-lg-6 offset-lg-3">
       <div class="sub-titulo-pantalla">Eficiencia</div>
-      <table id="table_desviaciones" class="table-shift table table-bordered">
+      <table id="table_desviaciones" class="table-shift table table-striped">
         <thead>
           <th>Item</th>
           <th>Valor %</th>

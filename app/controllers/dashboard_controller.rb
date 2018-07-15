@@ -10,8 +10,6 @@ class DashboardController < ApplicationController
         dayNow = day_now_charged
         #dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
 
-
-
 		assigned_shift = Seller.where(store: 1, department: 1).pluck(:assigned_shift)
 		turnos = Array.new(12, 0)
 

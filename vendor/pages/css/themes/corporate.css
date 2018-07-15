@@ -8713,26 +8713,7 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
   margin-bottom: 0;
   margin-top: 5px;
 }
-.table thead tr th {
-  text-transform: uppercase;
-  font-weight: 500;
-  font-family: 'Montserrat';
-  letter-spacing: 0.06em;
-  vertical-align: middle;
-  border-bottom: 1px solid rgba(225, 225, 225, 0.7);
-  color: rgba(44, 44, 44, 0.35);
-  border-top: none;
-}
-.table thead tr th[class*='sorting_']:not([class='sorting_disabled']) {
-  color: #2c2c2c;
-}
-.table thead tr th:first-child {
-  padding-left: 18px !important;
-}
-.table thead tr th .btn {
-  margin-top: -20px;
-  margin-bottom: -20px;
-}
+
 .table tbody tr td {
   background: #fff;
   border-bottom: 1px solid rgba(225, 225, 225, 0.7);
@@ -13202,11 +13183,7 @@ Main components
   .page-content-wrapper .content .card .card-body {
     padding: 0;
   }
-  [class^='padding-'],
-  [class*='padding-'],
-  .table tbody tr td {
-    padding: 10px;
-  }
+
 }
 /*------------------------------------------------------------------
 [30. Demo : Only for demo pursposes]
@@ -14812,6 +14789,7 @@ body{
 
 .sub-titulo-pantalla
 {
+  margin-top: 2em;
   font-size: 1.5em;
   font-weight: bold;
   color: #353e4f;

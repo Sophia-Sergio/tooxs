@@ -432,7 +432,11 @@ end
       prod_week = []
 
       (0..plan.length-1).each do |i|
-        prod_week << (plan[i].to_f / dotacion[i].to_f).round
+        if dotacion[i] == nil 
+          prod_week << (plan[i].to_f / dotacion[0].to_f).round
+        else
+          prod_week << (plan[i].to_f / dotacion[i].to_f).round
+        end    
       end
       return prod_week
     end

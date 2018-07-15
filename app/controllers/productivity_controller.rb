@@ -215,36 +215,40 @@ class ProductivityController < ApplicationController
         @store = params[:store].to_i
         @dep   = params[:department].to_i
 
+
+        #obtener ventas reales del mes 
+        sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month) 
+        @realMonth = []
+
+        sale_reals.each do |sale|
+            totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+            @realMonth  << totalRealDay
+        end
+
         @report_data = report_data
         @brain_json = brain_json(month, year, @store, @dep)    
         dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
-        
-        @plan_w = calculo_semanal(@report_data[:spm1], 7)
-        @plan_w_op = calculo_semanal(cerebro_plan_venta_opt(@brain_json), 7)
-        @plan_w_real = calculo_semanal(@report_data[:vrm1], 7)
 
-        dotReal = dotacion_real
+        @venta_w_real = calculo_semanal(@realMonth, 7)
+        
+        if @venta_w_real.length > 4 #limitación para muestra
+            @venta_w_real.delete_at(4)
+        end
+
         @plan = JSON.parse(@brain_json)
 
-
-        @dotacion_w = calculo_semanal(cerebro_sumatoria_turnos_diaria(@brain_json), 7)       
+        dotReal = dotacion_real
+    
         @dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
         @dotacion_w_real = calculo_semanal(dotReal[month], 7)
 
-        if @plan_w_real.length > 4 #limitación para muestra
-            @plan_w_real.delete_at(4)
-            @dotacion_w_real.delete_at(4)
-        end
-
-        @prod_w = cerebro_calculo_productividades_week(@plan_w, @dotacion_w)
-        @prod_w_op = cerebro_calculo_productividades_week(@plan_w_op, @dotacion_w_op)
-        @prod_w_real = cerebro_calculo_productividades_week(@plan_w_real, @dotacion_w_real)
-
+        @prod_w_op = cerebro_calculo_productividades_week(@venta_w_real, @dotacion_w_op)
+        @prod_w_real = cerebro_calculo_productividades_week(@venta_w_real, @dotacion_w_real)
 
         @plan_w_total = []
-        @plan_w_total << { :type => "sop", :name => "Productividad sin Optimizar", :plan_w => @plan_w, :dot_w => @dotacion_w, :prod_w => @prod_w }
-        @plan_w_total << { :type => "op", :name => "Productividad Optimizada", :plan_w => @plan_w_op, :dot_w => @dotacion_w_op, :prod_w => @prod_w_op }
-        @plan_w_total << { :type => "real", :name => "Productividad Real", :plan_w => @plan_w_real, :dot_w => @dotacion_w_real, :prod_w => @prod_w_real }
+        @plan_w_total << { :type => "op", :name => "Productividad Optimizada", :plan_w => @venta_w_real, :dot_w => @dotacion_w_op, :prod_w => @prod_w_op }
+        @plan_w_total << { :type => "real", :name => "Productividad Real", :plan_w => @venta_w_real, :dot_w => @dotacion_w_real, :prod_w => @prod_w_real }
+
     end
 
         def report_data

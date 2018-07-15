@@ -20,7 +20,7 @@
   <div class="formulario-comparacion grafico-1">
     <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
     <div style="overflow-y: auto;">     
-      <table class="table-shift table table-bordered">
+      <table class="table-shift table table-striped">
         <thead>
           <tr>
           	<th> <!--<%= link_to "#{@year}", year_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year) %> --></th>

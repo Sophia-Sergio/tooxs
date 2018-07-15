@@ -146,12 +146,17 @@ class ProductivityClusterController < ApplicationController
       totalMonth = []
       realMonth = []
       dotMonth = []
+
+      dotReal = dotacion_real[@month]
+
+      countReal = 0      
       sale_reals.each do |sale|
         totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
-        totalDotDay = @staffing[("#{sale[:sale_date].strftime("%Y%m%d")}").to_sym][:hours].values.sum
+        totalDotDay = dotReal[countReal]
         realMonth  << totalRealDay
         dotMonth   << totalDotDay
-        totalMonth << (totalRealDay.to_f / totalDotDay.to_f).round
+        totalMonth << (totalRealDay.to_f / dotReal[countReal].to_f).round
+        countReal += 1
       end
 
       store = Store.find(department.first[:store_id])

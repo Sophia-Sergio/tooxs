@@ -22,13 +22,13 @@
   <div class="formulario-comparacion">
     <!-- tabla -->
     <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
-    <table class="table-shift table table-bordered">
+    <table class="table-shift table table-striped">
       <thead>
         <tr>
-          <th class="text-center">TIENDA</th>
+          <th>TIENDA</th>
           <% week = 0 %>
           <% (@resultStore.first[:prodWeek].length).times do |i| %>
-          <th class="text-center"> <%= "Semana #{week += 1 }" %> </th>
+          <th> <%= "Semana #{week += 1 }" %> </th>
           <% end %>
         </tr>
       </thead>
