@@ -6,7 +6,14 @@ Rails.application.routes.draw do
   resources :return_cases
   resources :data_cases
   resources :staffing_cases
-  resources :sale_by_sellers
+  resources :sale_by_sellers, only: [:index] do
+    collection { 
+      post 'import'
+      get 'delete'
+      get 'downloads'
+      }
+  end
+
   get 'dashboard/administracion'
   get 'dashboard/ventas'
   get 'dashboard/productividad'
@@ -39,6 +46,8 @@ Rails.application.routes.draw do
   resources :sale_reals, only: [:index] do
     collection { 
       post 'import'
+      get 'delete'
+      get 'downloads'
       }
   end
 
@@ -100,6 +109,8 @@ Rails.application.routes.draw do
       get 'json_week'
       get 'json_month'
       get 'json_year'
+      get 'delete'
+      get 'downloads'
       }
   end
 

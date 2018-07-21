@@ -6,12 +6,13 @@ class SalePlansController < ApplicationController
   end
 
   def import
-    if SalePlan.from_xlsx(params[:file].tempfile)
-      flash[:notice] = 'Importado con éxito'
-    else
-      flash[:error] = 'Algo ha salido mal, intentalo de nuevo'
+    if params[:file] != nil
+      if SalePlan.from_xlsx(params[:file].tempfile)
+        flash[:notice] = 'Importado con éxito'
+      else
+        flash[:error] = 'Algo ha salido mal, intentalo de nuevo'
+      end
     end
-
     redirect_to sale_plans_url
   end
 
@@ -295,6 +296,17 @@ class SalePlansController < ApplicationController
     render json: @data
   end
 
+  def delete
+    SalePlan.delete_all
+    redirect_to sale_plans_url    
+  end
 
+  def downloads
+    send_file(
+      "#{Rails.root}/public/plan_ventas_15-07-2018.xlsx",
+      filename: "planventas.xlsx",
+      type: "application/xlsx"
+    )
+  end
 end
 

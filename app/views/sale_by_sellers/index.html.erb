@@ -1,56 +1,54 @@
-<p id="notice"><%= notice %></p>
+<div class="container-fluid">
+  <div class="pantalla-seccion d-flex flex-wrap justify-content-between mb-2">
+    <div class="align-self-end">
+      <div class="titulo-pantalla">Ventas reales por vendedor</div>
+    </div>  
+    <div class="align-self-end text-right boton-comparar">
+    <%= form_with url: import_sale_by_sellers_path, multipart: true, local: true do %>
+      <%= label_tag :file, 'Importar desde xlsx' %>
+      <%= file_field_tag :file  %>
+        <br>
+        <%= submit_tag '+ Importar', class: "btn" %>
+        <%= link_to 'Resetear datos', delete_sale_by_sellers_path, class: "btn" %>
+        <%= link_to 'Descargar datos de prueba', downloads_sale_by_sellers_path, class: "btn" %>
+      <% end %>
+    </div>    
+  </div>
 
-<h1>Sale By Sellers</h1>
+  <div class="formulario-comparacion">
+    <div style="overflow: auto;">    
+      <table class="table table-stripped" style="width: 100%" id="table-sale_by_seller">
+        <thead>
+          <tr>
+            <th>Seller</th>
+            <th>Month</th>
+            <th>Week</th>
+            <th>Day</th>
+            <th>Time</th>
+            <th>Store</th>
+            <th>Sale</th>
+            <th>Turn</th>
+            <th>Year</th>
+            <th colspan="1"></th>
+          </tr>
+        </thead>
 
-<table class="table table-stripped table-condensed table-hover table-smallFont" id="table-sale_by_seller">
-  <thead>
-    <tr>
-      <th>Seller</th>
-      <th>Month</th>
-      <th>Week</th>
-      <th>Day</th>
-      <th>Time</th>
-      <th>Store</th>
-      <th>Sale</th>
-      <th>Turn</th>
-      <th>Year</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @sale_by_sellers.each do |sale_by_seller| %>
-      <tr>
-                <td><%= sale_by_seller.seller %></td>
-                <td><%= sale_by_seller.month %></td>
-                <td><%= sale_by_seller.week %></td>
-                <td><%= sale_by_seller.day %></td>
-                <td><%= sale_by_seller.time %></td>
-                <td><%= sale_by_seller.store_id %></td>
-                <td><%= sale_by_seller.sale %></td>
-                <td><%= sale_by_seller.turn %></td>
-                <td><%= sale_by_seller.year %></td>
-        
-        <td>
-
-        <%= link_to sale_by_seller_path(sale_by_seller), :class => 'btn btn-default' do %>
-        <i class="fa fa-eye"></i> Ver ##Sale By Seller
-        <% end %>
-
-        <%= link_to edit_sale_by_seller_path(sale_by_seller), :class => 'btn btn-default' do %>
-        <i class="fa fa-edit"></i> Editar ##Sale By Seller
-        <% end %>
-
-        <%= link_to sale_by_seller_path(sale_by_seller), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
-        <i class="fa fa-trash-o"></i> Eliminar ##Sale By Seller
-        <% end %>
-
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Sale By Seller', new_sale_by_seller_path %>
+        <tbody>
+          <% @sale_by_sellers.each do |sale_by_seller| %>
+            <tr>
+              <td><%= sale_by_seller.seller %></td>
+              <td><%= sale_by_seller.month %></td>
+              <td><%= sale_by_seller.week %></td>
+              <td><%= sale_by_seller.day %></td>
+              <td><%= sale_by_seller.hour %></td>
+              <td><%= sale_by_seller.department %></td>
+              <td><%= sale_by_seller.sale %></td>
+              <td><%= sale_by_seller.turn %></td>
+              <td><%= sale_by_seller.year %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

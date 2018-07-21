@@ -1,38 +1,50 @@
-<p id="notice"><%= notice %></p>
+<div class="container-fluid">
+  <div class="pantalla-seccion d-flex flex-wrap justify-content-between mb-2">
+    <div class="align-self-end">
+      <div class="titulo-pantalla">Ventas Reales Por Día</div>
+    </div>  
+    <div class="align-self-end text-right boton-comparar">
+    <%= form_with url: import_sale_reals_path, multipart: true, local: true do %>
+      <%= label_tag :file, 'Importar desde xlsx' %>
+      <%= file_field_tag :file  %>
+        <br>
+        <%= submit_tag '+ Importar', class: "btn" %>
+        <%= link_to 'Resetear datos', delete_sale_reals_path, class: "btn" %>
+        <%= link_to 'Descargar datos de prueba', downloads_sale_reals_path, class: "btn" %>
+      <% end %>
+    </div>    
+  </div>
 
-<h1>Ventas Reales</h1>
-<%= form_with url: import_sale_reals_path, multipart: true, local: true do %>
-  <%= label_tag :file, 'Importar desde xlsx' %>
-  <%= file_field_tag :file  %>
-  <br>
-  <%= submit_tag 'Importar' %>
-<% end %>
+  <div class="formulario-comparacion">
+    <div style="overflow: auto;">    
+    <table class="table  table-hover table-smallFont">
+      <thead>
+        <tr>
+          <th>Tienda</th>
+          <th>Departamento</th>
+          <th>Fecha</th>
+          <th>Semana</th>
+          <th>Mes</th>
+          <th>Dia</th>
+          <th>Total Dia</th>
+        </tr>
+      </thead>
 
-<table class="table  table-hover table-smallFont">
-  <thead>
-    <tr>
-      <th>Tienda</th>
-      <th>Departamento</th>
-      <th>Fecha</th>
-      <th>Semana</th>
-      <th>Mes</th>
-      <th>Dia</th>
-      <th>Total Dia</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @sale_reals.each do |sale_real| %>
-      <tr>
-        <td><%= sale_real.store %></td>
-        <td><%= sale_real.department %></td>
-        <td><%= l sale_real.sale_date %></td>
-        <td><%= sale_real.week %></td>
-        <td><%= sale_real.month %></td>
-        <td><%= sale_real.day %></td>
-        <td><%= number_to_currency sale_real.total_day %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody>
+        <% @sale_reals.each do |sale_real| %>
+          <tr>
+            <td><%= sale_real.store %></td>
+            <td><%= sale_real.department %></td>
+            <td><%= l sale_real.sale_date %></td>
+            <td><%= sale_real.week %></td>
+            <td><%= sale_real.month %></td>
+            <td><%= sale_real.day %></td>
+            <td><%= number_to_currency sale_real.total_day %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
 

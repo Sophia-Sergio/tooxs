@@ -74,10 +74,10 @@ class SalePlan < ApplicationRecord
         twenty_two: parse_integer(row[16]),
         twenty_three: parse_integer(row[17]),
         twenty_four: parse_integer(row[18]),
-        week: row[2].strftime("%V").to_i,
-        month: row[2].strftime("%m").to_i,
-        year: row[2].strftime("%Y").to_i,
-        day_number: row[2].strftime("%w").to_i
+        week: parse_integer(row[19]),
+        month: parse_integer(row[20]),
+        year: parse_integer(row[21]),
+        day_number: parse_integer(row[22])
       )
     end
   end
