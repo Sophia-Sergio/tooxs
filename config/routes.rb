@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       }
   end
 
+  get 'staff_request/index'
+
   get 'dashboard/administracion'
   get 'dashboard/ventas'
   get 'dashboard/productividad'
