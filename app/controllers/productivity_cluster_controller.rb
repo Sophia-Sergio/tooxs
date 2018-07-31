@@ -96,11 +96,10 @@ class ProductivityClusterController < ApplicationController
 
     labels = []
 
-    element.first[:data].count.times do |i|
-      labels << i+1
-    end
+    countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @stores.first, department_id: @dep).pluck(:week).length
+    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @stores.first, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
 
-    @data = { :labels => labels, :datasets => element }
+    @data = { :labels => @m_days, :datasets => element }
     render json: @data
     #binding.pry
   end
@@ -158,9 +157,7 @@ class ProductivityClusterController < ApplicationController
         totalMonth << (totalRealDay.to_f / dotReal[countReal].to_f).round
         countReal += 1
       end
-
       store = Store.find(department.first[:store_id])
-
       #calcular total por semana
       saleWeek = []
       count = 0
@@ -200,12 +197,8 @@ class ProductivityClusterController < ApplicationController
 	    (0..week).each do |count|
 	    	prodWeek[count] = (saleWeek[count].to_f/ dotWeek[count].to_f).round(2)
 	    end
-
-
-
-
-        
-      element << { label: store[:name], fill: 'false', data: prodWeek, totalMonth: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
+       
+      element << { label: store[:name], fill: 'false', data: totalMonth, totalMonth: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
       colorCount += 1
     end
     return element
