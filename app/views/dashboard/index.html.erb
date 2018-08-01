@@ -63,6 +63,22 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 					</div>
 				</div>
 			</div>
+			<div class="chart-dashboard">
+				<table class="table table-striped">
+					<thead>
+						<th>Turnos</th>
+						<th>Actuales</th>
+						<th>Optimizados</th>
+					</thead>
+					<% @turnosEntrada.count.times do |i| %>
+					<tr>
+						<td><%= i+1 %></td>
+						<td><%= @turnosEntrada[i].to_i %></td>
+						<td><%= @turnosOptimizados[i].to_i %></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
 		</div>
 
 		<div id="div-tabla" class="col-md-9">
@@ -77,6 +93,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 							<th>Colaboradores</th>
 							<th>Ventas</th>
 							<th>Meta</th>
+							<th>turno asignado</th>
 							<th>Cumplimiento</th>
 						</tr>
 					</thead>
@@ -86,6 +103,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 							<td><%= data[:seller].fullname %></td>
 							<td><%= data[:sale] %></td>
 							<td><%= data[:plan] %></td>
+							<td><%= data[:seller].assigned_shift %></td>
 							<td><div class="row"> <div class="col"><%= data[:cumplimiento] %>% </div><%= link_to '<i class="fa fa-caret-right col ml-auto" aria-hidden="true"></i>'.html_safe, data[:seller] %></div></td>
 						</tr>
 						<% end %>

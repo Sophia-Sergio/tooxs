@@ -1,30 +1,28 @@
 class StaffingController < ApplicationController
   def index
 
-    if params[:month] == nil
-      params[:year]  = Date.today.strftime("%Y")
-      params[:month] = Date.today.strftime("%m")
+    if params[:department] == nil
       params[:department] = 1
       params[:store] = 1
     end
   
-    @month = params[:month].to_i
-    @year = params[:year].to_i
-    @store = params[:department].to_i
-    @dep = params[:store].to_i
+    @month = Date.today.strftime("%m")
+    @year  = Date.today.strftime("%Y")
+    @store = params[:store].to_i
+    @dep   = params[:department].to_i
 
     #days of the week for this query dias de la semana según comienzo
-    @w1_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 1, store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
-    @w2_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 2, store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
-    @w3_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 3, store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
-    @w4_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
+    @w1_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 1, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
+    @w2_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 2, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
+    @w3_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 3, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
+    @w4_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
 
 
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Dotación personal", :staffing_index_path
   	@search       = ''
-    @stores       = Store.all.order(:id)
-    @departments  = Department.all.order(:id)
+    @stores       = Store.where(id: 1)
+    @departments  = Department.where(:id => [1,5]).order(:id)
     #staffing
     fecha1 = DateTime.parse(@w1_days[0].to_s) 
     fecha1 = fecha1.strftime("%Y%m%d")

@@ -123,11 +123,35 @@ end
       
     result = []  
     (1..4).each do |w|
+      @week = w
       @dates_week = []
       dayResult = Array.new(7)
       planResult = Array.new(7)
       (1..7).each do |d|
-          @day = AvailableShift.where( num: seller.assigned_shift, week: w, day: d)  
+          #recorrer todos los turnos
+          @days = AvailableShift.where(week: @week, day: d)  
+          countAll = 0 
+          @days.each do |s|
+            countAll += 1 if s.nine
+            countAll += 1 if s.ten
+            countAll += 1 if s.eleven
+            countAll += 1 if s.twelve
+            countAll += 1 if s.thirteen
+            countAll += 1 if s.fourteen
+            countAll += 1 if s.fifteen
+            countAll += 1 if s.sixteen
+            countAll += 1 if s.seventeen
+            countAll += 1 if s.eighteen
+            countAll += 1 if s.nineteen
+            countAll += 1 if s.twenty
+            countAll += 1 if s.twenty_one
+            countAll += 1 if s.twenty_two
+            countAll += 1 if s.twenty_three
+            countAll += 1 if s.twenty_four
+          end
+          
+
+          @day = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d)  
           count = 0 
           @day.each do |s|
             count += 1 if s.nine
@@ -147,11 +171,13 @@ end
             count += 1 if s.twenty_three
             count += 1 if s.twenty_four
           end
+
+          @sp_m1 = SalePlan.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
           dayResult[d-1] = count
-          planResult[d-1] = count.to_i * @depInf.productivity_obj.to_i
+          planResult[d-1] = count.to_i * (@sp_m1.first.to_i / countAll.to_i) #@depInf.productivity_obj.to_i
       end
       data = { :staffing_per_day => dayResult, :seller_plan_per_day => planResult}
-      result << [ w => data ]
+      result << [ @week => data ]
     end  
     return result   
   end
@@ -276,8 +302,6 @@ end
       end
       return plan_venta_diario
     end
-
-
     def total_turnos(plan, dotacion)
       if plan.length != 0           
         matriz_turnos = plan["datos"]["matriz_turnos"].to_s.split(", [")
@@ -333,8 +357,6 @@ end
       end 
       return sumatoria_turnos_real      
     end
-
-
     def cerebro_sumatoria_turnos_diaria(plan)
       if plan.length != 0 
         plan = JSON.parse(plan)
@@ -440,8 +462,6 @@ end
       end
       return prod_week
     end
-
-
     def dotacion_real
       dotReal = []
       dotReal[1] = [78, 109, 145, 148, 145, 76, 79, 113, 131, 34, 117, 127, 155, 128, 138, 68, 154, 99, 99, 157, 112, 82, 32, 154, 63, 127, 162, 128]
@@ -454,7 +474,6 @@ end
       dotReal[8] = []
       return dotReal
     end
-
     def day_now(year, month)
 
       @year         = year #params[:year]    

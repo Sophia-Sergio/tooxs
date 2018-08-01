@@ -108,10 +108,9 @@ class SellersController < ApplicationController
     #binding.pry
     
     @x           = seller.my_shift.index{|x| x[0]== today.to_s}
-    @sp          = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
+    @sp          = sale_plan_per_week(seller, 06.to_s, Date.today.strftime("%Y").to_s,)
     @real_week   = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
-    @sp_staffing = seller_staffing_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
-
+    @sp_staffing = seller_staffing_per_week(seller, 06.to_s, Date.today.strftime("%Y").to_s)
     #calcula el plan mensual
     seller_plan = seller_staffing(seller, @month, @year)
     @totalNow = 0
@@ -131,9 +130,7 @@ class SellersController < ApplicationController
       end
       j += 1 #permite cargar la primera semana para los meses de 5 semanas
     end
-
     #calcula cumplimiento
-
     @cumplimiento = (@totalRealMonth.to_f / @totalNow.to_f) * 100
   end
 
@@ -598,49 +595,76 @@ class SellersController < ApplicationController
       @year         = year #params[:year]    
       @month        = month #params[:month]
 
-      @depInf = Department.find(@dep)
-     
-      @depInf.productivity_obj
-        
+
       result = []  
       (1..4).each do |w|
         @week = w
-        @dates_week = []
+        countSemana = 0
+        dates_week = []
         dayResult = Array.new(7)
         planResult = Array.new(7)
         (1..7).each do |d|
-            @day = AvailableShift.where( num: seller.assigned_shift, week: w, day: d)  
-            count = 0 
-            @day.each do |s|
-              count += 1 if s.nine
-              count += 1 if s.ten
-              count += 1 if s.eleven
-              count += 1 if s.twelve
-              count += 1 if s.thirteen
-              count += 1 if s.fourteen
-              count += 1 if s.fifteen
-              count += 1 if s.sixteen
-              count += 1 if s.seventeen
-              count += 1 if s.eighteen
-              count += 1 if s.nineteen
-              count += 1 if s.twenty
-              count += 1 if s.twenty_one
-              count += 1 if s.twenty_two
-              count += 1 if s.twenty_three
-              count += 1 if s.twenty_four
-            end
-            dayResult[d-1] = count
-            planResult[d-1] = count.to_i * @depInf.productivity_obj.to_i
+          #recorrer todos los turnos
+          @days = AvailableShift.where(week: w, day: d)  
+          countAll = 0 
+          @days.each do |s|
+            countAll += 1 if s.nine
+            countAll += 1 if s.ten
+            countAll += 1 if s.eleven
+            countAll += 1 if s.twelve
+            countAll += 1 if s.thirteen
+            countAll += 1 if s.fourteen
+            countAll += 1 if s.fifteen
+            countAll += 1 if s.sixteen
+            countAll += 1 if s.seventeen
+            countAll += 1 if s.eighteen
+            countAll += 1 if s.nineteen
+            countAll += 1 if s.twenty
+            countAll += 1 if s.twenty_one
+            countAll += 1 if s.twenty_two
+            countAll += 1 if s.twenty_three
+            countAll += 1 if s.twenty_four
+          end
+          
+          #recorrer turno del vendedor
+          @day = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d)  
+          count = 0 
+          @day.each do |s|
+            count += 1 if s.nine
+            count += 1 if s.ten
+            count += 1 if s.eleven
+            count += 1 if s.twelve
+            count += 1 if s.thirteen
+            count += 1 if s.fourteen
+            count += 1 if s.fifteen
+            count += 1 if s.sixteen
+            count += 1 if s.seventeen
+            count += 1 if s.eighteen
+            count += 1 if s.nineteen
+            count += 1 if s.twenty
+            count += 1 if s.twenty_one
+            count += 1 if s.twenty_two
+            count += 1 if s.twenty_three
+            count += 1 if s.twenty_four
+          end
+
+          @sp_m1 = SalePlan.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
+
+          dayResult[d-1] = count
+
+          planResult[d-1] = count.to_i * (@sp_m1.first.to_i / countAll.to_i)
+          dates_week = { :staffing_per_day => dayResult, :seller_plan_per_day => planResult}
         end
-        data = { :staffing_per_day => dayResult, :seller_plan_per_day => planResult}
-        result << [ w => data ]
+        result << [ w => dates_week ]
+        countSemana += 1
       end  
+
       return result   
     end
 
     def productivity_seller(seller,month,year)
       
-       ##usaremos febrero 2018 para esta muestra:
+      ##usaremos febrero 2018 para esta muestra:
       ## sacamos el 1er dia lunes del mes "2" del 2018 desde el Plan de ventas.
       month_search = month
 

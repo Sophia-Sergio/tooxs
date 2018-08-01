@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
         dayNow = day_now_charged
         #dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
 
-		assigned_shift = Seller.where(store: 1, department: 1).pluck(:assigned_shift)
+		assigned_shift = Seller.where(department: department, store: store ).pluck(:assigned_shift)
 		turnos = Array.new(12, 0)
 
 		dataCase = DataCase.where(dep_num: department, month: @month).first
@@ -26,13 +26,16 @@ class DashboardController < ApplicationController
 		ent_turn = summaryCaseIn.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
 		turnosOptimizados = Array.new(12, 0)
 		turnosEntrada = Array.new(12, 0)
+		countTurnos = 0
+		
+		sellers = Seller.where(department: department, store: store ).pluck(:assigned_shift)
 
-
-		ent_turn.each do |turn|
-			turn = turn.split(":")
-			turnosEntrada[turn[0].to_i-1] = turn[1].to_i
+		sellers.each do |turn|
+			turnosEntrada[turn.to_i-1] += 1
 		end
 
+
+		
 
 		opt_turn.each do |turn|
 			turn = turn.split(":")
@@ -51,12 +54,14 @@ class DashboardController < ApplicationController
 
 			if turnosOptimizados[i] - turnosEntrada[i] > 0
 				turnosOpTotal = turnosOpTotal - (turnosOptimizados[i] - turnosEntrada[i])
-				turnosOpId << i
 			end
 
+			if turnosOptimizados[i] != 0  
+				turnosOpId << i + 1
+			end
 		end
-		
-		@sellers = Seller.where(department: department).limit(11)
+
+		@sellers = Seller.where(department: department, store: store, :assigned_shift => turnosOpId)
 
 		@setSellers = []
 
@@ -76,7 +81,8 @@ class DashboardController < ApplicationController
         					 :cumplimiento => cumplimiento }
         end
 
-
+        @turnosEntrada = turnosEntrada
+        @turnosOptimizados = turnosOptimizados
 
 		@turnos_cubiertos = []
 
