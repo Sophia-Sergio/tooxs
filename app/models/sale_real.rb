@@ -55,12 +55,9 @@ def week
       store = Store.find(row[0])
       return if store.nil?
 
-      department = Department.find_by_origin_id(row[1])
-      return if department.nil?
-
       sale_real = SaleReal.find_or_initialize_by(
         store_id: store.id,
-        department_id: department.id,
+        department_id: row[1],
         sale_date: row[2]
       )
 
