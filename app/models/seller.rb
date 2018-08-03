@@ -41,7 +41,6 @@ class Seller < ApplicationRecord
         i = 1
       end
     end
-
     @x = @t.map { |x| x.flatten }
 
     return @x

@@ -45,7 +45,7 @@
 <div class="formulario-comparacion">
   <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
   <div class="row ">  
-    <h5 class="text-uppercase m-t-30 fs-13 bold">Productividad por Hora - Alto Las Condes - Rincon Juvenil Mujer</h5>
+    <h5 class="text-uppercase m-t-30 fs-13 bold">Productividad por Hora - Alto Las Condes - Juvenil mujer</h5>
   </div>
   <div class="row justify-content-md-center">
     <br>
@@ -96,7 +96,7 @@
             </thead>
             <tbody class="t-p-3">
                 <tr>
-                  <td>Plan de Venta</td>
+                  <td>Ventas reales</td>
                   <% if !week[:plan_w].blank? %>
                     <% for semana in week[:plan_w] %>
                     <td><%= number_to_currency semana %></td>           
@@ -152,7 +152,6 @@
       <table id="table_desviaciones" class="table-shift table table-striped">
         <thead>
           <th></th>
-          <th>Prod. Objetivo</th>
           <th>Dotación</th>
           <th>Venta</th>
           <th>Prod.</th>
@@ -162,7 +161,6 @@
         <tbody>
           <tr>
             <td>Prod. Real</td>
-            <td class="prod_obj"><%= number_to_currency @plan["datos"]["prod_obj"].to_i %></td>
             <td id="dot_real-"><%= @dotacion_w_real.sum %></td>
             <td id="vent_real-"><%= number_to_currency @venta_w_real.sum %></td>
             <td id="prod_real-">
@@ -175,7 +173,6 @@
           </tr>
           <tr>
             <td>Prod. Optimizada</td>
-            <td class="prod_obj"><%= number_to_currency @plan["datos"]["prod_obj"].to_i %></td>
             <td id="dot_op-"><%= @dotacion_w_op.sum %></td>
             <td id="vent_op-"><%= number_to_currency @venta_w_real.sum %></td>
             <td id="prod_op-"><%= number_to_currency (@venta_w_real.sum / @dotacion_w_op.sum).round %></td>

@@ -423,7 +423,6 @@ function optimizar()
 	                      datasets: [
 					                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo,fill: 'false', label: 'Productividad Ideal', yAxisID: 'left-y-axis',backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},                                  
 					                  {data: productividad_actual,fill: 'false', label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',backgroundColor: '#65ff00', borderColor: '#65ff00'},
-					                  {data: productividad_real,fill: 'false', label: 'Productividad Real', yAxisID: 'left-y-axis',backgroundColor: '#ff566b', borderColor: '#ff566b'},  
 					                  {data: productividad_optimizada,fill: 'false', label: 'Productividad Optimizada', yAxisID: 'left-y-axis',backgroundColor: '#33d6ce', borderColor: '#33d6ce'}
  	                                ],
 	                      labels: fecha

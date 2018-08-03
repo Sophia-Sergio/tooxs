@@ -61,7 +61,7 @@ class DashboardController < ApplicationController
 			end
 		end
 
-		@sellers = Seller.where(department: department, store: store, :assigned_shift => turnosOpId)
+		@sellers = Seller.where(department: department, store: store)
 
 		@setSellers = []
 

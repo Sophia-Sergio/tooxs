@@ -60,8 +60,8 @@ class SalesController < ApplicationController
     add_breadcrumb "Venta mensual", :month_sales_path  
     
     @controller = 'Venta Mensual'
-    @stores     = Store.all.order(:id)
-    @departments = Department.all.order(:id)
+    @stores     = Store.where(id: 1).order(:id)
+    @departments = Department.where(:id => [1,5]).order(:id)
   	@search = ''
     @compare = 'compare'
     @store  = Store.find(params[:store])

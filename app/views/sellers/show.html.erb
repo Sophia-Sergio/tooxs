@@ -154,7 +154,7 @@
                       <div class="row ">  
 
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                          <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Rincon Juvenil Mujer - <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h3>  
+                          <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Juvenil mujer - <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h3>  
                           <h5>Plan Mensual: <%= number_to_currency @totalMonth %></h5>
                           <h5>Ventas Plan / Real:  <%= number_to_currency @totalNow %> / <%= number_to_currency @totalRealMonth %></h5>
                           <h5>Mi cumplimiento a la fecha: <%= @cumplimiento.round(2) %>%</h5>

@@ -246,8 +246,8 @@ class ProductivityController < ApplicationController
         @prod_w_real = cerebro_calculo_productividades_week(@venta_w_real, @dotacion_w_real)
 
         @plan_w_total = []
-        @plan_w_total << { :type => "op", :name => "Productividad Optimizada", :plan_w => @venta_w_real, :dot_w => @dotacion_w_op, :prod_w => @prod_w_op }
-        @plan_w_total << { :type => "real", :name => "Productividad Real", :plan_w => @venta_w_real, :dot_w => @dotacion_w_real, :prod_w => @prod_w_real }
+        @plan_w_total << { :type => "op", :name => "Productividad optimizada", :plan_w => @venta_w_real, :dot_w => @dotacion_w_op, :prod_w => @prod_w_op }
+        @plan_w_total << { :type => "real", :name => "Productividad real", :plan_w => @venta_w_real, :dot_w => @dotacion_w_real, :prod_w => @prod_w_real }
 
     end
 
