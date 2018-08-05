@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   get 'staff_request/index'
-
+  get 'hour_analysis/index'
   get 'dashboard/administracion'
   get 'dashboard/ventas'
   get 'dashboard/productividad'
@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   get 'productivity/json_current'
   get 'productivity/report'
   get 'productivity/data_month'
+  get 'productivity/report_data'
 
   resources :shift_breaks
   get 'staffing/index'

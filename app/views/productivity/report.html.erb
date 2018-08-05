@@ -47,20 +47,10 @@
   <div class="row ">  
     <h5 class="text-uppercase m-t-30 fs-13 bold">Productividad por Hora - Alto Las Condes - Juvenil mujer</h5>
   </div>
-  <div class="row justify-content-md-center">
-    <br>
-    <div class="btn-group mb-3" role="group" aria-label="Basic example">
-      <button id="button-horas" type="button" class="btn btn-secondary cambiar-grafico" data-grafico="1">Horas</button>
-      <button id="button-pesos" type="button" class="btn btn-secondary cambiar-grafico" data-grafico="2">Pesos</button>
-    </div>
-  </div> 
   <div class="row ">
     <div class="col-sm-12 col-xl-10 offset-xl-1">
-      <div id="chartContainer" style="width:100%; display: none;">
+      <div id="chartContainer" style="width:100%;">
         <canvas id="canvas"> </canvas>
-      </div>
-      <div id="chartContainer-2" style="width:100%; display: none;">
-        <canvas id="canvas-2"> </canvas>
       </div>
     </div>
   </div>
@@ -146,67 +136,6 @@
   </div>
 </div>  
 <div class="formulario-comparacion">
-  <div class="row"> 
-    <div class="col-sm-12 col-xl-10 offset-xl-1">
-      <div class="sub-titulo-pantalla">Productividad</div><!-- al <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h2> -->
-      <table id="table_desviaciones" class="table-shift table table-striped">
-        <thead>
-          <th></th>
-          <th>Dotación</th>
-          <th>Venta</th>
-          <th>Prod.</th>
-          <th>Horas faltantes</th>
-          <th>Horas exeso</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Prod. Real</td>
-            <td id="dot_real-"><%= @dotacion_w_real.sum %></td>
-            <td id="vent_real-"><%= number_to_currency @venta_w_real.sum %></td>
-            <td id="prod_real-">
-            <% if @dotacion_w_real.sum != 0 %>
-              <%= number_to_currency (@venta_w_real.sum / @dotacion_w_real.sum).round %>
-            <% end %> 
-            </td>
-            <td id="sum-exceso"></td>
-            <td id="sum-faltante"></td>
-          </tr>
-          <tr>
-            <td>Prod. Optimizada</td>
-            <td id="dot_op-"><%= @dotacion_w_op.sum %></td>
-            <td id="vent_op-"><%= number_to_currency @venta_w_real.sum %></td>
-            <td id="prod_op-"><%= number_to_currency (@venta_w_real.sum / @dotacion_w_op.sum).round %></td>
-            <td id="sum-exceso-op"></td>
-            <td id="sum-faltante-op"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-sm-12 col-xl-10 offset-xl-1">
-      <div class="sub-titulo-pantalla">Detalle</div>
-      <table id="table_desviaciones" class="table table-striped">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Total</th>
-            <th>En pesos</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Ahorro en costo</td>
-            <td id="sum-ahorro"></td>
-            <td id="ahorro-total"></td>
-          </tr>
-          <tr>
-            <td>Venta recuperada</td>
-            <td id="sum-recuperada"></td>
-            <td id="recuperada-total"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
   <div class="row"> 
     <div class="col-lg-6 offset-lg-3">
       <div class="sub-titulo-pantalla">Eficiencia</div>

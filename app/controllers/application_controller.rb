@@ -449,8 +449,6 @@ end
     end
 
     def cerebro_calculo_productividades_week(plan, dotacion)
-
-
       prod_week = []
 
       (0..plan.length-1).each do |i|
@@ -462,6 +460,17 @@ end
       end
       return prod_week
     end
+
+
+    def cerebro_calculo_productividades_month(plan, dotacion)
+      prod_month = []
+
+      (0..plan.length-1).each do |i|
+        prod_month << (plan[i].to_f / dotacion[i].to_f).round
+      end
+      return prod_month
+    end
+
     def dotacion_real
       dotReal = []
       dotReal[1] = [78, 109, 145, 148, 145, 76, 79, 113, 131, 34, 117, 127, 155, 128, 138, 68, 154, 99, 99, 157, 112, 82, 32, 154, 63, 127, 162, 128]
