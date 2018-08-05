@@ -132,22 +132,22 @@
               <% dia = 0 %>
               <% v.first.each do |n| %>
                 <% if n != 0 %>
-                <td class="hora text-center">
-                  <div class="dotacion-row">
-                    <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
-                    <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
-                  </div>
-                </td>  
-              <% dia += 10 %>
-                <% else %>
-                <td class="text-center">
-                  <div class="dotacion-row">
-                    <span class="dotacion label label-success tip" data-toggle="tooltip">0</span>
-                    <span class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
-                  </div>
-                </td>
+                  <td class="hora text-center">
+                    <div class="dotacion-row">
+                      <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
+                      <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                    </div>
+                  </td>  
+                  <% else %>
+                  <td class="text-center">
+                    <div class="dotacion-row">
+                      <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                      <span id="optimizado-<%= hora+dia %>"  class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                    </div>
+                  </td>
+                  <% end -%>
+                  <% dia += 10 %>
                 <% end -%>
-              <% end -%>
               <% end -%>
             </tr>
             <% hora += 1 %>

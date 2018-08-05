@@ -27,7 +27,15 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 			<div class="titulo-pantalla">Dashboard</div>
 		</div>  
 	</div>
-	<div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
+	  <div class="m-t-10">
+	    <%= simple_form_for "", :url => "", :method => :get do |f| %>
+	    <div class="d-flex flex-wrap justify-content-end bd-highlight" id="sales_search_form">
+	      <div class="input-form">
+	      <%= f.input :month, collection: (1..9).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month , label: false %>  
+	      </div>
+	    </div>
+	    <% end %>
+	  </div>
 	<div class="row text-center">
 		<div class="col-md-6">
 			<div class="chart-dashboard">

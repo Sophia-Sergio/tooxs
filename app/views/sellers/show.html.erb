@@ -95,7 +95,10 @@
                 <a href="#" data-toggle="tab" data-target="#slide2"><span>Mis días libres</span></a>
               </li>
               <li class="nav-item">
-                <a href="#" data-toggle="tab" data-target="#slide3"><span>Mis Ventas</span></a>
+                <a href="#" data-toggle="tab" data-target="#slide3"><span>Mis Ventas por mes</span></a>
+              </li>
+              <li class="nav-item">
+                <a href="#" data-toggle="tab" data-target="#slide4"><span>Disponibilidad de turno</span></a>
               </li>
             </ul>
             <!-- Tab panes -->
@@ -144,20 +147,28 @@
                   </div>
                 </div>
               </div>
-
               <div class="tab-pane slide-left" id="slide3">
                 <div class="row column-seperation">
                   <div class="col-sm-12">
                    <div class="card" data-social="item">
                     <div id="sales_plan_container" style="min-height: 850px" class="padding-20">
-
-                      <div class="row ">  
-
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                          <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Juvenil mujer - <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h3>  
+                      <div class="d-flex">
+                        <div class="col-md-10">
+                          <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Juvenil mujer</h3>  
                           <h5>Plan Mensual: <%= number_to_currency @totalMonth %></h5>
                           <h5>Ventas Plan / Real:  <%= number_to_currency @totalNow %> / <%= number_to_currency @totalRealMonth %></h5>
                           <h5>Mi cumplimiento a la fecha: <%= @cumplimiento.round(2) %>%</h5>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="m-t-30 fs-13">
+                            <%= simple_form_for "asd", :url => "/", :method => :get do |f| %>
+                              <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: 6 , label: false  %>  
+                           <% end %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row ">  
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                           <div class="row ">
                           <% 
                             i = 0
@@ -229,37 +240,56 @@
                    <div class="card" data-social="item">
                     <div id="days_off_container" class="padding-20">
                       <div class="row">
-
-                          <div class="col-sm-12">
-                            <h2> <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %> </h2>
-                            <table class="table table-striped table-hover m-b-30">
-                              <thead>
-                              <tr class="bg-success">
-                                <td colspan="16">Semana 1</td>
-                              </tr>
-                              <tr>
-                                <td>Fecha</td>
-                              <% @productivity[:one].each do |k,v| %>
-                                <td><%= k.to_s.to_date.strftime('%d-%m-%Y') %></td>
-                              <% end -%>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <% count = 8 %>
-                              <% @ventas_colaborador.each do |k| %>
-                                <tr>
-                                <td><%= count += 1 %>:00</td>
-                                <% k.each do |a| %>
-                                  <td><%= a %></td>
-                                <% end -%>
-                                </tr>
-                              <% end -%>
-                            </tbody>
-                            </table>
+                        <style type="text/css">
+                          .label-formulario
+                          {
+                            line-height: 37px;
+                            margin-right: 1em;
+                          }
+                        </style>
+                        <div class="container-fluid" id="staffing_form">
+                          <div class="sub-titulo-pantalla">Turnos disponibles</div>
+                          <div class="row" style="overflow: -webkit-paged-x;">
+                            <table class="table-shift table table-striped">
+                                  <thead>
+                                      <tr>
+                                          <th>Tienda</th>
+                                          <th>Departamento</th>           
+                                          <th>Turno</th>           
+                                          <th>Descripción de turno</th>           
+                                          <th>Cantidad</th>
+                                          <th>Fecha inicial</th>
+                                          <th>Fecha final</th>    
+                                      </tr>
+                                  </thead>
+                                  <tbody class="t-p-3">
+                                      <tr>
+                                        <td>Alto las condes</td>
+                                        <td>Rincón juvenil mujer</td>
+                                        <td>2</td>
+                                        <td>Turno 45 horas</td>
+                                        <td>2</td>
+                                        <td>01-07-2018</td>
+                                        <td>Indefinido</td>
+                                      </tr>
+                                      <tr>
+                                        <td>Alto las condes</td>
+                                        <td>Rincón juvenil mujer</td>
+                                        <td>2</td>
+                                        <td>Turno 2 Sábados y Domingos</td>
+                                        <td>1</td>
+                                        <td>01-08-2018</td>
+                                        <td>Indefinido</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
                         </div>
+                      </div>
                     </div>
+                   </div>
                   </div>
-                </div>           
+                </div>
               </div>
             </div>
           </div>
