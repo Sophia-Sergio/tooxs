@@ -43,7 +43,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 		</div>
 	</div>
 	<div class="row">
-		<div id="productividad-graficos" class="col-md-3 col-xs-12">
+		<div id="productividad-graficos" class="col-md-4 col-xs-12">
 			<div class="chart-dashboard">
 				<div class="sub-titulo-pantalla">Productividad Real</div>
 				<div id="prod-real"><%= @prod_real %></div>
@@ -81,7 +81,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 			</div>
 		</div>
 
-		<div id="div-tabla" class="col-md-9">
+		<div id="div-tabla" class="col-md-8">
 			<div class="chart-dashboard">
 				<div>					
 					<div class="sub-titulo-pantalla">Cumplimiento de mis colaboradores - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
