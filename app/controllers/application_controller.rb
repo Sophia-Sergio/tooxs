@@ -126,30 +126,79 @@ end
       @week = w
       @dates_week = []
       dayResult = Array.new(7)
+      planTotalResult = Array.new(7)
       planResult = Array.new(7)
       (1..7).each do |d|
           #recorrer todos los turnos
           @days = AvailableShift.where(week: @week, day: d)  
-          countAll = 0 
+          countAll = 0
+          countAllnine = 0  
+          countAllten = 0   
+          countAlleleven = 0  
+          countAlltwelve = 0  
+          countAllthirteen = 0  
+          countAllfourteen = 0  
+          countAllfifteen = 0   
+          countAllsixteen = 0   
+          countAllseventeen = 0   
+          countAlleighteen = 0  
+          countAllnineteen = 0  
+          countAlltwenty = 0  
+          countAlltwenty_one = 0  
+          countAlltwenty_two = 0  
+          countAlltwenty_three = 0  
+          countAlltwenty_four = 0          
+
           @days.each do |s|
+            
+            countAllnine += 1 if s.nine
             countAll += 1 if s.nine
+            
+            countAllten += 1 if s.ten
             countAll += 1 if s.ten
+            
+            countAlleleven += 1 if s.eleven
             countAll += 1 if s.eleven
+            
+            countAlltwelve += 1 if s.twelve
             countAll += 1 if s.twelve
+            
+            countAllthirteen += 1 if s.thirteen
             countAll += 1 if s.thirteen
+            
+            countAllfourteen += 1 if s.fourteen
             countAll += 1 if s.fourteen
+            
+            countAllfifteen += 1 if s.fifteen
             countAll += 1 if s.fifteen
+            
+            countAllsixteen += 1 if s.sixteen
             countAll += 1 if s.sixteen
+            
+            countAllseventeen += 1 if s.seventeen
             countAll += 1 if s.seventeen
+            
+            countAlleighteen += 1 if s.eighteen
             countAll += 1 if s.eighteen
+            
+            countAllnineteen += 1 if s.nineteen
             countAll += 1 if s.nineteen
+            
+            countAlltwenty += 1 if s.twenty
             countAll += 1 if s.twenty
+            
+            countAlltwenty_one += 1 if s.twenty_one
             countAll += 1 if s.twenty_one
+            
+            countAlltwenty_two += 1 if s.twenty_two
             countAll += 1 if s.twenty_two
+            
+            countAlltwenty_three += 1 if s.twenty_three
             countAll += 1 if s.twenty_three
+            
+            countAlltwenty_four += 1 if s.twenty_four
             countAll += 1 if s.twenty_four
           end
-          
 
           @day = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d)  
           count = 0 
@@ -172,11 +221,75 @@ end
             count += 1 if s.twenty_four
           end
 
+
+          @day = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d)  
+          saleMonth = 0 
+          
+          @sp_day = SalePlan.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d)
+          
+          saleMonthnine = 0
+          saleMonthten = 0
+          saleMontheleven = 0
+          saleMonthtwelve = 0
+          saleMonththirteen = 0
+          saleMonthfourteen = 0
+          saleMonthfifteen = 0
+          saleMonthsixteen = 0
+          saleMonthseventeen = 0
+          saleMontheighteen = 0
+          saleMonthnineteen = 0
+          saleMonthtwenty = 0
+          saleMonthtwenty_one = 0
+          saleMonthtwenty_two = 0
+          saleMonthtwenty_three = 0
+          saleMonthtwenty_four = 0
+
+
+          @day.each do |s|
+            saleMonthnine += @sp_day.first.nine if s.nine
+            saleMonthten += @sp_day.first.ten if s.ten
+            saleMontheleven += @sp_day.first.eleven if s.eleven
+            saleMonthtwelve += @sp_day.first.twelve if s.twelve
+            saleMonththirteen += @sp_day.first.thirteen if s.thirteen
+            saleMonthfourteen += @sp_day.first.fourteen if s.fourteen
+            saleMonthfifteen += @sp_day.first.fifteen if s.fifteen
+            saleMonthsixteen += @sp_day.first.sixteen if s.sixteen
+            saleMonthseventeen += @sp_day.first.seventeen if s.seventeen
+            saleMontheighteen += @sp_day.first.eighteen if s.eighteen
+            saleMonthnineteen += @sp_day.first.nineteen if s.nineteen
+            saleMonthtwenty += @sp_day.first.twenty if s.twenty
+            saleMonthtwenty_one += @sp_day.first.twenty_one if s.twenty_one
+            saleMonthtwenty_two += @sp_day.first.twenty_two if s.twenty_two
+            saleMonthtwenty_three += @sp_day.first.twenty_three if s.twenty_three
+            saleMonthtwenty_four += @sp_day.first.twenty_four if s.twenty_four
+          end
+          
+          totalDaySeller = 0  
+
+          totalDaySeller += saleMonthnine / countAllnine if countAllnine != 0
+          totalDaySeller += saleMonthten / countAllten if countAllten != 0
+          totalDaySeller += saleMontheleven / countAlleleven if countAlleleven != 0
+          totalDaySeller += saleMonthtwelve / countAlltwelve if countAlltwelve != 0
+          totalDaySeller += saleMonththirteen / countAllthirteen if countAllthirteen != 0
+          totalDaySeller += saleMonthfourteen / countAllfourteen if countAllfourteen != 0
+          totalDaySeller += saleMonthfifteen / countAllfifteen if countAllfifteen != 0
+          totalDaySeller += saleMonthsixteen / countAllsixteen if countAllsixteen != 0
+          totalDaySeller += saleMonthseventeen / countAllseventeen if countAllseventeen != 0     
+          totalDaySeller += saleMontheighteen / countAlleighteen if countAlleighteen != 0       
+          totalDaySeller += saleMonthnineteen / countAllnineteen if countAllnineteen != 0      
+          totalDaySeller += saleMonthtwenty / countAlltwenty if countAlltwenty != 0            
+          totalDaySeller += saleMonthtwenty_one / countAlltwenty_one if countAlltwenty_one != 0
+          totalDaySeller += saleMonthtwenty_two / countAlltwenty_two if countAlltwenty_two != 0          
+          totalDaySeller += saleMonthtwenty_three / countAlltwenty_three if countAlltwenty_three != 0         
+          totalDaySeller += saleMonthtwenty_four / countAlltwenty_four if countAlltwenty_four != 0
+
           @sp_m1 = SalePlan.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
           dayResult[d-1] = count
-          planResult[d-1] = count.to_i * (@sp_m1.first.to_i / countAll.to_i) #@depInf.productivity_obj.to_i
+          #planResult[d-1] = count.to_i * (@sp_m1.first.to_i / countAll.to_i) #@depInf.productivity_obj.to_i
+          planTotalResult[d-1] = totalDaySeller
       end
-      data = { :staffing_per_day => dayResult, :seller_plan_per_day => planResult}
+
+      data = { :staffing_per_day => dayResult, :seller_plan_per_day => planTotalResult}
       result << [ @week => data ]
     end  
     return result   

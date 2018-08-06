@@ -3,9 +3,15 @@ class DashboardController < ApplicationController
 		add_breadcrumb "Dashboard", :root_path
 		department = 1
 		store = 1
-		
+		@search  = ''
 		@year = Date.today.strftime("%Y").to_i
-        @month = 6#Date.today.strftime("%m").to_i
+        
+        if params[:month]
+        	@month = params[:month]
+        else
+        	@month = 6
+        end
+
         dayMonth = Date.today.strftime("%w").to_i
         dayNow = day_now_charged
         #dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
@@ -16,14 +22,24 @@ class DashboardController < ApplicationController
 		dataCase = DataCase.where(dep_num: department, month: @month).first
 		summaryCaseOut = SummaryCase.where( id_case: dataCase.id_case, type_io: 'out').first
 		summaryCaseIn = SummaryCase.where( id_case: dataCase.id_case, type_io: 'in').first
-		
-		@margin_adjustment = summaryCaseOut.margin_adjustment.to_f
-		@prod_obj = dataCase.prod_obj.to_f
-		@prod_real = setNum((@prod_obj * @margin_adjustment) / 100)
+		if summaryCaseOut
+			@margin_adjustment = summaryCaseOut.margin_adjustment.to_f
+			@prod_obj = dataCase.prod_obj.to_f
+			@prod_real = setNum((@prod_obj * @margin_adjustment) / 100)
+			opt_turn = summaryCaseOut.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+		else
+			opt_turn = []
+			@prod_obj = 0
+			@prod_real = 0
+			@margin_adjustment = 0
+		end
 		
 		# calcular turnos cubiertos
-		opt_turn = summaryCaseOut.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
-		ent_turn = summaryCaseIn.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+		if summaryCaseIn
+			ent_turn = summaryCaseIn.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+		else
+			ent_turn = 0
+		end
 		turnosOptimizados = Array.new(12, 0)
 		turnosEntrada = Array.new(12, 0)
 		countTurnos = 0
@@ -33,9 +49,6 @@ class DashboardController < ApplicationController
 		sellers.each do |turn|
 			turnosEntrada[turn.to_i-1] += 1
 		end
-
-
-		
 
 		opt_turn.each do |turn|
 			turn = turn.split(":")
@@ -86,13 +99,23 @@ class DashboardController < ApplicationController
 
 		@turnos_cubiertos = []
 
-		@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{turnosOptimizados.sum}", :porcentaje => ( turnosOpTotal* 100 / turnosOptimizados.sum).round }
+		if turnosOptimizados.sum != 0
+			@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{turnosOptimizados.sum}", :porcentaje => ( turnosOpTotal* 100 / turnosOptimizados.sum).round }
+		else
+			@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{turnosOptimizados.sum}", :porcentaje => 0 }	
+		end
+
 
 		# calcular cumplimiento del plan
 		ventaTotal = SaleBySeller.where(month: @month, department: department, year: @year).sum("sale").to_f
-		planVenta = summaryCaseOut.sale_plan.to_f
+		if summaryCaseOut
+			planVenta = summaryCaseOut.sale_plan.to_f
+			@cumplimientoPlan = (ventaTotal / planVenta * 100).round(1)	
+		else
+			planVenta = 0
+			@cumplimientoPlan = 0
+		end
 
-		@cumplimientoPlan = (ventaTotal / planVenta * 100).round(1)	
 	end
 
 	def sale_real_per_seller(seller,year,month)

@@ -106,11 +106,11 @@ class SellersController < ApplicationController
     end
 
     #binding.pry
-    
     @x           = seller.my_shift.index{|x| x[0]== today.to_s}
-    @sp          = sale_plan_per_week(seller, 06.to_s, Date.today.strftime("%Y").to_s,)
+    @sp          = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
     @real_week   = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
     @sp_staffing = seller_staffing_per_week(seller, 06.to_s, Date.today.strftime("%Y").to_s)
+    
     #calcula el plan mensual
     seller_plan = seller_staffing(seller, @month, @year)
     @totalNow = 0
@@ -132,6 +132,7 @@ class SellersController < ApplicationController
     end
     #calcula cumplimiento
     @cumplimiento = (@totalRealMonth.to_f / @totalNow.to_f) * 100
+
   end
 
   # GET /sellers/new
@@ -379,7 +380,7 @@ class SellersController < ApplicationController
     end
 
     #old
-    def sale_real(seller,year,month)
+    def sale_real(seller, year, month)
 
       @store        = seller.store.id
       @dep          = seller.department.id
@@ -513,7 +514,7 @@ class SellersController < ApplicationController
       return result
     end 
 
-    def sale_plan_per_week(seller,year,month)
+    def sale_plan_per_week(seller, year, month)
       @store        = seller.store.id
       @dep          = seller.department.id
       @year         = year #params[:year]    
@@ -539,7 +540,11 @@ class SellersController < ApplicationController
 
         (1..7).each do |d|
           @dates_week << Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
-          day[dayCount] = Sp.where(month: month, week: weekSet, dow: d, store_id: @store, department_id: @dep, year: @year).pluck(:sale).first
+
+          # acá hacer la magia 
+          day[dayCount] = SalePlan.where(month: month, day_number: d, store_id: @store, department_id: @dep, year: @year)
+          
+
           day[dayCount] = 0 if day[dayCount] == nil 
           dayCount +=1 
         end
@@ -548,7 +553,9 @@ class SellersController < ApplicationController
         result << [ w => data ]
       end
       return result
-    end 
+    end
+
+
     def staffing_1
       
       days = {}
