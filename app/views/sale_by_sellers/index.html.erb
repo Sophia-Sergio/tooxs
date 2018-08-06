@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="pantalla-seccion d-flex flex-wrap justify-content-between mb-2">
     <div class="align-self-end">
-      <div class="titulo-pantalla">Ventas reales por vendedor</div>
+      <div class="titulo-pantalla">Ventas reales por colaborador</div>
     </div>  
     <div class="align-self-end text-right boton-comparar">
     <%= form_with url: import_sale_by_sellers_path, multipart: true, local: true do %>
@@ -20,15 +20,15 @@
       <table class="table table-stripped" style="width: 100%" id="table-sale_by_seller">
         <thead>
           <tr>
-            <th>Seller</th>
-            <th>Month</th>
-            <th>Week</th>
-            <th>Day</th>
-            <th>Time</th>
-            <th>Store</th>
-            <th>Sale</th>
-            <th>Turn</th>
-            <th>Year</th>
+            <th>Colaborador</th>
+            <th>Mes</th>
+            <th>Semana</th>
+            <th>Día</th>
+            <th>Hora</th>
+            <th>Tienda</th>
+            <th>Venta</th>
+            <th>Turno</th>
+            <th>Año</th>
             <th colspan="1"></th>
           </tr>
         </thead>
