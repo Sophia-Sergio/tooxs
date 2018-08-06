@@ -516,7 +516,11 @@ end
 
         # calcular turnos cubiertos
         summaryCase = SummaryCase.where(id_case: id_case, type_io: "out").first  
-        opt_turn = summaryCase.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+        if summaryCase
+          opt_turn = summaryCase.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+        else
+          opt_turn = []
+        end
         turnosOptimizados = Array.new(12, 0)
 
         opt_turn.each do |turn|
@@ -577,9 +581,10 @@ end
 
     def cerebro_calculo_productividades_month(plan, dotacion)
       prod_month = []
-
-      (0..plan.length-1).each do |i|
-        prod_month << (plan[i].to_f / dotacion[i].to_f).round
+      if dotacion.sum > 0 
+        (0..plan.length-1).each do |i|
+          prod_month << (plan[i].to_f / dotacion[i].to_f).round
+        end
       end
       return prod_month
     end

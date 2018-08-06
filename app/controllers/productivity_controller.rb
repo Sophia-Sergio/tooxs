@@ -120,6 +120,22 @@ class ProductivityController < ApplicationController
         @prd_w3_day = @sp_w3_daily.zip(@sd_w3_daily).map{|a,b| a/b }
         @prd_w4_day = @sp_w4_daily.zip(@sd_w4_daily).map{|a,b| a/b }
 
+        nombreTurnos = AvailableShift.all.distinct.order(:num).pluck(:num, :name)
+
+        @brain_json = brain_json(month, year, @store, @dep)  
+        dotReal = dotacion_real
+        @plan = JSON.parse(@brain_json)
+        dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
+        
+        @prod_obj = dataCase.first.prod_obj.to_i
+        
+        @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
+        @dotacion_real = dotReal[month]
+
+        @prod_w_op = cerebro_calculo_productividades_month(@realMonth, @dotacion_op)
+        @prod_w_real = cerebro_calculo_productividades_month(@realMonth, @dotacion_real)
+        #asd
+
         @data = { :dates_week => @w1_days,
               :dates_week_2 => @w2_days,
               :dates_week_3 => @w3_days,
@@ -134,7 +150,13 @@ class ProductivityController < ApplicationController
               :tsm1 => @totalMonth, 
               :vrm1 => @realMonth,
               :vent_real => @realMonth.sum,
-              :dot_real => @dotMonth.sum
+              :dot_real => @dotMonth.sum,
+              :nombreTurnos => nombreTurnos,
+              :prod_w_op => @prod_w_op,
+              :prod_w_real => @prod_w_real,
+              :dot_month_real => @dotMonth,
+              :dot_month_op => @dotacion_op,
+              :prod_obj => @prod_obj
             }
 
         render json: @data
@@ -250,7 +272,7 @@ class ProductivityController < ApplicationController
 
     end
 
-        def report_data
+    def report_data
 
         #dummy demo data
         month  = params[:month].to_i
@@ -322,7 +344,8 @@ class ProductivityController < ApplicationController
         dotReal = dotacion_real
         @plan = JSON.parse(@brain_json)
         dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
-
+        
+        @prod_obj = dataCase.first.prod_obj.to_i
 
         @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
         @dotacion_real = dotReal[month]
@@ -346,7 +369,8 @@ class ProductivityController < ApplicationController
               :vent_real => @realMonth.sum,
               :dot_real => @dotMonth.sum,
               :prod_w_op => @prod_w_op,
-              :prod_w_real => @prod_w_real
+              :prod_w_real => @prod_w_real,
+              :prod_obj => @prod_obj
             }
 
         render json: @data

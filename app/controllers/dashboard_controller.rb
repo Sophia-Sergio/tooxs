@@ -6,11 +6,17 @@ class DashboardController < ApplicationController
 		@search  = ''
 		@year = Date.today.strftime("%Y").to_i
         
+
         if params[:month]
         	@month = params[:month]
         else
         	@month = 6
         end
+		@department   = department
+		@store 	      = store
+       	@search       = ''
+        @stores       = Store.where(id: @store).order(:id)
+        @departments  = Department.where(id: department).order(:id)
 
         dayMonth = Date.today.strftime("%w").to_i
         dayNow = day_now_charged

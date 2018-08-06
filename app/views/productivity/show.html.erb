@@ -59,7 +59,6 @@
           </div>
           <div class="col-xl-11" >
             <button type="button" class="btn btn-info btn-optimize"> <i class="fa fa-cogs"></i> Optimizar </button>
-            <button type="button" class="btn btn-success btn-detalle"> <i class="fa fa-cogs"></i> Detalle </button>
             <span id="contenedor">
                 <span class="reloj" id="Horas">00</span>
                 <span class="reloj" id="Minutos">:00</span>
@@ -73,13 +72,14 @@
   </div>
 
   <div class="formulario-comparacion">
-    <div class="col-xl-6 offset-xl-3">
+    <div class="col-xl-8 offset-xl-2">
       <div >
         <h3>Planificación de dotación</h3>      
       </div>
       <table  id="tabla-resumen" class="table table-striped">
         <thead>
-          <th>Turnos</th>
+          <th>ID</th>
+          <th>Turno</th>
           <th>Dotación actual</th>
           <th>Dotación optimizada</th>
         </thead>
@@ -88,11 +88,13 @@
         <tfoot>
           <tr>
             <td>Eficiencia dotación</td>
+            <td></td>
             <td id="margen-actual">%</td>
             <td id="margen-optimizado">%</td>
           </tr>
           <tr>
             <td>HH Totales</td>
+            <td></td>
             <td id="hh-actual">0</td>
             <td id="hh-optimizado">0</td>
           </tr>

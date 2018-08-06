@@ -595,6 +595,7 @@ if ($('#productivity_demo').length > 0)
   var department = getQueryVariable('department');
   var week = getQueryVariable('week');
   var data_month = "";
+  var myChart = "";
   //si existen datos en la bd los trae
   $(document).ready(function()
   {
@@ -625,6 +626,77 @@ if ($('#productivity_demo').length > 0)
         { 
           type: "get",
           url: "/productivity/json_current",
+          data: 'month='+month+'&year='+year+'&store='+store+'&department='+department+'&week='+$('#week').val(),
+          dataType: 'json',
+          success: function(data)
+          {
+            console.log(data);
+            Cerebro.enviarDatos(plan_enviado);
+            productividad_actual = Cerebro.cacularProductividad(data.spm1);
+            fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
+
+            prod_obj_line = [];
+
+            for (var i = 0; i < productividad_actual.length; i++) 
+            {
+                prod_obj_line[i] = plan_enviado.datos.prod_obj;
+            } 
+
+            var config = {
+              type: 'line',
+              data: {
+              datasets: 
+              [
+                {pointRadius: 0, borderDash: [10, 5], data: prod_obj_line, fill: 'false', label: 'Productividad ideal', backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},                                  
+                {data: productividad_actual, fill: 'false', label: 'Prod. sin optimizar', backgroundColor: '#65ff00', borderColor: '#65ff00'}
+              ],
+              labels: fecha
+              },
+              options: 
+              {
+                scales: 
+                {
+                  yAxes: 
+                  [{
+                    id: 'left-y-axis',
+                    type: 'linear',
+                    position: 'left',
+                    ticks: {
+                        callback: function(value, index, values) 
+                        {
+                          if (parseInt(value) >= 1000) {
+                            return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                          } else {
+                            return '$' + value;
+                          }
+                        }
+                      }
+                }]
+                },
+                tooltips: {
+                  mode: 'index',
+                  intersect: false,
+                  callbacks: {
+                    label: function(tooltipItem, chart){
+                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + ': $ ' + fn.formateaNumero(tooltipItem.yLabel);
+                    }
+                  }
+                }
+              }
+            }    
+            document.getElementById("chartContainer").innerHTML = '&nbsp;';
+            document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
+
+            var ctx = document.getElementById("canvas").getContext("2d");
+            myChart = new Chart(ctx, config);
+         }
+        });
+
+        var datasets = $.ajax(
+        { 
+          type: "get",
+          url: "/productivity/json_current",
           data: 'month='+month+'&year='+year+'&store='+store+'&department='+department+'&week='+$('#week').val()+'&'+$('.simple_form').serialize(),
           dataType: 'json',
           success: function(data)
@@ -635,6 +707,7 @@ if ($('#productivity_demo').length > 0)
             tsm1 = data.tsm1;
             pam1 = data.pam1;
             vrm1 = data.vrm1;
+            nombreTurnos = data.nombreTurnos;
             // incializar api
             Cerebro.enviarDatos(plan_enviado);
             productividad_diaria = Cerebro.productividadDiaria();
@@ -647,55 +720,6 @@ if ($('#productivity_demo').length > 0)
             {
               $("#optimo-"+[i+1]).html(sum_turnos_real[i]);
             }
-
-            var config = {
-              type: 'line',
-              data: 
-              {
-                datasets: 
-                [
-                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo,fill: 'false', label: 'Productividad ideal', yAxisID: 'left-y-axis', borderColor: 'rgb(179, 178, 178)'},
-                  {data: productividad_actual,fill: 'false', label: 'Prod. sin optimizar', yAxisID: 'left-y-axis',borderColor: '#65ff00'}
-                ],
-                labels: fecha
-              },
-                options: 
-                {
-                  scales: 
-                  {
-                    yAxes: 
-                    [{
-                      id: 'left-y-axis',
-                      type: 'linear',
-                      position: 'left',
-                      ticks: {
-                          callback: function(value, index, values) 
-                          {
-                            console.log("asd");
-                            if (parseInt(value) >= 1000) {
-                              return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                            } else {
-                              return '$' + value;
-                            }
-                          }
-                        }
-                  }]
-                  },
-                  tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                    callbacks: {
-                      label: function(tooltipItem, chart){
-                          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                          return datasetLabel + ': $ ' + fn.formateaNumero(tooltipItem.yLabel);
-                      }
-                    }
-                  }
-                }
-            }     
-
-            var ctx = document.getElementById("canvas").getContext("2d");
-            var myChart = new Chart(ctx, config);
 
             $('.page-container').pgNotification(
             {
@@ -747,12 +771,11 @@ if ($('#productivity_demo').length > 0)
 
             while(count_turnos < num_turnos)
             {
-              $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
+              $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>"+(nombreTurnos[parseInt(count_turnos)][1])+"</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
               resumenTurnosNormal += parseInt(turnos[count_turnos].vendedores);
               count_turnos++;
             }
-
-            $("#tabla-resumen tbody").append("<tr><td>Total</td><td>" + resumenTurnosNormal + "</td><td id='turnos-total-op'></td></tr>");
+            $("#tabla-resumen tbody").append("<tr><td>Total</td><td></td><td>" + resumenTurnosNormal + "</td><td id='turnos-total-op'></td></tr>");
 
             //cargar margen de eficiencia                       
             dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), Cerebro.sumatoriaTurnosDiaria().length);
@@ -765,7 +788,77 @@ if ($('#productivity_demo').length > 0)
     }
     else
     {
-       //$("#botones-optimizar").hide();
+        var datasets = $.ajax(
+        { 
+          type: "get",
+          url: "/productivity/json_current",
+          data: 'month='+month+'&year='+year+'&store='+store+'&department='+department+'&week='+$('#week').val(),
+          dataType: 'json',
+          success: function(data)
+          {
+            productividad_optimizada = data.prod_w_op;
+            productividad_actual = data.prod_w_real;
+            fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
+
+            prod_obj_line = [];
+
+            for (var i = 0; i < data.prod_w_real.length; i++) 
+            {
+                prod_obj_line[i] = data.prod_obj;
+            } 
+
+            var config = {
+              type: 'line',
+              data: {
+              datasets: 
+              [
+                {pointRadius: 0, borderDash: [10, 5], data: prod_obj_line, fill: 'false', label: 'Productividad ideal', backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},                                  
+                {data: productividad_actual, fill: 'false', label: 'Prod. sin optimizar', backgroundColor: '#65ff00', borderColor: '#65ff00'},
+                {data: productividad_optimizada, fill: 'false', label: 'Productividad optimizada', backgroundColor: '#33d6ce', borderColor: '#33d6ce'}
+              ],
+              labels: fecha
+              },
+              options: 
+              {
+                scales: 
+                {
+                  yAxes: 
+                  [{
+                    id: 'left-y-axis',
+                    type: 'linear',
+                    position: 'left',
+                    ticks: {
+                        callback: function(value, index, values) 
+                        {
+                          if (parseInt(value) >= 1000) {
+                            return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                          } else {
+                            return '$' + value;
+                          }
+                        }
+                      }
+                }]
+                },
+                tooltips: {
+                  mode: 'index',
+                  intersect: false,
+                  callbacks: {
+                    label: function(tooltipItem, chart){
+                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + ': $ ' + fn.formateaNumero(tooltipItem.yLabel);
+                    }
+                  }
+                }
+              }
+            }    
+            document.getElementById("chartContainer").innerHTML = '&nbsp;';
+            document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
+
+            var ctx = document.getElementById("canvas").getContext("2d");
+            var myChart = new Chart(ctx, config);
+         }
+        });
+
         var datasets = $.ajax(
         { 
           type: "get",
@@ -777,18 +870,18 @@ if ($('#productivity_demo').length > 0)
             fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
             mes = data.spm1;
             vrm1 = data.vrm1;
-
+            nombreTurnos = data.nombreTurnos;
             // incializar Datos guardados            
             Cerebro.plan = plan_enviado;
-            var respuesta = "";
             Cerebro.caso = Cerebro.plan.id_caso;
-            Cerebro.salida = datasets1.responseJSON.summary;//enviar_datos_api_ajax("ver_salida", this.caso, this.email);
+            Cerebro.salida = datasets1.responseJSON.summary;
+            Cerebro.brainJson = JSON.parse(datasets1.responseJSON.json_result);   
             Cerebro.setearResumen();
+
             productividad_diaria = Cerebro.productividadDiaria();
             sum_turnos_real = Cerebro.totalTurnosReales();
             resumen_plan = Cerebro.obtenerResumen();
             productividad_objetivo = Cerebro.productividadObjetivo();
-
 
             //cargar turnos
             Cerebro.setearTurnos();
@@ -801,11 +894,11 @@ if ($('#productivity_demo').length > 0)
 
             while(count_turnos < num_turnos)
             {
-              $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
+              $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>"+(nombreTurnos[parseInt(count_turnos)][1])+"</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
               resumenTurnosNormal += parseInt(turnos[count_turnos].vendedores);
               count_turnos++;
             }
-            $("#tabla-resumen tbody").append("<tr><td>Total</td><td>" + resumenTurnosNormal + "</td><td id='turnos-total-op'></td></tr>");
+            $("#tabla-resumen tbody").append("<tr><td>Total</td><td></td><td>" + resumenTurnosNormal + "</td><td id='turnos-total-op'></td></tr>");
 
             //cargar margen de eficiencia                       
             dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), Cerebro.sumatoriaTurnosDiaria().length);
@@ -813,146 +906,73 @@ if ($('#productivity_demo').length > 0)
 
             eficiencia = (100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""))).toFixed(2);
             $("#margen-actual").html(parseFloat(eficiencia).toFixed(2)+"%");
+                 
+            for (var i = 0; i < sum_turnos_real.length; i++) 
+            {
+              $("#optimo-"+[i+1]).html(sum_turnos_real[i]);
+            }
 
-            // fin
-            Cerebro.brainJson = JSON.parse(datasets1.responseJSON.json_result);          
-            productividad_diaria = Cerebro.productividadDiaria();
-            sum_turnos_real   = Cerebro.totalTurnosReales();
-            resumen_plan = Cerebro.obtenerResumen();
-            productividad_objetivo = Cerebro.productividadObjetivo();
+            matrixAlmuerzo = Cerebro.calcularAlmuerzos();
+            sum_turnos_real = Cerebro.totalTurnosReales();
+            productividad_optimizada = Cerebro.productividadOptimizada();
+            productividad_actual = Cerebro.cacularProductividad(mes);
+            sumatoria_turnos_optimizados = Cerebro.totalTurnosOptimizados();  
+            initOptimizado = new Array(281);
 
             for (var i = 0; i < sum_turnos_real.length; i++) 
             {
               $("#optimo-"+[i+1]).html(sum_turnos_real[i]);
             }
 
-            matrizDelta = Cerebro.calcularDelta();
-            matrizEpsilon = Cerebro.calcularEpsilon();
-            matrixAlmuerzo = Cerebro.calcularAlmuerzos();
-            sum_turnos_real = Cerebro.totalTurnosReales();
-            productividad_diaria  = Cerebro.productividadDiaria();
-            productividad_optimizada = Cerebro.productividadOptimizada();
-            productividad_actual = Cerebro.cacularProductividad(mes);
-            productividad_real = Cerebro.cacularProductividad(vrm1);
-            productividad_objetivo = Cerebro.productividadObjetivo();
-            matrizSemana = Cerebro.calcularPerdida(matrizDelta);
-            resumen_plan = Cerebro.obtenerResumen();
-
-            if (resumen_plan[1] == undefined)
+            for (var i = initOptimizado.length-1; i >= 0; i--) 
             {
-              setInterval( function(){ console.log("esperando...")}, 1000);
-              optimizar();
+              $("#optimizado-"+[i]).html(sumatoria_turnos_optimizados[i-1]);
             }
-            else
+
+            for (var i = matrixAlmuerzo.length - 1; i >= 0; i--) 
             {
-              sumatoria_turnos_optimizados = Cerebro.totalTurnosOptimizados();  
-              initOptimizado = new Array(281);
-
-              for (var i = 0; i < sum_turnos_real.length; i++) 
+              if (matrixAlmuerzo[i])
               {
-                $("#optimo-"+[i+1]).html(sum_turnos_real[i]);
+                $("#optimizado-"+[i]).html($("#optimizado-"+[i]).html()-matrixAlmuerzo[i]);
               }
+            }
 
-              for (var i = initOptimizado.length-1; i >= 0; i--) 
-              {
-                $("#optimizado-"+[i]).html(sumatoria_turnos_optimizados[i-1]);
-              }
+            // setear plan actual
+            plan_w = Calculo.semanal(mes, 7);
+            dotacion_w = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
+            setearProductividad("Productividad sin optimizar", plan_w, dotacion_w);
 
-              for (var i = matrixAlmuerzo.length - 1; i >= 0; i--) 
-              {
-                if (matrixAlmuerzo[i])
-                {
-                  $("#optimizado-"+[i]).html($("#optimizado-"+[i]).html()-matrixAlmuerzo[i]);
-                }
-              }
+            // setear plan optimizado
+            plan_w_op = Calculo.semanal(Cerebro.planVentaOptimizada(), 7);
+            dotacion_w_op = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), 7);
+            setearProductividad("Productividad optimizada", plan_w, dotacion_w_op);
 
-              // setear plan actual
-              plan_w = Calculo.semanal(mes, 7);
-              dotacion_w = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
-              setearProductividad("Productividad sin optimizar", plan_w, dotacion_w);
+            //
+            eficiencia1 = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
+            eficiencia2 = 100-parseFloat(resumen_plan[1].margeAjuste.replace("%", ""));
+            dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), Cerebro.sumatoriaTurnosOptimizado().length);
 
-              // setear plan optimizado
-              plan_w_op = Calculo.semanal(Cerebro.planVentaOptimizada(), 7);
-              dotacion_w_op = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), 7);
-              setearProductividad("Productividad optimizada", plan_w, dotacion_w_op);
+            $("#margen-actual").html(eficiencia1+"%");
+            $("#margen-optimizado").html(eficiencia2+"%");
+            $("#hh-optimizado").html(fn.formateaNumero(dotacion_m1));
 
+            Cerebro.setearTurnos();
+            turnos = Cerebro.turnos;                      
+            num_turnos = Cerebro.plan.datos.num_turnos;
+            count_turnos = 0;
+            while(count_turnos < num_turnos)
+            {
+              $("#turnos-"+count_turnos).html(turnos[count_turnos+num_turnos].vendedores);
+              resumenTurnosOptimizado += parseInt(turnos[count_turnos+num_turnos].vendedores);
+              count_turnos++;
+            }
 
-              var config = {
-                type: 'line',
-                data: {
-                datasets: 
-                [
-                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo, fill: 'false', label: 'Productividad ideal', backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},                                  
-                  {data: productividad_actual, fill: 'false', label: 'Prod. sin optimizar', backgroundColor: '#65ff00', borderColor: '#65ff00'},
-                  {data: productividad_optimizada, fill: 'false', label: 'Productividad optimizada', backgroundColor: '#33d6ce', borderColor: '#33d6ce'}
-                ],
-                labels: fecha
-                },
-                options: 
-                {
-                  scales: 
-                  {
-                    yAxes: 
-                    [{
-                      id: 'left-y-axis',
-                      type: 'linear',
-                      position: 'left',
-                      ticks: {
-                          callback: function(value, index, values) 
-                          {
-                            if (parseInt(value) >= 1000) {
-                              return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                            } else {
-                              return '$' + value;
-                            }
-                          }
-                        }
-                  }]
-                  },
-                  tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                    callbacks: {
-                      label: function(tooltipItem, chart){
-                          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                          return datasetLabel + ': $ ' + fn.formateaNumero(tooltipItem.yLabel);
-                      }
-                    }
-                  }
-                }
-              }    
-              document.getElementById("chartContainer").innerHTML = '&nbsp;';
-              document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
-
-              var ctx = document.getElementById("canvas").getContext("2d");
-              var myChart = new Chart(ctx, config);
-
-              //
-              eficiencia1 = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
-              eficiencia2 = 100-parseFloat(resumen_plan[1].margeAjuste.replace("%", ""));
-              dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), Cerebro.sumatoriaTurnosOptimizado().length);
-
-              $("#margen-actual").html(eficiencia1+"%");
-              $("#margen-optimizado").html(eficiencia2+"%");
-              $("#hh-optimizado").html(fn.formateaNumero(dotacion_m1));
-
-              Cerebro.setearTurnos();
-              turnos = Cerebro.turnos;                      
-              num_turnos = Cerebro.plan.datos.num_turnos;
-              count_turnos = 0;
-              while(count_turnos < num_turnos)
-              {
-                $("#turnos-"+count_turnos).html(turnos[count_turnos+num_turnos].vendedores);
-                resumenTurnosOptimizado += parseInt(turnos[count_turnos+num_turnos].vendedores);
-                count_turnos++;
-              }
-
-              $("#turnos-total-op").html(resumenTurnosOptimizado);
-              $("#minutos_optimizando").prop('disabled', false);
-              $(".btn-optimize").prop('disabled', false);
-            } 
+            $("#turnos-total-op").html(resumenTurnosOptimizado);
+            $("#minutos_optimizando").prop('disabled', false);
+            $(".btn-optimize").prop('disabled', false);
+ 
          }
-        });      
+        });
     }
   })
 }

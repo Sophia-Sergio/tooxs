@@ -354,7 +354,10 @@ function getQueryVariable(variable) {
    }
    return false;
 }
-
+function addData(chart, label, data) {
+    chart.data.datasets.push(data);
+    chart.update();
+}
 function optimizar()
 {
 	var month = getQueryVariable('month');
@@ -370,19 +373,12 @@ function optimizar()
       success: function(data){ 
                 fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
                 mes = data.spm1;
-                vrm1 = data.vrm1;
                 // enviando datos de plan de venta 
 			    Cerebro.salida = enviar_datos_api_ajax("ver_salida",Cerebro.caso,Cerebro.email);
 			    Cerebro.setearResumen();
-			    
-			    matrizDelta 		  = Cerebro.calcularDelta();
-				matrixAlmuerzo 		  = Cerebro.calcularAlmuerzos();
+			    matrixAlmuerzo 		  = Cerebro.calcularAlmuerzos();
 				sum_turnos_real       = Cerebro.totalTurnosReales();
-                productividad_actual  = Cerebro.cacularProductividad(mes);
-                productividad_real    = Cerebro.cacularProductividad(vrm1);
                 productividad_optimizada = Cerebro.productividadOptimizada();
-                productividad_objetivo = Cerebro.productividadObjetivo();
-			    matrizSemana = Cerebro.calcularPerdida(matrizDelta);
 			    resumen_plan = Cerebro.obtenerResumen();
 					
 				if (resumen_plan[1] == undefined)
@@ -416,63 +412,16 @@ function optimizar()
 				    	}
 				    }
 				    
+				    addData(myChart, 'Productividad Optimizada', {data: productividad_optimizada, fill: 'false', label: 'Productividad optimizada', yAxisID: 'left-y-axis',backgroundColor: '#33d6ce', borderColor: '#33d6ce'});
+					                  
 
-	                 var config = {
-	                    type: 'line',
-	                    data: {
-	                      datasets: [
-					                  {pointRadius: 0, borderDash: [10, 5], data: productividad_objetivo,fill: 'false', label: 'Productividad Ideal', yAxisID: 'left-y-axis',backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},                                  
-					                  {data: productividad_actual,fill: 'false', label: 'Prod. sin Optimizar', yAxisID: 'left-y-axis',backgroundColor: '#65ff00', borderColor: '#65ff00'},
-					                  {data: productividad_optimizada,fill: 'false', label: 'Productividad Optimizada', yAxisID: 'left-y-axis',backgroundColor: '#33d6ce', borderColor: '#33d6ce'}
- 	                                ],
-	                      labels: fecha
-	                    },
-		                options: 
-		                {
-		                  scales: 
-		                  {
-		                    yAxes: 
-		                    [{
-		                      id: 'left-y-axis',
-		                      type: 'linear',
-		                      position: 'left',
-		                      ticks: {
-		                          callback: function(value, index, values) 
-		                          {
-		                            if (parseInt(value) >= 1000) {
-		                              return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-		                            } else {
-		                              return '$' + value;
-		                            }
-		                          }
-		                        }
-		                  }]
-		                  },
-		                  tooltips: {
-		                    mode: 'index',
-		                    intersect: false,
-		                    callbacks: {
-		                      label: function(tooltipItem, chart){
-		                          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-		                          return datasetLabel + ': $ ' + fn.formateaNumero(tooltipItem.yLabel);
-		                      }
-		                    }
-		                  }
-		                }
-	                  }    
-	                 document.getElementById("chartContainer").innerHTML = '&nbsp;';
-				     document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
-
-					 var ctx = document.getElementById("canvas").getContext("2d");
-	                 var myChart = new Chart(ctx, config);
-
-	                 //
-	                 eficiencia1 = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
-	                 $("#margen-actual").html(eficiencia1+"%");
-	                 eficiencia2 = 100-parseFloat(resumen_plan[1].margeAjuste.replace("%", ""));
-	                 $("#margen-optimizado").html(eficiencia2+"%");
-					 dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), Cerebro.sumatoriaTurnosOptimizado().length);
-	                 $("#hh-optimizado").html(dotacion_m1);
+	                //
+	                eficiencia1 = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
+	                $("#margen-actual").html(eficiencia1+"%");
+	                eficiencia2 = 100-parseFloat(resumen_plan[1].margeAjuste.replace("%", ""));
+	                $("#margen-optimizado").html(eficiencia2+"%");
+					dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), Cerebro.sumatoriaTurnosOptimizado().length);
+	                $("#hh-optimizado").html(dotacion_m1);
 
 
 					Cerebro.setearTurnos();

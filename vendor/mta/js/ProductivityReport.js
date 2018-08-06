@@ -146,17 +146,23 @@ if ($('#productivity_report').length > 0)
 
         Cerebro.brainJson = JSON.parse(datasets1.responseJSON.json_result);        
         productividad_real = Cerebro.cacularProductividad(vrm1);
-        productividad_real = Cerebro.cacularProductividad(vrm1);
-
         resumen_plan = Cerebro.obtenerResumen();
+
+        prod_obj_line = [];
+
+        for (var i = 0; i < data.prod_w_real.length; i++) 
+        {
+            prod_obj_line[i] = data.prod_obj;
+        } 
 
         var config = {
           type: 'line',
           data: {
           datasets: 
           [
-            {data: data.prod_w_real, label: 'Real', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
-            {data: data.prod_w_op, label: 'Optimizado', yAxisID: 'left-y-axis',borderColor: 'rgb(54, 162, 235)'}
+            {pointRadius: 0, borderDash: [10, 5], data: prod_obj_line, fill: 'false', label: 'Productividad ideal', borderColor: 'rgb(179, 178, 178)'},                                  
+            {data: data.prod_w_real, label: 'Real',fill: 'false', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
+            {data: data.prod_w_op, label: 'Optimizado', fill: 'false', yAxisID: 'left-y-axis',borderColor: 'rgb(54, 162, 235)'}
           ],
           labels: fecha
           },
