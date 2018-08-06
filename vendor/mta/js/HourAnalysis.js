@@ -174,7 +174,7 @@ if ($('#hour_analysis').length > 0)
                 display: true,
                   scaleLabel: {
                     display: true,
-                    labelString: '(-)Exceso / (+)faltantes'
+                    labelString: 'Exceso / faltantes'
                   }
               }]
             },
