@@ -99,16 +99,16 @@
               <%= number_to_currency (@venta_w_real.sum / @dotacion_w_real.sum).round %>
             <% end %> 
             </td>
-            <td id="sum-exceso"></td>
             <td id="sum-faltante"></td>
+            <td id="sum-exceso"></td>
           </tr>
           <tr>
             <td>Prod. Optimizada</td>
             <td id="dot_op-"><%= @dotacion_w_op.sum %></td>
             <td id="vent_op-"><%= number_to_currency @venta_w_real.sum %></td>
             <td id="prod_op-"><%= number_to_currency (@venta_w_real.sum / @dotacion_w_op.sum).round %></td>
-            <td id="sum-exceso-op"></td>
             <td id="sum-faltante-op"></td>
+            <td id="sum-exceso-op"></td>
           </tr>
         </tbody>
       </table>

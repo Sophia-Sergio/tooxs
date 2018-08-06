@@ -216,7 +216,7 @@ if ($('#hour_analysis').length > 0)
                 display: true,
                   scaleLabel: {
                     display: true,
-                    labelString: '(-)Exceso / (+)faltantes'
+                    labelString: '(+)faltantes / (-)Exceso'
                   }
               }]
             },
@@ -294,7 +294,7 @@ if ($('#hour_analysis').length > 0)
           $("#ahorro-total").html(number_format(parseInt($("#sum-ahorro").html()) * parseInt(val) ));
         }
         
-        $("#recuperada-total").html(number_format(faltanteTotal * parseInt(Cerebro.plan.datos.prod_obj)));
+        $("#recuperada-total").html(number_format((parseInt(faltanteTotal) - parseInt(faltante_op)) * parseInt(Cerebro.plan.datos.prod_obj)));
         
 
         eficiencia_op = (100-parseFloat(Cerebro.resumen[1].margeAjuste));
