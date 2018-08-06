@@ -146,11 +146,12 @@ if ($('#hour_analysis').length > 0)
 
         Cerebro.brainJson = JSON.parse(datasets1.responseJSON.json_result);        
         productividad_real = Cerebro.cacularProductividad(vrm1);
+        productividad_op   = Cerebro.productividadOptimizada(vrm1);
         resumen_plan = Cerebro.obtenerResumen();
 
 
         excesoReal = Calculo.matrizExceso(plan_enviado.datos.prod_obj, productividad_real, Cerebro.sumatoriaTurnosDiaria());
-        excesoOptimizado = Calculo.matrizExceso(plan_enviado.datos.prod_obj, productividad_real, Cerebro.sumatoriaTurnosOptimizado());
+        excesoOptimizado = Calculo.matrizExceso(plan_enviado.datos.prod_obj, productividad_op, Cerebro.sumatoriaTurnosOptimizado());
 
         var config = {
           type: 'line',
@@ -192,7 +193,7 @@ if ($('#hour_analysis').length > 0)
         }    
 
         excesoRealValorado = Calculo.matrizExcesoVal(plan_enviado.datos.prod_obj, productividad_real, Cerebro.sumatoriaTurnosDiaria(), val);
-        excesoOptimizadoValorado = Calculo.matrizExcesoVal(plan_enviado.datos.prod_obj, productividad_real, Cerebro.sumatoriaTurnosOptimizado(), val);
+        excesoOptimizadoValorado = Calculo.matrizExcesoVal(plan_enviado.datos.prod_obj, productividad_op, Cerebro.sumatoriaTurnosOptimizado(), val);
 
         var config2 = {
           type: 'line',
