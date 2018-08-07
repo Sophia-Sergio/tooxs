@@ -639,7 +639,11 @@ end
 
     def day_now_charged
       lastSale = SaleBySeller.last(1)
-      result = { :day => lastSale.first.day, :week => lastSale.first.week }
+      if SaleBySeller.last(1) == []
+        result = { :day => 7, :week => 4 }
+      else  
+        result = { :day => lastSale.first.day, :week => lastSale.first.week }
+      end
       return result
     end
 end
