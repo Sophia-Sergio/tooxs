@@ -4,8 +4,7 @@ class DashboardController < ApplicationController
 		department = 1
 		store = 1
 		@search  = ''
-		@year = Date.today.strftime("%Y").to_i
-        
+		@year = Date.today.strftime("%Y").to_i      
 
         if params[:month]
         	@month = params[:month]
@@ -84,6 +83,9 @@ class DashboardController < ApplicationController
 
 		@setSellers = []
 
+		@planVentaTotal = 0
+		@ventaTotal = 0
+
         @sellers.each do |seller|
 	        seller_plan = seller_staffing(seller, @month, @year)
 	        plan = 0
@@ -98,6 +100,8 @@ class DashboardController < ApplicationController
         					 :sale => setNum(sale), 
         					 :plan => setNum(plan),
         					 :cumplimiento => cumplimiento }
+        	@planVentaTotal += plan
+        	@ventaTotal += sale
         end
 
         @turnosEntrada = turnosEntrada
@@ -111,17 +115,15 @@ class DashboardController < ApplicationController
 			@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{turnosOptimizados.sum}", :porcentaje => 0 }	
 		end
 
-
 		# calcular cumplimiento del plan
 		ventaTotal = SaleBySeller.where(month: @month, department: department, year: @year).sum("sale").to_f
 		if summaryCaseOut
 			planVenta = summaryCaseOut.sale_plan.to_f
-			@cumplimientoPlan = (ventaTotal / planVenta * 100).round(1)	
+			@cumplimientoPlan = (@ventaTotal / @planVentaTotal * 100).round(1)	
 		else
 			planVenta = 0
 			@cumplimientoPlan = 0
 		end
-
 	end
 
 	def sale_real_per_seller(seller,year,month)

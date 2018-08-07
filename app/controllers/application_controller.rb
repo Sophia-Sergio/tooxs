@@ -112,10 +112,12 @@ end
 
   def seller_staffing(seller, month, year)
 
-    @store        = seller.store.id
-    @dep          = seller.department.id
-    @year         = year
-    @month        = month
+    @store = seller.store.id
+    @dep   = seller.department.id
+    @year  = year
+    @month = month
+
+    @sellers = Seller.where( department_id: @dep, store_id: @store) 
 
     @depInf = Department.find(@dep)
    
@@ -130,7 +132,6 @@ end
       planResult = Array.new(7)
       (1..7).each do |d|
           #recorrer todos los turnos
-          @days = AvailableShift.where(week: @week, day: d)  
           countAll = 0
           countAllnine = 0  
           countAllten = 0   
@@ -147,58 +148,61 @@ end
           countAlltwenty_one = 0  
           countAlltwenty_two = 0  
           countAlltwenty_three = 0  
-          countAlltwenty_four = 0          
+          countAlltwenty_four = 0       
 
-          @days.each do |s|
-            
-            countAllnine += 1 if s.nine
-            countAll += 1 if s.nine
-            
-            countAllten += 1 if s.ten
-            countAll += 1 if s.ten
-            
-            countAlleleven += 1 if s.eleven
-            countAll += 1 if s.eleven
-            
-            countAlltwelve += 1 if s.twelve
-            countAll += 1 if s.twelve
-            
-            countAllthirteen += 1 if s.thirteen
-            countAll += 1 if s.thirteen
-            
-            countAllfourteen += 1 if s.fourteen
-            countAll += 1 if s.fourteen
-            
-            countAllfifteen += 1 if s.fifteen
-            countAll += 1 if s.fifteen
-            
-            countAllsixteen += 1 if s.sixteen
-            countAll += 1 if s.sixteen
-            
-            countAllseventeen += 1 if s.seventeen
-            countAll += 1 if s.seventeen
-            
-            countAlleighteen += 1 if s.eighteen
-            countAll += 1 if s.eighteen
-            
-            countAllnineteen += 1 if s.nineteen
-            countAll += 1 if s.nineteen
-            
-            countAlltwenty += 1 if s.twenty
-            countAll += 1 if s.twenty
-            
-            countAlltwenty_one += 1 if s.twenty_one
-            countAll += 1 if s.twenty_one
-            
-            countAlltwenty_two += 1 if s.twenty_two
-            countAll += 1 if s.twenty_two
-            
-            countAlltwenty_three += 1 if s.twenty_three
-            countAll += 1 if s.twenty_three
-            
-            countAlltwenty_four += 1 if s.twenty_four
-            countAll += 1 if s.twenty_four
-          end
+          @sellers.each do |seller| 
+            @days = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d)  
+            @days.each do |s|
+              
+              countAllnine += 1 if s.nine
+              countAll += 1 if s.nine
+              
+              countAllten += 1 if s.ten
+              countAll += 1 if s.ten
+              
+              countAlleleven += 1 if s.eleven
+              countAll += 1 if s.eleven
+              
+              countAlltwelve += 1 if s.twelve
+              countAll += 1 if s.twelve
+              
+              countAllthirteen += 1 if s.thirteen
+              countAll += 1 if s.thirteen
+              
+              countAllfourteen += 1 if s.fourteen
+              countAll += 1 if s.fourteen
+              
+              countAllfifteen += 1 if s.fifteen
+              countAll += 1 if s.fifteen
+              
+              countAllsixteen += 1 if s.sixteen
+              countAll += 1 if s.sixteen
+              
+              countAllseventeen += 1 if s.seventeen
+              countAll += 1 if s.seventeen
+              
+              countAlleighteen += 1 if s.eighteen
+              countAll += 1 if s.eighteen
+              
+              countAllnineteen += 1 if s.nineteen
+              countAll += 1 if s.nineteen
+              
+              countAlltwenty += 1 if s.twenty
+              countAll += 1 if s.twenty
+              
+              countAlltwenty_one += 1 if s.twenty_one
+              countAll += 1 if s.twenty_one
+              
+              countAlltwenty_two += 1 if s.twenty_two
+              countAll += 1 if s.twenty_two
+              
+              countAlltwenty_three += 1 if s.twenty_three
+              countAll += 1 if s.twenty_three
+              
+              countAlltwenty_four += 1 if s.twenty_four
+              countAll += 1 if s.twenty_four
+            end
+          end 
 
           @day = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d)  
           count = 0 
@@ -285,7 +289,6 @@ end
 
           @sp_m1 = SalePlan.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
           dayResult[d-1] = count
-          #planResult[d-1] = count.to_i * (@sp_m1.first.to_i / countAll.to_i) #@depInf.productivity_obj.to_i
           planTotalResult[d-1] = totalDaySeller
       end
 
