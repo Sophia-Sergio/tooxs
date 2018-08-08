@@ -226,7 +226,7 @@ if ($('#productivity_report').length > 0)
 
         $("#efinciencia-op").html(eficiencia_op+"%");
         $("#efinciencia-real").html(eficiencia_real+"%");
-        $("#eficiencia-total").html(parseFloat((eficiencia_real/eficiencia_op)*100).toFixed(2)+"%");
+        $("#eficiencia-total").html(parseFloat(((eficiencia_op-eficiencia_real)/eficiencia_real)*100).toFixed(2)+"%");
 
      }
     });      
