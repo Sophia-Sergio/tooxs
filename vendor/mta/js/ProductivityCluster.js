@@ -53,7 +53,7 @@ if ( $('#productivity_cluster').length > 0)
             responsive: true,
             title: {
               display: true,
-              text: 'Comparativa de venta real'
+              text: 'Comparativo de productividad real'
             },
             tooltips: {
               mode: 'index',
