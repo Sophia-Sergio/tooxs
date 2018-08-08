@@ -85,7 +85,7 @@
               </li>
               <li class=""> 
                   <span class="icon-thumbnail"><%= image_tag 'historico.jpg', class: 'icon-min-menu' %></span>
-                  <a href="/hour_analysis/index?utf8=✓&store=1&department=1&year=2018&month=6">Análisis de horas</a>
+                  <a href="/hour_analysis/index?utf8=✓&store=1&department=1&year=2018&month=6&grafico=1&value=3000">Análisis de horas</a>
               </li>
             </ul>
           </li> 
@@ -101,7 +101,16 @@
                 <a href="/productivity_cluster/month?utf8=✓&cluster=1&department=1&year=2018&month=6">Comparativo</a>
               </li>
             </ul>
-          </li>          
+          </li> 
+          <li>
+            <div class="sub-menu-title"><span class="title">DISPONIBILIZADOR</span></div>
+            <ul class="sub-menu" style="display: inline-block;">
+              <li class="">
+                <span class="icon-thumbnail"><%= image_tag 'dotacion.jpg', class: 'icon-min-menu' %></span>
+                <%= link_to 'Disponibilizador de turnos*', staff_request_index_path %>
+              </li>
+            </ul>
+          </li>                    
           <li>
             <div class="sub-menu-title"><span class="title">ADMINISTRACIÓN</span></div>
             <ul class="sub-menu" style="display: inline-block;">
@@ -132,10 +141,6 @@
               <li class="">
                 <span class="icon-thumbnail"><%= image_tag 'usuarios.jpg', class: 'icon-min-menu' %></span>
                 <%= link_to 'Ventas por colaborador', sale_by_sellers_path %>
-              </li>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'dotacion.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Disponibilizador de turnos*', staff_request_index_path %>
               </li>
               <!--<li class="">
                 <span class="icon-thumbnail"><%= image_tag 'venta.jpg', class: 'icon-min-menu' %></span>
