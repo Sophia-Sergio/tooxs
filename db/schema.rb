@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180616150814) do
+ActiveRecord::Schema.define(version: 20180829175331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -403,9 +403,22 @@ ActiveRecord::Schema.define(version: 20180616150814) do
     t.string "picture"
     t.integer "status"
     t.string "position"
-    t.integer "rut"
+    t.string "rut"
+    t.string "phone"
+    t.string "street"
+    t.string "number"
+    t.string "city"
+    t.string "district"
+    t.string "county"
+    t.string "country"
+    t.bigint "department_id"
+    t.bigint "store_id"
+    t.integer "assigned_shift"
+    t.date "begin_shift"
+    t.index ["department_id"], name: "index_users_on_department_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["store_id"], name: "index_users_on_store_id"
   end
 
   add_foreign_key "available_shifts", "stores"
@@ -422,8 +435,9 @@ ActiveRecord::Schema.define(version: 20180616150814) do
   add_foreign_key "sale_reals", "stores"
   add_foreign_key "sellers", "departments"
   add_foreign_key "sellers", "stores"
-  add_foreign_key "shift_breaks", "sellers"
   add_foreign_key "sps", "departments"
   add_foreign_key "sps", "stores"
   add_foreign_key "stores", "clusters"
+  add_foreign_key "users", "departments"
+  add_foreign_key "users", "stores"
 end
