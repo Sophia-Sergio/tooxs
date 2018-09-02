@@ -111,6 +111,7 @@
               </li>
             </ul>
           </li>                    
+          <% if current_user.role == 'admin' %>
           <li>
             <div class="sub-menu-title"><span class="title">ADMINISTRACIÓN</span></div>
             <ul class="sub-menu" style="display: inline-block;">
@@ -152,6 +153,7 @@
               </li>
             </ul>
           </li>
+          <% end %>
             <li class="hidden-md-up">
               <%= link_to destroy_user_session_path, :method => :delete, class: "" do %>
                 <span class="pull-left">Salir</span>

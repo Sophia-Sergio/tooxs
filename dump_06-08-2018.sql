@@ -8445,65 +8445,67 @@ COPY public.schema_migrations (version) FROM stdin;
 --
 
 COPY public.sellers (id, rut, name, lastname, email, phone, street, number, city, district, county, country, department_id, created_at, updated_at, store_id, assigned_shift, begin_shift) FROM stdin;
-25	12.222.008-7	Ricardo	Gonzalez	demo@tooxs.com	56999999999	El Vergel	323	Santiago	-	Providencia	CL	1	2017-10-13 14:54:25.461079	2017-10-13 14:54:25.461079	1	1	2017-10-01
-78	9.725.248-3	Rocio	Niño	demo@tooxs.com	56999999999	El Vergel	323	Santiago	-	Providencia	CL	1	2017-10-13 14:54:25.461079	2017-10-13 14:54:25.461079	2	1	2017-10-01
-79	12.204.086-0	Lorena	Perez	demo@tooxs.com	56999999999	Los Poetas	234	Santiago	-	Maipu	CL	5	2017-10-13 14:54:25.472664	2017-10-13 14:54:25.472664	2	1	2017-10-01
-80	3.589.151-K	Patricia	Lopez	demo@tooxs.com	56999999999	E ramirez	323	Santiago	-	Providencia	CL	1	2017-10-13 14:54:25.482852	2017-10-13 14:54:25.482852	2	1	2017-10-01
-81	12.503.757-7	Lorena	Quezada	demo@tooxs.com	56999999999	12 de octubre	64	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.492239	2017-10-13 14:54:25.492239	2	2	2017-10-01
-82	9.221.203-3	Gladis	Cerda	demo@tooxs.com	56999999999	Caupolica	5	Santiago	-	Cerro Navia	CL	1	2017-10-13 14:54:25.502116	2017-10-13 14:54:25.502116	2	2	2017-10-01
-83	12.433.826-3	Veronica	Rojas	demo@tooxs.com	56999999999	Galvarino	332	Santiago	-	Temuco	CL	5	2017-10-13 14:54:25.510929	2017-10-13 14:54:25.510929	2	2	2017-10-01
-84	7.904.309-5	Ricardo	Lazcano	demo@tooxs.com	56999999999	Vespucio	22	Santiago	-	Vitacura	CL	1	2017-10-13 14:54:25.519564	2017-10-13 14:54:25.519564	2	3	2017-10-01
-85	14.433.038-2	Maria Jose	Medina	demo@tooxs.com	56999999999	Las Horquideas	556	Santiago	-	Puente Alto	CL	5	2017-10-13 14:54:25.52828	2017-10-13 14:54:25.52828	2	4	2017-10-01
-86	13.459.099-8	Claudio	Meneses	demo@tooxs.com	56999999999	Renato Sanchez	6332	Santiago	-	San Pedro de la Paz	CL	5	2017-10-13 14:54:25.555209	2017-10-13 14:54:25.555209	2	1	2017-10-01
-87	11.414.981-0	Maritza	Miranda	demo@tooxs.com	56999999999	Las Vervenas	664	Santiago	-	La Reina	CL	5	2017-10-13 14:54:25.563797	2017-10-13 14:54:25.563797	2	2	2017-10-01
-75	15.303.704-3	Juan Ramon	Rojas	demo@tooxs.com	56999999999	Pedro de Valdivia	654	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.610789	2017-10-13 14:54:25.610789	2	9	2017-10-01
-77	7.059.330-0	Marcia	Naranjo	demo@tooxs.com	56999999999	Los Castanos	221	Santiago	-	Macul	CL	2	2017-10-13 14:54:25.54668	2017-10-13 14:54:25.54668	2	5	2017-10-01
-76	12.421.757-1	Sebastian	Jara	demo@tooxs.com	56999999999	Holanda	64	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.618759	2017-10-13 14:54:25.618759	2	6	2017-10-01
-27	11.692.224-K	Juan 	Herrera	demo@tooxs.com	56999999999	Los espinos	323	Santiago	-	Providencia	CL	1	2017-10-13 14:54:25.482852	2017-10-13 14:54:25.482852	1	2	2017-10-01
-29	12.637.373-2	Rodrigo	Sanz	demo@tooxs.com	56999999999	Mapocho	5	Santiago	-	Cerro Navia	CL	1	2017-10-13 14:54:25.502116	2017-10-13 14:54:25.502116	1	3	2017-10-01
-66	14.537.332-8	Carla	Cuevas	demo@tooxs.com	56999999999	Costanera	22	Santiago	-	Vitacura	CL	5	2017-10-13 14:54:25.519564	2017-10-13 14:54:25.519564	1	5	2017-10-01
-67	8.157.465-0	Lucia	Arellano	demo@tooxs.com	56999999999	Los Robles	556	Santiago	-	Puente Alto	CL	5	2017-10-13 14:54:25.52828	2017-10-13 14:54:25.52828	1	5	2017-10-01
-68	8.882.104-1	Francisca 	Pino	demo@tooxs.com	56999999999	Av. Alemania	6332	Santiago	-	San Pedro de la Paz	CL	5	2017-10-13 14:54:25.555209	2017-10-13 14:54:25.555209	1	5	2017-10-01
-69	4.830.131-2	Lorena	Rodriguez	demo@tooxs.com	56999999999	Av. Sting	664	Santiago	-	La Reina	CL	5	2017-10-13 14:54:25.563797	2017-10-13 14:54:25.563797	1	5	2017-10-01
-65	16.204.828-7	Luis 	Donoso	demo@tooxs.com	56999999999	Av Manuel Rodriguez	332	Santiago	-	Temuco	CL	5	2017-10-13 14:54:25.510929	2017-10-13 14:54:25.510929	1	4	2017-10-01
-74	8.070.284-1	Marcel	Claude	demo@tooxs.com	56999999999	Ricardo Lyon	65	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.603214	2017-10-13 14:54:25.603214	2	10	2017-10-01
-73	11.711.484-8	Loreto	Valenzuela	demo@tooxs.com	56999999999	Vitacura	889	Santiago	-	Vitacura	CL	5	2017-10-13 14:54:25.595473	2017-10-13 14:54:25.595473	1	12	2017-10-01
-72	8.618.478-8	Felipe	Catalan	demo@tooxs.com	56999999999	Tobalaba	44	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.587681	2017-10-13 14:54:25.587681	1	9	2017-10-01
-70	9.282.670-8	Marcelo	Lorenzini	demo@tooxs.com	56999999999	Av Balmaceda	313	Santiago	-	Macul	CL	5	2017-10-13 14:54:25.571887	2017-10-13 14:54:25.571887	1	8	2017-10-01
-71	6.715.688-9	Claudio	Rojas	demo@tooxs.com	56999999999	Los Robles	453	Santiago	-	La Florida	CL	5	2017-10-13 14:54:25.579953	2017-10-13 14:54:25.579953	1	8	2017-10-01
-88	17.595.628-K	Pablo	Soto	demo@tooxs.com	56999999999	Holanda	313	Santiago	-	Macul	CL	1	2017-10-13 14:54:25.571887	2017-10-13 14:54:25.571887	2	7	2017-10-01
-89	7.051.778-7	Pamela	Ricarte	demo@tooxs.com	56999999999	Francisco Bilbao	453	Santiago	-	La Florida	CL	1	2017-10-13 14:54:25.579953	2017-10-13 14:54:25.579953	2	8	2017-10-01
-90	12.694.230-3	Juan	Paz	demo@tooxs.com	56999999999	Los Conquistadores	44	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.587681	2017-10-13 14:54:25.587681	2	1	2017-10-01
-91	9.372.351-1	Rodrigo	Soto	demo@tooxs.com	56999999999	Francia	889	Santiago	-	Vitacura	CL	1	2017-10-13 14:54:25.595473	2017-10-13 14:54:25.595473	2	1	2017-10-01
-92	6.706.128-4	Maria Alejandra	Carmona	demo@tooxs.com	56999999999	Pasaje Angostura	65	Santiago	-	Providencia	CL	1	2017-10-13 14:54:25.603214	2017-10-13 14:54:25.603214	2	2	2017-10-01
-93	4.848.653-3	Tomas	Alcantara	demo@tooxs.com	56999999999	Vitacura	654	Santiago	-	Vitacura	CL	5	2017-10-13 14:54:25.610789	2017-10-13 14:54:25.610789	2	9	2017-10-01
-94	6.432.300-8	Loreto	Donoso	demo@tooxs.com	56999999999	Puente Viejo	64	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.618759	2017-10-13 14:54:25.618759	2	6	2017-10-01
-95	8.260.273-9	Diana	Tapia	demo@tooxs.com	56999999999	Carrascal	221	Santiago	-	Macul	CL	1	2017-10-13 14:54:25.54668	2017-10-13 14:54:25.54668	2	5	2017-10-01
-96	8.291.418-8	Claudia	Ruiz	demo@tooxs.com	56999999999	Loreto	323	Santiago	-	Providencia	CL	2	2017-10-13 14:54:25.461079	2017-10-13 14:54:25.461079	2	1	2017-10-01
-97	19.461.711-9	Macarena	Lopez	demo@tooxs.com	56999999999	Tobalaba	234	Santiago	-	Maipu	CL	5	2017-10-13 14:54:25.472664	2017-10-13 14:54:25.472664	2	1	2017-10-01
-98	11.805.771-6	Beatriz	Perez	demo@tooxs.com	56999999999	Lo Beltran	323	Santiago	-	Providencia	CL	1	2017-10-13 14:54:25.482852	2017-10-13 14:54:25.482852	2	1	2017-10-01
-99	4.148.862-K	Juan Manuel	Rodriguez	demo@tooxs.com	56999999999		64	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.492239	2017-10-13 14:54:25.492239	2	2	2017-10-01
-62	6.309.467-6	Marcela	Gaete	demo@tooxs.com	56999999999	Los espinos	323	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.482852	2017-10-13 14:54:25.482852	1	4	2017-10-01
-63	1.377.520-6	Luis	Garcia	demo@tooxs.com	56999999999	Los Conquistadores	64	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.492239	2017-10-13 14:54:25.492239	1	4	2017-10-01
-64	16.533.751-4	Maria Jose	Yañez	demo@tooxs.com	56999999999	Mapocho	5	Santiago	-	Cerro Navia	CL	5	2017-10-13 14:54:25.502116	2017-10-13 14:54:25.502116	1	4	2017-10-01
-26	18.004.462-0	Claudia Andrea	Bravo Lopez	demo@tooxs.com	56999999999	Los Poetas	234	Santiago	-	Maipu	CL	1	2017-10-13 14:54:25.472664	2017-10-13 14:54:25.472664	1	2	2017-10-01
-28	19.395.784-6	Ulises	Medina	demo@tooxs.com	56999999999	Los Conquistadores	64	Santiago	-	Providencia	CL	1	2017-10-13 14:54:25.492239	2017-10-13 14:54:25.492239	1	3	2017-10-01
-30	13.619.919-6	Margarita	Cuevas	demo@tooxs.com	56999999999	Av Manuel Rodriguez	332	Santiago	-	Temuco	CL	1	2017-10-13 14:54:25.510929	2017-10-13 14:54:25.510929	1	4	2017-10-01
-32	19.686.769-4	Pablo	Jara	demo@tooxs.com	56999999999	Los Robles	556	Santiago	-	Puente Alto	CL	1	2017-10-13 14:54:25.52828	2017-10-13 14:54:25.52828	1	6	2017-10-01
-31	13.077.844-5	Pedro	Silva	demo@tooxs.com	56999999999	Costanera	22	Santiago	-	Vitacura	CL	1	2017-10-13 14:54:25.519564	2017-10-13 14:54:25.519564	1	5	2017-10-01
-34	17.034.487-1	Ricardo	Urrutia	demo@tooxs.com	56999999999	Av. Alemania	6332	Santiago	-	San Pedro de la Paz	CL	1	2017-10-13 14:54:25.555209	2017-10-13 14:54:25.555209	1	10	2017-10-01
-33	16.999.197-9	Luis	Sanchez	demo@tooxs.com	56999999999	Los Castanos	221	Santiago	-	Macul	CL	1	2017-10-13 14:54:25.54668	2017-10-13 14:54:25.54668	1	10	2017-10-01
-36	16.853.640-2	Antonio	Brown	demo@tooxs.com	56999999999	Av Balmaceda	313	Santiago	-	Macul	CL	5	2017-10-13 14:54:25.571887	2017-10-13 14:54:25.571887	1	1	2017-10-01
-35	16.599.858-8	Carlos	Paz	demo@tooxs.com	56999999999	Av. Sting	664	Santiago	-	La Reina	CL	5	2017-10-13 14:54:25.563797	2017-10-13 14:54:25.563797	1	1	2017-10-01
-38	8.434.840-3	Alejandra	Fuentes	demo@tooxs.com	56999999999	Tobalaba	44	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.587681	2017-10-13 14:54:25.587681	1	2	2017-10-01
-37	16.423.245-K	Javiera	Ruiz	demo@tooxs.com	56999999999	Los Robles	453	Santiago	-	La Florida	CL	5	2017-10-13 14:54:25.579953	2017-10-13 14:54:25.579953	1	1	2017-10-01
-40	13.953.401-8 	Mauricio	Martinez	demo@tooxs.com	56999999999	Ricardo Lyon	65	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.603214	2017-10-13 14:54:25.603214	1	2	2017-10-01
-39	8.658.424-7	Juan Pablo	Garcia	demo@tooxs.com	56999999999	Vitacura	889	Santiago	-	Vitacura	CL	5	2017-10-13 14:54:25.595473	2017-10-13 14:54:25.595473	1	2	2017-10-01
-42	16.163.012-8	Luis	Moya	demo@tooxs.com	56999999999	Holanda	64	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.618759	2017-10-13 14:54:25.618759	1	3	2017-10-01
-41	12.095.259-5	Francisco	Lillo	demo@tooxs.com	56999999999	Pedro de Valdivia	654	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.610789	2017-10-13 14:54:25.610789	1	3	2017-10-01
-61	14.047.672-2	Claudia Andrea	Fuentes	demo@tooxs.com	56999999999	Los Poetas	234	Santiago	-	Maipu	CL	5	2017-10-13 14:54:25.472664	2017-10-13 14:54:25.472664	1	3	2017-10-01
-60	9.431.626-K	Agustin	Perez	demo@tooxs.com	56999999999	El Vergel	323	Santiago	-	Providencia	CL	5	2017-10-13 14:54:25.461079	2017-10-13 14:54:25.461079	1	3	2017-10-01
+25  12.222.008-7  Ricardo Gonzalez  demo25@tooxs.com  56999999999 El Vergel 323 Santiago  - Providencia CL  1 2017-10-13 14:54:25.461079  2017-10-13 14:54:25.461079  1 1 2017-10-01
+78  9.725.248-3 Rocio Niño  demo78@tooxs.com  56999999999 El Vergel 323 Santiago  - Providencia CL  1 2017-10-13 14:54:25.461079  2017-10-13 14:54:25.461079  2 1 2017-10-01
+79  12.204.086-0  Lorena  Perez demo79@tooxs.com  56999999999 Los Poetas  234 Santiago  - Maipu CL  5 2017-10-13 14:54:25.472664  2017-10-13 14:54:25.472664  2 1 2017-10-01
+80  3.589.151-K Patricia  Lopez demo80@tooxs.com  56999999999 E ramirez 323 Santiago  - Providencia CL  1 2017-10-13 14:54:25.482852  2017-10-13 14:54:25.482852  2 1 2017-10-01
+81  12.503.757-7  Lorena  Quezada demo81@tooxs.com  56999999999 12 de octubre 64  Santiago  - Providencia CL  5 2017-10-13 14:54:25.492239  2017-10-13 14:54:25.492239  2 2 2017-10-01
+82  9.221.203-3 Gladis  Cerda demo82@tooxs.com  56999999999 Caupolica 5 Santiago  - Cerro Navia CL  1 2017-10-13 14:54:25.502116  2017-10-13 14:54:25.502116  2 2 2017-10-01
+83  12.433.826-3  Veronica  Rojas demo83@tooxs.com  56999999999 Galvarino 332 Santiago  - Temuco  CL  5 2017-10-13 14:54:25.510929  2017-10-13 14:54:25.510929  2 2 2017-10-01
+84  7.904.309-5 Ricardo Lazcano demo84@tooxs.com  56999999999 Vespucio  22  Santiago  - Vitacura  CL  1 2017-10-13 14:54:25.519564  2017-10-13 14:54:25.519564  2 3 2017-10-01
+85  14.433.038-2  Maria Jose  Medina  demo85@tooxs.com  56999999999 Las Horquideas  556 Santiago  - Puente Alto CL  5 2017-10-13 14:54:25.52828 2017-10-13 14:54:25.52828 2 4 2017-10-01
+86  13.459.099-8  Claudio Meneses demo86@tooxs.com  56999999999 Renato Sanchez  6332  Santiago  - San Pedro de la Paz CL  5 2017-10-13 14:54:25.555209  2017-10-13 14:54:25.555209  2 1 2017-10-01
+87  11.414.981-0  Maritza Miranda demo87@tooxs.com  56999999999 Las Vervenas  664 Santiago  - La Reina  CL  5 2017-10-13 14:54:25.563797  2017-10-13 14:54:25.563797  2 2 2017-10-01
+75  15.303.704-3  Juan Ramon  Rojas demo75@tooxs.com  56999999999 Pedro de Valdivia 654 Santiago  - Providencia CL  5 2017-10-13 14:54:25.610789  2017-10-13 14:54:25.610789  2 9 2017-10-01
+77  7.059.330-0 Marcia  Naranjo demo77@tooxs.com  56999999999 Los Castanos  221 Santiago  - Macul CL  2 2017-10-13 14:54:25.54668 2017-10-13 14:54:25.54668 2 5 2017-10-01
+76  12.421.757-1  Sebastian Jara  demo76@tooxs.com  56999999999 Holanda 64  Santiago  - Providencia CL  5 2017-10-13 14:54:25.618759  2017-10-13 14:54:25.618759  2 6 2017-10-01
+27  11.692.224-K  Juan  Herrera demo27@tooxs.com  56999999999 Los espinos 323 Santiago  - Providencia CL  1 2017-10-13 14:54:25.482852  2017-10-13 14:54:25.482852  1 2 2017-10-01
+29  12.637.373-2  Rodrigo Sanz  demo29@tooxs.com  56999999999 Mapocho 5 Santiago  - Cerro Navia CL  1 2017-10-13 14:54:25.502116  2017-10-13 14:54:25.502116  1 3 2017-10-01
+66  14.537.332-8  Carla Cuevas  demo66@tooxs.com  56999999999 Costanera 22  Santiago  - Vitacura  CL  5 2017-10-13 14:54:25.519564  2017-10-13 14:54:25.519564  1 5 2017-10-01
+67  8.157.465-0 Lucia Arellano  demo67@tooxs.com  56999999999 Los Robles  556 Santiago  - Puente Alto CL  5 2017-10-13 14:54:25.52828 2017-10-13 14:54:25.52828 1 5 2017-10-01
+68  8.882.104-1 Francisca   Pino  demo68@tooxs.com  56999999999 Av. Alemania  6332  Santiago  - San Pedro de la Paz CL  5 2017-10-13 14:54:25.555209  2017-10-13 14:54:25.555209  1 5 2017-10-01
+69  4.830.131-2 Lorena  Rodriguez demo69@tooxs.com  56999999999 Av. Sting 664 Santiago  - La Reina  CL  5 2017-10-13 14:54:25.563797  2017-10-13 14:54:25.563797  1 5 2017-10-01
+65  16.204.828-7  Luis  Donoso  demo65@tooxs.com  56999999999 Av Manuel Rodriguez 332 Santiago  - Temuco  CL  5 2017-10-13 14:54:25.510929  2017-10-13 14:54:25.510929  1 4 2017-10-01
+74  8.070.284-1 Marcel  Claude  demo74@tooxs.com  56999999999 Ricardo Lyon  65  Santiago  - Providencia CL  5 2017-10-13 14:54:25.603214  2017-10-13 14:54:25.603214  2 10  2017-10-01
+73  11.711.484-8  Loreto  Valenzuela  demo73@tooxs.com  56999999999 Vitacura  889 Santiago  - Vitacura  CL  5 2017-10-13 14:54:25.595473  2017-10-13 14:54:25.595473  1 12  2017-10-01
+72  8.618.478-8 Felipe  Catalan demo72@tooxs.com  56999999999 Tobalaba  44  Santiago  - Providencia CL  5 2017-10-13 14:54:25.587681  2017-10-13 14:54:25.587681  1 9 2017-10-01
+70  9.282.670-8 Marcelo Lorenzini demo70@tooxs.com  56999999999 Av Balmaceda  313 Santiago  - Macul CL  5 2017-10-13 14:54:25.571887  2017-10-13 14:54:25.571887  1 8 2017-10-01
+71  6.715.688-9 Claudio Rojas demo71@tooxs.com  56999999999 Los Robles  453 Santiago  - La Florida  CL  5 2017-10-13 14:54:25.579953  2017-10-13 14:54:25.579953  1 8 2017-10-01
+88  17.595.628-K  Pablo Soto  demo88@tooxs.com  56999999999 Holanda 313 Santiago  - Macul CL  1 2017-10-13 14:54:25.571887  2017-10-13 14:54:25.571887  2 7 2017-10-01
+89  7.051.778-7 Pamela  Ricarte demo89@tooxs.com  56999999999 Francisco Bilbao  453 Santiago  - La Florida  CL  1 2017-10-13 14:54:25.579953  2017-10-13 14:54:25.579953  2 8 2017-10-01
+90  12.694.230-3  Juan  Paz demo90@tooxs.com  56999999999 Los Conquistadores  44  Santiago  - Providencia CL  5 2017-10-13 14:54:25.587681  2017-10-13 14:54:25.587681  2 1 2017-10-01
+91  9.372.351-1 Rodrigo Soto  demo91@tooxs.com  56999999999 Francia 889 Santiago  - Vitacura  CL  1 2017-10-13 14:54:25.595473  2017-10-13 14:54:25.595473  2 1 2017-10-01
+92  6.706.128-4 Maria Alejandra Carmona demo92@tooxs.com  56999999999 Pasaje Angostura  65  Santiago  - Providencia CL  1 2017-10-13 14:54:25.603214  2017-10-13 14:54:25.603214  2 2 2017-10-01
+93  4.848.653-3 Tomas Alcantara demo93@tooxs.com  56999999999 Vitacura  654 Santiago  - Vitacura  CL  5 2017-10-13 14:54:25.610789  2017-10-13 14:54:25.610789  2 9 2017-10-01
+94  6.432.300-8 Loreto  Donoso  demo94@tooxs.com  56999999999 Puente Viejo  64  Santiago  - Providencia CL  5 2017-10-13 14:54:25.618759  2017-10-13 14:54:25.618759  2 6 2017-10-01
+95  8.260.273-9 Diana Tapia demo95@tooxs.com  56999999999 Carrascal 221 Santiago  - Macul CL  1 2017-10-13 14:54:25.54668 2017-10-13 14:54:25.54668 2 5 2017-10-01
+96  8.291.418-8 Claudia Ruiz  demo96@tooxs.com  56999999999 Loreto  323 Santiago  - Providencia CL  2 2017-10-13 14:54:25.461079  2017-10-13 14:54:25.461079  2 1 2017-10-01
+97  19.461.711-9  Macarena  Lopez demo97@tooxs.com  56999999999 Tobalaba  234 Santiago  - Maipu CL  5 2017-10-13 14:54:25.472664  2017-10-13 14:54:25.472664  2 1 2017-10-01
+98  11.805.771-6  Beatriz Perez demo98@tooxs.com  56999999999 Lo Beltran  323 Santiago  - Providencia CL  1 2017-10-13 14:54:25.482852  2017-10-13 14:54:25.482852  2 1 2017-10-01
+99  4.148.862-K Juan Manuel Rodriguez demo99@tooxs.com  56999999999   64  Santiago  - Providencia CL  5 2017-10-13 14:54:25.492239  2017-10-13 14:54:25.492239  2 2 2017-10-01
+62  6.309.467-6 Marcela Gaete demo62@tooxs.com  56999999999 Los espinos 323 Santiago  - Providencia CL  5 2017-10-13 14:54:25.482852  2017-10-13 14:54:25.482852  1 4 2017-10-01
+63  1.377.520-6 Luis  Garcia  demo63@tooxs.com  56999999999 Los Conquistadores  64  Santiago  - Providencia CL  5 2017-10-13 14:54:25.492239  2017-10-13 14:54:25.492239  1 4 2017-10-01
+64  16.533.751-4  Maria Jose  Yañez demo64@tooxs.com  56999999999 Mapocho 5 Santiago  - Cerro Navia CL  5 2017-10-13 14:54:25.502116  2017-10-13 14:54:25.502116  1 4 2017-10-01
+26  18.004.462-0  Claudia Andrea  Bravo Lopez demo26@tooxs.com  56999999999 Los Poetas  234 Santiago  - Maipu CL  1 2017-10-13 14:54:25.472664  2017-10-13 14:54:25.472664  1 2 2017-10-01
+28  19.395.784-6  Ulises  Medina  demo28@tooxs.com  56999999999 Los Conquistadores  64  Santiago  - Providencia CL  1 2017-10-13 14:54:25.492239  2017-10-13 14:54:25.492239  1 3 2017-10-01
+30  13.619.919-6  Margarita Cuevas  demo30@tooxs.com  56999999999 Av Manuel Rodriguez 332 Santiago  - Temuco  CL  1 2017-10-13 14:54:25.510929  2017-10-13 14:54:25.510929  1 4 2017-10-01
+32  19.686.769-4  Pablo Jara  demo32@tooxs.com  56999999999 Los Robles  556 Santiago  - Puente Alto CL  1 2017-10-13 14:54:25.52828 2017-10-13 14:54:25.52828 1 6 2017-10-01
+31  13.077.844-5  Pedro Silva demo31@tooxs.com  56999999999 Costanera 22  Santiago  - Vitacura  CL  1 2017-10-13 14:54:25.519564  2017-10-13 14:54:25.519564  1 5 2017-10-01
+34  17.034.487-1  Ricardo Urrutia demo34@tooxs.com  56999999999 Av. Alemania  6332  Santiago  - San Pedro de la Paz CL  1 2017-10-13 14:54:25.555209  2017-10-13 14:54:25.555209  1 10  2017-10-01
+33  16.999.197-9  Luis  Sanchez demo33@tooxs.com  56999999999 Los Castanos  221 Santiago  - Macul CL  1 2017-10-13 14:54:25.54668 2017-10-13 14:54:25.54668 1 10  2017-10-01
+36  16.853.640-2  Antonio Brown demo36@tooxs.com  56999999999 Av Balmaceda  313 Santiago  - Macul CL  5 2017-10-13 14:54:25.571887  2017-10-13 14:54:25.571887  1 1 2017-10-01
+35  16.599.858-8  Carlos  Paz demo35@tooxs.com  56999999999 Av. Sting 664 Santiago  - La Reina  CL  5 2017-10-13 14:54:25.563797  2017-10-13 14:54:25.563797  1 1 2017-10-01
+38  8.434.840-3 Alejandra Fuentes demo38@tooxs.com  56999999999 Tobalaba  44  Santiago  - Providencia CL  5 2017-10-13 14:54:25.587681  2017-10-13 14:54:25.587681  1 2 2017-10-01
+37  16.423.245-K  Javiera Ruiz  demo37@tooxs.com  56999999999 Los Robles  453 Santiago  - La Florida  CL  5 2017-10-13 14:54:25.579953  2017-10-13 14:54:25.579953  1 1 2017-10-01
+40  13.953.401-8  Mauricio  Martinez  demo40@tooxs.com  56999999999 Ricardo Lyon  65  Santiago  - Providencia CL  5 2017-10-13 14:54:25.603214  2017-10-13 14:54:25.603214  1 2 2017-10-01
+39  8.658.424-7 Juan Pablo  Garcia  demo39@tooxs.com  56999999999 Vitacura  889 Santiago  - Vitacura  CL  5 2017-10-13 14:54:25.595473  2017-10-13 14:54:25.595473  1 2 2017-10-01
+42  16.163.012-8  Luis  Moya  demo42@tooxs.com  56999999999 Holanda 64  Santiago  - Providencia CL  5 2017-10-13 14:54:25.618759  2017-10-13 14:54:25.618759  1 3 2017-10-01
+41  12.095.259-5  Francisco Lillo demo41@tooxs.com  56999999999 Pedro de Valdivia 654 Santiago  - Providencia CL  5 2017-10-13 14:54:25.610789  2017-10-13 14:54:25.610789  1 3 2017-10-01
+61  14.047.672-2  Claudia Andrea  Fuentes demo61@tooxs.com  56999999999 Los Poetas  234 Santiago  - Maipu CL  5 2017-10-13 14:54:25.472664  2017-10-13 14:54:25.472664  1 3 2017-10-01
+60  9.431.626-K Agustin Perez demo60@tooxs.com  56999999999 El Vergel 323 Santiago  - Providencia CL  5 2017-10-13 14:54:25.461079  2017-10-13 14:54:25.461079  1 3 2017-10-01
 \.
+
+
 
 
 --

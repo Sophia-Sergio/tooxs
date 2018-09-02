@@ -4,9 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-
-
-  enum role: [:admin]
+  enum role: [:admin, :standard]
   enum status: [:active, :disabled]
 
   def fullname
@@ -16,6 +14,12 @@ class User < ApplicationRecord
   def listname
     [lastname, name].join(' ').titleize
   end
-
+  
+  after_initialize do
+    if self.new_record?
+      self.role ||= :standard
+      self.status ||= :active
+    end
+  end
 
 end
