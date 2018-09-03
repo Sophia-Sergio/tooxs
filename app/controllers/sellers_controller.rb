@@ -5,7 +5,10 @@ class SellersController < ApplicationController
   # GET /sellers.json
 
   def calendar_shift
-    
+      if params[:id] == nil
+        params[:id] = current_user.id
+      end
+
       @seller      = Seller.find(params[:id])
       year_shift = @seller.my_shift
 
@@ -78,6 +81,10 @@ class SellersController < ApplicationController
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Colaboradores", :sellers_path
     add_breadcrumb "Detalle", :seller_path
+
+    if params[:id] == nil
+      params[:id] = current_user.id
+    end
 
     seller = Seller.find(params[:id])
     today  = Date.today.strftime("%Y%m%d")
@@ -190,6 +197,9 @@ class SellersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_seller
+      if params[:id] == nil
+        params[:id] = current_user.id
+      end
       @seller = Seller.find(params[:id])
     end
 

@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  enum role: [:admin, :standard]
+  enum role: [:admin, :gcc, :gcp, :gz, :gt, :gv, :jd, :colaborador]
   enum status: [:active, :disabled]
 
   def fullname
@@ -17,7 +17,7 @@ class User < ApplicationRecord
   
   after_initialize do
     if self.new_record?
-      self.role ||= :standard
+      self.role ||= :colaborador
       self.status ||= :active
     end
   end

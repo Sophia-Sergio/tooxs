@@ -435,6 +435,7 @@ ActiveRecord::Schema.define(version: 20180829175331) do
   add_foreign_key "sale_reals", "stores"
   add_foreign_key "sellers", "departments"
   add_foreign_key "sellers", "stores"
+  add_foreign_key "shift_breaks", "sellers"
   add_foreign_key "sps", "departments"
   add_foreign_key "sps", "stores"
   add_foreign_key "stores", "clusters"

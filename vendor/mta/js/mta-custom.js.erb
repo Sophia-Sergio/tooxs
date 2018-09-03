@@ -470,7 +470,7 @@ if ( $('#seller_details').length > 0) {
                         $.parseJSON(
                             $.ajax({
                               method: "GET",
-                              url: "calendar_shift.json",
+                              url: "/sellers/calendar_shift.json",
                               data: { id: $('#seller_id').val() },
                               dataType: "json", 
                               async: false

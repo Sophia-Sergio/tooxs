@@ -143,8 +143,9 @@ Rails.application.routes.draw do
     collection { post 'import' }
   end
 
-
-  post 'dashboard/index'
+  authenticated :user, ->(u) { u.role == 'colaborador' } do
+    root to: "sellers#show", as: :colaborador_root
+  end
 
   root 'dashboard#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

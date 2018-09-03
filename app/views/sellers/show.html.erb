@@ -46,6 +46,11 @@
                           Activo desde : <%= I18n.l(@seller.begin_shift, format: "%a, %d %b %Y", locale: :es) %>
                         </p>
                         <p class="hint-text m-t-5 small">Mi cumplimiento: <%= @cumplimiento.round(2) %>%</p>
+                        <p class="hint-text m-t-5 small">
+                          <%= link_to destroy_user_session_path, :method => :delete, class: "" do %>
+                            <span class="pull-left">Salir</span>
+                          <% end %>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -312,21 +317,3 @@
         </div>
       </div>
     </div>
-                    
-<div class="row m-t-40">
-  
-  <div class="col-sm-3 dn">
-  <h4>Detalle Turno Próximo 30 días.</h4>
-
-
-  <input type="text" name="seller_id" id="seller_id" value="<%= @seller.id %>">
-  <table class="table table-striped">
-      <% (1..30).each_with_index do |s,i| %>
-    <tr>
-      <td width="30%"><%= I18n.l(@seller.my_shift[@x+i][0].to_date, format: "%a, %d %b %Y", locale: :es) %></td>
-      <td width="20%"><span class="label label-default label-xs"><%= @seller.my_shift[@x+i][1] %> - <%= @seller.my_shift[@x+i][2] %></span></td>
-    </tr>
-  <% end %>
-  </table>
-  </div>
-</div>

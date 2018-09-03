@@ -19,7 +19,8 @@
       </div>
       <!-- END SIDEBAR MENU TOP TRAY CONTENT-->
       <!-- BEGIN SIDEBAR MENU HEADER-->
-      <div class="sidebar-header d-flex justify-content-between mb-2">
+    
+        <div class="sidebar-header d-flex justify-content-between mb-2">
           <div class="p-2 logo-move">            
             <a href="<%= root_path %>">
               <%= image_tag 'logo-tooxs.png', class: 'brand' %>  
@@ -53,42 +54,60 @@
       <!-- END SIDEBAR MENU HEADER-->
       <!-- START SIDEBAR MENU -->
       <div class="sidebar-menu">
+
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <ul class="menu-items">
+          <% if current_user.role == 'admin' or current_user.role == 'gcc' or current_user.role == 'gcp' or current_user.role == 'gz' or current_user.role == 'gt' or current_user.role == 'gv' or current_user.role == 'jd'%>
           <li>
             <div class="sub-menu-title"><span class="title">VENTAS</span></div>
             <ul class="sub-menu" style="display: inline-block;">
+              <% if current_user.role == 'admin' or current_user.role == 'gcc' or current_user.role == 'gcp' or current_user.role == 'gz' or current_user.role == 'gt' or current_user.role == 'gv' or current_user.role == 'jd'%>
               <li class="">
                 <span class="icon-thumbnail"><%= image_tag 'estadisticas.jpg', class: 'icon-min-menu' %></span>
                 <a href="/sales/month?utf8=✓&store=1&department=1&year=2018&month=6">Estadísticas</a>
               </li>
+              <% end %>
+              <% if current_user.role == 'admin' or current_user.role == 'gcc' or current_user.role == 'gcp' or current_user.role == 'gz' or current_user.role == 'gt' or current_user.role == 'gv'%>
               <li class="">
                 <span class="icon-thumbnail"><%= image_tag 'comparativo-venta.jpg', class: 'icon-min-menu' %></span>
                 <a href="/sales_cluster/month?utf8=✓&cluster=1&department=1&year=2018&month=6">Comparativo</a>
               </li>
+              <% end %>
+              <% if current_user.role == 'admin' or current_user.role == 'gv' or current_user.role == 'jd'%>
               <li class="">
                 <span class="icon-thumbnail"><%= image_tag 'colaboradores.jpg', class: 'icon-min-menu' %></span>
               <%= link_to 'Colaboradores', sellers_path %>
               </li>
+              <% end %>
             </ul>
           </li>
+          <% end %>
+          <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv' or current_user.role == 'jd' or current_user.role == 'colaborador'%>
           <li>
             <div class="sub-menu-title"><span class="title">PRODUCTIVIDAD</span></div>
             <ul class="sub-menu" style="display: inline-block;">
+              <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv' or current_user.role == 'jd' or current_user.role == 'colaborador'%>
               <li class="">
                 <span class="icon-thumbnail"><%= image_tag 'dotacion.jpg', class: 'icon-min-menu' %></span>
                 <%= link_to 'Dotación', staffing_index_path %>
               </li>
+              <% end %>
+              <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv'%>
               <li class="">
                 <span class="icon-thumbnail"><%= image_tag 'optimizador.jpg', class: 'icon-min-menu' %></span>
                 <a href="/productivity/show?utf8=✓&store=1&department=1&year=2018&month=6">Optimizar turnos</a>
               </li>
+              <% end %>
+              <% if current_user.role == 'admin' or current_user.role == 'gt'%>
               <li class=""> 
                   <span class="icon-thumbnail"><%= image_tag 'historico.jpg', class: 'icon-min-menu' %></span>
                   <a href="/hour_analysis/index?utf8=✓&store=1&department=1&year=2018&month=6&grafico=1&value=3000">Análisis de horas</a>
               </li>
+              <% end %>
             </ul>
-          </li> 
+          </li>
+          <% end %>
+          <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv'%>
           <li>
             <div class="sub-menu-title"><span class="title">REPORTABILIDAD</span></div>
             <ul class="sub-menu" style="display: inline-block;">
@@ -102,6 +121,8 @@
               </li>
             </ul>
           </li> 
+          <% end %>
+          <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv'%>
           <li>
             <div class="sub-menu-title"><span class="title">DISPONIBILIZADOR</span></div>
             <ul class="sub-menu" style="display: inline-block;">
@@ -110,7 +131,8 @@
                 <%= link_to 'Disponibilizador de turnos*', staff_request_index_path %>
               </li>
             </ul>
-          </li>                    
+          </li>  
+          <% end %>                  
           <% if current_user.role == 'admin' %>
           <li>
             <div class="sub-menu-title"><span class="title">ADMINISTRACIÓN</span></div>
