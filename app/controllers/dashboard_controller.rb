@@ -124,6 +124,26 @@ class DashboardController < ApplicationController
 			planVenta = 0
 			@cumplimientoPlan = 0
 		end
+		#obtener productividad real
+		dotReal = dotacion_real
+		
+        #obtener ventas reales del mes 
+        sale_reals = SaleReal.where(department_id: department, store_id: store, year: @year, month: @month) 
+        @realMonth = []
+
+        sale_reals.each do |sale|
+            totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+            @realMonth  << totalRealDay
+        end
+
+        @prod_real = @realMonth.sum / dotReal[@month].sum
+
+        if @prod_real > @prod_obj
+			@margin_adjustment = ((1 - ((@prod_real- @prod_obj) / @prod_obj)) * 100).round(2)
+        else
+        	@margin_adjustment = ((@prod_real / @prod_obj) * 100).round(2)
+        end
+        
 	end
 
 	def sale_real_per_seller(seller,year,month)
