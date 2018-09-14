@@ -139,11 +139,16 @@ class DashboardController < ApplicationController
         @prod_real = @realMonth.sum / dotReal[@month].sum
 
         if @prod_real > @prod_obj
-			@margin_adjustment = ((1 - ((@prod_real- @prod_obj) / @prod_obj)) * 100).round(2)
+			@margin_adjustment = ((1 - ((@prod_real - @prod_obj) / @prod_obj)) * 100).round(2)
         else
-        	@margin_adjustment = ((@prod_real / @prod_obj) * 100).round(2)
+        	@margin_adjustment = ((((@prod_real - @prod_obj) / @prod_obj)) * 100).round(2)
         end
-        
+
+
+        # 189.437.598 / 85000 = ese el 100% de horas...
+         
+        # 711 + 24 = 67 % (menos 1 )
+
 	end
 
 	def sale_real_per_seller(seller,year,month)
