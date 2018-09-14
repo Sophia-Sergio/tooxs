@@ -130,25 +130,35 @@ class DashboardController < ApplicationController
         #obtener ventas reales del mes 
         sale_reals = SaleReal.where(department_id: department, store_id: store, year: @year, month: @month) 
         @realMonth = []
-
+		@dotMonth = []
+		@totalMonth = []
+		@contReal = 0
+        
         sale_reals.each do |sale|
             totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
             @realMonth  << totalRealDay
+            @totalMonth << (totalRealDay.to_f / dotReal[@month][@contReal]).round
+            @contReal += 1            
         end
 
-        @prod_real = @realMonth.sum / dotReal[@month].sum
+        # productividad objetivo
 
-        if @prod_real > @prod_obj
-			@margin_adjustment = ((1 - ((@prod_real - @prod_obj) / @prod_obj)) * 100).round(2)
-        else
-        	@margin_adjustment = ((((@prod_real - @prod_obj) / @prod_obj)) * 100).round(2)
-        end
+        # @prod_obj,  @totalMonth, @dotMonth
 
+        #calcular exceso real
+        excesoReal = matrix_calc(@prod_obj, @totalMonth, dotReal[@month])
+
+        # obtener real
+        # excesoTotal = Calculo.excesoTotal(excesoReal);
+        # faltanteTotal = Calculo.faltanteTotal(excesoReal);
 
         # 189.437.598 / 85000 = ese el 100% de horas...
-         
-        # 711 + 24 = 67 % (menos 1 )
+        totalHour = (@realMonth.sum / @prod_obj)
 
+        # 711 + 24 = 67 % (menos 1 )
+        @margin_adjustment = (1 - ((excesoReal[:exceso] + excesoReal[:faltante]) / totalHour)).round(4) * 100 
+
+		@prod_real = (@realMonth.sum / dotReal[@month].sum).round
 	end
 
 	def sale_real_per_seller(seller,year,month)
@@ -156,5 +166,29 @@ class DashboardController < ApplicationController
       @year  = year    
       @month = month
       return SaleBySeller.where(month: month, seller: seller.id, department: @dep, year: @year).sum("sale")
+    end
+
+    def matrix_calc (prod_obj, matrix, staff)
+    	exceso = 0
+    	faltante = 0
+    	matrixSet = []
+
+    	(matrix.length).times do |i|
+
+    		calculo = -((((matrix[i] - prod_obj) * staff[i]) / prod_obj)).round 
+
+    		if calculo >= 0
+    			exceso += calculo
+    		else
+    			faltante += calculo
+    		end
+
+    		matrixSet << calculo 
+    	
+    	end
+
+    	data = {:exceso => exceso, :faltante => -faltante, :matrixSet => matrixSet }
+    	
+    	return data
     end
 end

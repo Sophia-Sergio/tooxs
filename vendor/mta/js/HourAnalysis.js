@@ -145,7 +145,7 @@ if ($('#hour_analysis').length > 0)
         // fin
 
         Cerebro.brainJson = JSON.parse(datasets1.responseJSON.json_result);        
-        productividad_real = Cerebro.cacularProductividad(vrm1);
+        productividad_real = Cerebro.calcularProductividadReal(vrm1);
         productividad_op   = Cerebro.productividadOptimizada(vrm1);
         resumen_plan = Cerebro.obtenerResumen();
 

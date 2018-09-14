@@ -69,6 +69,18 @@ Cerebro.cacularProductividad = function(mes)
 
 	return productividadMes;
 }
+
+Cerebro.calcularProductividadReal = function(mes)
+{
+	sumatoriaTurnosDiaria = Cerebro.sumatoriaTurnosDiaria();
+	productividadMes = [];
+	for (var i = 0; i < mes.length; i++) 
+	{
+		productividadMes[i] =  Math.round(parseInt(mes[i]) / parseInt(sumatoriaTurnosDiaria[i]));
+	}
+
+	return productividadMes;
+}
 Cerebro.productividadOptimizada = function()
 {
 	sumatoriaTurnosDiaria = this.sumatoriaTurnosOptimizado();
