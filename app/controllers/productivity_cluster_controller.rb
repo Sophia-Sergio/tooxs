@@ -146,7 +146,7 @@ class ProductivityClusterController < ApplicationController
       realMonth = []
       dotMonth = []
 
-      dotReal = dotacion_real[@month]
+      dotReal = dotacion_real(department, @month, @year)
 
       countReal = 0      
       sale_reals.each do |sale|

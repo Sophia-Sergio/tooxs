@@ -1,5 +1,4 @@
 class StaffingRealsController < ApplicationController
-  before_action :set_staffing_real, only: [:show, :edit, :update, :destroy]
 
   # GET /staffing_reals
   # GET /staffing_reals.json
@@ -51,6 +50,31 @@ class StaffingRealsController < ApplicationController
     end
   end
 
+  def import
+    if params[:file] != nil
+      if StaffingReal.from_xlsx(params[:file].tempfile)
+        flash[:notice] = 'Importado con éxito'
+      else
+        flash[:error] = 'Algo ha salido mal, intentalo de nuevo'
+      end
+    end
+    redirect_to staffing_reals_url
+  end
+
+  def downloads
+    send_file(
+      "#{Rails.root}/public/2018-09-15_staffing_reals_import.xlsx",
+      filename: "staffing_reals.xlsx",
+      type: "application/xlsx"
+    )
+  end
+
+
+  def delete
+    StaffingReal.delete_all
+    redirect_to staffing_reals_url    
+  end
+
   # DELETE /staffing_reals/1
   # DELETE /staffing_reals/1.json
   def destroy
@@ -69,6 +93,6 @@ class StaffingRealsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def staffing_real_params
-      params.require(:staffing_real).permit(:seller, :date, :hour, :department)
+      params.require(:staffing_real).permit(:department_id, :year, :month, :day, :count)
     end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180829175331) do
+ActiveRecord::Schema.define(version: 20180915180133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -337,12 +337,14 @@ ActiveRecord::Schema.define(version: 20180829175331) do
   end
 
   create_table "staffing_reals", force: :cascade do |t|
-    t.integer "seller"
-    t.date "date"
-    t.integer "hour"
-    t.integer "department"
+    t.bigint "department_id"
+    t.integer "year"
+    t.integer "month"
+    t.integer "day"
+    t.integer "count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_staffing_reals_on_department_id"
   end
 
   create_table "store_categories", force: :cascade do |t|
@@ -438,6 +440,7 @@ ActiveRecord::Schema.define(version: 20180829175331) do
   add_foreign_key "shift_breaks", "sellers"
   add_foreign_key "sps", "departments"
   add_foreign_key "sps", "stores"
+  add_foreign_key "staffing_reals", "departments"
   add_foreign_key "stores", "clusters"
   add_foreign_key "users", "departments"
   add_foreign_key "users", "stores"

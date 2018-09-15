@@ -1,46 +1,44 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Staffing Reals</h1>
-
-<table class="table table-stripped table-condensed table-hover table-smallFont" id="table-staffing_real">
-  <thead>
-    <tr>
-      <th>Seller</th>
-      <th>Date</th>
-      <th>Hour</th>
-      <th>Department</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @staffing_reals.each do |staffing_real| %>
-      <tr>
-                <td><%= staffing_real.seller %></td>
-                <td><%= staffing_real.date %></td>
-                <td><%= staffing_real.hour %></td>
-                <td><%= staffing_real.department %></td>
-        
-        <td>
-
-        <%= link_to staffing_real_path(staffing_real), :class => 'btn btn-default' do %>
-        <i class="fa fa-eye"></i> Ver ##Staffing Real
-        <% end %>
-
-        <%= link_to edit_staffing_real_path(staffing_real), :class => 'btn btn-default' do %>
-        <i class="fa fa-edit"></i> Editar ##Staffing Real
-        <% end %>
-
-        <%= link_to staffing_real_path(staffing_real), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
-        <i class="fa fa-trash-o"></i> Eliminar ##Staffing Real
-        <% end %>
-
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Staffing Real', new_staffing_real_path %>
+<div class="container-fluid">
+  <div class="pantalla-seccion d-flex flex-wrap justify-content-between mb-2">
+    <div class="align-self-end">
+      <div class="titulo-pantalla">Turnos Reales Por Día</div>
+    </div>  
+    <div class="align-self-end text-right boton-comparar">
+    <%= form_with url: import_staffing_reals_path, multipart: true, local: true do %>
+      <%= label_tag :file, 'Importar desde xlsx' %>
+      <%= file_field_tag :file  %>
+        <br>
+        <%= submit_tag '+ Importar', class: "btn" %>
+        <%= link_to 'Resetear datos', delete_staffing_reals_path, class: "btn" %>
+        <%= link_to 'Descargar datos de prueba', downloads_staffing_reals_path, class: "btn" %>
+      <% end %>
+    </div>    
+  </div>
+  <div class="formulario-comparacion">
+    <div style="overflow: auto;">   
+      <table class="table  table-hover table-smallFont" id="table-staffing_real">
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th>Year</th>
+            <th>Month</th>
+            <th>Day</th>
+            <th>Count</th>
+            <th colspan="1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @staffing_reals.each do |staffing_real| %>
+            <tr>
+              <td><%= staffing_real.department %></td>
+              <td><%= staffing_real.year %></td>
+              <td><%= staffing_real.month %></td>
+              <td><%= staffing_real.day %></td>
+              <td><%= staffing_real.count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

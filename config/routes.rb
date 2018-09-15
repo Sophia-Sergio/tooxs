@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   
-  resources :staffing_reals
   resources :master_departments
   resources :summary_cases
   resources :return_cases
@@ -54,6 +53,7 @@ Rails.application.routes.draw do
       }
   end
 
+
   resources :sales, only: [:index] do 
     collection {
       get 'quarter'
@@ -73,6 +73,17 @@ Rails.application.routes.draw do
 
     }
   end
+#resources :staffing_reals
+
+  resources :staffing_reals, only: [:index] do
+    collection { 
+      get 'index'
+      post 'import'
+      get 'delete'
+      get 'downloads'
+      }
+  end  
+
 
   resources :sales_cluster, only: [:index] do 
     collection {

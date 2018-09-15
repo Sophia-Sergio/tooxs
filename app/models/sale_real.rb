@@ -10,7 +10,7 @@ class SaleReal < ApplicationRecord
   scope :btw_dates, lambda{ |date,date2| where("sale_date BETWEEN ? AND ?", date,date2)  if date and date2}
 
 
-def week
+  def week
     ##%V - Week number of year according to ISO 8601 (01..53)
     self.sale_date.strftime("%V").to_i
   end

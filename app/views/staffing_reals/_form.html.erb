@@ -2,10 +2,11 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :seller %>
-    <%= f.input :date %>
-    <%= f.input :hour %>
-    <%= f.input :department %>
+    <%= f.association :department %>
+    <%= f.input :year %>
+    <%= f.input :month %>
+    <%= f.input :day %>
+    <%= f.input :count %>
   </div>
 
   <div class="form-actions">

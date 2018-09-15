@@ -33,10 +33,10 @@ class HourAnalysisController < ApplicationController
 
 		@plan = JSON.parse(@brain_json)
 
-		dotReal = dotacion_real
+		dotReal = dotacion_real(@dep, month, year)
 
 		@dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
-		@dotacion_w_real = calculo_semanal(dotReal[month], 7)
+		@dotacion_w_real = calculo_semanal(dotReal, 7)
 
 		@prod_w_op = cerebro_calculo_productividades_week(@venta_w_real, @dotacion_w_op)
 		@prod_w_real = cerebro_calculo_productividades_week(@venta_w_real, @dotacion_w_real)

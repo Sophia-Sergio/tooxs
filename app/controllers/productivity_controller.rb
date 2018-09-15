@@ -123,14 +123,14 @@ class ProductivityController < ApplicationController
         nombreTurnos = AvailableShift.all.distinct.order(:num).pluck(:num, :name)
 
         @brain_json = brain_json(month, year, @store, @dep)  
-        dotReal = dotacion_real
+        dotReal = dotacion_real(@dep, month, year)
         @plan = JSON.parse(@brain_json)
         dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
         
         @prod_obj = dataCase.first.prod_obj.to_i
         
         @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
-        @dotacion_real = dotReal[month]
+        @dotacion_real = dotReal
 
         @prod_w_op = cerebro_calculo_productividades_month(@realMonth, @dotacion_op)
         @prod_w_real = cerebro_calculo_productividades_month(@realMonth, @dotacion_real)
@@ -258,10 +258,10 @@ class ProductivityController < ApplicationController
 
         @plan = JSON.parse(@brain_json)
 
-        dotReal = dotacion_real
+        dotReal = dotacion_real(@dep, month, year)
     
         @dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
-        @dotacion_w_real = calculo_semanal(dotReal[month], 7)
+        @dotacion_w_real = calculo_semanal(dotReal, 7)
 
         @prod_w_op = cerebro_calculo_productividades_week(@venta_w_real, @dotacion_w_op)
         @prod_w_real = cerebro_calculo_productividades_week(@venta_w_real, @dotacion_w_real)
@@ -341,14 +341,14 @@ class ProductivityController < ApplicationController
         @prd_w4_day = @sp_w4_daily.zip(@sd_w4_daily).map{|a,b| a/b }
 
         @brain_json = brain_json(month, year, @store, @dep)  
-        dotReal = dotacion_real
+        dotReal = dotacion_real(@dep, month, year)
         @plan = JSON.parse(@brain_json)
         dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
         
         @prod_obj = dataCase.first.prod_obj.to_i
 
         @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
-        @dotacion_real = dotReal[month]
+        @dotacion_real = dotReal
 
         @prod_w_op = cerebro_calculo_productividades_month(@realMonth, @dotacion_op)
         @prod_w_real = cerebro_calculo_productividades_month(@realMonth, @dotacion_real)
