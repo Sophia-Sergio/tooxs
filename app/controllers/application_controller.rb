@@ -310,23 +310,30 @@ end
         store = store.to_i
         department = department.to_i
 
-        #[1,hora 10,dia 28,1]       
-        m1 = SalePlan.where(month: month, year: year).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
+        #[1,10,28,1] 1010672 # [numero, hora, dia, numero] valor
+        # inicio crear plan_venta, tengo que crear el formato del plan de venta para 4 semanas 
+        
+        spm1 = SalePlan.where(year: year, month: month, store_id: store, department_id: department).where("week IN(1, 2, 3, 4)").map{|x, j| 
 
-        w1 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 1, store_id: store, department_id: department).where(:year => year).where(:day_number => 1).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
-        w2 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 2, store_id: store, department_id: department).where(:year => year).where(:day_number => 1).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
-        w3 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 3, store_id: store, department_id: department).where(:year => year).where(:day_number => 1).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
-        w4 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 4, store_id: store, department_id: department).where(:year => year).where(:day_number => 1).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
-        w5 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 5, store_id: store, department_id: department).where(:year => year).where(:day_number => 1).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
+          "[1,1,countRow,1] #{x.eleven}, " + "[1,2,countRow,1] #{x.twelve}, " + "[1,3,countRow,1] #{x.thirteen}, " + 
+          "[1,4,countRow,1] #{x.fourteen}, " + "[1,5,countRow,1] #{x.fifteen}, " + "[1,6,countRow,1] #{x.sixteen}, " + 
+          "[1,7,countRow,1] #{x.seventeen}, " + 
+          "[1,8,countRow,1] #{x.eighteen}, " + "[1,9,countRow,1] #{x.nineteen}, " + "[1,10,countRow,1] #{x.twenty}"
+          
+        }
 
+        countRow = 1
+        plan_venta_string = ""
 
-        staffingM1 = staffing_draw(w1)[:sellers_per_day] + staffing_draw(w2)[:sellers_per_day] + staffing_draw(w3)[:sellers_per_day] + staffing_draw(w4)[:sellers_per_day]
-
-        if w5.length > 0
-            staffingM1 += staffing_draw(w5)[:sellers_per_day]           
+        spm1.each do |day|
+          plan_venta_string += " " + day.gsub('countRow', countRow.to_s)
+          countRow += 1
         end
+        plan_venta_string = plan_venta_string.slice 1 .. plan_venta_string.length 
+        #asd
+        # fin crear plan_venta 
        
-        dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
+        dataCase = DataCase.where(month: month, year: year, dep_num: department)
         
         if dataCase.blank? == true
             # debería crear un caso automático en este caso cargaremos uno predefinido
@@ -359,7 +366,7 @@ end
                 "min_horas": dataCase.hour_min,  
                 "matriz_turnos": dataCase.turns_matrix.to_s, 
                 "dotacion_real": dataCase.real_dot.to_s, 
-                "plan_venta": dataCase.sale_plan.to_s
+                "plan_venta": plan_venta_string
             }
         }.to_json
         return @data
@@ -419,6 +426,7 @@ end
       return plan_venta_diario
     end
     def total_turnos(plan, dotacion)
+
       if plan.length != 0           
         matriz_turnos = plan["datos"]["matriz_turnos"].to_s.split(", [")
         matriz_turnos[0] = matriz_turnos[0].gsub("[", "")
@@ -430,14 +438,15 @@ end
           turno = matriz_turnos[i].to_s.split("] ")[0]
           turno_1 = matriz_turnos[i].to_s.split("] ")[1]
           coordenadas = turno.to_s.split(",")
-          matriz_turnos_in[i] = { :turno => coordenadas[0], :hora => coordenadas[1], :dia => coordenadas[2] , :valor => (turno_1).to_f}
+          matriz_turnos_in[i] = { :turno => coordenadas[0], :hora => coordenadas[1], :dia => coordenadas[2] , :valor => (turno_1).to_i}
         end
-
 
         #//////////////// dotacion real //////////////////////////////////
 
         dotacion_real = dotacion
         dotacion_real[0] = dotacion_real[0].gsub("[", "")
+
+
 
         matriz_dotacion_real = []
 
@@ -463,7 +472,7 @@ end
 
           for j in 0..matriz_dotacion_real.length-1
             if matriz_dotacion_real[j][:turno] == matriz_turnos_in[i][:turno]            
-              sumatoria_turnos_real[coordenada] += (matriz_dotacion_real[j][:cantidad] ).to_f
+              sumatoria_turnos_real[coordenada] += (matriz_dotacion_real[j][:cantidad] ).to_i
             end
           end
         end
@@ -473,6 +482,8 @@ end
       end 
       return sumatoria_turnos_real      
     end
+
+
     def cerebro_sumatoria_turnos_diaria(plan)
       if plan.length != 0 
         plan = JSON.parse(plan)
@@ -482,6 +493,7 @@ end
         dotacion = plan["datos"]["dotacion_real"].to_s.split(", [")
 
         totalTurnosReales = total_turnos(plan, dotacion)
+
         diaSemana = 1
         horasDiarias = 10
         num_horas_dia_in = plan["datos"]["num_horas_dia"]
@@ -537,6 +549,69 @@ end
           dotacion << "#{count},1,1] #{turno}"
           count += 1
         end
+        
+
+        totalTurnosReales = total_turnos(plan, dotacion)
+        #asd
+        #cuadrar dotaciones reales con optimizadas.
+        diaSemana = 1
+        horasDiarias = 10
+        num_horas_dia_in = plan["datos"]["num_horas_dia"]
+        count = 1;
+        diaMes = 0;
+
+        countDia = 1;
+
+        for i in 0..turnosSumatoria.length-1 
+          turnosSumatoria[i] = 0
+        end
+
+        for i in 0..totalTurnosReales.length-1 
+          turnosSumatoria[diaMes] += (totalTurnosReales[i]).to_i
+          if countDia < num_horas_dia_in
+            countDia += 1
+          else
+            countDia = 1
+            diaMes += 1
+          end
+        end
+      else
+        turnosSumatoria = ""
+      end
+
+      return turnosSumatoria
+    end
+
+
+    def cerebro_sumatoria_turnos_entrada(plan, id_case)
+      if plan.length != 0 
+        plan = JSON.parse(plan)
+        num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
+        turnosSumatoria = Array.new(num_dias_ventana) { |i| i = 0 }
+
+
+        # calcular turnos cubiertos
+        summaryCase = SummaryCase.where(id_case: id_case, type_io: "in").first  
+
+
+        if summaryCase
+          opt_turn = summaryCase.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+        else
+          opt_turn = []
+        end
+        turnosOptimizados = Array.new(12, 0)
+
+        opt_turn.each do |turn|
+          turn = turn.split(":")
+          turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
+        end
+
+        count = 1
+        dotacion = [] 
+        turnosOptimizados.each do |turno|
+          dotacion << "#{count},1,1] #{turno}"
+          count += 1
+        end
 
         totalTurnosReales = total_turnos(plan, dotacion)
 
@@ -573,9 +648,9 @@ end
 
       (0..plan.length-1).each do |i|
         if dotacion[i] == nil 
-          prod_week << (plan[i].to_f / dotacion[0].to_f).round
+          prod_week << (plan[i] / dotacion[0]).round
         else
-          prod_week << (plan[i].to_f / dotacion[i].to_f).round
+          prod_week << (plan[i] / dotacion[i]).round
         end    
       end
       return prod_week
@@ -586,7 +661,7 @@ end
       prod_month = []
       if dotacion.sum > 0 
         (0..plan.length-1).each do |i|
-          prod_month << (plan[i].to_f / dotacion[i].to_f).round
+          prod_month << (plan[i] / dotacion[i]).round
         end
       end
       return prod_month

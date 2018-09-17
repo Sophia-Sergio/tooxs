@@ -412,10 +412,9 @@ function optimizar()
 				    	}
 				    }
 				    
-				    addData(myChart, 'Productividad Optimizada', {data: productividad_optimizada, fill: 'false', label: 'Productividad optimizada', yAxisID: 'left-y-axis',backgroundColor: '#33d6ce', borderColor: '#33d6ce'});
-					                  
+				    //addData(myChart, 'Productividad Optimizada', {data: productividad_optimizada, fill: 'false', label: 'Productividad optimizada', yAxisID: 'left-y-axis',backgroundColor: '#33d6ce', borderColor: '#33d6ce'});			                  
 
-	                //
+	                
 	                eficiencia1 = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
 	                $("#margen-actual").html(eficiencia1+"%");
 	                eficiencia2 = 100-parseFloat(resumen_plan[1].margeAjuste.replace("%", ""));
@@ -441,6 +440,7 @@ function optimizar()
 					$(".btn-optimize").prop('disabled', false);
 					$(".pace").attr("class", "pace pace-inactive");
 					reinicio();
+					Cerebro.save();
 				}	
       		
       }

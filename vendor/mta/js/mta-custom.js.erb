@@ -796,13 +796,13 @@ if ($('#productivity_demo').length > 0)
           dataType: 'json',
           success: function(data)
           {
+            productividad_actual = data.prod_w_actual;
             productividad_optimizada = data.prod_w_op;
-            productividad_actual = data.prod_w_real;
             fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
 
             prod_obj_line = [];
 
-            for (var i = 0; i < data.prod_w_real.length; i++) 
+            for (var i = 0; i < data.prod_w_op.length; i++) 
             {
                 prod_obj_line[i] = data.prod_obj;
             } 
@@ -856,18 +856,7 @@ if ($('#productivity_demo').length > 0)
 
             var ctx = document.getElementById("canvas").getContext("2d");
             var myChart = new Chart(ctx, config);
-         }
-        });
-
-        var datasets = $.ajax(
-        { 
-          type: "get",
-          url: "/productivity/json_current",
-          data: 'month='+month+'&year='+year+'&store='+store+'&department='+department+'&week='+$('#week').val(),
-          dataType: 'json',
-          success: function(data)
-          { 
-            fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
+                        fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
             mes = data.spm1;
             vrm1 = data.vrm1;
             nombreTurnos = data.nombreTurnos;
@@ -970,7 +959,6 @@ if ($('#productivity_demo').length > 0)
             $("#turnos-total-op").html(resumenTurnosOptimizado);
             $("#minutos_optimizando").prop('disabled', false);
             $(".btn-optimize").prop('disabled', false);
- 
          }
         });
     }

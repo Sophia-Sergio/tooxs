@@ -18,7 +18,6 @@ Rails.application.routes.draw do
   get 'dashboard/administracion'
   get 'dashboard/ventas'
   get 'dashboard/productividad'
-
   get 'data_master/index'
 
   resources :sales_statistics  
@@ -30,13 +29,14 @@ Rails.application.routes.draw do
   get 'productivity_cluster/month'
   get 'productivity_cluster/json_month'
 
-
   get 'productivity/show'
   get 'productivity/index'
   get 'productivity/json_current'
   get 'productivity/report'
   get 'productivity/data_month'
   get 'productivity/report_data'
+  post 'productivity/save_case'
+
 
   resources :shift_breaks
   get 'staffing/index'

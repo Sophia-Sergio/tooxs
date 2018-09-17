@@ -1,5 +1,6 @@
 class ProductivityController < ApplicationController
-
+    skip_before_action :verify_authenticity_token
+    
     def index
         params[:year]  = Date.today.strftime("%Y").to_i
         params[:month] = Date.today.strftime("%m").to_i
@@ -86,14 +87,16 @@ class ProductivityController < ApplicationController
         sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month) 
         @totalMonth = []
         @realMonth = []
-        @dotMonth = []
+        @contReal = 0  
+        dotReal = dotacion_real(@dep, month, year)
 
-        sale_reals.each do |sale|
-            totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
-            totalDotDay = staffing[("#{sale[:sale_date].strftime("%Y%m%d")}").to_sym][:hours].values.sum
-            @realMonth  << totalRealDay
-            @dotMonth   << totalDotDay
-            @totalMonth << (totalRealDay.to_f / totalDotDay.to_f).round
+        if dotReal.length != 0
+            sale_reals.each do |sale|
+                totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+                @realMonth  << totalRealDay
+                @totalMonth << (totalRealDay.to_f / dotReal[@contReal]).round
+                @contReal += 1  
+            end
         end
 
         #sales plan per day
@@ -121,20 +124,18 @@ class ProductivityController < ApplicationController
         @prd_w4_day = @sp_w4_daily.zip(@sd_w4_daily).map{|a,b| a/b }
 
         nombreTurnos = AvailableShift.all.distinct.order(:num).pluck(:num, :name)
-
-        @brain_json = brain_json(month, year, @store, @dep)  
-        dotReal = dotacion_real(@dep, month, year)
+        @brain_json = brain_json(month, year, @store, @dep)          
         @plan = JSON.parse(@brain_json)
-        dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
-        
+        dataCase = DataCase.where(month: month, year: year, dep_num: @dep)        
         @prod_obj = dataCase.first.prod_obj.to_i
-        
+        @dotacion_actual = cerebro_sumatoria_turnos_entrada(@brain_json, dataCase.first[:id_case])
         @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
-        @dotacion_real = dotReal
 
-        @prod_w_op = cerebro_calculo_productividades_month(@realMonth, @dotacion_op)
-        @prod_w_real = cerebro_calculo_productividades_month(@realMonth, @dotacion_real)
-        #asd
+
+        @dotacion_real = dotReal
+        @prod_w_op = cerebro_calculo_productividades_month(@sp_m1, @dotacion_op)
+        @prod_w_real = cerebro_calculo_productividades_month(@sp_m1, @dotacion_real)
+        @prod_w_actual = cerebro_calculo_productividades_month(@sp_m1, @dotacion_actual)
 
         @data = { :dates_week => @w1_days,
               :dates_week_2 => @w2_days,
@@ -150,12 +151,14 @@ class ProductivityController < ApplicationController
               :tsm1 => @totalMonth, 
               :vrm1 => @realMonth,
               :vent_real => @realMonth.sum,
-              :dot_real => @dotMonth.sum,
+              :dot_real => dotReal.sum,
               :nombreTurnos => nombreTurnos,
               :prod_w_op => @prod_w_op,
               :prod_w_real => @prod_w_real,
-              :dot_month_real => @dotMonth,
+              :prod_w_actual => @prod_w_actual,
+              :dot_month_real => dotReal,
               :dot_month_op => @dotacion_op,
+              :dot_month_actual => @dotacion_actual,
               :prod_obj => @prod_obj
             }
 
@@ -376,5 +379,101 @@ class ProductivityController < ApplicationController
         render json: @data
     end
 
+
+    def save_case
+
+        dataCase = DataCase.where(id_case: params[:result][:id_caso].to_s).first
+
+        dataCase = DataCase.find(dataCase.id)
+
+        dataCase.sale_plan = params[:plan][:datos][:plan_venta]
+
+        dataCase.save
+
+        ReturnCase.where(id_case: params[:result][:id_caso]).destroy_all
+        #guardar result 
+        returnCase = ReturnCase.create!(
+            id_case: params[:result][:id_caso],
+            eff_margin: params[:result][:margen_eficiencia],
+            total_surplus: params[:result][:excedente_total],
+            compensation_cost: params[:result][:costo_remuneracion],
+            status: params[:result][:status],
+            user: params[:result][:usuario],
+            message: params[:result][:mensaje],
+            deficit_total: params[:result][:deficit_total],
+            tolerance: params[:result][:tolerancia],
+            version: params[:result][:version],
+            format_result: params[:result][:formato_resultado],
+            max_time: params[:result][:tiempo_maximo],
+            lunchs: params[:result][:resultado][:almuerzos],
+            turns: params[:result][:resultado][:turnos],
+            delta: params[:result][:resultado][:delta],
+            epsilon: params[:result][:resultado][:epsilon],
+            support: params[:result][:soporte],
+            model: params[:result][:modelo],
+            sales_plan: params[:result][:plan_venta],
+            obj_function: params[:result][:funcion_objetivo]
+        )
+
+        #dotacion entrada
+        turno_count = 1
+        dot_in = "{"
+
+        params[:turnos].each do |turno|
+            if  turno.to_i < 12
+                dot_in += "#{turno_count} : #{params[:turnos][turno][:vendedores]}, "
+                turno_count += 1
+            end
+        end
+
+        dot_in = dot_in.slice 0 .. -3
+        dot_in += "}"
+
+        SummaryCase.where(id_case: params[:result][:id_caso]).destroy_all
+
+        summaryCase = SummaryCase.create!(
+            id_case: params[:result][:id_caso],
+            sale_plan: params[:resumen]["0"][:planVentas],
+            coverange_deficit: params[:resumen]["0"][:deficitCobertura],
+            surplus_coverange: params[:resumen]["0"][:ExcedenteCobertura],
+            total_deviation: params[:resumen]["0"][:desviacionTotal],
+            cost_of_remunerations: params[:resumen]["0"][:costoRemuneraciones],
+            margin_adjustment: params[:resumen]["0"][:margeAjuste],
+            type_io: "in",
+            real_dot: dot_in
+        )
+
+        #dotacion salida
+        turno_count = 1
+        dot_out = "{"
+
+        params[:turnos].each do |turno|
+            if  turno.to_i > 11
+                dot_out += "#{turno_count} : #{params[:turnos][turno][:vendedores]}, "
+                turno_count += 1
+            end
+        end
+        
+        dot_out = dot_out.slice 0 .. -3
+        dot_out += "}"
+
+        summaryCase = SummaryCase.create!(
+            id_case: params[:result][:id_caso],
+            sale_plan: params[:resumen]["1"][:planVentas],
+            coverange_deficit: params[:resumen]["1"][:deficitCobertura],
+            surplus_coverange: params[:resumen]["1"][:ExcedenteCobertura],
+            total_deviation: params[:resumen]["1"][:desviacionTotal],
+            cost_of_remunerations: params[:resumen]["1"][:costoRemuneraciones],
+            margin_adjustment: params[:resumen]["1"][:margeAjuste],
+            type_io: "out",
+            real_dot: dot_out
+        )
+
+        File.open(File.join(Rails.root, 'public', "caso#{params[:result][:id_caso]}.txt"), 'w') do |f2|
+          f2.puts params[:salida]
+        end
+
+        render json: params 
+    end
 end
 

@@ -134,13 +134,14 @@ class DashboardController < ApplicationController
 		@totalMonth = []
 		@contReal = 0
         
-        sale_reals.each do |sale|
-            totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
-            @realMonth  << totalRealDay
-            @totalMonth << (totalRealDay.to_f / dotReal[@contReal]).round
-            @contReal += 1            
+        if dotReal.length != 0
+	        sale_reals.each do |sale|
+	            totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+	            @realMonth  << totalRealDay
+	            @totalMonth << (totalRealDay.to_f / dotReal[@contReal]).round
+	            @contReal += 1            
+	        end
         end
-
         # productividad objetivo
 
         # @prod_obj,  @totalMonth, @dotMonth
