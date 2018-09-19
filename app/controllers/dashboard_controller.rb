@@ -1,32 +1,24 @@
 class DashboardController < ApplicationController
 	def index
 		add_breadcrumb "Dashboard", :root_path
-		department = 1
-		store = 1
-		@search  = ''
-		@year = Date.today.strftime("%Y").to_i      
 
         if params[:month]
         	@month = params[:month]
         else
         	@month = 6
         end
-		@department   = department
-		@store 	      = store
-       	@search       = ''
-        @stores       = Store.where(id: @store).order(:id)
-        @departments  = Department.where(id: department).order(:id)
 
-        dayMonth = Date.today.strftime("%w").to_i
+		@department  = 1
+		@store 	     = 1
+       	@search      = ''
+        @stores      = Store.where(id: @store).order(:id)
+        @departments = Department.where(id: @department).order(:id)
+		@year  = Date.today.strftime("%Y").to_i      
         dayNow = day_now_charged
-        #dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
-
-		assigned_shift = Seller.where(department: department, store: store ).pluck(:assigned_shift)
 		turnos = Array.new(12, 0)
-
-		dataCase = DataCase.where(dep_num: department, month: @month).first
+		dataCase = DataCase.where(dep_num: @department, month: @month).first
 		summaryCaseOut = SummaryCase.where( id_case: dataCase.id_case, type_io: 'out').first
-		summaryCaseIn = SummaryCase.where( id_case: dataCase.id_case, type_io: 'in').first
+
 		if summaryCaseOut
 			@margin_adjustment = summaryCaseOut.margin_adjustment.to_f
 			@prod_obj = dataCase.prod_obj.to_f
@@ -39,17 +31,10 @@ class DashboardController < ApplicationController
 			@margin_adjustment = 0
 		end
 		
-		# calcular turnos cubiertos
-		if summaryCaseIn
-			ent_turn = summaryCaseIn.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
-		else
-			ent_turn = 0
-		end
 		turnosOptimizados = Array.new(12, 0)
 		turnosEntrada = Array.new(12, 0)
-		countTurnos = 0
 		
-		sellers = Seller.where(department: department, store: store ).pluck(:assigned_shift)
+		sellers = Seller.where(department: @department, store: @store ).pluck(:assigned_shift)
 
 		sellers.each do |turn|
 			turnosEntrada[turn.to_i-1] += 1
@@ -59,10 +44,6 @@ class DashboardController < ApplicationController
 			turn = turn.split(":")
 			turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
 			#ads
-		end
-
-		assigned_shift.each do |x|
-			turnos[x] += 1
 		end
 
 		turnosOpTotal = turnosOptimizados.sum
@@ -79,7 +60,7 @@ class DashboardController < ApplicationController
 			end
 		end
 
-		@sellers = Seller.where(department: department, store: store)
+		@sellers = Seller.where(department: @department, store: @store)
 
 		@setSellers = []
 
@@ -116,7 +97,7 @@ class DashboardController < ApplicationController
 		end
 
 		# calcular cumplimiento del plan
-		ventaTotal = SaleBySeller.where(month: @month, department: department, year: @year).sum("sale").to_f
+		ventaTotal = SaleBySeller.where(month: @month, department: @department, year: @year).sum("sale").to_f
 		if summaryCaseOut
 			planVenta = summaryCaseOut.sale_plan.to_f
 			@cumplimientoPlan = (@ventaTotal / @planVentaTotal * 100).round(1)	
@@ -125,12 +106,11 @@ class DashboardController < ApplicationController
 			@cumplimientoPlan = 0
 		end
 		#obtener productividad real
-		dotReal = dotacion_real(department, @month, @year)
+		dotReal = dotacion_real(@department, @month, @year)
 		
         #obtener ventas reales del mes 
-        sale_reals = SaleReal.where(department_id: department, store_id: store, year: @year, month: @month) 
+        sale_reals = SaleReal.where(department_id: @department, store_id: @store, year: @year, month: @month) 
         @realMonth = []
-		@dotMonth = []
 		@totalMonth = []
 		@contReal = 0
         
@@ -142,32 +122,18 @@ class DashboardController < ApplicationController
 	            @contReal += 1            
 	        end
         end
-        # productividad objetivo
 
-        # @prod_obj,  @totalMonth, @dotMonth
-
-        #calcular exceso real
         excesoReal = matrix_calc(@prod_obj, @totalMonth, dotReal)
-
-        # obtener real
-        # excesoTotal = Calculo.excesoTotal(excesoReal);
-        # faltanteTotal = Calculo.faltanteTotal(excesoReal);
-
-        # 189.437.598 / 85000 = ese el 100% de horas...
         totalHour = (@realMonth.sum / @prod_obj)
-
-        # 711 + 24 = 67 % (menos 1 )
         @margin_adjustment = (1 - ((excesoReal[:exceso] + excesoReal[:faltante]) / totalHour)).round(4) * 100 
-
 		@prod_real = (@realMonth.sum / dotReal.sum).round
 	end
 
 	def sale_real_per_seller(seller,year,month)
-      @dep   = seller.department.id
-      @year  = year    
-      @month = month
-      return SaleBySeller.where(month: month, seller: seller.id, department: @dep, year: @year).sum("sale")
+      @dep   = seller.department.id  
+      return SaleBySeller.where(month: month, seller: seller.id, department: @dep, year: year).sum("sale")
     end
+
 
     def matrix_calc (prod_obj, matrix, staff)
     	exceso = 0

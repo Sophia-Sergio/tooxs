@@ -5,11 +5,12 @@ class SellersController < ApplicationController
   # GET /sellers.json
 
   def calendar_shift
+
       if params[:id] == nil
         params[:id] = current_user.id
       end
 
-      @seller      = Seller.find(params[:id])
+      @seller    = Seller.find(params[:id])
       year_shift = @seller.my_shift
 
       @shifts = year_shift.map do |s|
@@ -86,7 +87,8 @@ class SellersController < ApplicationController
       params[:id] = current_user.id
     end
 
-    seller = Seller.find(params[:id])
+    @seller_id = params[:id]
+    seller = Seller.find(@seller_id)
     today  = Date.today.strftime("%Y%m%d")
     @month = 6#Date.today.strftime("%m").to_i
     @year  = Date.today.strftime("%Y").to_i

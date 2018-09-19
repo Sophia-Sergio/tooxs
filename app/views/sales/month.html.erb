@@ -84,8 +84,8 @@
             </td>
             <% end %>
             <td class="text-centerx">
-            <%= @sum_dif.round(2) %>% 
-            <% if @sum_dif > 0 %>
+            <% if @sum_dif != nil %>
+              <%= @sum_dif.round(2) %>% 
               <i class="text-success fa fa-caret-up"></i>
             <% else %>
               <i class="text-danger fa fa-caret-down"></i>
@@ -104,8 +104,8 @@
             </td>
             <% end %>
             <td class="text-centerx">
-            <%= @sum_dif2.round(2) %>% 
-            <% if @sum_dif2 > 0 %>
+            <% if @sum_dif2 != nil %>
+              <%= @sum_dif2.round(2) %>% 
               <i class="text-success fa fa-caret-up"></i>
             <% else %>
               <i class="text-danger fa fa-caret-down"></i>

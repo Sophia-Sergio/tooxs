@@ -13,37 +13,33 @@ class ApplicationController < ActionController::Base
   	date_end    = Date.today.end_of_year + 1.year
       #defino un array con los todos los dias del año
 
-      (date_start..date_end).each do |d|
-        #convierto en sym el dia
-        day = d.strftime("%Y%m%d").to_sym
-        #crea un array desde el 01-01-2017 al 31-12-2019
-        days[day] = {:hours => [], :sellers => []}
+    (date_start..date_end).each do |d|
+      #convierto en sym el dia
+      day = d.strftime("%Y%m%d").to_sym
+      #crea un array desde el 01-01-2017 al 31-12-2019
+      days[day] = {:hours => [], :sellers => []}
 
     end
 
-      ##busco los vendedores y veo sus turnos
-      sellers = Seller.where(store: 1, department: 1)
+    ##busco los vendedores y veo sus turnos
+    sellers = Seller.where(store: 1, department: 1)
 
-      sellers.each do |s|
-      	s.my_shift.each do |ms|
-      		day = ms[0].to_sym
+    sellers.each do |s|
+    	s.my_shift.each do |ms|
+    		day = ms[0].to_sym
 
-      		hours = []
-      		active_sellers = []
-      		(ms[1].to_i.. ms[2].to_i).each {|d| hours << d }
+    		hours = []
+    		active_sellers = []
+    		(ms[1].to_i.. ms[2].to_i).each {|d| hours << d }
 
-          binding.pry if days[day].nil?
-          days[day][:hours] << hours
-          days[day][:sellers]  << s.fullname
+        binding.pry if days[day].nil?
+        days[day][:hours] << hours
+        days[day][:sellers]  << s.fullname
       end
-
+    end
+    days    = days.each { |k,v| days[k][:hours] = v[:hours].flatten }
+    result  = days.each { |k,v| days[k][:hours] = v[:hours].inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }}
   end
-
-
-  days    = days.each { |k,v| days[k][:hours] = v[:hours].flatten }
-  result  = days.each { |k,v| days[k][:hours] = v[:hours].inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }}
-
-end
 
 	def staffing_draw(start_date)
 
@@ -298,421 +294,428 @@ end
     return result   
   end
 
-    def setNum(num)
-      num_parse = ActiveSupport::NumberHelper::number_to_currency(num, { delimiter: "." })
-      return num_parse
-    end
+  def setNum(num)
+    num_parse = ActiveSupport::NumberHelper::number_to_currency(num, { delimiter: "." })
+    return num_parse
+  end
 
-    def brain_json(month, year, store, department)
+  def brain_json(month, year, store, department)
 
-        month = month.to_i
-        year = year.to_i
-        store = store.to_i
-        department = department.to_i
+      month = month.to_i
+      year = year.to_i
+      store = store.to_i
+      department = department.to_i
 
-        #[1,10,28,1] 1010672 # [numero, hora, dia, numero] valor
-        # inicio crear plan_venta, tengo que crear el formato del plan de venta para 4 semanas 
+      #[1,10,28,1] 1010672 # [numero, hora, dia, numero] valor
+      # inicio crear plan_venta, tengo que crear el formato del plan de venta para 4 semanas 
+      
+      spm1 = SalePlan.where(year: year, month: month, store_id: store, department_id: department).where("week IN(1, 2, 3, 4)").map{|x, j| 
+
+        "[1,1,countRow,1] #{x.eleven}, " + "[1,2,countRow,1] #{x.twelve}, " + "[1,3,countRow,1] #{x.thirteen}, " + 
+        "[1,4,countRow,1] #{x.fourteen}, " + "[1,5,countRow,1] #{x.fifteen}, " + "[1,6,countRow,1] #{x.sixteen}, " + 
+        "[1,7,countRow,1] #{x.seventeen}, " + 
+        "[1,8,countRow,1] #{x.eighteen}, " + "[1,9,countRow,1] #{x.nineteen}, " + "[1,10,countRow,1] #{x.twenty}"
         
-        spm1 = SalePlan.where(year: year, month: month, store_id: store, department_id: department).where("week IN(1, 2, 3, 4)").map{|x, j| 
+      }
 
-          "[1,1,countRow,1] #{x.eleven}, " + "[1,2,countRow,1] #{x.twelve}, " + "[1,3,countRow,1] #{x.thirteen}, " + 
-          "[1,4,countRow,1] #{x.fourteen}, " + "[1,5,countRow,1] #{x.fifteen}, " + "[1,6,countRow,1] #{x.sixteen}, " + 
-          "[1,7,countRow,1] #{x.seventeen}, " + 
-          "[1,8,countRow,1] #{x.eighteen}, " + "[1,9,countRow,1] #{x.nineteen}, " + "[1,10,countRow,1] #{x.twenty}"
-          
-        }
+      countRow = 1
+      plan_venta_string = ""
 
-        countRow = 1
-        plan_venta_string = ""
-
-        spm1.each do |day|
-          plan_venta_string += " " + day.gsub('countRow', countRow.to_s)
-          countRow += 1
-        end
-        plan_venta_string = plan_venta_string.slice 1 .. plan_venta_string.length 
-        #asd
-        # fin crear plan_venta 
-       
-        dataCase = DataCase.where(month: month, year: year, dep_num: department)
-        
-        if dataCase.blank? == true
-            # debería crear un caso automático en este caso cargaremos uno predefinido
-            case_api = 33
-        else
-            case_api = dataCase.first[:id_case]
-        end
-            staffingCase = StaffingCase.where(id_case: case_api.to_i).first
-            dataCase = DataCase.where(id_case: case_api.to_i).first       
-
-        @data = { "accion": "ejecutar", 
-            "id_caso": staffingCase.id_case.to_i,    
-            "tolerancia": (3).round(1), 
-            "evaluar_dotacion_real": staffingCase.actual_staffing_eval.to_i,    
-            "tiempo_maximo": staffingCase.max_time.to_i,    
-            "usuario": staffingCase.user.to_s, 
-            "datos": 
-            {  
-                "num_turnos": dataCase.turn_num,
-                "num_departamentos": dataCase.dep_num,
-                "num_ventanas": 1,
-                "num_dias_ventana": dataCase.day_num,
-                "num_horas_dia": dataCase.hour_day,
-                "valor_hp": dataCase.hp_val.round(1),
-                "prod_obj": dataCase.prod_obj.round(1),
-                "VHP": "", 
-                "POV": dataCase.pov,
-                "Entrada_Almuerzo": dataCase.lunch_in,  
-                "Horas_Almuerzo": dataCase.lunch_hours,
-                "min_horas": dataCase.hour_min,  
-                "matriz_turnos": dataCase.turns_matrix.to_s, 
-                "dotacion_real": dataCase.real_dot.to_s, 
-                "plan_venta": plan_venta_string
-            }
-        }.to_json
-        return @data
-    end
-
-    def calculo_semanal(datos, dias)
-      semanasCount = 0
-      diasCount = 1
-      arraySemana = []
-
-      for i in 0..datos.length - 1 
-
-        if arraySemana[semanasCount] == nil
-          arraySemana[semanasCount] = 0
-        end
-
-        arraySemana[semanasCount] += datos[i].to_i
-
-        if diasCount < dias
-          diasCount += 1
-        else
-          diasCount = 1
-          semanasCount += 1
-        end
+      spm1.each do |day|
+        plan_venta_string += " " + day.gsub('countRow', countRow.to_s)
+        countRow += 1
       end
-      return arraySemana
-    end
-    def cerebro_plan_venta_opt(plan)
-
-      if plan.length != 0 
-        plan = JSON.parse(plan)
-        plan_venta_in = plan["datos"]["plan_venta"].to_s.split(", [")
-        plan_venta_in[0] = plan_venta_in[0].gsub("[", "")
-        num_horas_dia_in =  plan["datos"]["num_horas_dia"].to_i
-        num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
-
-        #sacar el plan de venta diario
-        plan_venta_diario = Array.new(num_dias_ventana) { |i| i = 0 }
-        #inicializar en 0
-        for i in 0..plan_venta_in.length-1 
-          plan_hora = plan_venta_in[i].to_s.split("] ")
-          plan_venta_diario[(plan_hora[0].to_s.split(",")[2]).to_i-1] = 0;
-        end
-
-        #sumatoria por día 
-        for i in 0..plan_venta_in.length-1 
-          plan_hora = plan_venta_in[i].to_s.split("] ")
-          plan_venta_diario[(plan_hora[0].to_s.split(",")[2]).to_i-1] += plan_hora[1].to_f
-        end
-
-        for i in 0..plan_venta_diario.length-1 
-          plan_venta_diario[i] =  (plan_venta_diario[i].to_i).round
-        end
+      plan_venta_string = plan_venta_string.slice 1 .. plan_venta_string.length 
+      #asd
+      # fin crear plan_venta 
+     
+      dataCase = DataCase.where(month: month, year: year, dep_num: department)
+      
+      if dataCase.blank? == true
+          # debería crear un caso automático en este caso cargaremos uno predefinido
+          case_api = 33
       else
-        plan_venta_in = ""
+          case_api = dataCase.first[:id_case]
       end
-      return plan_venta_diario
+          staffingCase = StaffingCase.where(id_case: case_api.to_i).first
+          dataCase = DataCase.where(id_case: case_api.to_i).first       
+
+      @data = { "accion": "ejecutar", 
+          "id_caso": staffingCase.id_case.to_i,    
+          "tolerancia": (3).round(1), 
+          "evaluar_dotacion_real": staffingCase.actual_staffing_eval.to_i,    
+          "tiempo_maximo": staffingCase.max_time.to_i,    
+          "usuario": staffingCase.user.to_s, 
+          "datos": 
+          {  
+              "num_turnos": dataCase.turn_num,
+              "num_departamentos": dataCase.dep_num,
+              "num_ventanas": 1,
+              "num_dias_ventana": dataCase.day_num,
+              "num_horas_dia": dataCase.hour_day,
+              "valor_hp": dataCase.hp_val.round(1),
+              "prod_obj": dataCase.prod_obj.round(1),
+              "VHP": "", 
+              "POV": dataCase.pov,
+              "Entrada_Almuerzo": dataCase.lunch_in,  
+              "Horas_Almuerzo": dataCase.lunch_hours,
+              "min_horas": dataCase.hour_min,  
+              "matriz_turnos": dataCase.turns_matrix.to_s, 
+              "dotacion_real": dataCase.real_dot.to_s, 
+              "plan_venta": plan_venta_string
+          }
+      }.to_json
+      return @data
+  end
+
+  def calculo_semanal(datos, dias)
+    semanasCount = 0
+    diasCount = 1
+    arraySemana = []
+
+    for i in 0..datos.length - 1 
+
+      if arraySemana[semanasCount] == nil
+        arraySemana[semanasCount] = 0
+      end
+
+      arraySemana[semanasCount] += datos[i].to_i
+
+      if diasCount < dias
+        diasCount += 1
+      else
+        diasCount = 1
+        semanasCount += 1
+      end
     end
-    def total_turnos(plan, dotacion)
+    return arraySemana
+  end
 
-      if plan.length != 0           
-        matriz_turnos = plan["datos"]["matriz_turnos"].to_s.split(", [")
-        matriz_turnos[0] = matriz_turnos[0].gsub("[", "")
-        num_turnos = plan["datos"]["num_turnos"]
+  def cerebro_plan_venta_opt(plan)
 
-        matriz_turnos_in = []
+    if plan.length != 0 
+      plan = JSON.parse(plan)
+      plan_venta_in = plan["datos"]["plan_venta"].to_s.split(", [")
+      plan_venta_in[0] = plan_venta_in[0].gsub("[", "")
+      num_horas_dia_in =  plan["datos"]["num_horas_dia"].to_i
+      num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
 
-        for i in 0..matriz_turnos.length-1
-          turno = matriz_turnos[i].to_s.split("] ")[0]
-          turno_1 = matriz_turnos[i].to_s.split("] ")[1]
-          coordenadas = turno.to_s.split(",")
-          matriz_turnos_in[i] = { :turno => coordenadas[0], :hora => coordenadas[1], :dia => coordenadas[2] , :valor => (turno_1).to_i}
-        end
+      #sacar el plan de venta diario
+      plan_venta_diario = Array.new(num_dias_ventana) { |i| i = 0 }
+      #inicializar en 0
+      for i in 0..plan_venta_in.length-1 
+        plan_hora = plan_venta_in[i].to_s.split("] ")
+        plan_venta_diario[(plan_hora[0].to_s.split(",")[2]).to_i-1] = 0;
+      end
 
-        #//////////////// dotacion real //////////////////////////////////
+      #sumatoria por día 
+      for i in 0..plan_venta_in.length-1 
+        plan_hora = plan_venta_in[i].to_s.split("] ")
+        plan_venta_diario[(plan_hora[0].to_s.split(",")[2]).to_i-1] += plan_hora[1].to_f
+      end
 
-        dotacion_real = dotacion
-        dotacion_real[0] = dotacion_real[0].gsub("[", "")
+      for i in 0..plan_venta_diario.length-1 
+        plan_venta_diario[i] =  (plan_venta_diario[i].to_i).round
+      end
+    else
+      plan_venta_in = ""
+    end
+    return plan_venta_diario
+  end
+
+  def total_turnos(plan, dotacion)
+
+    if plan.length != 0           
+      matriz_turnos = plan["datos"]["matriz_turnos"].to_s.split(", [")
+      matriz_turnos[0] = matriz_turnos[0].gsub("[", "")
+      num_turnos = plan["datos"]["num_turnos"]
+
+      matriz_turnos_in = []
+
+      for i in 0..matriz_turnos.length-1
+        turno = matriz_turnos[i].to_s.split("] ")[0]
+        turno_1 = matriz_turnos[i].to_s.split("] ")[1]
+        coordenadas = turno.to_s.split(",")
+        matriz_turnos_in[i] = { :turno => coordenadas[0], :hora => coordenadas[1], :dia => coordenadas[2] , :valor => (turno_1).to_i}
+      end
+
+      #//////////////// dotacion real //////////////////////////////////
+
+      dotacion_real = dotacion
+      dotacion_real[0] = dotacion_real[0].gsub("[", "")
 
 
 
-        matriz_dotacion_real = []
+      matriz_dotacion_real = []
 
-        for i in 0..dotacion_real.length-1
-          dotacion = dotacion_real[i].to_s.split("] ")[0]
-          dotacion_cantidad = dotacion_real[i].to_s.split("] ")[1]
-          coordenadas = dotacion.to_s.split(",")
-          matriz_dotacion_real[i] = {:turno => coordenadas[0], :x => coordenadas[1], :y => coordenadas[2], :cantidad => dotacion_cantidad}
-        end
+      for i in 0..dotacion_real.length-1
+        dotacion = dotacion_real[i].to_s.split("] ")[0]
+        dotacion_cantidad = dotacion_real[i].to_s.split("] ")[1]
+        coordenadas = dotacion.to_s.split(",")
+        matriz_dotacion_real[i] = {:turno => coordenadas[0], :x => coordenadas[1], :y => coordenadas[2], :cantidad => dotacion_cantidad}
+      end
 
-        #//////////////////////////////////////////////////////////////////
-        #// sumatoria de turnos real para imprimir en la gráfica
-        #//////////////////////////////////////////////////////////////////
+      #//////////////////////////////////////////////////////////////////
+      #// sumatoria de turnos real para imprimir en la gráfica
+      #//////////////////////////////////////////////////////////////////
 
-        dia = 0 #// maximo  plan.datos.num_dias_ventana
-        hora = 0 #// máximo plan.datos.num_horas_dia
+      dia = 0 #// maximo  plan.datos.num_dias_ventana
+      hora = 0 #// máximo plan.datos.num_horas_dia
 
-        sumatoria_turnos_real = Array.new((plan["datos"]["num_dias_ventana"] * plan["datos"]["num_horas_dia"]).to_i) { |i| i = 0 }
+      sumatoria_turnos_real = Array.new((plan["datos"]["num_dias_ventana"] * plan["datos"]["num_horas_dia"]).to_i) { |i| i = 0 }
 
-        for i in 0..matriz_turnos_in.length-1
-          hora_turno = matriz_turnos_in[i]
-          coordenada = ((hora_turno[:dia].to_i-1) * 10 + (hora_turno[:hora]).to_i) - 1
+      for i in 0..matriz_turnos_in.length-1
+        hora_turno = matriz_turnos_in[i]
+        coordenada = ((hora_turno[:dia].to_i-1) * 10 + (hora_turno[:hora]).to_i) - 1
 
-          for j in 0..matriz_dotacion_real.length-1
-            if matriz_dotacion_real[j][:turno] == matriz_turnos_in[i][:turno]            
-              sumatoria_turnos_real[coordenada] += (matriz_dotacion_real[j][:cantidad] ).to_i
-            end
+        for j in 0..matriz_dotacion_real.length-1
+          if matriz_dotacion_real[j][:turno] == matriz_turnos_in[i][:turno]            
+            sumatoria_turnos_real[coordenada] += (matriz_dotacion_real[j][:cantidad] ).to_i
           end
         end
-        #/////////////////////////////////////////////////////////////////
-      else
-        sumatoria_turnos_real = ""
-      end 
-      return sumatoria_turnos_real      
-    end
+      end
+      #/////////////////////////////////////////////////////////////////
+    else
+      sumatoria_turnos_real = ""
+    end 
+    return sumatoria_turnos_real      
+  end
 
 
-    def cerebro_sumatoria_turnos_diaria(plan)
-      if plan.length != 0 
-        plan = JSON.parse(plan)
-        num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
-        turnosSumatoria = Array.new(num_dias_ventana) { |i| i = 0 }
+  def cerebro_sumatoria_turnos_diaria(plan)
+    if plan.length != 0 
+      plan = JSON.parse(plan)
+      num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
+      turnosSumatoria = Array.new(num_dias_ventana) { |i| i = 0 }
 
-        dotacion = plan["datos"]["dotacion_real"].to_s.split(", [")
+      dotacion = plan["datos"]["dotacion_real"].to_s.split(", [")
 
-        totalTurnosReales = total_turnos(plan, dotacion)
+      totalTurnosReales = total_turnos(plan, dotacion)
 
-        diaSemana = 1
-        horasDiarias = 10
-        num_horas_dia_in = plan["datos"]["num_horas_dia"]
-        count = 1;
-        diaMes = 0;
+      diaSemana = 1
+      horasDiarias = 10
+      num_horas_dia_in = plan["datos"]["num_horas_dia"]
+      count = 1;
+      diaMes = 0;
 
-        countDia = 1;
+      countDia = 1;
 
-        for i in 0..turnosSumatoria.length-1 
-          turnosSumatoria[i] = 0
-        end
-
-        for i in 0..totalTurnosReales.length-1 
-          turnosSumatoria[diaMes] += (totalTurnosReales[i]).to_i
-          if countDia < num_horas_dia_in
-            countDia += 1
-          else
-            countDia = 1
-            diaMes += 1
-          end
-        end
-      else
-        turnosSumatoria = ""
+      for i in 0..turnosSumatoria.length-1 
+        turnosSumatoria[i] = 0
       end
 
-      return turnosSumatoria
-    end
-
-    def cerebro_sumatoria_turnos_optimizado(plan, id_case)
-      if plan.length != 0 
-        plan = JSON.parse(plan)
-        num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
-        turnosSumatoria = Array.new(num_dias_ventana) { |i| i = 0 }
-
-
-        # calcular turnos cubiertos
-        summaryCase = SummaryCase.where(id_case: id_case, type_io: "out").first  
-        if summaryCase
-          opt_turn = summaryCase.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+      for i in 0..totalTurnosReales.length-1 
+        turnosSumatoria[diaMes] += (totalTurnosReales[i]).to_i
+        if countDia < num_horas_dia_in
+          countDia += 1
         else
-          opt_turn = []
+          countDia = 1
+          diaMes += 1
         end
-        turnosOptimizados = Array.new(12, 0)
-
-        opt_turn.each do |turn|
-          turn = turn.split(":")
-          turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
-        end
-
-        count = 1
-        dotacion = [] 
-        turnosOptimizados.each do |turno|
-          dotacion << "#{count},1,1] #{turno}"
-          count += 1
-        end
-        
-
-        totalTurnosReales = total_turnos(plan, dotacion)
-        #asd
-        #cuadrar dotaciones reales con optimizadas.
-        diaSemana = 1
-        horasDiarias = 10
-        num_horas_dia_in = plan["datos"]["num_horas_dia"]
-        count = 1;
-        diaMes = 0;
-
-        countDia = 1;
-
-        for i in 0..turnosSumatoria.length-1 
-          turnosSumatoria[i] = 0
-        end
-
-        for i in 0..totalTurnosReales.length-1 
-          turnosSumatoria[diaMes] += (totalTurnosReales[i]).to_i
-          if countDia < num_horas_dia_in
-            countDia += 1
-          else
-            countDia = 1
-            diaMes += 1
-          end
-        end
-      else
-        turnosSumatoria = ""
       end
-
-      return turnosSumatoria
+    else
+      turnosSumatoria = ""
     end
 
+    return turnosSumatoria
+  end
 
-    def cerebro_sumatoria_turnos_entrada(plan, id_case)
-      if plan.length != 0 
-        plan = JSON.parse(plan)
-        num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
-        turnosSumatoria = Array.new(num_dias_ventana) { |i| i = 0 }
-
-
-        # calcular turnos cubiertos
-        summaryCase = SummaryCase.where(id_case: id_case, type_io: "in").first  
+  def cerebro_sumatoria_turnos_optimizado(plan, id_case)
+    if plan.length != 0 
+      plan = JSON.parse(plan)
+      num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
+      turnosSumatoria = Array.new(num_dias_ventana) { |i| i = 0 }
 
 
-        if summaryCase
-          opt_turn = summaryCase.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+      # calcular turnos cubiertos
+      summaryCase = SummaryCase.where(id_case: id_case, type_io: "out").first  
+      if summaryCase
+        opt_turn = summaryCase.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+      else
+        opt_turn = []
+      end
+      turnosOptimizados = Array.new(12, 0)
+
+      opt_turn.each do |turn|
+        turn = turn.split(":")
+        turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
+      end
+
+      count = 1
+      dotacion = [] 
+      turnosOptimizados.each do |turno|
+        dotacion << "#{count},1,1] #{turno}"
+        count += 1
+      end
+      
+
+      totalTurnosReales = total_turnos(plan, dotacion)
+      #asd
+      #cuadrar dotaciones reales con optimizadas.
+      diaSemana = 1
+      horasDiarias = 10
+      num_horas_dia_in = plan["datos"]["num_horas_dia"]
+      count = 1;
+      diaMes = 0;
+
+      countDia = 1;
+
+      for i in 0..turnosSumatoria.length-1 
+        turnosSumatoria[i] = 0
+      end
+
+      for i in 0..totalTurnosReales.length-1 
+        turnosSumatoria[diaMes] += (totalTurnosReales[i]).to_i
+        if countDia < num_horas_dia_in
+          countDia += 1
         else
-          opt_turn = []
+          countDia = 1
+          diaMes += 1
         end
-        turnosOptimizados = Array.new(12, 0)
-
-        opt_turn.each do |turn|
-          turn = turn.split(":")
-          turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
-        end
-
-        count = 1
-        dotacion = [] 
-        turnosOptimizados.each do |turno|
-          dotacion << "#{count},1,1] #{turno}"
-          count += 1
-        end
-
-        totalTurnosReales = total_turnos(plan, dotacion)
-
-        diaSemana = 1
-        horasDiarias = 10
-        num_horas_dia_in = plan["datos"]["num_horas_dia"]
-        count = 1;
-        diaMes = 0;
-
-        countDia = 1;
-
-        for i in 0..turnosSumatoria.length-1 
-          turnosSumatoria[i] = 0
-        end
-
-        for i in 0..totalTurnosReales.length-1 
-          turnosSumatoria[diaMes] += (totalTurnosReales[i]).to_i
-          if countDia < num_horas_dia_in
-            countDia += 1
-          else
-            countDia = 1
-            diaMes += 1
-          end
-        end
-      else
-        turnosSumatoria = ""
       end
-
-      return turnosSumatoria
+    else
+      turnosSumatoria = ""
     end
 
-    def cerebro_calculo_productividades_week(plan, dotacion)
-      prod_week = []
+    return turnosSumatoria
+  end
 
+
+  def cerebro_sumatoria_turnos_entrada(plan, id_case)
+    if plan.length != 0 
+      plan = JSON.parse(plan)
+      num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
+      turnosSumatoria = Array.new(num_dias_ventana) { |i| i = 0 }
+
+
+      # calcular turnos cubiertos
+      summaryCase = SummaryCase.where(id_case: id_case, type_io: "in").first  
+
+
+      if summaryCase
+        opt_turn = summaryCase.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+      else
+        opt_turn = []
+      end
+      turnosOptimizados = Array.new(12, 0)
+
+      opt_turn.each do |turn|
+        turn = turn.split(":")
+        turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
+      end
+
+      count = 1
+      dotacion = [] 
+      turnosOptimizados.each do |turno|
+        dotacion << "#{count},1,1] #{turno}"
+        count += 1
+      end
+
+      totalTurnosReales = total_turnos(plan, dotacion)
+
+      diaSemana = 1
+      horasDiarias = 10
+      num_horas_dia_in = plan["datos"]["num_horas_dia"]
+      count = 1;
+      diaMes = 0;
+
+      countDia = 1;
+
+      for i in 0..turnosSumatoria.length-1 
+        turnosSumatoria[i] = 0
+      end
+
+      for i in 0..totalTurnosReales.length-1 
+        turnosSumatoria[diaMes] += (totalTurnosReales[i]).to_i
+        if countDia < num_horas_dia_in
+          countDia += 1
+        else
+          countDia = 1
+          diaMes += 1
+        end
+      end
+    else
+      turnosSumatoria = ""
+    end
+
+    return turnosSumatoria
+  end
+
+  def cerebro_calculo_productividades_week(plan, dotacion)
+    prod_week = []
+
+    (0..plan.length-1).each do |i|
+      if dotacion[i] == nil 
+        prod_week << (plan[i] / dotacion[0]).round
+      else
+        prod_week << (plan[i] / dotacion[i]).round
+      end    
+    end
+    return prod_week
+  end
+
+
+  def cerebro_calculo_productividades_month(plan, dotacion)
+    prod_month = []
+    if dotacion.sum > 0 
       (0..plan.length-1).each do |i|
-        if dotacion[i] == nil 
-          prod_week << (plan[i] / dotacion[0]).round
-        else
-          prod_week << (plan[i] / dotacion[i]).round
-        end    
+        prod_month << (plan[i] / dotacion[i]).round
       end
-      return prod_week
     end
+    return prod_month
+  end
 
+  def dotacion_real(department, month, year)
 
-    def cerebro_calculo_productividades_month(plan, dotacion)
-      prod_month = []
-      if dotacion.sum > 0 
-        (0..plan.length-1).each do |i|
-          prod_month << (plan[i] / dotacion[i]).round
-        end
-      end
-      return prod_month
-    end
+    dotacion = StaffingReal.where(department_id: department, month: month, year: year).order(:day).pluck(:count)
+    return dotacion
+  end
 
-    def dotacion_real(department, month, year)
+  def day_now(year, month)
 
-      dotacion = StaffingReal.where(department_id: department, month: month, year: year).order(:day).pluck(:count)
-      return dotacion
-    end
+    @year         = year #params[:year]    
+    @month        = month #params[:month] 
 
-    def day_now(year, month)
+    beginning_of_month = "#{@year}-#{@month}-01".to_date
+    end_of_month = beginning_of_month.end_of_month
 
-      @year         = year #params[:year]    
-      @month        = month #params[:month] 
+    week_start = beginning_of_month.strftime("%V")
+    week_end   = end_of_month.strftime("%V")
 
-      beginning_of_month = "#{@year}-#{@month}-01".to_date
-      end_of_month = beginning_of_month.end_of_month
+    result = []
+    day = Array.new(7)
+    week_total = week_end.to_i - week_start.to_i;
+    weekSet = 1
 
-      week_start = beginning_of_month.strftime("%V")
-      week_end   = end_of_month.strftime("%V")
-
-      result = []
+    (week_start..week_end).each do |w|
+      dayCount = 0
+      @week = w
+      @dates_week = []
       day = Array.new(7)
-      week_total = week_end.to_i - week_start.to_i;
-      weekSet = 1
 
-      (week_start..week_end).each do |w|
-        dayCount = 0
-        @week = w
-        @dates_week = []
-        day = Array.new(7)
-
-        (1..7).each do |d|
-          @dates_week << Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
-          if Date.today.strftime('%d-%m-%Y').to_s == Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
-            result = { :day => d, :week => weekSet }
-          end
+      (1..7).each do |d|
+        @dates_week << Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
+        if Date.today.strftime('%d-%m-%Y').to_s == Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
+          result = { :day => d, :week => weekSet }
         end
-        weekSet += 1 
       end
-      return result
+      weekSet += 1 
     end
+    return result
+  end
 
-    def day_now_charged
-      lastSale = SaleBySeller.last(1)
-      if SaleBySeller.last(1) == []
-        result = { :day => 7, :week => 4 }
-      else  
-        result = { :day => lastSale.first.day, :week => lastSale.first.week }
-      end
-      return result
+  def day_now_charged
+    lastSale = SaleBySeller.last(1)
+    if SaleBySeller.last(1) == []
+      result = { :day => 7, :week => 4 }
+    else  
+      result = { :day => lastSale.first.day, :week => lastSale.first.week }
     end
+    return result
+  end
+
+  #calcula los turnos cubiertos entregando un array con turnos entrada, salida, cubiertos y faltantes
+  def shifts_covered
+    
+  end
 end

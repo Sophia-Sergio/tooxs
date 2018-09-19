@@ -124,44 +124,46 @@ class SalesClusterController < ApplicationController
     end
 
     #obtener valores
-    departments.each do |department|
-      sale_reals = SaleReal.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month) 
-      totalMonth = []
-      realMonth = []
-      dotMonth = []
-      sale_date = []
+    if departments.first.length > 0
+      departments.each do |department|
+        sale_reals = SaleReal.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month) 
+        totalMonth = []
+        realMonth = []
+        dotMonth = []
+        sale_date = []
 
-      sale_reals.each do |sale|
-        sale_date << sale[:sale_date].strftime("%d")
-        totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
-        totalDotDay = @staffing[("#{sale[:sale_date].strftime("%Y%m%d")}").to_sym][:hours].values.sum
-        realMonth  << totalRealDay
-        dotMonth   << totalDotDay
-        totalMonth << (totalRealDay.to_f / totalDotDay.to_f).round
-      end
-
-      store = Store.find(department.first[:store_id])
-
-      #calcular total por semana
-      saleWeek = []
-      count = 0
-      week  = 0
-      saleWeek[week] = 0
-      
-      realMonth.each do |data|
-        if count > 6
-          week += 1
-          count = 0
-          saleWeek[week] = 0
+        sale_reals.each do |sale|
+          sale_date << sale[:sale_date].strftime("%d")
+          totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+          totalDotDay = @staffing[("#{sale[:sale_date].strftime("%Y%m%d")}").to_sym][:hours].values.sum
+          realMonth  << totalRealDay
+          dotMonth   << totalDotDay
+          totalMonth << (totalRealDay.to_f / totalDotDay.to_f).round
         end
-        saleWeek[week] += data.to_i        
-        count += 1 
-      end
 
+        store = Store.find(department.first[:store_id])
 
+        #calcular total por semana
+        saleWeek = []
+        count = 0
+        week  = 0
+        saleWeek[week] = 0
         
-      element << { dates: sale_date, label: store[:name], fill: 'false', data: saleWeek, totalMonth: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
-      colorCount += 1
+        realMonth.each do |data|
+          if count > 6
+            week += 1
+            count = 0
+            saleWeek[week] = 0
+          end
+          saleWeek[week] += data.to_i        
+          count += 1 
+        end
+
+
+          
+        element << { dates: sale_date, label: store[:name], fill: 'false', data: saleWeek, totalMonth: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
+        colorCount += 1
+      end
     end
     return element
   end

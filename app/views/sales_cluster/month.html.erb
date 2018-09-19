@@ -36,8 +36,10 @@
           <tr>
             <th></th>
             <% week = 0 %>
-            <% (@resultStore.first[:saleWeek].length).times do |i| %>
-            <th> <%= "Semana #{week += 1 }" %> </th>
+            <% if @resultStore.length > 0  %>
+              <% (@resultStore.first[:saleWeek].length).times do |i| %>
+              <th> <%= "Semana #{week += 1 }" %> </th>
+              <% end %>
             <% end %>
           </tr>
         </thead>

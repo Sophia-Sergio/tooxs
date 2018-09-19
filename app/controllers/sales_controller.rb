@@ -75,10 +75,15 @@ class SalesController < ApplicationController
     end
     
     @historic_sale = historic_sale
-
-    @sum_dif = ((@real_sale.sum / @sale_plan.sum) -1 ) * 100 
-    @sum_dif2 = ((@real_sale.sum / @historic_sale.sum) -1 ) * 100 
     
+    if   @sale_plan.length > 0
+      @sum_dif = ((@real_sale.sum / @sale_plan.sum) -1 ) * 100 
+    end
+    
+    if @historic_sale.sum > 0
+      @sum_dif2 = ((@real_sale.sum / @historic_sale.sum) -1 ) * 100 
+    end
+
     @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m').to_sym}
 
   end
