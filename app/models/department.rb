@@ -2,6 +2,7 @@
 class Department < ApplicationRecord
   belongs_to :store
   has_many :sellers
+  has_many :request_detail
   validates_presence_of :name, :origin_id
 
   def to_s

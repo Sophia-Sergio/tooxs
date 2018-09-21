@@ -715,7 +715,53 @@ class ApplicationController < ActionController::Base
   end
 
   #calcula los turnos cubiertos entregando un array con turnos entrada, salida, cubiertos y faltantes
-  def shifts_covered
-    
+  def shifts_covered(id_case, department, store)  
+    turnosOptimizados = Array.new(12, 0)
+    turnosEntrada = Array.new(12, 0)
+    turnosNoCubiertos = Array.new(12, 0)
+    opt_turn = []
+
+    #turnos de entrada
+    sellers = Seller.where(department: department, store: store).pluck(:assigned_shift)
+    sellers.each do |turn|
+      turnosEntrada[turn.to_i-1] += 1
+    end
+
+    #turnos de salida
+    summaryCaseOut = SummaryCase.where( id_case: id_case, type_io: 'out').first       
+    if summaryCaseOut
+      opt_turn = summaryCaseOut.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+    else
+      opt_turn = []
+    end
+
+    opt_turn.each do |turn|
+      turn = turn.split(":")
+      turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
+    end
+    #calcular turnos cubiertos y no cubiertos
+    turnosOpTotal = turnosOptimizados.sum
+    turnosOpId = []
+
+    for i in 0..turnosOptimizados.length - 1
+
+      if turnosOptimizados[i] - turnosEntrada[i] > 0
+        turnosOpTotal = turnosOpTotal - (turnosOptimizados[i] - turnosEntrada[i])
+        turnosNoCubiertos[i + 1] = turnosOptimizados[i] - turnosEntrada[i]
+      end
+
+      if turnosOptimizados[i] != 0  
+        turnosOpId << i + 1
+      end
+    end
+    datos = {}
+    datos[:turnosEntrada] = turnosEntrada
+    datos[:turnosOptimizados] = turnosOptimizados 
+    datos[:departamento] = department 
+    datos[:turnosOpTotal] = turnosOpTotal 
+    datos[:turnosNoCubiertos] = turnosNoCubiertos 
+    datos[:turnosOpId] = turnosOpId
+
+    return datos
   end
 end

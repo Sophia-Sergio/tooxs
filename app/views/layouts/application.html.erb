@@ -128,7 +128,11 @@
             <ul class="sub-menu" style="display: inline-block;">
               <li class="">
                 <span class="icon-thumbnail"><%= image_tag 'dotacion.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Disponibilizador de turnos*', staff_request_index_path %>
+                <%= link_to 'Disponibilizador de turnos', staff_request_index_path %>
+              </li>
+              <li class="">
+                <span class="icon-thumbnail"><%= image_tag 'reporte.jpg', class: 'icon-min-menu' %></span>
+                <%= link_to 'Solicitudes realizadas', staff_request_show_path %>
               </li>
             </ul>
           </li>  

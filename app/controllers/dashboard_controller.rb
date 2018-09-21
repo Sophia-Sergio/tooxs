@@ -23,49 +23,24 @@ class DashboardController < ApplicationController
 			@margin_adjustment = summaryCaseOut.margin_adjustment.to_f
 			@prod_obj = dataCase.prod_obj.to_f
 			@prod_real = setNum((@prod_obj * @margin_adjustment) / 100)
-			opt_turn = summaryCaseOut.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
 		else
-			opt_turn = []
 			@prod_obj = 0
 			@prod_real = 0
 			@margin_adjustment = 0
 		end
 		
-		turnosOptimizados = Array.new(12, 0)
-		turnosEntrada = Array.new(12, 0)
-		
-		sellers = Seller.where(department: @department, store: @store ).pluck(:assigned_shift)
+		#turnos cubiertos
+   	    shifts_covered_data = shifts_covered(dataCase.id_case, @department, @store)  
+		turnosOpTotal = shifts_covered_data[:turnosOpTotal]
+		@turnosEntrada = shifts_covered_data[:turnosEntrada]
+		@turnosOptimizados = shifts_covered_data[:turnosOptimizados]
 
-		sellers.each do |turn|
-			turnosEntrada[turn.to_i-1] += 1
-		end
-
-		opt_turn.each do |turn|
-			turn = turn.split(":")
-			turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
-			#ads
-		end
-
-		turnosOpTotal = turnosOptimizados.sum
-		turnosOpId = []
-
-		for i in 0..turnosOptimizados.length - 1
-
-			if turnosOptimizados[i] - turnosEntrada[i] > 0
-				turnosOpTotal = turnosOpTotal - (turnosOptimizados[i] - turnosEntrada[i])
-			end
-
-			if turnosOptimizados[i] != 0  
-				turnosOpId << i + 1
-			end
-		end
 
 		@sellers = Seller.where(department: @department, store: @store)
-
 		@setSellers = []
-
 		@planVentaTotal = 0
 		@ventaTotal = 0
+
 
         @sellers.each do |seller|
 	        seller_plan = seller_staffing(seller, @month, @year)
@@ -75,7 +50,7 @@ class DashboardController < ApplicationController
 	        end
 
 	       	sale = sale_real_per_seller(seller, @year, @month)
-			
+		
 			cumplimiento = ((sale.to_f / plan.to_f) * 100).round(2)
         	@setSellers << { :seller => seller, 
         					 :sale => setNum(sale), 
@@ -85,15 +60,12 @@ class DashboardController < ApplicationController
         	@ventaTotal += sale
         end
 
-        @turnosEntrada = turnosEntrada
-        @turnosOptimizados = turnosOptimizados
-
 		@turnos_cubiertos = []
 
-		if turnosOptimizados.sum != 0
-			@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{turnosOptimizados.sum}", :porcentaje => ( turnosOpTotal* 100 / turnosOptimizados.sum).round }
+		if @turnosOptimizados.sum != 0
+			@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{@turnosOptimizados.sum}", :porcentaje => ( turnosOpTotal* 100 / @turnosOptimizados.sum).round }
 		else
-			@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{turnosOptimizados.sum}", :porcentaje => 0 }	
+			@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{@turnosOptimizados.sum}", :porcentaje => 0 }	
 		end
 
 		# calcular cumplimiento del plan

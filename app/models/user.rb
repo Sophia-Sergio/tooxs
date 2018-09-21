@@ -7,6 +7,8 @@ class User < ApplicationRecord
   enum role: [:admin, :gcc, :gcp, :gz, :gt, :gv, :jd, :colaborador]
   enum status: [:active, :disabled]
 
+  has_many :request
+
   def fullname
     [name, lastname].join(' ').titleize
   end

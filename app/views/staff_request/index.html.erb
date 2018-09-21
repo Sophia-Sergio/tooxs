@@ -14,7 +14,7 @@
   
   <div class="sub-titulo-pantalla">Parámetros</div>
   <div>
-    <%= simple_form_for @search, :url => staffing_index_path, :method => :get do |f| %>
+    <%= simple_form_for @search, :url => staff_request_index_path, :method => :get do |f| %>
     <div class="d-flex flex-wrap bd-highlight" id="sales_search_form">
       <div class="d-flex col-md-6"> 
         <div class="col-md-6">
@@ -22,14 +22,10 @@
         </div>
         <div class="col-md-6">
           <div>
-            <select class="full-width select required select2-hidden-accessible" data-init-plugin="select2" name="department" id="department" tabindex="-1" aria-hidden="true" multiple="multiple">
-              <option selected="selected" value="1" >Juvenil Mujer</option>
-              <option value="2">Moda Hombre</option>
-              <option value="3">Tecnología</option>
-              <option value="4">Deportes</option>
-              <option value="5">Moda Mujer</option>
-              <option value="6">Infantil</option>
-              <option value="7">Juvenil Mujer</option>
+            <select class="full-width select required select2-hidden-accessible" data-init-plugin="select2" name="departments[]" id="department" tabindex="-1" aria-hidden="true" multiple="multiple">
+              <% @departments.each do |department| %>
+                <option value="<%= department.id %>"><%= department.name %></option>
+              <% end %>
             </select>
           </div>  
         </div>
@@ -44,147 +40,77 @@
           </div>
 
           <div class="input-form">
-            <%= f.input :month, collection: (1..7).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month.to_i, label: false  %>  
+            <%= f.input :month, collection: (6..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month.to_i, label: false  %>  
           </div>
-          <div class="btn btn-success">
-            <i class="fa fa-search" aria-hidden="true"></i> Buscar
+          <div>
+            <%= button_tag type: 'submit',class: "btn btn-success" do %>
+              <i class="fa fa-search" aria-hidden="true"></i> Buscar
+            <% end %>
           </div>          
         </div>
       </div>
     </div>
     <% end %>
   </div>
-  <div class="formulario-comparacion">
+
+  <% if @resultadoBusqueda.length > 0 %>
+  <div class="formulario-comparacion" >
     <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
-    <div class="row" style="overflow: -webkit-paged-x;">
-      <table class="table-shift table table-striped">
-            <thead>
-                <tr>
-                    <th>Tienda</th>
-                    <th>Departamento</th>           
-                    <th>Turno</th>           
-                    <th>Descripción de turno</th>           
-                    <th>Cantidad necesaria</th>
-                    <th>Cantidad a solicitar</th>
-                    <th>Fecha inicial</th>
-                    <th>Seleccionar</th>         
-                </tr>
-            </thead>
-            <tbody class="t-p-3">
-                <tr>
-                  <td>Alto las condes</td>
-                  <td>Juvenil mujer</td>
-                  <td>4</td>
-                  <td>45 horas</td>
-                  <td>1</td>
-                  <td><input type="text" name="" style="width: 2em;"></td>
-                  <td>01-07-2018</td>
-                  <td><input type="checkbox" name=""></td>
-                </tr>
-                <tr>
-                  <td>Alto las condes</td>
-                  <td>Juvenil mujer</td>
-                  <td>5</td>
-                  <td>45 horas</td>
-                  <td>1</td>
-                  <td><input type="text" name="" style="width: 2em;"></td>
-                  <td>01-07-2018</td>
-                  <td><input type="checkbox" name=""></td>
-                </tr>
-                <tr>
-                  <td>Alto las condes</td>
-                  <td>Juvenil mujer</td>
-                  <td>10</td>
-                  <td>Sábado y Domingo</td>
-                  <td>5</td>
-                  <td><input type="text" name="" style=" width: 2em;"></td>
-                  <td>01-08-2018</td>
-                  <td><input type="checkbox" name=""></td>
-                </tr>
-                <tr>
-                  <td>Alto las condes</td>
-                  <td>Juvenil mujer</td>
-                  <td>11</td>
-                  <td>1 Tarde</td>
-                  <td>3</td>
-                  <td><input type="text" name="" style=" width: 2em;"></td>
-                  <td>01-07-2018</td>
-                  <td><input type="checkbox" name=""></td>
-                </tr>
-                <tr>
-                  <td>Alto las condes</td>
-                  <td>Juvenil mujer</td>
-                  <td>12</td>
-                  <td>2 Tarde</td>
-                  <td>1</td>
-                  <td><input type="text" name="" style=" width: 2em;"></td>
-                  <td>01-07-2018</td>
-                  <td><input type="checkbox" name=""></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="d-flex justify-content-end col-md-12 mt-2">
-    <button class="btn btn-success">Resumir</button>
-    </div>
-    <div class="sub-titulo-pantalla">Resultado de solicitud</div>
-    <div class="row" style="overflow: -webkit-paged-x;">
-      <table class="table-shift table table-striped">
-            <thead>
-                <tr>
-                    <th>Tienda</th>
-                    <th>Departamento</th>           
-                    <th>Turno</th>           
-                    <th>Descripción de turno</th>           
-                    <th>Cantidad a solicitar</th>
-                    <th>Fecha inicial</th>
-                </tr>
-            </thead>
-            <tbody class="t-p-3">
-                <tr>
-                  <td>Alto las condes</td>
-                  <td>Moda mujer</td>
-                  <td>2</td>
-                  <td>Turno 45 horas</td>
-                  <td>2</td>
-                  <td>01-07-2018</td>
-                </tr>
-                <tr>
-                  <td>Alto las condes</td>
-                  <td>Moda mujer</td>
-                  <td>2</td>
-                  <td>Turno 2 Sábados y Domingos</td>
-                  <td>1</td>
-                  <td>01-08-2018</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="sub-titulo-pantalla">Dónde desea publicar</div>
-    <div class="row">
-      <div class="d-flex flex-wrap">
-        <div class="form-group mr-3">
-          <input type="checkbox" name="">
-          <label>Postulación interna</label>
-        </div>
-        <div class="form-group mr-3">
-          <input type="checkbox" name="">
-          <label>Laborum</label>
-        </div>
-        <div class="form-group mr-3">
-          <input type="checkbox" name="">
-          <label>Trabajando</label>
-        </div>
-        <div class="form-group mr-3">
-          <input type="checkbox" name="">
-          <label>RRHH</label>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-success">Publicar</button>
-        </div>
+    <div id="resultado_busqueda">
+      <%= simple_form_for @search, :url => staff_request_request_send_path, :method => :post do |f| %>
+      <div class="row" style="overflow: -webkit-paged-x;">
+        <table class="table-shift table table-striped">
+              <thead>
+                  <tr>
+                      <th>Tienda</th>
+                      <th>Departamento</th>           
+                      <th>Turno</th>           
+                      <th>Descripción de turno</th>           
+                      <th>Cantidad necesaria</th>
+                      <th>Cantidad a solicitar</th>
+                      <th>Fecha inicial</th>
+                      <th>Seleccionar</th>         
+                  </tr>
+              </thead>
+              <tbody class="t-p-3">
+                  <% count_row = 1 %>
+                  <% @resultadoBusqueda.each do |resultado| %>
+                  <tr>
+                    <td>
+                      <%= resultado[:tienda].name %>
+                      <input type="hidden" name="store_<%= count_row %>" value="<%= resultado[:tienda].id %>" >  
+                    </td>
+                    <td>
+                      <%= resultado[:dep].name %>
+                      <input type="hidden" name="dep_id_<%= count_row %>" value="<%= resultado[:dep].id %>" > 
+                    </td>
+                    <td>
+                      <%= resultado[:turno] %>
+                      <input type="hidden" name="turno_id_<%= count_row %>" value="<%= resultado[:turno] %>" >     
+                    </td>
+                    <td><%= resultado[:descrip] %></td>
+                    <td><%= resultado[:cantidad] %></td>
+                    <td><input type="text" name="cantidad_<%= count_row %>" style="width: 2em;"></td>
+                    <td>
+                      <%= resultado[:fecha] %>
+                      <input type="hidden" name="fecha_<%= count_row %>" value="<%= resultado[:fecha] %>" >
+                      <input type="hidden" name="count_row" value="<%= count_row %>" >
+                    </td>
+                    <td><input type="checkbox" name="cargar_<%= count_row %>"></td>
+                  </tr>
+                  <% count_row += 1 %>
+                  <% end %>
+              </tbody>
+          </table>
       </div>
+      <div class="d-flex justify-content-end col-md-12 mt-2">
+      <%= button_tag type: 'submit',class: "btn btn-success" do %>
+        Resumir
+      <% end %>
+      </div>
+      <% end %>
     </div>
   </div>
+  <% end %>
 </div>
-
 

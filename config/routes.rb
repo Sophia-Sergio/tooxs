@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :request_details
+  resources :requests
   resources :master_departments
   resources :summary_cases
   resources :return_cases
@@ -12,8 +14,11 @@ Rails.application.routes.draw do
       get 'downloads'
       }
   end
-
+  
+  get 'staff_request/show'
   get 'staff_request/index'
+  post 'staff_request/request_send'
+  post 'staff_request/generated'
   get 'hour_analysis/index'
   get 'dashboard/administracion'
   get 'dashboard/ventas'
