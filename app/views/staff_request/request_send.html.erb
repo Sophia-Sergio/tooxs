@@ -20,25 +20,25 @@
                 <tr>
                   <td>
                     <%= resultado[:store].name %>
-                    <input type="hidden" name="store_<%= count_row %>" value="<%= resultado[:store].id %>" >  
+                    <input class="form-control" type="hidden" name="store_<%= count_row %>" value="<%= resultado[:store].id %>" >  
                   </td>
                   <td>
                     <%= resultado[:dep].name %>
-                    <input type="hidden" name="dep_<%= count_row %>" value="<%= resultado[:dep].id %>" > 
+                    <input class="form-control" type="hidden" name="dep_<%= count_row %>" value="<%= resultado[:dep].id %>" > 
                   </td>
                   <td>
                     <%= resultado[:turno].num %>
-                    <input type="hidden" name="turno_<%= count_row %>" value="<%= resultado[:turno].num %>" >                    
+                    <input class="form-control" type="hidden" name="turno_<%= count_row %>" value="<%= resultado[:turno].num %>" >                    
                   </td>
                   <td><%= resultado[:turno].name %></td>
                   <td>
                     <%= resultado[:cantidad] %>
-                    <input type="hidden" name="cantidad_<%= count_row %>" value="<%= resultado[:cantidad] %>" >       
+                    <input class="form-control" type="hidden" name="cantidad_<%= count_row %>" value="<%= resultado[:cantidad] %>" >       
                   </td>
                   <td>
                     <%= resultado[:fecha] %>
-                    <input type="hidden" name="fecha_<%= count_row %>" value="<%= resultado[:fecha] %>" >
-                    <input type="hidden" name="count_row" value="<%= count_row %>" > 
+                    <input class="form-control" type="hidden" name="fecha_<%= count_row %>" value="<%= resultado[:fecha] %>" >
+                    <input  class="form-control" type="hidden" name="count_row" value="<%= count_row %>" > 
                   </td>
                 </tr>
                 <% count_row += 1 %>

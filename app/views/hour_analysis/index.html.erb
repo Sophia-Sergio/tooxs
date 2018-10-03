@@ -106,7 +106,12 @@
             <td>Prod. Optimizada</td>
             <td id="dot_op-"><%= @dotacion_w_op.sum %></td>
             <td id="vent_op-"><%= number_to_currency @venta_w_real.sum %></td>
-            <td id="prod_op-"><%= number_to_currency (@venta_w_real.sum / @dotacion_w_op.sum).round %></td>
+
+            <td id="prod_op-">
+              <% if @dotacion_w_op.length > 0 %>
+              <%= number_to_currency (@venta_w_real.sum / @dotacion_w_op.sum).round %>
+              <% end %>   
+            </td>
             <td id="sum-faltante-op"></td>
             <td id="sum-exceso-op"></td>
           </tr>

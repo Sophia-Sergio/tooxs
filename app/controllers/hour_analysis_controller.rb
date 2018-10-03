@@ -34,8 +34,11 @@ class HourAnalysisController < ApplicationController
 		@plan = JSON.parse(@brain_json)
 
 		dotReal = dotacion_real(@dep, month, year)
-
-		@dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
+        if dataCase.length > 0
+		  @dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
+        else
+          @dotacion_w_op = []
+        end
 		@dotacion_w_real = calculo_semanal(dotReal, 7)
 
 		@prod_w_op = cerebro_calculo_productividades_week(@venta_w_real, @dotacion_w_op)
@@ -90,40 +93,10 @@ class HourAnalysisController < ApplicationController
             @totalMonth << (totalRealDay.to_f / totalDotDay.to_f).round
         end
 
-        #sales plan per day
-        @sp_w1_daily = SalePlan.where(year: year, month: month, week: 1, store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
-        @sp_w2_daily = SalePlan.where(year: year, month: month, week: 2, store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
-        @sp_w3_daily = SalePlan.where(year: year, month: month, week: 3, store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
-        @sp_w4_daily = SalePlan.where(year: year, month: month, week: 4, store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
-
-        #staffdrawing per week
-        @sd_w1 = staffing_draw(w1)[:draw].values.flatten.sum
-        @sd_w2 = staffing_draw(w2)[:draw].values.flatten.sum
-        @sd_w3 = staffing_draw(w3)[:draw].values.flatten.sum
-        @sd_w4 = staffing_draw(w4)[:draw].values.flatten.sum
-
-        #staffdrawing per day-week
-        @sd_w1_daily  = staffing_draw(w1)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
-        @sd_w2_daily  = staffing_draw(w2)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
-        @sd_w3_daily  = staffing_draw(w3)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
-        @sd_w4_daily  = staffing_draw(w4)[:draw].values.map{|x| x.flatten }.transpose.map{|a| a.sum}
-
-        #productivity per day-week
-        @prd_w1_day = @sp_w1_daily.zip(@sd_w1_daily).map{|a,b| a/b }
-        @prd_w2_day = @sp_w2_daily.zip(@sd_w2_daily).map{|a,b| a/b }
-        @prd_w3_day = @sp_w3_daily.zip(@sd_w3_daily).map{|a,b| a/b }
-        @prd_w4_day = @sp_w4_daily.zip(@sd_w4_daily).map{|a,b| a/b }
-
         @data = { :dates_week => @w1_days,
               :dates_week_2 => @w2_days,
               :dates_week_3 => @w3_days,
               :dates_week_4 => @w4_days, 
-              :sp => @sp_w1_daily, 
-              :sd => @sd_w1_daily, 
-              :prd => @prd_w1_day, 
-              :prd1 => @prd_w2_day,
-              :prd2 => @prd_w3_day, 
-              :prd3 => @prd_w4_day,
               :spm1 => @sp_m1,
               :tsm1 => @totalMonth, 
               :vrm1 => @realMonth,

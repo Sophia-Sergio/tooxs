@@ -4,7 +4,7 @@ class StaffingController < ApplicationController
     if params[:department] == nil
       params[:department] = 1
       params[:store] = 1
-      params[:month] = Date.today.strftime("%m").to_i
+      params[:month] = 6
     end
   
     @month = params[:month]
@@ -17,8 +17,6 @@ class StaffingController < ApplicationController
     @w2_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 2, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
     @w3_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 3, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
     @w4_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
-
-
 
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Dotación personal", :staffing_index_path

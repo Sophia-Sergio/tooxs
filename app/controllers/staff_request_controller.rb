@@ -23,7 +23,13 @@ class StaffRequestController < ApplicationController
     #obtener los turnos no cubiertos dependiendo de los parametros de busqueda
     @resultadoBusqueda = []
     @resultadoSolicitud = []
-    
+
+    @dep.each do |dep_id|    
+      if dep_id == "0"
+        @dep = MasterDepartment.all.pluck(:id)
+      end
+    end
+
     @dep.each do |dep_id|
 
       # buscar el departamento id

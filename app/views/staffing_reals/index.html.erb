@@ -19,21 +19,25 @@
       <table class="table  table-hover table-smallFont" id="table-staffing_real">
         <thead>
           <tr>
-            <th>Department</th>
-            <th>Year</th>
-            <th>Month</th>
-            <th>Day</th>
-            <th>Count</th>
+            <th>Tienda</th>
+            <th>Departmento</th>
+            <th>Año</th>
+            <th>Mes</th>
+            <th>Día</th>
+            <th>Hora</th>
+            <th>Cantidad</th>
             <th colspan="1"></th>
           </tr>
         </thead>
         <tbody>
           <% @staffing_reals.each do |staffing_real| %>
             <tr>
+              <td><%= staffing_real.store %></td>
               <td><%= staffing_real.department %></td>
               <td><%= staffing_real.year %></td>
               <td><%= staffing_real.month %></td>
               <td><%= staffing_real.day %></td>
+              <td><%= staffing_real.hour %></td>
               <td><%= staffing_real.count %></td>
             </tr>
           <% end %>

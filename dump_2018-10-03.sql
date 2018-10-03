@@ -2,12 +2,18 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.6.8
+-- Dumped by pg_dump version 9.6.8
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
@@ -23,17 +29,15 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
-SET search_path = public, pg_catalog;
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE ar_internal_metadata (
+CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
     created_at timestamp without time zone NOT NULL,
@@ -41,13 +45,13 @@ CREATE TABLE ar_internal_metadata (
 );
 
 
-ALTER TABLE ar_internal_metadata OWNER TO coke;
+ALTER TABLE public.ar_internal_metadata OWNER TO coke;
 
 --
--- Name: available_shifts; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: available_shifts; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE available_shifts (
+CREATE TABLE public.available_shifts (
     id bigint NOT NULL,
     store_id bigint,
     num integer,
@@ -76,13 +80,13 @@ CREATE TABLE available_shifts (
 );
 
 
-ALTER TABLE available_shifts OWNER TO coke;
+ALTER TABLE public.available_shifts OWNER TO coke;
 
 --
 -- Name: available_shifts_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE available_shifts_id_seq
+CREATE SEQUENCE public.available_shifts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -90,20 +94,20 @@ CREATE SEQUENCE available_shifts_id_seq
     CACHE 1;
 
 
-ALTER TABLE available_shifts_id_seq OWNER TO coke;
+ALTER TABLE public.available_shifts_id_seq OWNER TO coke;
 
 --
 -- Name: available_shifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE available_shifts_id_seq OWNED BY available_shifts.id;
+ALTER SEQUENCE public.available_shifts_id_seq OWNED BY public.available_shifts.id;
 
 
 --
--- Name: clusters; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: clusters; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE clusters (
+CREATE TABLE public.clusters (
     id bigint NOT NULL,
     name character varying,
     description text,
@@ -112,13 +116,13 @@ CREATE TABLE clusters (
 );
 
 
-ALTER TABLE clusters OWNER TO postgres;
+ALTER TABLE public.clusters OWNER TO postgres;
 
 --
 -- Name: clusters_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE clusters_id_seq
+CREATE SEQUENCE public.clusters_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -126,20 +130,20 @@ CREATE SEQUENCE clusters_id_seq
     CACHE 1;
 
 
-ALTER TABLE clusters_id_seq OWNER TO postgres;
+ALTER TABLE public.clusters_id_seq OWNER TO postgres;
 
 --
 -- Name: clusters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE clusters_id_seq OWNED BY clusters.id;
+ALTER SEQUENCE public.clusters_id_seq OWNED BY public.clusters.id;
 
 
 --
--- Name: data_cases; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: data_cases; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE data_cases (
+CREATE TABLE public.data_cases (
     id bigint NOT NULL,
     id_case integer,
     turn_num integer,
@@ -163,13 +167,13 @@ CREATE TABLE data_cases (
 );
 
 
-ALTER TABLE data_cases OWNER TO postgres;
+ALTER TABLE public.data_cases OWNER TO postgres;
 
 --
 -- Name: data_cases_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE data_cases_id_seq
+CREATE SEQUENCE public.data_cases_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -177,20 +181,20 @@ CREATE SEQUENCE data_cases_id_seq
     CACHE 1;
 
 
-ALTER TABLE data_cases_id_seq OWNER TO postgres;
+ALTER TABLE public.data_cases_id_seq OWNER TO postgres;
 
 --
 -- Name: data_cases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE data_cases_id_seq OWNED BY data_cases.id;
+ALTER SEQUENCE public.data_cases_id_seq OWNED BY public.data_cases.id;
 
 
 --
--- Name: departments; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: departments; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE departments (
+CREATE TABLE public.departments (
     id bigint NOT NULL,
     origin_id integer,
     name character varying,
@@ -202,13 +206,13 @@ CREATE TABLE departments (
 );
 
 
-ALTER TABLE departments OWNER TO coke;
+ALTER TABLE public.departments OWNER TO coke;
 
 --
 -- Name: departments_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE departments_id_seq
+CREATE SEQUENCE public.departments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -216,20 +220,20 @@ CREATE SEQUENCE departments_id_seq
     CACHE 1;
 
 
-ALTER TABLE departments_id_seq OWNER TO coke;
+ALTER TABLE public.departments_id_seq OWNER TO coke;
 
 --
 -- Name: departments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE departments_id_seq OWNED BY departments.id;
+ALTER SEQUENCE public.departments_id_seq OWNED BY public.departments.id;
 
 
 --
--- Name: historic_sales; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: historic_sales; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE historic_sales (
+CREATE TABLE public.historic_sales (
     id bigint NOT NULL,
     department_id bigint,
     nine bigint DEFAULT 0,
@@ -259,13 +263,13 @@ CREATE TABLE historic_sales (
 );
 
 
-ALTER TABLE historic_sales OWNER TO coke;
+ALTER TABLE public.historic_sales OWNER TO coke;
 
 --
 -- Name: historic_sales_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE historic_sales_id_seq
+CREATE SEQUENCE public.historic_sales_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -273,20 +277,20 @@ CREATE SEQUENCE historic_sales_id_seq
     CACHE 1;
 
 
-ALTER TABLE historic_sales_id_seq OWNER TO coke;
+ALTER TABLE public.historic_sales_id_seq OWNER TO coke;
 
 --
 -- Name: historic_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE historic_sales_id_seq OWNED BY historic_sales.id;
+ALTER SEQUENCE public.historic_sales_id_seq OWNED BY public.historic_sales.id;
 
 
 --
--- Name: hs; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: hs; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE hs (
+CREATE TABLE public.hs (
     id bigint NOT NULL,
     store_id bigint,
     department_id bigint,
@@ -316,13 +320,13 @@ CREATE TABLE hs (
 );
 
 
-ALTER TABLE hs OWNER TO coke;
+ALTER TABLE public.hs OWNER TO coke;
 
 --
 -- Name: hs_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE hs_id_seq
+CREATE SEQUENCE public.hs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -330,20 +334,20 @@ CREATE SEQUENCE hs_id_seq
     CACHE 1;
 
 
-ALTER TABLE hs_id_seq OWNER TO coke;
+ALTER TABLE public.hs_id_seq OWNER TO coke;
 
 --
 -- Name: hs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE hs_id_seq OWNED BY hs.id;
+ALTER SEQUENCE public.hs_id_seq OWNED BY public.hs.id;
 
 
 --
--- Name: master_departments; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: master_departments; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE master_departments (
+CREATE TABLE public.master_departments (
     id bigint NOT NULL,
     name character varying,
     created_at timestamp without time zone NOT NULL,
@@ -351,13 +355,13 @@ CREATE TABLE master_departments (
 );
 
 
-ALTER TABLE master_departments OWNER TO postgres;
+ALTER TABLE public.master_departments OWNER TO postgres;
 
 --
 -- Name: master_departments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE master_departments_id_seq
+CREATE SEQUENCE public.master_departments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -365,20 +369,97 @@ CREATE SEQUENCE master_departments_id_seq
     CACHE 1;
 
 
-ALTER TABLE master_departments_id_seq OWNER TO postgres;
+ALTER TABLE public.master_departments_id_seq OWNER TO postgres;
 
 --
 -- Name: master_departments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE master_departments_id_seq OWNED BY master_departments.id;
+ALTER SEQUENCE public.master_departments_id_seq OWNED BY public.master_departments.id;
 
 
 --
--- Name: return_cases; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: request_details; Type: TABLE; Schema: public; Owner: Magnius
 --
 
-CREATE TABLE return_cases (
+CREATE TABLE public.request_details (
+    id bigint NOT NULL,
+    request_id integer,
+    department_id integer,
+    turn integer,
+    quantity integer,
+    rrhh integer,
+    internal integer,
+    laborum integer,
+    trabajando integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.request_details OWNER TO "Magnius";
+
+--
+-- Name: request_details_id_seq; Type: SEQUENCE; Schema: public; Owner: Magnius
+--
+
+CREATE SEQUENCE public.request_details_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.request_details_id_seq OWNER TO "Magnius";
+
+--
+-- Name: request_details_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Magnius
+--
+
+ALTER SEQUENCE public.request_details_id_seq OWNED BY public.request_details.id;
+
+
+--
+-- Name: requests; Type: TABLE; Schema: public; Owner: Magnius
+--
+
+CREATE TABLE public.requests (
+    id bigint NOT NULL,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.requests OWNER TO "Magnius";
+
+--
+-- Name: requests_id_seq; Type: SEQUENCE; Schema: public; Owner: Magnius
+--
+
+CREATE SEQUENCE public.requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.requests_id_seq OWNER TO "Magnius";
+
+--
+-- Name: requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Magnius
+--
+
+ALTER SEQUENCE public.requests_id_seq OWNED BY public.requests.id;
+
+
+--
+-- Name: return_cases; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.return_cases (
     id bigint NOT NULL,
     id_case integer,
     eff_margin character varying,
@@ -406,13 +487,13 @@ CREATE TABLE return_cases (
 );
 
 
-ALTER TABLE return_cases OWNER TO postgres;
+ALTER TABLE public.return_cases OWNER TO postgres;
 
 --
 -- Name: return_cases_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE return_cases_id_seq
+CREATE SEQUENCE public.return_cases_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -420,20 +501,20 @@ CREATE SEQUENCE return_cases_id_seq
     CACHE 1;
 
 
-ALTER TABLE return_cases_id_seq OWNER TO postgres;
+ALTER TABLE public.return_cases_id_seq OWNER TO postgres;
 
 --
 -- Name: return_cases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE return_cases_id_seq OWNED BY return_cases.id;
+ALTER SEQUENCE public.return_cases_id_seq OWNED BY public.return_cases.id;
 
 
 --
--- Name: rs; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: rs; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE rs (
+CREATE TABLE public.rs (
     id bigint NOT NULL,
     store_id bigint,
     department_id bigint,
@@ -463,13 +544,13 @@ CREATE TABLE rs (
 );
 
 
-ALTER TABLE rs OWNER TO coke;
+ALTER TABLE public.rs OWNER TO coke;
 
 --
 -- Name: rs_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE rs_id_seq
+CREATE SEQUENCE public.rs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -477,20 +558,20 @@ CREATE SEQUENCE rs_id_seq
     CACHE 1;
 
 
-ALTER TABLE rs_id_seq OWNER TO coke;
+ALTER TABLE public.rs_id_seq OWNER TO coke;
 
 --
 -- Name: rs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE rs_id_seq OWNED BY rs.id;
+ALTER SEQUENCE public.rs_id_seq OWNED BY public.rs.id;
 
 
 --
--- Name: sale_by_sellers; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: sale_by_sellers; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE sale_by_sellers (
+CREATE TABLE public.sale_by_sellers (
     id bigint NOT NULL,
     seller integer,
     month integer,
@@ -506,13 +587,13 @@ CREATE TABLE sale_by_sellers (
 );
 
 
-ALTER TABLE sale_by_sellers OWNER TO postgres;
+ALTER TABLE public.sale_by_sellers OWNER TO postgres;
 
 --
 -- Name: sale_by_sellers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE sale_by_sellers_id_seq
+CREATE SEQUENCE public.sale_by_sellers_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -520,20 +601,20 @@ CREATE SEQUENCE sale_by_sellers_id_seq
     CACHE 1;
 
 
-ALTER TABLE sale_by_sellers_id_seq OWNER TO postgres;
+ALTER TABLE public.sale_by_sellers_id_seq OWNER TO postgres;
 
 --
 -- Name: sale_by_sellers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE sale_by_sellers_id_seq OWNED BY sale_by_sellers.id;
+ALTER SEQUENCE public.sale_by_sellers_id_seq OWNED BY public.sale_by_sellers.id;
 
 
 --
--- Name: sale_plans; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: sale_plans; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE sale_plans (
+CREATE TABLE public.sale_plans (
     id bigint NOT NULL,
     department_id bigint,
     created_at timestamp without time zone NOT NULL,
@@ -563,13 +644,13 @@ CREATE TABLE sale_plans (
 );
 
 
-ALTER TABLE sale_plans OWNER TO coke;
+ALTER TABLE public.sale_plans OWNER TO coke;
 
 --
 -- Name: sale_plans_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE sale_plans_id_seq
+CREATE SEQUENCE public.sale_plans_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -577,20 +658,20 @@ CREATE SEQUENCE sale_plans_id_seq
     CACHE 1;
 
 
-ALTER TABLE sale_plans_id_seq OWNER TO coke;
+ALTER TABLE public.sale_plans_id_seq OWNER TO coke;
 
 --
 -- Name: sale_plans_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE sale_plans_id_seq OWNED BY sale_plans.id;
+ALTER SEQUENCE public.sale_plans_id_seq OWNED BY public.sale_plans.id;
 
 
 --
--- Name: sale_reals; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: sale_reals; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE sale_reals (
+CREATE TABLE public.sale_reals (
     id bigint NOT NULL,
     store_id bigint,
     department_id bigint,
@@ -620,13 +701,13 @@ CREATE TABLE sale_reals (
 );
 
 
-ALTER TABLE sale_reals OWNER TO coke;
+ALTER TABLE public.sale_reals OWNER TO coke;
 
 --
 -- Name: sale_reals_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE sale_reals_id_seq
+CREATE SEQUENCE public.sale_reals_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -634,31 +715,31 @@ CREATE SEQUENCE sale_reals_id_seq
     CACHE 1;
 
 
-ALTER TABLE sale_reals_id_seq OWNER TO coke;
+ALTER TABLE public.sale_reals_id_seq OWNER TO coke;
 
 --
 -- Name: sale_reals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE sale_reals_id_seq OWNED BY sale_reals.id;
+ALTER SEQUENCE public.sale_reals_id_seq OWNED BY public.sale_reals.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE schema_migrations (
+CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
 
 
-ALTER TABLE schema_migrations OWNER TO coke;
+ALTER TABLE public.schema_migrations OWNER TO coke;
 
 --
--- Name: sellers; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: sellers; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE sellers (
+CREATE TABLE public.sellers (
     id bigint NOT NULL,
     rut character varying,
     name character varying,
@@ -680,13 +761,13 @@ CREATE TABLE sellers (
 );
 
 
-ALTER TABLE sellers OWNER TO coke;
+ALTER TABLE public.sellers OWNER TO coke;
 
 --
 -- Name: sellers_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE sellers_id_seq
+CREATE SEQUENCE public.sellers_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -694,20 +775,20 @@ CREATE SEQUENCE sellers_id_seq
     CACHE 1;
 
 
-ALTER TABLE sellers_id_seq OWNER TO coke;
+ALTER TABLE public.sellers_id_seq OWNER TO coke;
 
 --
 -- Name: sellers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE sellers_id_seq OWNED BY sellers.id;
+ALTER SEQUENCE public.sellers_id_seq OWNED BY public.sellers.id;
 
 
 --
--- Name: shift_breaks; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: shift_breaks; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE shift_breaks (
+CREATE TABLE public.shift_breaks (
     id bigint NOT NULL,
     seller_id bigint,
     date date,
@@ -717,13 +798,13 @@ CREATE TABLE shift_breaks (
 );
 
 
-ALTER TABLE shift_breaks OWNER TO coke;
+ALTER TABLE public.shift_breaks OWNER TO coke;
 
 --
 -- Name: shift_breaks_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE shift_breaks_id_seq
+CREATE SEQUENCE public.shift_breaks_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -731,20 +812,20 @@ CREATE SEQUENCE shift_breaks_id_seq
     CACHE 1;
 
 
-ALTER TABLE shift_breaks_id_seq OWNER TO coke;
+ALTER TABLE public.shift_breaks_id_seq OWNER TO coke;
 
 --
 -- Name: shift_breaks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE shift_breaks_id_seq OWNED BY shift_breaks.id;
+ALTER SEQUENCE public.shift_breaks_id_seq OWNED BY public.shift_breaks.id;
 
 
 --
--- Name: sps; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: sps; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE sps (
+CREATE TABLE public.sps (
     id bigint NOT NULL,
     store_id bigint,
     department_id bigint,
@@ -759,13 +840,13 @@ CREATE TABLE sps (
 );
 
 
-ALTER TABLE sps OWNER TO coke;
+ALTER TABLE public.sps OWNER TO coke;
 
 --
 -- Name: sps_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE sps_id_seq
+CREATE SEQUENCE public.sps_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -773,20 +854,20 @@ CREATE SEQUENCE sps_id_seq
     CACHE 1;
 
 
-ALTER TABLE sps_id_seq OWNER TO coke;
+ALTER TABLE public.sps_id_seq OWNER TO coke;
 
 --
 -- Name: sps_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE sps_id_seq OWNED BY sps.id;
+ALTER SEQUENCE public.sps_id_seq OWNED BY public.sps.id;
 
 
 --
--- Name: staffing_cases; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: staffing_cases; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE staffing_cases (
+CREATE TABLE public.staffing_cases (
     id bigint NOT NULL,
     id_case integer,
     tolerance integer,
@@ -798,13 +879,13 @@ CREATE TABLE staffing_cases (
 );
 
 
-ALTER TABLE staffing_cases OWNER TO postgres;
+ALTER TABLE public.staffing_cases OWNER TO postgres;
 
 --
 -- Name: staffing_cases_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE staffing_cases_id_seq
+CREATE SEQUENCE public.staffing_cases_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -812,37 +893,40 @@ CREATE SEQUENCE staffing_cases_id_seq
     CACHE 1;
 
 
-ALTER TABLE staffing_cases_id_seq OWNER TO postgres;
+ALTER TABLE public.staffing_cases_id_seq OWNER TO postgres;
 
 --
 -- Name: staffing_cases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE staffing_cases_id_seq OWNED BY staffing_cases.id;
+ALTER SEQUENCE public.staffing_cases_id_seq OWNED BY public.staffing_cases.id;
 
 
 --
--- Name: staffing_reals; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: staffing_reals; Type: TABLE; Schema: public; Owner: Magnius
 --
 
-CREATE TABLE staffing_reals (
+CREATE TABLE public.staffing_reals (
     id bigint NOT NULL,
-    seller integer,
-    date date,
-    hour integer,
-    department integer,
+    department_id bigint,
+    year integer,
+    month integer,
+    day integer,
+    count integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    hour integer,
+    store_id integer
 );
 
 
-ALTER TABLE staffing_reals OWNER TO postgres;
+ALTER TABLE public.staffing_reals OWNER TO "Magnius";
 
 --
--- Name: staffing_reals_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: staffing_reals_id_seq; Type: SEQUENCE; Schema: public; Owner: Magnius
 --
 
-CREATE SEQUENCE staffing_reals_id_seq
+CREATE SEQUENCE public.staffing_reals_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -850,20 +934,20 @@ CREATE SEQUENCE staffing_reals_id_seq
     CACHE 1;
 
 
-ALTER TABLE staffing_reals_id_seq OWNER TO postgres;
+ALTER TABLE public.staffing_reals_id_seq OWNER TO "Magnius";
 
 --
--- Name: staffing_reals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: staffing_reals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Magnius
 --
 
-ALTER SEQUENCE staffing_reals_id_seq OWNED BY staffing_reals.id;
+ALTER SEQUENCE public.staffing_reals_id_seq OWNED BY public.staffing_reals.id;
 
 
 --
--- Name: store_categories; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: store_categories; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE store_categories (
+CREATE TABLE public.store_categories (
     id bigint NOT NULL,
     name character varying,
     created_at timestamp without time zone NOT NULL,
@@ -871,13 +955,13 @@ CREATE TABLE store_categories (
 );
 
 
-ALTER TABLE store_categories OWNER TO coke;
+ALTER TABLE public.store_categories OWNER TO coke;
 
 --
 -- Name: store_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE store_categories_id_seq
+CREATE SEQUENCE public.store_categories_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -885,20 +969,20 @@ CREATE SEQUENCE store_categories_id_seq
     CACHE 1;
 
 
-ALTER TABLE store_categories_id_seq OWNER TO coke;
+ALTER TABLE public.store_categories_id_seq OWNER TO coke;
 
 --
 -- Name: store_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE store_categories_id_seq OWNED BY store_categories.id;
+ALTER SEQUENCE public.store_categories_id_seq OWNED BY public.store_categories.id;
 
 
 --
--- Name: stores; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: stores; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE stores (
+CREATE TABLE public.stores (
     id bigint NOT NULL,
     name character varying,
     street character varying,
@@ -916,13 +1000,13 @@ CREATE TABLE stores (
 );
 
 
-ALTER TABLE stores OWNER TO coke;
+ALTER TABLE public.stores OWNER TO coke;
 
 --
 -- Name: stores_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE stores_id_seq
+CREATE SEQUENCE public.stores_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -930,20 +1014,20 @@ CREATE SEQUENCE stores_id_seq
     CACHE 1;
 
 
-ALTER TABLE stores_id_seq OWNER TO coke;
+ALTER TABLE public.stores_id_seq OWNER TO coke;
 
 --
 -- Name: stores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE stores_id_seq OWNED BY stores.id;
+ALTER SEQUENCE public.stores_id_seq OWNED BY public.stores.id;
 
 
 --
--- Name: summary_cases; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: summary_cases; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE summary_cases (
+CREATE TABLE public.summary_cases (
     id bigint NOT NULL,
     id_case integer,
     sale_plan character varying,
@@ -959,13 +1043,13 @@ CREATE TABLE summary_cases (
 );
 
 
-ALTER TABLE summary_cases OWNER TO postgres;
+ALTER TABLE public.summary_cases OWNER TO postgres;
 
 --
 -- Name: summary_cases_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE summary_cases_id_seq
+CREATE SEQUENCE public.summary_cases_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -973,20 +1057,20 @@ CREATE SEQUENCE summary_cases_id_seq
     CACHE 1;
 
 
-ALTER TABLE summary_cases_id_seq OWNER TO postgres;
+ALTER TABLE public.summary_cases_id_seq OWNER TO postgres;
 
 --
 -- Name: summary_cases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE summary_cases_id_seq OWNED BY summary_cases.id;
+ALTER SEQUENCE public.summary_cases_id_seq OWNED BY public.summary_cases.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: coke; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: coke
 --
 
-CREATE TABLE users (
+CREATE TABLE public.users (
     id bigint NOT NULL,
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
@@ -1007,17 +1091,28 @@ CREATE TABLE users (
     picture character varying,
     status integer,
     "position" character varying,
-    rut integer
+    rut character varying,
+    phone character varying,
+    street character varying,
+    number character varying,
+    city character varying,
+    district character varying,
+    county character varying,
+    country character varying,
+    department_id bigint,
+    store_id bigint,
+    assigned_shift integer,
+    begin_shift date
 );
 
 
-ALTER TABLE users OWNER TO coke;
+ALTER TABLE public.users OWNER TO coke;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: coke
 --
 
-CREATE SEQUENCE users_id_seq
+CREATE SEQUENCE public.users_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1025,167 +1120,181 @@ CREATE SEQUENCE users_id_seq
     CACHE 1;
 
 
-ALTER TABLE users_id_seq OWNER TO coke;
+ALTER TABLE public.users_id_seq OWNER TO coke;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: coke
 --
 
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
+-- Name: available_shifts id; Type: DEFAULT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY available_shifts ALTER COLUMN id SET DEFAULT nextval('available_shifts_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY clusters ALTER COLUMN id SET DEFAULT nextval('clusters_id_seq'::regclass);
+ALTER TABLE ONLY public.available_shifts ALTER COLUMN id SET DEFAULT nextval('public.available_shifts_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: clusters id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY data_cases ALTER COLUMN id SET DEFAULT nextval('data_cases_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
---
-
-ALTER TABLE ONLY departments ALTER COLUMN id SET DEFAULT nextval('departments_id_seq'::regclass);
+ALTER TABLE ONLY public.clusters ALTER COLUMN id SET DEFAULT nextval('public.clusters_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
+-- Name: data_cases id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY historic_sales ALTER COLUMN id SET DEFAULT nextval('historic_sales_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
---
-
-ALTER TABLE ONLY hs ALTER COLUMN id SET DEFAULT nextval('hs_id_seq'::regclass);
+ALTER TABLE ONLY public.data_cases ALTER COLUMN id SET DEFAULT nextval('public.data_cases_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: departments id; Type: DEFAULT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY master_departments ALTER COLUMN id SET DEFAULT nextval('master_departments_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY return_cases ALTER COLUMN id SET DEFAULT nextval('return_cases_id_seq'::regclass);
+ALTER TABLE ONLY public.departments ALTER COLUMN id SET DEFAULT nextval('public.departments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
+-- Name: historic_sales id; Type: DEFAULT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY rs ALTER COLUMN id SET DEFAULT nextval('rs_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY sale_by_sellers ALTER COLUMN id SET DEFAULT nextval('sale_by_sellers_id_seq'::regclass);
+ALTER TABLE ONLY public.historic_sales ALTER COLUMN id SET DEFAULT nextval('public.historic_sales_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
+-- Name: hs id; Type: DEFAULT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sale_plans ALTER COLUMN id SET DEFAULT nextval('sale_plans_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
---
-
-ALTER TABLE ONLY sale_reals ALTER COLUMN id SET DEFAULT nextval('sale_reals_id_seq'::regclass);
+ALTER TABLE ONLY public.hs ALTER COLUMN id SET DEFAULT nextval('public.hs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
+-- Name: master_departments id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY sellers ALTER COLUMN id SET DEFAULT nextval('sellers_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
---
-
-ALTER TABLE ONLY shift_breaks ALTER COLUMN id SET DEFAULT nextval('shift_breaks_id_seq'::regclass);
+ALTER TABLE ONLY public.master_departments ALTER COLUMN id SET DEFAULT nextval('public.master_departments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
+-- Name: request_details id; Type: DEFAULT; Schema: public; Owner: Magnius
 --
 
-ALTER TABLE ONLY sps ALTER COLUMN id SET DEFAULT nextval('sps_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY staffing_cases ALTER COLUMN id SET DEFAULT nextval('staffing_cases_id_seq'::regclass);
+ALTER TABLE ONLY public.request_details ALTER COLUMN id SET DEFAULT nextval('public.request_details_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: requests id; Type: DEFAULT; Schema: public; Owner: Magnius
 --
 
-ALTER TABLE ONLY staffing_reals ALTER COLUMN id SET DEFAULT nextval('staffing_reals_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
---
-
-ALTER TABLE ONLY store_categories ALTER COLUMN id SET DEFAULT nextval('store_categories_id_seq'::regclass);
+ALTER TABLE ONLY public.requests ALTER COLUMN id SET DEFAULT nextval('public.requests_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
+-- Name: return_cases id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY stores ALTER COLUMN id SET DEFAULT nextval('stores_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY summary_cases ALTER COLUMN id SET DEFAULT nextval('summary_cases_id_seq'::regclass);
+ALTER TABLE ONLY public.return_cases ALTER COLUMN id SET DEFAULT nextval('public.return_cases_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: coke
+-- Name: rs id; Type: DEFAULT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+ALTER TABLE ONLY public.rs ALTER COLUMN id SET DEFAULT nextval('public.rs_id_seq'::regclass);
+
+
+--
+-- Name: sale_by_sellers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sale_by_sellers ALTER COLUMN id SET DEFAULT nextval('public.sale_by_sellers_id_seq'::regclass);
+
+
+--
+-- Name: sale_plans id; Type: DEFAULT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.sale_plans ALTER COLUMN id SET DEFAULT nextval('public.sale_plans_id_seq'::regclass);
+
+
+--
+-- Name: sale_reals id; Type: DEFAULT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.sale_reals ALTER COLUMN id SET DEFAULT nextval('public.sale_reals_id_seq'::regclass);
+
+
+--
+-- Name: sellers id; Type: DEFAULT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.sellers ALTER COLUMN id SET DEFAULT nextval('public.sellers_id_seq'::regclass);
+
+
+--
+-- Name: shift_breaks id; Type: DEFAULT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.shift_breaks ALTER COLUMN id SET DEFAULT nextval('public.shift_breaks_id_seq'::regclass);
+
+
+--
+-- Name: sps id; Type: DEFAULT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.sps ALTER COLUMN id SET DEFAULT nextval('public.sps_id_seq'::regclass);
+
+
+--
+-- Name: staffing_cases id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.staffing_cases ALTER COLUMN id SET DEFAULT nextval('public.staffing_cases_id_seq'::regclass);
+
+
+--
+-- Name: staffing_reals id; Type: DEFAULT; Schema: public; Owner: Magnius
+--
+
+ALTER TABLE ONLY public.staffing_reals ALTER COLUMN id SET DEFAULT nextval('public.staffing_reals_id_seq'::regclass);
+
+
+--
+-- Name: store_categories id; Type: DEFAULT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.store_categories ALTER COLUMN id SET DEFAULT nextval('public.store_categories_id_seq'::regclass);
+
+
+--
+-- Name: stores id; Type: DEFAULT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.stores ALTER COLUMN id SET DEFAULT nextval('public.stores_id_seq'::regclass);
+
+
+--
+-- Name: summary_cases id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.summary_cases ALTER COLUMN id SET DEFAULT nextval('public.summary_cases_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
 -- Data for Name: ar_internal_metadata; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
+COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
 environment	development	2017-08-22 13:53:16.762627	2017-08-22 13:53:16.762627
 \.
 
@@ -1194,7 +1303,7 @@ environment	development	2017-08-22 13:53:16.762627	2017-08-22 13:53:16.762627
 -- Data for Name: available_shifts; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY available_shifts (id, store_id, num, name, month, week, day, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, twenty_four, created_at, updated_at) FROM stdin;
+COPY public.available_shifts (id, store_id, num, name, month, week, day, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, twenty_four, created_at, updated_at) FROM stdin;
 1658	1	1	TURNO 1 DE 45 HORAS	10	1	1	f	f	f	t	t	t	t	t	t	f	f	f	f	f	f	f	2017-10-11 21:04:58.877192	2017-10-11 21:04:58.877192
 1659	1	1	TURNO 1 DE 45 HORAS	10	1	2	f	f	t	t	t	t	t	t	t	t	t	t	f	f	f	f	2017-10-11 21:04:58.885117	2017-10-11 21:04:58.885117
 1660	1	1	TURNO 1 DE 45 HORAS	10	1	3	f	f	f	t	t	t	t	t	t	t	t	t	f	f	f	f	2017-10-11 21:04:58.892284	2017-10-11 21:04:58.892284
@@ -1538,14 +1647,14 @@ COPY available_shifts (id, store_id, num, name, month, week, day, nine, ten, ele
 -- Name: available_shifts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('available_shifts_id_seq', 1993, true);
+SELECT pg_catalog.setval('public.available_shifts_id_seq', 1993, true);
 
 
 --
 -- Data for Name: clusters; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY clusters (id, name, description, created_at, updated_at) FROM stdin;
+COPY public.clusters (id, name, description, created_at, updated_at) FROM stdin;
 1	ABC1	\N	2018-05-19 19:17:59.804687	2018-05-19 19:17:59.804687
 2	C2	\N	2018-05-19 19:17:59.836689	2018-05-19 19:17:59.836689
 3	C3	\N	2018-05-19 19:17:59.839689	2018-05-19 19:17:59.839689
@@ -1558,22 +1667,22 @@ COPY clusters (id, name, description, created_at, updated_at) FROM stdin;
 -- Name: clusters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('clusters_id_seq', 50, true);
+SELECT pg_catalog.setval('public.clusters_id_seq', 50, true);
 
 
 --
 -- Data for Name: data_cases; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY data_cases (id, id_case, turn_num, dep_num, day_num, hour_day, hp_val, prod_obj, vhp, pov, lunch_in, lunch_hours, hour_min, turns_matrix, real_dot, sale_plan, created_at, updated_at, month, year) FROM stdin;
+COPY public.data_cases (id, id_case, turn_num, dep_num, day_num, hour_day, hp_val, prod_obj, vhp, pov, lunch_in, lunch_hours, hour_min, turns_matrix, real_dot, sale_plan, created_at, updated_at, month, year) FROM stdin;
 32	29	12	1	28	10	2500	85000			[1] 1, [2] 1	[2] 1, [3] 1, [4] 1, [5] 1	2	[6,3,2] 1, [6,4,2] 1, [6,5,2] 1, [6,6,2] 1, [6,7,2] 1, [6,8,2] 1, [6,9,2] 1, [6,4,3] 1, [6,5,3] 1, [6,6,3] 1, [6,7,3] 1, [6,8,3] 1, [6,9,3] 1, [6,3,4] 1, [6,4,4] 1, [6,5,4] 1, [6,6,4] 1, [6,7,4] 1, [6,8,4] 1, [6,9,4] 1, [6,10,4] 1, [6,2,5] 1, [6,3,5] 1, [6,4,5] 1, [6,5,5] 1, [6,6,5] 1, [6,7,5] 1, [6,10,5] 1, [6,2,6] 1, [6,3,6] 1, [6,4,6] 1, [6,5,6] 1, [6,6,6] 1, [6,7,6] 1, [6,8,6] 1, [6,3,9] 1, [6,4,9] 1, [6,5,9] 1, [6,6,9] 1, [6,7,9] 1, [6,8,9] 1, [6,9,9] 1, [6,10,9] 1, [6,4,11] 1, [6,5,11] 1, [6,6,11] 1, [6,7,11] 1, [6,8,11] 1, [6,9,11] 1, [6,10,11] 1, [6,2,12] 1, [6,3,12] 1, [6,4,12] 1, [6,5,12] 1, [6,6,12] 1, [6,7,12] 1, [6,8,12] 1, [6,9,12] 1, [6,10,12] 1, [6,2,13] 1, [6,3,13] 1, [6,4,13] 1, [6,5,13] 1, [6,6,13] 1, [6,7,13] 1, [6,8,13] 1, [6,9,13] 1, [6,10,13] 1, [6,6,14] 1, [6,7,14] 1, [6,8,14] 1, [6,9,14] 1, [6,10,14] 1, [6,3,16] 1, [6,4,16] 1, [6,5,16] 1, [6,6,16] 1, [6,7,16] 1, [6,8,16] 1, [6,9,16] 1, [6,4,17] 1, [6,5,17] 1, [6,6,17] 1, [6,7,17] 1, [6,8,17] 1, [6,9,17] 1, [6,10,17] 1, [6,3,18] 1, [6,4,18] 1, [6,5,18] 1, [6,6,18] 1, [6,7,18] 1, [6,8,18] 1, [6,9,18] 1, [6,10,18] 1, [6,2,19] 1, [6,3,19] 1, [6,4,19] 1, [6,5,19] 1, [6,6,19] 1, [6,7,19] 1, [6,10,19] 1, [6,2,20] 1, [6,3,20] 1, [6,4,20] 1, [6,5,20] 1, [6,6,20] 1, [6,7,20] 1, [6,8,20] 1, [6,3,23] 1, [6,4,23] 1, [6,5,23] 1, [6,6,23] 1, [6,7,23] 1, [6,8,23] 1, [6,9,23] 1, [6,10,23] 1, [6,4,25] 1, [6,5,25] 1, [6,6,25] 1, [6,7,25] 1, [6,8,25] 1, [6,9,25] 1, [6,10,25] 1, [6,3,26] 1, [6,4,26] 1, [6,5,26] 1, [6,6,26] 1, [6,7,26] 1, [6,8,26] 1, [6,9,26] 1, [6,10,26] 1, [6,3,27] 1, [6,4,27] 1, [6,5,27] 1, [6,6,27] 1, [6,7,27] 1, [6,8,27] 1, [6,9,27] 1, [6,10,27] 1, [6,6,28] 1, [6,7,28] 1, [6,8,28] 1, [6,9,28] 1, [6,10,28] 1, [8,1,1] 1, [8,2,1] 1, [8,3,1] 1, [8,4,1] 1, [8,5,1] 1, [8,6,1] 1, [8,7,1] 1, [8,8,1] 1, [8,9,1] 1, [8,10,1] 1, [8,5,5] 1, [8,6,5] 1, [8,7,5] 1, [8,8,5] 1, [8,9,5] 1, [8,10,5] 1, [8,1,6] 1, [8,2,6] 1, [8,3,6] 1, [8,4,6] 1, [8,5,6] 1, [8,6,6] 1, [8,7,6] 1, [8,8,6] 1, [8,9,6] 1, [8,10,6] 1, [8,1,7] 1, [8,2,7] 1, [8,3,7] 1, [8,4,7] 1, [8,5,7] 1, [8,6,7] 1, [8,7,7] 1, [8,8,7] 1, [8,9,7] 1, [8,10,7] 1, [8,1,8] 1, [8,2,8] 1, [8,3,8] 1, [8,4,8] 1, [8,5,8] 1, [8,6,8] 1, [8,7,8] 1, [8,8,8] 1, [8,3,10] 1, [8,4,10] 1, [8,5,10] 1, [8,6,10] 1, [8,7,10] 1, [8,8,10] 1, [8,3,11] 1, [8,4,11] 1, [8,5,11] 1, [8,6,11] 1, [8,7,11] 1, [8,8,11] 1, [8,3,12] 1, [8,4,12] 1, [8,5,12] 1, [8,6,12] 1, [8,7,12] 1, [8,8,12] 1, [8,1,14] 1, [8,2,14] 1, [8,3,14] 1, [8,4,14] 1, [8,5,14] 1, [8,6,14] 1, [8,7,14] 1, [8,8,14] 1, [8,9,14] 1, [8,10,14] 1, [8,1,15] 1, [8,2,15] 1, [8,3,15] 1, [8,4,15] 1, [8,5,15] 1, [8,6,15] 1, [8,7,15] 1, [8,8,15] 1, [8,9,15] 1, [8,10,15] 1, [8,5,19] 1, [8,6,19] 1, [8,7,19] 1, [8,8,19] 1, [8,9,19] 1, [8,10,19] 1, [8,1,20] 1, [8,2,20] 1, [8,3,20] 1, [8,4,20] 1, [8,5,20] 1, [8,6,20] 1, [8,7,20] 1, [8,8,20] 1, [8,9,20] 1, [8,10,20] 1, [8,1,21] 1, [8,2,21] 1, [8,3,21] 1, [8,4,21] 1, [8,5,21] 1, [8,6,21] 1, [8,7,21] 1, [8,8,21] 1, [8,9,21] 1, [8,10,21] 1, [8,1,22] 1, [8,2,22] 1, [8,3,22] 1, [8,4,22] 1, [8,5,22] 1, [8,6,22] 1, [8,7,22] 1, [8,8,22] 1, [8,3,24] 1, [8,4,24] 1, [8,5,24] 1, [8,6,24] 1, [8,7,24] 1, [8,8,24] 1, [8,3,25] 1, [8,4,25] 1, [8,5,25] 1, [8,6,25] 1, [8,7,25] 1, [8,8,25] 1, [8,3,26] 1, [8,4,26] 1, [8,5,26] 1, [8,6,26] 1, [8,7,26] 1, [8,8,26] 1, [8,1,28] 1, [8,2,28] 1, [8,3,28] 1, [8,4,28] 1, [8,5,28] 1, [8,6,28] 1, [8,7,28] 1, [8,8,28] 1, [8,9,28] 1, [8,10,28] 1, [12,5,1] 1, [12,6,1] 1, [12,7,1] 1, [12,8,1] 1, [12,9,1] 1, [12,10,1] 1, [12,5,2] 1, [12,6,2] 1, [12,7,2] 1, [12,8,2] 1, [12,9,2] 1, [12,10,2] 1, [12,5,3] 1, [12,6,3] 1, [12,7,3] 1, [12,8,3] 1, [12,9,3] 1, [12,10,3] 1, [12,5,4] 1, [12,6,4] 1, [12,7,4] 1, [12,8,4] 1, [12,9,4] 1, [12,10,4] 1, [12,5,5] 1, [12,6,5] 1, [12,7,5] 1, [12,8,5] 1, [12,9,5] 1, [12,10,5] 1, [12,5,7] 1, [12,6,7] 1, [12,7,7] 1, [12,8,7] 1, [12,9,7] 1, [12,10,7] 1, [12,5,8] 1, [12,6,8] 1, [12,7,8] 1, [12,8,8] 1, [12,9,8] 1, [12,10,8] 1, [12,5,9] 1, [12,6,9] 1, [12,7,9] 1, [12,8,9] 1, [12,9,9] 1, [12,10,9] 1, [12,5,10] 1, [12,6,10] 1, [12,7,10] 1, [12,8,10] 1, [12,9,10] 1, [12,10,10] 1, [12,5,11] 1, [12,6,11] 1, [12,7,11] 1, [12,8,11] 1, [12,9,11] 1, [12,10,11] 1, [12,5,12] 1, [12,6,12] 1, [12,7,12] 1, [12,8,12] 1, [12,9,12] 1, [12,10,12] 1, [12,5,14] 1, [12,6,14] 1, [12,7,14] 1, [12,8,14] 1, [12,9,14] 1, [12,10,14] 1, [12,5,15] 1, [12,6,15] 1, [12,7,15] 1, [12,8,15] 1, [12,9,15] 1, [12,10,15] 1, [12,5,16] 1, [12,6,16] 1, [12,7,16] 1, [12,8,16] 1, [12,9,16] 1, [12,10,16] 1, [12,5,17] 1, [12,6,17] 1, [12,7,17] 1, [12,8,17] 1, [12,9,17] 1, [12,10,17] 1, [12,5,18] 1, [12,6,18] 1, [12,7,18] 1, [12,8,18] 1, [12,9,18] 1, [12,10,18] 1, [12,5,19] 1, [12,6,19] 1, [12,7,19] 1, [12,8,19] 1, [12,9,19] 1, [12,10,19] 1, [12,5,21] 1, [12,6,21] 1, [12,7,21] 1, [12,8,21] 1, [12,9,21] 1, [12,10,21] 1, [12,5,22] 1, [12,6,22] 1, [12,7,22] 1, [12,8,22] 1, [12,9,22] 1, [12,10,22] 1, [12,5,23] 1, [12,6,23] 1, [12,7,23] 1, [12,8,23] 1, [12,9,23] 1, [12,10,23] 1, [12,5,24] 1, [12,6,24] 1, [12,7,24] 1, [12,8,24] 1, [12,9,24] 1, [12,10,24] 1, [12,5,25] 1, [12,6,25] 1, [12,7,25] 1, [12,8,25] 1, [12,9,25] 1, [12,10,25] 1, [12,5,26] 1, [12,6,26] 1, [12,7,26] 1, [12,8,26] 1, [12,9,26] 1, [12,10,26] 1, [12,5,28] 1, [12,6,28] 1, [12,7,28] 1, [12,8,28] 1, [12,9,28] 1, [12,10,28] 1, [1,2,1] 1, [1,3,1] 1, [1,4,1] 1, [1,5,1] 1, [1,6,1] 1, [1,7,1] 1, [1,1,2] 1, [1,2,2] 1, [1,3,2] 1, [1,4,2] 1, [1,5,2] 1, [1,6,2] 1, [1,7,2] 1, [1,8,2] 1, [1,9,2] 1, [1,10,2] 1, [1,2,3] 1, [1,3,3] 1, [1,4,3] 1, [1,5,3] 1, [1,6,3] 1, [1,7,3] 1, [1,8,3] 1, [1,9,3] 1, [1,10,3] 1, [1,1,4] 1, [1,2,4] 1, [1,3,4] 1, [1,4,4] 1, [1,5,4] 1, [1,6,4] 1, [1,7,4] 1, [1,8,4] 1, [1,9,4] 1, [1,10,4] 1, [1,1,5] 1, [1,2,5] 1, [1,3,5] 1, [1,4,5] 1, [1,5,5] 1, [1,6,5] 1, [1,7,5] 1, [1,8,5] 1, [1,9,5] 1, [1,10,5] 1, [1,3,8] 1, [1,4,8] 1, [1,5,8] 1, [1,6,8] 1, [1,7,8] 1, [1,8,8] 1, [1,9,8] 1, [1,3,9] 1, [1,4,9] 1, [1,5,9] 1, [1,6,9] 1, [1,7,9] 1, [1,8,9] 1, [1,9,9] 1, [1,3,11] 1, [1,4,11] 1, [1,5,11] 1, [1,6,11] 1, [1,7,11] 1, [1,8,11] 1, [1,9,11] 1, [1,2,12] 1, [1,3,12] 1, [1,4,12] 1, [1,5,12] 1, [1,6,12] 1, [1,7,12] 1, [1,8,12] 1, [1,9,12] 1, [1,2,13] 1, [1,3,13] 1, [1,4,13] 1, [1,5,13] 1, [1,6,13] 1, [1,7,13] 1, [1,8,13] 1, [1,9,13] 1, [1,2,14] 1, [1,3,14] 1, [1,4,14] 1, [1,5,14] 1, [1,6,14] 1, [1,7,14] 1, [1,8,14] 1, [1,9,14] 1, [1,1,15] 1, [1,2,15] 1, [1,3,15] 1, [1,4,15] 1, [1,5,15] 1, [1,6,15] 1, [1,7,15] 1, [1,8,15] 1, [1,9,15] 1, [1,10,15] 1, [1,1,17] 1, [1,2,17] 1, [1,3,17] 1, [1,4,17] 1, [1,5,17] 1, [1,6,17] 1, [1,7,17] 1, [1,8,17] 1, [1,9,17] 1, [1,10,17] 1, [1,1,18] 1, [1,2,18] 1, [1,3,18] 1, [1,4,18] 1, [1,5,18] 1, [1,6,18] 1, [1,7,18] 1, [1,8,18] 1, [1,9,18] 1, [1,1,19] 1, [1,2,19] 1, [1,3,19] 1, [1,4,19] 1, [1,5,19] 1, [1,6,19] 1, [1,7,19] 1, [1,8,19] 1, [1,9,19] 1, [1,1,20] 1, [1,2,20] 1, [1,3,20] 1, [1,4,20] 1, [1,5,20] 1, [1,6,20] 1, [1,7,20] 1, [1,8,20] 1, [1,9,20] 1, [1,1,24] 1, [1,2,24] 1, [1,3,24] 1, [1,4,24] 1, [1,5,24] 1, [1,6,24] 1, [1,7,24] 1, [1,8,24] 1, [1,9,24] 1, [1,10,24] 1, [1,3,26] 1, [1,4,26] 1, [1,5,26] 1, [1,6,26] 1, [1,7,26] 1, [1,8,26] 1, [1,9,26] 1, [1,10,26] 1, [1,2,27] 1, [1,3,27] 1, [1,4,27] 1, [1,5,27] 1, [1,6,27] 1, [1,7,27] 1, [1,8,27] 1, [1,9,27] 1, [1,10,27] 1, [1,3,28] 1, [1,4,28] 1, [1,5,28] 1, [1,6,28] 1, [1,7,28] 1, [1,8,28] 1, [1,9,28] 1, [1,10,28] 1, [2,3,2] 1, [2,4,2] 1, [2,5,2] 1, [2,6,2] 1, [2,7,2] 1, [2,8,2] 1, [2,9,2] 1, [2,1,3] 1, [2,2,3] 1, [2,3,3] 1, [2,4,3] 1, [2,5,3] 1, [2,6,3] 1, [2,7,3] 1, [2,8,3] 1, [2,9,3] 1, [2,10,3] 1, [2,3,4] 1, [2,4,4] 1, [2,5,4] 1, [2,6,4] 1, [2,7,4] 1, [2,8,4] 1, [2,9,4] 1, [2,10,4] 1, [2,2,5] 1, [2,3,5] 1, [2,4,5] 1, [2,5,5] 1, [2,6,5] 1, [2,7,5] 1, [2,10,5] 1, [2,2,6] 1, [2,3,6] 1, [2,4,6] 1, [2,5,6] 1, [2,6,6] 1, [2,7,6] 1, [2,8,6] 1, [2,9,6] 1, [2,1,7] 1, [2,2,7] 1, [2,3,7] 1, [2,4,7] 1, [2,5,7] 1, [2,6,7] 1, [2,7,7] 1, [2,8,7] 1, [2,9,7] 1, [2,2,8] 1, [2,3,8] 1, [2,4,8] 1, [2,5,8] 1, [2,6,8] 1, [2,7,8] 1, [2,1,9] 1, [2,2,9] 1, [2,3,9] 1, [2,4,9] 1, [2,5,9] 1, [2,6,9] 1, [2,7,9] 1, [2,8,9] 1, [2,9,9] 1, [2,10,9] 1, [2,1,11] 1, [2,2,11] 1, [2,3,11] 1, [2,4,11] 1, [2,5,11] 1, [2,6,11] 1, [2,7,11] 1, [2,8,11] 1, [2,9,11] 1, [2,10,11] 1, [2,1,12] 1, [2,3,12] 1, [2,4,12] 1, [2,5,12] 1, [2,6,12] 1, [2,7,12] 1, [2,8,12] 1, [2,9,12] 1, [2,10,12] 1, [2,1,13] 1, [2,3,13] 1, [2,4,13] 1, [2,5,13] 1, [2,6,13] 1, [2,7,13] 1, [2,8,13] 1, [2,9,13] 1, [2,10,13] 1, [2,1,15] 1, [2,2,15] 1, [2,3,15] 1, [2,4,15] 1, [2,5,15] 1, [2,6,15] 1, [2,7,15] 1, [2,8,15] 1, [2,9,15] 1, [2,10,15] 1, [2,1,16] 1, [2,2,16] 1, [2,3,16] 1, [2,4,16] 1, [2,5,16] 1, [2,6,16] 1, [2,7,16] 1, [2,8,16] 1, [2,9,16] 1, [2,10,16] 1, [2,1,17] 1, [2,2,17] 1, [2,3,17] 1, [2,4,17] 1, [2,5,17] 1, [2,6,17] 1, [2,7,17] 1, [2,8,17] 1, [2,9,17] 1, [2,10,17] 1, [2,3,20] 1, [2,4,20] 1, [2,5,20] 1, [2,6,20] 1, [2,7,20] 1, [2,8,20] 1, [2,9,20] 1, [2,10,20] 1, [2,3,21] 1, [2,4,21] 1, [2,5,21] 1, [2,6,21] 1, [2,7,21] 1, [2,8,21] 1, [2,9,21] 1, [2,10,21] 1, [2,1,22] 1, [2,2,22] 1, [2,3,22] 1, [2,4,22] 1, [2,5,22] 1, [2,6,22] 1, [2,7,22] 1, [2,8,22] 1, [2,9,22] 1, [2,10,22] 1, [2,1,24] 1, [2,2,24] 1, [2,3,24] 1, [2,4,24] 1, [2,5,24] 1, [2,6,24] 1, [2,7,24] 1, [2,8,24] 1, [2,9,24] 1, [2,10,24] 1, [2,1,25] 1, [2,2,25] 1, [2,3,25] 1, [2,4,25] 1, [2,5,25] 1, [2,6,25] 1, [2,7,25] 1, [2,8,25] 1, [2,9,25] 1, [2,1,26] 1, [2,2,26] 1, [2,3,26] 1, [2,4,26] 1, [2,5,26] 1, [2,6,26] 1, [2,7,26] 1, [2,8,26] 1, [2,9,26] 1, [2,1,27] 1, [2,2,27] 1, [2,3,27] 1, [2,4,27] 1, [2,5,27] 1, [2,6,27] 1, [2,7,27] 1, [2,8,27] 1, [2,9,27] 1, [3,1,1] 1, [3,2,1] 1, [3,3,1] 1, [3,4,1] 1, [3,5,1] 1, [3,6,1] 1, [3,7,1] 1, [3,8,1] 1, [3,9,1] 1, [3,1,3] 1, [3,2,3] 1, [3,3,3] 1, [3,4,3] 1, [3,5,3] 1, [3,6,3] 1, [3,7,3] 1, [3,8,3] 1, [3,9,3] 1, [3,10,3] 1, [3,1,4] 1, [3,2,4] 1, [3,3,4] 1, [3,4,4] 1, [3,5,4] 1, [3,6,4] 1, [3,7,4] 1, [3,8,4] 1, [3,9,4] 1, [3,10,4] 1, [3,1,5] 1, [3,2,5] 1, [3,3,5] 1, [3,4,5] 1, [3,5,5] 1, [3,6,5] 1, [3,7,5] 1, [3,8,5] 1, [3,9,5] 1, [3,1,6] 1, [3,2,6] 1, [3,3,6] 1, [3,4,6] 1, [3,5,6] 1, [3,6,6] 1, [3,7,6] 1, [3,8,6] 1, [3,9,6] 1, [3,1,8] 1, [3,2,8] 1, [3,3,8] 1, [3,4,8] 1, [3,5,8] 1, [3,6,8] 1, [3,7,8] 1, [3,1,9] 1, [3,2,9] 1, [3,3,9] 1, [3,4,9] 1, [3,5,9] 1, [3,6,9] 1, [3,7,9] 1, [3,8,9] 1, [3,9,9] 1, [3,10,9] 1, [3,1,11] 1, [3,2,11] 1, [3,3,11] 1, [3,4,11] 1, [3,5,11] 1, [3,6,11] 1, [3,7,11] 1, [3,8,11] 1, [3,9,11] 1, [3,10,11] 1, [3,1,12] 1, [3,3,12] 1, [3,4,12] 1, [3,5,12] 1, [3,6,12] 1, [3,7,12] 1, [3,8,12] 1, [3,9,12] 1, [3,10,12] 1, [3,1,13] 1, [3,3,13] 1, [3,4,13] 1, [3,5,13] 1, [3,6,13] 1, [3,7,13] 1, [3,8,13] 1, [3,9,13] 1, [3,10,13] 1, [3,1,15] 1, [3,2,15] 1, [3,3,15] 1, [3,4,15] 1, [3,5,15] 1, [3,6,15] 1, [3,7,15] 1, [3,8,15] 1, [3,9,15] 1, [3,10,15] 1, [3,1,16] 1, [3,2,16] 1, [3,3,16] 1, [3,4,16] 1, [3,5,16] 1, [3,6,16] 1, [3,7,16] 1, [3,8,16] 1, [3,9,16] 1, [3,10,16] 1, [3,1,17] 1, [3,2,17] 1, [3,3,17] 1, [3,4,17] 1, [3,5,17] 1, [3,6,17] 1, [3,7,17] 1, [3,8,17] 1, [3,9,17] 1, [3,10,17] 1, [3,3,20] 1, [3,4,20] 1, [3,5,20] 1, [3,6,20] 1, [3,7,20] 1, [3,8,20] 1, [3,9,20] 1, [3,10,20] 1, [3,3,21] 1, [3,4,21] 1, [3,5,21] 1, [3,6,21] 1, [3,7,21] 1, [3,8,21] 1, [3,9,21] 1, [3,10,21] 1, [3,1,22] 1, [3,2,22] 1, [3,3,22] 1, [3,4,22] 1, [3,5,22] 1, [3,6,22] 1, [3,7,22] 1, [3,8,22] 1, [3,9,22] 1, [3,10,22] 1, [3,1,24] 1, [3,2,24] 1, [3,3,24] 1, [3,4,24] 1, [3,5,24] 1, [3,6,24] 1, [3,7,24] 1, [3,8,24] 1, [3,9,24] 1, [3,10,24] 1, [3,1,25] 1, [3,2,25] 1, [3,3,25] 1, [3,4,25] 1, [3,5,25] 1, [3,6,25] 1, [3,7,25] 1, [3,8,25] 1, [3,9,25] 1, [3,1,26] 1, [3,2,26] 1, [3,3,26] 1, [3,4,26] 1, [3,5,26] 1, [3,6,26] 1, [3,7,26] 1, [3,8,26] 1, [3,9,26] 1, [3,1,27] 1, [3,2,27] 1, [3,3,27] 1, [3,4,27] 1, [3,5,27] 1, [3,6,27] 1, [3,7,27] 1, [3,8,27] 1, [3,9,27] 1, [10,1,6] 1, [10,2,6] 1, [10,3,6] 1, [10,4,6] 1, [10,5,6] 1, [10,6,6] 1, [10,7,6] 1, [10,8,6] 1, [10,9,6] 1, [10,10,6] 1, [10,1,7] 1, [10,2,7] 1, [10,3,7] 1, [10,4,7] 1, [10,5,7] 1, [10,6,7] 1, [10,7,7] 1, [10,8,7] 1, [10,9,7] 1, [10,10,7] 1, [10,1,13] 1, [10,2,13] 1, [10,3,13] 1, [10,4,13] 1, [10,5,13] 1, [10,6,13] 1, [10,7,13] 1, [10,8,13] 1, [10,9,13] 1, [10,10,13] 1, [10,1,14] 1, [10,2,14] 1, [10,3,14] 1, [10,4,14] 1, [10,5,14] 1, [10,6,14] 1, [10,7,14] 1, [10,8,14] 1, [10,9,14] 1, [10,10,14] 1, [10,1,20] 1, [10,2,20] 1, [10,3,20] 1, [10,4,20] 1, [10,5,20] 1, [10,6,20] 1, [10,7,20] 1, [10,8,20] 1, [10,9,20] 1, [10,10,20] 1, [10,1,21] 1, [10,2,21] 1, [10,3,21] 1, [10,4,21] 1, [10,5,21] 1, [10,6,21] 1, [10,7,21] 1, [10,8,21] 1, [10,9,21] 1, [10,10,21] 1, [10,1,27] 1, [10,2,27] 1, [10,3,27] 1, [10,4,27] 1, [10,5,27] 1, [10,6,27] 1, [10,7,27] 1, [10,8,27] 1, [10,9,27] 1, [10,10,27] 1, [10,1,28] 1, [10,2,28] 1, [10,3,28] 1, [10,4,28] 1, [10,5,28] 1, [10,6,28] 1, [10,7,28] 1, [10,8,28] 1, [10,9,28] 1, [10,10,28] 1, [11,5,1] 1, [11,6,1] 1, [11,7,1] 1, [11,8,1] 1, [11,9,1] 1, [11,10,1] 1, [11,5,2] 1, [11,6,2] 1, [11,7,2] 1, [11,8,2] 1, [11,9,2] 1, [11,10,2] 1, [11,5,3] 1, [11,6,3] 1, [11,7,3] 1, [11,8,3] 1, [11,9,3] 1, [11,10,3] 1, [11,5,4] 1, [11,6,4] 1, [11,7,4] 1, [11,8,4] 1, [11,9,4] 1, [11,10,4] 1, [11,5,5] 1, [11,6,5] 1, [11,7,5] 1, [11,8,5] 1, [11,9,5] 1, [11,10,5] 1, [11,5,6] 1, [11,6,6] 1, [11,7,6] 1, [11,8,6] 1, [11,9,6] 1, [11,10,6] 1, [11,5,8] 1, [11,6,8] 1, [11,7,8] 1, [11,8,8] 1, [11,9,8] 1, [11,10,8] 1, [11,5,9] 1, [11,6,9] 1, [11,7,9] 1, [11,8,9] 1, [11,9,9] 1, [11,10,9] 1, [11,5,10] 1, [11,6,10] 1, [11,7,10] 1, [11,8,10] 1, [11,9,10] 1, [11,10,10] 1, [11,5,11] 1, [11,6,11] 1, [11,7,11] 1, [11,8,11] 1, [11,9,11] 1, [11,10,11] 1, [11,5,12] 1, [11,6,12] 1, [11,7,12] 1, [11,8,12] 1, [11,9,12] 1, [11,10,12] 1, [11,5,13] 1, [11,6,13] 1, [11,7,13] 1, [11,8,13] 1, [11,9,13] 1, [11,10,13] 1, [11,5,15] 1, [11,6,15] 1, [11,7,15] 1, [11,8,15] 1, [11,9,15] 1, [11,10,15] 1, [11,5,16] 1, [11,6,16] 1, [11,7,16] 1, [11,8,16] 1, [11,9,16] 1, [11,10,16] 1, [11,5,17] 1, [11,6,17] 1, [11,7,17] 1, [11,8,17] 1, [11,9,17] 1, [11,10,17] 1, [11,5,18] 1, [11,6,18] 1, [11,7,18] 1, [11,8,18] 1, [11,9,18] 1, [11,10,18] 1, [11,5,19] 1, [11,6,19] 1, [11,7,19] 1, [11,8,19] 1, [11,9,19] 1, [11,10,19] 1, [11,5,20] 1, [11,6,20] 1, [11,7,20] 1, [11,8,20] 1, [11,9,20] 1, [11,10,20] 1, [11,5,22] 1, [11,6,22] 1, [11,7,22] 1, [11,8,22] 1, [11,9,22] 1, [11,10,22] 1, [11,5,23] 1, [11,6,23] 1, [11,7,23] 1, [11,8,23] 1, [11,9,23] 1, [11,10,23] 1, [11,5,24] 1, [11,6,24] 1, [11,7,24] 1, [11,8,24] 1, [11,9,24] 1, [11,10,24] 1, [11,5,25] 1, [11,6,25] 1, [11,7,25] 1, [11,8,25] 1, [11,9,25] 1, [11,10,25] 1, [11,5,26] 1, [11,6,26] 1, [11,7,26] 1, [11,8,26] 1, [11,9,26] 1, [11,10,26] 1, [11,5,27] 1, [11,6,27] 1, [11,7,27] 1, [11,8,27] 1, [11,9,27] 1, [11,10,27] 1, [4,1,1] 1, [4,2,1] 1, [4,3,1] 1, [4,4,1] 1, [4,5,1] 1, [4,6,1] 1, [4,7,1] 1, [4,8,1] 1, [4,9,1] 1, [4,10,1] 1, [4,1,2] 1, [4,2,2] 1, [4,3,2] 1, [4,4,2] 1, [4,5,2] 1, [4,6,2] 1, [4,7,2] 1, [4,8,2] 1, [4,9,2] 1, [4,10,2] 1, [4,3,5] 1, [4,4,5] 1, [4,5,5] 1, [4,6,5] 1, [4,7,5] 1, [4,8,5] 1, [4,9,5] 1, [4,10,5] 1, [4,2,6] 1, [4,3,6] 1, [4,4,6] 1, [4,5,6] 1, [4,6,6] 1, [4,7,6] 1, [4,8,6] 1, [4,9,6] 1, [4,10,6] 1, [4,1,7] 1, [4,2,7] 1, [4,3,7] 1, [4,4,7] 1, [4,5,7] 1, [4,6,7] 1, [4,7,7] 1, [4,8,7] 1, [4,9,7] 1, [4,10,7] 1, [4,1,8] 1, [4,2,8] 1, [4,3,8] 1, [4,4,8] 1, [4,5,8] 1, [4,6,8] 1, [4,7,8] 1, [4,8,8] 1, [4,1,10] 1, [4,2,10] 1, [4,3,10] 1, [4,4,10] 1, [4,5,10] 1, [4,6,10] 1, [4,7,10] 1, [4,8,10] 1, [4,9,10] 1, [4,10,10] 1, [4,1,11] 1, [4,2,11] 1, [4,3,11] 1, [4,4,11] 1, [4,5,11] 1, [4,6,11] 1, [4,7,11] 1, [4,8,11] 1, [4,9,11] 1, [4,1,12] 1, [4,2,12] 1, [4,3,12] 1, [4,4,12] 1, [4,5,12] 1, [4,6,12] 1, [4,7,12] 1, [4,8,12] 1, [4,9,12] 1, [4,1,13] 1, [4,2,13] 1, [4,3,13] 1, [4,4,13] 1, [4,5,13] 1, [4,6,13] 1, [4,7,13] 1, [4,8,13] 1, [4,9,13] 1, [4,3,15] 1, [4,4,15] 1, [4,5,15] 1, [4,6,15] 1, [4,7,15] 1, [4,8,15] 1, [4,9,15] 1, [4,3,16] 1, [4,4,16] 1, [4,5,16] 1, [4,6,16] 1, [4,7,16] 1, [4,8,16] 1, [4,9,16] 1, [4,3,18] 1, [4,4,18] 1, [4,5,18] 1, [4,6,18] 1, [4,7,18] 1, [4,8,18] 1, [4,9,18] 1, [4,2,19] 1, [4,3,19] 1, [4,4,19] 1, [4,5,19] 1, [4,6,19] 1, [4,7,19] 1, [4,8,19] 1, [4,9,19] 1, [4,2,20] 1, [4,3,20] 1, [4,4,20] 1, [4,5,20] 1, [4,6,20] 1, [4,7,20] 1, [4,8,20] 1, [4,9,20] 1, [4,1,21] 1, [4,2,21] 1, [4,3,21] 1, [4,4,21] 1, [4,5,21] 1, [4,6,21] 1, [4,7,21] 1, [4,8,21] 1, [4,9,21] 1, [4,1,22] 1, [4,2,22] 1, [4,3,22] 1, [4,4,22] 1, [4,5,22] 1, [4,6,22] 1, [4,1,23] 1, [4,2,23] 1, [4,3,23] 1, [4,4,23] 1, [4,5,23] 1, [4,6,23] 1, [4,7,23] 1, [4,8,23] 1, [4,9,23] 1, [4,10,23] 1, [4,1,25] 1, [4,2,25] 1, [4,3,25] 1, [4,4,25] 1, [4,5,25] 1, [4,6,25] 1, [4,7,25] 1, [4,8,25] 1, [4,9,25] 1, [4,10,25] 1, [4,1,26] 1, [4,3,26] 1, [4,4,26] 1, [4,5,26] 1, [4,6,26] 1, [4,7,26] 1, [4,8,26] 1, [4,9,26] 1, [4,10,26] 1, [4,1,27] 1, [4,3,27] 1, [4,4,27] 1, [4,5,27] 1, [4,6,27] 1, [4,7,27] 1, [4,8,27] 1, [4,9,27] 1, [4,10,27] 1, [5,3,3] 1, [5,4,3] 1, [5,5,3] 1, [5,6,3] 1, [5,7,3] 1, [5,8,3] 1, [5,9,3] 1, [5,3,4] 1, [5,4,4] 1, [5,5,4] 1, [5,6,4] 1, [5,7,4] 1, [5,8,4] 1, [5,9,4] 1, [5,10,4] 1, [5,6,5] 1, [5,7,5] 1, [5,8,5] 1, [5,9,5] 1, [5,10,5] 1, [5,4,6] 1, [5,5,6] 1, [5,6,6] 1, [5,7,6] 1, [5,8,6] 1, [5,9,6] 1, [5,10,6] 1, [5,4,7] 1, [5,5,7] 1, [5,6,7] 1, [5,7,7] 1, [5,8,7] 1, [5,9,7] 1, [5,10,7] 1, [5,3,8] 1, [5,4,8] 1, [5,5,8] 1, [5,6,8] 1, [5,7,8] 1, [5,8,8] 1, [5,9,8] 1, [5,3,9] 1, [5,4,9] 1, [5,5,9] 1, [5,6,9] 1, [5,7,9] 1, [5,8,9] 1, [5,9,9] 1, [5,3,10] 1, [5,4,10] 1, [5,5,10] 1, [5,6,10] 1, [5,7,10] 1, [5,8,10] 1, [5,9,10] 1, [5,10,10] 1, [5,3,13] 1, [5,4,13] 1, [5,5,13] 1, [5,6,13] 1, [5,7,13] 1, [5,8,13] 1, [5,9,13] 1, [5,3,14] 1, [5,4,14] 1, [5,5,14] 1, [5,6,14] 1, [5,7,14] 1, [5,8,14] 1, [5,9,14] 1, [5,2,17] 1, [5,3,17] 1, [5,4,17] 1, [5,5,17] 1, [5,6,17] 1, [5,7,17] 1, [5,8,17] 1, [5,9,17] 1, [5,2,18] 1, [5,3,18] 1, [5,4,18] 1, [5,5,18] 1, [5,6,18] 1, [5,7,18] 1, [5,8,18] 1, [5,9,18] 1, [5,10,18] 1, [5,6,19] 1, [5,7,19] 1, [5,8,19] 1, [5,9,19] 1, [5,10,19] 1, [5,4,20] 1, [5,5,20] 1, [5,6,20] 1, [5,7,20] 1, [5,8,20] 1, [5,9,20] 1, [5,10,20] 1, [5,4,21] 1, [5,5,21] 1, [5,6,21] 1, [5,7,21] 1, [5,8,21] 1, [5,9,21] 1, [5,10,21] 1, [5,3,22] 1, [5,4,22] 1, [5,5,22] 1, [5,6,22] 1, [5,7,22] 1, [5,8,22] 1, [5,9,22] 1, [5,3,23] 1, [5,4,23] 1, [5,5,23] 1, [5,6,23] 1, [5,7,23] 1, [5,8,23] 1, [5,9,23] 1, [5,3,24] 1, [5,4,24] 1, [5,5,24] 1, [5,6,24] 1, [5,7,24] 1, [5,8,24] 1, [5,9,24] 1, [5,10,24] 1, [5,3,27] 1, [5,4,27] 1, [5,5,27] 1, [5,6,27] 1, [5,7,27] 1, [5,8,27] 1, [5,9,27] 1, [5,3,28] 1, [5,4,28] 1, [5,5,28] 1, [5,6,28] 1, [5,7,28] 1, [5,8,28] 1, [5,9,28] 1, [9,7,5] 1, [9,8,5] 1, [9,9,5] 1, [9,10,5] 1, [9,7,12] 1, [9,8,12] 1, [9,9,12] 1, [9,10,12] 1, [9,1,13] 1, [9,2,13] 1, [9,3,13] 1, [9,4,13] 1, [9,5,13] 1, [9,6,13] 1, [9,7,13] 1, [9,8,13] 1, [9,9,13] 1, [9,10,13] 1, [9,1,14] 1, [9,2,14] 1, [9,3,14] 1, [9,4,14] 1, [9,5,14] 1, [9,6,14] 1, [9,7,14] 1, [9,8,14] 1, [9,9,14] 1, [9,10,14] 1, [9,7,19] 1, [9,8,19] 1, [9,9,19] 1, [9,10,19] 1, [9,1,20] 1, [9,2,20] 1, [9,3,20] 1, [9,4,20] 1, [9,5,20] 1, [9,6,20] 1, [9,7,20] 1, [9,8,20] 1, [9,9,20] 1, [9,10,20] 1, [9,1,21] 1, [9,2,21] 1, [9,3,21] 1, [9,4,21] 1, [9,5,21] 1, [9,6,21] 1, [9,7,21] 1, [9,8,21] 1, [9,9,21] 1, [9,10,21] 1, [9,7,26] 1, [9,8,26] 1, [9,9,26] 1, [9,10,26] 1, [9,1,27] 1, [9,2,27] 1, [9,3,27] 1, [9,4,27] 1, [9,5,27] 1, [9,6,27] 1, [9,7,27] 1, [9,8,27] 1, [9,9,27] 1, [9,10,27] 1, [9,1,28] 1, [9,2,28] 1, [9,3,28] 1, [9,4,28] 1, [9,5,28] 1, [9,6,28] 1, [9,7,28] 1, [9,8,28] 1, [9,9,28] 1, [9,10,28] 1, [7,3,1] 1, [7,4,1] 1, [7,5,1] 1, [7,6,1] 1, [7,7,1] 1, [7,8,1] 1, [7,9,1] 1, [7,3,2] 1, [7,4,2] 1, [7,5,2] 1, [7,6,2] 1, [7,7,2] 1, [7,8,2] 1, [7,9,2] 1, [7,3,3] 1, [7,4,3] 1, [7,5,3] 1, [7,6,3] 1, [7,7,3] 1, [7,8,3] 1, [7,9,3] 1, [7,10,3] 1, [7,3,6] 1, [7,4,6] 1, [7,5,6] 1, [7,6,6] 1, [7,7,6] 1, [7,8,6] 1, [7,9,6] 1, [7,3,7] 1, [7,4,7] 1, [7,5,7] 1, [7,6,7] 1, [7,7,7] 1, [7,8,7] 1, [7,9,7] 1, [7,3,9] 1, [7,4,9] 1, [7,5,9] 1, [7,6,9] 1, [7,7,9] 1, [7,8,9] 1, [7,9,9] 1, [7,4,10] 1, [7,5,10] 1, [7,6,10] 1, [7,7,10] 1, [7,8,10] 1, [7,9,10] 1, [7,10,10] 1, [7,3,11] 1, [7,4,11] 1, [7,5,11] 1, [7,6,11] 1, [7,7,11] 1, [7,8,11] 1, [7,9,11] 1, [7,10,11] 1, [7,2,12] 1, [7,3,12] 1, [7,4,12] 1, [7,5,12] 1, [7,6,12] 1, [7,7,12] 1, [7,10,12] 1, [7,2,13] 1, [7,3,13] 1, [7,4,13] 1, [7,5,13] 1, [7,6,13] 1, [7,7,13] 1, [7,8,13] 1, [7,3,16] 1, [7,4,16] 1, [7,5,16] 1, [7,6,16] 1, [7,7,16] 1, [7,8,16] 1, [7,9,16] 1, [7,4,17] 1, [7,5,17] 1, [7,6,17] 1, [7,7,17] 1, [7,8,17] 1, [7,9,17] 1, [7,10,17] 1, [7,3,18] 1, [7,4,18] 1, [7,5,18] 1, [7,6,18] 1, [7,7,18] 1, [7,8,18] 1, [7,9,18] 1, [7,10,18] 1, [7,2,19] 1, [7,3,19] 1, [7,4,19] 1, [7,5,19] 1, [7,6,19] 1, [7,7,19] 1, [7,10,19] 1, [7,2,20] 1, [7,3,20] 1, [7,4,20] 1, [7,5,20] 1, [7,6,20] 1, [7,7,20] 1, [7,8,20] 1, [7,3,22] 1, [7,4,22] 1, [7,5,22] 1, [7,6,22] 1, [7,7,22] 1, [7,8,22] 1, [7,9,22] 1, [7,3,23] 1, [7,4,23] 1, [7,5,23] 1, [7,6,23] 1, [7,7,23] 1, [7,8,23] 1, [7,9,23] 1, [7,3,24] 1, [7,4,24] 1, [7,5,24] 1, [7,6,24] 1, [7,7,24] 1, [7,8,24] 1, [7,9,24] 1, [7,10,24] 1, [7,3,27] 1, [7,4,27] 1, [7,5,27] 1, [7,6,27] 1, [7,7,27] 1, [7,8,27] 1, [7,9,27] 1, [7,3,28] 1, [7,4,28] 1, [7,5,28] 1, [7,6,28] 1, [7,7,28] 1, [7,8,28] 1, [7,9,28] 1	[1,1,1] 7, [2,1,1] 3, [3,1,1] 2, [4,1,1] 0, [5,1,1] 2, [6,1,1] 0, [7,1,1] 0, [8,1,1] 0, [9,1,1] 2, [10,1,1] 2, [11,1,1] 0, [12,1,1] 3	[1,1,1,1] 209377, [1,2,1,1] 225483, [1,3,1,1] 295135, [1,4,1,1] 454054, [1,5,1,1] 385946, [1,6,1,1] 363243, [1,7,1,1] 522162, [1,8,1,1] 771891, [1,9,1,1] 1021621, [1,10,1,1] 794594, [1,1,2,1] 211471, [1,2,2,1] 227738, [1,3,2,1] 298086, [1,4,2,1] 458594, [1,5,2,1] 389805, [1,6,2,1] 366875, [1,7,2,1] 527383, [1,8,2,1] 779610, [1,9,2,1] 1031837, [1,10,2,1] 802540, [1,1,3,1] 219846, [1,2,3,1] 236757, [1,3,3,1] 309892, [1,4,3,1] 476756, [1,5,3,1] 405243, [1,6,3,1] 381405, [1,7,3,1] 548270, [1,8,3,1] 810486, [1,9,3,1] 1072702, [1,10,3,1] 834323, [1,1,4,1] 221940, [1,2,4,1] 239012, [1,3,4,1] 312843, [1,4,4,1] 481297, [1,5,4,1] 409102, [1,6,4,1] 385037, [1,7,4,1] 553491, [1,8,4,1] 818205, [1,9,4,1] 1082918, [1,10,4,1] 842269, [1,1,5,1] 251253, [1,2,5,1] 270580, [1,3,5,1] 354162, [1,4,5,1] 544864, [1,5,5,1] 463135, [1,6,5,1] 435891, [1,7,5,1] 626594, [1,8,5,1] 926269, [1,9,5,1] 1225945, [1,10,5,1] 953513, [1,1,6,1] 276378, [1,2,6,1] 297638, [1,3,6,1] 389578, [1,4,6,1] 599351, [1,5,6,1] 509448, [1,6,6,1] 479481, [1,7,6,1] 689253, [1,8,6,1] 1018896, [1,9,6,1] 1348539, [1,10,6,1] 1048864, [1,1,7,1] 271353, [1,2,7,1] 292226, [1,3,7,1] 382495, [1,4,7,1] 588453, [1,5,7,1] 500185, [1,6,7,1] 470763, [1,7,7,1] 676721, [1,8,7,1] 1000371, [1,9,7,1] 1324020, [1,10,7,1] 1029794, [1,1,8,1] 203096, [1,2,8,1] 218719, [1,3,8,1] 286281, [1,4,8,1] 440432, [1,5,8,1] 374367, [1,6,8,1] 352346, [1,7,8,1] 506497, [1,8,8,1] 748734, [1,9,8,1] 990972, [1,10,8,1] 770756, [1,1,9,1] 222128, [1,2,9,1] 239215, [1,3,9,1] 313109, [1,4,9,1] 481705, [1,5,9,1] 409450, [1,6,9,1] 385364, [1,7,9,1] 553961, [1,8,9,1] 818899, [1,9,9,1] 1083837, [1,10,9,1] 842985, [1,1,10,1] 224243, [1,2,10,1] 241492, [1,3,10,1] 316089, [1,4,10,1] 486291, [1,5,10,1] 413348, [1,6,10,1] 389033, [1,7,10,1] 559235, [1,8,10,1] 826695, [1,9,10,1] 1094156, [1,10,10,1] 851010, [1,1,11,1] 229708, [1,2,11,1] 247377, [1,3,11,1] 321591, [1,4,11,1] 494755, [1,5,11,1] 420542, [1,6,11,1] 395804, [1,7,11,1] 568968, [1,8,11,1] 841083, [1,9,11,1] 1113198, [1,10,11,1] 865821, [1,1,12,1] 251504, [1,2,12,1] 270850, [1,3,12,1] 352105, [1,4,12,1] 541700, [1,5,12,1] 460445, [1,6,12,1] 433360, [1,7,12,1] 622955, [1,8,12,1] 920891, [1,9,12,1] 1218826, [1,10,12,1] 947976, [1,1,13,1] 273614, [1,2,13,1] 294661, [1,3,13,1] 383060, [1,4,13,1] 589322, [1,5,13,1] 500924, [1,6,13,1] 471458, [1,7,13,1] 677721, [1,8,13,1] 1001848, [1,9,13,1] 1325975, [1,10,13,1] 1031314, [1,1,14,1] 271624, [1,2,14,1] 292518, [1,3,14,1] 380274, [1,4,14,1] 585036, [1,5,14,1] 497281, [1,6,14,1] 468029, [1,7,14,1] 672792, [1,8,14,1] 994562, [1,9,14,1] 1316332, [1,10,14,1] 1023814, [1,1,15,1] 205127, [1,2,15,1] 220906, [1,3,15,1] 287177, [1,4,15,1] 441811, [1,5,15,1] 375540, [1,6,15,1] 353449, [1,7,15,1] 508083, [1,8,15,1] 751079, [1,9,15,1] 994076, [1,10,15,1] 773170, [1,1,16,1] 204358, [1,2,16,1] 220078, [1,3,16,1] 286101, [1,4,16,1] 440155, [1,5,16,1] 374132, [1,6,16,1] 352124, [1,7,16,1] 506179, [1,8,16,1] 748264, [1,9,16,1] 990350, [1,10,16,1] 770272, [1,1,17,1] 226485, [1,2,17,1] 243907, [1,3,17,1] 317079, [1,4,17,1] 487814, [1,5,17,1] 414642, [1,6,17,1] 390252, [1,7,17,1] 560987, [1,8,17,1] 829285, [1,9,17,1] 1097583, [1,10,17,1] 853675, [1,1,18,1] 227411, [1,2,18,1] 244904, [1,3,18,1] 318375, [1,4,18,1] 489807, [1,5,18,1] 416336, [1,6,18,1] 391846, [1,7,18,1] 563278, [1,8,18,1] 832672, [1,9,18,1] 1102066, [1,10,18,1] 857163, [1,1,19,1] 264079, [1,2,19,1] 284393, [1,3,19,1] 369711, [1,4,19,1] 568785, [1,5,19,1] 483468, [1,6,19,1] 455028, [1,7,19,1] 654103, [1,8,19,1] 966935, [1,9,19,1] 1279767, [1,10,19,1] 995374, [1,1,20,1] 284559, [1,2,20,1] 306448, [1,3,20,1] 398382, [1,4,20,1] 612895, [1,5,20,1] 520961, [1,6,20,1] 490316, [1,7,20,1] 704830, [1,8,20,1] 1041922, [1,9,20,1] 1379014, [1,10,20,1] 1072567, [1,1,21,1] 268908, [1,2,21,1] 289593, [1,3,21,1] 376471, [1,4,21,1] 579186, [1,5,21,1] 492308, [1,6,21,1] 463349, [1,7,21,1] 666064, [1,8,21,1] 984616, [1,9,21,1] 1303169, [1,10,21,1] 1013576, [1,1,22,1] 207178, [1,2,22,1] 223115, [1,3,22,1] 290049, [1,4,22,1] 446230, [1,5,22,1] 379295, [1,6,22,1] 356984, [1,7,22,1] 513164, [1,8,22,1] 758590, [1,9,22,1] 1004016, [1,10,22,1] 780902, [1,1,23,1] 188009, [1,2,23,1] 202472, [1,3,23,1] 263213, [1,4,23,1] 404943, [1,5,23,1] 344202, [1,6,23,1] 323954, [1,7,23,1] 465684, [1,8,23,1] 688403, [1,9,23,1] 911122, [1,10,23,1] 708650, [1,1,24,1] 228750, [1,2,24,1] 246346, [1,3,24,1] 320250, [1,4,24,1] 492693, [1,5,24,1] 418789, [1,6,24,1] 394154, [1,7,24,1] 566597, [1,8,24,1] 837577, [1,9,24,1] 1108558, [1,10,24,1] 862212, [1,1,25,1] 225136, [1,2,25,1] 242455, [1,3,25,1] 315191, [1,4,25,1] 484909, [1,5,25,1] 412173, [1,6,25,1] 387927, [1,7,25,1] 557646, [1,8,25,1] 824346, [1,9,25,1] 1091046, [1,10,25,1] 848591, [1,1,26,1] 277283, [1,2,26,1] 298612, [1,3,26,1] 388196, [1,4,26,1] 597225, [1,5,26,1] 507641, [1,6,26,1] 477780, [1,7,26,1] 686808, [1,8,26,1] 1015282, [1,9,26,1] 1343756, [1,10,26,1] 1045143, [1,1,27,1] 295941, [1,2,27,1] 318706, [1,3,27,1] 414317, [1,4,27,1] 637411, [1,5,27,1] 541799, [1,6,27,1] 509929, [1,7,27,1] 733023, [1,8,27,1] 1083599, [1,9,27,1] 1434175, [1,10,27,1] 1115469, [1,1,28,1] 266219, [1,2,28,1] 286697, [1,3,28,1] 372706, [1,4,28,1] 573394, [1,5,28,1] 487385, [1,6,28,1] 458715, [1,7,28,1] 659403, [1,8,28,1] 974770, [1,9,28,1] 1290137, [1,10,28,1] 1003440	2018-05-16 19:59:43.577779	2018-07-08 16:16:20.416503	1	2018
 36	33	12	1	28	10	2500	85000			[1] 1, [2] 1	[2] 1, [3] 1, [4] 1, [5] 1	2	[6,3,2] 1, [6,4,2] 1, [6,5,2] 1, [6,6,2] 1, [6,7,2] 1, [6,8,2] 1, [6,9,2] 1, [6,4,3] 1, [6,5,3] 1, [6,6,3] 1, [6,7,3] 1, [6,8,3] 1, [6,9,3] 1, [6,3,4] 1, [6,4,4] 1, [6,5,4] 1, [6,6,4] 1, [6,7,4] 1, [6,8,4] 1, [6,9,4] 1, [6,10,4] 1, [6,2,5] 1, [6,3,5] 1, [6,4,5] 1, [6,5,5] 1, [6,6,5] 1, [6,7,5] 1, [6,10,5] 1, [6,2,6] 1, [6,3,6] 1, [6,4,6] 1, [6,5,6] 1, [6,6,6] 1, [6,7,6] 1, [6,8,6] 1, [6,3,9] 1, [6,4,9] 1, [6,5,9] 1, [6,6,9] 1, [6,7,9] 1, [6,8,9] 1, [6,9,9] 1, [6,10,9] 1, [6,4,11] 1, [6,5,11] 1, [6,6,11] 1, [6,7,11] 1, [6,8,11] 1, [6,9,11] 1, [6,10,11] 1, [6,2,12] 1, [6,3,12] 1, [6,4,12] 1, [6,5,12] 1, [6,6,12] 1, [6,7,12] 1, [6,8,12] 1, [6,9,12] 1, [6,10,12] 1, [6,2,13] 1, [6,3,13] 1, [6,4,13] 1, [6,5,13] 1, [6,6,13] 1, [6,7,13] 1, [6,8,13] 1, [6,9,13] 1, [6,10,13] 1, [6,6,14] 1, [6,7,14] 1, [6,8,14] 1, [6,9,14] 1, [6,10,14] 1, [6,3,16] 1, [6,4,16] 1, [6,5,16] 1, [6,6,16] 1, [6,7,16] 1, [6,8,16] 1, [6,9,16] 1, [6,4,17] 1, [6,5,17] 1, [6,6,17] 1, [6,7,17] 1, [6,8,17] 1, [6,9,17] 1, [6,10,17] 1, [6,3,18] 1, [6,4,18] 1, [6,5,18] 1, [6,6,18] 1, [6,7,18] 1, [6,8,18] 1, [6,9,18] 1, [6,10,18] 1, [6,2,19] 1, [6,3,19] 1, [6,4,19] 1, [6,5,19] 1, [6,6,19] 1, [6,7,19] 1, [6,10,19] 1, [6,2,20] 1, [6,3,20] 1, [6,4,20] 1, [6,5,20] 1, [6,6,20] 1, [6,7,20] 1, [6,8,20] 1, [6,3,23] 1, [6,4,23] 1, [6,5,23] 1, [6,6,23] 1, [6,7,23] 1, [6,8,23] 1, [6,9,23] 1, [6,10,23] 1, [6,4,25] 1, [6,5,25] 1, [6,6,25] 1, [6,7,25] 1, [6,8,25] 1, [6,9,25] 1, [6,10,25] 1, [6,3,26] 1, [6,4,26] 1, [6,5,26] 1, [6,6,26] 1, [6,7,26] 1, [6,8,26] 1, [6,9,26] 1, [6,10,26] 1, [6,3,27] 1, [6,4,27] 1, [6,5,27] 1, [6,6,27] 1, [6,7,27] 1, [6,8,27] 1, [6,9,27] 1, [6,10,27] 1, [6,6,28] 1, [6,7,28] 1, [6,8,28] 1, [6,9,28] 1, [6,10,28] 1, [8,1,1] 1, [8,2,1] 1, [8,3,1] 1, [8,4,1] 1, [8,5,1] 1, [8,6,1] 1, [8,7,1] 1, [8,8,1] 1, [8,9,1] 1, [8,10,1] 1, [8,5,5] 1, [8,6,5] 1, [8,7,5] 1, [8,8,5] 1, [8,9,5] 1, [8,10,5] 1, [8,1,6] 1, [8,2,6] 1, [8,3,6] 1, [8,4,6] 1, [8,5,6] 1, [8,6,6] 1, [8,7,6] 1, [8,8,6] 1, [8,9,6] 1, [8,10,6] 1, [8,1,7] 1, [8,2,7] 1, [8,3,7] 1, [8,4,7] 1, [8,5,7] 1, [8,6,7] 1, [8,7,7] 1, [8,8,7] 1, [8,9,7] 1, [8,10,7] 1, [8,1,8] 1, [8,2,8] 1, [8,3,8] 1, [8,4,8] 1, [8,5,8] 1, [8,6,8] 1, [8,7,8] 1, [8,8,8] 1, [8,3,10] 1, [8,4,10] 1, [8,5,10] 1, [8,6,10] 1, [8,7,10] 1, [8,8,10] 1, [8,3,11] 1, [8,4,11] 1, [8,5,11] 1, [8,6,11] 1, [8,7,11] 1, [8,8,11] 1, [8,3,12] 1, [8,4,12] 1, [8,5,12] 1, [8,6,12] 1, [8,7,12] 1, [8,8,12] 1, [8,1,14] 1, [8,2,14] 1, [8,3,14] 1, [8,4,14] 1, [8,5,14] 1, [8,6,14] 1, [8,7,14] 1, [8,8,14] 1, [8,9,14] 1, [8,10,14] 1, [8,1,15] 1, [8,2,15] 1, [8,3,15] 1, [8,4,15] 1, [8,5,15] 1, [8,6,15] 1, [8,7,15] 1, [8,8,15] 1, [8,9,15] 1, [8,10,15] 1, [8,5,19] 1, [8,6,19] 1, [8,7,19] 1, [8,8,19] 1, [8,9,19] 1, [8,10,19] 1, [8,1,20] 1, [8,2,20] 1, [8,3,20] 1, [8,4,20] 1, [8,5,20] 1, [8,6,20] 1, [8,7,20] 1, [8,8,20] 1, [8,9,20] 1, [8,10,20] 1, [8,1,21] 1, [8,2,21] 1, [8,3,21] 1, [8,4,21] 1, [8,5,21] 1, [8,6,21] 1, [8,7,21] 1, [8,8,21] 1, [8,9,21] 1, [8,10,21] 1, [8,1,22] 1, [8,2,22] 1, [8,3,22] 1, [8,4,22] 1, [8,5,22] 1, [8,6,22] 1, [8,7,22] 1, [8,8,22] 1, [8,3,24] 1, [8,4,24] 1, [8,5,24] 1, [8,6,24] 1, [8,7,24] 1, [8,8,24] 1, [8,3,25] 1, [8,4,25] 1, [8,5,25] 1, [8,6,25] 1, [8,7,25] 1, [8,8,25] 1, [8,3,26] 1, [8,4,26] 1, [8,5,26] 1, [8,6,26] 1, [8,7,26] 1, [8,8,26] 1, [8,1,28] 1, [8,2,28] 1, [8,3,28] 1, [8,4,28] 1, [8,5,28] 1, [8,6,28] 1, [8,7,28] 1, [8,8,28] 1, [8,9,28] 1, [8,10,28] 1, [12,5,1] 1, [12,6,1] 1, [12,7,1] 1, [12,8,1] 1, [12,9,1] 1, [12,10,1] 1, [12,5,2] 1, [12,6,2] 1, [12,7,2] 1, [12,8,2] 1, [12,9,2] 1, [12,10,2] 1, [12,5,3] 1, [12,6,3] 1, [12,7,3] 1, [12,8,3] 1, [12,9,3] 1, [12,10,3] 1, [12,5,4] 1, [12,6,4] 1, [12,7,4] 1, [12,8,4] 1, [12,9,4] 1, [12,10,4] 1, [12,5,5] 1, [12,6,5] 1, [12,7,5] 1, [12,8,5] 1, [12,9,5] 1, [12,10,5] 1, [12,5,7] 1, [12,6,7] 1, [12,7,7] 1, [12,8,7] 1, [12,9,7] 1, [12,10,7] 1, [12,5,8] 1, [12,6,8] 1, [12,7,8] 1, [12,8,8] 1, [12,9,8] 1, [12,10,8] 1, [12,5,9] 1, [12,6,9] 1, [12,7,9] 1, [12,8,9] 1, [12,9,9] 1, [12,10,9] 1, [12,5,10] 1, [12,6,10] 1, [12,7,10] 1, [12,8,10] 1, [12,9,10] 1, [12,10,10] 1, [12,5,11] 1, [12,6,11] 1, [12,7,11] 1, [12,8,11] 1, [12,9,11] 1, [12,10,11] 1, [12,5,12] 1, [12,6,12] 1, [12,7,12] 1, [12,8,12] 1, [12,9,12] 1, [12,10,12] 1, [12,5,14] 1, [12,6,14] 1, [12,7,14] 1, [12,8,14] 1, [12,9,14] 1, [12,10,14] 1, [12,5,15] 1, [12,6,15] 1, [12,7,15] 1, [12,8,15] 1, [12,9,15] 1, [12,10,15] 1, [12,5,16] 1, [12,6,16] 1, [12,7,16] 1, [12,8,16] 1, [12,9,16] 1, [12,10,16] 1, [12,5,17] 1, [12,6,17] 1, [12,7,17] 1, [12,8,17] 1, [12,9,17] 1, [12,10,17] 1, [12,5,18] 1, [12,6,18] 1, [12,7,18] 1, [12,8,18] 1, [12,9,18] 1, [12,10,18] 1, [12,5,19] 1, [12,6,19] 1, [12,7,19] 1, [12,8,19] 1, [12,9,19] 1, [12,10,19] 1, [12,5,21] 1, [12,6,21] 1, [12,7,21] 1, [12,8,21] 1, [12,9,21] 1, [12,10,21] 1, [12,5,22] 1, [12,6,22] 1, [12,7,22] 1, [12,8,22] 1, [12,9,22] 1, [12,10,22] 1, [12,5,23] 1, [12,6,23] 1, [12,7,23] 1, [12,8,23] 1, [12,9,23] 1, [12,10,23] 1, [12,5,24] 1, [12,6,24] 1, [12,7,24] 1, [12,8,24] 1, [12,9,24] 1, [12,10,24] 1, [12,5,25] 1, [12,6,25] 1, [12,7,25] 1, [12,8,25] 1, [12,9,25] 1, [12,10,25] 1, [12,5,26] 1, [12,6,26] 1, [12,7,26] 1, [12,8,26] 1, [12,9,26] 1, [12,10,26] 1, [12,5,28] 1, [12,6,28] 1, [12,7,28] 1, [12,8,28] 1, [12,9,28] 1, [12,10,28] 1, [1,2,1] 1, [1,3,1] 1, [1,4,1] 1, [1,5,1] 1, [1,6,1] 1, [1,7,1] 1, [1,1,2] 1, [1,2,2] 1, [1,3,2] 1, [1,4,2] 1, [1,5,2] 1, [1,6,2] 1, [1,7,2] 1, [1,8,2] 1, [1,9,2] 1, [1,10,2] 1, [1,2,3] 1, [1,3,3] 1, [1,4,3] 1, [1,5,3] 1, [1,6,3] 1, [1,7,3] 1, [1,8,3] 1, [1,9,3] 1, [1,10,3] 1, [1,1,4] 1, [1,2,4] 1, [1,3,4] 1, [1,4,4] 1, [1,5,4] 1, [1,6,4] 1, [1,7,4] 1, [1,8,4] 1, [1,9,4] 1, [1,10,4] 1, [1,1,5] 1, [1,2,5] 1, [1,3,5] 1, [1,4,5] 1, [1,5,5] 1, [1,6,5] 1, [1,7,5] 1, [1,8,5] 1, [1,9,5] 1, [1,10,5] 1, [1,3,8] 1, [1,4,8] 1, [1,5,8] 1, [1,6,8] 1, [1,7,8] 1, [1,8,8] 1, [1,9,8] 1, [1,3,9] 1, [1,4,9] 1, [1,5,9] 1, [1,6,9] 1, [1,7,9] 1, [1,8,9] 1, [1,9,9] 1, [1,3,11] 1, [1,4,11] 1, [1,5,11] 1, [1,6,11] 1, [1,7,11] 1, [1,8,11] 1, [1,9,11] 1, [1,2,12] 1, [1,3,12] 1, [1,4,12] 1, [1,5,12] 1, [1,6,12] 1, [1,7,12] 1, [1,8,12] 1, [1,9,12] 1, [1,2,13] 1, [1,3,13] 1, [1,4,13] 1, [1,5,13] 1, [1,6,13] 1, [1,7,13] 1, [1,8,13] 1, [1,9,13] 1, [1,2,14] 1, [1,3,14] 1, [1,4,14] 1, [1,5,14] 1, [1,6,14] 1, [1,7,14] 1, [1,8,14] 1, [1,9,14] 1, [1,1,15] 1, [1,2,15] 1, [1,3,15] 1, [1,4,15] 1, [1,5,15] 1, [1,6,15] 1, [1,7,15] 1, [1,8,15] 1, [1,9,15] 1, [1,10,15] 1, [1,1,17] 1, [1,2,17] 1, [1,3,17] 1, [1,4,17] 1, [1,5,17] 1, [1,6,17] 1, [1,7,17] 1, [1,8,17] 1, [1,9,17] 1, [1,10,17] 1, [1,1,18] 1, [1,2,18] 1, [1,3,18] 1, [1,4,18] 1, [1,5,18] 1, [1,6,18] 1, [1,7,18] 1, [1,8,18] 1, [1,9,18] 1, [1,1,19] 1, [1,2,19] 1, [1,3,19] 1, [1,4,19] 1, [1,5,19] 1, [1,6,19] 1, [1,7,19] 1, [1,8,19] 1, [1,9,19] 1, [1,1,20] 1, [1,2,20] 1, [1,3,20] 1, [1,4,20] 1, [1,5,20] 1, [1,6,20] 1, [1,7,20] 1, [1,8,20] 1, [1,9,20] 1, [1,1,24] 1, [1,2,24] 1, [1,3,24] 1, [1,4,24] 1, [1,5,24] 1, [1,6,24] 1, [1,7,24] 1, [1,8,24] 1, [1,9,24] 1, [1,10,24] 1, [1,3,26] 1, [1,4,26] 1, [1,5,26] 1, [1,6,26] 1, [1,7,26] 1, [1,8,26] 1, [1,9,26] 1, [1,10,26] 1, [1,2,27] 1, [1,3,27] 1, [1,4,27] 1, [1,5,27] 1, [1,6,27] 1, [1,7,27] 1, [1,8,27] 1, [1,9,27] 1, [1,10,27] 1, [1,3,28] 1, [1,4,28] 1, [1,5,28] 1, [1,6,28] 1, [1,7,28] 1, [1,8,28] 1, [1,9,28] 1, [1,10,28] 1, [2,3,2] 1, [2,4,2] 1, [2,5,2] 1, [2,6,2] 1, [2,7,2] 1, [2,8,2] 1, [2,9,2] 1, [2,1,3] 1, [2,2,3] 1, [2,3,3] 1, [2,4,3] 1, [2,5,3] 1, [2,6,3] 1, [2,7,3] 1, [2,8,3] 1, [2,9,3] 1, [2,10,3] 1, [2,3,4] 1, [2,4,4] 1, [2,5,4] 1, [2,6,4] 1, [2,7,4] 1, [2,8,4] 1, [2,9,4] 1, [2,10,4] 1, [2,2,5] 1, [2,3,5] 1, [2,4,5] 1, [2,5,5] 1, [2,6,5] 1, [2,7,5] 1, [2,10,5] 1, [2,2,6] 1, [2,3,6] 1, [2,4,6] 1, [2,5,6] 1, [2,6,6] 1, [2,7,6] 1, [2,8,6] 1, [2,9,6] 1, [2,1,7] 1, [2,2,7] 1, [2,3,7] 1, [2,4,7] 1, [2,5,7] 1, [2,6,7] 1, [2,7,7] 1, [2,8,7] 1, [2,9,7] 1, [2,2,8] 1, [2,3,8] 1, [2,4,8] 1, [2,5,8] 1, [2,6,8] 1, [2,7,8] 1, [2,1,9] 1, [2,2,9] 1, [2,3,9] 1, [2,4,9] 1, [2,5,9] 1, [2,6,9] 1, [2,7,9] 1, [2,8,9] 1, [2,9,9] 1, [2,10,9] 1, [2,1,11] 1, [2,2,11] 1, [2,3,11] 1, [2,4,11] 1, [2,5,11] 1, [2,6,11] 1, [2,7,11] 1, [2,8,11] 1, [2,9,11] 1, [2,10,11] 1, [2,1,12] 1, [2,3,12] 1, [2,4,12] 1, [2,5,12] 1, [2,6,12] 1, [2,7,12] 1, [2,8,12] 1, [2,9,12] 1, [2,10,12] 1, [2,1,13] 1, [2,3,13] 1, [2,4,13] 1, [2,5,13] 1, [2,6,13] 1, [2,7,13] 1, [2,8,13] 1, [2,9,13] 1, [2,10,13] 1, [2,1,15] 1, [2,2,15] 1, [2,3,15] 1, [2,4,15] 1, [2,5,15] 1, [2,6,15] 1, [2,7,15] 1, [2,8,15] 1, [2,9,15] 1, [2,10,15] 1, [2,1,16] 1, [2,2,16] 1, [2,3,16] 1, [2,4,16] 1, [2,5,16] 1, [2,6,16] 1, [2,7,16] 1, [2,8,16] 1, [2,9,16] 1, [2,10,16] 1, [2,1,17] 1, [2,2,17] 1, [2,3,17] 1, [2,4,17] 1, [2,5,17] 1, [2,6,17] 1, [2,7,17] 1, [2,8,17] 1, [2,9,17] 1, [2,10,17] 1, [2,3,20] 1, [2,4,20] 1, [2,5,20] 1, [2,6,20] 1, [2,7,20] 1, [2,8,20] 1, [2,9,20] 1, [2,10,20] 1, [2,3,21] 1, [2,4,21] 1, [2,5,21] 1, [2,6,21] 1, [2,7,21] 1, [2,8,21] 1, [2,9,21] 1, [2,10,21] 1, [2,1,22] 1, [2,2,22] 1, [2,3,22] 1, [2,4,22] 1, [2,5,22] 1, [2,6,22] 1, [2,7,22] 1, [2,8,22] 1, [2,9,22] 1, [2,10,22] 1, [2,1,24] 1, [2,2,24] 1, [2,3,24] 1, [2,4,24] 1, [2,5,24] 1, [2,6,24] 1, [2,7,24] 1, [2,8,24] 1, [2,9,24] 1, [2,10,24] 1, [2,1,25] 1, [2,2,25] 1, [2,3,25] 1, [2,4,25] 1, [2,5,25] 1, [2,6,25] 1, [2,7,25] 1, [2,8,25] 1, [2,9,25] 1, [2,1,26] 1, [2,2,26] 1, [2,3,26] 1, [2,4,26] 1, [2,5,26] 1, [2,6,26] 1, [2,7,26] 1, [2,8,26] 1, [2,9,26] 1, [2,1,27] 1, [2,2,27] 1, [2,3,27] 1, [2,4,27] 1, [2,5,27] 1, [2,6,27] 1, [2,7,27] 1, [2,8,27] 1, [2,9,27] 1, [3,1,1] 1, [3,2,1] 1, [3,3,1] 1, [3,4,1] 1, [3,5,1] 1, [3,6,1] 1, [3,7,1] 1, [3,8,1] 1, [3,9,1] 1, [3,1,3] 1, [3,2,3] 1, [3,3,3] 1, [3,4,3] 1, [3,5,3] 1, [3,6,3] 1, [3,7,3] 1, [3,8,3] 1, [3,9,3] 1, [3,10,3] 1, [3,1,4] 1, [3,2,4] 1, [3,3,4] 1, [3,4,4] 1, [3,5,4] 1, [3,6,4] 1, [3,7,4] 1, [3,8,4] 1, [3,9,4] 1, [3,10,4] 1, [3,1,5] 1, [3,2,5] 1, [3,3,5] 1, [3,4,5] 1, [3,5,5] 1, [3,6,5] 1, [3,7,5] 1, [3,8,5] 1, [3,9,5] 1, [3,1,6] 1, [3,2,6] 1, [3,3,6] 1, [3,4,6] 1, [3,5,6] 1, [3,6,6] 1, [3,7,6] 1, [3,8,6] 1, [3,9,6] 1, [3,1,8] 1, [3,2,8] 1, [3,3,8] 1, [3,4,8] 1, [3,5,8] 1, [3,6,8] 1, [3,7,8] 1, [3,1,9] 1, [3,2,9] 1, [3,3,9] 1, [3,4,9] 1, [3,5,9] 1, [3,6,9] 1, [3,7,9] 1, [3,8,9] 1, [3,9,9] 1, [3,10,9] 1, [3,1,11] 1, [3,2,11] 1, [3,3,11] 1, [3,4,11] 1, [3,5,11] 1, [3,6,11] 1, [3,7,11] 1, [3,8,11] 1, [3,9,11] 1, [3,10,11] 1, [3,1,12] 1, [3,3,12] 1, [3,4,12] 1, [3,5,12] 1, [3,6,12] 1, [3,7,12] 1, [3,8,12] 1, [3,9,12] 1, [3,10,12] 1, [3,1,13] 1, [3,3,13] 1, [3,4,13] 1, [3,5,13] 1, [3,6,13] 1, [3,7,13] 1, [3,8,13] 1, [3,9,13] 1, [3,10,13] 1, [3,1,15] 1, [3,2,15] 1, [3,3,15] 1, [3,4,15] 1, [3,5,15] 1, [3,6,15] 1, [3,7,15] 1, [3,8,15] 1, [3,9,15] 1, [3,10,15] 1, [3,1,16] 1, [3,2,16] 1, [3,3,16] 1, [3,4,16] 1, [3,5,16] 1, [3,6,16] 1, [3,7,16] 1, [3,8,16] 1, [3,9,16] 1, [3,10,16] 1, [3,1,17] 1, [3,2,17] 1, [3,3,17] 1, [3,4,17] 1, [3,5,17] 1, [3,6,17] 1, [3,7,17] 1, [3,8,17] 1, [3,9,17] 1, [3,10,17] 1, [3,3,20] 1, [3,4,20] 1, [3,5,20] 1, [3,6,20] 1, [3,7,20] 1, [3,8,20] 1, [3,9,20] 1, [3,10,20] 1, [3,3,21] 1, [3,4,21] 1, [3,5,21] 1, [3,6,21] 1, [3,7,21] 1, [3,8,21] 1, [3,9,21] 1, [3,10,21] 1, [3,1,22] 1, [3,2,22] 1, [3,3,22] 1, [3,4,22] 1, [3,5,22] 1, [3,6,22] 1, [3,7,22] 1, [3,8,22] 1, [3,9,22] 1, [3,10,22] 1, [3,1,24] 1, [3,2,24] 1, [3,3,24] 1, [3,4,24] 1, [3,5,24] 1, [3,6,24] 1, [3,7,24] 1, [3,8,24] 1, [3,9,24] 1, [3,10,24] 1, [3,1,25] 1, [3,2,25] 1, [3,3,25] 1, [3,4,25] 1, [3,5,25] 1, [3,6,25] 1, [3,7,25] 1, [3,8,25] 1, [3,9,25] 1, [3,1,26] 1, [3,2,26] 1, [3,3,26] 1, [3,4,26] 1, [3,5,26] 1, [3,6,26] 1, [3,7,26] 1, [3,8,26] 1, [3,9,26] 1, [3,1,27] 1, [3,2,27] 1, [3,3,27] 1, [3,4,27] 1, [3,5,27] 1, [3,6,27] 1, [3,7,27] 1, [3,8,27] 1, [3,9,27] 1, [10,1,6] 1, [10,2,6] 1, [10,3,6] 1, [10,4,6] 1, [10,5,6] 1, [10,6,6] 1, [10,7,6] 1, [10,8,6] 1, [10,9,6] 1, [10,10,6] 1, [10,1,7] 1, [10,2,7] 1, [10,3,7] 1, [10,4,7] 1, [10,5,7] 1, [10,6,7] 1, [10,7,7] 1, [10,8,7] 1, [10,9,7] 1, [10,10,7] 1, [10,1,13] 1, [10,2,13] 1, [10,3,13] 1, [10,4,13] 1, [10,5,13] 1, [10,6,13] 1, [10,7,13] 1, [10,8,13] 1, [10,9,13] 1, [10,10,13] 1, [10,1,14] 1, [10,2,14] 1, [10,3,14] 1, [10,4,14] 1, [10,5,14] 1, [10,6,14] 1, [10,7,14] 1, [10,8,14] 1, [10,9,14] 1, [10,10,14] 1, [10,1,20] 1, [10,2,20] 1, [10,3,20] 1, [10,4,20] 1, [10,5,20] 1, [10,6,20] 1, [10,7,20] 1, [10,8,20] 1, [10,9,20] 1, [10,10,20] 1, [10,1,21] 1, [10,2,21] 1, [10,3,21] 1, [10,4,21] 1, [10,5,21] 1, [10,6,21] 1, [10,7,21] 1, [10,8,21] 1, [10,9,21] 1, [10,10,21] 1, [10,1,27] 1, [10,2,27] 1, [10,3,27] 1, [10,4,27] 1, [10,5,27] 1, [10,6,27] 1, [10,7,27] 1, [10,8,27] 1, [10,9,27] 1, [10,10,27] 1, [10,1,28] 1, [10,2,28] 1, [10,3,28] 1, [10,4,28] 1, [10,5,28] 1, [10,6,28] 1, [10,7,28] 1, [10,8,28] 1, [10,9,28] 1, [10,10,28] 1, [11,5,1] 1, [11,6,1] 1, [11,7,1] 1, [11,8,1] 1, [11,9,1] 1, [11,10,1] 1, [11,5,2] 1, [11,6,2] 1, [11,7,2] 1, [11,8,2] 1, [11,9,2] 1, [11,10,2] 1, [11,5,3] 1, [11,6,3] 1, [11,7,3] 1, [11,8,3] 1, [11,9,3] 1, [11,10,3] 1, [11,5,4] 1, [11,6,4] 1, [11,7,4] 1, [11,8,4] 1, [11,9,4] 1, [11,10,4] 1, [11,5,5] 1, [11,6,5] 1, [11,7,5] 1, [11,8,5] 1, [11,9,5] 1, [11,10,5] 1, [11,5,6] 1, [11,6,6] 1, [11,7,6] 1, [11,8,6] 1, [11,9,6] 1, [11,10,6] 1, [11,5,8] 1, [11,6,8] 1, [11,7,8] 1, [11,8,8] 1, [11,9,8] 1, [11,10,8] 1, [11,5,9] 1, [11,6,9] 1, [11,7,9] 1, [11,8,9] 1, [11,9,9] 1, [11,10,9] 1, [11,5,10] 1, [11,6,10] 1, [11,7,10] 1, [11,8,10] 1, [11,9,10] 1, [11,10,10] 1, [11,5,11] 1, [11,6,11] 1, [11,7,11] 1, [11,8,11] 1, [11,9,11] 1, [11,10,11] 1, [11,5,12] 1, [11,6,12] 1, [11,7,12] 1, [11,8,12] 1, [11,9,12] 1, [11,10,12] 1, [11,5,13] 1, [11,6,13] 1, [11,7,13] 1, [11,8,13] 1, [11,9,13] 1, [11,10,13] 1, [11,5,15] 1, [11,6,15] 1, [11,7,15] 1, [11,8,15] 1, [11,9,15] 1, [11,10,15] 1, [11,5,16] 1, [11,6,16] 1, [11,7,16] 1, [11,8,16] 1, [11,9,16] 1, [11,10,16] 1, [11,5,17] 1, [11,6,17] 1, [11,7,17] 1, [11,8,17] 1, [11,9,17] 1, [11,10,17] 1, [11,5,18] 1, [11,6,18] 1, [11,7,18] 1, [11,8,18] 1, [11,9,18] 1, [11,10,18] 1, [11,5,19] 1, [11,6,19] 1, [11,7,19] 1, [11,8,19] 1, [11,9,19] 1, [11,10,19] 1, [11,5,20] 1, [11,6,20] 1, [11,7,20] 1, [11,8,20] 1, [11,9,20] 1, [11,10,20] 1, [11,5,22] 1, [11,6,22] 1, [11,7,22] 1, [11,8,22] 1, [11,9,22] 1, [11,10,22] 1, [11,5,23] 1, [11,6,23] 1, [11,7,23] 1, [11,8,23] 1, [11,9,23] 1, [11,10,23] 1, [11,5,24] 1, [11,6,24] 1, [11,7,24] 1, [11,8,24] 1, [11,9,24] 1, [11,10,24] 1, [11,5,25] 1, [11,6,25] 1, [11,7,25] 1, [11,8,25] 1, [11,9,25] 1, [11,10,25] 1, [11,5,26] 1, [11,6,26] 1, [11,7,26] 1, [11,8,26] 1, [11,9,26] 1, [11,10,26] 1, [11,5,27] 1, [11,6,27] 1, [11,7,27] 1, [11,8,27] 1, [11,9,27] 1, [11,10,27] 1, [4,1,1] 1, [4,2,1] 1, [4,3,1] 1, [4,4,1] 1, [4,5,1] 1, [4,6,1] 1, [4,7,1] 1, [4,8,1] 1, [4,9,1] 1, [4,10,1] 1, [4,1,2] 1, [4,2,2] 1, [4,3,2] 1, [4,4,2] 1, [4,5,2] 1, [4,6,2] 1, [4,7,2] 1, [4,8,2] 1, [4,9,2] 1, [4,10,2] 1, [4,3,5] 1, [4,4,5] 1, [4,5,5] 1, [4,6,5] 1, [4,7,5] 1, [4,8,5] 1, [4,9,5] 1, [4,10,5] 1, [4,2,6] 1, [4,3,6] 1, [4,4,6] 1, [4,5,6] 1, [4,6,6] 1, [4,7,6] 1, [4,8,6] 1, [4,9,6] 1, [4,10,6] 1, [4,1,7] 1, [4,2,7] 1, [4,3,7] 1, [4,4,7] 1, [4,5,7] 1, [4,6,7] 1, [4,7,7] 1, [4,8,7] 1, [4,9,7] 1, [4,10,7] 1, [4,1,8] 1, [4,2,8] 1, [4,3,8] 1, [4,4,8] 1, [4,5,8] 1, [4,6,8] 1, [4,7,8] 1, [4,8,8] 1, [4,1,10] 1, [4,2,10] 1, [4,3,10] 1, [4,4,10] 1, [4,5,10] 1, [4,6,10] 1, [4,7,10] 1, [4,8,10] 1, [4,9,10] 1, [4,10,10] 1, [4,1,11] 1, [4,2,11] 1, [4,3,11] 1, [4,4,11] 1, [4,5,11] 1, [4,6,11] 1, [4,7,11] 1, [4,8,11] 1, [4,9,11] 1, [4,1,12] 1, [4,2,12] 1, [4,3,12] 1, [4,4,12] 1, [4,5,12] 1, [4,6,12] 1, [4,7,12] 1, [4,8,12] 1, [4,9,12] 1, [4,1,13] 1, [4,2,13] 1, [4,3,13] 1, [4,4,13] 1, [4,5,13] 1, [4,6,13] 1, [4,7,13] 1, [4,8,13] 1, [4,9,13] 1, [4,3,15] 1, [4,4,15] 1, [4,5,15] 1, [4,6,15] 1, [4,7,15] 1, [4,8,15] 1, [4,9,15] 1, [4,3,16] 1, [4,4,16] 1, [4,5,16] 1, [4,6,16] 1, [4,7,16] 1, [4,8,16] 1, [4,9,16] 1, [4,3,18] 1, [4,4,18] 1, [4,5,18] 1, [4,6,18] 1, [4,7,18] 1, [4,8,18] 1, [4,9,18] 1, [4,2,19] 1, [4,3,19] 1, [4,4,19] 1, [4,5,19] 1, [4,6,19] 1, [4,7,19] 1, [4,8,19] 1, [4,9,19] 1, [4,2,20] 1, [4,3,20] 1, [4,4,20] 1, [4,5,20] 1, [4,6,20] 1, [4,7,20] 1, [4,8,20] 1, [4,9,20] 1, [4,1,21] 1, [4,2,21] 1, [4,3,21] 1, [4,4,21] 1, [4,5,21] 1, [4,6,21] 1, [4,7,21] 1, [4,8,21] 1, [4,9,21] 1, [4,1,22] 1, [4,2,22] 1, [4,3,22] 1, [4,4,22] 1, [4,5,22] 1, [4,6,22] 1, [4,1,23] 1, [4,2,23] 1, [4,3,23] 1, [4,4,23] 1, [4,5,23] 1, [4,6,23] 1, [4,7,23] 1, [4,8,23] 1, [4,9,23] 1, [4,10,23] 1, [4,1,25] 1, [4,2,25] 1, [4,3,25] 1, [4,4,25] 1, [4,5,25] 1, [4,6,25] 1, [4,7,25] 1, [4,8,25] 1, [4,9,25] 1, [4,10,25] 1, [4,1,26] 1, [4,3,26] 1, [4,4,26] 1, [4,5,26] 1, [4,6,26] 1, [4,7,26] 1, [4,8,26] 1, [4,9,26] 1, [4,10,26] 1, [4,1,27] 1, [4,3,27] 1, [4,4,27] 1, [4,5,27] 1, [4,6,27] 1, [4,7,27] 1, [4,8,27] 1, [4,9,27] 1, [4,10,27] 1, [5,3,3] 1, [5,4,3] 1, [5,5,3] 1, [5,6,3] 1, [5,7,3] 1, [5,8,3] 1, [5,9,3] 1, [5,3,4] 1, [5,4,4] 1, [5,5,4] 1, [5,6,4] 1, [5,7,4] 1, [5,8,4] 1, [5,9,4] 1, [5,10,4] 1, [5,6,5] 1, [5,7,5] 1, [5,8,5] 1, [5,9,5] 1, [5,10,5] 1, [5,4,6] 1, [5,5,6] 1, [5,6,6] 1, [5,7,6] 1, [5,8,6] 1, [5,9,6] 1, [5,10,6] 1, [5,4,7] 1, [5,5,7] 1, [5,6,7] 1, [5,7,7] 1, [5,8,7] 1, [5,9,7] 1, [5,10,7] 1, [5,3,8] 1, [5,4,8] 1, [5,5,8] 1, [5,6,8] 1, [5,7,8] 1, [5,8,8] 1, [5,9,8] 1, [5,3,9] 1, [5,4,9] 1, [5,5,9] 1, [5,6,9] 1, [5,7,9] 1, [5,8,9] 1, [5,9,9] 1, [5,3,10] 1, [5,4,10] 1, [5,5,10] 1, [5,6,10] 1, [5,7,10] 1, [5,8,10] 1, [5,9,10] 1, [5,10,10] 1, [5,3,13] 1, [5,4,13] 1, [5,5,13] 1, [5,6,13] 1, [5,7,13] 1, [5,8,13] 1, [5,9,13] 1, [5,3,14] 1, [5,4,14] 1, [5,5,14] 1, [5,6,14] 1, [5,7,14] 1, [5,8,14] 1, [5,9,14] 1, [5,2,17] 1, [5,3,17] 1, [5,4,17] 1, [5,5,17] 1, [5,6,17] 1, [5,7,17] 1, [5,8,17] 1, [5,9,17] 1, [5,2,18] 1, [5,3,18] 1, [5,4,18] 1, [5,5,18] 1, [5,6,18] 1, [5,7,18] 1, [5,8,18] 1, [5,9,18] 1, [5,10,18] 1, [5,6,19] 1, [5,7,19] 1, [5,8,19] 1, [5,9,19] 1, [5,10,19] 1, [5,4,20] 1, [5,5,20] 1, [5,6,20] 1, [5,7,20] 1, [5,8,20] 1, [5,9,20] 1, [5,10,20] 1, [5,4,21] 1, [5,5,21] 1, [5,6,21] 1, [5,7,21] 1, [5,8,21] 1, [5,9,21] 1, [5,10,21] 1, [5,3,22] 1, [5,4,22] 1, [5,5,22] 1, [5,6,22] 1, [5,7,22] 1, [5,8,22] 1, [5,9,22] 1, [5,3,23] 1, [5,4,23] 1, [5,5,23] 1, [5,6,23] 1, [5,7,23] 1, [5,8,23] 1, [5,9,23] 1, [5,3,24] 1, [5,4,24] 1, [5,5,24] 1, [5,6,24] 1, [5,7,24] 1, [5,8,24] 1, [5,9,24] 1, [5,10,24] 1, [5,3,27] 1, [5,4,27] 1, [5,5,27] 1, [5,6,27] 1, [5,7,27] 1, [5,8,27] 1, [5,9,27] 1, [5,3,28] 1, [5,4,28] 1, [5,5,28] 1, [5,6,28] 1, [5,7,28] 1, [5,8,28] 1, [5,9,28] 1, [9,7,5] 1, [9,8,5] 1, [9,9,5] 1, [9,10,5] 1, [9,7,12] 1, [9,8,12] 1, [9,9,12] 1, [9,10,12] 1, [9,1,13] 1, [9,2,13] 1, [9,3,13] 1, [9,4,13] 1, [9,5,13] 1, [9,6,13] 1, [9,7,13] 1, [9,8,13] 1, [9,9,13] 1, [9,10,13] 1, [9,1,14] 1, [9,2,14] 1, [9,3,14] 1, [9,4,14] 1, [9,5,14] 1, [9,6,14] 1, [9,7,14] 1, [9,8,14] 1, [9,9,14] 1, [9,10,14] 1, [9,7,19] 1, [9,8,19] 1, [9,9,19] 1, [9,10,19] 1, [9,1,20] 1, [9,2,20] 1, [9,3,20] 1, [9,4,20] 1, [9,5,20] 1, [9,6,20] 1, [9,7,20] 1, [9,8,20] 1, [9,9,20] 1, [9,10,20] 1, [9,1,21] 1, [9,2,21] 1, [9,3,21] 1, [9,4,21] 1, [9,5,21] 1, [9,6,21] 1, [9,7,21] 1, [9,8,21] 1, [9,9,21] 1, [9,10,21] 1, [9,7,26] 1, [9,8,26] 1, [9,9,26] 1, [9,10,26] 1, [9,1,27] 1, [9,2,27] 1, [9,3,27] 1, [9,4,27] 1, [9,5,27] 1, [9,6,27] 1, [9,7,27] 1, [9,8,27] 1, [9,9,27] 1, [9,10,27] 1, [9,1,28] 1, [9,2,28] 1, [9,3,28] 1, [9,4,28] 1, [9,5,28] 1, [9,6,28] 1, [9,7,28] 1, [9,8,28] 1, [9,9,28] 1, [9,10,28] 1, [7,3,1] 1, [7,4,1] 1, [7,5,1] 1, [7,6,1] 1, [7,7,1] 1, [7,8,1] 1, [7,9,1] 1, [7,3,2] 1, [7,4,2] 1, [7,5,2] 1, [7,6,2] 1, [7,7,2] 1, [7,8,2] 1, [7,9,2] 1, [7,3,3] 1, [7,4,3] 1, [7,5,3] 1, [7,6,3] 1, [7,7,3] 1, [7,8,3] 1, [7,9,3] 1, [7,10,3] 1, [7,3,6] 1, [7,4,6] 1, [7,5,6] 1, [7,6,6] 1, [7,7,6] 1, [7,8,6] 1, [7,9,6] 1, [7,3,7] 1, [7,4,7] 1, [7,5,7] 1, [7,6,7] 1, [7,7,7] 1, [7,8,7] 1, [7,9,7] 1, [7,3,9] 1, [7,4,9] 1, [7,5,9] 1, [7,6,9] 1, [7,7,9] 1, [7,8,9] 1, [7,9,9] 1, [7,4,10] 1, [7,5,10] 1, [7,6,10] 1, [7,7,10] 1, [7,8,10] 1, [7,9,10] 1, [7,10,10] 1, [7,3,11] 1, [7,4,11] 1, [7,5,11] 1, [7,6,11] 1, [7,7,11] 1, [7,8,11] 1, [7,9,11] 1, [7,10,11] 1, [7,2,12] 1, [7,3,12] 1, [7,4,12] 1, [7,5,12] 1, [7,6,12] 1, [7,7,12] 1, [7,10,12] 1, [7,2,13] 1, [7,3,13] 1, [7,4,13] 1, [7,5,13] 1, [7,6,13] 1, [7,7,13] 1, [7,8,13] 1, [7,3,16] 1, [7,4,16] 1, [7,5,16] 1, [7,6,16] 1, [7,7,16] 1, [7,8,16] 1, [7,9,16] 1, [7,4,17] 1, [7,5,17] 1, [7,6,17] 1, [7,7,17] 1, [7,8,17] 1, [7,9,17] 1, [7,10,17] 1, [7,3,18] 1, [7,4,18] 1, [7,5,18] 1, [7,6,18] 1, [7,7,18] 1, [7,8,18] 1, [7,9,18] 1, [7,10,18] 1, [7,2,19] 1, [7,3,19] 1, [7,4,19] 1, [7,5,19] 1, [7,6,19] 1, [7,7,19] 1, [7,10,19] 1, [7,2,20] 1, [7,3,20] 1, [7,4,20] 1, [7,5,20] 1, [7,6,20] 1, [7,7,20] 1, [7,8,20] 1, [7,3,22] 1, [7,4,22] 1, [7,5,22] 1, [7,6,22] 1, [7,7,22] 1, [7,8,22] 1, [7,9,22] 1, [7,3,23] 1, [7,4,23] 1, [7,5,23] 1, [7,6,23] 1, [7,7,23] 1, [7,8,23] 1, [7,9,23] 1, [7,3,24] 1, [7,4,24] 1, [7,5,24] 1, [7,6,24] 1, [7,7,24] 1, [7,8,24] 1, [7,9,24] 1, [7,10,24] 1, [7,3,27] 1, [7,4,27] 1, [7,5,27] 1, [7,6,27] 1, [7,7,27] 1, [7,8,27] 1, [7,9,27] 1, [7,3,28] 1, [7,4,28] 1, [7,5,28] 1, [7,6,28] 1, [7,7,28] 1, [7,8,28] 1, [7,9,28] 1	[1,1,1] 7, [2,1,1] 3, [3,1,1] 2, [4,1,1] 0, [5,1,1] 2, [6,1,1] 0, [7,1,1] 0, [8,1,1] 0, [9,1,1] 2, [10,1,1] 2, [11,1,1] 0, [12,1,1] 3	[1,1,1,1] 200361, [1,2,1,1] 215773, [1,3,1,1] 280505, [1,4,1,1] 431547, [1,5,1,1] 366815, [1,6,1,1] 345238, [1,7,1,1] 496279, [1,8,1,1] 733630, [1,9,1,1] 970980, [1,10,1,1] 755207, [1,1,2,1] 181823, [1,2,2,1] 195809, [1,3,2,1] 254552, [1,4,2,1] 391619, [1,5,2,1] 332876, [1,6,2,1] 313295, [1,7,2,1] 450362, [1,8,2,1] 665752, [1,9,2,1] 881142, [1,10,2,1] 685333, [1,1,3,1] 221223, [1,2,3,1] 238241, [1,3,3,1] 309713, [1,4,3,1] 476481, [1,5,3,1] 405009, [1,6,3,1] 381185, [1,7,3,1] 547953, [1,8,3,1] 810018, [1,9,3,1] 1072083, [1,10,3,1] 833842, [1,1,4,1] 217729, [1,2,4,1] 234477, [1,3,4,1] 304820, [1,4,4,1] 468954, [1,5,4,1] 398611, [1,6,4,1] 375163, [1,7,4,1] 539297, [1,8,4,1] 797222, [1,9,4,1] 1055146, [1,10,4,1] 820669, [1,1,5,1] 268159, [1,2,5,1] 288787, [1,3,5,1] 375423, [1,4,5,1] 577574, [1,5,5,1] 490938, [1,6,5,1] 462059, [1,7,5,1] 664210, [1,8,5,1] 981875, [1,9,5,1] 1299541, [1,10,5,1] 1010754, [1,1,6,1] 286203, [1,2,6,1] 308219, [1,3,6,1] 400685, [1,4,6,1] 616438, [1,5,6,1] 523972, [1,6,6,1] 493150, [1,7,6,1] 708904, [1,8,6,1] 1047944, [1,9,6,1] 1386985, [1,10,6,1] 1078766, [1,1,7,1] 257459, [1,2,7,1] 277264, [1,3,7,1] 360443, [1,4,7,1] 554527, [1,5,7,1] 471348, [1,6,7,1] 443622, [1,7,7,1] 637706, [1,8,7,1] 942696, [1,9,7,1] 1247687, [1,10,7,1] 970423, [1,1,8,1] 207062, [1,2,8,1] 222990, [1,3,8,1] 289887, [1,4,8,1] 445980, [1,5,8,1] 379083, [1,6,8,1] 356784, [1,7,8,1] 512876, [1,8,8,1] 758165, [1,9,8,1] 1003454, [1,10,8,1] 780464, [1,1,9,1] 209133, [1,2,9,1] 225220, [1,3,9,1] 292786, [1,4,9,1] 450439, [1,5,9,1] 382873, [1,6,9,1] 360351, [1,7,9,1] 518005, [1,8,9,1] 765747, [1,9,9,1] 1013488, [1,10,9,1] 788269, [1,1,10,1] 217415, [1,2,10,1] 234139, [1,3,10,1] 304381, [1,4,10,1] 468278, [1,5,10,1] 398037, [1,6,10,1] 374623, [1,7,10,1] 538520, [1,8,10,1] 796073, [1,9,10,1] 1053627, [1,10,10,1] 819487, [1,1,11,1] 219486, [1,2,11,1] 236369, [1,3,11,1] 307280, [1,4,11,1] 472738, [1,5,11,1] 401828, [1,6,11,1] 378191, [1,7,11,1] 543649, [1,8,11,1] 803655, [1,9,11,1] 1063661, [1,10,11,1] 827292, [1,1,12,1] 248474, [1,2,12,1] 267588, [1,3,12,1] 347864, [1,4,12,1] 535175, [1,5,12,1] 454899, [1,6,12,1] 428140, [1,7,12,1] 615452, [1,8,12,1] 909798, [1,9,12,1] 1204145, [1,10,12,1] 936557, [1,1,13,1] 273322, [1,2,13,1] 294346, [1,3,13,1] 382650, [1,4,13,1] 588693, [1,5,13,1] 500389, [1,6,13,1] 470954, [1,7,13,1] 676997, [1,8,13,1] 1000778, [1,9,13,1] 1324559, [1,10,13,1] 1030213, [1,1,14,1] 268352, [1,2,14,1] 288995, [1,3,14,1] 375693, [1,4,14,1] 577989, [1,5,14,1] 491291, [1,6,14,1] 462392, [1,7,14,1] 664688, [1,8,14,1] 982582, [1,9,14,1] 1300476, [1,10,14,1] 1011482, [1,1,15,1] 200850, [1,2,15,1] 216300, [1,3,15,1] 281190, [1,4,15,1] 432600, [1,5,15,1] 367710, [1,6,15,1] 346080, [1,7,15,1] 497490, [1,8,15,1] 735420, [1,9,15,1] 973350, [1,10,15,1] 757050, [1,1,16,1] 219672, [1,2,16,1] 236570, [1,3,16,1] 307541, [1,4,16,1] 473140, [1,5,16,1] 402169, [1,6,16,1] 378512, [1,7,16,1] 544111, [1,8,16,1] 804337, [1,9,16,1] 1064564, [1,10,16,1] 827994, [1,1,17,1] 221763, [1,2,17,1] 238822, [1,3,17,1] 310469, [1,4,17,1] 477644, [1,5,17,1] 405997, [1,6,17,1] 382115, [1,7,17,1] 549291, [1,8,17,1] 811995, [1,9,17,1] 1074699, [1,10,17,1] 835877, [1,1,18,1] 227168, [1,2,18,1] 244642, [1,3,18,1] 318035, [1,4,18,1] 489284, [1,5,18,1] 415892, [1,6,18,1] 391427, [1,7,18,1] 562677, [1,8,18,1] 831783, [1,9,18,1] 1100889, [1,10,18,1] 856247, [1,1,19,1] 248723, [1,2,19,1] 267855, [1,3,19,1] 348212, [1,4,19,1] 535711, [1,5,19,1] 455354, [1,6,19,1] 428568, [1,7,19,1] 616067, [1,8,19,1] 910708, [1,9,19,1] 1205349, [1,10,19,1] 937494, [1,1,20,1] 270589, [1,2,20,1] 291403, [1,3,20,1] 378824, [1,4,20,1] 582806, [1,5,20,1] 495385, [1,6,20,1] 466245, [1,7,20,1] 670227, [1,8,20,1] 990770, [1,9,20,1] 1311314, [1,10,20,1] 1019911, [1,1,21,1] 268621, [1,2,21,1] 289284, [1,3,21,1] 376069, [1,4,21,1] 578567, [1,5,21,1] 491782, [1,6,21,1] 462854, [1,7,21,1] 665353, [1,8,21,1] 983565, [1,9,21,1] 1301777, [1,10,21,1] 1012493, [1,1,22,1] 206896, [1,2,22,1] 222811, [1,3,22,1] 289655, [1,4,22,1] 445623, [1,5,22,1] 378779, [1,6,22,1] 356498, [1,7,22,1] 512466, [1,8,22,1] 757559, [1,9,22,1] 1002651, [1,10,22,1] 779840, [1,1,23,1] 208965, [1,2,23,1] 225039, [1,3,23,1] 292551, [1,4,23,1] 450079, [1,5,23,1] 382567, [1,6,23,1] 360063, [1,7,23,1] 517591, [1,8,23,1] 765134, [1,9,23,1] 1012678, [1,10,23,1] 787638, [1,1,24,1] 217241, [1,2,24,1] 233952, [1,3,24,1] 304138, [1,4,24,1] 467904, [1,5,24,1] 397718, [1,6,24,1] 374323, [1,7,24,1] 538089, [1,8,24,1] 795437, [1,9,24,1] 1052784, [1,10,24,1] 818832, [1,1,25,1] 219310, [1,2,25,1] 236180, [1,3,25,1] 307034, [1,4,25,1] 472360, [1,5,25,1] 401506, [1,6,25,1] 377888, [1,7,25,1] 543214, [1,8,25,1] 803012, [1,9,25,1] 1062810, [1,10,25,1] 826630, [1,1,26,1] 248276, [1,2,26,1] 267374, [1,3,26,1] 347586, [1,4,26,1] 534747, [1,5,26,1] 454535, [1,6,26,1] 427798, [1,7,26,1] 614959, [1,8,26,1] 909070, [1,9,26,1] 1203181, [1,10,26,1] 935808, [1,1,27,1] 273103, [1,2,27,1] 294111, [1,3,27,1] 382344, [1,4,27,1] 588222, [1,5,27,1] 499989, [1,6,27,1] 470578, [1,7,27,1] 676455, [1,8,27,1] 999977, [1,9,27,1] 1323500, [1,10,27,1] 1029389, [1,1,28,1] 268138, [1,2,28,1] 288764, [1,3,28,1] 375393, [1,4,28,1] 577527, [1,5,28,1] 490898, [1,6,28,1] 462022, [1,7,28,1] 664156, [1,8,28,1] 981796, [1,9,28,1] 1299436, [1,10,28,1] 1010672	2018-05-26 17:36:48.18102	2018-07-06 12:18:29.613255	5	2018
 33	30	12	1	28	10	2500	65000			[1] 1, [2] 1	[2] 1, [3] 1, [4] 1, [5] 1	2	[6,3,2] 1, [6,4,2] 1, [6,5,2] 1, [6,6,2] 1, [6,7,2] 1, [6,8,2] 1, [6,9,2] 1, [6,4,3] 1, [6,5,3] 1, [6,6,3] 1, [6,7,3] 1, [6,8,3] 1, [6,9,3] 1, [6,3,4] 1, [6,4,4] 1, [6,5,4] 1, [6,6,4] 1, [6,7,4] 1, [6,8,4] 1, [6,9,4] 1, [6,10,4] 1, [6,2,5] 1, [6,3,5] 1, [6,4,5] 1, [6,5,5] 1, [6,6,5] 1, [6,7,5] 1, [6,10,5] 1, [6,2,6] 1, [6,3,6] 1, [6,4,6] 1, [6,5,6] 1, [6,6,6] 1, [6,7,6] 1, [6,8,6] 1, [6,3,9] 1, [6,4,9] 1, [6,5,9] 1, [6,6,9] 1, [6,7,9] 1, [6,8,9] 1, [6,9,9] 1, [6,10,9] 1, [6,4,11] 1, [6,5,11] 1, [6,6,11] 1, [6,7,11] 1, [6,8,11] 1, [6,9,11] 1, [6,10,11] 1, [6,2,12] 1, [6,3,12] 1, [6,4,12] 1, [6,5,12] 1, [6,6,12] 1, [6,7,12] 1, [6,8,12] 1, [6,9,12] 1, [6,10,12] 1, [6,2,13] 1, [6,3,13] 1, [6,4,13] 1, [6,5,13] 1, [6,6,13] 1, [6,7,13] 1, [6,8,13] 1, [6,9,13] 1, [6,10,13] 1, [6,6,14] 1, [6,7,14] 1, [6,8,14] 1, [6,9,14] 1, [6,10,14] 1, [6,3,16] 1, [6,4,16] 1, [6,5,16] 1, [6,6,16] 1, [6,7,16] 1, [6,8,16] 1, [6,9,16] 1, [6,4,17] 1, [6,5,17] 1, [6,6,17] 1, [6,7,17] 1, [6,8,17] 1, [6,9,17] 1, [6,10,17] 1, [6,3,18] 1, [6,4,18] 1, [6,5,18] 1, [6,6,18] 1, [6,7,18] 1, [6,8,18] 1, [6,9,18] 1, [6,10,18] 1, [6,2,19] 1, [6,3,19] 1, [6,4,19] 1, [6,5,19] 1, [6,6,19] 1, [6,7,19] 1, [6,10,19] 1, [6,2,20] 1, [6,3,20] 1, [6,4,20] 1, [6,5,20] 1, [6,6,20] 1, [6,7,20] 1, [6,8,20] 1, [6,3,23] 1, [6,4,23] 1, [6,5,23] 1, [6,6,23] 1, [6,7,23] 1, [6,8,23] 1, [6,9,23] 1, [6,10,23] 1, [6,4,25] 1, [6,5,25] 1, [6,6,25] 1, [6,7,25] 1, [6,8,25] 1, [6,9,25] 1, [6,10,25] 1, [6,3,26] 1, [6,4,26] 1, [6,5,26] 1, [6,6,26] 1, [6,7,26] 1, [6,8,26] 1, [6,9,26] 1, [6,10,26] 1, [6,3,27] 1, [6,4,27] 1, [6,5,27] 1, [6,6,27] 1, [6,7,27] 1, [6,8,27] 1, [6,9,27] 1, [6,10,27] 1, [6,6,28] 1, [6,7,28] 1, [6,8,28] 1, [6,9,28] 1, [6,10,28] 1, [8,1,1] 1, [8,2,1] 1, [8,3,1] 1, [8,4,1] 1, [8,5,1] 1, [8,6,1] 1, [8,7,1] 1, [8,8,1] 1, [8,9,1] 1, [8,10,1] 1, [8,5,5] 1, [8,6,5] 1, [8,7,5] 1, [8,8,5] 1, [8,9,5] 1, [8,10,5] 1, [8,1,6] 1, [8,2,6] 1, [8,3,6] 1, [8,4,6] 1, [8,5,6] 1, [8,6,6] 1, [8,7,6] 1, [8,8,6] 1, [8,9,6] 1, [8,10,6] 1, [8,1,7] 1, [8,2,7] 1, [8,3,7] 1, [8,4,7] 1, [8,5,7] 1, [8,6,7] 1, [8,7,7] 1, [8,8,7] 1, [8,9,7] 1, [8,10,7] 1, [8,1,8] 1, [8,2,8] 1, [8,3,8] 1, [8,4,8] 1, [8,5,8] 1, [8,6,8] 1, [8,7,8] 1, [8,8,8] 1, [8,3,10] 1, [8,4,10] 1, [8,5,10] 1, [8,6,10] 1, [8,7,10] 1, [8,8,10] 1, [8,3,11] 1, [8,4,11] 1, [8,5,11] 1, [8,6,11] 1, [8,7,11] 1, [8,8,11] 1, [8,3,12] 1, [8,4,12] 1, [8,5,12] 1, [8,6,12] 1, [8,7,12] 1, [8,8,12] 1, [8,1,14] 1, [8,2,14] 1, [8,3,14] 1, [8,4,14] 1, [8,5,14] 1, [8,6,14] 1, [8,7,14] 1, [8,8,14] 1, [8,9,14] 1, [8,10,14] 1, [8,1,15] 1, [8,2,15] 1, [8,3,15] 1, [8,4,15] 1, [8,5,15] 1, [8,6,15] 1, [8,7,15] 1, [8,8,15] 1, [8,9,15] 1, [8,10,15] 1, [8,5,19] 1, [8,6,19] 1, [8,7,19] 1, [8,8,19] 1, [8,9,19] 1, [8,10,19] 1, [8,1,20] 1, [8,2,20] 1, [8,3,20] 1, [8,4,20] 1, [8,5,20] 1, [8,6,20] 1, [8,7,20] 1, [8,8,20] 1, [8,9,20] 1, [8,10,20] 1, [8,1,21] 1, [8,2,21] 1, [8,3,21] 1, [8,4,21] 1, [8,5,21] 1, [8,6,21] 1, [8,7,21] 1, [8,8,21] 1, [8,9,21] 1, [8,10,21] 1, [8,1,22] 1, [8,2,22] 1, [8,3,22] 1, [8,4,22] 1, [8,5,22] 1, [8,6,22] 1, [8,7,22] 1, [8,8,22] 1, [8,3,24] 1, [8,4,24] 1, [8,5,24] 1, [8,6,24] 1, [8,7,24] 1, [8,8,24] 1, [8,3,25] 1, [8,4,25] 1, [8,5,25] 1, [8,6,25] 1, [8,7,25] 1, [8,8,25] 1, [8,3,26] 1, [8,4,26] 1, [8,5,26] 1, [8,6,26] 1, [8,7,26] 1, [8,8,26] 1, [8,1,28] 1, [8,2,28] 1, [8,3,28] 1, [8,4,28] 1, [8,5,28] 1, [8,6,28] 1, [8,7,28] 1, [8,8,28] 1, [8,9,28] 1, [8,10,28] 1, [12,5,1] 1, [12,6,1] 1, [12,7,1] 1, [12,8,1] 1, [12,9,1] 1, [12,10,1] 1, [12,5,2] 1, [12,6,2] 1, [12,7,2] 1, [12,8,2] 1, [12,9,2] 1, [12,10,2] 1, [12,5,3] 1, [12,6,3] 1, [12,7,3] 1, [12,8,3] 1, [12,9,3] 1, [12,10,3] 1, [12,5,4] 1, [12,6,4] 1, [12,7,4] 1, [12,8,4] 1, [12,9,4] 1, [12,10,4] 1, [12,5,5] 1, [12,6,5] 1, [12,7,5] 1, [12,8,5] 1, [12,9,5] 1, [12,10,5] 1, [12,5,7] 1, [12,6,7] 1, [12,7,7] 1, [12,8,7] 1, [12,9,7] 1, [12,10,7] 1, [12,5,8] 1, [12,6,8] 1, [12,7,8] 1, [12,8,8] 1, [12,9,8] 1, [12,10,8] 1, [12,5,9] 1, [12,6,9] 1, [12,7,9] 1, [12,8,9] 1, [12,9,9] 1, [12,10,9] 1, [12,5,10] 1, [12,6,10] 1, [12,7,10] 1, [12,8,10] 1, [12,9,10] 1, [12,10,10] 1, [12,5,11] 1, [12,6,11] 1, [12,7,11] 1, [12,8,11] 1, [12,9,11] 1, [12,10,11] 1, [12,5,12] 1, [12,6,12] 1, [12,7,12] 1, [12,8,12] 1, [12,9,12] 1, [12,10,12] 1, [12,5,14] 1, [12,6,14] 1, [12,7,14] 1, [12,8,14] 1, [12,9,14] 1, [12,10,14] 1, [12,5,15] 1, [12,6,15] 1, [12,7,15] 1, [12,8,15] 1, [12,9,15] 1, [12,10,15] 1, [12,5,16] 1, [12,6,16] 1, [12,7,16] 1, [12,8,16] 1, [12,9,16] 1, [12,10,16] 1, [12,5,17] 1, [12,6,17] 1, [12,7,17] 1, [12,8,17] 1, [12,9,17] 1, [12,10,17] 1, [12,5,18] 1, [12,6,18] 1, [12,7,18] 1, [12,8,18] 1, [12,9,18] 1, [12,10,18] 1, [12,5,19] 1, [12,6,19] 1, [12,7,19] 1, [12,8,19] 1, [12,9,19] 1, [12,10,19] 1, [12,5,21] 1, [12,6,21] 1, [12,7,21] 1, [12,8,21] 1, [12,9,21] 1, [12,10,21] 1, [12,5,22] 1, [12,6,22] 1, [12,7,22] 1, [12,8,22] 1, [12,9,22] 1, [12,10,22] 1, [12,5,23] 1, [12,6,23] 1, [12,7,23] 1, [12,8,23] 1, [12,9,23] 1, [12,10,23] 1, [12,5,24] 1, [12,6,24] 1, [12,7,24] 1, [12,8,24] 1, [12,9,24] 1, [12,10,24] 1, [12,5,25] 1, [12,6,25] 1, [12,7,25] 1, [12,8,25] 1, [12,9,25] 1, [12,10,25] 1, [12,5,26] 1, [12,6,26] 1, [12,7,26] 1, [12,8,26] 1, [12,9,26] 1, [12,10,26] 1, [12,5,28] 1, [12,6,28] 1, [12,7,28] 1, [12,8,28] 1, [12,9,28] 1, [12,10,28] 1, [1,2,1] 1, [1,3,1] 1, [1,4,1] 1, [1,5,1] 1, [1,6,1] 1, [1,7,1] 1, [1,1,2] 1, [1,2,2] 1, [1,3,2] 1, [1,4,2] 1, [1,5,2] 1, [1,6,2] 1, [1,7,2] 1, [1,8,2] 1, [1,9,2] 1, [1,10,2] 1, [1,2,3] 1, [1,3,3] 1, [1,4,3] 1, [1,5,3] 1, [1,6,3] 1, [1,7,3] 1, [1,8,3] 1, [1,9,3] 1, [1,10,3] 1, [1,1,4] 1, [1,2,4] 1, [1,3,4] 1, [1,4,4] 1, [1,5,4] 1, [1,6,4] 1, [1,7,4] 1, [1,8,4] 1, [1,9,4] 1, [1,10,4] 1, [1,1,5] 1, [1,2,5] 1, [1,3,5] 1, [1,4,5] 1, [1,5,5] 1, [1,6,5] 1, [1,7,5] 1, [1,8,5] 1, [1,9,5] 1, [1,10,5] 1, [1,3,8] 1, [1,4,8] 1, [1,5,8] 1, [1,6,8] 1, [1,7,8] 1, [1,8,8] 1, [1,9,8] 1, [1,3,9] 1, [1,4,9] 1, [1,5,9] 1, [1,6,9] 1, [1,7,9] 1, [1,8,9] 1, [1,9,9] 1, [1,3,11] 1, [1,4,11] 1, [1,5,11] 1, [1,6,11] 1, [1,7,11] 1, [1,8,11] 1, [1,9,11] 1, [1,2,12] 1, [1,3,12] 1, [1,4,12] 1, [1,5,12] 1, [1,6,12] 1, [1,7,12] 1, [1,8,12] 1, [1,9,12] 1, [1,2,13] 1, [1,3,13] 1, [1,4,13] 1, [1,5,13] 1, [1,6,13] 1, [1,7,13] 1, [1,8,13] 1, [1,9,13] 1, [1,2,14] 1, [1,3,14] 1, [1,4,14] 1, [1,5,14] 1, [1,6,14] 1, [1,7,14] 1, [1,8,14] 1, [1,9,14] 1, [1,1,15] 1, [1,2,15] 1, [1,3,15] 1, [1,4,15] 1, [1,5,15] 1, [1,6,15] 1, [1,7,15] 1, [1,8,15] 1, [1,9,15] 1, [1,10,15] 1, [1,1,17] 1, [1,2,17] 1, [1,3,17] 1, [1,4,17] 1, [1,5,17] 1, [1,6,17] 1, [1,7,17] 1, [1,8,17] 1, [1,9,17] 1, [1,10,17] 1, [1,1,18] 1, [1,2,18] 1, [1,3,18] 1, [1,4,18] 1, [1,5,18] 1, [1,6,18] 1, [1,7,18] 1, [1,8,18] 1, [1,9,18] 1, [1,1,19] 1, [1,2,19] 1, [1,3,19] 1, [1,4,19] 1, [1,5,19] 1, [1,6,19] 1, [1,7,19] 1, [1,8,19] 1, [1,9,19] 1, [1,1,20] 1, [1,2,20] 1, [1,3,20] 1, [1,4,20] 1, [1,5,20] 1, [1,6,20] 1, [1,7,20] 1, [1,8,20] 1, [1,9,20] 1, [1,1,24] 1, [1,2,24] 1, [1,3,24] 1, [1,4,24] 1, [1,5,24] 1, [1,6,24] 1, [1,7,24] 1, [1,8,24] 1, [1,9,24] 1, [1,10,24] 1, [1,3,26] 1, [1,4,26] 1, [1,5,26] 1, [1,6,26] 1, [1,7,26] 1, [1,8,26] 1, [1,9,26] 1, [1,10,26] 1, [1,2,27] 1, [1,3,27] 1, [1,4,27] 1, [1,5,27] 1, [1,6,27] 1, [1,7,27] 1, [1,8,27] 1, [1,9,27] 1, [1,10,27] 1, [1,3,28] 1, [1,4,28] 1, [1,5,28] 1, [1,6,28] 1, [1,7,28] 1, [1,8,28] 1, [1,9,28] 1, [1,10,28] 1, [2,3,2] 1, [2,4,2] 1, [2,5,2] 1, [2,6,2] 1, [2,7,2] 1, [2,8,2] 1, [2,9,2] 1, [2,1,3] 1, [2,2,3] 1, [2,3,3] 1, [2,4,3] 1, [2,5,3] 1, [2,6,3] 1, [2,7,3] 1, [2,8,3] 1, [2,9,3] 1, [2,10,3] 1, [2,3,4] 1, [2,4,4] 1, [2,5,4] 1, [2,6,4] 1, [2,7,4] 1, [2,8,4] 1, [2,9,4] 1, [2,10,4] 1, [2,2,5] 1, [2,3,5] 1, [2,4,5] 1, [2,5,5] 1, [2,6,5] 1, [2,7,5] 1, [2,10,5] 1, [2,2,6] 1, [2,3,6] 1, [2,4,6] 1, [2,5,6] 1, [2,6,6] 1, [2,7,6] 1, [2,8,6] 1, [2,9,6] 1, [2,1,7] 1, [2,2,7] 1, [2,3,7] 1, [2,4,7] 1, [2,5,7] 1, [2,6,7] 1, [2,7,7] 1, [2,8,7] 1, [2,9,7] 1, [2,2,8] 1, [2,3,8] 1, [2,4,8] 1, [2,5,8] 1, [2,6,8] 1, [2,7,8] 1, [2,1,9] 1, [2,2,9] 1, [2,3,9] 1, [2,4,9] 1, [2,5,9] 1, [2,6,9] 1, [2,7,9] 1, [2,8,9] 1, [2,9,9] 1, [2,10,9] 1, [2,1,11] 1, [2,2,11] 1, [2,3,11] 1, [2,4,11] 1, [2,5,11] 1, [2,6,11] 1, [2,7,11] 1, [2,8,11] 1, [2,9,11] 1, [2,10,11] 1, [2,1,12] 1, [2,3,12] 1, [2,4,12] 1, [2,5,12] 1, [2,6,12] 1, [2,7,12] 1, [2,8,12] 1, [2,9,12] 1, [2,10,12] 1, [2,1,13] 1, [2,3,13] 1, [2,4,13] 1, [2,5,13] 1, [2,6,13] 1, [2,7,13] 1, [2,8,13] 1, [2,9,13] 1, [2,10,13] 1, [2,1,15] 1, [2,2,15] 1, [2,3,15] 1, [2,4,15] 1, [2,5,15] 1, [2,6,15] 1, [2,7,15] 1, [2,8,15] 1, [2,9,15] 1, [2,10,15] 1, [2,1,16] 1, [2,2,16] 1, [2,3,16] 1, [2,4,16] 1, [2,5,16] 1, [2,6,16] 1, [2,7,16] 1, [2,8,16] 1, [2,9,16] 1, [2,10,16] 1, [2,1,17] 1, [2,2,17] 1, [2,3,17] 1, [2,4,17] 1, [2,5,17] 1, [2,6,17] 1, [2,7,17] 1, [2,8,17] 1, [2,9,17] 1, [2,10,17] 1, [2,3,20] 1, [2,4,20] 1, [2,5,20] 1, [2,6,20] 1, [2,7,20] 1, [2,8,20] 1, [2,9,20] 1, [2,10,20] 1, [2,3,21] 1, [2,4,21] 1, [2,5,21] 1, [2,6,21] 1, [2,7,21] 1, [2,8,21] 1, [2,9,21] 1, [2,10,21] 1, [2,1,22] 1, [2,2,22] 1, [2,3,22] 1, [2,4,22] 1, [2,5,22] 1, [2,6,22] 1, [2,7,22] 1, [2,8,22] 1, [2,9,22] 1, [2,10,22] 1, [2,1,24] 1, [2,2,24] 1, [2,3,24] 1, [2,4,24] 1, [2,5,24] 1, [2,6,24] 1, [2,7,24] 1, [2,8,24] 1, [2,9,24] 1, [2,10,24] 1, [2,1,25] 1, [2,2,25] 1, [2,3,25] 1, [2,4,25] 1, [2,5,25] 1, [2,6,25] 1, [2,7,25] 1, [2,8,25] 1, [2,9,25] 1, [2,1,26] 1, [2,2,26] 1, [2,3,26] 1, [2,4,26] 1, [2,5,26] 1, [2,6,26] 1, [2,7,26] 1, [2,8,26] 1, [2,9,26] 1, [2,1,27] 1, [2,2,27] 1, [2,3,27] 1, [2,4,27] 1, [2,5,27] 1, [2,6,27] 1, [2,7,27] 1, [2,8,27] 1, [2,9,27] 1, [3,1,1] 1, [3,2,1] 1, [3,3,1] 1, [3,4,1] 1, [3,5,1] 1, [3,6,1] 1, [3,7,1] 1, [3,8,1] 1, [3,9,1] 1, [3,1,3] 1, [3,2,3] 1, [3,3,3] 1, [3,4,3] 1, [3,5,3] 1, [3,6,3] 1, [3,7,3] 1, [3,8,3] 1, [3,9,3] 1, [3,10,3] 1, [3,1,4] 1, [3,2,4] 1, [3,3,4] 1, [3,4,4] 1, [3,5,4] 1, [3,6,4] 1, [3,7,4] 1, [3,8,4] 1, [3,9,4] 1, [3,10,4] 1, [3,1,5] 1, [3,2,5] 1, [3,3,5] 1, [3,4,5] 1, [3,5,5] 1, [3,6,5] 1, [3,7,5] 1, [3,8,5] 1, [3,9,5] 1, [3,1,6] 1, [3,2,6] 1, [3,3,6] 1, [3,4,6] 1, [3,5,6] 1, [3,6,6] 1, [3,7,6] 1, [3,8,6] 1, [3,9,6] 1, [3,1,8] 1, [3,2,8] 1, [3,3,8] 1, [3,4,8] 1, [3,5,8] 1, [3,6,8] 1, [3,7,8] 1, [3,1,9] 1, [3,2,9] 1, [3,3,9] 1, [3,4,9] 1, [3,5,9] 1, [3,6,9] 1, [3,7,9] 1, [3,8,9] 1, [3,9,9] 1, [3,10,9] 1, [3,1,11] 1, [3,2,11] 1, [3,3,11] 1, [3,4,11] 1, [3,5,11] 1, [3,6,11] 1, [3,7,11] 1, [3,8,11] 1, [3,9,11] 1, [3,10,11] 1, [3,1,12] 1, [3,3,12] 1, [3,4,12] 1, [3,5,12] 1, [3,6,12] 1, [3,7,12] 1, [3,8,12] 1, [3,9,12] 1, [3,10,12] 1, [3,1,13] 1, [3,3,13] 1, [3,4,13] 1, [3,5,13] 1, [3,6,13] 1, [3,7,13] 1, [3,8,13] 1, [3,9,13] 1, [3,10,13] 1, [3,1,15] 1, [3,2,15] 1, [3,3,15] 1, [3,4,15] 1, [3,5,15] 1, [3,6,15] 1, [3,7,15] 1, [3,8,15] 1, [3,9,15] 1, [3,10,15] 1, [3,1,16] 1, [3,2,16] 1, [3,3,16] 1, [3,4,16] 1, [3,5,16] 1, [3,6,16] 1, [3,7,16] 1, [3,8,16] 1, [3,9,16] 1, [3,10,16] 1, [3,1,17] 1, [3,2,17] 1, [3,3,17] 1, [3,4,17] 1, [3,5,17] 1, [3,6,17] 1, [3,7,17] 1, [3,8,17] 1, [3,9,17] 1, [3,10,17] 1, [3,3,20] 1, [3,4,20] 1, [3,5,20] 1, [3,6,20] 1, [3,7,20] 1, [3,8,20] 1, [3,9,20] 1, [3,10,20] 1, [3,3,21] 1, [3,4,21] 1, [3,5,21] 1, [3,6,21] 1, [3,7,21] 1, [3,8,21] 1, [3,9,21] 1, [3,10,21] 1, [3,1,22] 1, [3,2,22] 1, [3,3,22] 1, [3,4,22] 1, [3,5,22] 1, [3,6,22] 1, [3,7,22] 1, [3,8,22] 1, [3,9,22] 1, [3,10,22] 1, [3,1,24] 1, [3,2,24] 1, [3,3,24] 1, [3,4,24] 1, [3,5,24] 1, [3,6,24] 1, [3,7,24] 1, [3,8,24] 1, [3,9,24] 1, [3,10,24] 1, [3,1,25] 1, [3,2,25] 1, [3,3,25] 1, [3,4,25] 1, [3,5,25] 1, [3,6,25] 1, [3,7,25] 1, [3,8,25] 1, [3,9,25] 1, [3,1,26] 1, [3,2,26] 1, [3,3,26] 1, [3,4,26] 1, [3,5,26] 1, [3,6,26] 1, [3,7,26] 1, [3,8,26] 1, [3,9,26] 1, [3,1,27] 1, [3,2,27] 1, [3,3,27] 1, [3,4,27] 1, [3,5,27] 1, [3,6,27] 1, [3,7,27] 1, [3,8,27] 1, [3,9,27] 1, [10,1,6] 1, [10,2,6] 1, [10,3,6] 1, [10,4,6] 1, [10,5,6] 1, [10,6,6] 1, [10,7,6] 1, [10,8,6] 1, [10,9,6] 1, [10,10,6] 1, [10,1,7] 1, [10,2,7] 1, [10,3,7] 1, [10,4,7] 1, [10,5,7] 1, [10,6,7] 1, [10,7,7] 1, [10,8,7] 1, [10,9,7] 1, [10,10,7] 1, [10,1,13] 1, [10,2,13] 1, [10,3,13] 1, [10,4,13] 1, [10,5,13] 1, [10,6,13] 1, [10,7,13] 1, [10,8,13] 1, [10,9,13] 1, [10,10,13] 1, [10,1,14] 1, [10,2,14] 1, [10,3,14] 1, [10,4,14] 1, [10,5,14] 1, [10,6,14] 1, [10,7,14] 1, [10,8,14] 1, [10,9,14] 1, [10,10,14] 1, [10,1,20] 1, [10,2,20] 1, [10,3,20] 1, [10,4,20] 1, [10,5,20] 1, [10,6,20] 1, [10,7,20] 1, [10,8,20] 1, [10,9,20] 1, [10,10,20] 1, [10,1,21] 1, [10,2,21] 1, [10,3,21] 1, [10,4,21] 1, [10,5,21] 1, [10,6,21] 1, [10,7,21] 1, [10,8,21] 1, [10,9,21] 1, [10,10,21] 1, [10,1,27] 1, [10,2,27] 1, [10,3,27] 1, [10,4,27] 1, [10,5,27] 1, [10,6,27] 1, [10,7,27] 1, [10,8,27] 1, [10,9,27] 1, [10,10,27] 1, [10,1,28] 1, [10,2,28] 1, [10,3,28] 1, [10,4,28] 1, [10,5,28] 1, [10,6,28] 1, [10,7,28] 1, [10,8,28] 1, [10,9,28] 1, [10,10,28] 1, [11,5,1] 1, [11,6,1] 1, [11,7,1] 1, [11,8,1] 1, [11,9,1] 1, [11,10,1] 1, [11,5,2] 1, [11,6,2] 1, [11,7,2] 1, [11,8,2] 1, [11,9,2] 1, [11,10,2] 1, [11,5,3] 1, [11,6,3] 1, [11,7,3] 1, [11,8,3] 1, [11,9,3] 1, [11,10,3] 1, [11,5,4] 1, [11,6,4] 1, [11,7,4] 1, [11,8,4] 1, [11,9,4] 1, [11,10,4] 1, [11,5,5] 1, [11,6,5] 1, [11,7,5] 1, [11,8,5] 1, [11,9,5] 1, [11,10,5] 1, [11,5,6] 1, [11,6,6] 1, [11,7,6] 1, [11,8,6] 1, [11,9,6] 1, [11,10,6] 1, [11,5,8] 1, [11,6,8] 1, [11,7,8] 1, [11,8,8] 1, [11,9,8] 1, [11,10,8] 1, [11,5,9] 1, [11,6,9] 1, [11,7,9] 1, [11,8,9] 1, [11,9,9] 1, [11,10,9] 1, [11,5,10] 1, [11,6,10] 1, [11,7,10] 1, [11,8,10] 1, [11,9,10] 1, [11,10,10] 1, [11,5,11] 1, [11,6,11] 1, [11,7,11] 1, [11,8,11] 1, [11,9,11] 1, [11,10,11] 1, [11,5,12] 1, [11,6,12] 1, [11,7,12] 1, [11,8,12] 1, [11,9,12] 1, [11,10,12] 1, [11,5,13] 1, [11,6,13] 1, [11,7,13] 1, [11,8,13] 1, [11,9,13] 1, [11,10,13] 1, [11,5,15] 1, [11,6,15] 1, [11,7,15] 1, [11,8,15] 1, [11,9,15] 1, [11,10,15] 1, [11,5,16] 1, [11,6,16] 1, [11,7,16] 1, [11,8,16] 1, [11,9,16] 1, [11,10,16] 1, [11,5,17] 1, [11,6,17] 1, [11,7,17] 1, [11,8,17] 1, [11,9,17] 1, [11,10,17] 1, [11,5,18] 1, [11,6,18] 1, [11,7,18] 1, [11,8,18] 1, [11,9,18] 1, [11,10,18] 1, [11,5,19] 1, [11,6,19] 1, [11,7,19] 1, [11,8,19] 1, [11,9,19] 1, [11,10,19] 1, [11,5,20] 1, [11,6,20] 1, [11,7,20] 1, [11,8,20] 1, [11,9,20] 1, [11,10,20] 1, [11,5,22] 1, [11,6,22] 1, [11,7,22] 1, [11,8,22] 1, [11,9,22] 1, [11,10,22] 1, [11,5,23] 1, [11,6,23] 1, [11,7,23] 1, [11,8,23] 1, [11,9,23] 1, [11,10,23] 1, [11,5,24] 1, [11,6,24] 1, [11,7,24] 1, [11,8,24] 1, [11,9,24] 1, [11,10,24] 1, [11,5,25] 1, [11,6,25] 1, [11,7,25] 1, [11,8,25] 1, [11,9,25] 1, [11,10,25] 1, [11,5,26] 1, [11,6,26] 1, [11,7,26] 1, [11,8,26] 1, [11,9,26] 1, [11,10,26] 1, [11,5,27] 1, [11,6,27] 1, [11,7,27] 1, [11,8,27] 1, [11,9,27] 1, [11,10,27] 1, [4,1,1] 1, [4,2,1] 1, [4,3,1] 1, [4,4,1] 1, [4,5,1] 1, [4,6,1] 1, [4,7,1] 1, [4,8,1] 1, [4,9,1] 1, [4,10,1] 1, [4,1,2] 1, [4,2,2] 1, [4,3,2] 1, [4,4,2] 1, [4,5,2] 1, [4,6,2] 1, [4,7,2] 1, [4,8,2] 1, [4,9,2] 1, [4,10,2] 1, [4,3,5] 1, [4,4,5] 1, [4,5,5] 1, [4,6,5] 1, [4,7,5] 1, [4,8,5] 1, [4,9,5] 1, [4,10,5] 1, [4,2,6] 1, [4,3,6] 1, [4,4,6] 1, [4,5,6] 1, [4,6,6] 1, [4,7,6] 1, [4,8,6] 1, [4,9,6] 1, [4,10,6] 1, [4,1,7] 1, [4,2,7] 1, [4,3,7] 1, [4,4,7] 1, [4,5,7] 1, [4,6,7] 1, [4,7,7] 1, [4,8,7] 1, [4,9,7] 1, [4,10,7] 1, [4,1,8] 1, [4,2,8] 1, [4,3,8] 1, [4,4,8] 1, [4,5,8] 1, [4,6,8] 1, [4,7,8] 1, [4,8,8] 1, [4,1,10] 1, [4,2,10] 1, [4,3,10] 1, [4,4,10] 1, [4,5,10] 1, [4,6,10] 1, [4,7,10] 1, [4,8,10] 1, [4,9,10] 1, [4,10,10] 1, [4,1,11] 1, [4,2,11] 1, [4,3,11] 1, [4,4,11] 1, [4,5,11] 1, [4,6,11] 1, [4,7,11] 1, [4,8,11] 1, [4,9,11] 1, [4,1,12] 1, [4,2,12] 1, [4,3,12] 1, [4,4,12] 1, [4,5,12] 1, [4,6,12] 1, [4,7,12] 1, [4,8,12] 1, [4,9,12] 1, [4,1,13] 1, [4,2,13] 1, [4,3,13] 1, [4,4,13] 1, [4,5,13] 1, [4,6,13] 1, [4,7,13] 1, [4,8,13] 1, [4,9,13] 1, [4,3,15] 1, [4,4,15] 1, [4,5,15] 1, [4,6,15] 1, [4,7,15] 1, [4,8,15] 1, [4,9,15] 1, [4,3,16] 1, [4,4,16] 1, [4,5,16] 1, [4,6,16] 1, [4,7,16] 1, [4,8,16] 1, [4,9,16] 1, [4,3,18] 1, [4,4,18] 1, [4,5,18] 1, [4,6,18] 1, [4,7,18] 1, [4,8,18] 1, [4,9,18] 1, [4,2,19] 1, [4,3,19] 1, [4,4,19] 1, [4,5,19] 1, [4,6,19] 1, [4,7,19] 1, [4,8,19] 1, [4,9,19] 1, [4,2,20] 1, [4,3,20] 1, [4,4,20] 1, [4,5,20] 1, [4,6,20] 1, [4,7,20] 1, [4,8,20] 1, [4,9,20] 1, [4,1,21] 1, [4,2,21] 1, [4,3,21] 1, [4,4,21] 1, [4,5,21] 1, [4,6,21] 1, [4,7,21] 1, [4,8,21] 1, [4,9,21] 1, [4,1,22] 1, [4,2,22] 1, [4,3,22] 1, [4,4,22] 1, [4,5,22] 1, [4,6,22] 1, [4,1,23] 1, [4,2,23] 1, [4,3,23] 1, [4,4,23] 1, [4,5,23] 1, [4,6,23] 1, [4,7,23] 1, [4,8,23] 1, [4,9,23] 1, [4,10,23] 1, [4,1,25] 1, [4,2,25] 1, [4,3,25] 1, [4,4,25] 1, [4,5,25] 1, [4,6,25] 1, [4,7,25] 1, [4,8,25] 1, [4,9,25] 1, [4,10,25] 1, [4,1,26] 1, [4,3,26] 1, [4,4,26] 1, [4,5,26] 1, [4,6,26] 1, [4,7,26] 1, [4,8,26] 1, [4,9,26] 1, [4,10,26] 1, [4,1,27] 1, [4,3,27] 1, [4,4,27] 1, [4,5,27] 1, [4,6,27] 1, [4,7,27] 1, [4,8,27] 1, [4,9,27] 1, [4,10,27] 1, [5,3,3] 1, [5,4,3] 1, [5,5,3] 1, [5,6,3] 1, [5,7,3] 1, [5,8,3] 1, [5,9,3] 1, [5,3,4] 1, [5,4,4] 1, [5,5,4] 1, [5,6,4] 1, [5,7,4] 1, [5,8,4] 1, [5,9,4] 1, [5,10,4] 1, [5,6,5] 1, [5,7,5] 1, [5,8,5] 1, [5,9,5] 1, [5,10,5] 1, [5,4,6] 1, [5,5,6] 1, [5,6,6] 1, [5,7,6] 1, [5,8,6] 1, [5,9,6] 1, [5,10,6] 1, [5,4,7] 1, [5,5,7] 1, [5,6,7] 1, [5,7,7] 1, [5,8,7] 1, [5,9,7] 1, [5,10,7] 1, [5,3,8] 1, [5,4,8] 1, [5,5,8] 1, [5,6,8] 1, [5,7,8] 1, [5,8,8] 1, [5,9,8] 1, [5,3,9] 1, [5,4,9] 1, [5,5,9] 1, [5,6,9] 1, [5,7,9] 1, [5,8,9] 1, [5,9,9] 1, [5,3,10] 1, [5,4,10] 1, [5,5,10] 1, [5,6,10] 1, [5,7,10] 1, [5,8,10] 1, [5,9,10] 1, [5,10,10] 1, [5,3,13] 1, [5,4,13] 1, [5,5,13] 1, [5,6,13] 1, [5,7,13] 1, [5,8,13] 1, [5,9,13] 1, [5,3,14] 1, [5,4,14] 1, [5,5,14] 1, [5,6,14] 1, [5,7,14] 1, [5,8,14] 1, [5,9,14] 1, [5,2,17] 1, [5,3,17] 1, [5,4,17] 1, [5,5,17] 1, [5,6,17] 1, [5,7,17] 1, [5,8,17] 1, [5,9,17] 1, [5,2,18] 1, [5,3,18] 1, [5,4,18] 1, [5,5,18] 1, [5,6,18] 1, [5,7,18] 1, [5,8,18] 1, [5,9,18] 1, [5,10,18] 1, [5,6,19] 1, [5,7,19] 1, [5,8,19] 1, [5,9,19] 1, [5,10,19] 1, [5,4,20] 1, [5,5,20] 1, [5,6,20] 1, [5,7,20] 1, [5,8,20] 1, [5,9,20] 1, [5,10,20] 1, [5,4,21] 1, [5,5,21] 1, [5,6,21] 1, [5,7,21] 1, [5,8,21] 1, [5,9,21] 1, [5,10,21] 1, [5,3,22] 1, [5,4,22] 1, [5,5,22] 1, [5,6,22] 1, [5,7,22] 1, [5,8,22] 1, [5,9,22] 1, [5,3,23] 1, [5,4,23] 1, [5,5,23] 1, [5,6,23] 1, [5,7,23] 1, [5,8,23] 1, [5,9,23] 1, [5,3,24] 1, [5,4,24] 1, [5,5,24] 1, [5,6,24] 1, [5,7,24] 1, [5,8,24] 1, [5,9,24] 1, [5,10,24] 1, [5,3,27] 1, [5,4,27] 1, [5,5,27] 1, [5,6,27] 1, [5,7,27] 1, [5,8,27] 1, [5,9,27] 1, [5,3,28] 1, [5,4,28] 1, [5,5,28] 1, [5,6,28] 1, [5,7,28] 1, [5,8,28] 1, [5,9,28] 1, [9,7,5] 1, [9,8,5] 1, [9,9,5] 1, [9,10,5] 1, [9,7,12] 1, [9,8,12] 1, [9,9,12] 1, [9,10,12] 1, [9,1,13] 1, [9,2,13] 1, [9,3,13] 1, [9,4,13] 1, [9,5,13] 1, [9,6,13] 1, [9,7,13] 1, [9,8,13] 1, [9,9,13] 1, [9,10,13] 1, [9,1,14] 1, [9,2,14] 1, [9,3,14] 1, [9,4,14] 1, [9,5,14] 1, [9,6,14] 1, [9,7,14] 1, [9,8,14] 1, [9,9,14] 1, [9,10,14] 1, [9,7,19] 1, [9,8,19] 1, [9,9,19] 1, [9,10,19] 1, [9,1,20] 1, [9,2,20] 1, [9,3,20] 1, [9,4,20] 1, [9,5,20] 1, [9,6,20] 1, [9,7,20] 1, [9,8,20] 1, [9,9,20] 1, [9,10,20] 1, [9,1,21] 1, [9,2,21] 1, [9,3,21] 1, [9,4,21] 1, [9,5,21] 1, [9,6,21] 1, [9,7,21] 1, [9,8,21] 1, [9,9,21] 1, [9,10,21] 1, [9,7,26] 1, [9,8,26] 1, [9,9,26] 1, [9,10,26] 1, [9,1,27] 1, [9,2,27] 1, [9,3,27] 1, [9,4,27] 1, [9,5,27] 1, [9,6,27] 1, [9,7,27] 1, [9,8,27] 1, [9,9,27] 1, [9,10,27] 1, [9,1,28] 1, [9,2,28] 1, [9,3,28] 1, [9,4,28] 1, [9,5,28] 1, [9,6,28] 1, [9,7,28] 1, [9,8,28] 1, [9,9,28] 1, [9,10,28] 1, [7,3,1] 1, [7,4,1] 1, [7,5,1] 1, [7,6,1] 1, [7,7,1] 1, [7,8,1] 1, [7,9,1] 1, [7,3,2] 1, [7,4,2] 1, [7,5,2] 1, [7,6,2] 1, [7,7,2] 1, [7,8,2] 1, [7,9,2] 1, [7,3,3] 1, [7,4,3] 1, [7,5,3] 1, [7,6,3] 1, [7,7,3] 1, [7,8,3] 1, [7,9,3] 1, [7,10,3] 1, [7,3,6] 1, [7,4,6] 1, [7,5,6] 1, [7,6,6] 1, [7,7,6] 1, [7,8,6] 1, [7,9,6] 1, [7,3,7] 1, [7,4,7] 1, [7,5,7] 1, [7,6,7] 1, [7,7,7] 1, [7,8,7] 1, [7,9,7] 1, [7,3,9] 1, [7,4,9] 1, [7,5,9] 1, [7,6,9] 1, [7,7,9] 1, [7,8,9] 1, [7,9,9] 1, [7,4,10] 1, [7,5,10] 1, [7,6,10] 1, [7,7,10] 1, [7,8,10] 1, [7,9,10] 1, [7,10,10] 1, [7,3,11] 1, [7,4,11] 1, [7,5,11] 1, [7,6,11] 1, [7,7,11] 1, [7,8,11] 1, [7,9,11] 1, [7,10,11] 1, [7,2,12] 1, [7,3,12] 1, [7,4,12] 1, [7,5,12] 1, [7,6,12] 1, [7,7,12] 1, [7,10,12] 1, [7,2,13] 1, [7,3,13] 1, [7,4,13] 1, [7,5,13] 1, [7,6,13] 1, [7,7,13] 1, [7,8,13] 1, [7,3,16] 1, [7,4,16] 1, [7,5,16] 1, [7,6,16] 1, [7,7,16] 1, [7,8,16] 1, [7,9,16] 1, [7,4,17] 1, [7,5,17] 1, [7,6,17] 1, [7,7,17] 1, [7,8,17] 1, [7,9,17] 1, [7,10,17] 1, [7,3,18] 1, [7,4,18] 1, [7,5,18] 1, [7,6,18] 1, [7,7,18] 1, [7,8,18] 1, [7,9,18] 1, [7,10,18] 1, [7,2,19] 1, [7,3,19] 1, [7,4,19] 1, [7,5,19] 1, [7,6,19] 1, [7,7,19] 1, [7,10,19] 1, [7,2,20] 1, [7,3,20] 1, [7,4,20] 1, [7,5,20] 1, [7,6,20] 1, [7,7,20] 1, [7,8,20] 1, [7,3,22] 1, [7,4,22] 1, [7,5,22] 1, [7,6,22] 1, [7,7,22] 1, [7,8,22] 1, [7,9,22] 1, [7,3,23] 1, [7,4,23] 1, [7,5,23] 1, [7,6,23] 1, [7,7,23] 1, [7,8,23] 1, [7,9,23] 1, [7,3,24] 1, [7,4,24] 1, [7,5,24] 1, [7,6,24] 1, [7,7,24] 1, [7,8,24] 1, [7,9,24] 1, [7,10,24] 1, [7,3,27] 1, [7,4,27] 1, [7,5,27] 1, [7,6,27] 1, [7,7,27] 1, [7,8,27] 1, [7,9,27] 1, [7,3,28] 1, [7,4,28] 1, [7,5,28] 1, [7,6,28] 1, [7,7,28] 1, [7,8,28] 1, [7,9,28] 1	[1,1,1] 8, [2,1,1] 3, [3,1,1] 2, [4,1,1] 0, [5,1,1] 2, [6,1,1] 0, [7,1,1] 0, [8,1,1] 0, [9,1,1] 2, [10,1,1] 2, [11,1,1] 0, [12,1,1] 4	[1,1,1,1] 205948, [1,2,1,1] 221790, [1,3,1,1] 288327, [1,4,1,1] 443580, [1,5,1,1] 377043, [1,6,1,1] 354864, [1,7,1,1] 510117, [1,8,1,1] 754085, [1,9,1,1] 998054, [1,10,1,1] 776264, [1,1,2,1] 208007, [1,2,2,1] 224008, [1,3,2,1] 291210, [1,4,2,1] 448015, [1,5,2,1] 380813, [1,6,2,1] 358412, [1,7,2,1] 515218, [1,8,2,1] 761626, [1,9,2,1] 1008035, [1,10,2,1] 784027, [1,1,3,1] 216245, [1,2,3,1] 232879, [1,3,3,1] 302743, [1,4,3,1] 465759, [1,5,3,1] 395895, [1,6,3,1] 372607, [1,7,3,1] 535622, [1,8,3,1] 791790, [1,9,3,1] 1047957, [1,10,3,1] 815078, [1,1,4,1] 218305, [1,2,4,1] 235097, [1,3,4,1] 305626, [1,4,4,1] 470194, [1,5,4,1] 399665, [1,6,4,1] 376156, [1,7,4,1] 540724, [1,8,4,1] 799331, [1,9,4,1] 1057937, [1,10,4,1] 822840, [1,1,5,1] 247137, [1,2,5,1] 266148, [1,3,5,1] 345992, [1,4,5,1] 532296, [1,5,5,1] 452451, [1,6,5,1] 425836, [1,7,5,1] 612140, [1,8,5,1] 904903, [1,9,5,1] 1197665, [1,10,5,1] 931517, [1,1,6,1] 271851, [1,2,6,1] 292763, [1,3,6,1] 380591, [1,4,6,1] 585525, [1,5,6,1] 497696, [1,6,6,1] 468420, [1,7,6,1] 673354, [1,8,6,1] 995393, [1,9,6,1] 1317432, [1,10,6,1] 1024669, [1,1,7,1] 266908, [1,2,7,1] 287440, [1,3,7,1] 373672, [1,4,7,1] 574879, [1,5,7,1] 488647, [1,6,7,1] 459903, [1,7,7,1] 661111, [1,8,7,1] 977295, [1,9,7,1] 1293478, [1,10,7,1] 1006039, [1,1,8,1] 199769, [1,2,8,1] 215136, [1,3,8,1] 279677, [1,4,8,1] 430272, [1,5,8,1] 365731, [1,6,8,1] 344218, [1,7,8,1] 494813, [1,8,8,1] 731463, [1,9,8,1] 968113, [1,10,8,1] 752976, [1,1,9,1] 218490, [1,2,9,1] 235297, [1,3,9,1] 305886, [1,4,9,1] 470594, [1,5,9,1] 400005, [1,6,9,1] 376475, [1,7,9,1] 541183, [1,8,9,1] 800009, [1,9,9,1] 1058836, [1,10,9,1] 823539, [1,1,10,1] 220570, [1,2,10,1] 237537, [1,3,10,1] 308798, [1,4,10,1] 475074, [1,5,10,1] 403813, [1,6,10,1] 380059, [1,7,10,1] 546335, [1,8,10,1] 807625, [1,9,10,1] 1068916, [1,10,10,1] 831379, [1,1,11,1] 225945, [1,2,11,1] 243326, [1,3,11,1] 316323, [1,4,11,1] 486651, [1,5,11,1] 413654, [1,6,11,1] 389321, [1,7,11,1] 559649, [1,8,11,1] 827307, [1,9,11,1] 1094965, [1,10,11,1] 851640, [1,1,12,1] 247384, [1,2,12,1] 266414, [1,3,12,1] 346338, [1,4,12,1] 532828, [1,5,12,1] 452904, [1,6,12,1] 426262, [1,7,12,1] 612752, [1,8,12,1] 905807, [1,9,12,1] 1198863, [1,10,12,1] 932449, [1,1,13,1] 269132, [1,2,13,1] 289835, [1,3,13,1] 376785, [1,4,13,1] 579670, [1,5,13,1] 492719, [1,6,13,1] 463736, [1,7,13,1] 666620, [1,8,13,1] 985439, [1,9,13,1] 1304257, [1,10,13,1] 1014422, [1,1,14,1] 267175, [1,2,14,1] 287727, [1,3,14,1] 374045, [1,4,14,1] 575454, [1,5,14,1] 489136, [1,6,14,1] 460363, [1,7,14,1] 661772, [1,8,14,1] 978272, [1,9,14,1] 1294772, [1,10,14,1] 1007045, [1,1,15,1] 201767, [1,2,15,1] 217287, [1,3,15,1] 282474, [1,4,15,1] 434575, [1,5,15,1] 369389, [1,6,15,1] 347660, [1,7,15,1] 499761, [1,8,15,1] 738777, [1,9,15,1] 977794, [1,10,15,1] 760506, [1,1,16,1] 201011, [1,2,16,1] 216473, [1,3,16,1] 281415, [1,4,16,1] 432946, [1,5,16,1] 368004, [1,6,16,1] 346357, [1,7,16,1] 497888, [1,8,16,1] 736008, [1,9,16,1] 974129, [1,10,16,1] 757656, [1,1,17,1] 222776, [1,2,17,1] 239912, [1,3,17,1] 311886, [1,4,17,1] 479825, [1,5,17,1] 407851, [1,6,17,1] 383860, [1,7,17,1] 551798, [1,8,17,1] 815702, [1,9,17,1] 1079605, [1,10,17,1] 839693, [1,1,18,1] 223686, [1,2,18,1] 240892, [1,3,18,1] 313160, [1,4,18,1] 481785, [1,5,18,1] 409517, [1,6,18,1] 385428, [1,7,18,1] 554052, [1,8,18,1] 819034, [1,9,18,1] 1084016, [1,10,18,1] 843123, [1,1,19,1] 259754, [1,2,19,1] 279735, [1,3,19,1] 363655, [1,4,19,1] 559469, [1,5,19,1] 475549, [1,6,19,1] 447575, [1,7,19,1] 643390, [1,8,19,1] 951098, [1,9,19,1] 1258806, [1,10,19,1] 979071, [1,1,20,1] 279898, [1,2,20,1] 301428, [1,3,20,1] 391857, [1,4,20,1] 602857, [1,5,20,1] 512428, [1,6,20,1] 482285, [1,7,20,1] 693285, [1,8,20,1] 1024856, [1,9,20,1] 1356428, [1,10,20,1] 1054999, [1,1,21,1] 264503, [1,2,21,1] 284850, [1,3,21,1] 370305, [1,4,21,1] 569700, [1,5,21,1] 484245, [1,6,21,1] 455760, [1,7,21,1] 655155, [1,8,21,1] 968489, [1,9,21,1] 1281824, [1,10,21,1] 996974, [1,1,22,1] 203785, [1,2,22,1] 219460, [1,3,22,1] 285298, [1,4,22,1] 438921, [1,5,22,1] 373083, [1,6,22,1] 351137, [1,7,22,1] 504759, [1,8,22,1] 746165, [1,9,22,1] 987572, [1,10,22,1] 768111, [1,1,23,1] 184930, [1,2,23,1] 199155, [1,3,23,1] 258902, [1,4,23,1] 398310, [1,5,23,1] 338564, [1,6,23,1] 318648, [1,7,23,1] 458057, [1,8,23,1] 677128, [1,9,23,1] 896199, [1,10,23,1] 697043, [1,1,24,1] 225003, [1,2,24,1] 242311, [1,3,24,1] 315005, [1,4,24,1] 484623, [1,5,24,1] 411929, [1,6,24,1] 387698, [1,7,24,1] 557316, [1,8,24,1] 823859, [1,9,24,1] 1090401, [1,10,24,1] 848090, [1,1,25,1] 221449, [1,2,25,1] 238483, [1,3,25,1] 310028, [1,4,25,1] 476967, [1,5,25,1] 405422, [1,6,25,1] 381574, [1,7,25,1] 548512, [1,8,25,1] 810844, [1,9,25,1] 1073175, [1,10,25,1] 834692, [1,1,26,1] 272741, [1,2,26,1] 293721, [1,3,26,1] 381838, [1,4,26,1] 587443, [1,5,26,1] 499326, [1,6,26,1] 469954, [1,7,26,1] 675559, [1,8,26,1] 998653, [1,9,26,1] 1321746, [1,10,26,1] 1028025, [1,1,27,1] 291094, [1,2,27,1] 313485, [1,3,27,1] 407531, [1,4,27,1] 626971, [1,5,27,1] 532925, [1,6,27,1] 501577, [1,7,27,1] 721017, [1,8,27,1] 1065851, [1,9,27,1] 1410685, [1,10,27,1] 1097199, [1,1,28,1] 261858, [1,2,28,1] 282001, [1,3,28,1] 366602, [1,4,28,1] 564003, [1,5,28,1] 479402, [1,6,28,1] 451202, [1,7,28,1] 648603, [1,8,28,1] 958804, [1,9,28,1] 1269006, [1,10,28,1] 987005	2018-05-16 19:59:43.58178	2018-07-08 16:24:27.482361	2	2018
 34	31	12	1	28	10	2500	85000			[1] 1, [2] 1	[2] 1, [3] 1, [4] 1, [5] 1	2	[6,3,2] 1, [6,4,2] 1, [6,5,2] 1, [6,6,2] 1, [6,7,2] 1, [6,8,2] 1, [6,9,2] 1, [6,4,3] 1, [6,5,3] 1, [6,6,3] 1, [6,7,3] 1, [6,8,3] 1, [6,9,3] 1, [6,3,4] 1, [6,4,4] 1, [6,5,4] 1, [6,6,4] 1, [6,7,4] 1, [6,8,4] 1, [6,9,4] 1, [6,10,4] 1, [6,2,5] 1, [6,3,5] 1, [6,4,5] 1, [6,5,5] 1, [6,6,5] 1, [6,7,5] 1, [6,10,5] 1, [6,2,6] 1, [6,3,6] 1, [6,4,6] 1, [6,5,6] 1, [6,6,6] 1, [6,7,6] 1, [6,8,6] 1, [6,3,9] 1, [6,4,9] 1, [6,5,9] 1, [6,6,9] 1, [6,7,9] 1, [6,8,9] 1, [6,9,9] 1, [6,10,9] 1, [6,4,11] 1, [6,5,11] 1, [6,6,11] 1, [6,7,11] 1, [6,8,11] 1, [6,9,11] 1, [6,10,11] 1, [6,2,12] 1, [6,3,12] 1, [6,4,12] 1, [6,5,12] 1, [6,6,12] 1, [6,7,12] 1, [6,8,12] 1, [6,9,12] 1, [6,10,12] 1, [6,2,13] 1, [6,3,13] 1, [6,4,13] 1, [6,5,13] 1, [6,6,13] 1, [6,7,13] 1, [6,8,13] 1, [6,9,13] 1, [6,10,13] 1, [6,6,14] 1, [6,7,14] 1, [6,8,14] 1, [6,9,14] 1, [6,10,14] 1, [6,3,16] 1, [6,4,16] 1, [6,5,16] 1, [6,6,16] 1, [6,7,16] 1, [6,8,16] 1, [6,9,16] 1, [6,4,17] 1, [6,5,17] 1, [6,6,17] 1, [6,7,17] 1, [6,8,17] 1, [6,9,17] 1, [6,10,17] 1, [6,3,18] 1, [6,4,18] 1, [6,5,18] 1, [6,6,18] 1, [6,7,18] 1, [6,8,18] 1, [6,9,18] 1, [6,10,18] 1, [6,2,19] 1, [6,3,19] 1, [6,4,19] 1, [6,5,19] 1, [6,6,19] 1, [6,7,19] 1, [6,10,19] 1, [6,2,20] 1, [6,3,20] 1, [6,4,20] 1, [6,5,20] 1, [6,6,20] 1, [6,7,20] 1, [6,8,20] 1, [6,3,23] 1, [6,4,23] 1, [6,5,23] 1, [6,6,23] 1, [6,7,23] 1, [6,8,23] 1, [6,9,23] 1, [6,10,23] 1, [6,4,25] 1, [6,5,25] 1, [6,6,25] 1, [6,7,25] 1, [6,8,25] 1, [6,9,25] 1, [6,10,25] 1, [6,3,26] 1, [6,4,26] 1, [6,5,26] 1, [6,6,26] 1, [6,7,26] 1, [6,8,26] 1, [6,9,26] 1, [6,10,26] 1, [6,3,27] 1, [6,4,27] 1, [6,5,27] 1, [6,6,27] 1, [6,7,27] 1, [6,8,27] 1, [6,9,27] 1, [6,10,27] 1, [6,6,28] 1, [6,7,28] 1, [6,8,28] 1, [6,9,28] 1, [6,10,28] 1, [8,1,1] 1, [8,2,1] 1, [8,3,1] 1, [8,4,1] 1, [8,5,1] 1, [8,6,1] 1, [8,7,1] 1, [8,8,1] 1, [8,9,1] 1, [8,10,1] 1, [8,5,5] 1, [8,6,5] 1, [8,7,5] 1, [8,8,5] 1, [8,9,5] 1, [8,10,5] 1, [8,1,6] 1, [8,2,6] 1, [8,3,6] 1, [8,4,6] 1, [8,5,6] 1, [8,6,6] 1, [8,7,6] 1, [8,8,6] 1, [8,9,6] 1, [8,10,6] 1, [8,1,7] 1, [8,2,7] 1, [8,3,7] 1, [8,4,7] 1, [8,5,7] 1, [8,6,7] 1, [8,7,7] 1, [8,8,7] 1, [8,9,7] 1, [8,10,7] 1, [8,1,8] 1, [8,2,8] 1, [8,3,8] 1, [8,4,8] 1, [8,5,8] 1, [8,6,8] 1, [8,7,8] 1, [8,8,8] 1, [8,3,10] 1, [8,4,10] 1, [8,5,10] 1, [8,6,10] 1, [8,7,10] 1, [8,8,10] 1, [8,3,11] 1, [8,4,11] 1, [8,5,11] 1, [8,6,11] 1, [8,7,11] 1, [8,8,11] 1, [8,3,12] 1, [8,4,12] 1, [8,5,12] 1, [8,6,12] 1, [8,7,12] 1, [8,8,12] 1, [8,1,14] 1, [8,2,14] 1, [8,3,14] 1, [8,4,14] 1, [8,5,14] 1, [8,6,14] 1, [8,7,14] 1, [8,8,14] 1, [8,9,14] 1, [8,10,14] 1, [8,1,15] 1, [8,2,15] 1, [8,3,15] 1, [8,4,15] 1, [8,5,15] 1, [8,6,15] 1, [8,7,15] 1, [8,8,15] 1, [8,9,15] 1, [8,10,15] 1, [8,5,19] 1, [8,6,19] 1, [8,7,19] 1, [8,8,19] 1, [8,9,19] 1, [8,10,19] 1, [8,1,20] 1, [8,2,20] 1, [8,3,20] 1, [8,4,20] 1, [8,5,20] 1, [8,6,20] 1, [8,7,20] 1, [8,8,20] 1, [8,9,20] 1, [8,10,20] 1, [8,1,21] 1, [8,2,21] 1, [8,3,21] 1, [8,4,21] 1, [8,5,21] 1, [8,6,21] 1, [8,7,21] 1, [8,8,21] 1, [8,9,21] 1, [8,10,21] 1, [8,1,22] 1, [8,2,22] 1, [8,3,22] 1, [8,4,22] 1, [8,5,22] 1, [8,6,22] 1, [8,7,22] 1, [8,8,22] 1, [8,3,24] 1, [8,4,24] 1, [8,5,24] 1, [8,6,24] 1, [8,7,24] 1, [8,8,24] 1, [8,3,25] 1, [8,4,25] 1, [8,5,25] 1, [8,6,25] 1, [8,7,25] 1, [8,8,25] 1, [8,3,26] 1, [8,4,26] 1, [8,5,26] 1, [8,6,26] 1, [8,7,26] 1, [8,8,26] 1, [8,1,28] 1, [8,2,28] 1, [8,3,28] 1, [8,4,28] 1, [8,5,28] 1, [8,6,28] 1, [8,7,28] 1, [8,8,28] 1, [8,9,28] 1, [8,10,28] 1, [12,5,1] 1, [12,6,1] 1, [12,7,1] 1, [12,8,1] 1, [12,9,1] 1, [12,10,1] 1, [12,5,2] 1, [12,6,2] 1, [12,7,2] 1, [12,8,2] 1, [12,9,2] 1, [12,10,2] 1, [12,5,3] 1, [12,6,3] 1, [12,7,3] 1, [12,8,3] 1, [12,9,3] 1, [12,10,3] 1, [12,5,4] 1, [12,6,4] 1, [12,7,4] 1, [12,8,4] 1, [12,9,4] 1, [12,10,4] 1, [12,5,5] 1, [12,6,5] 1, [12,7,5] 1, [12,8,5] 1, [12,9,5] 1, [12,10,5] 1, [12,5,7] 1, [12,6,7] 1, [12,7,7] 1, [12,8,7] 1, [12,9,7] 1, [12,10,7] 1, [12,5,8] 1, [12,6,8] 1, [12,7,8] 1, [12,8,8] 1, [12,9,8] 1, [12,10,8] 1, [12,5,9] 1, [12,6,9] 1, [12,7,9] 1, [12,8,9] 1, [12,9,9] 1, [12,10,9] 1, [12,5,10] 1, [12,6,10] 1, [12,7,10] 1, [12,8,10] 1, [12,9,10] 1, [12,10,10] 1, [12,5,11] 1, [12,6,11] 1, [12,7,11] 1, [12,8,11] 1, [12,9,11] 1, [12,10,11] 1, [12,5,12] 1, [12,6,12] 1, [12,7,12] 1, [12,8,12] 1, [12,9,12] 1, [12,10,12] 1, [12,5,14] 1, [12,6,14] 1, [12,7,14] 1, [12,8,14] 1, [12,9,14] 1, [12,10,14] 1, [12,5,15] 1, [12,6,15] 1, [12,7,15] 1, [12,8,15] 1, [12,9,15] 1, [12,10,15] 1, [12,5,16] 1, [12,6,16] 1, [12,7,16] 1, [12,8,16] 1, [12,9,16] 1, [12,10,16] 1, [12,5,17] 1, [12,6,17] 1, [12,7,17] 1, [12,8,17] 1, [12,9,17] 1, [12,10,17] 1, [12,5,18] 1, [12,6,18] 1, [12,7,18] 1, [12,8,18] 1, [12,9,18] 1, [12,10,18] 1, [12,5,19] 1, [12,6,19] 1, [12,7,19] 1, [12,8,19] 1, [12,9,19] 1, [12,10,19] 1, [12,5,21] 1, [12,6,21] 1, [12,7,21] 1, [12,8,21] 1, [12,9,21] 1, [12,10,21] 1, [12,5,22] 1, [12,6,22] 1, [12,7,22] 1, [12,8,22] 1, [12,9,22] 1, [12,10,22] 1, [12,5,23] 1, [12,6,23] 1, [12,7,23] 1, [12,8,23] 1, [12,9,23] 1, [12,10,23] 1, [12,5,24] 1, [12,6,24] 1, [12,7,24] 1, [12,8,24] 1, [12,9,24] 1, [12,10,24] 1, [12,5,25] 1, [12,6,25] 1, [12,7,25] 1, [12,8,25] 1, [12,9,25] 1, [12,10,25] 1, [12,5,26] 1, [12,6,26] 1, [12,7,26] 1, [12,8,26] 1, [12,9,26] 1, [12,10,26] 1, [12,5,28] 1, [12,6,28] 1, [12,7,28] 1, [12,8,28] 1, [12,9,28] 1, [12,10,28] 1, [1,2,1] 1, [1,3,1] 1, [1,4,1] 1, [1,5,1] 1, [1,6,1] 1, [1,7,1] 1, [1,1,2] 1, [1,2,2] 1, [1,3,2] 1, [1,4,2] 1, [1,5,2] 1, [1,6,2] 1, [1,7,2] 1, [1,8,2] 1, [1,9,2] 1, [1,10,2] 1, [1,2,3] 1, [1,3,3] 1, [1,4,3] 1, [1,5,3] 1, [1,6,3] 1, [1,7,3] 1, [1,8,3] 1, [1,9,3] 1, [1,10,3] 1, [1,1,4] 1, [1,2,4] 1, [1,3,4] 1, [1,4,4] 1, [1,5,4] 1, [1,6,4] 1, [1,7,4] 1, [1,8,4] 1, [1,9,4] 1, [1,10,4] 1, [1,1,5] 1, [1,2,5] 1, [1,3,5] 1, [1,4,5] 1, [1,5,5] 1, [1,6,5] 1, [1,7,5] 1, [1,8,5] 1, [1,9,5] 1, [1,10,5] 1, [1,3,8] 1, [1,4,8] 1, [1,5,8] 1, [1,6,8] 1, [1,7,8] 1, [1,8,8] 1, [1,9,8] 1, [1,3,9] 1, [1,4,9] 1, [1,5,9] 1, [1,6,9] 1, [1,7,9] 1, [1,8,9] 1, [1,9,9] 1, [1,3,11] 1, [1,4,11] 1, [1,5,11] 1, [1,6,11] 1, [1,7,11] 1, [1,8,11] 1, [1,9,11] 1, [1,2,12] 1, [1,3,12] 1, [1,4,12] 1, [1,5,12] 1, [1,6,12] 1, [1,7,12] 1, [1,8,12] 1, [1,9,12] 1, [1,2,13] 1, [1,3,13] 1, [1,4,13] 1, [1,5,13] 1, [1,6,13] 1, [1,7,13] 1, [1,8,13] 1, [1,9,13] 1, [1,2,14] 1, [1,3,14] 1, [1,4,14] 1, [1,5,14] 1, [1,6,14] 1, [1,7,14] 1, [1,8,14] 1, [1,9,14] 1, [1,1,15] 1, [1,2,15] 1, [1,3,15] 1, [1,4,15] 1, [1,5,15] 1, [1,6,15] 1, [1,7,15] 1, [1,8,15] 1, [1,9,15] 1, [1,10,15] 1, [1,1,17] 1, [1,2,17] 1, [1,3,17] 1, [1,4,17] 1, [1,5,17] 1, [1,6,17] 1, [1,7,17] 1, [1,8,17] 1, [1,9,17] 1, [1,10,17] 1, [1,1,18] 1, [1,2,18] 1, [1,3,18] 1, [1,4,18] 1, [1,5,18] 1, [1,6,18] 1, [1,7,18] 1, [1,8,18] 1, [1,9,18] 1, [1,1,19] 1, [1,2,19] 1, [1,3,19] 1, [1,4,19] 1, [1,5,19] 1, [1,6,19] 1, [1,7,19] 1, [1,8,19] 1, [1,9,19] 1, [1,1,20] 1, [1,2,20] 1, [1,3,20] 1, [1,4,20] 1, [1,5,20] 1, [1,6,20] 1, [1,7,20] 1, [1,8,20] 1, [1,9,20] 1, [1,1,24] 1, [1,2,24] 1, [1,3,24] 1, [1,4,24] 1, [1,5,24] 1, [1,6,24] 1, [1,7,24] 1, [1,8,24] 1, [1,9,24] 1, [1,10,24] 1, [1,3,26] 1, [1,4,26] 1, [1,5,26] 1, [1,6,26] 1, [1,7,26] 1, [1,8,26] 1, [1,9,26] 1, [1,10,26] 1, [1,2,27] 1, [1,3,27] 1, [1,4,27] 1, [1,5,27] 1, [1,6,27] 1, [1,7,27] 1, [1,8,27] 1, [1,9,27] 1, [1,10,27] 1, [1,3,28] 1, [1,4,28] 1, [1,5,28] 1, [1,6,28] 1, [1,7,28] 1, [1,8,28] 1, [1,9,28] 1, [1,10,28] 1, [2,3,2] 1, [2,4,2] 1, [2,5,2] 1, [2,6,2] 1, [2,7,2] 1, [2,8,2] 1, [2,9,2] 1, [2,1,3] 1, [2,2,3] 1, [2,3,3] 1, [2,4,3] 1, [2,5,3] 1, [2,6,3] 1, [2,7,3] 1, [2,8,3] 1, [2,9,3] 1, [2,10,3] 1, [2,3,4] 1, [2,4,4] 1, [2,5,4] 1, [2,6,4] 1, [2,7,4] 1, [2,8,4] 1, [2,9,4] 1, [2,10,4] 1, [2,2,5] 1, [2,3,5] 1, [2,4,5] 1, [2,5,5] 1, [2,6,5] 1, [2,7,5] 1, [2,10,5] 1, [2,2,6] 1, [2,3,6] 1, [2,4,6] 1, [2,5,6] 1, [2,6,6] 1, [2,7,6] 1, [2,8,6] 1, [2,9,6] 1, [2,1,7] 1, [2,2,7] 1, [2,3,7] 1, [2,4,7] 1, [2,5,7] 1, [2,6,7] 1, [2,7,7] 1, [2,8,7] 1, [2,9,7] 1, [2,2,8] 1, [2,3,8] 1, [2,4,8] 1, [2,5,8] 1, [2,6,8] 1, [2,7,8] 1, [2,1,9] 1, [2,2,9] 1, [2,3,9] 1, [2,4,9] 1, [2,5,9] 1, [2,6,9] 1, [2,7,9] 1, [2,8,9] 1, [2,9,9] 1, [2,10,9] 1, [2,1,11] 1, [2,2,11] 1, [2,3,11] 1, [2,4,11] 1, [2,5,11] 1, [2,6,11] 1, [2,7,11] 1, [2,8,11] 1, [2,9,11] 1, [2,10,11] 1, [2,1,12] 1, [2,3,12] 1, [2,4,12] 1, [2,5,12] 1, [2,6,12] 1, [2,7,12] 1, [2,8,12] 1, [2,9,12] 1, [2,10,12] 1, [2,1,13] 1, [2,3,13] 1, [2,4,13] 1, [2,5,13] 1, [2,6,13] 1, [2,7,13] 1, [2,8,13] 1, [2,9,13] 1, [2,10,13] 1, [2,1,15] 1, [2,2,15] 1, [2,3,15] 1, [2,4,15] 1, [2,5,15] 1, [2,6,15] 1, [2,7,15] 1, [2,8,15] 1, [2,9,15] 1, [2,10,15] 1, [2,1,16] 1, [2,2,16] 1, [2,3,16] 1, [2,4,16] 1, [2,5,16] 1, [2,6,16] 1, [2,7,16] 1, [2,8,16] 1, [2,9,16] 1, [2,10,16] 1, [2,1,17] 1, [2,2,17] 1, [2,3,17] 1, [2,4,17] 1, [2,5,17] 1, [2,6,17] 1, [2,7,17] 1, [2,8,17] 1, [2,9,17] 1, [2,10,17] 1, [2,3,20] 1, [2,4,20] 1, [2,5,20] 1, [2,6,20] 1, [2,7,20] 1, [2,8,20] 1, [2,9,20] 1, [2,10,20] 1, [2,3,21] 1, [2,4,21] 1, [2,5,21] 1, [2,6,21] 1, [2,7,21] 1, [2,8,21] 1, [2,9,21] 1, [2,10,21] 1, [2,1,22] 1, [2,2,22] 1, [2,3,22] 1, [2,4,22] 1, [2,5,22] 1, [2,6,22] 1, [2,7,22] 1, [2,8,22] 1, [2,9,22] 1, [2,10,22] 1, [2,1,24] 1, [2,2,24] 1, [2,3,24] 1, [2,4,24] 1, [2,5,24] 1, [2,6,24] 1, [2,7,24] 1, [2,8,24] 1, [2,9,24] 1, [2,10,24] 1, [2,1,25] 1, [2,2,25] 1, [2,3,25] 1, [2,4,25] 1, [2,5,25] 1, [2,6,25] 1, [2,7,25] 1, [2,8,25] 1, [2,9,25] 1, [2,1,26] 1, [2,2,26] 1, [2,3,26] 1, [2,4,26] 1, [2,5,26] 1, [2,6,26] 1, [2,7,26] 1, [2,8,26] 1, [2,9,26] 1, [2,1,27] 1, [2,2,27] 1, [2,3,27] 1, [2,4,27] 1, [2,5,27] 1, [2,6,27] 1, [2,7,27] 1, [2,8,27] 1, [2,9,27] 1, [3,1,1] 1, [3,2,1] 1, [3,3,1] 1, [3,4,1] 1, [3,5,1] 1, [3,6,1] 1, [3,7,1] 1, [3,8,1] 1, [3,9,1] 1, [3,1,3] 1, [3,2,3] 1, [3,3,3] 1, [3,4,3] 1, [3,5,3] 1, [3,6,3] 1, [3,7,3] 1, [3,8,3] 1, [3,9,3] 1, [3,10,3] 1, [3,1,4] 1, [3,2,4] 1, [3,3,4] 1, [3,4,4] 1, [3,5,4] 1, [3,6,4] 1, [3,7,4] 1, [3,8,4] 1, [3,9,4] 1, [3,10,4] 1, [3,1,5] 1, [3,2,5] 1, [3,3,5] 1, [3,4,5] 1, [3,5,5] 1, [3,6,5] 1, [3,7,5] 1, [3,8,5] 1, [3,9,5] 1, [3,1,6] 1, [3,2,6] 1, [3,3,6] 1, [3,4,6] 1, [3,5,6] 1, [3,6,6] 1, [3,7,6] 1, [3,8,6] 1, [3,9,6] 1, [3,1,8] 1, [3,2,8] 1, [3,3,8] 1, [3,4,8] 1, [3,5,8] 1, [3,6,8] 1, [3,7,8] 1, [3,1,9] 1, [3,2,9] 1, [3,3,9] 1, [3,4,9] 1, [3,5,9] 1, [3,6,9] 1, [3,7,9] 1, [3,8,9] 1, [3,9,9] 1, [3,10,9] 1, [3,1,11] 1, [3,2,11] 1, [3,3,11] 1, [3,4,11] 1, [3,5,11] 1, [3,6,11] 1, [3,7,11] 1, [3,8,11] 1, [3,9,11] 1, [3,10,11] 1, [3,1,12] 1, [3,3,12] 1, [3,4,12] 1, [3,5,12] 1, [3,6,12] 1, [3,7,12] 1, [3,8,12] 1, [3,9,12] 1, [3,10,12] 1, [3,1,13] 1, [3,3,13] 1, [3,4,13] 1, [3,5,13] 1, [3,6,13] 1, [3,7,13] 1, [3,8,13] 1, [3,9,13] 1, [3,10,13] 1, [3,1,15] 1, [3,2,15] 1, [3,3,15] 1, [3,4,15] 1, [3,5,15] 1, [3,6,15] 1, [3,7,15] 1, [3,8,15] 1, [3,9,15] 1, [3,10,15] 1, [3,1,16] 1, [3,2,16] 1, [3,3,16] 1, [3,4,16] 1, [3,5,16] 1, [3,6,16] 1, [3,7,16] 1, [3,8,16] 1, [3,9,16] 1, [3,10,16] 1, [3,1,17] 1, [3,2,17] 1, [3,3,17] 1, [3,4,17] 1, [3,5,17] 1, [3,6,17] 1, [3,7,17] 1, [3,8,17] 1, [3,9,17] 1, [3,10,17] 1, [3,3,20] 1, [3,4,20] 1, [3,5,20] 1, [3,6,20] 1, [3,7,20] 1, [3,8,20] 1, [3,9,20] 1, [3,10,20] 1, [3,3,21] 1, [3,4,21] 1, [3,5,21] 1, [3,6,21] 1, [3,7,21] 1, [3,8,21] 1, [3,9,21] 1, [3,10,21] 1, [3,1,22] 1, [3,2,22] 1, [3,3,22] 1, [3,4,22] 1, [3,5,22] 1, [3,6,22] 1, [3,7,22] 1, [3,8,22] 1, [3,9,22] 1, [3,10,22] 1, [3,1,24] 1, [3,2,24] 1, [3,3,24] 1, [3,4,24] 1, [3,5,24] 1, [3,6,24] 1, [3,7,24] 1, [3,8,24] 1, [3,9,24] 1, [3,10,24] 1, [3,1,25] 1, [3,2,25] 1, [3,3,25] 1, [3,4,25] 1, [3,5,25] 1, [3,6,25] 1, [3,7,25] 1, [3,8,25] 1, [3,9,25] 1, [3,1,26] 1, [3,2,26] 1, [3,3,26] 1, [3,4,26] 1, [3,5,26] 1, [3,6,26] 1, [3,7,26] 1, [3,8,26] 1, [3,9,26] 1, [3,1,27] 1, [3,2,27] 1, [3,3,27] 1, [3,4,27] 1, [3,5,27] 1, [3,6,27] 1, [3,7,27] 1, [3,8,27] 1, [3,9,27] 1, [10,1,6] 1, [10,2,6] 1, [10,3,6] 1, [10,4,6] 1, [10,5,6] 1, [10,6,6] 1, [10,7,6] 1, [10,8,6] 1, [10,9,6] 1, [10,10,6] 1, [10,1,7] 1, [10,2,7] 1, [10,3,7] 1, [10,4,7] 1, [10,5,7] 1, [10,6,7] 1, [10,7,7] 1, [10,8,7] 1, [10,9,7] 1, [10,10,7] 1, [10,1,13] 1, [10,2,13] 1, [10,3,13] 1, [10,4,13] 1, [10,5,13] 1, [10,6,13] 1, [10,7,13] 1, [10,8,13] 1, [10,9,13] 1, [10,10,13] 1, [10,1,14] 1, [10,2,14] 1, [10,3,14] 1, [10,4,14] 1, [10,5,14] 1, [10,6,14] 1, [10,7,14] 1, [10,8,14] 1, [10,9,14] 1, [10,10,14] 1, [10,1,20] 1, [10,2,20] 1, [10,3,20] 1, [10,4,20] 1, [10,5,20] 1, [10,6,20] 1, [10,7,20] 1, [10,8,20] 1, [10,9,20] 1, [10,10,20] 1, [10,1,21] 1, [10,2,21] 1, [10,3,21] 1, [10,4,21] 1, [10,5,21] 1, [10,6,21] 1, [10,7,21] 1, [10,8,21] 1, [10,9,21] 1, [10,10,21] 1, [10,1,27] 1, [10,2,27] 1, [10,3,27] 1, [10,4,27] 1, [10,5,27] 1, [10,6,27] 1, [10,7,27] 1, [10,8,27] 1, [10,9,27] 1, [10,10,27] 1, [10,1,28] 1, [10,2,28] 1, [10,3,28] 1, [10,4,28] 1, [10,5,28] 1, [10,6,28] 1, [10,7,28] 1, [10,8,28] 1, [10,9,28] 1, [10,10,28] 1, [11,5,1] 1, [11,6,1] 1, [11,7,1] 1, [11,8,1] 1, [11,9,1] 1, [11,10,1] 1, [11,5,2] 1, [11,6,2] 1, [11,7,2] 1, [11,8,2] 1, [11,9,2] 1, [11,10,2] 1, [11,5,3] 1, [11,6,3] 1, [11,7,3] 1, [11,8,3] 1, [11,9,3] 1, [11,10,3] 1, [11,5,4] 1, [11,6,4] 1, [11,7,4] 1, [11,8,4] 1, [11,9,4] 1, [11,10,4] 1, [11,5,5] 1, [11,6,5] 1, [11,7,5] 1, [11,8,5] 1, [11,9,5] 1, [11,10,5] 1, [11,5,6] 1, [11,6,6] 1, [11,7,6] 1, [11,8,6] 1, [11,9,6] 1, [11,10,6] 1, [11,5,8] 1, [11,6,8] 1, [11,7,8] 1, [11,8,8] 1, [11,9,8] 1, [11,10,8] 1, [11,5,9] 1, [11,6,9] 1, [11,7,9] 1, [11,8,9] 1, [11,9,9] 1, [11,10,9] 1, [11,5,10] 1, [11,6,10] 1, [11,7,10] 1, [11,8,10] 1, [11,9,10] 1, [11,10,10] 1, [11,5,11] 1, [11,6,11] 1, [11,7,11] 1, [11,8,11] 1, [11,9,11] 1, [11,10,11] 1, [11,5,12] 1, [11,6,12] 1, [11,7,12] 1, [11,8,12] 1, [11,9,12] 1, [11,10,12] 1, [11,5,13] 1, [11,6,13] 1, [11,7,13] 1, [11,8,13] 1, [11,9,13] 1, [11,10,13] 1, [11,5,15] 1, [11,6,15] 1, [11,7,15] 1, [11,8,15] 1, [11,9,15] 1, [11,10,15] 1, [11,5,16] 1, [11,6,16] 1, [11,7,16] 1, [11,8,16] 1, [11,9,16] 1, [11,10,16] 1, [11,5,17] 1, [11,6,17] 1, [11,7,17] 1, [11,8,17] 1, [11,9,17] 1, [11,10,17] 1, [11,5,18] 1, [11,6,18] 1, [11,7,18] 1, [11,8,18] 1, [11,9,18] 1, [11,10,18] 1, [11,5,19] 1, [11,6,19] 1, [11,7,19] 1, [11,8,19] 1, [11,9,19] 1, [11,10,19] 1, [11,5,20] 1, [11,6,20] 1, [11,7,20] 1, [11,8,20] 1, [11,9,20] 1, [11,10,20] 1, [11,5,22] 1, [11,6,22] 1, [11,7,22] 1, [11,8,22] 1, [11,9,22] 1, [11,10,22] 1, [11,5,23] 1, [11,6,23] 1, [11,7,23] 1, [11,8,23] 1, [11,9,23] 1, [11,10,23] 1, [11,5,24] 1, [11,6,24] 1, [11,7,24] 1, [11,8,24] 1, [11,9,24] 1, [11,10,24] 1, [11,5,25] 1, [11,6,25] 1, [11,7,25] 1, [11,8,25] 1, [11,9,25] 1, [11,10,25] 1, [11,5,26] 1, [11,6,26] 1, [11,7,26] 1, [11,8,26] 1, [11,9,26] 1, [11,10,26] 1, [11,5,27] 1, [11,6,27] 1, [11,7,27] 1, [11,8,27] 1, [11,9,27] 1, [11,10,27] 1, [4,1,1] 1, [4,2,1] 1, [4,3,1] 1, [4,4,1] 1, [4,5,1] 1, [4,6,1] 1, [4,7,1] 1, [4,8,1] 1, [4,9,1] 1, [4,10,1] 1, [4,1,2] 1, [4,2,2] 1, [4,3,2] 1, [4,4,2] 1, [4,5,2] 1, [4,6,2] 1, [4,7,2] 1, [4,8,2] 1, [4,9,2] 1, [4,10,2] 1, [4,3,5] 1, [4,4,5] 1, [4,5,5] 1, [4,6,5] 1, [4,7,5] 1, [4,8,5] 1, [4,9,5] 1, [4,10,5] 1, [4,2,6] 1, [4,3,6] 1, [4,4,6] 1, [4,5,6] 1, [4,6,6] 1, [4,7,6] 1, [4,8,6] 1, [4,9,6] 1, [4,10,6] 1, [4,1,7] 1, [4,2,7] 1, [4,3,7] 1, [4,4,7] 1, [4,5,7] 1, [4,6,7] 1, [4,7,7] 1, [4,8,7] 1, [4,9,7] 1, [4,10,7] 1, [4,1,8] 1, [4,2,8] 1, [4,3,8] 1, [4,4,8] 1, [4,5,8] 1, [4,6,8] 1, [4,7,8] 1, [4,8,8] 1, [4,1,10] 1, [4,2,10] 1, [4,3,10] 1, [4,4,10] 1, [4,5,10] 1, [4,6,10] 1, [4,7,10] 1, [4,8,10] 1, [4,9,10] 1, [4,10,10] 1, [4,1,11] 1, [4,2,11] 1, [4,3,11] 1, [4,4,11] 1, [4,5,11] 1, [4,6,11] 1, [4,7,11] 1, [4,8,11] 1, [4,9,11] 1, [4,1,12] 1, [4,2,12] 1, [4,3,12] 1, [4,4,12] 1, [4,5,12] 1, [4,6,12] 1, [4,7,12] 1, [4,8,12] 1, [4,9,12] 1, [4,1,13] 1, [4,2,13] 1, [4,3,13] 1, [4,4,13] 1, [4,5,13] 1, [4,6,13] 1, [4,7,13] 1, [4,8,13] 1, [4,9,13] 1, [4,3,15] 1, [4,4,15] 1, [4,5,15] 1, [4,6,15] 1, [4,7,15] 1, [4,8,15] 1, [4,9,15] 1, [4,3,16] 1, [4,4,16] 1, [4,5,16] 1, [4,6,16] 1, [4,7,16] 1, [4,8,16] 1, [4,9,16] 1, [4,3,18] 1, [4,4,18] 1, [4,5,18] 1, [4,6,18] 1, [4,7,18] 1, [4,8,18] 1, [4,9,18] 1, [4,2,19] 1, [4,3,19] 1, [4,4,19] 1, [4,5,19] 1, [4,6,19] 1, [4,7,19] 1, [4,8,19] 1, [4,9,19] 1, [4,2,20] 1, [4,3,20] 1, [4,4,20] 1, [4,5,20] 1, [4,6,20] 1, [4,7,20] 1, [4,8,20] 1, [4,9,20] 1, [4,1,21] 1, [4,2,21] 1, [4,3,21] 1, [4,4,21] 1, [4,5,21] 1, [4,6,21] 1, [4,7,21] 1, [4,8,21] 1, [4,9,21] 1, [4,1,22] 1, [4,2,22] 1, [4,3,22] 1, [4,4,22] 1, [4,5,22] 1, [4,6,22] 1, [4,1,23] 1, [4,2,23] 1, [4,3,23] 1, [4,4,23] 1, [4,5,23] 1, [4,6,23] 1, [4,7,23] 1, [4,8,23] 1, [4,9,23] 1, [4,10,23] 1, [4,1,25] 1, [4,2,25] 1, [4,3,25] 1, [4,4,25] 1, [4,5,25] 1, [4,6,25] 1, [4,7,25] 1, [4,8,25] 1, [4,9,25] 1, [4,10,25] 1, [4,1,26] 1, [4,3,26] 1, [4,4,26] 1, [4,5,26] 1, [4,6,26] 1, [4,7,26] 1, [4,8,26] 1, [4,9,26] 1, [4,10,26] 1, [4,1,27] 1, [4,3,27] 1, [4,4,27] 1, [4,5,27] 1, [4,6,27] 1, [4,7,27] 1, [4,8,27] 1, [4,9,27] 1, [4,10,27] 1, [5,3,3] 1, [5,4,3] 1, [5,5,3] 1, [5,6,3] 1, [5,7,3] 1, [5,8,3] 1, [5,9,3] 1, [5,3,4] 1, [5,4,4] 1, [5,5,4] 1, [5,6,4] 1, [5,7,4] 1, [5,8,4] 1, [5,9,4] 1, [5,10,4] 1, [5,6,5] 1, [5,7,5] 1, [5,8,5] 1, [5,9,5] 1, [5,10,5] 1, [5,4,6] 1, [5,5,6] 1, [5,6,6] 1, [5,7,6] 1, [5,8,6] 1, [5,9,6] 1, [5,10,6] 1, [5,4,7] 1, [5,5,7] 1, [5,6,7] 1, [5,7,7] 1, [5,8,7] 1, [5,9,7] 1, [5,10,7] 1, [5,3,8] 1, [5,4,8] 1, [5,5,8] 1, [5,6,8] 1, [5,7,8] 1, [5,8,8] 1, [5,9,8] 1, [5,3,9] 1, [5,4,9] 1, [5,5,9] 1, [5,6,9] 1, [5,7,9] 1, [5,8,9] 1, [5,9,9] 1, [5,3,10] 1, [5,4,10] 1, [5,5,10] 1, [5,6,10] 1, [5,7,10] 1, [5,8,10] 1, [5,9,10] 1, [5,10,10] 1, [5,3,13] 1, [5,4,13] 1, [5,5,13] 1, [5,6,13] 1, [5,7,13] 1, [5,8,13] 1, [5,9,13] 1, [5,3,14] 1, [5,4,14] 1, [5,5,14] 1, [5,6,14] 1, [5,7,14] 1, [5,8,14] 1, [5,9,14] 1, [5,2,17] 1, [5,3,17] 1, [5,4,17] 1, [5,5,17] 1, [5,6,17] 1, [5,7,17] 1, [5,8,17] 1, [5,9,17] 1, [5,2,18] 1, [5,3,18] 1, [5,4,18] 1, [5,5,18] 1, [5,6,18] 1, [5,7,18] 1, [5,8,18] 1, [5,9,18] 1, [5,10,18] 1, [5,6,19] 1, [5,7,19] 1, [5,8,19] 1, [5,9,19] 1, [5,10,19] 1, [5,4,20] 1, [5,5,20] 1, [5,6,20] 1, [5,7,20] 1, [5,8,20] 1, [5,9,20] 1, [5,10,20] 1, [5,4,21] 1, [5,5,21] 1, [5,6,21] 1, [5,7,21] 1, [5,8,21] 1, [5,9,21] 1, [5,10,21] 1, [5,3,22] 1, [5,4,22] 1, [5,5,22] 1, [5,6,22] 1, [5,7,22] 1, [5,8,22] 1, [5,9,22] 1, [5,3,23] 1, [5,4,23] 1, [5,5,23] 1, [5,6,23] 1, [5,7,23] 1, [5,8,23] 1, [5,9,23] 1, [5,3,24] 1, [5,4,24] 1, [5,5,24] 1, [5,6,24] 1, [5,7,24] 1, [5,8,24] 1, [5,9,24] 1, [5,10,24] 1, [5,3,27] 1, [5,4,27] 1, [5,5,27] 1, [5,6,27] 1, [5,7,27] 1, [5,8,27] 1, [5,9,27] 1, [5,3,28] 1, [5,4,28] 1, [5,5,28] 1, [5,6,28] 1, [5,7,28] 1, [5,8,28] 1, [5,9,28] 1, [9,7,5] 1, [9,8,5] 1, [9,9,5] 1, [9,10,5] 1, [9,7,12] 1, [9,8,12] 1, [9,9,12] 1, [9,10,12] 1, [9,1,13] 1, [9,2,13] 1, [9,3,13] 1, [9,4,13] 1, [9,5,13] 1, [9,6,13] 1, [9,7,13] 1, [9,8,13] 1, [9,9,13] 1, [9,10,13] 1, [9,1,14] 1, [9,2,14] 1, [9,3,14] 1, [9,4,14] 1, [9,5,14] 1, [9,6,14] 1, [9,7,14] 1, [9,8,14] 1, [9,9,14] 1, [9,10,14] 1, [9,7,19] 1, [9,8,19] 1, [9,9,19] 1, [9,10,19] 1, [9,1,20] 1, [9,2,20] 1, [9,3,20] 1, [9,4,20] 1, [9,5,20] 1, [9,6,20] 1, [9,7,20] 1, [9,8,20] 1, [9,9,20] 1, [9,10,20] 1, [9,1,21] 1, [9,2,21] 1, [9,3,21] 1, [9,4,21] 1, [9,5,21] 1, [9,6,21] 1, [9,7,21] 1, [9,8,21] 1, [9,9,21] 1, [9,10,21] 1, [9,7,26] 1, [9,8,26] 1, [9,9,26] 1, [9,10,26] 1, [9,1,27] 1, [9,2,27] 1, [9,3,27] 1, [9,4,27] 1, [9,5,27] 1, [9,6,27] 1, [9,7,27] 1, [9,8,27] 1, [9,9,27] 1, [9,10,27] 1, [9,1,28] 1, [9,2,28] 1, [9,3,28] 1, [9,4,28] 1, [9,5,28] 1, [9,6,28] 1, [9,7,28] 1, [9,8,28] 1, [9,9,28] 1, [9,10,28] 1, [7,3,1] 1, [7,4,1] 1, [7,5,1] 1, [7,6,1] 1, [7,7,1] 1, [7,8,1] 1, [7,9,1] 1, [7,3,2] 1, [7,4,2] 1, [7,5,2] 1, [7,6,2] 1, [7,7,2] 1, [7,8,2] 1, [7,9,2] 1, [7,3,3] 1, [7,4,3] 1, [7,5,3] 1, [7,6,3] 1, [7,7,3] 1, [7,8,3] 1, [7,9,3] 1, [7,10,3] 1, [7,3,6] 1, [7,4,6] 1, [7,5,6] 1, [7,6,6] 1, [7,7,6] 1, [7,8,6] 1, [7,9,6] 1, [7,3,7] 1, [7,4,7] 1, [7,5,7] 1, [7,6,7] 1, [7,7,7] 1, [7,8,7] 1, [7,9,7] 1, [7,3,9] 1, [7,4,9] 1, [7,5,9] 1, [7,6,9] 1, [7,7,9] 1, [7,8,9] 1, [7,9,9] 1, [7,4,10] 1, [7,5,10] 1, [7,6,10] 1, [7,7,10] 1, [7,8,10] 1, [7,9,10] 1, [7,10,10] 1, [7,3,11] 1, [7,4,11] 1, [7,5,11] 1, [7,6,11] 1, [7,7,11] 1, [7,8,11] 1, [7,9,11] 1, [7,10,11] 1, [7,2,12] 1, [7,3,12] 1, [7,4,12] 1, [7,5,12] 1, [7,6,12] 1, [7,7,12] 1, [7,10,12] 1, [7,2,13] 1, [7,3,13] 1, [7,4,13] 1, [7,5,13] 1, [7,6,13] 1, [7,7,13] 1, [7,8,13] 1, [7,3,16] 1, [7,4,16] 1, [7,5,16] 1, [7,6,16] 1, [7,7,16] 1, [7,8,16] 1, [7,9,16] 1, [7,4,17] 1, [7,5,17] 1, [7,6,17] 1, [7,7,17] 1, [7,8,17] 1, [7,9,17] 1, [7,10,17] 1, [7,3,18] 1, [7,4,18] 1, [7,5,18] 1, [7,6,18] 1, [7,7,18] 1, [7,8,18] 1, [7,9,18] 1, [7,10,18] 1, [7,2,19] 1, [7,3,19] 1, [7,4,19] 1, [7,5,19] 1, [7,6,19] 1, [7,7,19] 1, [7,10,19] 1, [7,2,20] 1, [7,3,20] 1, [7,4,20] 1, [7,5,20] 1, [7,6,20] 1, [7,7,20] 1, [7,8,20] 1, [7,3,22] 1, [7,4,22] 1, [7,5,22] 1, [7,6,22] 1, [7,7,22] 1, [7,8,22] 1, [7,9,22] 1, [7,3,23] 1, [7,4,23] 1, [7,5,23] 1, [7,6,23] 1, [7,7,23] 1, [7,8,23] 1, [7,9,23] 1, [7,3,24] 1, [7,4,24] 1, [7,5,24] 1, [7,6,24] 1, [7,7,24] 1, [7,8,24] 1, [7,9,24] 1, [7,10,24] 1, [7,3,27] 1, [7,4,27] 1, [7,5,27] 1, [7,6,27] 1, [7,7,27] 1, [7,8,27] 1, [7,9,27] 1, [7,3,28] 1, [7,4,28] 1, [7,5,28] 1, [7,6,28] 1, [7,7,28] 1, [7,8,28] 1, [7,9,28] 1	[1,1,1] 7, [2,1,1] 3, [3,1,1] 2, [4,1,1] 0, [5,1,1] 2, [6,1,1] 0, [7,1,1] 0, [8,1,1] 0, [9,1,1] 2, [10,1,1] 2, [11,1,1] 0, [12,1,1] 3	[1,1,1,1] 210600, [1,2,1,1] 226800, [1,3,1,1] 294840, [1,4,1,1] 453600, [1,5,1,1] 385560, [1,6,1,1] 362880, [1,7,1,1] 521640, [1,8,1,1] 771120, [1,9,1,1] 1020600, [1,10,1,1] 793800, [1,1,2,1] 212706, [1,2,2,1] 229068, [1,3,2,1] 297788, [1,4,2,1] 458136, [1,5,2,1] 389416, [1,6,2,1] 366509, [1,7,2,1] 526856, [1,8,2,1] 778831, [1,9,2,1] 1030806, [1,10,2,1] 801738, [1,1,3,1] 221130, [1,2,3,1] 238140, [1,3,3,1] 309582, [1,4,3,1] 476280, [1,5,3,1] 404838, [1,6,3,1] 381024, [1,7,3,1] 547722, [1,8,3,1] 809676, [1,9,3,1] 1071630, [1,10,3,1] 833490, [1,1,4,1] 223236, [1,2,4,1] 240408, [1,3,4,1] 312530, [1,4,4,1] 480816, [1,5,4,1] 408694, [1,6,4,1] 384653, [1,7,4,1] 552938, [1,8,4,1] 817387, [1,9,4,1] 1081836, [1,10,4,1] 841428, [1,1,5,1] 252720, [1,2,5,1] 272160, [1,3,5,1] 353808, [1,4,5,1] 544320, [1,5,5,1] 462672, [1,6,5,1] 435456, [1,7,5,1] 625968, [1,8,5,1] 925344, [1,9,5,1] 1224720, [1,10,5,1] 952560, [1,1,6,1] 277992, [1,2,6,1] 299376, [1,3,6,1] 389189, [1,4,6,1] 598752, [1,5,6,1] 508939, [1,6,6,1] 479002, [1,7,6,1] 688565, [1,8,6,1] 1017878, [1,9,6,1] 1347192, [1,10,6,1] 1047816, [1,1,7,1] 272938, [1,2,7,1] 293933, [1,3,7,1] 382113, [1,4,7,1] 587866, [1,5,7,1] 499686, [1,6,7,1] 470292, [1,7,7,1] 676045, [1,8,7,1] 999372, [1,9,7,1] 1322698, [1,10,7,1] 1028765, [1,1,8,1] 204282, [1,2,8,1] 219996, [1,3,8,1] 285995, [1,4,8,1] 439992, [1,5,8,1] 373993, [1,6,8,1] 351994, [1,7,8,1] 505991, [1,8,8,1] 747986, [1,9,8,1] 989982, [1,10,8,1] 769986, [1,1,9,1] 223426, [1,2,9,1] 240612, [1,3,9,1] 312796, [1,4,9,1] 481224, [1,5,9,1] 409041, [1,6,9,1] 384979, [1,7,9,1] 553408, [1,8,9,1] 818081, [1,9,9,1] 1082755, [1,10,9,1] 842142, [1,1,10,1] 225553, [1,2,10,1] 242903, [1,3,10,1] 315774, [1,4,10,1] 485806, [1,5,10,1] 412935, [1,6,10,1] 388644, [1,7,10,1] 558676, [1,8,10,1] 825870, [1,9,10,1] 1093063, [1,10,10,1] 850160, [1,1,11,1] 231049, [1,2,11,1] 248822, [1,3,11,1] 323469, [1,4,11,1] 497645, [1,5,11,1] 422998, [1,6,11,1] 398116, [1,7,11,1] 572291, [1,8,11,1] 845996, [1,9,11,1] 1119700, [1,10,11,1] 870878, [1,1,12,1] 252973, [1,2,12,1] 272432, [1,3,12,1] 354162, [1,4,12,1] 544864, [1,5,12,1] 463135, [1,6,12,1] 435891, [1,7,12,1] 626594, [1,8,12,1] 926269, [1,9,12,1] 1225945, [1,10,12,1] 953513, [1,1,13,1] 275212, [1,2,13,1] 296382, [1,3,13,1] 385297, [1,4,13,1] 592764, [1,5,13,1] 503850, [1,6,13,1] 474212, [1,7,13,1] 681679, [1,8,13,1] 1007700, [1,9,13,1] 1333720, [1,10,13,1] 1037338, [1,1,14,1] 273211, [1,2,14,1] 294227, [1,3,14,1] 382495, [1,4,14,1] 588453, [1,5,14,1] 500185, [1,6,14,1] 470763, [1,7,14,1] 676721, [1,8,14,1] 1000371, [1,9,14,1] 1324020, [1,10,14,1] 1029794, [1,1,15,1] 205860, [1,2,15,1] 221695, [1,3,15,1] 290177, [1,4,15,1] 446425, [1,5,15,1] 379462, [1,6,15,1] 357140, [1,7,15,1] 513389, [1,8,15,1] 758923, [1,9,15,1] 1004457, [1,10,15,1] 781245, [1,1,16,1] 207918, [1,2,16,1] 223912, [1,3,16,1] 293078, [1,4,16,1] 450890, [1,5,16,1] 383256, [1,6,16,1] 360712, [1,7,16,1] 518523, [1,8,16,1] 766513, [1,9,16,1] 1014502, [1,10,16,1] 789057, [1,1,17,1] 216153, [1,2,17,1] 232780, [1,3,17,1] 304685, [1,4,17,1] 468747, [1,5,17,1] 398435, [1,6,17,1] 374997, [1,7,17,1] 539059, [1,8,17,1] 796870, [1,9,17,1] 1054680, [1,10,17,1] 820307, [1,1,18,1] 218211, [1,2,18,1] 234997, [1,3,18,1] 307587, [1,4,18,1] 473211, [1,5,18,1] 402229, [1,6,18,1] 378569, [1,7,18,1] 544193, [1,8,18,1] 804459, [1,9,18,1] 1064725, [1,10,18,1] 828119, [1,1,19,1] 247031, [1,2,19,1] 266034, [1,3,19,1] 348212, [1,4,19,1] 535711, [1,5,19,1] 455354, [1,6,19,1] 428568, [1,7,19,1] 616067, [1,8,19,1] 910708, [1,9,19,1] 1205349, [1,10,19,1] 937494, [1,1,20,1] 271735, [1,2,20,1] 292637, [1,3,20,1] 383033, [1,4,20,1] 589282, [1,5,20,1] 500889, [1,6,20,1] 471425, [1,7,20,1] 677674, [1,8,20,1] 1001779, [1,9,20,1] 1325884, [1,10,20,1] 1031243, [1,1,21,1] 266794, [1,2,21,1] 287317, [1,3,21,1] 376069, [1,4,21,1] 578567, [1,5,21,1] 491782, [1,6,21,1] 462854, [1,7,21,1] 665353, [1,8,21,1] 983565, [1,9,21,1] 1301777, [1,10,21,1] 1012493, [1,1,22,1] 199684, [1,2,22,1] 215044, [1,3,22,1] 281471, [1,4,22,1] 433033, [1,5,22,1] 368078, [1,6,22,1] 346426, [1,7,22,1] 497988, [1,8,22,1] 736156, [1,9,22,1] 974324, [1,10,22,1] 757807, [1,1,23,1] 218396, [1,2,23,1] 235196, [1,3,23,1] 307848, [1,4,23,1] 473613, [1,5,23,1] 402571, [1,6,23,1] 378890, [1,7,23,1] 544655, [1,8,23,1] 805142, [1,9,23,1] 1065629, [1,10,23,1] 828822, [1,1,24,1] 220476, [1,2,24,1] 237435, [1,3,24,1] 310779, [1,4,24,1] 478122, [1,5,24,1] 406403, [1,6,24,1] 382497, [1,7,24,1] 549840, [1,8,24,1] 812807, [1,9,24,1] 1075774, [1,10,24,1] 836713, [1,1,25,1] 225849, [1,2,25,1] 243221, [1,3,25,1] 316188, [1,4,25,1] 486443, [1,5,25,1] 413477, [1,6,25,1] 389154, [1,7,25,1] 559409, [1,8,25,1] 826953, [1,9,25,1] 1094497, [1,10,25,1] 851275, [1,1,26,1] 247278, [1,2,26,1] 266300, [1,3,26,1] 346190, [1,4,26,1] 532600, [1,5,26,1] 452710, [1,6,26,1] 426080, [1,7,26,1] 612490, [1,8,26,1] 905420, [1,9,26,1] 1198350, [1,10,26,1] 932050, [1,1,27,1] 269017, [1,2,27,1] 289711, [1,3,27,1] 376624, [1,4,27,1] 579422, [1,5,27,1] 492509, [1,6,27,1] 463537, [1,7,27,1] 666335, [1,8,27,1] 985017, [1,9,27,1] 1303699, [1,10,27,1] 1013988, [1,1,28,1] 267061, [1,2,28,1] 287604, [1,3,28,1] 373885, [1,4,28,1] 575208, [1,5,28,1] 488927, [1,6,28,1] 460166, [1,7,28,1] 661489, [1,8,28,1] 977853, [1,9,28,1] 1294218, [1,10,28,1] 1006614	2018-05-16 19:59:43.58578	2018-07-08 16:31:52.090791	3	2018
 35	32	12	1	28	10	2500	85000			[1] 1, [2] 1	[2] 1, [3] 1, [4] 1, [5] 1	2	[6,3,2] 1, [6,4,2] 1, [6,5,2] 1, [6,6,2] 1, [6,7,2] 1, [6,8,2] 1, [6,9,2] 1, [6,4,3] 1, [6,5,3] 1, [6,6,3] 1, [6,7,3] 1, [6,8,3] 1, [6,9,3] 1, [6,3,4] 1, [6,4,4] 1, [6,5,4] 1, [6,6,4] 1, [6,7,4] 1, [6,8,4] 1, [6,9,4] 1, [6,10,4] 1, [6,2,5] 1, [6,3,5] 1, [6,4,5] 1, [6,5,5] 1, [6,6,5] 1, [6,7,5] 1, [6,10,5] 1, [6,2,6] 1, [6,3,6] 1, [6,4,6] 1, [6,5,6] 1, [6,6,6] 1, [6,7,6] 1, [6,8,6] 1, [6,3,9] 1, [6,4,9] 1, [6,5,9] 1, [6,6,9] 1, [6,7,9] 1, [6,8,9] 1, [6,9,9] 1, [6,10,9] 1, [6,4,11] 1, [6,5,11] 1, [6,6,11] 1, [6,7,11] 1, [6,8,11] 1, [6,9,11] 1, [6,10,11] 1, [6,2,12] 1, [6,3,12] 1, [6,4,12] 1, [6,5,12] 1, [6,6,12] 1, [6,7,12] 1, [6,8,12] 1, [6,9,12] 1, [6,10,12] 1, [6,2,13] 1, [6,3,13] 1, [6,4,13] 1, [6,5,13] 1, [6,6,13] 1, [6,7,13] 1, [6,8,13] 1, [6,9,13] 1, [6,10,13] 1, [6,6,14] 1, [6,7,14] 1, [6,8,14] 1, [6,9,14] 1, [6,10,14] 1, [6,3,16] 1, [6,4,16] 1, [6,5,16] 1, [6,6,16] 1, [6,7,16] 1, [6,8,16] 1, [6,9,16] 1, [6,4,17] 1, [6,5,17] 1, [6,6,17] 1, [6,7,17] 1, [6,8,17] 1, [6,9,17] 1, [6,10,17] 1, [6,3,18] 1, [6,4,18] 1, [6,5,18] 1, [6,6,18] 1, [6,7,18] 1, [6,8,18] 1, [6,9,18] 1, [6,10,18] 1, [6,2,19] 1, [6,3,19] 1, [6,4,19] 1, [6,5,19] 1, [6,6,19] 1, [6,7,19] 1, [6,10,19] 1, [6,2,20] 1, [6,3,20] 1, [6,4,20] 1, [6,5,20] 1, [6,6,20] 1, [6,7,20] 1, [6,8,20] 1, [6,3,23] 1, [6,4,23] 1, [6,5,23] 1, [6,6,23] 1, [6,7,23] 1, [6,8,23] 1, [6,9,23] 1, [6,10,23] 1, [6,4,25] 1, [6,5,25] 1, [6,6,25] 1, [6,7,25] 1, [6,8,25] 1, [6,9,25] 1, [6,10,25] 1, [6,3,26] 1, [6,4,26] 1, [6,5,26] 1, [6,6,26] 1, [6,7,26] 1, [6,8,26] 1, [6,9,26] 1, [6,10,26] 1, [6,3,27] 1, [6,4,27] 1, [6,5,27] 1, [6,6,27] 1, [6,7,27] 1, [6,8,27] 1, [6,9,27] 1, [6,10,27] 1, [6,6,28] 1, [6,7,28] 1, [6,8,28] 1, [6,9,28] 1, [6,10,28] 1, [8,1,1] 1, [8,2,1] 1, [8,3,1] 1, [8,4,1] 1, [8,5,1] 1, [8,6,1] 1, [8,7,1] 1, [8,8,1] 1, [8,9,1] 1, [8,10,1] 1, [8,5,5] 1, [8,6,5] 1, [8,7,5] 1, [8,8,5] 1, [8,9,5] 1, [8,10,5] 1, [8,1,6] 1, [8,2,6] 1, [8,3,6] 1, [8,4,6] 1, [8,5,6] 1, [8,6,6] 1, [8,7,6] 1, [8,8,6] 1, [8,9,6] 1, [8,10,6] 1, [8,1,7] 1, [8,2,7] 1, [8,3,7] 1, [8,4,7] 1, [8,5,7] 1, [8,6,7] 1, [8,7,7] 1, [8,8,7] 1, [8,9,7] 1, [8,10,7] 1, [8,1,8] 1, [8,2,8] 1, [8,3,8] 1, [8,4,8] 1, [8,5,8] 1, [8,6,8] 1, [8,7,8] 1, [8,8,8] 1, [8,3,10] 1, [8,4,10] 1, [8,5,10] 1, [8,6,10] 1, [8,7,10] 1, [8,8,10] 1, [8,3,11] 1, [8,4,11] 1, [8,5,11] 1, [8,6,11] 1, [8,7,11] 1, [8,8,11] 1, [8,3,12] 1, [8,4,12] 1, [8,5,12] 1, [8,6,12] 1, [8,7,12] 1, [8,8,12] 1, [8,1,14] 1, [8,2,14] 1, [8,3,14] 1, [8,4,14] 1, [8,5,14] 1, [8,6,14] 1, [8,7,14] 1, [8,8,14] 1, [8,9,14] 1, [8,10,14] 1, [8,1,15] 1, [8,2,15] 1, [8,3,15] 1, [8,4,15] 1, [8,5,15] 1, [8,6,15] 1, [8,7,15] 1, [8,8,15] 1, [8,9,15] 1, [8,10,15] 1, [8,5,19] 1, [8,6,19] 1, [8,7,19] 1, [8,8,19] 1, [8,9,19] 1, [8,10,19] 1, [8,1,20] 1, [8,2,20] 1, [8,3,20] 1, [8,4,20] 1, [8,5,20] 1, [8,6,20] 1, [8,7,20] 1, [8,8,20] 1, [8,9,20] 1, [8,10,20] 1, [8,1,21] 1, [8,2,21] 1, [8,3,21] 1, [8,4,21] 1, [8,5,21] 1, [8,6,21] 1, [8,7,21] 1, [8,8,21] 1, [8,9,21] 1, [8,10,21] 1, [8,1,22] 1, [8,2,22] 1, [8,3,22] 1, [8,4,22] 1, [8,5,22] 1, [8,6,22] 1, [8,7,22] 1, [8,8,22] 1, [8,3,24] 1, [8,4,24] 1, [8,5,24] 1, [8,6,24] 1, [8,7,24] 1, [8,8,24] 1, [8,3,25] 1, [8,4,25] 1, [8,5,25] 1, [8,6,25] 1, [8,7,25] 1, [8,8,25] 1, [8,3,26] 1, [8,4,26] 1, [8,5,26] 1, [8,6,26] 1, [8,7,26] 1, [8,8,26] 1, [8,1,28] 1, [8,2,28] 1, [8,3,28] 1, [8,4,28] 1, [8,5,28] 1, [8,6,28] 1, [8,7,28] 1, [8,8,28] 1, [8,9,28] 1, [8,10,28] 1, [12,5,1] 1, [12,6,1] 1, [12,7,1] 1, [12,8,1] 1, [12,9,1] 1, [12,10,1] 1, [12,5,2] 1, [12,6,2] 1, [12,7,2] 1, [12,8,2] 1, [12,9,2] 1, [12,10,2] 1, [12,5,3] 1, [12,6,3] 1, [12,7,3] 1, [12,8,3] 1, [12,9,3] 1, [12,10,3] 1, [12,5,4] 1, [12,6,4] 1, [12,7,4] 1, [12,8,4] 1, [12,9,4] 1, [12,10,4] 1, [12,5,5] 1, [12,6,5] 1, [12,7,5] 1, [12,8,5] 1, [12,9,5] 1, [12,10,5] 1, [12,5,7] 1, [12,6,7] 1, [12,7,7] 1, [12,8,7] 1, [12,9,7] 1, [12,10,7] 1, [12,5,8] 1, [12,6,8] 1, [12,7,8] 1, [12,8,8] 1, [12,9,8] 1, [12,10,8] 1, [12,5,9] 1, [12,6,9] 1, [12,7,9] 1, [12,8,9] 1, [12,9,9] 1, [12,10,9] 1, [12,5,10] 1, [12,6,10] 1, [12,7,10] 1, [12,8,10] 1, [12,9,10] 1, [12,10,10] 1, [12,5,11] 1, [12,6,11] 1, [12,7,11] 1, [12,8,11] 1, [12,9,11] 1, [12,10,11] 1, [12,5,12] 1, [12,6,12] 1, [12,7,12] 1, [12,8,12] 1, [12,9,12] 1, [12,10,12] 1, [12,5,14] 1, [12,6,14] 1, [12,7,14] 1, [12,8,14] 1, [12,9,14] 1, [12,10,14] 1, [12,5,15] 1, [12,6,15] 1, [12,7,15] 1, [12,8,15] 1, [12,9,15] 1, [12,10,15] 1, [12,5,16] 1, [12,6,16] 1, [12,7,16] 1, [12,8,16] 1, [12,9,16] 1, [12,10,16] 1, [12,5,17] 1, [12,6,17] 1, [12,7,17] 1, [12,8,17] 1, [12,9,17] 1, [12,10,17] 1, [12,5,18] 1, [12,6,18] 1, [12,7,18] 1, [12,8,18] 1, [12,9,18] 1, [12,10,18] 1, [12,5,19] 1, [12,6,19] 1, [12,7,19] 1, [12,8,19] 1, [12,9,19] 1, [12,10,19] 1, [12,5,21] 1, [12,6,21] 1, [12,7,21] 1, [12,8,21] 1, [12,9,21] 1, [12,10,21] 1, [12,5,22] 1, [12,6,22] 1, [12,7,22] 1, [12,8,22] 1, [12,9,22] 1, [12,10,22] 1, [12,5,23] 1, [12,6,23] 1, [12,7,23] 1, [12,8,23] 1, [12,9,23] 1, [12,10,23] 1, [12,5,24] 1, [12,6,24] 1, [12,7,24] 1, [12,8,24] 1, [12,9,24] 1, [12,10,24] 1, [12,5,25] 1, [12,6,25] 1, [12,7,25] 1, [12,8,25] 1, [12,9,25] 1, [12,10,25] 1, [12,5,26] 1, [12,6,26] 1, [12,7,26] 1, [12,8,26] 1, [12,9,26] 1, [12,10,26] 1, [12,5,28] 1, [12,6,28] 1, [12,7,28] 1, [12,8,28] 1, [12,9,28] 1, [12,10,28] 1, [1,2,1] 1, [1,3,1] 1, [1,4,1] 1, [1,5,1] 1, [1,6,1] 1, [1,7,1] 1, [1,1,2] 1, [1,2,2] 1, [1,3,2] 1, [1,4,2] 1, [1,5,2] 1, [1,6,2] 1, [1,7,2] 1, [1,8,2] 1, [1,9,2] 1, [1,10,2] 1, [1,2,3] 1, [1,3,3] 1, [1,4,3] 1, [1,5,3] 1, [1,6,3] 1, [1,7,3] 1, [1,8,3] 1, [1,9,3] 1, [1,10,3] 1, [1,1,4] 1, [1,2,4] 1, [1,3,4] 1, [1,4,4] 1, [1,5,4] 1, [1,6,4] 1, [1,7,4] 1, [1,8,4] 1, [1,9,4] 1, [1,10,4] 1, [1,1,5] 1, [1,2,5] 1, [1,3,5] 1, [1,4,5] 1, [1,5,5] 1, [1,6,5] 1, [1,7,5] 1, [1,8,5] 1, [1,9,5] 1, [1,10,5] 1, [1,3,8] 1, [1,4,8] 1, [1,5,8] 1, [1,6,8] 1, [1,7,8] 1, [1,8,8] 1, [1,9,8] 1, [1,3,9] 1, [1,4,9] 1, [1,5,9] 1, [1,6,9] 1, [1,7,9] 1, [1,8,9] 1, [1,9,9] 1, [1,3,11] 1, [1,4,11] 1, [1,5,11] 1, [1,6,11] 1, [1,7,11] 1, [1,8,11] 1, [1,9,11] 1, [1,2,12] 1, [1,3,12] 1, [1,4,12] 1, [1,5,12] 1, [1,6,12] 1, [1,7,12] 1, [1,8,12] 1, [1,9,12] 1, [1,2,13] 1, [1,3,13] 1, [1,4,13] 1, [1,5,13] 1, [1,6,13] 1, [1,7,13] 1, [1,8,13] 1, [1,9,13] 1, [1,2,14] 1, [1,3,14] 1, [1,4,14] 1, [1,5,14] 1, [1,6,14] 1, [1,7,14] 1, [1,8,14] 1, [1,9,14] 1, [1,1,15] 1, [1,2,15] 1, [1,3,15] 1, [1,4,15] 1, [1,5,15] 1, [1,6,15] 1, [1,7,15] 1, [1,8,15] 1, [1,9,15] 1, [1,10,15] 1, [1,1,17] 1, [1,2,17] 1, [1,3,17] 1, [1,4,17] 1, [1,5,17] 1, [1,6,17] 1, [1,7,17] 1, [1,8,17] 1, [1,9,17] 1, [1,10,17] 1, [1,1,18] 1, [1,2,18] 1, [1,3,18] 1, [1,4,18] 1, [1,5,18] 1, [1,6,18] 1, [1,7,18] 1, [1,8,18] 1, [1,9,18] 1, [1,1,19] 1, [1,2,19] 1, [1,3,19] 1, [1,4,19] 1, [1,5,19] 1, [1,6,19] 1, [1,7,19] 1, [1,8,19] 1, [1,9,19] 1, [1,1,20] 1, [1,2,20] 1, [1,3,20] 1, [1,4,20] 1, [1,5,20] 1, [1,6,20] 1, [1,7,20] 1, [1,8,20] 1, [1,9,20] 1, [1,1,24] 1, [1,2,24] 1, [1,3,24] 1, [1,4,24] 1, [1,5,24] 1, [1,6,24] 1, [1,7,24] 1, [1,8,24] 1, [1,9,24] 1, [1,10,24] 1, [1,3,26] 1, [1,4,26] 1, [1,5,26] 1, [1,6,26] 1, [1,7,26] 1, [1,8,26] 1, [1,9,26] 1, [1,10,26] 1, [1,2,27] 1, [1,3,27] 1, [1,4,27] 1, [1,5,27] 1, [1,6,27] 1, [1,7,27] 1, [1,8,27] 1, [1,9,27] 1, [1,10,27] 1, [1,3,28] 1, [1,4,28] 1, [1,5,28] 1, [1,6,28] 1, [1,7,28] 1, [1,8,28] 1, [1,9,28] 1, [1,10,28] 1, [2,3,2] 1, [2,4,2] 1, [2,5,2] 1, [2,6,2] 1, [2,7,2] 1, [2,8,2] 1, [2,9,2] 1, [2,1,3] 1, [2,2,3] 1, [2,3,3] 1, [2,4,3] 1, [2,5,3] 1, [2,6,3] 1, [2,7,3] 1, [2,8,3] 1, [2,9,3] 1, [2,10,3] 1, [2,3,4] 1, [2,4,4] 1, [2,5,4] 1, [2,6,4] 1, [2,7,4] 1, [2,8,4] 1, [2,9,4] 1, [2,10,4] 1, [2,2,5] 1, [2,3,5] 1, [2,4,5] 1, [2,5,5] 1, [2,6,5] 1, [2,7,5] 1, [2,10,5] 1, [2,2,6] 1, [2,3,6] 1, [2,4,6] 1, [2,5,6] 1, [2,6,6] 1, [2,7,6] 1, [2,8,6] 1, [2,9,6] 1, [2,1,7] 1, [2,2,7] 1, [2,3,7] 1, [2,4,7] 1, [2,5,7] 1, [2,6,7] 1, [2,7,7] 1, [2,8,7] 1, [2,9,7] 1, [2,2,8] 1, [2,3,8] 1, [2,4,8] 1, [2,5,8] 1, [2,6,8] 1, [2,7,8] 1, [2,1,9] 1, [2,2,9] 1, [2,3,9] 1, [2,4,9] 1, [2,5,9] 1, [2,6,9] 1, [2,7,9] 1, [2,8,9] 1, [2,9,9] 1, [2,10,9] 1, [2,1,11] 1, [2,2,11] 1, [2,3,11] 1, [2,4,11] 1, [2,5,11] 1, [2,6,11] 1, [2,7,11] 1, [2,8,11] 1, [2,9,11] 1, [2,10,11] 1, [2,1,12] 1, [2,3,12] 1, [2,4,12] 1, [2,5,12] 1, [2,6,12] 1, [2,7,12] 1, [2,8,12] 1, [2,9,12] 1, [2,10,12] 1, [2,1,13] 1, [2,3,13] 1, [2,4,13] 1, [2,5,13] 1, [2,6,13] 1, [2,7,13] 1, [2,8,13] 1, [2,9,13] 1, [2,10,13] 1, [2,1,15] 1, [2,2,15] 1, [2,3,15] 1, [2,4,15] 1, [2,5,15] 1, [2,6,15] 1, [2,7,15] 1, [2,8,15] 1, [2,9,15] 1, [2,10,15] 1, [2,1,16] 1, [2,2,16] 1, [2,3,16] 1, [2,4,16] 1, [2,5,16] 1, [2,6,16] 1, [2,7,16] 1, [2,8,16] 1, [2,9,16] 1, [2,10,16] 1, [2,1,17] 1, [2,2,17] 1, [2,3,17] 1, [2,4,17] 1, [2,5,17] 1, [2,6,17] 1, [2,7,17] 1, [2,8,17] 1, [2,9,17] 1, [2,10,17] 1, [2,3,20] 1, [2,4,20] 1, [2,5,20] 1, [2,6,20] 1, [2,7,20] 1, [2,8,20] 1, [2,9,20] 1, [2,10,20] 1, [2,3,21] 1, [2,4,21] 1, [2,5,21] 1, [2,6,21] 1, [2,7,21] 1, [2,8,21] 1, [2,9,21] 1, [2,10,21] 1, [2,1,22] 1, [2,2,22] 1, [2,3,22] 1, [2,4,22] 1, [2,5,22] 1, [2,6,22] 1, [2,7,22] 1, [2,8,22] 1, [2,9,22] 1, [2,10,22] 1, [2,1,24] 1, [2,2,24] 1, [2,3,24] 1, [2,4,24] 1, [2,5,24] 1, [2,6,24] 1, [2,7,24] 1, [2,8,24] 1, [2,9,24] 1, [2,10,24] 1, [2,1,25] 1, [2,2,25] 1, [2,3,25] 1, [2,4,25] 1, [2,5,25] 1, [2,6,25] 1, [2,7,25] 1, [2,8,25] 1, [2,9,25] 1, [2,1,26] 1, [2,2,26] 1, [2,3,26] 1, [2,4,26] 1, [2,5,26] 1, [2,6,26] 1, [2,7,26] 1, [2,8,26] 1, [2,9,26] 1, [2,1,27] 1, [2,2,27] 1, [2,3,27] 1, [2,4,27] 1, [2,5,27] 1, [2,6,27] 1, [2,7,27] 1, [2,8,27] 1, [2,9,27] 1, [3,1,1] 1, [3,2,1] 1, [3,3,1] 1, [3,4,1] 1, [3,5,1] 1, [3,6,1] 1, [3,7,1] 1, [3,8,1] 1, [3,9,1] 1, [3,1,3] 1, [3,2,3] 1, [3,3,3] 1, [3,4,3] 1, [3,5,3] 1, [3,6,3] 1, [3,7,3] 1, [3,8,3] 1, [3,9,3] 1, [3,10,3] 1, [3,1,4] 1, [3,2,4] 1, [3,3,4] 1, [3,4,4] 1, [3,5,4] 1, [3,6,4] 1, [3,7,4] 1, [3,8,4] 1, [3,9,4] 1, [3,10,4] 1, [3,1,5] 1, [3,2,5] 1, [3,3,5] 1, [3,4,5] 1, [3,5,5] 1, [3,6,5] 1, [3,7,5] 1, [3,8,5] 1, [3,9,5] 1, [3,1,6] 1, [3,2,6] 1, [3,3,6] 1, [3,4,6] 1, [3,5,6] 1, [3,6,6] 1, [3,7,6] 1, [3,8,6] 1, [3,9,6] 1, [3,1,8] 1, [3,2,8] 1, [3,3,8] 1, [3,4,8] 1, [3,5,8] 1, [3,6,8] 1, [3,7,8] 1, [3,1,9] 1, [3,2,9] 1, [3,3,9] 1, [3,4,9] 1, [3,5,9] 1, [3,6,9] 1, [3,7,9] 1, [3,8,9] 1, [3,9,9] 1, [3,10,9] 1, [3,1,11] 1, [3,2,11] 1, [3,3,11] 1, [3,4,11] 1, [3,5,11] 1, [3,6,11] 1, [3,7,11] 1, [3,8,11] 1, [3,9,11] 1, [3,10,11] 1, [3,1,12] 1, [3,3,12] 1, [3,4,12] 1, [3,5,12] 1, [3,6,12] 1, [3,7,12] 1, [3,8,12] 1, [3,9,12] 1, [3,10,12] 1, [3,1,13] 1, [3,3,13] 1, [3,4,13] 1, [3,5,13] 1, [3,6,13] 1, [3,7,13] 1, [3,8,13] 1, [3,9,13] 1, [3,10,13] 1, [3,1,15] 1, [3,2,15] 1, [3,3,15] 1, [3,4,15] 1, [3,5,15] 1, [3,6,15] 1, [3,7,15] 1, [3,8,15] 1, [3,9,15] 1, [3,10,15] 1, [3,1,16] 1, [3,2,16] 1, [3,3,16] 1, [3,4,16] 1, [3,5,16] 1, [3,6,16] 1, [3,7,16] 1, [3,8,16] 1, [3,9,16] 1, [3,10,16] 1, [3,1,17] 1, [3,2,17] 1, [3,3,17] 1, [3,4,17] 1, [3,5,17] 1, [3,6,17] 1, [3,7,17] 1, [3,8,17] 1, [3,9,17] 1, [3,10,17] 1, [3,3,20] 1, [3,4,20] 1, [3,5,20] 1, [3,6,20] 1, [3,7,20] 1, [3,8,20] 1, [3,9,20] 1, [3,10,20] 1, [3,3,21] 1, [3,4,21] 1, [3,5,21] 1, [3,6,21] 1, [3,7,21] 1, [3,8,21] 1, [3,9,21] 1, [3,10,21] 1, [3,1,22] 1, [3,2,22] 1, [3,3,22] 1, [3,4,22] 1, [3,5,22] 1, [3,6,22] 1, [3,7,22] 1, [3,8,22] 1, [3,9,22] 1, [3,10,22] 1, [3,1,24] 1, [3,2,24] 1, [3,3,24] 1, [3,4,24] 1, [3,5,24] 1, [3,6,24] 1, [3,7,24] 1, [3,8,24] 1, [3,9,24] 1, [3,10,24] 1, [3,1,25] 1, [3,2,25] 1, [3,3,25] 1, [3,4,25] 1, [3,5,25] 1, [3,6,25] 1, [3,7,25] 1, [3,8,25] 1, [3,9,25] 1, [3,1,26] 1, [3,2,26] 1, [3,3,26] 1, [3,4,26] 1, [3,5,26] 1, [3,6,26] 1, [3,7,26] 1, [3,8,26] 1, [3,9,26] 1, [3,1,27] 1, [3,2,27] 1, [3,3,27] 1, [3,4,27] 1, [3,5,27] 1, [3,6,27] 1, [3,7,27] 1, [3,8,27] 1, [3,9,27] 1, [10,1,6] 1, [10,2,6] 1, [10,3,6] 1, [10,4,6] 1, [10,5,6] 1, [10,6,6] 1, [10,7,6] 1, [10,8,6] 1, [10,9,6] 1, [10,10,6] 1, [10,1,7] 1, [10,2,7] 1, [10,3,7] 1, [10,4,7] 1, [10,5,7] 1, [10,6,7] 1, [10,7,7] 1, [10,8,7] 1, [10,9,7] 1, [10,10,7] 1, [10,1,13] 1, [10,2,13] 1, [10,3,13] 1, [10,4,13] 1, [10,5,13] 1, [10,6,13] 1, [10,7,13] 1, [10,8,13] 1, [10,9,13] 1, [10,10,13] 1, [10,1,14] 1, [10,2,14] 1, [10,3,14] 1, [10,4,14] 1, [10,5,14] 1, [10,6,14] 1, [10,7,14] 1, [10,8,14] 1, [10,9,14] 1, [10,10,14] 1, [10,1,20] 1, [10,2,20] 1, [10,3,20] 1, [10,4,20] 1, [10,5,20] 1, [10,6,20] 1, [10,7,20] 1, [10,8,20] 1, [10,9,20] 1, [10,10,20] 1, [10,1,21] 1, [10,2,21] 1, [10,3,21] 1, [10,4,21] 1, [10,5,21] 1, [10,6,21] 1, [10,7,21] 1, [10,8,21] 1, [10,9,21] 1, [10,10,21] 1, [10,1,27] 1, [10,2,27] 1, [10,3,27] 1, [10,4,27] 1, [10,5,27] 1, [10,6,27] 1, [10,7,27] 1, [10,8,27] 1, [10,9,27] 1, [10,10,27] 1, [10,1,28] 1, [10,2,28] 1, [10,3,28] 1, [10,4,28] 1, [10,5,28] 1, [10,6,28] 1, [10,7,28] 1, [10,8,28] 1, [10,9,28] 1, [10,10,28] 1, [11,5,1] 1, [11,6,1] 1, [11,7,1] 1, [11,8,1] 1, [11,9,1] 1, [11,10,1] 1, [11,5,2] 1, [11,6,2] 1, [11,7,2] 1, [11,8,2] 1, [11,9,2] 1, [11,10,2] 1, [11,5,3] 1, [11,6,3] 1, [11,7,3] 1, [11,8,3] 1, [11,9,3] 1, [11,10,3] 1, [11,5,4] 1, [11,6,4] 1, [11,7,4] 1, [11,8,4] 1, [11,9,4] 1, [11,10,4] 1, [11,5,5] 1, [11,6,5] 1, [11,7,5] 1, [11,8,5] 1, [11,9,5] 1, [11,10,5] 1, [11,5,6] 1, [11,6,6] 1, [11,7,6] 1, [11,8,6] 1, [11,9,6] 1, [11,10,6] 1, [11,5,8] 1, [11,6,8] 1, [11,7,8] 1, [11,8,8] 1, [11,9,8] 1, [11,10,8] 1, [11,5,9] 1, [11,6,9] 1, [11,7,9] 1, [11,8,9] 1, [11,9,9] 1, [11,10,9] 1, [11,5,10] 1, [11,6,10] 1, [11,7,10] 1, [11,8,10] 1, [11,9,10] 1, [11,10,10] 1, [11,5,11] 1, [11,6,11] 1, [11,7,11] 1, [11,8,11] 1, [11,9,11] 1, [11,10,11] 1, [11,5,12] 1, [11,6,12] 1, [11,7,12] 1, [11,8,12] 1, [11,9,12] 1, [11,10,12] 1, [11,5,13] 1, [11,6,13] 1, [11,7,13] 1, [11,8,13] 1, [11,9,13] 1, [11,10,13] 1, [11,5,15] 1, [11,6,15] 1, [11,7,15] 1, [11,8,15] 1, [11,9,15] 1, [11,10,15] 1, [11,5,16] 1, [11,6,16] 1, [11,7,16] 1, [11,8,16] 1, [11,9,16] 1, [11,10,16] 1, [11,5,17] 1, [11,6,17] 1, [11,7,17] 1, [11,8,17] 1, [11,9,17] 1, [11,10,17] 1, [11,5,18] 1, [11,6,18] 1, [11,7,18] 1, [11,8,18] 1, [11,9,18] 1, [11,10,18] 1, [11,5,19] 1, [11,6,19] 1, [11,7,19] 1, [11,8,19] 1, [11,9,19] 1, [11,10,19] 1, [11,5,20] 1, [11,6,20] 1, [11,7,20] 1, [11,8,20] 1, [11,9,20] 1, [11,10,20] 1, [11,5,22] 1, [11,6,22] 1, [11,7,22] 1, [11,8,22] 1, [11,9,22] 1, [11,10,22] 1, [11,5,23] 1, [11,6,23] 1, [11,7,23] 1, [11,8,23] 1, [11,9,23] 1, [11,10,23] 1, [11,5,24] 1, [11,6,24] 1, [11,7,24] 1, [11,8,24] 1, [11,9,24] 1, [11,10,24] 1, [11,5,25] 1, [11,6,25] 1, [11,7,25] 1, [11,8,25] 1, [11,9,25] 1, [11,10,25] 1, [11,5,26] 1, [11,6,26] 1, [11,7,26] 1, [11,8,26] 1, [11,9,26] 1, [11,10,26] 1, [11,5,27] 1, [11,6,27] 1, [11,7,27] 1, [11,8,27] 1, [11,9,27] 1, [11,10,27] 1, [4,1,1] 1, [4,2,1] 1, [4,3,1] 1, [4,4,1] 1, [4,5,1] 1, [4,6,1] 1, [4,7,1] 1, [4,8,1] 1, [4,9,1] 1, [4,10,1] 1, [4,1,2] 1, [4,2,2] 1, [4,3,2] 1, [4,4,2] 1, [4,5,2] 1, [4,6,2] 1, [4,7,2] 1, [4,8,2] 1, [4,9,2] 1, [4,10,2] 1, [4,3,5] 1, [4,4,5] 1, [4,5,5] 1, [4,6,5] 1, [4,7,5] 1, [4,8,5] 1, [4,9,5] 1, [4,10,5] 1, [4,2,6] 1, [4,3,6] 1, [4,4,6] 1, [4,5,6] 1, [4,6,6] 1, [4,7,6] 1, [4,8,6] 1, [4,9,6] 1, [4,10,6] 1, [4,1,7] 1, [4,2,7] 1, [4,3,7] 1, [4,4,7] 1, [4,5,7] 1, [4,6,7] 1, [4,7,7] 1, [4,8,7] 1, [4,9,7] 1, [4,10,7] 1, [4,1,8] 1, [4,2,8] 1, [4,3,8] 1, [4,4,8] 1, [4,5,8] 1, [4,6,8] 1, [4,7,8] 1, [4,8,8] 1, [4,1,10] 1, [4,2,10] 1, [4,3,10] 1, [4,4,10] 1, [4,5,10] 1, [4,6,10] 1, [4,7,10] 1, [4,8,10] 1, [4,9,10] 1, [4,10,10] 1, [4,1,11] 1, [4,2,11] 1, [4,3,11] 1, [4,4,11] 1, [4,5,11] 1, [4,6,11] 1, [4,7,11] 1, [4,8,11] 1, [4,9,11] 1, [4,1,12] 1, [4,2,12] 1, [4,3,12] 1, [4,4,12] 1, [4,5,12] 1, [4,6,12] 1, [4,7,12] 1, [4,8,12] 1, [4,9,12] 1, [4,1,13] 1, [4,2,13] 1, [4,3,13] 1, [4,4,13] 1, [4,5,13] 1, [4,6,13] 1, [4,7,13] 1, [4,8,13] 1, [4,9,13] 1, [4,3,15] 1, [4,4,15] 1, [4,5,15] 1, [4,6,15] 1, [4,7,15] 1, [4,8,15] 1, [4,9,15] 1, [4,3,16] 1, [4,4,16] 1, [4,5,16] 1, [4,6,16] 1, [4,7,16] 1, [4,8,16] 1, [4,9,16] 1, [4,3,18] 1, [4,4,18] 1, [4,5,18] 1, [4,6,18] 1, [4,7,18] 1, [4,8,18] 1, [4,9,18] 1, [4,2,19] 1, [4,3,19] 1, [4,4,19] 1, [4,5,19] 1, [4,6,19] 1, [4,7,19] 1, [4,8,19] 1, [4,9,19] 1, [4,2,20] 1, [4,3,20] 1, [4,4,20] 1, [4,5,20] 1, [4,6,20] 1, [4,7,20] 1, [4,8,20] 1, [4,9,20] 1, [4,1,21] 1, [4,2,21] 1, [4,3,21] 1, [4,4,21] 1, [4,5,21] 1, [4,6,21] 1, [4,7,21] 1, [4,8,21] 1, [4,9,21] 1, [4,1,22] 1, [4,2,22] 1, [4,3,22] 1, [4,4,22] 1, [4,5,22] 1, [4,6,22] 1, [4,1,23] 1, [4,2,23] 1, [4,3,23] 1, [4,4,23] 1, [4,5,23] 1, [4,6,23] 1, [4,7,23] 1, [4,8,23] 1, [4,9,23] 1, [4,10,23] 1, [4,1,25] 1, [4,2,25] 1, [4,3,25] 1, [4,4,25] 1, [4,5,25] 1, [4,6,25] 1, [4,7,25] 1, [4,8,25] 1, [4,9,25] 1, [4,10,25] 1, [4,1,26] 1, [4,3,26] 1, [4,4,26] 1, [4,5,26] 1, [4,6,26] 1, [4,7,26] 1, [4,8,26] 1, [4,9,26] 1, [4,10,26] 1, [4,1,27] 1, [4,3,27] 1, [4,4,27] 1, [4,5,27] 1, [4,6,27] 1, [4,7,27] 1, [4,8,27] 1, [4,9,27] 1, [4,10,27] 1, [5,3,3] 1, [5,4,3] 1, [5,5,3] 1, [5,6,3] 1, [5,7,3] 1, [5,8,3] 1, [5,9,3] 1, [5,3,4] 1, [5,4,4] 1, [5,5,4] 1, [5,6,4] 1, [5,7,4] 1, [5,8,4] 1, [5,9,4] 1, [5,10,4] 1, [5,6,5] 1, [5,7,5] 1, [5,8,5] 1, [5,9,5] 1, [5,10,5] 1, [5,4,6] 1, [5,5,6] 1, [5,6,6] 1, [5,7,6] 1, [5,8,6] 1, [5,9,6] 1, [5,10,6] 1, [5,4,7] 1, [5,5,7] 1, [5,6,7] 1, [5,7,7] 1, [5,8,7] 1, [5,9,7] 1, [5,10,7] 1, [5,3,8] 1, [5,4,8] 1, [5,5,8] 1, [5,6,8] 1, [5,7,8] 1, [5,8,8] 1, [5,9,8] 1, [5,3,9] 1, [5,4,9] 1, [5,5,9] 1, [5,6,9] 1, [5,7,9] 1, [5,8,9] 1, [5,9,9] 1, [5,3,10] 1, [5,4,10] 1, [5,5,10] 1, [5,6,10] 1, [5,7,10] 1, [5,8,10] 1, [5,9,10] 1, [5,10,10] 1, [5,3,13] 1, [5,4,13] 1, [5,5,13] 1, [5,6,13] 1, [5,7,13] 1, [5,8,13] 1, [5,9,13] 1, [5,3,14] 1, [5,4,14] 1, [5,5,14] 1, [5,6,14] 1, [5,7,14] 1, [5,8,14] 1, [5,9,14] 1, [5,2,17] 1, [5,3,17] 1, [5,4,17] 1, [5,5,17] 1, [5,6,17] 1, [5,7,17] 1, [5,8,17] 1, [5,9,17] 1, [5,2,18] 1, [5,3,18] 1, [5,4,18] 1, [5,5,18] 1, [5,6,18] 1, [5,7,18] 1, [5,8,18] 1, [5,9,18] 1, [5,10,18] 1, [5,6,19] 1, [5,7,19] 1, [5,8,19] 1, [5,9,19] 1, [5,10,19] 1, [5,4,20] 1, [5,5,20] 1, [5,6,20] 1, [5,7,20] 1, [5,8,20] 1, [5,9,20] 1, [5,10,20] 1, [5,4,21] 1, [5,5,21] 1, [5,6,21] 1, [5,7,21] 1, [5,8,21] 1, [5,9,21] 1, [5,10,21] 1, [5,3,22] 1, [5,4,22] 1, [5,5,22] 1, [5,6,22] 1, [5,7,22] 1, [5,8,22] 1, [5,9,22] 1, [5,3,23] 1, [5,4,23] 1, [5,5,23] 1, [5,6,23] 1, [5,7,23] 1, [5,8,23] 1, [5,9,23] 1, [5,3,24] 1, [5,4,24] 1, [5,5,24] 1, [5,6,24] 1, [5,7,24] 1, [5,8,24] 1, [5,9,24] 1, [5,10,24] 1, [5,3,27] 1, [5,4,27] 1, [5,5,27] 1, [5,6,27] 1, [5,7,27] 1, [5,8,27] 1, [5,9,27] 1, [5,3,28] 1, [5,4,28] 1, [5,5,28] 1, [5,6,28] 1, [5,7,28] 1, [5,8,28] 1, [5,9,28] 1, [9,7,5] 1, [9,8,5] 1, [9,9,5] 1, [9,10,5] 1, [9,7,12] 1, [9,8,12] 1, [9,9,12] 1, [9,10,12] 1, [9,1,13] 1, [9,2,13] 1, [9,3,13] 1, [9,4,13] 1, [9,5,13] 1, [9,6,13] 1, [9,7,13] 1, [9,8,13] 1, [9,9,13] 1, [9,10,13] 1, [9,1,14] 1, [9,2,14] 1, [9,3,14] 1, [9,4,14] 1, [9,5,14] 1, [9,6,14] 1, [9,7,14] 1, [9,8,14] 1, [9,9,14] 1, [9,10,14] 1, [9,7,19] 1, [9,8,19] 1, [9,9,19] 1, [9,10,19] 1, [9,1,20] 1, [9,2,20] 1, [9,3,20] 1, [9,4,20] 1, [9,5,20] 1, [9,6,20] 1, [9,7,20] 1, [9,8,20] 1, [9,9,20] 1, [9,10,20] 1, [9,1,21] 1, [9,2,21] 1, [9,3,21] 1, [9,4,21] 1, [9,5,21] 1, [9,6,21] 1, [9,7,21] 1, [9,8,21] 1, [9,9,21] 1, [9,10,21] 1, [9,7,26] 1, [9,8,26] 1, [9,9,26] 1, [9,10,26] 1, [9,1,27] 1, [9,2,27] 1, [9,3,27] 1, [9,4,27] 1, [9,5,27] 1, [9,6,27] 1, [9,7,27] 1, [9,8,27] 1, [9,9,27] 1, [9,10,27] 1, [9,1,28] 1, [9,2,28] 1, [9,3,28] 1, [9,4,28] 1, [9,5,28] 1, [9,6,28] 1, [9,7,28] 1, [9,8,28] 1, [9,9,28] 1, [9,10,28] 1, [7,3,1] 1, [7,4,1] 1, [7,5,1] 1, [7,6,1] 1, [7,7,1] 1, [7,8,1] 1, [7,9,1] 1, [7,3,2] 1, [7,4,2] 1, [7,5,2] 1, [7,6,2] 1, [7,7,2] 1, [7,8,2] 1, [7,9,2] 1, [7,3,3] 1, [7,4,3] 1, [7,5,3] 1, [7,6,3] 1, [7,7,3] 1, [7,8,3] 1, [7,9,3] 1, [7,10,3] 1, [7,3,6] 1, [7,4,6] 1, [7,5,6] 1, [7,6,6] 1, [7,7,6] 1, [7,8,6] 1, [7,9,6] 1, [7,3,7] 1, [7,4,7] 1, [7,5,7] 1, [7,6,7] 1, [7,7,7] 1, [7,8,7] 1, [7,9,7] 1, [7,3,9] 1, [7,4,9] 1, [7,5,9] 1, [7,6,9] 1, [7,7,9] 1, [7,8,9] 1, [7,9,9] 1, [7,4,10] 1, [7,5,10] 1, [7,6,10] 1, [7,7,10] 1, [7,8,10] 1, [7,9,10] 1, [7,10,10] 1, [7,3,11] 1, [7,4,11] 1, [7,5,11] 1, [7,6,11] 1, [7,7,11] 1, [7,8,11] 1, [7,9,11] 1, [7,10,11] 1, [7,2,12] 1, [7,3,12] 1, [7,4,12] 1, [7,5,12] 1, [7,6,12] 1, [7,7,12] 1, [7,10,12] 1, [7,2,13] 1, [7,3,13] 1, [7,4,13] 1, [7,5,13] 1, [7,6,13] 1, [7,7,13] 1, [7,8,13] 1, [7,3,16] 1, [7,4,16] 1, [7,5,16] 1, [7,6,16] 1, [7,7,16] 1, [7,8,16] 1, [7,9,16] 1, [7,4,17] 1, [7,5,17] 1, [7,6,17] 1, [7,7,17] 1, [7,8,17] 1, [7,9,17] 1, [7,10,17] 1, [7,3,18] 1, [7,4,18] 1, [7,5,18] 1, [7,6,18] 1, [7,7,18] 1, [7,8,18] 1, [7,9,18] 1, [7,10,18] 1, [7,2,19] 1, [7,3,19] 1, [7,4,19] 1, [7,5,19] 1, [7,6,19] 1, [7,7,19] 1, [7,10,19] 1, [7,2,20] 1, [7,3,20] 1, [7,4,20] 1, [7,5,20] 1, [7,6,20] 1, [7,7,20] 1, [7,8,20] 1, [7,3,22] 1, [7,4,22] 1, [7,5,22] 1, [7,6,22] 1, [7,7,22] 1, [7,8,22] 1, [7,9,22] 1, [7,3,23] 1, [7,4,23] 1, [7,5,23] 1, [7,6,23] 1, [7,7,23] 1, [7,8,23] 1, [7,9,23] 1, [7,3,24] 1, [7,4,24] 1, [7,5,24] 1, [7,6,24] 1, [7,7,24] 1, [7,8,24] 1, [7,9,24] 1, [7,10,24] 1, [7,3,27] 1, [7,4,27] 1, [7,5,27] 1, [7,6,27] 1, [7,7,27] 1, [7,8,27] 1, [7,9,27] 1, [7,3,28] 1, [7,4,28] 1, [7,5,28] 1, [7,6,28] 1, [7,7,28] 1, [7,8,28] 1, [7,9,28] 1	[1,1,1] 7, [2,1,1] 3, [3,1,1] 2, [4,1,1] 0, [5,1,1] 2, [6,1,1] 0, [7,1,1] 0, [8,1,1] 0, [9,1,1] 2, [10,1,1] 2, [11,1,1] 0, [12,1,1] 3	[1,1,1,1] 201681, [1,2,1,1] 217194, [1,3,1,1] 282353, [1,4,1,1] 434389, [1,5,1,1] 369231, [1,6,1,1] 347511, [1,7,1,1] 499547, [1,8,1,1] 738461, [1,9,1,1] 977375, [1,10,1,1] 760181, [1,1,2,1] 200925, [1,2,2,1] 216380, [1,3,2,1] 281295, [1,4,2,1] 432761, [1,5,2,1] 367847, [1,6,2,1] 346209, [1,7,2,1] 497675, [1,8,2,1] 735693, [1,9,2,1] 973712, [1,10,2,1] 757332, [1,1,3,1] 222680, [1,2,3,1] 239810, [1,3,3,1] 311752, [1,4,3,1] 479619, [1,5,3,1] 407676, [1,6,3,1] 383695, [1,7,3,1] 551562, [1,8,3,1] 815353, [1,9,3,1] 1079143, [1,10,3,1] 839334, [1,1,4,1] 223590, [1,2,4,1] 240789, [1,3,4,1] 313026, [1,4,4,1] 481579, [1,5,4,1] 409342, [1,6,4,1] 385263, [1,7,4,1] 553815, [1,8,4,1] 818683, [1,9,4,1] 1083552, [1,10,4,1] 842762, [1,1,5,1] 259642, [1,2,5,1] 279615, [1,3,5,1] 363499, [1,4,5,1] 559230, [1,5,5,1] 475345, [1,6,5,1] 447384, [1,7,5,1] 643114, [1,8,5,1] 950691, [1,9,5,1] 1258267, [1,10,5,1] 978652, [1,1,6,1] 279778, [1,2,6,1] 301299, [1,3,6,1] 391689, [1,4,6,1] 602599, [1,5,6,1] 512209, [1,6,6,1] 482079, [1,7,6,1] 692988, [1,8,6,1] 1024418, [1,9,6,1] 1355847, [1,10,6,1] 1054548, [1,1,7,1] 264390, [1,2,7,1] 284728, [1,3,7,1] 370146, [1,4,7,1] 569456, [1,5,7,1] 484037, [1,6,7,1] 455565, [1,7,7,1] 654874, [1,8,7,1] 968075, [1,9,7,1] 1281275, [1,10,7,1] 996548, [1,1,8,1] 203697, [1,2,8,1] 219366, [1,3,8,1] 285176, [1,4,8,1] 438733, [1,5,8,1] 372923, [1,6,8,1] 350986, [1,7,8,1] 504543, [1,8,8,1] 745846, [1,9,8,1] 987149, [1,10,8,1] 767783, [1,1,9,1] 184851, [1,2,9,1] 199070, [1,3,9,1] 258791, [1,4,9,1] 398140, [1,5,9,1] 338419, [1,6,9,1] 318512, [1,7,9,1] 457861, [1,8,9,1] 676838, [1,9,9,1] 895815, [1,10,9,1] 696745, [1,1,10,1] 224907, [1,2,10,1] 242208, [1,3,10,1] 314870, [1,4,10,1] 484415, [1,5,10,1] 411753, [1,6,10,1] 387532, [1,7,10,1] 557078, [1,8,10,1] 823506, [1,9,10,1] 1089935, [1,10,10,1] 847727, [1,1,11,1] 221354, [1,2,11,1] 238381, [1,3,11,1] 309896, [1,4,11,1] 476763, [1,5,11,1] 405248, [1,6,11,1] 381410, [1,7,11,1] 548277, [1,8,11,1] 810497, [1,9,11,1] 1072716, [1,10,11,1] 834335, [1,1,12,1] 272625, [1,2,12,1] 293596, [1,3,12,1] 381674, [1,4,12,1] 587191, [1,5,12,1] 499113, [1,6,12,1] 469753, [1,7,12,1] 675270, [1,8,12,1] 998225, [1,9,12,1] 1321180, [1,10,12,1] 1027585, [1,1,13,1] 290969, [1,2,13,1] 313351, [1,3,13,1] 407357, [1,4,13,1] 626703, [1,5,13,1] 532697, [1,6,13,1] 501362, [1,7,13,1] 720708, [1,8,13,1] 1065394, [1,9,13,1] 1410081, [1,10,13,1] 1096730, [1,1,14,1] 261746, [1,2,14,1] 281881, [1,3,14,1] 366445, [1,4,14,1] 563761, [1,5,14,1] 479197, [1,6,14,1] 451009, [1,7,14,1] 648325, [1,8,14,1] 958394, [1,9,14,1] 1268463, [1,10,14,1] 986582, [1,1,15,1] 202488, [1,2,15,1] 218064, [1,3,15,1] 283483, [1,4,15,1] 436128, [1,5,15,1] 370708, [1,6,15,1] 348902, [1,7,15,1] 501547, [1,8,15,1] 741417, [1,9,15,1] 981287, [1,10,15,1] 763223, [1,1,16,1] 204513, [1,2,16,1] 220244, [1,3,16,1] 286318, [1,4,16,1] 440489, [1,5,16,1] 374415, [1,6,16,1] 352391, [1,7,16,1] 506562, [1,8,16,1] 748831, [1,9,16,1] 991100, [1,10,16,1] 770855, [1,1,17,1] 212612, [1,2,17,1] 228967, [1,3,17,1] 297657, [1,4,17,1] 457934, [1,5,17,1] 389244, [1,6,17,1] 366347, [1,7,17,1] 526624, [1,8,17,1] 778488, [1,9,17,1] 1030351, [1,10,17,1] 801384, [1,1,18,1] 214637, [1,2,18,1] 231148, [1,3,18,1] 300492, [1,4,18,1] 462295, [1,5,18,1] 392951, [1,6,18,1] 369836, [1,7,18,1] 531639, [1,8,18,1] 785902, [1,9,18,1] 1040164, [1,10,18,1] 809017, [1,1,19,1] 242985, [1,2,19,1] 261677, [1,3,19,1] 340179, [1,4,19,1] 523353, [1,5,19,1] 444850, [1,6,19,1] 418682, [1,7,19,1] 601856, [1,8,19,1] 889700, [1,9,19,1] 1177544, [1,10,19,1] 915868, [1,1,20,1] 267284, [1,2,20,1] 287844, [1,3,20,1] 374197, [1,4,20,1] 575688, [1,5,20,1] 489335, [1,6,20,1] 460551, [1,7,20,1] 662042, [1,8,20,1] 978670, [1,9,20,1] 1295299, [1,10,20,1] 1007455, [1,1,21,1] 262424, [1,2,21,1] 282611, [1,3,21,1] 367394, [1,4,21,1] 565221, [1,5,21,1] 480438, [1,6,21,1] 452177, [1,7,21,1] 650004, [1,8,21,1] 960876, [1,9,21,1] 1271748, [1,10,21,1] 989137, [1,1,22,1] 196413, [1,2,22,1] 211522, [1,3,22,1] 274978, [1,4,22,1] 423044, [1,5,22,1] 359587, [1,6,22,1] 338435, [1,7,22,1] 486500, [1,8,22,1] 719174, [1,9,22,1] 951848, [1,10,22,1] 740326, [1,1,23,1] 214819, [1,2,23,1] 231344, [1,3,23,1] 300747, [1,4,23,1] 462688, [1,5,23,1] 393285, [1,6,23,1] 370150, [1,7,23,1] 532091, [1,8,23,1] 786569, [1,9,23,1] 1041047, [1,10,23,1] 809703, [1,1,24,1] 216864, [1,2,24,1] 233546, [1,3,24,1] 303610, [1,4,24,1] 467093, [1,5,24,1] 397029, [1,6,24,1] 373674, [1,7,24,1] 537156, [1,8,24,1] 794057, [1,9,24,1] 1050958, [1,10,24,1] 817412, [1,1,25,1] 222149, [1,2,25,1] 239238, [1,3,25,1] 311009, [1,4,25,1] 478476, [1,5,25,1] 406704, [1,6,25,1] 382780, [1,7,25,1] 550247, [1,8,25,1] 813408, [1,9,25,1] 1076570, [1,10,25,1] 837332, [1,1,26,1] 243228, [1,2,26,1] 261938, [1,3,26,1] 340520, [1,4,26,1] 523876, [1,5,26,1] 445295, [1,6,26,1] 419101, [1,7,26,1] 602458, [1,8,26,1] 890590, [1,9,26,1] 1178722, [1,10,26,1] 916784, [1,1,27,1] 264611, [1,2,27,1] 284966, [1,3,27,1] 370455, [1,4,27,1] 569931, [1,5,27,1] 484442, [1,6,27,1] 455945, [1,7,27,1] 655421, [1,8,27,1] 968883, [1,9,27,1] 1282346, [1,10,27,1] 997380, [1,1,28,1] 262687, [1,2,28,1] 282893, [1,3,28,1] 367761, [1,4,28,1] 565786, [1,5,28,1] 480919, [1,6,28,1] 452629, [1,7,28,1] 650654, [1,8,28,1] 961837, [1,9,28,1] 1273020, [1,10,28,1] 990126	2018-05-16 19:59:43.58978	2018-07-08 16:38:51.903803	4	2018
-37	35	12	1	28	10	2500	85000			[1] 1, [2] 1	[2] 1, [3] 1, [4] 1, [5] 1	2	[6,3,2] 1, [6,4,2] 1, [6,5,2] 1, [6,6,2] 1, [6,7,2] 1, [6,8,2] 1, [6,9,2] 1, [6,4,3] 1, [6,5,3] 1, [6,6,3] 1, [6,7,3] 1, [6,8,3] 1, [6,9,3] 1, [6,3,4] 1, [6,4,4] 1, [6,5,4] 1, [6,6,4] 1, [6,7,4] 1, [6,8,4] 1, [6,9,4] 1, [6,10,4] 1, [6,2,5] 1, [6,3,5] 1, [6,4,5] 1, [6,5,5] 1, [6,6,5] 1, [6,7,5] 1, [6,10,5] 1, [6,2,6] 1, [6,3,6] 1, [6,4,6] 1, [6,5,6] 1, [6,6,6] 1, [6,7,6] 1, [6,8,6] 1, [6,3,9] 1, [6,4,9] 1, [6,5,9] 1, [6,6,9] 1, [6,7,9] 1, [6,8,9] 1, [6,9,9] 1, [6,10,9] 1, [6,4,11] 1, [6,5,11] 1, [6,6,11] 1, [6,7,11] 1, [6,8,11] 1, [6,9,11] 1, [6,10,11] 1, [6,2,12] 1, [6,3,12] 1, [6,4,12] 1, [6,5,12] 1, [6,6,12] 1, [6,7,12] 1, [6,8,12] 1, [6,9,12] 1, [6,10,12] 1, [6,2,13] 1, [6,3,13] 1, [6,4,13] 1, [6,5,13] 1, [6,6,13] 1, [6,7,13] 1, [6,8,13] 1, [6,9,13] 1, [6,10,13] 1, [6,6,14] 1, [6,7,14] 1, [6,8,14] 1, [6,9,14] 1, [6,10,14] 1, [6,3,16] 1, [6,4,16] 1, [6,5,16] 1, [6,6,16] 1, [6,7,16] 1, [6,8,16] 1, [6,9,16] 1, [6,4,17] 1, [6,5,17] 1, [6,6,17] 1, [6,7,17] 1, [6,8,17] 1, [6,9,17] 1, [6,10,17] 1, [6,3,18] 1, [6,4,18] 1, [6,5,18] 1, [6,6,18] 1, [6,7,18] 1, [6,8,18] 1, [6,9,18] 1, [6,10,18] 1, [6,2,19] 1, [6,3,19] 1, [6,4,19] 1, [6,5,19] 1, [6,6,19] 1, [6,7,19] 1, [6,10,19] 1, [6,2,20] 1, [6,3,20] 1, [6,4,20] 1, [6,5,20] 1, [6,6,20] 1, [6,7,20] 1, [6,8,20] 1, [6,3,23] 1, [6,4,23] 1, [6,5,23] 1, [6,6,23] 1, [6,7,23] 1, [6,8,23] 1, [6,9,23] 1, [6,10,23] 1, [6,4,25] 1, [6,5,25] 1, [6,6,25] 1, [6,7,25] 1, [6,8,25] 1, [6,9,25] 1, [6,10,25] 1, [6,3,26] 1, [6,4,26] 1, [6,5,26] 1, [6,6,26] 1, [6,7,26] 1, [6,8,26] 1, [6,9,26] 1, [6,10,26] 1, [6,3,27] 1, [6,4,27] 1, [6,5,27] 1, [6,6,27] 1, [6,7,27] 1, [6,8,27] 1, [6,9,27] 1, [6,10,27] 1, [6,6,28] 1, [6,7,28] 1, [6,8,28] 1, [6,9,28] 1, [6,10,28] 1, [8,1,1] 1, [8,2,1] 1, [8,3,1] 1, [8,4,1] 1, [8,5,1] 1, [8,6,1] 1, [8,7,1] 1, [8,8,1] 1, [8,9,1] 1, [8,10,1] 1, [8,5,5] 1, [8,6,5] 1, [8,7,5] 1, [8,8,5] 1, [8,9,5] 1, [8,10,5] 1, [8,1,6] 1, [8,2,6] 1, [8,3,6] 1, [8,4,6] 1, [8,5,6] 1, [8,6,6] 1, [8,7,6] 1, [8,8,6] 1, [8,9,6] 1, [8,10,6] 1, [8,1,7] 1, [8,2,7] 1, [8,3,7] 1, [8,4,7] 1, [8,5,7] 1, [8,6,7] 1, [8,7,7] 1, [8,8,7] 1, [8,9,7] 1, [8,10,7] 1, [8,1,8] 1, [8,2,8] 1, [8,3,8] 1, [8,4,8] 1, [8,5,8] 1, [8,6,8] 1, [8,7,8] 1, [8,8,8] 1, [8,3,10] 1, [8,4,10] 1, [8,5,10] 1, [8,6,10] 1, [8,7,10] 1, [8,8,10] 1, [8,3,11] 1, [8,4,11] 1, [8,5,11] 1, [8,6,11] 1, [8,7,11] 1, [8,8,11] 1, [8,3,12] 1, [8,4,12] 1, [8,5,12] 1, [8,6,12] 1, [8,7,12] 1, [8,8,12] 1, [8,1,14] 1, [8,2,14] 1, [8,3,14] 1, [8,4,14] 1, [8,5,14] 1, [8,6,14] 1, [8,7,14] 1, [8,8,14] 1, [8,9,14] 1, [8,10,14] 1, [8,1,15] 1, [8,2,15] 1, [8,3,15] 1, [8,4,15] 1, [8,5,15] 1, [8,6,15] 1, [8,7,15] 1, [8,8,15] 1, [8,9,15] 1, [8,10,15] 1, [8,5,19] 1, [8,6,19] 1, [8,7,19] 1, [8,8,19] 1, [8,9,19] 1, [8,10,19] 1, [8,1,20] 1, [8,2,20] 1, [8,3,20] 1, [8,4,20] 1, [8,5,20] 1, [8,6,20] 1, [8,7,20] 1, [8,8,20] 1, [8,9,20] 1, [8,10,20] 1, [8,1,21] 1, [8,2,21] 1, [8,3,21] 1, [8,4,21] 1, [8,5,21] 1, [8,6,21] 1, [8,7,21] 1, [8,8,21] 1, [8,9,21] 1, [8,10,21] 1, [8,1,22] 1, [8,2,22] 1, [8,3,22] 1, [8,4,22] 1, [8,5,22] 1, [8,6,22] 1, [8,7,22] 1, [8,8,22] 1, [8,3,24] 1, [8,4,24] 1, [8,5,24] 1, [8,6,24] 1, [8,7,24] 1, [8,8,24] 1, [8,3,25] 1, [8,4,25] 1, [8,5,25] 1, [8,6,25] 1, [8,7,25] 1, [8,8,25] 1, [8,3,26] 1, [8,4,26] 1, [8,5,26] 1, [8,6,26] 1, [8,7,26] 1, [8,8,26] 1, [8,1,28] 1, [8,2,28] 1, [8,3,28] 1, [8,4,28] 1, [8,5,28] 1, [8,6,28] 1, [8,7,28] 1, [8,8,28] 1, [8,9,28] 1, [8,10,28] 1, [12,5,1] 1, [12,6,1] 1, [12,7,1] 1, [12,8,1] 1, [12,9,1] 1, [12,10,1] 1, [12,5,2] 1, [12,6,2] 1, [12,7,2] 1, [12,8,2] 1, [12,9,2] 1, [12,10,2] 1, [12,5,3] 1, [12,6,3] 1, [12,7,3] 1, [12,8,3] 1, [12,9,3] 1, [12,10,3] 1, [12,5,4] 1, [12,6,4] 1, [12,7,4] 1, [12,8,4] 1, [12,9,4] 1, [12,10,4] 1, [12,5,5] 1, [12,6,5] 1, [12,7,5] 1, [12,8,5] 1, [12,9,5] 1, [12,10,5] 1, [12,5,7] 1, [12,6,7] 1, [12,7,7] 1, [12,8,7] 1, [12,9,7] 1, [12,10,7] 1, [12,5,8] 1, [12,6,8] 1, [12,7,8] 1, [12,8,8] 1, [12,9,8] 1, [12,10,8] 1, [12,5,9] 1, [12,6,9] 1, [12,7,9] 1, [12,8,9] 1, [12,9,9] 1, [12,10,9] 1, [12,5,10] 1, [12,6,10] 1, [12,7,10] 1, [12,8,10] 1, [12,9,10] 1, [12,10,10] 1, [12,5,11] 1, [12,6,11] 1, [12,7,11] 1, [12,8,11] 1, [12,9,11] 1, [12,10,11] 1, [12,5,12] 1, [12,6,12] 1, [12,7,12] 1, [12,8,12] 1, [12,9,12] 1, [12,10,12] 1, [12,5,14] 1, [12,6,14] 1, [12,7,14] 1, [12,8,14] 1, [12,9,14] 1, [12,10,14] 1, [12,5,15] 1, [12,6,15] 1, [12,7,15] 1, [12,8,15] 1, [12,9,15] 1, [12,10,15] 1, [12,5,16] 1, [12,6,16] 1, [12,7,16] 1, [12,8,16] 1, [12,9,16] 1, [12,10,16] 1, [12,5,17] 1, [12,6,17] 1, [12,7,17] 1, [12,8,17] 1, [12,9,17] 1, [12,10,17] 1, [12,5,18] 1, [12,6,18] 1, [12,7,18] 1, [12,8,18] 1, [12,9,18] 1, [12,10,18] 1, [12,5,19] 1, [12,6,19] 1, [12,7,19] 1, [12,8,19] 1, [12,9,19] 1, [12,10,19] 1, [12,5,21] 1, [12,6,21] 1, [12,7,21] 1, [12,8,21] 1, [12,9,21] 1, [12,10,21] 1, [12,5,22] 1, [12,6,22] 1, [12,7,22] 1, [12,8,22] 1, [12,9,22] 1, [12,10,22] 1, [12,5,23] 1, [12,6,23] 1, [12,7,23] 1, [12,8,23] 1, [12,9,23] 1, [12,10,23] 1, [12,5,24] 1, [12,6,24] 1, [12,7,24] 1, [12,8,24] 1, [12,9,24] 1, [12,10,24] 1, [12,5,25] 1, [12,6,25] 1, [12,7,25] 1, [12,8,25] 1, [12,9,25] 1, [12,10,25] 1, [12,5,26] 1, [12,6,26] 1, [12,7,26] 1, [12,8,26] 1, [12,9,26] 1, [12,10,26] 1, [12,5,28] 1, [12,6,28] 1, [12,7,28] 1, [12,8,28] 1, [12,9,28] 1, [12,10,28] 1, [1,2,1] 1, [1,3,1] 1, [1,4,1] 1, [1,5,1] 1, [1,6,1] 1, [1,7,1] 1, [1,1,2] 1, [1,2,2] 1, [1,3,2] 1, [1,4,2] 1, [1,5,2] 1, [1,6,2] 1, [1,7,2] 1, [1,8,2] 1, [1,9,2] 1, [1,10,2] 1, [1,2,3] 1, [1,3,3] 1, [1,4,3] 1, [1,5,3] 1, [1,6,3] 1, [1,7,3] 1, [1,8,3] 1, [1,9,3] 1, [1,10,3] 1, [1,1,4] 1, [1,2,4] 1, [1,3,4] 1, [1,4,4] 1, [1,5,4] 1, [1,6,4] 1, [1,7,4] 1, [1,8,4] 1, [1,9,4] 1, [1,10,4] 1, [1,1,5] 1, [1,2,5] 1, [1,3,5] 1, [1,4,5] 1, [1,5,5] 1, [1,6,5] 1, [1,7,5] 1, [1,8,5] 1, [1,9,5] 1, [1,10,5] 1, [1,3,8] 1, [1,4,8] 1, [1,5,8] 1, [1,6,8] 1, [1,7,8] 1, [1,8,8] 1, [1,9,8] 1, [1,3,9] 1, [1,4,9] 1, [1,5,9] 1, [1,6,9] 1, [1,7,9] 1, [1,8,9] 1, [1,9,9] 1, [1,3,11] 1, [1,4,11] 1, [1,5,11] 1, [1,6,11] 1, [1,7,11] 1, [1,8,11] 1, [1,9,11] 1, [1,2,12] 1, [1,3,12] 1, [1,4,12] 1, [1,5,12] 1, [1,6,12] 1, [1,7,12] 1, [1,8,12] 1, [1,9,12] 1, [1,2,13] 1, [1,3,13] 1, [1,4,13] 1, [1,5,13] 1, [1,6,13] 1, [1,7,13] 1, [1,8,13] 1, [1,9,13] 1, [1,2,14] 1, [1,3,14] 1, [1,4,14] 1, [1,5,14] 1, [1,6,14] 1, [1,7,14] 1, [1,8,14] 1, [1,9,14] 1, [1,1,15] 1, [1,2,15] 1, [1,3,15] 1, [1,4,15] 1, [1,5,15] 1, [1,6,15] 1, [1,7,15] 1, [1,8,15] 1, [1,9,15] 1, [1,10,15] 1, [1,1,17] 1, [1,2,17] 1, [1,3,17] 1, [1,4,17] 1, [1,5,17] 1, [1,6,17] 1, [1,7,17] 1, [1,8,17] 1, [1,9,17] 1, [1,10,17] 1, [1,1,18] 1, [1,2,18] 1, [1,3,18] 1, [1,4,18] 1, [1,5,18] 1, [1,6,18] 1, [1,7,18] 1, [1,8,18] 1, [1,9,18] 1, [1,1,19] 1, [1,2,19] 1, [1,3,19] 1, [1,4,19] 1, [1,5,19] 1, [1,6,19] 1, [1,7,19] 1, [1,8,19] 1, [1,9,19] 1, [1,1,20] 1, [1,2,20] 1, [1,3,20] 1, [1,4,20] 1, [1,5,20] 1, [1,6,20] 1, [1,7,20] 1, [1,8,20] 1, [1,9,20] 1, [1,1,24] 1, [1,2,24] 1, [1,3,24] 1, [1,4,24] 1, [1,5,24] 1, [1,6,24] 1, [1,7,24] 1, [1,8,24] 1, [1,9,24] 1, [1,10,24] 1, [1,3,26] 1, [1,4,26] 1, [1,5,26] 1, [1,6,26] 1, [1,7,26] 1, [1,8,26] 1, [1,9,26] 1, [1,10,26] 1, [1,2,27] 1, [1,3,27] 1, [1,4,27] 1, [1,5,27] 1, [1,6,27] 1, [1,7,27] 1, [1,8,27] 1, [1,9,27] 1, [1,10,27] 1, [1,3,28] 1, [1,4,28] 1, [1,5,28] 1, [1,6,28] 1, [1,7,28] 1, [1,8,28] 1, [1,9,28] 1, [1,10,28] 1, [2,3,2] 1, [2,4,2] 1, [2,5,2] 1, [2,6,2] 1, [2,7,2] 1, [2,8,2] 1, [2,9,2] 1, [2,1,3] 1, [2,2,3] 1, [2,3,3] 1, [2,4,3] 1, [2,5,3] 1, [2,6,3] 1, [2,7,3] 1, [2,8,3] 1, [2,9,3] 1, [2,10,3] 1, [2,3,4] 1, [2,4,4] 1, [2,5,4] 1, [2,6,4] 1, [2,7,4] 1, [2,8,4] 1, [2,9,4] 1, [2,10,4] 1, [2,2,5] 1, [2,3,5] 1, [2,4,5] 1, [2,5,5] 1, [2,6,5] 1, [2,7,5] 1, [2,10,5] 1, [2,2,6] 1, [2,3,6] 1, [2,4,6] 1, [2,5,6] 1, [2,6,6] 1, [2,7,6] 1, [2,8,6] 1, [2,9,6] 1, [2,1,7] 1, [2,2,7] 1, [2,3,7] 1, [2,4,7] 1, [2,5,7] 1, [2,6,7] 1, [2,7,7] 1, [2,8,7] 1, [2,9,7] 1, [2,2,8] 1, [2,3,8] 1, [2,4,8] 1, [2,5,8] 1, [2,6,8] 1, [2,7,8] 1, [2,1,9] 1, [2,2,9] 1, [2,3,9] 1, [2,4,9] 1, [2,5,9] 1, [2,6,9] 1, [2,7,9] 1, [2,8,9] 1, [2,9,9] 1, [2,10,9] 1, [2,1,11] 1, [2,2,11] 1, [2,3,11] 1, [2,4,11] 1, [2,5,11] 1, [2,6,11] 1, [2,7,11] 1, [2,8,11] 1, [2,9,11] 1, [2,10,11] 1, [2,1,12] 1, [2,3,12] 1, [2,4,12] 1, [2,5,12] 1, [2,6,12] 1, [2,7,12] 1, [2,8,12] 1, [2,9,12] 1, [2,10,12] 1, [2,1,13] 1, [2,3,13] 1, [2,4,13] 1, [2,5,13] 1, [2,6,13] 1, [2,7,13] 1, [2,8,13] 1, [2,9,13] 1, [2,10,13] 1, [2,1,15] 1, [2,2,15] 1, [2,3,15] 1, [2,4,15] 1, [2,5,15] 1, [2,6,15] 1, [2,7,15] 1, [2,8,15] 1, [2,9,15] 1, [2,10,15] 1, [2,1,16] 1, [2,2,16] 1, [2,3,16] 1, [2,4,16] 1, [2,5,16] 1, [2,6,16] 1, [2,7,16] 1, [2,8,16] 1, [2,9,16] 1, [2,10,16] 1, [2,1,17] 1, [2,2,17] 1, [2,3,17] 1, [2,4,17] 1, [2,5,17] 1, [2,6,17] 1, [2,7,17] 1, [2,8,17] 1, [2,9,17] 1, [2,10,17] 1, [2,3,20] 1, [2,4,20] 1, [2,5,20] 1, [2,6,20] 1, [2,7,20] 1, [2,8,20] 1, [2,9,20] 1, [2,10,20] 1, [2,3,21] 1, [2,4,21] 1, [2,5,21] 1, [2,6,21] 1, [2,7,21] 1, [2,8,21] 1, [2,9,21] 1, [2,10,21] 1, [2,1,22] 1, [2,2,22] 1, [2,3,22] 1, [2,4,22] 1, [2,5,22] 1, [2,6,22] 1, [2,7,22] 1, [2,8,22] 1, [2,9,22] 1, [2,10,22] 1, [2,1,24] 1, [2,2,24] 1, [2,3,24] 1, [2,4,24] 1, [2,5,24] 1, [2,6,24] 1, [2,7,24] 1, [2,8,24] 1, [2,9,24] 1, [2,10,24] 1, [2,1,25] 1, [2,2,25] 1, [2,3,25] 1, [2,4,25] 1, [2,5,25] 1, [2,6,25] 1, [2,7,25] 1, [2,8,25] 1, [2,9,25] 1, [2,1,26] 1, [2,2,26] 1, [2,3,26] 1, [2,4,26] 1, [2,5,26] 1, [2,6,26] 1, [2,7,26] 1, [2,8,26] 1, [2,9,26] 1, [2,1,27] 1, [2,2,27] 1, [2,3,27] 1, [2,4,27] 1, [2,5,27] 1, [2,6,27] 1, [2,7,27] 1, [2,8,27] 1, [2,9,27] 1, [3,1,1] 1, [3,2,1] 1, [3,3,1] 1, [3,4,1] 1, [3,5,1] 1, [3,6,1] 1, [3,7,1] 1, [3,8,1] 1, [3,9,1] 1, [3,1,3] 1, [3,2,3] 1, [3,3,3] 1, [3,4,3] 1, [3,5,3] 1, [3,6,3] 1, [3,7,3] 1, [3,8,3] 1, [3,9,3] 1, [3,10,3] 1, [3,1,4] 1, [3,2,4] 1, [3,3,4] 1, [3,4,4] 1, [3,5,4] 1, [3,6,4] 1, [3,7,4] 1, [3,8,4] 1, [3,9,4] 1, [3,10,4] 1, [3,1,5] 1, [3,2,5] 1, [3,3,5] 1, [3,4,5] 1, [3,5,5] 1, [3,6,5] 1, [3,7,5] 1, [3,8,5] 1, [3,9,5] 1, [3,1,6] 1, [3,2,6] 1, [3,3,6] 1, [3,4,6] 1, [3,5,6] 1, [3,6,6] 1, [3,7,6] 1, [3,8,6] 1, [3,9,6] 1, [3,1,8] 1, [3,2,8] 1, [3,3,8] 1, [3,4,8] 1, [3,5,8] 1, [3,6,8] 1, [3,7,8] 1, [3,1,9] 1, [3,2,9] 1, [3,3,9] 1, [3,4,9] 1, [3,5,9] 1, [3,6,9] 1, [3,7,9] 1, [3,8,9] 1, [3,9,9] 1, [3,10,9] 1, [3,1,11] 1, [3,2,11] 1, [3,3,11] 1, [3,4,11] 1, [3,5,11] 1, [3,6,11] 1, [3,7,11] 1, [3,8,11] 1, [3,9,11] 1, [3,10,11] 1, [3,1,12] 1, [3,3,12] 1, [3,4,12] 1, [3,5,12] 1, [3,6,12] 1, [3,7,12] 1, [3,8,12] 1, [3,9,12] 1, [3,10,12] 1, [3,1,13] 1, [3,3,13] 1, [3,4,13] 1, [3,5,13] 1, [3,6,13] 1, [3,7,13] 1, [3,8,13] 1, [3,9,13] 1, [3,10,13] 1, [3,1,15] 1, [3,2,15] 1, [3,3,15] 1, [3,4,15] 1, [3,5,15] 1, [3,6,15] 1, [3,7,15] 1, [3,8,15] 1, [3,9,15] 1, [3,10,15] 1, [3,1,16] 1, [3,2,16] 1, [3,3,16] 1, [3,4,16] 1, [3,5,16] 1, [3,6,16] 1, [3,7,16] 1, [3,8,16] 1, [3,9,16] 1, [3,10,16] 1, [3,1,17] 1, [3,2,17] 1, [3,3,17] 1, [3,4,17] 1, [3,5,17] 1, [3,6,17] 1, [3,7,17] 1, [3,8,17] 1, [3,9,17] 1, [3,10,17] 1, [3,3,20] 1, [3,4,20] 1, [3,5,20] 1, [3,6,20] 1, [3,7,20] 1, [3,8,20] 1, [3,9,20] 1, [3,10,20] 1, [3,3,21] 1, [3,4,21] 1, [3,5,21] 1, [3,6,21] 1, [3,7,21] 1, [3,8,21] 1, [3,9,21] 1, [3,10,21] 1, [3,1,22] 1, [3,2,22] 1, [3,3,22] 1, [3,4,22] 1, [3,5,22] 1, [3,6,22] 1, [3,7,22] 1, [3,8,22] 1, [3,9,22] 1, [3,10,22] 1, [3,1,24] 1, [3,2,24] 1, [3,3,24] 1, [3,4,24] 1, [3,5,24] 1, [3,6,24] 1, [3,7,24] 1, [3,8,24] 1, [3,9,24] 1, [3,10,24] 1, [3,1,25] 1, [3,2,25] 1, [3,3,25] 1, [3,4,25] 1, [3,5,25] 1, [3,6,25] 1, [3,7,25] 1, [3,8,25] 1, [3,9,25] 1, [3,1,26] 1, [3,2,26] 1, [3,3,26] 1, [3,4,26] 1, [3,5,26] 1, [3,6,26] 1, [3,7,26] 1, [3,8,26] 1, [3,9,26] 1, [3,1,27] 1, [3,2,27] 1, [3,3,27] 1, [3,4,27] 1, [3,5,27] 1, [3,6,27] 1, [3,7,27] 1, [3,8,27] 1, [3,9,27] 1, [10,1,6] 1, [10,2,6] 1, [10,3,6] 1, [10,4,6] 1, [10,5,6] 1, [10,6,6] 1, [10,7,6] 1, [10,8,6] 1, [10,9,6] 1, [10,10,6] 1, [10,1,7] 1, [10,2,7] 1, [10,3,7] 1, [10,4,7] 1, [10,5,7] 1, [10,6,7] 1, [10,7,7] 1, [10,8,7] 1, [10,9,7] 1, [10,10,7] 1, [10,1,13] 1, [10,2,13] 1, [10,3,13] 1, [10,4,13] 1, [10,5,13] 1, [10,6,13] 1, [10,7,13] 1, [10,8,13] 1, [10,9,13] 1, [10,10,13] 1, [10,1,14] 1, [10,2,14] 1, [10,3,14] 1, [10,4,14] 1, [10,5,14] 1, [10,6,14] 1, [10,7,14] 1, [10,8,14] 1, [10,9,14] 1, [10,10,14] 1, [10,1,20] 1, [10,2,20] 1, [10,3,20] 1, [10,4,20] 1, [10,5,20] 1, [10,6,20] 1, [10,7,20] 1, [10,8,20] 1, [10,9,20] 1, [10,10,20] 1, [10,1,21] 1, [10,2,21] 1, [10,3,21] 1, [10,4,21] 1, [10,5,21] 1, [10,6,21] 1, [10,7,21] 1, [10,8,21] 1, [10,9,21] 1, [10,10,21] 1, [10,1,27] 1, [10,2,27] 1, [10,3,27] 1, [10,4,27] 1, [10,5,27] 1, [10,6,27] 1, [10,7,27] 1, [10,8,27] 1, [10,9,27] 1, [10,10,27] 1, [10,1,28] 1, [10,2,28] 1, [10,3,28] 1, [10,4,28] 1, [10,5,28] 1, [10,6,28] 1, [10,7,28] 1, [10,8,28] 1, [10,9,28] 1, [10,10,28] 1, [11,5,1] 1, [11,6,1] 1, [11,7,1] 1, [11,8,1] 1, [11,9,1] 1, [11,10,1] 1, [11,5,2] 1, [11,6,2] 1, [11,7,2] 1, [11,8,2] 1, [11,9,2] 1, [11,10,2] 1, [11,5,3] 1, [11,6,3] 1, [11,7,3] 1, [11,8,3] 1, [11,9,3] 1, [11,10,3] 1, [11,5,4] 1, [11,6,4] 1, [11,7,4] 1, [11,8,4] 1, [11,9,4] 1, [11,10,4] 1, [11,5,5] 1, [11,6,5] 1, [11,7,5] 1, [11,8,5] 1, [11,9,5] 1, [11,10,5] 1, [11,5,6] 1, [11,6,6] 1, [11,7,6] 1, [11,8,6] 1, [11,9,6] 1, [11,10,6] 1, [11,5,8] 1, [11,6,8] 1, [11,7,8] 1, [11,8,8] 1, [11,9,8] 1, [11,10,8] 1, [11,5,9] 1, [11,6,9] 1, [11,7,9] 1, [11,8,9] 1, [11,9,9] 1, [11,10,9] 1, [11,5,10] 1, [11,6,10] 1, [11,7,10] 1, [11,8,10] 1, [11,9,10] 1, [11,10,10] 1, [11,5,11] 1, [11,6,11] 1, [11,7,11] 1, [11,8,11] 1, [11,9,11] 1, [11,10,11] 1, [11,5,12] 1, [11,6,12] 1, [11,7,12] 1, [11,8,12] 1, [11,9,12] 1, [11,10,12] 1, [11,5,13] 1, [11,6,13] 1, [11,7,13] 1, [11,8,13] 1, [11,9,13] 1, [11,10,13] 1, [11,5,15] 1, [11,6,15] 1, [11,7,15] 1, [11,8,15] 1, [11,9,15] 1, [11,10,15] 1, [11,5,16] 1, [11,6,16] 1, [11,7,16] 1, [11,8,16] 1, [11,9,16] 1, [11,10,16] 1, [11,5,17] 1, [11,6,17] 1, [11,7,17] 1, [11,8,17] 1, [11,9,17] 1, [11,10,17] 1, [11,5,18] 1, [11,6,18] 1, [11,7,18] 1, [11,8,18] 1, [11,9,18] 1, [11,10,18] 1, [11,5,19] 1, [11,6,19] 1, [11,7,19] 1, [11,8,19] 1, [11,9,19] 1, [11,10,19] 1, [11,5,20] 1, [11,6,20] 1, [11,7,20] 1, [11,8,20] 1, [11,9,20] 1, [11,10,20] 1, [11,5,22] 1, [11,6,22] 1, [11,7,22] 1, [11,8,22] 1, [11,9,22] 1, [11,10,22] 1, [11,5,23] 1, [11,6,23] 1, [11,7,23] 1, [11,8,23] 1, [11,9,23] 1, [11,10,23] 1, [11,5,24] 1, [11,6,24] 1, [11,7,24] 1, [11,8,24] 1, [11,9,24] 1, [11,10,24] 1, [11,5,25] 1, [11,6,25] 1, [11,7,25] 1, [11,8,25] 1, [11,9,25] 1, [11,10,25] 1, [11,5,26] 1, [11,6,26] 1, [11,7,26] 1, [11,8,26] 1, [11,9,26] 1, [11,10,26] 1, [11,5,27] 1, [11,6,27] 1, [11,7,27] 1, [11,8,27] 1, [11,9,27] 1, [11,10,27] 1, [4,1,1] 1, [4,2,1] 1, [4,3,1] 1, [4,4,1] 1, [4,5,1] 1, [4,6,1] 1, [4,7,1] 1, [4,8,1] 1, [4,9,1] 1, [4,10,1] 1, [4,1,2] 1, [4,2,2] 1, [4,3,2] 1, [4,4,2] 1, [4,5,2] 1, [4,6,2] 1, [4,7,2] 1, [4,8,2] 1, [4,9,2] 1, [4,10,2] 1, [4,3,5] 1, [4,4,5] 1, [4,5,5] 1, [4,6,5] 1, [4,7,5] 1, [4,8,5] 1, [4,9,5] 1, [4,10,5] 1, [4,2,6] 1, [4,3,6] 1, [4,4,6] 1, [4,5,6] 1, [4,6,6] 1, [4,7,6] 1, [4,8,6] 1, [4,9,6] 1, [4,10,6] 1, [4,1,7] 1, [4,2,7] 1, [4,3,7] 1, [4,4,7] 1, [4,5,7] 1, [4,6,7] 1, [4,7,7] 1, [4,8,7] 1, [4,9,7] 1, [4,10,7] 1, [4,1,8] 1, [4,2,8] 1, [4,3,8] 1, [4,4,8] 1, [4,5,8] 1, [4,6,8] 1, [4,7,8] 1, [4,8,8] 1, [4,1,10] 1, [4,2,10] 1, [4,3,10] 1, [4,4,10] 1, [4,5,10] 1, [4,6,10] 1, [4,7,10] 1, [4,8,10] 1, [4,9,10] 1, [4,10,10] 1, [4,1,11] 1, [4,2,11] 1, [4,3,11] 1, [4,4,11] 1, [4,5,11] 1, [4,6,11] 1, [4,7,11] 1, [4,8,11] 1, [4,9,11] 1, [4,1,12] 1, [4,2,12] 1, [4,3,12] 1, [4,4,12] 1, [4,5,12] 1, [4,6,12] 1, [4,7,12] 1, [4,8,12] 1, [4,9,12] 1, [4,1,13] 1, [4,2,13] 1, [4,3,13] 1, [4,4,13] 1, [4,5,13] 1, [4,6,13] 1, [4,7,13] 1, [4,8,13] 1, [4,9,13] 1, [4,3,15] 1, [4,4,15] 1, [4,5,15] 1, [4,6,15] 1, [4,7,15] 1, [4,8,15] 1, [4,9,15] 1, [4,3,16] 1, [4,4,16] 1, [4,5,16] 1, [4,6,16] 1, [4,7,16] 1, [4,8,16] 1, [4,9,16] 1, [4,3,18] 1, [4,4,18] 1, [4,5,18] 1, [4,6,18] 1, [4,7,18] 1, [4,8,18] 1, [4,9,18] 1, [4,2,19] 1, [4,3,19] 1, [4,4,19] 1, [4,5,19] 1, [4,6,19] 1, [4,7,19] 1, [4,8,19] 1, [4,9,19] 1, [4,2,20] 1, [4,3,20] 1, [4,4,20] 1, [4,5,20] 1, [4,6,20] 1, [4,7,20] 1, [4,8,20] 1, [4,9,20] 1, [4,1,21] 1, [4,2,21] 1, [4,3,21] 1, [4,4,21] 1, [4,5,21] 1, [4,6,21] 1, [4,7,21] 1, [4,8,21] 1, [4,9,21] 1, [4,1,22] 1, [4,2,22] 1, [4,3,22] 1, [4,4,22] 1, [4,5,22] 1, [4,6,22] 1, [4,1,23] 1, [4,2,23] 1, [4,3,23] 1, [4,4,23] 1, [4,5,23] 1, [4,6,23] 1, [4,7,23] 1, [4,8,23] 1, [4,9,23] 1, [4,10,23] 1, [4,1,25] 1, [4,2,25] 1, [4,3,25] 1, [4,4,25] 1, [4,5,25] 1, [4,6,25] 1, [4,7,25] 1, [4,8,25] 1, [4,9,25] 1, [4,10,25] 1, [4,1,26] 1, [4,3,26] 1, [4,4,26] 1, [4,5,26] 1, [4,6,26] 1, [4,7,26] 1, [4,8,26] 1, [4,9,26] 1, [4,10,26] 1, [4,1,27] 1, [4,3,27] 1, [4,4,27] 1, [4,5,27] 1, [4,6,27] 1, [4,7,27] 1, [4,8,27] 1, [4,9,27] 1, [4,10,27] 1, [5,3,3] 1, [5,4,3] 1, [5,5,3] 1, [5,6,3] 1, [5,7,3] 1, [5,8,3] 1, [5,9,3] 1, [5,3,4] 1, [5,4,4] 1, [5,5,4] 1, [5,6,4] 1, [5,7,4] 1, [5,8,4] 1, [5,9,4] 1, [5,10,4] 1, [5,6,5] 1, [5,7,5] 1, [5,8,5] 1, [5,9,5] 1, [5,10,5] 1, [5,4,6] 1, [5,5,6] 1, [5,6,6] 1, [5,7,6] 1, [5,8,6] 1, [5,9,6] 1, [5,10,6] 1, [5,4,7] 1, [5,5,7] 1, [5,6,7] 1, [5,7,7] 1, [5,8,7] 1, [5,9,7] 1, [5,10,7] 1, [5,3,8] 1, [5,4,8] 1, [5,5,8] 1, [5,6,8] 1, [5,7,8] 1, [5,8,8] 1, [5,9,8] 1, [5,3,9] 1, [5,4,9] 1, [5,5,9] 1, [5,6,9] 1, [5,7,9] 1, [5,8,9] 1, [5,9,9] 1, [5,3,10] 1, [5,4,10] 1, [5,5,10] 1, [5,6,10] 1, [5,7,10] 1, [5,8,10] 1, [5,9,10] 1, [5,10,10] 1, [5,3,13] 1, [5,4,13] 1, [5,5,13] 1, [5,6,13] 1, [5,7,13] 1, [5,8,13] 1, [5,9,13] 1, [5,3,14] 1, [5,4,14] 1, [5,5,14] 1, [5,6,14] 1, [5,7,14] 1, [5,8,14] 1, [5,9,14] 1, [5,2,17] 1, [5,3,17] 1, [5,4,17] 1, [5,5,17] 1, [5,6,17] 1, [5,7,17] 1, [5,8,17] 1, [5,9,17] 1, [5,2,18] 1, [5,3,18] 1, [5,4,18] 1, [5,5,18] 1, [5,6,18] 1, [5,7,18] 1, [5,8,18] 1, [5,9,18] 1, [5,10,18] 1, [5,6,19] 1, [5,7,19] 1, [5,8,19] 1, [5,9,19] 1, [5,10,19] 1, [5,4,20] 1, [5,5,20] 1, [5,6,20] 1, [5,7,20] 1, [5,8,20] 1, [5,9,20] 1, [5,10,20] 1, [5,4,21] 1, [5,5,21] 1, [5,6,21] 1, [5,7,21] 1, [5,8,21] 1, [5,9,21] 1, [5,10,21] 1, [5,3,22] 1, [5,4,22] 1, [5,5,22] 1, [5,6,22] 1, [5,7,22] 1, [5,8,22] 1, [5,9,22] 1, [5,3,23] 1, [5,4,23] 1, [5,5,23] 1, [5,6,23] 1, [5,7,23] 1, [5,8,23] 1, [5,9,23] 1, [5,3,24] 1, [5,4,24] 1, [5,5,24] 1, [5,6,24] 1, [5,7,24] 1, [5,8,24] 1, [5,9,24] 1, [5,10,24] 1, [5,3,27] 1, [5,4,27] 1, [5,5,27] 1, [5,6,27] 1, [5,7,27] 1, [5,8,27] 1, [5,9,27] 1, [5,3,28] 1, [5,4,28] 1, [5,5,28] 1, [5,6,28] 1, [5,7,28] 1, [5,8,28] 1, [5,9,28] 1, [9,7,5] 1, [9,8,5] 1, [9,9,5] 1, [9,10,5] 1, [9,7,12] 1, [9,8,12] 1, [9,9,12] 1, [9,10,12] 1, [9,1,13] 1, [9,2,13] 1, [9,3,13] 1, [9,4,13] 1, [9,5,13] 1, [9,6,13] 1, [9,7,13] 1, [9,8,13] 1, [9,9,13] 1, [9,10,13] 1, [9,1,14] 1, [9,2,14] 1, [9,3,14] 1, [9,4,14] 1, [9,5,14] 1, [9,6,14] 1, [9,7,14] 1, [9,8,14] 1, [9,9,14] 1, [9,10,14] 1, [9,7,19] 1, [9,8,19] 1, [9,9,19] 1, [9,10,19] 1, [9,1,20] 1, [9,2,20] 1, [9,3,20] 1, [9,4,20] 1, [9,5,20] 1, [9,6,20] 1, [9,7,20] 1, [9,8,20] 1, [9,9,20] 1, [9,10,20] 1, [9,1,21] 1, [9,2,21] 1, [9,3,21] 1, [9,4,21] 1, [9,5,21] 1, [9,6,21] 1, [9,7,21] 1, [9,8,21] 1, [9,9,21] 1, [9,10,21] 1, [9,7,26] 1, [9,8,26] 1, [9,9,26] 1, [9,10,26] 1, [9,1,27] 1, [9,2,27] 1, [9,3,27] 1, [9,4,27] 1, [9,5,27] 1, [9,6,27] 1, [9,7,27] 1, [9,8,27] 1, [9,9,27] 1, [9,10,27] 1, [9,1,28] 1, [9,2,28] 1, [9,3,28] 1, [9,4,28] 1, [9,5,28] 1, [9,6,28] 1, [9,7,28] 1, [9,8,28] 1, [9,9,28] 1, [9,10,28] 1, [7,3,1] 1, [7,4,1] 1, [7,5,1] 1, [7,6,1] 1, [7,7,1] 1, [7,8,1] 1, [7,9,1] 1, [7,3,2] 1, [7,4,2] 1, [7,5,2] 1, [7,6,2] 1, [7,7,2] 1, [7,8,2] 1, [7,9,2] 1, [7,3,3] 1, [7,4,3] 1, [7,5,3] 1, [7,6,3] 1, [7,7,3] 1, [7,8,3] 1, [7,9,3] 1, [7,10,3] 1, [7,3,6] 1, [7,4,6] 1, [7,5,6] 1, [7,6,6] 1, [7,7,6] 1, [7,8,6] 1, [7,9,6] 1, [7,3,7] 1, [7,4,7] 1, [7,5,7] 1, [7,6,7] 1, [7,7,7] 1, [7,8,7] 1, [7,9,7] 1, [7,3,9] 1, [7,4,9] 1, [7,5,9] 1, [7,6,9] 1, [7,7,9] 1, [7,8,9] 1, [7,9,9] 1, [7,4,10] 1, [7,5,10] 1, [7,6,10] 1, [7,7,10] 1, [7,8,10] 1, [7,9,10] 1, [7,10,10] 1, [7,3,11] 1, [7,4,11] 1, [7,5,11] 1, [7,6,11] 1, [7,7,11] 1, [7,8,11] 1, [7,9,11] 1, [7,10,11] 1, [7,2,12] 1, [7,3,12] 1, [7,4,12] 1, [7,5,12] 1, [7,6,12] 1, [7,7,12] 1, [7,10,12] 1, [7,2,13] 1, [7,3,13] 1, [7,4,13] 1, [7,5,13] 1, [7,6,13] 1, [7,7,13] 1, [7,8,13] 1, [7,3,16] 1, [7,4,16] 1, [7,5,16] 1, [7,6,16] 1, [7,7,16] 1, [7,8,16] 1, [7,9,16] 1, [7,4,17] 1, [7,5,17] 1, [7,6,17] 1, [7,7,17] 1, [7,8,17] 1, [7,9,17] 1, [7,10,17] 1, [7,3,18] 1, [7,4,18] 1, [7,5,18] 1, [7,6,18] 1, [7,7,18] 1, [7,8,18] 1, [7,9,18] 1, [7,10,18] 1, [7,2,19] 1, [7,3,19] 1, [7,4,19] 1, [7,5,19] 1, [7,6,19] 1, [7,7,19] 1, [7,10,19] 1, [7,2,20] 1, [7,3,20] 1, [7,4,20] 1, [7,5,20] 1, [7,6,20] 1, [7,7,20] 1, [7,8,20] 1, [7,3,22] 1, [7,4,22] 1, [7,5,22] 1, [7,6,22] 1, [7,7,22] 1, [7,8,22] 1, [7,9,22] 1, [7,3,23] 1, [7,4,23] 1, [7,5,23] 1, [7,6,23] 1, [7,7,23] 1, [7,8,23] 1, [7,9,23] 1, [7,3,24] 1, [7,4,24] 1, [7,5,24] 1, [7,6,24] 1, [7,7,24] 1, [7,8,24] 1, [7,9,24] 1, [7,10,24] 1, [7,3,27] 1, [7,4,27] 1, [7,5,27] 1, [7,6,27] 1, [7,7,27] 1, [7,8,27] 1, [7,9,27] 1, [7,3,28] 1, [7,4,28] 1, [7,5,28] 1, [7,6,28] 1, [7,7,28] 1, [7,8,28] 1, [7,9,28] 1	[1,1,1] 7, [2,1,1] 3, [3,1,1] 2, [4,1,1] 0, [5,1,1] 2, [6,1,1] 0, [7,1,1] 0, [8,1,1] 0, [9,1,1] 2, [10,1,1] 2, [11,1,1] 0, [12,1,1] 3	[1,1,1,1] 200361, [1,2,1,1] 215773, [1,3,1,1] 280505, [1,4,1,1] 431547, [1,5,1,1] 366815, [1,6,1,1] 345238, [1,7,1,1] 496279, [1,8,1,1] 733630, [1,9,1,1] 970980, [1,10,1,1] 755207, [1,1,2,1] 181823, [1,2,2,1] 195809, [1,3,2,1] 254552, [1,4,2,1] 391619, [1,5,2,1] 332876, [1,6,2,1] 313295, [1,7,2,1] 450362, [1,8,2,1] 665752, [1,9,2,1] 881142, [1,10,2,1] 685333, [1,1,3,1] 221223, [1,2,3,1] 238241, [1,3,3,1] 309713, [1,4,3,1] 476481, [1,5,3,1] 405009, [1,6,3,1] 381185, [1,7,3,1] 547953, [1,8,3,1] 810018, [1,9,3,1] 1072083, [1,10,3,1] 833842, [1,1,4,1] 217729, [1,2,4,1] 234477, [1,3,4,1] 304820, [1,4,4,1] 468954, [1,5,4,1] 398611, [1,6,4,1] 375163, [1,7,4,1] 539297, [1,8,4,1] 797222, [1,9,4,1] 1055146, [1,10,4,1] 820669, [1,1,5,1] 268159, [1,2,5,1] 288787, [1,3,5,1] 375423, [1,4,5,1] 577574, [1,5,5,1] 490938, [1,6,5,1] 462059, [1,7,5,1] 664210, [1,8,5,1] 981875, [1,9,5,1] 1299541, [1,10,5,1] 1010754, [1,1,6,1] 286203, [1,2,6,1] 308219, [1,3,6,1] 400685, [1,4,6,1] 616438, [1,5,6,1] 523972, [1,6,6,1] 493150, [1,7,6,1] 708904, [1,8,6,1] 1047944, [1,9,6,1] 1386985, [1,10,6,1] 1078766, [1,1,7,1] 257459, [1,2,7,1] 277264, [1,3,7,1] 360443, [1,4,7,1] 554527, [1,5,7,1] 471348, [1,6,7,1] 443622, [1,7,7,1] 637706, [1,8,7,1] 942696, [1,9,7,1] 1247687, [1,10,7,1] 970423, [1,1,8,1] 207062, [1,2,8,1] 222990, [1,3,8,1] 289887, [1,4,8,1] 445980, [1,5,8,1] 379083, [1,6,8,1] 356784, [1,7,8,1] 512876, [1,8,8,1] 758165, [1,9,8,1] 1003454, [1,10,8,1] 780464, [1,1,9,1] 209133, [1,2,9,1] 225220, [1,3,9,1] 292786, [1,4,9,1] 450439, [1,5,9,1] 382873, [1,6,9,1] 360351, [1,7,9,1] 518005, [1,8,9,1] 765747, [1,9,9,1] 1013488, [1,10,9,1] 788269, [1,1,10,1] 217415, [1,2,10,1] 234139, [1,3,10,1] 304381, [1,4,10,1] 468278, [1,5,10,1] 398037, [1,6,10,1] 374623, [1,7,10,1] 538520, [1,8,10,1] 796073, [1,9,10,1] 1053627, [1,10,10,1] 819487, [1,1,11,1] 219486, [1,2,11,1] 236369, [1,3,11,1] 307280, [1,4,11,1] 472738, [1,5,11,1] 401828, [1,6,11,1] 378191, [1,7,11,1] 543649, [1,8,11,1] 803655, [1,9,11,1] 1063661, [1,10,11,1] 827292, [1,1,12,1] 248474, [1,2,12,1] 267588, [1,3,12,1] 347864, [1,4,12,1] 535175, [1,5,12,1] 454899, [1,6,12,1] 428140, [1,7,12,1] 615452, [1,8,12,1] 909798, [1,9,12,1] 1204145, [1,10,12,1] 936557, [1,1,13,1] 273322, [1,2,13,1] 294346, [1,3,13,1] 382650, [1,4,13,1] 588693, [1,5,13,1] 500389, [1,6,13,1] 470954, [1,7,13,1] 676997, [1,8,13,1] 1000778, [1,9,13,1] 1324559, [1,10,13,1] 1030213, [1,1,14,1] 268352, [1,2,14,1] 288995, [1,3,14,1] 375693, [1,4,14,1] 577989, [1,5,14,1] 491291, [1,6,14,1] 462392, [1,7,14,1] 664688, [1,8,14,1] 982582, [1,9,14,1] 1300476, [1,10,14,1] 1011482, [1,1,15,1] 200850, [1,2,15,1] 216300, [1,3,15,1] 281190, [1,4,15,1] 432600, [1,5,15,1] 367710, [1,6,15,1] 346080, [1,7,15,1] 497490, [1,8,15,1] 735420, [1,9,15,1] 973350, [1,10,15,1] 757050, [1,1,16,1] 219672, [1,2,16,1] 236570, [1,3,16,1] 307541, [1,4,16,1] 473140, [1,5,16,1] 402169, [1,6,16,1] 378512, [1,7,16,1] 544111, [1,8,16,1] 804337, [1,9,16,1] 1064564, [1,10,16,1] 827994, [1,1,17,1] 221763, [1,2,17,1] 238822, [1,3,17,1] 310469, [1,4,17,1] 477644, [1,5,17,1] 405997, [1,6,17,1] 382115, [1,7,17,1] 549291, [1,8,17,1] 811995, [1,9,17,1] 1074699, [1,10,17,1] 835877, [1,1,18,1] 227168, [1,2,18,1] 244642, [1,3,18,1] 318035, [1,4,18,1] 489284, [1,5,18,1] 415892, [1,6,18,1] 391427, [1,7,18,1] 562677, [1,8,18,1] 831783, [1,9,18,1] 1100889, [1,10,18,1] 856247, [1,1,19,1] 248723, [1,2,19,1] 267855, [1,3,19,1] 348212, [1,4,19,1] 535711, [1,5,19,1] 455354, [1,6,19,1] 428568, [1,7,19,1] 616067, [1,8,19,1] 910708, [1,9,19,1] 1205349, [1,10,19,1] 937494, [1,1,20,1] 270589, [1,2,20,1] 291403, [1,3,20,1] 378824, [1,4,20,1] 582806, [1,5,20,1] 495385, [1,6,20,1] 466245, [1,7,20,1] 670227, [1,8,20,1] 990770, [1,9,20,1] 1311314, [1,10,20,1] 1019911, [1,1,21,1] 268621, [1,2,21,1] 289284, [1,3,21,1] 376069, [1,4,21,1] 578567, [1,5,21,1] 491782, [1,6,21,1] 462854, [1,7,21,1] 665353, [1,8,21,1] 983565, [1,9,21,1] 1301777, [1,10,21,1] 1012493, [1,1,22,1] 206896, [1,2,22,1] 222811, [1,3,22,1] 289655, [1,4,22,1] 445623, [1,5,22,1] 378779, [1,6,22,1] 356498, [1,7,22,1] 512466, [1,8,22,1] 757559, [1,9,22,1] 1002651, [1,10,22,1] 779840, [1,1,23,1] 208965, [1,2,23,1] 225039, [1,3,23,1] 292551, [1,4,23,1] 450079, [1,5,23,1] 382567, [1,6,23,1] 360063, [1,7,23,1] 517591, [1,8,23,1] 765134, [1,9,23,1] 1012678, [1,10,23,1] 787638, [1,1,24,1] 217241, [1,2,24,1] 233952, [1,3,24,1] 304138, [1,4,24,1] 467904, [1,5,24,1] 397718, [1,6,24,1] 374323, [1,7,24,1] 538089, [1,8,24,1] 795437, [1,9,24,1] 1052784, [1,10,24,1] 818832, [1,1,25,1] 219310, [1,2,25,1] 236180, [1,3,25,1] 307034, [1,4,25,1] 472360, [1,5,25,1] 401506, [1,6,25,1] 377888, [1,7,25,1] 543214, [1,8,25,1] 803012, [1,9,25,1] 1062810, [1,10,25,1] 826630, [1,1,26,1] 248276, [1,2,26,1] 267374, [1,3,26,1] 347586, [1,4,26,1] 534747, [1,5,26,1] 454535, [1,6,26,1] 427798, [1,7,26,1] 614959, [1,8,26,1] 909070, [1,9,26,1] 1203181, [1,10,26,1] 935808, [1,1,27,1] 273103, [1,2,27,1] 294111, [1,3,27,1] 382344, [1,4,27,1] 588222, [1,5,27,1] 499989, [1,6,27,1] 470578, [1,7,27,1] 676455, [1,8,27,1] 999977, [1,9,27,1] 1323500, [1,10,27,1] 1029389, [1,1,28,1] 268138, [1,2,28,1] 288764, [1,3,28,1] 375393, [1,4,28,1] 577527, [1,5,28,1] 490898, [1,6,28,1] 462022, [1,7,28,1] 664156, [1,8,28,1] 981796, [1,9,28,1] 1299436, [1,10,28,1] 1010672	2018-05-29 00:06:02.025779	2018-07-06 11:43:33.215415	7	2018
-39	36	12	1	28	10	2500	85000			[1] 1, [2] 1	[2] 1, [3] 1, [4] 1, [5] 1	2	[6,3,2] 1, [6,4,2] 1, [6,5,2] 1, [6,6,2] 1, [6,7,2] 1, [6,8,2] 1, [6,9,2] 1, [6,4,3] 1, [6,5,3] 1, [6,6,3] 1, [6,7,3] 1, [6,8,3] 1, [6,9,3] 1, [6,3,4] 1, [6,4,4] 1, [6,5,4] 1, [6,6,4] 1, [6,7,4] 1, [6,8,4] 1, [6,9,4] 1, [6,10,4] 1, [6,2,5] 1, [6,3,5] 1, [6,4,5] 1, [6,5,5] 1, [6,6,5] 1, [6,7,5] 1, [6,10,5] 1, [6,2,6] 1, [6,3,6] 1, [6,4,6] 1, [6,5,6] 1, [6,6,6] 1, [6,7,6] 1, [6,8,6] 1, [6,3,9] 1, [6,4,9] 1, [6,5,9] 1, [6,6,9] 1, [6,7,9] 1, [6,8,9] 1, [6,9,9] 1, [6,10,9] 1, [6,4,11] 1, [6,5,11] 1, [6,6,11] 1, [6,7,11] 1, [6,8,11] 1, [6,9,11] 1, [6,10,11] 1, [6,2,12] 1, [6,3,12] 1, [6,4,12] 1, [6,5,12] 1, [6,6,12] 1, [6,7,12] 1, [6,8,12] 1, [6,9,12] 1, [6,10,12] 1, [6,2,13] 1, [6,3,13] 1, [6,4,13] 1, [6,5,13] 1, [6,6,13] 1, [6,7,13] 1, [6,8,13] 1, [6,9,13] 1, [6,10,13] 1, [6,6,14] 1, [6,7,14] 1, [6,8,14] 1, [6,9,14] 1, [6,10,14] 1, [6,3,16] 1, [6,4,16] 1, [6,5,16] 1, [6,6,16] 1, [6,7,16] 1, [6,8,16] 1, [6,9,16] 1, [6,4,17] 1, [6,5,17] 1, [6,6,17] 1, [6,7,17] 1, [6,8,17] 1, [6,9,17] 1, [6,10,17] 1, [6,3,18] 1, [6,4,18] 1, [6,5,18] 1, [6,6,18] 1, [6,7,18] 1, [6,8,18] 1, [6,9,18] 1, [6,10,18] 1, [6,2,19] 1, [6,3,19] 1, [6,4,19] 1, [6,5,19] 1, [6,6,19] 1, [6,7,19] 1, [6,10,19] 1, [6,2,20] 1, [6,3,20] 1, [6,4,20] 1, [6,5,20] 1, [6,6,20] 1, [6,7,20] 1, [6,8,20] 1, [6,3,23] 1, [6,4,23] 1, [6,5,23] 1, [6,6,23] 1, [6,7,23] 1, [6,8,23] 1, [6,9,23] 1, [6,10,23] 1, [6,4,25] 1, [6,5,25] 1, [6,6,25] 1, [6,7,25] 1, [6,8,25] 1, [6,9,25] 1, [6,10,25] 1, [6,3,26] 1, [6,4,26] 1, [6,5,26] 1, [6,6,26] 1, [6,7,26] 1, [6,8,26] 1, [6,9,26] 1, [6,10,26] 1, [6,3,27] 1, [6,4,27] 1, [6,5,27] 1, [6,6,27] 1, [6,7,27] 1, [6,8,27] 1, [6,9,27] 1, [6,10,27] 1, [6,6,28] 1, [6,7,28] 1, [6,8,28] 1, [6,9,28] 1, [6,10,28] 1, [8,1,1] 1, [8,2,1] 1, [8,3,1] 1, [8,4,1] 1, [8,5,1] 1, [8,6,1] 1, [8,7,1] 1, [8,8,1] 1, [8,9,1] 1, [8,10,1] 1, [8,5,5] 1, [8,6,5] 1, [8,7,5] 1, [8,8,5] 1, [8,9,5] 1, [8,10,5] 1, [8,1,6] 1, [8,2,6] 1, [8,3,6] 1, [8,4,6] 1, [8,5,6] 1, [8,6,6] 1, [8,7,6] 1, [8,8,6] 1, [8,9,6] 1, [8,10,6] 1, [8,1,7] 1, [8,2,7] 1, [8,3,7] 1, [8,4,7] 1, [8,5,7] 1, [8,6,7] 1, [8,7,7] 1, [8,8,7] 1, [8,9,7] 1, [8,10,7] 1, [8,1,8] 1, [8,2,8] 1, [8,3,8] 1, [8,4,8] 1, [8,5,8] 1, [8,6,8] 1, [8,7,8] 1, [8,8,8] 1, [8,3,10] 1, [8,4,10] 1, [8,5,10] 1, [8,6,10] 1, [8,7,10] 1, [8,8,10] 1, [8,3,11] 1, [8,4,11] 1, [8,5,11] 1, [8,6,11] 1, [8,7,11] 1, [8,8,11] 1, [8,3,12] 1, [8,4,12] 1, [8,5,12] 1, [8,6,12] 1, [8,7,12] 1, [8,8,12] 1, [8,1,14] 1, [8,2,14] 1, [8,3,14] 1, [8,4,14] 1, [8,5,14] 1, [8,6,14] 1, [8,7,14] 1, [8,8,14] 1, [8,9,14] 1, [8,10,14] 1, [8,1,15] 1, [8,2,15] 1, [8,3,15] 1, [8,4,15] 1, [8,5,15] 1, [8,6,15] 1, [8,7,15] 1, [8,8,15] 1, [8,9,15] 1, [8,10,15] 1, [8,5,19] 1, [8,6,19] 1, [8,7,19] 1, [8,8,19] 1, [8,9,19] 1, [8,10,19] 1, [8,1,20] 1, [8,2,20] 1, [8,3,20] 1, [8,4,20] 1, [8,5,20] 1, [8,6,20] 1, [8,7,20] 1, [8,8,20] 1, [8,9,20] 1, [8,10,20] 1, [8,1,21] 1, [8,2,21] 1, [8,3,21] 1, [8,4,21] 1, [8,5,21] 1, [8,6,21] 1, [8,7,21] 1, [8,8,21] 1, [8,9,21] 1, [8,10,21] 1, [8,1,22] 1, [8,2,22] 1, [8,3,22] 1, [8,4,22] 1, [8,5,22] 1, [8,6,22] 1, [8,7,22] 1, [8,8,22] 1, [8,3,24] 1, [8,4,24] 1, [8,5,24] 1, [8,6,24] 1, [8,7,24] 1, [8,8,24] 1, [8,3,25] 1, [8,4,25] 1, [8,5,25] 1, [8,6,25] 1, [8,7,25] 1, [8,8,25] 1, [8,3,26] 1, [8,4,26] 1, [8,5,26] 1, [8,6,26] 1, [8,7,26] 1, [8,8,26] 1, [8,1,28] 1, [8,2,28] 1, [8,3,28] 1, [8,4,28] 1, [8,5,28] 1, [8,6,28] 1, [8,7,28] 1, [8,8,28] 1, [8,9,28] 1, [8,10,28] 1, [12,5,1] 1, [12,6,1] 1, [12,7,1] 1, [12,8,1] 1, [12,9,1] 1, [12,10,1] 1, [12,5,2] 1, [12,6,2] 1, [12,7,2] 1, [12,8,2] 1, [12,9,2] 1, [12,10,2] 1, [12,5,3] 1, [12,6,3] 1, [12,7,3] 1, [12,8,3] 1, [12,9,3] 1, [12,10,3] 1, [12,5,4] 1, [12,6,4] 1, [12,7,4] 1, [12,8,4] 1, [12,9,4] 1, [12,10,4] 1, [12,5,5] 1, [12,6,5] 1, [12,7,5] 1, [12,8,5] 1, [12,9,5] 1, [12,10,5] 1, [12,5,7] 1, [12,6,7] 1, [12,7,7] 1, [12,8,7] 1, [12,9,7] 1, [12,10,7] 1, [12,5,8] 1, [12,6,8] 1, [12,7,8] 1, [12,8,8] 1, [12,9,8] 1, [12,10,8] 1, [12,5,9] 1, [12,6,9] 1, [12,7,9] 1, [12,8,9] 1, [12,9,9] 1, [12,10,9] 1, [12,5,10] 1, [12,6,10] 1, [12,7,10] 1, [12,8,10] 1, [12,9,10] 1, [12,10,10] 1, [12,5,11] 1, [12,6,11] 1, [12,7,11] 1, [12,8,11] 1, [12,9,11] 1, [12,10,11] 1, [12,5,12] 1, [12,6,12] 1, [12,7,12] 1, [12,8,12] 1, [12,9,12] 1, [12,10,12] 1, [12,5,14] 1, [12,6,14] 1, [12,7,14] 1, [12,8,14] 1, [12,9,14] 1, [12,10,14] 1, [12,5,15] 1, [12,6,15] 1, [12,7,15] 1, [12,8,15] 1, [12,9,15] 1, [12,10,15] 1, [12,5,16] 1, [12,6,16] 1, [12,7,16] 1, [12,8,16] 1, [12,9,16] 1, [12,10,16] 1, [12,5,17] 1, [12,6,17] 1, [12,7,17] 1, [12,8,17] 1, [12,9,17] 1, [12,10,17] 1, [12,5,18] 1, [12,6,18] 1, [12,7,18] 1, [12,8,18] 1, [12,9,18] 1, [12,10,18] 1, [12,5,19] 1, [12,6,19] 1, [12,7,19] 1, [12,8,19] 1, [12,9,19] 1, [12,10,19] 1, [12,5,21] 1, [12,6,21] 1, [12,7,21] 1, [12,8,21] 1, [12,9,21] 1, [12,10,21] 1, [12,5,22] 1, [12,6,22] 1, [12,7,22] 1, [12,8,22] 1, [12,9,22] 1, [12,10,22] 1, [12,5,23] 1, [12,6,23] 1, [12,7,23] 1, [12,8,23] 1, [12,9,23] 1, [12,10,23] 1, [12,5,24] 1, [12,6,24] 1, [12,7,24] 1, [12,8,24] 1, [12,9,24] 1, [12,10,24] 1, [12,5,25] 1, [12,6,25] 1, [12,7,25] 1, [12,8,25] 1, [12,9,25] 1, [12,10,25] 1, [12,5,26] 1, [12,6,26] 1, [12,7,26] 1, [12,8,26] 1, [12,9,26] 1, [12,10,26] 1, [12,5,28] 1, [12,6,28] 1, [12,7,28] 1, [12,8,28] 1, [12,9,28] 1, [12,10,28] 1, [1,2,1] 1, [1,3,1] 1, [1,4,1] 1, [1,5,1] 1, [1,6,1] 1, [1,7,1] 1, [1,1,2] 1, [1,2,2] 1, [1,3,2] 1, [1,4,2] 1, [1,5,2] 1, [1,6,2] 1, [1,7,2] 1, [1,8,2] 1, [1,9,2] 1, [1,10,2] 1, [1,2,3] 1, [1,3,3] 1, [1,4,3] 1, [1,5,3] 1, [1,6,3] 1, [1,7,3] 1, [1,8,3] 1, [1,9,3] 1, [1,10,3] 1, [1,1,4] 1, [1,2,4] 1, [1,3,4] 1, [1,4,4] 1, [1,5,4] 1, [1,6,4] 1, [1,7,4] 1, [1,8,4] 1, [1,9,4] 1, [1,10,4] 1, [1,1,5] 1, [1,2,5] 1, [1,3,5] 1, [1,4,5] 1, [1,5,5] 1, [1,6,5] 1, [1,7,5] 1, [1,8,5] 1, [1,9,5] 1, [1,10,5] 1, [1,3,8] 1, [1,4,8] 1, [1,5,8] 1, [1,6,8] 1, [1,7,8] 1, [1,8,8] 1, [1,9,8] 1, [1,3,9] 1, [1,4,9] 1, [1,5,9] 1, [1,6,9] 1, [1,7,9] 1, [1,8,9] 1, [1,9,9] 1, [1,3,11] 1, [1,4,11] 1, [1,5,11] 1, [1,6,11] 1, [1,7,11] 1, [1,8,11] 1, [1,9,11] 1, [1,2,12] 1, [1,3,12] 1, [1,4,12] 1, [1,5,12] 1, [1,6,12] 1, [1,7,12] 1, [1,8,12] 1, [1,9,12] 1, [1,2,13] 1, [1,3,13] 1, [1,4,13] 1, [1,5,13] 1, [1,6,13] 1, [1,7,13] 1, [1,8,13] 1, [1,9,13] 1, [1,2,14] 1, [1,3,14] 1, [1,4,14] 1, [1,5,14] 1, [1,6,14] 1, [1,7,14] 1, [1,8,14] 1, [1,9,14] 1, [1,1,15] 1, [1,2,15] 1, [1,3,15] 1, [1,4,15] 1, [1,5,15] 1, [1,6,15] 1, [1,7,15] 1, [1,8,15] 1, [1,9,15] 1, [1,10,15] 1, [1,1,17] 1, [1,2,17] 1, [1,3,17] 1, [1,4,17] 1, [1,5,17] 1, [1,6,17] 1, [1,7,17] 1, [1,8,17] 1, [1,9,17] 1, [1,10,17] 1, [1,1,18] 1, [1,2,18] 1, [1,3,18] 1, [1,4,18] 1, [1,5,18] 1, [1,6,18] 1, [1,7,18] 1, [1,8,18] 1, [1,9,18] 1, [1,1,19] 1, [1,2,19] 1, [1,3,19] 1, [1,4,19] 1, [1,5,19] 1, [1,6,19] 1, [1,7,19] 1, [1,8,19] 1, [1,9,19] 1, [1,1,20] 1, [1,2,20] 1, [1,3,20] 1, [1,4,20] 1, [1,5,20] 1, [1,6,20] 1, [1,7,20] 1, [1,8,20] 1, [1,9,20] 1, [1,1,24] 1, [1,2,24] 1, [1,3,24] 1, [1,4,24] 1, [1,5,24] 1, [1,6,24] 1, [1,7,24] 1, [1,8,24] 1, [1,9,24] 1, [1,10,24] 1, [1,3,26] 1, [1,4,26] 1, [1,5,26] 1, [1,6,26] 1, [1,7,26] 1, [1,8,26] 1, [1,9,26] 1, [1,10,26] 1, [1,2,27] 1, [1,3,27] 1, [1,4,27] 1, [1,5,27] 1, [1,6,27] 1, [1,7,27] 1, [1,8,27] 1, [1,9,27] 1, [1,10,27] 1, [1,3,28] 1, [1,4,28] 1, [1,5,28] 1, [1,6,28] 1, [1,7,28] 1, [1,8,28] 1, [1,9,28] 1, [1,10,28] 1, [2,3,2] 1, [2,4,2] 1, [2,5,2] 1, [2,6,2] 1, [2,7,2] 1, [2,8,2] 1, [2,9,2] 1, [2,1,3] 1, [2,2,3] 1, [2,3,3] 1, [2,4,3] 1, [2,5,3] 1, [2,6,3] 1, [2,7,3] 1, [2,8,3] 1, [2,9,3] 1, [2,10,3] 1, [2,3,4] 1, [2,4,4] 1, [2,5,4] 1, [2,6,4] 1, [2,7,4] 1, [2,8,4] 1, [2,9,4] 1, [2,10,4] 1, [2,2,5] 1, [2,3,5] 1, [2,4,5] 1, [2,5,5] 1, [2,6,5] 1, [2,7,5] 1, [2,10,5] 1, [2,2,6] 1, [2,3,6] 1, [2,4,6] 1, [2,5,6] 1, [2,6,6] 1, [2,7,6] 1, [2,8,6] 1, [2,9,6] 1, [2,1,7] 1, [2,2,7] 1, [2,3,7] 1, [2,4,7] 1, [2,5,7] 1, [2,6,7] 1, [2,7,7] 1, [2,8,7] 1, [2,9,7] 1, [2,2,8] 1, [2,3,8] 1, [2,4,8] 1, [2,5,8] 1, [2,6,8] 1, [2,7,8] 1, [2,1,9] 1, [2,2,9] 1, [2,3,9] 1, [2,4,9] 1, [2,5,9] 1, [2,6,9] 1, [2,7,9] 1, [2,8,9] 1, [2,9,9] 1, [2,10,9] 1, [2,1,11] 1, [2,2,11] 1, [2,3,11] 1, [2,4,11] 1, [2,5,11] 1, [2,6,11] 1, [2,7,11] 1, [2,8,11] 1, [2,9,11] 1, [2,10,11] 1, [2,1,12] 1, [2,3,12] 1, [2,4,12] 1, [2,5,12] 1, [2,6,12] 1, [2,7,12] 1, [2,8,12] 1, [2,9,12] 1, [2,10,12] 1, [2,1,13] 1, [2,3,13] 1, [2,4,13] 1, [2,5,13] 1, [2,6,13] 1, [2,7,13] 1, [2,8,13] 1, [2,9,13] 1, [2,10,13] 1, [2,1,15] 1, [2,2,15] 1, [2,3,15] 1, [2,4,15] 1, [2,5,15] 1, [2,6,15] 1, [2,7,15] 1, [2,8,15] 1, [2,9,15] 1, [2,10,15] 1, [2,1,16] 1, [2,2,16] 1, [2,3,16] 1, [2,4,16] 1, [2,5,16] 1, [2,6,16] 1, [2,7,16] 1, [2,8,16] 1, [2,9,16] 1, [2,10,16] 1, [2,1,17] 1, [2,2,17] 1, [2,3,17] 1, [2,4,17] 1, [2,5,17] 1, [2,6,17] 1, [2,7,17] 1, [2,8,17] 1, [2,9,17] 1, [2,10,17] 1, [2,3,20] 1, [2,4,20] 1, [2,5,20] 1, [2,6,20] 1, [2,7,20] 1, [2,8,20] 1, [2,9,20] 1, [2,10,20] 1, [2,3,21] 1, [2,4,21] 1, [2,5,21] 1, [2,6,21] 1, [2,7,21] 1, [2,8,21] 1, [2,9,21] 1, [2,10,21] 1, [2,1,22] 1, [2,2,22] 1, [2,3,22] 1, [2,4,22] 1, [2,5,22] 1, [2,6,22] 1, [2,7,22] 1, [2,8,22] 1, [2,9,22] 1, [2,10,22] 1, [2,1,24] 1, [2,2,24] 1, [2,3,24] 1, [2,4,24] 1, [2,5,24] 1, [2,6,24] 1, [2,7,24] 1, [2,8,24] 1, [2,9,24] 1, [2,10,24] 1, [2,1,25] 1, [2,2,25] 1, [2,3,25] 1, [2,4,25] 1, [2,5,25] 1, [2,6,25] 1, [2,7,25] 1, [2,8,25] 1, [2,9,25] 1, [2,1,26] 1, [2,2,26] 1, [2,3,26] 1, [2,4,26] 1, [2,5,26] 1, [2,6,26] 1, [2,7,26] 1, [2,8,26] 1, [2,9,26] 1, [2,1,27] 1, [2,2,27] 1, [2,3,27] 1, [2,4,27] 1, [2,5,27] 1, [2,6,27] 1, [2,7,27] 1, [2,8,27] 1, [2,9,27] 1, [3,1,1] 1, [3,2,1] 1, [3,3,1] 1, [3,4,1] 1, [3,5,1] 1, [3,6,1] 1, [3,7,1] 1, [3,8,1] 1, [3,9,1] 1, [3,1,3] 1, [3,2,3] 1, [3,3,3] 1, [3,4,3] 1, [3,5,3] 1, [3,6,3] 1, [3,7,3] 1, [3,8,3] 1, [3,9,3] 1, [3,10,3] 1, [3,1,4] 1, [3,2,4] 1, [3,3,4] 1, [3,4,4] 1, [3,5,4] 1, [3,6,4] 1, [3,7,4] 1, [3,8,4] 1, [3,9,4] 1, [3,10,4] 1, [3,1,5] 1, [3,2,5] 1, [3,3,5] 1, [3,4,5] 1, [3,5,5] 1, [3,6,5] 1, [3,7,5] 1, [3,8,5] 1, [3,9,5] 1, [3,1,6] 1, [3,2,6] 1, [3,3,6] 1, [3,4,6] 1, [3,5,6] 1, [3,6,6] 1, [3,7,6] 1, [3,8,6] 1, [3,9,6] 1, [3,1,8] 1, [3,2,8] 1, [3,3,8] 1, [3,4,8] 1, [3,5,8] 1, [3,6,8] 1, [3,7,8] 1, [3,1,9] 1, [3,2,9] 1, [3,3,9] 1, [3,4,9] 1, [3,5,9] 1, [3,6,9] 1, [3,7,9] 1, [3,8,9] 1, [3,9,9] 1, [3,10,9] 1, [3,1,11] 1, [3,2,11] 1, [3,3,11] 1, [3,4,11] 1, [3,5,11] 1, [3,6,11] 1, [3,7,11] 1, [3,8,11] 1, [3,9,11] 1, [3,10,11] 1, [3,1,12] 1, [3,3,12] 1, [3,4,12] 1, [3,5,12] 1, [3,6,12] 1, [3,7,12] 1, [3,8,12] 1, [3,9,12] 1, [3,10,12] 1, [3,1,13] 1, [3,3,13] 1, [3,4,13] 1, [3,5,13] 1, [3,6,13] 1, [3,7,13] 1, [3,8,13] 1, [3,9,13] 1, [3,10,13] 1, [3,1,15] 1, [3,2,15] 1, [3,3,15] 1, [3,4,15] 1, [3,5,15] 1, [3,6,15] 1, [3,7,15] 1, [3,8,15] 1, [3,9,15] 1, [3,10,15] 1, [3,1,16] 1, [3,2,16] 1, [3,3,16] 1, [3,4,16] 1, [3,5,16] 1, [3,6,16] 1, [3,7,16] 1, [3,8,16] 1, [3,9,16] 1, [3,10,16] 1, [3,1,17] 1, [3,2,17] 1, [3,3,17] 1, [3,4,17] 1, [3,5,17] 1, [3,6,17] 1, [3,7,17] 1, [3,8,17] 1, [3,9,17] 1, [3,10,17] 1, [3,3,20] 1, [3,4,20] 1, [3,5,20] 1, [3,6,20] 1, [3,7,20] 1, [3,8,20] 1, [3,9,20] 1, [3,10,20] 1, [3,3,21] 1, [3,4,21] 1, [3,5,21] 1, [3,6,21] 1, [3,7,21] 1, [3,8,21] 1, [3,9,21] 1, [3,10,21] 1, [3,1,22] 1, [3,2,22] 1, [3,3,22] 1, [3,4,22] 1, [3,5,22] 1, [3,6,22] 1, [3,7,22] 1, [3,8,22] 1, [3,9,22] 1, [3,10,22] 1, [3,1,24] 1, [3,2,24] 1, [3,3,24] 1, [3,4,24] 1, [3,5,24] 1, [3,6,24] 1, [3,7,24] 1, [3,8,24] 1, [3,9,24] 1, [3,10,24] 1, [3,1,25] 1, [3,2,25] 1, [3,3,25] 1, [3,4,25] 1, [3,5,25] 1, [3,6,25] 1, [3,7,25] 1, [3,8,25] 1, [3,9,25] 1, [3,1,26] 1, [3,2,26] 1, [3,3,26] 1, [3,4,26] 1, [3,5,26] 1, [3,6,26] 1, [3,7,26] 1, [3,8,26] 1, [3,9,26] 1, [3,1,27] 1, [3,2,27] 1, [3,3,27] 1, [3,4,27] 1, [3,5,27] 1, [3,6,27] 1, [3,7,27] 1, [3,8,27] 1, [3,9,27] 1, [10,1,6] 1, [10,2,6] 1, [10,3,6] 1, [10,4,6] 1, [10,5,6] 1, [10,6,6] 1, [10,7,6] 1, [10,8,6] 1, [10,9,6] 1, [10,10,6] 1, [10,1,7] 1, [10,2,7] 1, [10,3,7] 1, [10,4,7] 1, [10,5,7] 1, [10,6,7] 1, [10,7,7] 1, [10,8,7] 1, [10,9,7] 1, [10,10,7] 1, [10,1,13] 1, [10,2,13] 1, [10,3,13] 1, [10,4,13] 1, [10,5,13] 1, [10,6,13] 1, [10,7,13] 1, [10,8,13] 1, [10,9,13] 1, [10,10,13] 1, [10,1,14] 1, [10,2,14] 1, [10,3,14] 1, [10,4,14] 1, [10,5,14] 1, [10,6,14] 1, [10,7,14] 1, [10,8,14] 1, [10,9,14] 1, [10,10,14] 1, [10,1,20] 1, [10,2,20] 1, [10,3,20] 1, [10,4,20] 1, [10,5,20] 1, [10,6,20] 1, [10,7,20] 1, [10,8,20] 1, [10,9,20] 1, [10,10,20] 1, [10,1,21] 1, [10,2,21] 1, [10,3,21] 1, [10,4,21] 1, [10,5,21] 1, [10,6,21] 1, [10,7,21] 1, [10,8,21] 1, [10,9,21] 1, [10,10,21] 1, [10,1,27] 1, [10,2,27] 1, [10,3,27] 1, [10,4,27] 1, [10,5,27] 1, [10,6,27] 1, [10,7,27] 1, [10,8,27] 1, [10,9,27] 1, [10,10,27] 1, [10,1,28] 1, [10,2,28] 1, [10,3,28] 1, [10,4,28] 1, [10,5,28] 1, [10,6,28] 1, [10,7,28] 1, [10,8,28] 1, [10,9,28] 1, [10,10,28] 1, [11,5,1] 1, [11,6,1] 1, [11,7,1] 1, [11,8,1] 1, [11,9,1] 1, [11,10,1] 1, [11,5,2] 1, [11,6,2] 1, [11,7,2] 1, [11,8,2] 1, [11,9,2] 1, [11,10,2] 1, [11,5,3] 1, [11,6,3] 1, [11,7,3] 1, [11,8,3] 1, [11,9,3] 1, [11,10,3] 1, [11,5,4] 1, [11,6,4] 1, [11,7,4] 1, [11,8,4] 1, [11,9,4] 1, [11,10,4] 1, [11,5,5] 1, [11,6,5] 1, [11,7,5] 1, [11,8,5] 1, [11,9,5] 1, [11,10,5] 1, [11,5,6] 1, [11,6,6] 1, [11,7,6] 1, [11,8,6] 1, [11,9,6] 1, [11,10,6] 1, [11,5,8] 1, [11,6,8] 1, [11,7,8] 1, [11,8,8] 1, [11,9,8] 1, [11,10,8] 1, [11,5,9] 1, [11,6,9] 1, [11,7,9] 1, [11,8,9] 1, [11,9,9] 1, [11,10,9] 1, [11,5,10] 1, [11,6,10] 1, [11,7,10] 1, [11,8,10] 1, [11,9,10] 1, [11,10,10] 1, [11,5,11] 1, [11,6,11] 1, [11,7,11] 1, [11,8,11] 1, [11,9,11] 1, [11,10,11] 1, [11,5,12] 1, [11,6,12] 1, [11,7,12] 1, [11,8,12] 1, [11,9,12] 1, [11,10,12] 1, [11,5,13] 1, [11,6,13] 1, [11,7,13] 1, [11,8,13] 1, [11,9,13] 1, [11,10,13] 1, [11,5,15] 1, [11,6,15] 1, [11,7,15] 1, [11,8,15] 1, [11,9,15] 1, [11,10,15] 1, [11,5,16] 1, [11,6,16] 1, [11,7,16] 1, [11,8,16] 1, [11,9,16] 1, [11,10,16] 1, [11,5,17] 1, [11,6,17] 1, [11,7,17] 1, [11,8,17] 1, [11,9,17] 1, [11,10,17] 1, [11,5,18] 1, [11,6,18] 1, [11,7,18] 1, [11,8,18] 1, [11,9,18] 1, [11,10,18] 1, [11,5,19] 1, [11,6,19] 1, [11,7,19] 1, [11,8,19] 1, [11,9,19] 1, [11,10,19] 1, [11,5,20] 1, [11,6,20] 1, [11,7,20] 1, [11,8,20] 1, [11,9,20] 1, [11,10,20] 1, [11,5,22] 1, [11,6,22] 1, [11,7,22] 1, [11,8,22] 1, [11,9,22] 1, [11,10,22] 1, [11,5,23] 1, [11,6,23] 1, [11,7,23] 1, [11,8,23] 1, [11,9,23] 1, [11,10,23] 1, [11,5,24] 1, [11,6,24] 1, [11,7,24] 1, [11,8,24] 1, [11,9,24] 1, [11,10,24] 1, [11,5,25] 1, [11,6,25] 1, [11,7,25] 1, [11,8,25] 1, [11,9,25] 1, [11,10,25] 1, [11,5,26] 1, [11,6,26] 1, [11,7,26] 1, [11,8,26] 1, [11,9,26] 1, [11,10,26] 1, [11,5,27] 1, [11,6,27] 1, [11,7,27] 1, [11,8,27] 1, [11,9,27] 1, [11,10,27] 1, [4,1,1] 1, [4,2,1] 1, [4,3,1] 1, [4,4,1] 1, [4,5,1] 1, [4,6,1] 1, [4,7,1] 1, [4,8,1] 1, [4,9,1] 1, [4,10,1] 1, [4,1,2] 1, [4,2,2] 1, [4,3,2] 1, [4,4,2] 1, [4,5,2] 1, [4,6,2] 1, [4,7,2] 1, [4,8,2] 1, [4,9,2] 1, [4,10,2] 1, [4,3,5] 1, [4,4,5] 1, [4,5,5] 1, [4,6,5] 1, [4,7,5] 1, [4,8,5] 1, [4,9,5] 1, [4,10,5] 1, [4,2,6] 1, [4,3,6] 1, [4,4,6] 1, [4,5,6] 1, [4,6,6] 1, [4,7,6] 1, [4,8,6] 1, [4,9,6] 1, [4,10,6] 1, [4,1,7] 1, [4,2,7] 1, [4,3,7] 1, [4,4,7] 1, [4,5,7] 1, [4,6,7] 1, [4,7,7] 1, [4,8,7] 1, [4,9,7] 1, [4,10,7] 1, [4,1,8] 1, [4,2,8] 1, [4,3,8] 1, [4,4,8] 1, [4,5,8] 1, [4,6,8] 1, [4,7,8] 1, [4,8,8] 1, [4,1,10] 1, [4,2,10] 1, [4,3,10] 1, [4,4,10] 1, [4,5,10] 1, [4,6,10] 1, [4,7,10] 1, [4,8,10] 1, [4,9,10] 1, [4,10,10] 1, [4,1,11] 1, [4,2,11] 1, [4,3,11] 1, [4,4,11] 1, [4,5,11] 1, [4,6,11] 1, [4,7,11] 1, [4,8,11] 1, [4,9,11] 1, [4,1,12] 1, [4,2,12] 1, [4,3,12] 1, [4,4,12] 1, [4,5,12] 1, [4,6,12] 1, [4,7,12] 1, [4,8,12] 1, [4,9,12] 1, [4,1,13] 1, [4,2,13] 1, [4,3,13] 1, [4,4,13] 1, [4,5,13] 1, [4,6,13] 1, [4,7,13] 1, [4,8,13] 1, [4,9,13] 1, [4,3,15] 1, [4,4,15] 1, [4,5,15] 1, [4,6,15] 1, [4,7,15] 1, [4,8,15] 1, [4,9,15] 1, [4,3,16] 1, [4,4,16] 1, [4,5,16] 1, [4,6,16] 1, [4,7,16] 1, [4,8,16] 1, [4,9,16] 1, [4,3,18] 1, [4,4,18] 1, [4,5,18] 1, [4,6,18] 1, [4,7,18] 1, [4,8,18] 1, [4,9,18] 1, [4,2,19] 1, [4,3,19] 1, [4,4,19] 1, [4,5,19] 1, [4,6,19] 1, [4,7,19] 1, [4,8,19] 1, [4,9,19] 1, [4,2,20] 1, [4,3,20] 1, [4,4,20] 1, [4,5,20] 1, [4,6,20] 1, [4,7,20] 1, [4,8,20] 1, [4,9,20] 1, [4,1,21] 1, [4,2,21] 1, [4,3,21] 1, [4,4,21] 1, [4,5,21] 1, [4,6,21] 1, [4,7,21] 1, [4,8,21] 1, [4,9,21] 1, [4,1,22] 1, [4,2,22] 1, [4,3,22] 1, [4,4,22] 1, [4,5,22] 1, [4,6,22] 1, [4,1,23] 1, [4,2,23] 1, [4,3,23] 1, [4,4,23] 1, [4,5,23] 1, [4,6,23] 1, [4,7,23] 1, [4,8,23] 1, [4,9,23] 1, [4,10,23] 1, [4,1,25] 1, [4,2,25] 1, [4,3,25] 1, [4,4,25] 1, [4,5,25] 1, [4,6,25] 1, [4,7,25] 1, [4,8,25] 1, [4,9,25] 1, [4,10,25] 1, [4,1,26] 1, [4,3,26] 1, [4,4,26] 1, [4,5,26] 1, [4,6,26] 1, [4,7,26] 1, [4,8,26] 1, [4,9,26] 1, [4,10,26] 1, [4,1,27] 1, [4,3,27] 1, [4,4,27] 1, [4,5,27] 1, [4,6,27] 1, [4,7,27] 1, [4,8,27] 1, [4,9,27] 1, [4,10,27] 1, [5,3,3] 1, [5,4,3] 1, [5,5,3] 1, [5,6,3] 1, [5,7,3] 1, [5,8,3] 1, [5,9,3] 1, [5,3,4] 1, [5,4,4] 1, [5,5,4] 1, [5,6,4] 1, [5,7,4] 1, [5,8,4] 1, [5,9,4] 1, [5,10,4] 1, [5,6,5] 1, [5,7,5] 1, [5,8,5] 1, [5,9,5] 1, [5,10,5] 1, [5,4,6] 1, [5,5,6] 1, [5,6,6] 1, [5,7,6] 1, [5,8,6] 1, [5,9,6] 1, [5,10,6] 1, [5,4,7] 1, [5,5,7] 1, [5,6,7] 1, [5,7,7] 1, [5,8,7] 1, [5,9,7] 1, [5,10,7] 1, [5,3,8] 1, [5,4,8] 1, [5,5,8] 1, [5,6,8] 1, [5,7,8] 1, [5,8,8] 1, [5,9,8] 1, [5,3,9] 1, [5,4,9] 1, [5,5,9] 1, [5,6,9] 1, [5,7,9] 1, [5,8,9] 1, [5,9,9] 1, [5,3,10] 1, [5,4,10] 1, [5,5,10] 1, [5,6,10] 1, [5,7,10] 1, [5,8,10] 1, [5,9,10] 1, [5,10,10] 1, [5,3,13] 1, [5,4,13] 1, [5,5,13] 1, [5,6,13] 1, [5,7,13] 1, [5,8,13] 1, [5,9,13] 1, [5,3,14] 1, [5,4,14] 1, [5,5,14] 1, [5,6,14] 1, [5,7,14] 1, [5,8,14] 1, [5,9,14] 1, [5,2,17] 1, [5,3,17] 1, [5,4,17] 1, [5,5,17] 1, [5,6,17] 1, [5,7,17] 1, [5,8,17] 1, [5,9,17] 1, [5,2,18] 1, [5,3,18] 1, [5,4,18] 1, [5,5,18] 1, [5,6,18] 1, [5,7,18] 1, [5,8,18] 1, [5,9,18] 1, [5,10,18] 1, [5,6,19] 1, [5,7,19] 1, [5,8,19] 1, [5,9,19] 1, [5,10,19] 1, [5,4,20] 1, [5,5,20] 1, [5,6,20] 1, [5,7,20] 1, [5,8,20] 1, [5,9,20] 1, [5,10,20] 1, [5,4,21] 1, [5,5,21] 1, [5,6,21] 1, [5,7,21] 1, [5,8,21] 1, [5,9,21] 1, [5,10,21] 1, [5,3,22] 1, [5,4,22] 1, [5,5,22] 1, [5,6,22] 1, [5,7,22] 1, [5,8,22] 1, [5,9,22] 1, [5,3,23] 1, [5,4,23] 1, [5,5,23] 1, [5,6,23] 1, [5,7,23] 1, [5,8,23] 1, [5,9,23] 1, [5,3,24] 1, [5,4,24] 1, [5,5,24] 1, [5,6,24] 1, [5,7,24] 1, [5,8,24] 1, [5,9,24] 1, [5,10,24] 1, [5,3,27] 1, [5,4,27] 1, [5,5,27] 1, [5,6,27] 1, [5,7,27] 1, [5,8,27] 1, [5,9,27] 1, [5,3,28] 1, [5,4,28] 1, [5,5,28] 1, [5,6,28] 1, [5,7,28] 1, [5,8,28] 1, [5,9,28] 1, [9,7,5] 1, [9,8,5] 1, [9,9,5] 1, [9,10,5] 1, [9,7,12] 1, [9,8,12] 1, [9,9,12] 1, [9,10,12] 1, [9,1,13] 1, [9,2,13] 1, [9,3,13] 1, [9,4,13] 1, [9,5,13] 1, [9,6,13] 1, [9,7,13] 1, [9,8,13] 1, [9,9,13] 1, [9,10,13] 1, [9,1,14] 1, [9,2,14] 1, [9,3,14] 1, [9,4,14] 1, [9,5,14] 1, [9,6,14] 1, [9,7,14] 1, [9,8,14] 1, [9,9,14] 1, [9,10,14] 1, [9,7,19] 1, [9,8,19] 1, [9,9,19] 1, [9,10,19] 1, [9,1,20] 1, [9,2,20] 1, [9,3,20] 1, [9,4,20] 1, [9,5,20] 1, [9,6,20] 1, [9,7,20] 1, [9,8,20] 1, [9,9,20] 1, [9,10,20] 1, [9,1,21] 1, [9,2,21] 1, [9,3,21] 1, [9,4,21] 1, [9,5,21] 1, [9,6,21] 1, [9,7,21] 1, [9,8,21] 1, [9,9,21] 1, [9,10,21] 1, [9,7,26] 1, [9,8,26] 1, [9,9,26] 1, [9,10,26] 1, [9,1,27] 1, [9,2,27] 1, [9,3,27] 1, [9,4,27] 1, [9,5,27] 1, [9,6,27] 1, [9,7,27] 1, [9,8,27] 1, [9,9,27] 1, [9,10,27] 1, [9,1,28] 1, [9,2,28] 1, [9,3,28] 1, [9,4,28] 1, [9,5,28] 1, [9,6,28] 1, [9,7,28] 1, [9,8,28] 1, [9,9,28] 1, [9,10,28] 1, [7,3,1] 1, [7,4,1] 1, [7,5,1] 1, [7,6,1] 1, [7,7,1] 1, [7,8,1] 1, [7,9,1] 1, [7,3,2] 1, [7,4,2] 1, [7,5,2] 1, [7,6,2] 1, [7,7,2] 1, [7,8,2] 1, [7,9,2] 1, [7,3,3] 1, [7,4,3] 1, [7,5,3] 1, [7,6,3] 1, [7,7,3] 1, [7,8,3] 1, [7,9,3] 1, [7,10,3] 1, [7,3,6] 1, [7,4,6] 1, [7,5,6] 1, [7,6,6] 1, [7,7,6] 1, [7,8,6] 1, [7,9,6] 1, [7,3,7] 1, [7,4,7] 1, [7,5,7] 1, [7,6,7] 1, [7,7,7] 1, [7,8,7] 1, [7,9,7] 1, [7,3,9] 1, [7,4,9] 1, [7,5,9] 1, [7,6,9] 1, [7,7,9] 1, [7,8,9] 1, [7,9,9] 1, [7,4,10] 1, [7,5,10] 1, [7,6,10] 1, [7,7,10] 1, [7,8,10] 1, [7,9,10] 1, [7,10,10] 1, [7,3,11] 1, [7,4,11] 1, [7,5,11] 1, [7,6,11] 1, [7,7,11] 1, [7,8,11] 1, [7,9,11] 1, [7,10,11] 1, [7,2,12] 1, [7,3,12] 1, [7,4,12] 1, [7,5,12] 1, [7,6,12] 1, [7,7,12] 1, [7,10,12] 1, [7,2,13] 1, [7,3,13] 1, [7,4,13] 1, [7,5,13] 1, [7,6,13] 1, [7,7,13] 1, [7,8,13] 1, [7,3,16] 1, [7,4,16] 1, [7,5,16] 1, [7,6,16] 1, [7,7,16] 1, [7,8,16] 1, [7,9,16] 1, [7,4,17] 1, [7,5,17] 1, [7,6,17] 1, [7,7,17] 1, [7,8,17] 1, [7,9,17] 1, [7,10,17] 1, [7,3,18] 1, [7,4,18] 1, [7,5,18] 1, [7,6,18] 1, [7,7,18] 1, [7,8,18] 1, [7,9,18] 1, [7,10,18] 1, [7,2,19] 1, [7,3,19] 1, [7,4,19] 1, [7,5,19] 1, [7,6,19] 1, [7,7,19] 1, [7,10,19] 1, [7,2,20] 1, [7,3,20] 1, [7,4,20] 1, [7,5,20] 1, [7,6,20] 1, [7,7,20] 1, [7,8,20] 1, [7,3,22] 1, [7,4,22] 1, [7,5,22] 1, [7,6,22] 1, [7,7,22] 1, [7,8,22] 1, [7,9,22] 1, [7,3,23] 1, [7,4,23] 1, [7,5,23] 1, [7,6,23] 1, [7,7,23] 1, [7,8,23] 1, [7,9,23] 1, [7,3,24] 1, [7,4,24] 1, [7,5,24] 1, [7,6,24] 1, [7,7,24] 1, [7,8,24] 1, [7,9,24] 1, [7,10,24] 1, [7,3,27] 1, [7,4,27] 1, [7,5,27] 1, [7,6,27] 1, [7,7,27] 1, [7,8,27] 1, [7,9,27] 1, [7,3,28] 1, [7,4,28] 1, [7,5,28] 1, [7,6,28] 1, [7,7,28] 1, [7,8,28] 1, [7,9,28] 1	[1,1,1] 7, [2,1,1] 3, [3,1,1] 2, [4,1,1] 0, [5,1,1] 2, [6,1,1] 0, [7,1,1] 0, [8,1,1] 0, [9,1,1] 2, [10,1,1] 2, [11,1,1] 0, [12,1,1] 3	[1,1,1,1] 209377, [1,2,1,1] 225483, [1,3,1,1] 295135, [1,4,1,1] 454054, [1,5,1,1] 385946, [1,6,1,1] 363243, [1,7,1,1] 522162, [1,8,1,1] 771891, [1,9,1,1] 1021621, [1,10,1,1] 794594, [1,1,2,1] 211471, [1,2,2,1] 227738, [1,3,2,1] 298086, [1,4,2,1] 458594, [1,5,2,1] 389805, [1,6,2,1] 366875, [1,7,2,1] 527383, [1,8,2,1] 779610, [1,9,2,1] 1031837, [1,10,2,1] 802540, [1,1,3,1] 219846, [1,2,3,1] 236757, [1,3,3,1] 309892, [1,4,3,1] 476756, [1,5,3,1] 405243, [1,6,3,1] 381405, [1,7,3,1] 548270, [1,8,3,1] 810486, [1,9,3,1] 1072702, [1,10,3,1] 834323, [1,1,4,1] 221940, [1,2,4,1] 239012, [1,3,4,1] 312843, [1,4,4,1] 481297, [1,5,4,1] 409102, [1,6,4,1] 385037, [1,7,4,1] 553491, [1,8,4,1] 818205, [1,9,4,1] 1082918, [1,10,4,1] 842269, [1,1,5,1] 251253, [1,2,5,1] 270580, [1,3,5,1] 354162, [1,4,5,1] 544864, [1,5,5,1] 463135, [1,6,5,1] 435891, [1,7,5,1] 626594, [1,8,5,1] 926269, [1,9,5,1] 1225945, [1,10,5,1] 953513, [1,1,6,1] 276378, [1,2,6,1] 297638, [1,3,6,1] 389578, [1,4,6,1] 599351, [1,5,6,1] 509448, [1,6,6,1] 479481, [1,7,6,1] 689253, [1,8,6,1] 1018896, [1,9,6,1] 1348539, [1,10,6,1] 1048864, [1,1,7,1] 271353, [1,2,7,1] 292226, [1,3,7,1] 382495, [1,4,7,1] 588453, [1,5,7,1] 500185, [1,6,7,1] 470763, [1,7,7,1] 676721, [1,8,7,1] 1000371, [1,9,7,1] 1324020, [1,10,7,1] 1029794, [1,1,8,1] 203096, [1,2,8,1] 218719, [1,3,8,1] 286281, [1,4,8,1] 440432, [1,5,8,1] 374367, [1,6,8,1] 352346, [1,7,8,1] 506497, [1,8,8,1] 748734, [1,9,8,1] 990972, [1,10,8,1] 770756, [1,1,9,1] 222128, [1,2,9,1] 239215, [1,3,9,1] 313109, [1,4,9,1] 481705, [1,5,9,1] 409450, [1,6,9,1] 385364, [1,7,9,1] 553961, [1,8,9,1] 818899, [1,9,9,1] 1083837, [1,10,9,1] 842985, [1,1,10,1] 224243, [1,2,10,1] 241492, [1,3,10,1] 316089, [1,4,10,1] 486291, [1,5,10,1] 413348, [1,6,10,1] 389033, [1,7,10,1] 559235, [1,8,10,1] 826695, [1,9,10,1] 1094156, [1,10,10,1] 851010, [1,1,11,1] 229708, [1,2,11,1] 247377, [1,3,11,1] 321591, [1,4,11,1] 494755, [1,5,11,1] 420542, [1,6,11,1] 395804, [1,7,11,1] 568968, [1,8,11,1] 841083, [1,9,11,1] 1113198, [1,10,11,1] 865821, [1,1,12,1] 251504, [1,2,12,1] 270850, [1,3,12,1] 352105, [1,4,12,1] 541700, [1,5,12,1] 460445, [1,6,12,1] 433360, [1,7,12,1] 622955, [1,8,12,1] 920891, [1,9,12,1] 1218826, [1,10,12,1] 947976, [1,1,13,1] 273614, [1,2,13,1] 294661, [1,3,13,1] 383060, [1,4,13,1] 589322, [1,5,13,1] 500924, [1,6,13,1] 471458, [1,7,13,1] 677721, [1,8,13,1] 1001848, [1,9,13,1] 1325975, [1,10,13,1] 1031314, [1,1,14,1] 271624, [1,2,14,1] 292518, [1,3,14,1] 380274, [1,4,14,1] 585036, [1,5,14,1] 497281, [1,6,14,1] 468029, [1,7,14,1] 672792, [1,8,14,1] 994562, [1,9,14,1] 1316332, [1,10,14,1] 1023814, [1,1,15,1] 205127, [1,2,15,1] 220906, [1,3,15,1] 287177, [1,4,15,1] 441811, [1,5,15,1] 375540, [1,6,15,1] 353449, [1,7,15,1] 508083, [1,8,15,1] 751079, [1,9,15,1] 994076, [1,10,15,1] 773170, [1,1,16,1] 204358, [1,2,16,1] 220078, [1,3,16,1] 286101, [1,4,16,1] 440155, [1,5,16,1] 374132, [1,6,16,1] 352124, [1,7,16,1] 506179, [1,8,16,1] 748264, [1,9,16,1] 990350, [1,10,16,1] 770272, [1,1,17,1] 226485, [1,2,17,1] 243907, [1,3,17,1] 317079, [1,4,17,1] 487814, [1,5,17,1] 414642, [1,6,17,1] 390252, [1,7,17,1] 560987, [1,8,17,1] 829285, [1,9,17,1] 1097583, [1,10,17,1] 853675, [1,1,18,1] 227411, [1,2,18,1] 244904, [1,3,18,1] 318375, [1,4,18,1] 489807, [1,5,18,1] 416336, [1,6,18,1] 391846, [1,7,18,1] 563278, [1,8,18,1] 832672, [1,9,18,1] 1102066, [1,10,18,1] 857163, [1,1,19,1] 264079, [1,2,19,1] 284393, [1,3,19,1] 369711, [1,4,19,1] 568785, [1,5,19,1] 483468, [1,6,19,1] 455028, [1,7,19,1] 654103, [1,8,19,1] 966935, [1,9,19,1] 1279767, [1,10,19,1] 995374, [1,1,20,1] 284559, [1,2,20,1] 306448, [1,3,20,1] 398382, [1,4,20,1] 612895, [1,5,20,1] 520961, [1,6,20,1] 490316, [1,7,20,1] 704830, [1,8,20,1] 1041922, [1,9,20,1] 1379014, [1,10,20,1] 1072567, [1,1,21,1] 268908, [1,2,21,1] 289593, [1,3,21,1] 376471, [1,4,21,1] 579186, [1,5,21,1] 492308, [1,6,21,1] 463349, [1,7,21,1] 666064, [1,8,21,1] 984616, [1,9,21,1] 1303169, [1,10,21,1] 1013576, [1,1,22,1] 207178, [1,2,22,1] 223115, [1,3,22,1] 290049, [1,4,22,1] 446230, [1,5,22,1] 379295, [1,6,22,1] 356984, [1,7,22,1] 513164, [1,8,22,1] 758590, [1,9,22,1] 1004016, [1,10,22,1] 780902, [1,1,23,1] 188009, [1,2,23,1] 202472, [1,3,23,1] 263213, [1,4,23,1] 404943, [1,5,23,1] 344202, [1,6,23,1] 323954, [1,7,23,1] 465684, [1,8,23,1] 688403, [1,9,23,1] 911122, [1,10,23,1] 708650, [1,1,24,1] 228750, [1,2,24,1] 246346, [1,3,24,1] 320250, [1,4,24,1] 492693, [1,5,24,1] 418789, [1,6,24,1] 394154, [1,7,24,1] 566597, [1,8,24,1] 837577, [1,9,24,1] 1108558, [1,10,24,1] 862212, [1,1,25,1] 225136, [1,2,25,1] 242455, [1,3,25,1] 315191, [1,4,25,1] 484909, [1,5,25,1] 412173, [1,6,25,1] 387927, [1,7,25,1] 557646, [1,8,25,1] 824346, [1,9,25,1] 1091046, [1,10,25,1] 848591, [1,1,26,1] 277283, [1,2,26,1] 298612, [1,3,26,1] 388196, [1,4,26,1] 597225, [1,5,26,1] 507641, [1,6,26,1] 477780, [1,7,26,1] 686808, [1,8,26,1] 1015282, [1,9,26,1] 1343756, [1,10,26,1] 1045143, [1,1,27,1] 295941, [1,2,27,1] 318706, [1,3,27,1] 414317, [1,4,27,1] 637411, [1,5,27,1] 541799, [1,6,27,1] 509929, [1,7,27,1] 733023, [1,8,27,1] 1083599, [1,9,27,1] 1434175, [1,10,27,1] 1115469, [1,1,28,1] 266219, [1,2,28,1] 286697, [1,3,28,1] 372706, [1,4,28,1] 573394, [1,5,28,1] 487385, [1,6,28,1] 458715, [1,7,28,1] 659403, [1,8,28,1] 974770, [1,9,28,1] 1290137, [1,10,28,1] 1003440	2018-06-01 16:47:26.212487	2018-07-08 19:21:24.347591	8	2018
 38	34	12	1	28	10	2500	85000			[1] 1, [2] 1	[2] 1, [3] 1, [4] 1, [5] 1	2	[6,3,2] 1, [6,4,2] 1, [6,5,2] 1, [6,6,2] 1, [6,7,2] 1, [6,8,2] 1, [6,9,2] 1, [6,4,3] 1, [6,5,3] 1, [6,6,3] 1, [6,7,3] 1, [6,8,3] 1, [6,9,3] 1, [6,3,4] 1, [6,4,4] 1, [6,5,4] 1, [6,6,4] 1, [6,7,4] 1, [6,8,4] 1, [6,9,4] 1, [6,10,4] 1, [6,2,5] 1, [6,3,5] 1, [6,4,5] 1, [6,5,5] 1, [6,6,5] 1, [6,7,5] 1, [6,10,5] 1, [6,2,6] 1, [6,3,6] 1, [6,4,6] 1, [6,5,6] 1, [6,6,6] 1, [6,7,6] 1, [6,8,6] 1, [6,3,9] 1, [6,4,9] 1, [6,5,9] 1, [6,6,9] 1, [6,7,9] 1, [6,8,9] 1, [6,9,9] 1, [6,10,9] 1, [6,4,11] 1, [6,5,11] 1, [6,6,11] 1, [6,7,11] 1, [6,8,11] 1, [6,9,11] 1, [6,10,11] 1, [6,2,12] 1, [6,3,12] 1, [6,4,12] 1, [6,5,12] 1, [6,6,12] 1, [6,7,12] 1, [6,8,12] 1, [6,9,12] 1, [6,10,12] 1, [6,2,13] 1, [6,3,13] 1, [6,4,13] 1, [6,5,13] 1, [6,6,13] 1, [6,7,13] 1, [6,8,13] 1, [6,9,13] 1, [6,10,13] 1, [6,6,14] 1, [6,7,14] 1, [6,8,14] 1, [6,9,14] 1, [6,10,14] 1, [6,3,16] 1, [6,4,16] 1, [6,5,16] 1, [6,6,16] 1, [6,7,16] 1, [6,8,16] 1, [6,9,16] 1, [6,4,17] 1, [6,5,17] 1, [6,6,17] 1, [6,7,17] 1, [6,8,17] 1, [6,9,17] 1, [6,10,17] 1, [6,3,18] 1, [6,4,18] 1, [6,5,18] 1, [6,6,18] 1, [6,7,18] 1, [6,8,18] 1, [6,9,18] 1, [6,10,18] 1, [6,2,19] 1, [6,3,19] 1, [6,4,19] 1, [6,5,19] 1, [6,6,19] 1, [6,7,19] 1, [6,10,19] 1, [6,2,20] 1, [6,3,20] 1, [6,4,20] 1, [6,5,20] 1, [6,6,20] 1, [6,7,20] 1, [6,8,20] 1, [6,3,23] 1, [6,4,23] 1, [6,5,23] 1, [6,6,23] 1, [6,7,23] 1, [6,8,23] 1, [6,9,23] 1, [6,10,23] 1, [6,4,25] 1, [6,5,25] 1, [6,6,25] 1, [6,7,25] 1, [6,8,25] 1, [6,9,25] 1, [6,10,25] 1, [6,3,26] 1, [6,4,26] 1, [6,5,26] 1, [6,6,26] 1, [6,7,26] 1, [6,8,26] 1, [6,9,26] 1, [6,10,26] 1, [6,3,27] 1, [6,4,27] 1, [6,5,27] 1, [6,6,27] 1, [6,7,27] 1, [6,8,27] 1, [6,9,27] 1, [6,10,27] 1, [6,6,28] 1, [6,7,28] 1, [6,8,28] 1, [6,9,28] 1, [6,10,28] 1, [8,1,1] 1, [8,2,1] 1, [8,3,1] 1, [8,4,1] 1, [8,5,1] 1, [8,6,1] 1, [8,7,1] 1, [8,8,1] 1, [8,9,1] 1, [8,10,1] 1, [8,5,5] 1, [8,6,5] 1, [8,7,5] 1, [8,8,5] 1, [8,9,5] 1, [8,10,5] 1, [8,1,6] 1, [8,2,6] 1, [8,3,6] 1, [8,4,6] 1, [8,5,6] 1, [8,6,6] 1, [8,7,6] 1, [8,8,6] 1, [8,9,6] 1, [8,10,6] 1, [8,1,7] 1, [8,2,7] 1, [8,3,7] 1, [8,4,7] 1, [8,5,7] 1, [8,6,7] 1, [8,7,7] 1, [8,8,7] 1, [8,9,7] 1, [8,10,7] 1, [8,1,8] 1, [8,2,8] 1, [8,3,8] 1, [8,4,8] 1, [8,5,8] 1, [8,6,8] 1, [8,7,8] 1, [8,8,8] 1, [8,3,10] 1, [8,4,10] 1, [8,5,10] 1, [8,6,10] 1, [8,7,10] 1, [8,8,10] 1, [8,3,11] 1, [8,4,11] 1, [8,5,11] 1, [8,6,11] 1, [8,7,11] 1, [8,8,11] 1, [8,3,12] 1, [8,4,12] 1, [8,5,12] 1, [8,6,12] 1, [8,7,12] 1, [8,8,12] 1, [8,1,14] 1, [8,2,14] 1, [8,3,14] 1, [8,4,14] 1, [8,5,14] 1, [8,6,14] 1, [8,7,14] 1, [8,8,14] 1, [8,9,14] 1, [8,10,14] 1, [8,1,15] 1, [8,2,15] 1, [8,3,15] 1, [8,4,15] 1, [8,5,15] 1, [8,6,15] 1, [8,7,15] 1, [8,8,15] 1, [8,9,15] 1, [8,10,15] 1, [8,5,19] 1, [8,6,19] 1, [8,7,19] 1, [8,8,19] 1, [8,9,19] 1, [8,10,19] 1, [8,1,20] 1, [8,2,20] 1, [8,3,20] 1, [8,4,20] 1, [8,5,20] 1, [8,6,20] 1, [8,7,20] 1, [8,8,20] 1, [8,9,20] 1, [8,10,20] 1, [8,1,21] 1, [8,2,21] 1, [8,3,21] 1, [8,4,21] 1, [8,5,21] 1, [8,6,21] 1, [8,7,21] 1, [8,8,21] 1, [8,9,21] 1, [8,10,21] 1, [8,1,22] 1, [8,2,22] 1, [8,3,22] 1, [8,4,22] 1, [8,5,22] 1, [8,6,22] 1, [8,7,22] 1, [8,8,22] 1, [8,3,24] 1, [8,4,24] 1, [8,5,24] 1, [8,6,24] 1, [8,7,24] 1, [8,8,24] 1, [8,3,25] 1, [8,4,25] 1, [8,5,25] 1, [8,6,25] 1, [8,7,25] 1, [8,8,25] 1, [8,3,26] 1, [8,4,26] 1, [8,5,26] 1, [8,6,26] 1, [8,7,26] 1, [8,8,26] 1, [8,1,28] 1, [8,2,28] 1, [8,3,28] 1, [8,4,28] 1, [8,5,28] 1, [8,6,28] 1, [8,7,28] 1, [8,8,28] 1, [8,9,28] 1, [8,10,28] 1, [12,5,1] 1, [12,6,1] 1, [12,7,1] 1, [12,8,1] 1, [12,9,1] 1, [12,10,1] 1, [12,5,2] 1, [12,6,2] 1, [12,7,2] 1, [12,8,2] 1, [12,9,2] 1, [12,10,2] 1, [12,5,3] 1, [12,6,3] 1, [12,7,3] 1, [12,8,3] 1, [12,9,3] 1, [12,10,3] 1, [12,5,4] 1, [12,6,4] 1, [12,7,4] 1, [12,8,4] 1, [12,9,4] 1, [12,10,4] 1, [12,5,5] 1, [12,6,5] 1, [12,7,5] 1, [12,8,5] 1, [12,9,5] 1, [12,10,5] 1, [12,5,7] 1, [12,6,7] 1, [12,7,7] 1, [12,8,7] 1, [12,9,7] 1, [12,10,7] 1, [12,5,8] 1, [12,6,8] 1, [12,7,8] 1, [12,8,8] 1, [12,9,8] 1, [12,10,8] 1, [12,5,9] 1, [12,6,9] 1, [12,7,9] 1, [12,8,9] 1, [12,9,9] 1, [12,10,9] 1, [12,5,10] 1, [12,6,10] 1, [12,7,10] 1, [12,8,10] 1, [12,9,10] 1, [12,10,10] 1, [12,5,11] 1, [12,6,11] 1, [12,7,11] 1, [12,8,11] 1, [12,9,11] 1, [12,10,11] 1, [12,5,12] 1, [12,6,12] 1, [12,7,12] 1, [12,8,12] 1, [12,9,12] 1, [12,10,12] 1, [12,5,14] 1, [12,6,14] 1, [12,7,14] 1, [12,8,14] 1, [12,9,14] 1, [12,10,14] 1, [12,5,15] 1, [12,6,15] 1, [12,7,15] 1, [12,8,15] 1, [12,9,15] 1, [12,10,15] 1, [12,5,16] 1, [12,6,16] 1, [12,7,16] 1, [12,8,16] 1, [12,9,16] 1, [12,10,16] 1, [12,5,17] 1, [12,6,17] 1, [12,7,17] 1, [12,8,17] 1, [12,9,17] 1, [12,10,17] 1, [12,5,18] 1, [12,6,18] 1, [12,7,18] 1, [12,8,18] 1, [12,9,18] 1, [12,10,18] 1, [12,5,19] 1, [12,6,19] 1, [12,7,19] 1, [12,8,19] 1, [12,9,19] 1, [12,10,19] 1, [12,5,21] 1, [12,6,21] 1, [12,7,21] 1, [12,8,21] 1, [12,9,21] 1, [12,10,21] 1, [12,5,22] 1, [12,6,22] 1, [12,7,22] 1, [12,8,22] 1, [12,9,22] 1, [12,10,22] 1, [12,5,23] 1, [12,6,23] 1, [12,7,23] 1, [12,8,23] 1, [12,9,23] 1, [12,10,23] 1, [12,5,24] 1, [12,6,24] 1, [12,7,24] 1, [12,8,24] 1, [12,9,24] 1, [12,10,24] 1, [12,5,25] 1, [12,6,25] 1, [12,7,25] 1, [12,8,25] 1, [12,9,25] 1, [12,10,25] 1, [12,5,26] 1, [12,6,26] 1, [12,7,26] 1, [12,8,26] 1, [12,9,26] 1, [12,10,26] 1, [12,5,28] 1, [12,6,28] 1, [12,7,28] 1, [12,8,28] 1, [12,9,28] 1, [12,10,28] 1, [1,2,1] 1, [1,3,1] 1, [1,4,1] 1, [1,5,1] 1, [1,6,1] 1, [1,7,1] 1, [1,1,2] 1, [1,2,2] 1, [1,3,2] 1, [1,4,2] 1, [1,5,2] 1, [1,6,2] 1, [1,7,2] 1, [1,8,2] 1, [1,9,2] 1, [1,10,2] 1, [1,2,3] 1, [1,3,3] 1, [1,4,3] 1, [1,5,3] 1, [1,6,3] 1, [1,7,3] 1, [1,8,3] 1, [1,9,3] 1, [1,10,3] 1, [1,1,4] 1, [1,2,4] 1, [1,3,4] 1, [1,4,4] 1, [1,5,4] 1, [1,6,4] 1, [1,7,4] 1, [1,8,4] 1, [1,9,4] 1, [1,10,4] 1, [1,1,5] 1, [1,2,5] 1, [1,3,5] 1, [1,4,5] 1, [1,5,5] 1, [1,6,5] 1, [1,7,5] 1, [1,8,5] 1, [1,9,5] 1, [1,10,5] 1, [1,3,8] 1, [1,4,8] 1, [1,5,8] 1, [1,6,8] 1, [1,7,8] 1, [1,8,8] 1, [1,9,8] 1, [1,3,9] 1, [1,4,9] 1, [1,5,9] 1, [1,6,9] 1, [1,7,9] 1, [1,8,9] 1, [1,9,9] 1, [1,3,11] 1, [1,4,11] 1, [1,5,11] 1, [1,6,11] 1, [1,7,11] 1, [1,8,11] 1, [1,9,11] 1, [1,2,12] 1, [1,3,12] 1, [1,4,12] 1, [1,5,12] 1, [1,6,12] 1, [1,7,12] 1, [1,8,12] 1, [1,9,12] 1, [1,2,13] 1, [1,3,13] 1, [1,4,13] 1, [1,5,13] 1, [1,6,13] 1, [1,7,13] 1, [1,8,13] 1, [1,9,13] 1, [1,2,14] 1, [1,3,14] 1, [1,4,14] 1, [1,5,14] 1, [1,6,14] 1, [1,7,14] 1, [1,8,14] 1, [1,9,14] 1, [1,1,15] 1, [1,2,15] 1, [1,3,15] 1, [1,4,15] 1, [1,5,15] 1, [1,6,15] 1, [1,7,15] 1, [1,8,15] 1, [1,9,15] 1, [1,10,15] 1, [1,1,17] 1, [1,2,17] 1, [1,3,17] 1, [1,4,17] 1, [1,5,17] 1, [1,6,17] 1, [1,7,17] 1, [1,8,17] 1, [1,9,17] 1, [1,10,17] 1, [1,1,18] 1, [1,2,18] 1, [1,3,18] 1, [1,4,18] 1, [1,5,18] 1, [1,6,18] 1, [1,7,18] 1, [1,8,18] 1, [1,9,18] 1, [1,1,19] 1, [1,2,19] 1, [1,3,19] 1, [1,4,19] 1, [1,5,19] 1, [1,6,19] 1, [1,7,19] 1, [1,8,19] 1, [1,9,19] 1, [1,1,20] 1, [1,2,20] 1, [1,3,20] 1, [1,4,20] 1, [1,5,20] 1, [1,6,20] 1, [1,7,20] 1, [1,8,20] 1, [1,9,20] 1, [1,1,24] 1, [1,2,24] 1, [1,3,24] 1, [1,4,24] 1, [1,5,24] 1, [1,6,24] 1, [1,7,24] 1, [1,8,24] 1, [1,9,24] 1, [1,10,24] 1, [1,3,26] 1, [1,4,26] 1, [1,5,26] 1, [1,6,26] 1, [1,7,26] 1, [1,8,26] 1, [1,9,26] 1, [1,10,26] 1, [1,2,27] 1, [1,3,27] 1, [1,4,27] 1, [1,5,27] 1, [1,6,27] 1, [1,7,27] 1, [1,8,27] 1, [1,9,27] 1, [1,10,27] 1, [1,3,28] 1, [1,4,28] 1, [1,5,28] 1, [1,6,28] 1, [1,7,28] 1, [1,8,28] 1, [1,9,28] 1, [1,10,28] 1, [2,3,2] 1, [2,4,2] 1, [2,5,2] 1, [2,6,2] 1, [2,7,2] 1, [2,8,2] 1, [2,9,2] 1, [2,1,3] 1, [2,2,3] 1, [2,3,3] 1, [2,4,3] 1, [2,5,3] 1, [2,6,3] 1, [2,7,3] 1, [2,8,3] 1, [2,9,3] 1, [2,10,3] 1, [2,3,4] 1, [2,4,4] 1, [2,5,4] 1, [2,6,4] 1, [2,7,4] 1, [2,8,4] 1, [2,9,4] 1, [2,10,4] 1, [2,2,5] 1, [2,3,5] 1, [2,4,5] 1, [2,5,5] 1, [2,6,5] 1, [2,7,5] 1, [2,10,5] 1, [2,2,6] 1, [2,3,6] 1, [2,4,6] 1, [2,5,6] 1, [2,6,6] 1, [2,7,6] 1, [2,8,6] 1, [2,9,6] 1, [2,1,7] 1, [2,2,7] 1, [2,3,7] 1, [2,4,7] 1, [2,5,7] 1, [2,6,7] 1, [2,7,7] 1, [2,8,7] 1, [2,9,7] 1, [2,2,8] 1, [2,3,8] 1, [2,4,8] 1, [2,5,8] 1, [2,6,8] 1, [2,7,8] 1, [2,1,9] 1, [2,2,9] 1, [2,3,9] 1, [2,4,9] 1, [2,5,9] 1, [2,6,9] 1, [2,7,9] 1, [2,8,9] 1, [2,9,9] 1, [2,10,9] 1, [2,1,11] 1, [2,2,11] 1, [2,3,11] 1, [2,4,11] 1, [2,5,11] 1, [2,6,11] 1, [2,7,11] 1, [2,8,11] 1, [2,9,11] 1, [2,10,11] 1, [2,1,12] 1, [2,3,12] 1, [2,4,12] 1, [2,5,12] 1, [2,6,12] 1, [2,7,12] 1, [2,8,12] 1, [2,9,12] 1, [2,10,12] 1, [2,1,13] 1, [2,3,13] 1, [2,4,13] 1, [2,5,13] 1, [2,6,13] 1, [2,7,13] 1, [2,8,13] 1, [2,9,13] 1, [2,10,13] 1, [2,1,15] 1, [2,2,15] 1, [2,3,15] 1, [2,4,15] 1, [2,5,15] 1, [2,6,15] 1, [2,7,15] 1, [2,8,15] 1, [2,9,15] 1, [2,10,15] 1, [2,1,16] 1, [2,2,16] 1, [2,3,16] 1, [2,4,16] 1, [2,5,16] 1, [2,6,16] 1, [2,7,16] 1, [2,8,16] 1, [2,9,16] 1, [2,10,16] 1, [2,1,17] 1, [2,2,17] 1, [2,3,17] 1, [2,4,17] 1, [2,5,17] 1, [2,6,17] 1, [2,7,17] 1, [2,8,17] 1, [2,9,17] 1, [2,10,17] 1, [2,3,20] 1, [2,4,20] 1, [2,5,20] 1, [2,6,20] 1, [2,7,20] 1, [2,8,20] 1, [2,9,20] 1, [2,10,20] 1, [2,3,21] 1, [2,4,21] 1, [2,5,21] 1, [2,6,21] 1, [2,7,21] 1, [2,8,21] 1, [2,9,21] 1, [2,10,21] 1, [2,1,22] 1, [2,2,22] 1, [2,3,22] 1, [2,4,22] 1, [2,5,22] 1, [2,6,22] 1, [2,7,22] 1, [2,8,22] 1, [2,9,22] 1, [2,10,22] 1, [2,1,24] 1, [2,2,24] 1, [2,3,24] 1, [2,4,24] 1, [2,5,24] 1, [2,6,24] 1, [2,7,24] 1, [2,8,24] 1, [2,9,24] 1, [2,10,24] 1, [2,1,25] 1, [2,2,25] 1, [2,3,25] 1, [2,4,25] 1, [2,5,25] 1, [2,6,25] 1, [2,7,25] 1, [2,8,25] 1, [2,9,25] 1, [2,1,26] 1, [2,2,26] 1, [2,3,26] 1, [2,4,26] 1, [2,5,26] 1, [2,6,26] 1, [2,7,26] 1, [2,8,26] 1, [2,9,26] 1, [2,1,27] 1, [2,2,27] 1, [2,3,27] 1, [2,4,27] 1, [2,5,27] 1, [2,6,27] 1, [2,7,27] 1, [2,8,27] 1, [2,9,27] 1, [3,1,1] 1, [3,2,1] 1, [3,3,1] 1, [3,4,1] 1, [3,5,1] 1, [3,6,1] 1, [3,7,1] 1, [3,8,1] 1, [3,9,1] 1, [3,1,3] 1, [3,2,3] 1, [3,3,3] 1, [3,4,3] 1, [3,5,3] 1, [3,6,3] 1, [3,7,3] 1, [3,8,3] 1, [3,9,3] 1, [3,10,3] 1, [3,1,4] 1, [3,2,4] 1, [3,3,4] 1, [3,4,4] 1, [3,5,4] 1, [3,6,4] 1, [3,7,4] 1, [3,8,4] 1, [3,9,4] 1, [3,10,4] 1, [3,1,5] 1, [3,2,5] 1, [3,3,5] 1, [3,4,5] 1, [3,5,5] 1, [3,6,5] 1, [3,7,5] 1, [3,8,5] 1, [3,9,5] 1, [3,1,6] 1, [3,2,6] 1, [3,3,6] 1, [3,4,6] 1, [3,5,6] 1, [3,6,6] 1, [3,7,6] 1, [3,8,6] 1, [3,9,6] 1, [3,1,8] 1, [3,2,8] 1, [3,3,8] 1, [3,4,8] 1, [3,5,8] 1, [3,6,8] 1, [3,7,8] 1, [3,1,9] 1, [3,2,9] 1, [3,3,9] 1, [3,4,9] 1, [3,5,9] 1, [3,6,9] 1, [3,7,9] 1, [3,8,9] 1, [3,9,9] 1, [3,10,9] 1, [3,1,11] 1, [3,2,11] 1, [3,3,11] 1, [3,4,11] 1, [3,5,11] 1, [3,6,11] 1, [3,7,11] 1, [3,8,11] 1, [3,9,11] 1, [3,10,11] 1, [3,1,12] 1, [3,3,12] 1, [3,4,12] 1, [3,5,12] 1, [3,6,12] 1, [3,7,12] 1, [3,8,12] 1, [3,9,12] 1, [3,10,12] 1, [3,1,13] 1, [3,3,13] 1, [3,4,13] 1, [3,5,13] 1, [3,6,13] 1, [3,7,13] 1, [3,8,13] 1, [3,9,13] 1, [3,10,13] 1, [3,1,15] 1, [3,2,15] 1, [3,3,15] 1, [3,4,15] 1, [3,5,15] 1, [3,6,15] 1, [3,7,15] 1, [3,8,15] 1, [3,9,15] 1, [3,10,15] 1, [3,1,16] 1, [3,2,16] 1, [3,3,16] 1, [3,4,16] 1, [3,5,16] 1, [3,6,16] 1, [3,7,16] 1, [3,8,16] 1, [3,9,16] 1, [3,10,16] 1, [3,1,17] 1, [3,2,17] 1, [3,3,17] 1, [3,4,17] 1, [3,5,17] 1, [3,6,17] 1, [3,7,17] 1, [3,8,17] 1, [3,9,17] 1, [3,10,17] 1, [3,3,20] 1, [3,4,20] 1, [3,5,20] 1, [3,6,20] 1, [3,7,20] 1, [3,8,20] 1, [3,9,20] 1, [3,10,20] 1, [3,3,21] 1, [3,4,21] 1, [3,5,21] 1, [3,6,21] 1, [3,7,21] 1, [3,8,21] 1, [3,9,21] 1, [3,10,21] 1, [3,1,22] 1, [3,2,22] 1, [3,3,22] 1, [3,4,22] 1, [3,5,22] 1, [3,6,22] 1, [3,7,22] 1, [3,8,22] 1, [3,9,22] 1, [3,10,22] 1, [3,1,24] 1, [3,2,24] 1, [3,3,24] 1, [3,4,24] 1, [3,5,24] 1, [3,6,24] 1, [3,7,24] 1, [3,8,24] 1, [3,9,24] 1, [3,10,24] 1, [3,1,25] 1, [3,2,25] 1, [3,3,25] 1, [3,4,25] 1, [3,5,25] 1, [3,6,25] 1, [3,7,25] 1, [3,8,25] 1, [3,9,25] 1, [3,1,26] 1, [3,2,26] 1, [3,3,26] 1, [3,4,26] 1, [3,5,26] 1, [3,6,26] 1, [3,7,26] 1, [3,8,26] 1, [3,9,26] 1, [3,1,27] 1, [3,2,27] 1, [3,3,27] 1, [3,4,27] 1, [3,5,27] 1, [3,6,27] 1, [3,7,27] 1, [3,8,27] 1, [3,9,27] 1, [10,1,6] 1, [10,2,6] 1, [10,3,6] 1, [10,4,6] 1, [10,5,6] 1, [10,6,6] 1, [10,7,6] 1, [10,8,6] 1, [10,9,6] 1, [10,10,6] 1, [10,1,7] 1, [10,2,7] 1, [10,3,7] 1, [10,4,7] 1, [10,5,7] 1, [10,6,7] 1, [10,7,7] 1, [10,8,7] 1, [10,9,7] 1, [10,10,7] 1, [10,1,13] 1, [10,2,13] 1, [10,3,13] 1, [10,4,13] 1, [10,5,13] 1, [10,6,13] 1, [10,7,13] 1, [10,8,13] 1, [10,9,13] 1, [10,10,13] 1, [10,1,14] 1, [10,2,14] 1, [10,3,14] 1, [10,4,14] 1, [10,5,14] 1, [10,6,14] 1, [10,7,14] 1, [10,8,14] 1, [10,9,14] 1, [10,10,14] 1, [10,1,20] 1, [10,2,20] 1, [10,3,20] 1, [10,4,20] 1, [10,5,20] 1, [10,6,20] 1, [10,7,20] 1, [10,8,20] 1, [10,9,20] 1, [10,10,20] 1, [10,1,21] 1, [10,2,21] 1, [10,3,21] 1, [10,4,21] 1, [10,5,21] 1, [10,6,21] 1, [10,7,21] 1, [10,8,21] 1, [10,9,21] 1, [10,10,21] 1, [10,1,27] 1, [10,2,27] 1, [10,3,27] 1, [10,4,27] 1, [10,5,27] 1, [10,6,27] 1, [10,7,27] 1, [10,8,27] 1, [10,9,27] 1, [10,10,27] 1, [10,1,28] 1, [10,2,28] 1, [10,3,28] 1, [10,4,28] 1, [10,5,28] 1, [10,6,28] 1, [10,7,28] 1, [10,8,28] 1, [10,9,28] 1, [10,10,28] 1, [11,5,1] 1, [11,6,1] 1, [11,7,1] 1, [11,8,1] 1, [11,9,1] 1, [11,10,1] 1, [11,5,2] 1, [11,6,2] 1, [11,7,2] 1, [11,8,2] 1, [11,9,2] 1, [11,10,2] 1, [11,5,3] 1, [11,6,3] 1, [11,7,3] 1, [11,8,3] 1, [11,9,3] 1, [11,10,3] 1, [11,5,4] 1, [11,6,4] 1, [11,7,4] 1, [11,8,4] 1, [11,9,4] 1, [11,10,4] 1, [11,5,5] 1, [11,6,5] 1, [11,7,5] 1, [11,8,5] 1, [11,9,5] 1, [11,10,5] 1, [11,5,6] 1, [11,6,6] 1, [11,7,6] 1, [11,8,6] 1, [11,9,6] 1, [11,10,6] 1, [11,5,8] 1, [11,6,8] 1, [11,7,8] 1, [11,8,8] 1, [11,9,8] 1, [11,10,8] 1, [11,5,9] 1, [11,6,9] 1, [11,7,9] 1, [11,8,9] 1, [11,9,9] 1, [11,10,9] 1, [11,5,10] 1, [11,6,10] 1, [11,7,10] 1, [11,8,10] 1, [11,9,10] 1, [11,10,10] 1, [11,5,11] 1, [11,6,11] 1, [11,7,11] 1, [11,8,11] 1, [11,9,11] 1, [11,10,11] 1, [11,5,12] 1, [11,6,12] 1, [11,7,12] 1, [11,8,12] 1, [11,9,12] 1, [11,10,12] 1, [11,5,13] 1, [11,6,13] 1, [11,7,13] 1, [11,8,13] 1, [11,9,13] 1, [11,10,13] 1, [11,5,15] 1, [11,6,15] 1, [11,7,15] 1, [11,8,15] 1, [11,9,15] 1, [11,10,15] 1, [11,5,16] 1, [11,6,16] 1, [11,7,16] 1, [11,8,16] 1, [11,9,16] 1, [11,10,16] 1, [11,5,17] 1, [11,6,17] 1, [11,7,17] 1, [11,8,17] 1, [11,9,17] 1, [11,10,17] 1, [11,5,18] 1, [11,6,18] 1, [11,7,18] 1, [11,8,18] 1, [11,9,18] 1, [11,10,18] 1, [11,5,19] 1, [11,6,19] 1, [11,7,19] 1, [11,8,19] 1, [11,9,19] 1, [11,10,19] 1, [11,5,20] 1, [11,6,20] 1, [11,7,20] 1, [11,8,20] 1, [11,9,20] 1, [11,10,20] 1, [11,5,22] 1, [11,6,22] 1, [11,7,22] 1, [11,8,22] 1, [11,9,22] 1, [11,10,22] 1, [11,5,23] 1, [11,6,23] 1, [11,7,23] 1, [11,8,23] 1, [11,9,23] 1, [11,10,23] 1, [11,5,24] 1, [11,6,24] 1, [11,7,24] 1, [11,8,24] 1, [11,9,24] 1, [11,10,24] 1, [11,5,25] 1, [11,6,25] 1, [11,7,25] 1, [11,8,25] 1, [11,9,25] 1, [11,10,25] 1, [11,5,26] 1, [11,6,26] 1, [11,7,26] 1, [11,8,26] 1, [11,9,26] 1, [11,10,26] 1, [11,5,27] 1, [11,6,27] 1, [11,7,27] 1, [11,8,27] 1, [11,9,27] 1, [11,10,27] 1, [4,1,1] 1, [4,2,1] 1, [4,3,1] 1, [4,4,1] 1, [4,5,1] 1, [4,6,1] 1, [4,7,1] 1, [4,8,1] 1, [4,9,1] 1, [4,10,1] 1, [4,1,2] 1, [4,2,2] 1, [4,3,2] 1, [4,4,2] 1, [4,5,2] 1, [4,6,2] 1, [4,7,2] 1, [4,8,2] 1, [4,9,2] 1, [4,10,2] 1, [4,3,5] 1, [4,4,5] 1, [4,5,5] 1, [4,6,5] 1, [4,7,5] 1, [4,8,5] 1, [4,9,5] 1, [4,10,5] 1, [4,2,6] 1, [4,3,6] 1, [4,4,6] 1, [4,5,6] 1, [4,6,6] 1, [4,7,6] 1, [4,8,6] 1, [4,9,6] 1, [4,10,6] 1, [4,1,7] 1, [4,2,7] 1, [4,3,7] 1, [4,4,7] 1, [4,5,7] 1, [4,6,7] 1, [4,7,7] 1, [4,8,7] 1, [4,9,7] 1, [4,10,7] 1, [4,1,8] 1, [4,2,8] 1, [4,3,8] 1, [4,4,8] 1, [4,5,8] 1, [4,6,8] 1, [4,7,8] 1, [4,8,8] 1, [4,1,10] 1, [4,2,10] 1, [4,3,10] 1, [4,4,10] 1, [4,5,10] 1, [4,6,10] 1, [4,7,10] 1, [4,8,10] 1, [4,9,10] 1, [4,10,10] 1, [4,1,11] 1, [4,2,11] 1, [4,3,11] 1, [4,4,11] 1, [4,5,11] 1, [4,6,11] 1, [4,7,11] 1, [4,8,11] 1, [4,9,11] 1, [4,1,12] 1, [4,2,12] 1, [4,3,12] 1, [4,4,12] 1, [4,5,12] 1, [4,6,12] 1, [4,7,12] 1, [4,8,12] 1, [4,9,12] 1, [4,1,13] 1, [4,2,13] 1, [4,3,13] 1, [4,4,13] 1, [4,5,13] 1, [4,6,13] 1, [4,7,13] 1, [4,8,13] 1, [4,9,13] 1, [4,3,15] 1, [4,4,15] 1, [4,5,15] 1, [4,6,15] 1, [4,7,15] 1, [4,8,15] 1, [4,9,15] 1, [4,3,16] 1, [4,4,16] 1, [4,5,16] 1, [4,6,16] 1, [4,7,16] 1, [4,8,16] 1, [4,9,16] 1, [4,3,18] 1, [4,4,18] 1, [4,5,18] 1, [4,6,18] 1, [4,7,18] 1, [4,8,18] 1, [4,9,18] 1, [4,2,19] 1, [4,3,19] 1, [4,4,19] 1, [4,5,19] 1, [4,6,19] 1, [4,7,19] 1, [4,8,19] 1, [4,9,19] 1, [4,2,20] 1, [4,3,20] 1, [4,4,20] 1, [4,5,20] 1, [4,6,20] 1, [4,7,20] 1, [4,8,20] 1, [4,9,20] 1, [4,1,21] 1, [4,2,21] 1, [4,3,21] 1, [4,4,21] 1, [4,5,21] 1, [4,6,21] 1, [4,7,21] 1, [4,8,21] 1, [4,9,21] 1, [4,1,22] 1, [4,2,22] 1, [4,3,22] 1, [4,4,22] 1, [4,5,22] 1, [4,6,22] 1, [4,1,23] 1, [4,2,23] 1, [4,3,23] 1, [4,4,23] 1, [4,5,23] 1, [4,6,23] 1, [4,7,23] 1, [4,8,23] 1, [4,9,23] 1, [4,10,23] 1, [4,1,25] 1, [4,2,25] 1, [4,3,25] 1, [4,4,25] 1, [4,5,25] 1, [4,6,25] 1, [4,7,25] 1, [4,8,25] 1, [4,9,25] 1, [4,10,25] 1, [4,1,26] 1, [4,3,26] 1, [4,4,26] 1, [4,5,26] 1, [4,6,26] 1, [4,7,26] 1, [4,8,26] 1, [4,9,26] 1, [4,10,26] 1, [4,1,27] 1, [4,3,27] 1, [4,4,27] 1, [4,5,27] 1, [4,6,27] 1, [4,7,27] 1, [4,8,27] 1, [4,9,27] 1, [4,10,27] 1, [5,3,3] 1, [5,4,3] 1, [5,5,3] 1, [5,6,3] 1, [5,7,3] 1, [5,8,3] 1, [5,9,3] 1, [5,3,4] 1, [5,4,4] 1, [5,5,4] 1, [5,6,4] 1, [5,7,4] 1, [5,8,4] 1, [5,9,4] 1, [5,10,4] 1, [5,6,5] 1, [5,7,5] 1, [5,8,5] 1, [5,9,5] 1, [5,10,5] 1, [5,4,6] 1, [5,5,6] 1, [5,6,6] 1, [5,7,6] 1, [5,8,6] 1, [5,9,6] 1, [5,10,6] 1, [5,4,7] 1, [5,5,7] 1, [5,6,7] 1, [5,7,7] 1, [5,8,7] 1, [5,9,7] 1, [5,10,7] 1, [5,3,8] 1, [5,4,8] 1, [5,5,8] 1, [5,6,8] 1, [5,7,8] 1, [5,8,8] 1, [5,9,8] 1, [5,3,9] 1, [5,4,9] 1, [5,5,9] 1, [5,6,9] 1, [5,7,9] 1, [5,8,9] 1, [5,9,9] 1, [5,3,10] 1, [5,4,10] 1, [5,5,10] 1, [5,6,10] 1, [5,7,10] 1, [5,8,10] 1, [5,9,10] 1, [5,10,10] 1, [5,3,13] 1, [5,4,13] 1, [5,5,13] 1, [5,6,13] 1, [5,7,13] 1, [5,8,13] 1, [5,9,13] 1, [5,3,14] 1, [5,4,14] 1, [5,5,14] 1, [5,6,14] 1, [5,7,14] 1, [5,8,14] 1, [5,9,14] 1, [5,2,17] 1, [5,3,17] 1, [5,4,17] 1, [5,5,17] 1, [5,6,17] 1, [5,7,17] 1, [5,8,17] 1, [5,9,17] 1, [5,2,18] 1, [5,3,18] 1, [5,4,18] 1, [5,5,18] 1, [5,6,18] 1, [5,7,18] 1, [5,8,18] 1, [5,9,18] 1, [5,10,18] 1, [5,6,19] 1, [5,7,19] 1, [5,8,19] 1, [5,9,19] 1, [5,10,19] 1, [5,4,20] 1, [5,5,20] 1, [5,6,20] 1, [5,7,20] 1, [5,8,20] 1, [5,9,20] 1, [5,10,20] 1, [5,4,21] 1, [5,5,21] 1, [5,6,21] 1, [5,7,21] 1, [5,8,21] 1, [5,9,21] 1, [5,10,21] 1, [5,3,22] 1, [5,4,22] 1, [5,5,22] 1, [5,6,22] 1, [5,7,22] 1, [5,8,22] 1, [5,9,22] 1, [5,3,23] 1, [5,4,23] 1, [5,5,23] 1, [5,6,23] 1, [5,7,23] 1, [5,8,23] 1, [5,9,23] 1, [5,3,24] 1, [5,4,24] 1, [5,5,24] 1, [5,6,24] 1, [5,7,24] 1, [5,8,24] 1, [5,9,24] 1, [5,10,24] 1, [5,3,27] 1, [5,4,27] 1, [5,5,27] 1, [5,6,27] 1, [5,7,27] 1, [5,8,27] 1, [5,9,27] 1, [5,3,28] 1, [5,4,28] 1, [5,5,28] 1, [5,6,28] 1, [5,7,28] 1, [5,8,28] 1, [5,9,28] 1, [9,7,5] 1, [9,8,5] 1, [9,9,5] 1, [9,10,5] 1, [9,7,12] 1, [9,8,12] 1, [9,9,12] 1, [9,10,12] 1, [9,1,13] 1, [9,2,13] 1, [9,3,13] 1, [9,4,13] 1, [9,5,13] 1, [9,6,13] 1, [9,7,13] 1, [9,8,13] 1, [9,9,13] 1, [9,10,13] 1, [9,1,14] 1, [9,2,14] 1, [9,3,14] 1, [9,4,14] 1, [9,5,14] 1, [9,6,14] 1, [9,7,14] 1, [9,8,14] 1, [9,9,14] 1, [9,10,14] 1, [9,7,19] 1, [9,8,19] 1, [9,9,19] 1, [9,10,19] 1, [9,1,20] 1, [9,2,20] 1, [9,3,20] 1, [9,4,20] 1, [9,5,20] 1, [9,6,20] 1, [9,7,20] 1, [9,8,20] 1, [9,9,20] 1, [9,10,20] 1, [9,1,21] 1, [9,2,21] 1, [9,3,21] 1, [9,4,21] 1, [9,5,21] 1, [9,6,21] 1, [9,7,21] 1, [9,8,21] 1, [9,9,21] 1, [9,10,21] 1, [9,7,26] 1, [9,8,26] 1, [9,9,26] 1, [9,10,26] 1, [9,1,27] 1, [9,2,27] 1, [9,3,27] 1, [9,4,27] 1, [9,5,27] 1, [9,6,27] 1, [9,7,27] 1, [9,8,27] 1, [9,9,27] 1, [9,10,27] 1, [9,1,28] 1, [9,2,28] 1, [9,3,28] 1, [9,4,28] 1, [9,5,28] 1, [9,6,28] 1, [9,7,28] 1, [9,8,28] 1, [9,9,28] 1, [9,10,28] 1, [7,3,1] 1, [7,4,1] 1, [7,5,1] 1, [7,6,1] 1, [7,7,1] 1, [7,8,1] 1, [7,9,1] 1, [7,3,2] 1, [7,4,2] 1, [7,5,2] 1, [7,6,2] 1, [7,7,2] 1, [7,8,2] 1, [7,9,2] 1, [7,3,3] 1, [7,4,3] 1, [7,5,3] 1, [7,6,3] 1, [7,7,3] 1, [7,8,3] 1, [7,9,3] 1, [7,10,3] 1, [7,3,6] 1, [7,4,6] 1, [7,5,6] 1, [7,6,6] 1, [7,7,6] 1, [7,8,6] 1, [7,9,6] 1, [7,3,7] 1, [7,4,7] 1, [7,5,7] 1, [7,6,7] 1, [7,7,7] 1, [7,8,7] 1, [7,9,7] 1, [7,3,9] 1, [7,4,9] 1, [7,5,9] 1, [7,6,9] 1, [7,7,9] 1, [7,8,9] 1, [7,9,9] 1, [7,4,10] 1, [7,5,10] 1, [7,6,10] 1, [7,7,10] 1, [7,8,10] 1, [7,9,10] 1, [7,10,10] 1, [7,3,11] 1, [7,4,11] 1, [7,5,11] 1, [7,6,11] 1, [7,7,11] 1, [7,8,11] 1, [7,9,11] 1, [7,10,11] 1, [7,2,12] 1, [7,3,12] 1, [7,4,12] 1, [7,5,12] 1, [7,6,12] 1, [7,7,12] 1, [7,10,12] 1, [7,2,13] 1, [7,3,13] 1, [7,4,13] 1, [7,5,13] 1, [7,6,13] 1, [7,7,13] 1, [7,8,13] 1, [7,3,16] 1, [7,4,16] 1, [7,5,16] 1, [7,6,16] 1, [7,7,16] 1, [7,8,16] 1, [7,9,16] 1, [7,4,17] 1, [7,5,17] 1, [7,6,17] 1, [7,7,17] 1, [7,8,17] 1, [7,9,17] 1, [7,10,17] 1, [7,3,18] 1, [7,4,18] 1, [7,5,18] 1, [7,6,18] 1, [7,7,18] 1, [7,8,18] 1, [7,9,18] 1, [7,10,18] 1, [7,2,19] 1, [7,3,19] 1, [7,4,19] 1, [7,5,19] 1, [7,6,19] 1, [7,7,19] 1, [7,10,19] 1, [7,2,20] 1, [7,3,20] 1, [7,4,20] 1, [7,5,20] 1, [7,6,20] 1, [7,7,20] 1, [7,8,20] 1, [7,3,22] 1, [7,4,22] 1, [7,5,22] 1, [7,6,22] 1, [7,7,22] 1, [7,8,22] 1, [7,9,22] 1, [7,3,23] 1, [7,4,23] 1, [7,5,23] 1, [7,6,23] 1, [7,7,23] 1, [7,8,23] 1, [7,9,23] 1, [7,3,24] 1, [7,4,24] 1, [7,5,24] 1, [7,6,24] 1, [7,7,24] 1, [7,8,24] 1, [7,9,24] 1, [7,10,24] 1, [7,3,27] 1, [7,4,27] 1, [7,5,27] 1, [7,6,27] 1, [7,7,27] 1, [7,8,27] 1, [7,9,27] 1, [7,3,28] 1, [7,4,28] 1, [7,5,28] 1, [7,6,28] 1, [7,7,28] 1, [7,8,28] 1, [7,9,28] 1	[1,1,1] 1, [2,1,1] 2, [3,1,1] 2, [4,1,1] 1, [5,1,1] 1, [6,1,1] 1, [7,1,1] 0, [8,1,1] 0, [9,1,1] 0, [10,1,1] 2, [11,1,1] 0, [12,1,1] 0	[1,1,1,1] 222063, [1,2,1,1] 288682, [1,3,1,1] 444125, [1,4,1,1] 377507, [1,5,1,1] 355300, [1,6,1,1] 510744, [1,7,1,1] 755013, [1,8,1,1] 999282, [1,9,1,1] 777219, [1,10,1,1] 532950, [1,1,2,1] 222063, [1,2,2,1] 288682, [1,3,2,1] 444125, [1,4,2,1] 377507, [1,5,2,1] 355300, [1,6,2,1] 510744, [1,7,2,1] 755013, [1,8,2,1] 999282, [1,9,2,1] 777219, [1,10,2,1] 532950, [1,1,3,1] 222063, [1,2,3,1] 288682, [1,3,3,1] 444125, [1,4,3,1] 377507, [1,5,3,1] 355300, [1,6,3,1] 510744, [1,7,3,1] 755013, [1,8,3,1] 999282, [1,9,3,1] 777219, [1,10,3,1] 532950, [1,1,4,1] 222063, [1,2,4,1] 288682, [1,3,4,1] 444125, [1,4,4,1] 377507, [1,5,4,1] 355300, [1,6,4,1] 510744, [1,7,4,1] 755013, [1,8,4,1] 999282, [1,9,4,1] 777219, [1,10,4,1] 532950, [1,1,5,1] 222063, [1,2,5,1] 288682, [1,3,5,1] 444125, [1,4,5,1] 377507, [1,5,5,1] 355300, [1,6,5,1] 510744, [1,7,5,1] 755013, [1,8,5,1] 999282, [1,9,5,1] 777219, [1,10,5,1] 532950, [1,1,6,1] 444125, [1,2,6,1] 621775, [1,3,6,1] 888250, [1,4,6,1] 755013, [1,5,6,1] 604010, [1,6,6,1] 1110313, [1,7,6,1] 1665469, [1,8,6,1] 1887532, [1,9,6,1] 2109594, [1,10,6,1] 1221344, [1,1,7,1] 355300, [1,2,7,1] 532950, [1,3,7,1] 666188, [1,4,7,1] 710600, [1,5,7,1] 621775, [1,6,7,1] 888250, [1,7,7,1] 1554438, [1,8,7,1] 1776500, [1,9,7,1] 2154007, [1,10,7,1] 888250, [1,1,8,1] 199857, [1,2,8,1] 259814, [1,3,8,1] 399713, [1,4,8,1] 339756, [1,5,8,1] 319770, [1,6,8,1] 459670, [1,7,8,1] 679512, [1,8,8,1] 899354, [1,9,8,1] 699497, [1,10,8,1] 479655, [1,1,9,1] 188754, [1,2,9,1] 245381, [1,3,9,1] 377507, [1,4,9,1] 320882, [1,5,9,1] 302005, [1,6,9,1] 434134, [1,7,9,1] 641761, [1,8,9,1] 849391, [1,9,9,1] 660637, [1,10,9,1] 453008, [1,1,10,1] 213180, [1,2,10,1] 277134, [1,3,10,1] 426360, [1,4,10,1] 362406, [1,5,10,1] 341088, [1,6,10,1] 490314, [1,7,10,1] 724812, [1,8,10,1] 959310, [1,9,10,1] 746130, [1,10,10,1] 511632, [1,1,11,1] 193195, [1,2,11,1] 251154, [1,3,11,1] 386389, [1,4,11,1] 328432, [1,5,11,1] 309111, [1,6,11,1] 444349, [1,7,11,1] 656861, [1,8,11,1] 869376, [1,9,11,1] 676182, [1,10,11,1] 463667, [1,1,12,1] 199857, [1,2,12,1] 259814, [1,3,12,1] 399713, [1,4,12,1] 339756, [1,5,12,1] 319770, [1,6,12,1] 459670, [1,7,12,1] 679512, [1,8,12,1] 899354, [1,9,12,1] 699497, [1,10,12,1] 479655, [1,1,13,1] 399713, [1,2,13,1] 559598, [1,3,13,1] 799425, [1,4,13,1] 679512, [1,5,13,1] 543609, [1,6,13,1] 999282, [1,7,13,1] 1498922, [1,8,13,1] 1698779, [1,9,13,1] 1898635, [1,10,13,1] 1099210, [1,1,14,1] 319770, [1,2,14,1] 479655, [1,3,14,1] 599569, [1,4,14,1] 639540, [1,5,14,1] 559598, [1,6,14,1] 799425, [1,7,14,1] 1398994, [1,8,14,1] 1598850, [1,9,14,1] 1938606, [1,10,14,1] 799425, [1,1,15,1] 210960, [1,2,15,1] 274249, [1,3,15,1] 421919, [1,4,15,1] 358632, [1,5,15,1] 337535, [1,6,15,1] 485208, [1,7,15,1] 717262, [1,8,15,1] 949319, [1,9,15,1] 738359, [1,10,15,1] 506303, [1,1,16,1] 205409, [1,2,16,1] 267030, [1,3,16,1] 410816, [1,4,16,1] 349193, [1,5,16,1] 328653, [1,6,16,1] 472439, [1,7,16,1] 698388, [1,8,16,1] 924335, [1,9,16,1] 718928, [1,10,16,1] 492979, [1,1,17,1] 217622, [1,2,17,1] 282908, [1,3,17,1] 435243, [1,4,17,1] 369957, [1,5,17,1] 348194, [1,6,17,1] 500529, [1,7,17,1] 739913, [1,8,17,1] 979296, [1,9,17,1] 761675, [1,10,17,1] 522291, [1,1,18,1] 207630, [1,2,18,1] 269918, [1,3,18,1] 415257, [1,4,18,1] 352969, [1,5,18,1] 332206, [1,6,18,1] 477545, [1,7,18,1] 705938, [1,8,18,1] 934329, [1,9,18,1] 726700, [1,10,18,1] 498309, [1,1,19,1] 210960, [1,2,19,1] 274249, [1,3,19,1] 421919, [1,4,19,1] 358632, [1,5,19,1] 337535, [1,6,19,1] 485208, [1,7,19,1] 717262, [1,8,19,1] 949319, [1,9,19,1] 738359, [1,10,19,1] 506303, [1,1,20,1] 421919, [1,2,20,1] 590687, [1,3,20,1] 843838, [1,4,20,1] 717262, [1,5,20,1] 573810, [1,6,20,1] 1054797, [1,7,20,1] 1582197, [1,8,20,1] 1793156, [1,9,20,1] 2004116, [1,10,20,1] 1160278, [1,1,21,1] 337535, [1,2,21,1] 506303, [1,3,21,1] 632879, [1,4,21,1] 675070, [1,5,21,1] 590687, [1,6,21,1] 843838, [1,7,21,1] 1476716, [1,8,21,1] 1687675, [1,9,21,1] 2046307, [1,10,21,1] 843838, [1,1,22,1] 232057, [1,2,22,1] 301672, [1,3,22,1] 464111, [1,4,22,1] 394494, [1,5,22,1] 371289, [1,6,22,1] 533728, [1,7,22,1] 788990, [1,8,22,1] 1044249, [1,9,22,1] 812195, [1,10,22,1] 556933, [1,1,23,1] 225950, [1,2,23,1] 293733, [1,3,23,1] 451899, [1,4,23,1] 384113, [1,5,23,1] 361518, [1,6,23,1] 519682, [1,7,23,1] 768226, [1,8,23,1] 1016768, [1,9,23,1] 790821, [1,10,23,1] 542277, [1,1,24,1] 239384, [1,2,24,1] 311199, [1,3,24,1] 478767, [1,4,24,1] 406953, [1,5,24,1] 383014, [1,6,24,1] 550583, [1,7,24,1] 813904, [1,8,24,1] 1077227, [1,9,24,1] 837843, [1,10,24,1] 574520, [1,1,25,1] 228391, [1,2,25,1] 296909, [1,3,25,1] 456784, [1,4,25,1] 388266, [1,5,25,1] 365427, [1,6,25,1] 525300, [1,7,25,1] 776531, [1,8,25,1] 1027761, [1,9,25,1] 799370, [1,10,25,1] 548139, [1,1,26,1] 232057, [1,2,26,1] 301672, [1,3,26,1] 464111, [1,4,26,1] 394494, [1,5,26,1] 371289, [1,6,26,1] 533728, [1,7,26,1] 788990, [1,8,26,1] 1044249, [1,9,26,1] 812195, [1,10,26,1] 556933, [1,1,27,1] 464111, [1,2,27,1] 649755, [1,3,27,1] 928222, [1,4,27,1] 788990, [1,5,27,1] 631191, [1,6,27,1] 1160278, [1,7,27,1] 1740416, [1,8,27,1] 1972470, [1,9,27,1] 2204526, [1,10,27,1] 1276305, [1,1,28,1] 371289, [1,2,28,1] 556933, [1,3,28,1] 696167, [1,4,28,1] 742577, [1,5,28,1] 649755, [1,6,28,1] 928222, [1,7,28,1] 1624389, [1,8,28,1] 1856443, [1,9,28,1] 2250937, [1,10,28,1] 928222	2018-06-01 16:17:31.348679	2018-08-03 11:58:11.410577	6	2018
+37	35	12	1	28	10	2500	85000			[1] 1, [2] 1	[2] 1, [3] 1, [4] 1, [5] 1	2	[6,3,2] 1, [6,4,2] 1, [6,5,2] 1, [6,6,2] 1, [6,7,2] 1, [6,8,2] 1, [6,9,2] 1, [6,4,3] 1, [6,5,3] 1, [6,6,3] 1, [6,7,3] 1, [6,8,3] 1, [6,9,3] 1, [6,3,4] 1, [6,4,4] 1, [6,5,4] 1, [6,6,4] 1, [6,7,4] 1, [6,8,4] 1, [6,9,4] 1, [6,10,4] 1, [6,2,5] 1, [6,3,5] 1, [6,4,5] 1, [6,5,5] 1, [6,6,5] 1, [6,7,5] 1, [6,10,5] 1, [6,2,6] 1, [6,3,6] 1, [6,4,6] 1, [6,5,6] 1, [6,6,6] 1, [6,7,6] 1, [6,8,6] 1, [6,3,9] 1, [6,4,9] 1, [6,5,9] 1, [6,6,9] 1, [6,7,9] 1, [6,8,9] 1, [6,9,9] 1, [6,10,9] 1, [6,4,11] 1, [6,5,11] 1, [6,6,11] 1, [6,7,11] 1, [6,8,11] 1, [6,9,11] 1, [6,10,11] 1, [6,2,12] 1, [6,3,12] 1, [6,4,12] 1, [6,5,12] 1, [6,6,12] 1, [6,7,12] 1, [6,8,12] 1, [6,9,12] 1, [6,10,12] 1, [6,2,13] 1, [6,3,13] 1, [6,4,13] 1, [6,5,13] 1, [6,6,13] 1, [6,7,13] 1, [6,8,13] 1, [6,9,13] 1, [6,10,13] 1, [6,6,14] 1, [6,7,14] 1, [6,8,14] 1, [6,9,14] 1, [6,10,14] 1, [6,3,16] 1, [6,4,16] 1, [6,5,16] 1, [6,6,16] 1, [6,7,16] 1, [6,8,16] 1, [6,9,16] 1, [6,4,17] 1, [6,5,17] 1, [6,6,17] 1, [6,7,17] 1, [6,8,17] 1, [6,9,17] 1, [6,10,17] 1, [6,3,18] 1, [6,4,18] 1, [6,5,18] 1, [6,6,18] 1, [6,7,18] 1, [6,8,18] 1, [6,9,18] 1, [6,10,18] 1, [6,2,19] 1, [6,3,19] 1, [6,4,19] 1, [6,5,19] 1, [6,6,19] 1, [6,7,19] 1, [6,10,19] 1, [6,2,20] 1, [6,3,20] 1, [6,4,20] 1, [6,5,20] 1, [6,6,20] 1, [6,7,20] 1, [6,8,20] 1, [6,3,23] 1, [6,4,23] 1, [6,5,23] 1, [6,6,23] 1, [6,7,23] 1, [6,8,23] 1, [6,9,23] 1, [6,10,23] 1, [6,4,25] 1, [6,5,25] 1, [6,6,25] 1, [6,7,25] 1, [6,8,25] 1, [6,9,25] 1, [6,10,25] 1, [6,3,26] 1, [6,4,26] 1, [6,5,26] 1, [6,6,26] 1, [6,7,26] 1, [6,8,26] 1, [6,9,26] 1, [6,10,26] 1, [6,3,27] 1, [6,4,27] 1, [6,5,27] 1, [6,6,27] 1, [6,7,27] 1, [6,8,27] 1, [6,9,27] 1, [6,10,27] 1, [6,6,28] 1, [6,7,28] 1, [6,8,28] 1, [6,9,28] 1, [6,10,28] 1, [8,1,1] 1, [8,2,1] 1, [8,3,1] 1, [8,4,1] 1, [8,5,1] 1, [8,6,1] 1, [8,7,1] 1, [8,8,1] 1, [8,9,1] 1, [8,10,1] 1, [8,5,5] 1, [8,6,5] 1, [8,7,5] 1, [8,8,5] 1, [8,9,5] 1, [8,10,5] 1, [8,1,6] 1, [8,2,6] 1, [8,3,6] 1, [8,4,6] 1, [8,5,6] 1, [8,6,6] 1, [8,7,6] 1, [8,8,6] 1, [8,9,6] 1, [8,10,6] 1, [8,1,7] 1, [8,2,7] 1, [8,3,7] 1, [8,4,7] 1, [8,5,7] 1, [8,6,7] 1, [8,7,7] 1, [8,8,7] 1, [8,9,7] 1, [8,10,7] 1, [8,1,8] 1, [8,2,8] 1, [8,3,8] 1, [8,4,8] 1, [8,5,8] 1, [8,6,8] 1, [8,7,8] 1, [8,8,8] 1, [8,3,10] 1, [8,4,10] 1, [8,5,10] 1, [8,6,10] 1, [8,7,10] 1, [8,8,10] 1, [8,3,11] 1, [8,4,11] 1, [8,5,11] 1, [8,6,11] 1, [8,7,11] 1, [8,8,11] 1, [8,3,12] 1, [8,4,12] 1, [8,5,12] 1, [8,6,12] 1, [8,7,12] 1, [8,8,12] 1, [8,1,14] 1, [8,2,14] 1, [8,3,14] 1, [8,4,14] 1, [8,5,14] 1, [8,6,14] 1, [8,7,14] 1, [8,8,14] 1, [8,9,14] 1, [8,10,14] 1, [8,1,15] 1, [8,2,15] 1, [8,3,15] 1, [8,4,15] 1, [8,5,15] 1, [8,6,15] 1, [8,7,15] 1, [8,8,15] 1, [8,9,15] 1, [8,10,15] 1, [8,5,19] 1, [8,6,19] 1, [8,7,19] 1, [8,8,19] 1, [8,9,19] 1, [8,10,19] 1, [8,1,20] 1, [8,2,20] 1, [8,3,20] 1, [8,4,20] 1, [8,5,20] 1, [8,6,20] 1, [8,7,20] 1, [8,8,20] 1, [8,9,20] 1, [8,10,20] 1, [8,1,21] 1, [8,2,21] 1, [8,3,21] 1, [8,4,21] 1, [8,5,21] 1, [8,6,21] 1, [8,7,21] 1, [8,8,21] 1, [8,9,21] 1, [8,10,21] 1, [8,1,22] 1, [8,2,22] 1, [8,3,22] 1, [8,4,22] 1, [8,5,22] 1, [8,6,22] 1, [8,7,22] 1, [8,8,22] 1, [8,3,24] 1, [8,4,24] 1, [8,5,24] 1, [8,6,24] 1, [8,7,24] 1, [8,8,24] 1, [8,3,25] 1, [8,4,25] 1, [8,5,25] 1, [8,6,25] 1, [8,7,25] 1, [8,8,25] 1, [8,3,26] 1, [8,4,26] 1, [8,5,26] 1, [8,6,26] 1, [8,7,26] 1, [8,8,26] 1, [8,1,28] 1, [8,2,28] 1, [8,3,28] 1, [8,4,28] 1, [8,5,28] 1, [8,6,28] 1, [8,7,28] 1, [8,8,28] 1, [8,9,28] 1, [8,10,28] 1, [12,5,1] 1, [12,6,1] 1, [12,7,1] 1, [12,8,1] 1, [12,9,1] 1, [12,10,1] 1, [12,5,2] 1, [12,6,2] 1, [12,7,2] 1, [12,8,2] 1, [12,9,2] 1, [12,10,2] 1, [12,5,3] 1, [12,6,3] 1, [12,7,3] 1, [12,8,3] 1, [12,9,3] 1, [12,10,3] 1, [12,5,4] 1, [12,6,4] 1, [12,7,4] 1, [12,8,4] 1, [12,9,4] 1, [12,10,4] 1, [12,5,5] 1, [12,6,5] 1, [12,7,5] 1, [12,8,5] 1, [12,9,5] 1, [12,10,5] 1, [12,5,7] 1, [12,6,7] 1, [12,7,7] 1, [12,8,7] 1, [12,9,7] 1, [12,10,7] 1, [12,5,8] 1, [12,6,8] 1, [12,7,8] 1, [12,8,8] 1, [12,9,8] 1, [12,10,8] 1, [12,5,9] 1, [12,6,9] 1, [12,7,9] 1, [12,8,9] 1, [12,9,9] 1, [12,10,9] 1, [12,5,10] 1, [12,6,10] 1, [12,7,10] 1, [12,8,10] 1, [12,9,10] 1, [12,10,10] 1, [12,5,11] 1, [12,6,11] 1, [12,7,11] 1, [12,8,11] 1, [12,9,11] 1, [12,10,11] 1, [12,5,12] 1, [12,6,12] 1, [12,7,12] 1, [12,8,12] 1, [12,9,12] 1, [12,10,12] 1, [12,5,14] 1, [12,6,14] 1, [12,7,14] 1, [12,8,14] 1, [12,9,14] 1, [12,10,14] 1, [12,5,15] 1, [12,6,15] 1, [12,7,15] 1, [12,8,15] 1, [12,9,15] 1, [12,10,15] 1, [12,5,16] 1, [12,6,16] 1, [12,7,16] 1, [12,8,16] 1, [12,9,16] 1, [12,10,16] 1, [12,5,17] 1, [12,6,17] 1, [12,7,17] 1, [12,8,17] 1, [12,9,17] 1, [12,10,17] 1, [12,5,18] 1, [12,6,18] 1, [12,7,18] 1, [12,8,18] 1, [12,9,18] 1, [12,10,18] 1, [12,5,19] 1, [12,6,19] 1, [12,7,19] 1, [12,8,19] 1, [12,9,19] 1, [12,10,19] 1, [12,5,21] 1, [12,6,21] 1, [12,7,21] 1, [12,8,21] 1, [12,9,21] 1, [12,10,21] 1, [12,5,22] 1, [12,6,22] 1, [12,7,22] 1, [12,8,22] 1, [12,9,22] 1, [12,10,22] 1, [12,5,23] 1, [12,6,23] 1, [12,7,23] 1, [12,8,23] 1, [12,9,23] 1, [12,10,23] 1, [12,5,24] 1, [12,6,24] 1, [12,7,24] 1, [12,8,24] 1, [12,9,24] 1, [12,10,24] 1, [12,5,25] 1, [12,6,25] 1, [12,7,25] 1, [12,8,25] 1, [12,9,25] 1, [12,10,25] 1, [12,5,26] 1, [12,6,26] 1, [12,7,26] 1, [12,8,26] 1, [12,9,26] 1, [12,10,26] 1, [12,5,28] 1, [12,6,28] 1, [12,7,28] 1, [12,8,28] 1, [12,9,28] 1, [12,10,28] 1, [1,2,1] 1, [1,3,1] 1, [1,4,1] 1, [1,5,1] 1, [1,6,1] 1, [1,7,1] 1, [1,1,2] 1, [1,2,2] 1, [1,3,2] 1, [1,4,2] 1, [1,5,2] 1, [1,6,2] 1, [1,7,2] 1, [1,8,2] 1, [1,9,2] 1, [1,10,2] 1, [1,2,3] 1, [1,3,3] 1, [1,4,3] 1, [1,5,3] 1, [1,6,3] 1, [1,7,3] 1, [1,8,3] 1, [1,9,3] 1, [1,10,3] 1, [1,1,4] 1, [1,2,4] 1, [1,3,4] 1, [1,4,4] 1, [1,5,4] 1, [1,6,4] 1, [1,7,4] 1, [1,8,4] 1, [1,9,4] 1, [1,10,4] 1, [1,1,5] 1, [1,2,5] 1, [1,3,5] 1, [1,4,5] 1, [1,5,5] 1, [1,6,5] 1, [1,7,5] 1, [1,8,5] 1, [1,9,5] 1, [1,10,5] 1, [1,3,8] 1, [1,4,8] 1, [1,5,8] 1, [1,6,8] 1, [1,7,8] 1, [1,8,8] 1, [1,9,8] 1, [1,3,9] 1, [1,4,9] 1, [1,5,9] 1, [1,6,9] 1, [1,7,9] 1, [1,8,9] 1, [1,9,9] 1, [1,3,11] 1, [1,4,11] 1, [1,5,11] 1, [1,6,11] 1, [1,7,11] 1, [1,8,11] 1, [1,9,11] 1, [1,2,12] 1, [1,3,12] 1, [1,4,12] 1, [1,5,12] 1, [1,6,12] 1, [1,7,12] 1, [1,8,12] 1, [1,9,12] 1, [1,2,13] 1, [1,3,13] 1, [1,4,13] 1, [1,5,13] 1, [1,6,13] 1, [1,7,13] 1, [1,8,13] 1, [1,9,13] 1, [1,2,14] 1, [1,3,14] 1, [1,4,14] 1, [1,5,14] 1, [1,6,14] 1, [1,7,14] 1, [1,8,14] 1, [1,9,14] 1, [1,1,15] 1, [1,2,15] 1, [1,3,15] 1, [1,4,15] 1, [1,5,15] 1, [1,6,15] 1, [1,7,15] 1, [1,8,15] 1, [1,9,15] 1, [1,10,15] 1, [1,1,17] 1, [1,2,17] 1, [1,3,17] 1, [1,4,17] 1, [1,5,17] 1, [1,6,17] 1, [1,7,17] 1, [1,8,17] 1, [1,9,17] 1, [1,10,17] 1, [1,1,18] 1, [1,2,18] 1, [1,3,18] 1, [1,4,18] 1, [1,5,18] 1, [1,6,18] 1, [1,7,18] 1, [1,8,18] 1, [1,9,18] 1, [1,1,19] 1, [1,2,19] 1, [1,3,19] 1, [1,4,19] 1, [1,5,19] 1, [1,6,19] 1, [1,7,19] 1, [1,8,19] 1, [1,9,19] 1, [1,1,20] 1, [1,2,20] 1, [1,3,20] 1, [1,4,20] 1, [1,5,20] 1, [1,6,20] 1, [1,7,20] 1, [1,8,20] 1, [1,9,20] 1, [1,1,24] 1, [1,2,24] 1, [1,3,24] 1, [1,4,24] 1, [1,5,24] 1, [1,6,24] 1, [1,7,24] 1, [1,8,24] 1, [1,9,24] 1, [1,10,24] 1, [1,3,26] 1, [1,4,26] 1, [1,5,26] 1, [1,6,26] 1, [1,7,26] 1, [1,8,26] 1, [1,9,26] 1, [1,10,26] 1, [1,2,27] 1, [1,3,27] 1, [1,4,27] 1, [1,5,27] 1, [1,6,27] 1, [1,7,27] 1, [1,8,27] 1, [1,9,27] 1, [1,10,27] 1, [1,3,28] 1, [1,4,28] 1, [1,5,28] 1, [1,6,28] 1, [1,7,28] 1, [1,8,28] 1, [1,9,28] 1, [1,10,28] 1, [2,3,2] 1, [2,4,2] 1, [2,5,2] 1, [2,6,2] 1, [2,7,2] 1, [2,8,2] 1, [2,9,2] 1, [2,1,3] 1, [2,2,3] 1, [2,3,3] 1, [2,4,3] 1, [2,5,3] 1, [2,6,3] 1, [2,7,3] 1, [2,8,3] 1, [2,9,3] 1, [2,10,3] 1, [2,3,4] 1, [2,4,4] 1, [2,5,4] 1, [2,6,4] 1, [2,7,4] 1, [2,8,4] 1, [2,9,4] 1, [2,10,4] 1, [2,2,5] 1, [2,3,5] 1, [2,4,5] 1, [2,5,5] 1, [2,6,5] 1, [2,7,5] 1, [2,10,5] 1, [2,2,6] 1, [2,3,6] 1, [2,4,6] 1, [2,5,6] 1, [2,6,6] 1, [2,7,6] 1, [2,8,6] 1, [2,9,6] 1, [2,1,7] 1, [2,2,7] 1, [2,3,7] 1, [2,4,7] 1, [2,5,7] 1, [2,6,7] 1, [2,7,7] 1, [2,8,7] 1, [2,9,7] 1, [2,2,8] 1, [2,3,8] 1, [2,4,8] 1, [2,5,8] 1, [2,6,8] 1, [2,7,8] 1, [2,1,9] 1, [2,2,9] 1, [2,3,9] 1, [2,4,9] 1, [2,5,9] 1, [2,6,9] 1, [2,7,9] 1, [2,8,9] 1, [2,9,9] 1, [2,10,9] 1, [2,1,11] 1, [2,2,11] 1, [2,3,11] 1, [2,4,11] 1, [2,5,11] 1, [2,6,11] 1, [2,7,11] 1, [2,8,11] 1, [2,9,11] 1, [2,10,11] 1, [2,1,12] 1, [2,3,12] 1, [2,4,12] 1, [2,5,12] 1, [2,6,12] 1, [2,7,12] 1, [2,8,12] 1, [2,9,12] 1, [2,10,12] 1, [2,1,13] 1, [2,3,13] 1, [2,4,13] 1, [2,5,13] 1, [2,6,13] 1, [2,7,13] 1, [2,8,13] 1, [2,9,13] 1, [2,10,13] 1, [2,1,15] 1, [2,2,15] 1, [2,3,15] 1, [2,4,15] 1, [2,5,15] 1, [2,6,15] 1, [2,7,15] 1, [2,8,15] 1, [2,9,15] 1, [2,10,15] 1, [2,1,16] 1, [2,2,16] 1, [2,3,16] 1, [2,4,16] 1, [2,5,16] 1, [2,6,16] 1, [2,7,16] 1, [2,8,16] 1, [2,9,16] 1, [2,10,16] 1, [2,1,17] 1, [2,2,17] 1, [2,3,17] 1, [2,4,17] 1, [2,5,17] 1, [2,6,17] 1, [2,7,17] 1, [2,8,17] 1, [2,9,17] 1, [2,10,17] 1, [2,3,20] 1, [2,4,20] 1, [2,5,20] 1, [2,6,20] 1, [2,7,20] 1, [2,8,20] 1, [2,9,20] 1, [2,10,20] 1, [2,3,21] 1, [2,4,21] 1, [2,5,21] 1, [2,6,21] 1, [2,7,21] 1, [2,8,21] 1, [2,9,21] 1, [2,10,21] 1, [2,1,22] 1, [2,2,22] 1, [2,3,22] 1, [2,4,22] 1, [2,5,22] 1, [2,6,22] 1, [2,7,22] 1, [2,8,22] 1, [2,9,22] 1, [2,10,22] 1, [2,1,24] 1, [2,2,24] 1, [2,3,24] 1, [2,4,24] 1, [2,5,24] 1, [2,6,24] 1, [2,7,24] 1, [2,8,24] 1, [2,9,24] 1, [2,10,24] 1, [2,1,25] 1, [2,2,25] 1, [2,3,25] 1, [2,4,25] 1, [2,5,25] 1, [2,6,25] 1, [2,7,25] 1, [2,8,25] 1, [2,9,25] 1, [2,1,26] 1, [2,2,26] 1, [2,3,26] 1, [2,4,26] 1, [2,5,26] 1, [2,6,26] 1, [2,7,26] 1, [2,8,26] 1, [2,9,26] 1, [2,1,27] 1, [2,2,27] 1, [2,3,27] 1, [2,4,27] 1, [2,5,27] 1, [2,6,27] 1, [2,7,27] 1, [2,8,27] 1, [2,9,27] 1, [3,1,1] 1, [3,2,1] 1, [3,3,1] 1, [3,4,1] 1, [3,5,1] 1, [3,6,1] 1, [3,7,1] 1, [3,8,1] 1, [3,9,1] 1, [3,1,3] 1, [3,2,3] 1, [3,3,3] 1, [3,4,3] 1, [3,5,3] 1, [3,6,3] 1, [3,7,3] 1, [3,8,3] 1, [3,9,3] 1, [3,10,3] 1, [3,1,4] 1, [3,2,4] 1, [3,3,4] 1, [3,4,4] 1, [3,5,4] 1, [3,6,4] 1, [3,7,4] 1, [3,8,4] 1, [3,9,4] 1, [3,10,4] 1, [3,1,5] 1, [3,2,5] 1, [3,3,5] 1, [3,4,5] 1, [3,5,5] 1, [3,6,5] 1, [3,7,5] 1, [3,8,5] 1, [3,9,5] 1, [3,1,6] 1, [3,2,6] 1, [3,3,6] 1, [3,4,6] 1, [3,5,6] 1, [3,6,6] 1, [3,7,6] 1, [3,8,6] 1, [3,9,6] 1, [3,1,8] 1, [3,2,8] 1, [3,3,8] 1, [3,4,8] 1, [3,5,8] 1, [3,6,8] 1, [3,7,8] 1, [3,1,9] 1, [3,2,9] 1, [3,3,9] 1, [3,4,9] 1, [3,5,9] 1, [3,6,9] 1, [3,7,9] 1, [3,8,9] 1, [3,9,9] 1, [3,10,9] 1, [3,1,11] 1, [3,2,11] 1, [3,3,11] 1, [3,4,11] 1, [3,5,11] 1, [3,6,11] 1, [3,7,11] 1, [3,8,11] 1, [3,9,11] 1, [3,10,11] 1, [3,1,12] 1, [3,3,12] 1, [3,4,12] 1, [3,5,12] 1, [3,6,12] 1, [3,7,12] 1, [3,8,12] 1, [3,9,12] 1, [3,10,12] 1, [3,1,13] 1, [3,3,13] 1, [3,4,13] 1, [3,5,13] 1, [3,6,13] 1, [3,7,13] 1, [3,8,13] 1, [3,9,13] 1, [3,10,13] 1, [3,1,15] 1, [3,2,15] 1, [3,3,15] 1, [3,4,15] 1, [3,5,15] 1, [3,6,15] 1, [3,7,15] 1, [3,8,15] 1, [3,9,15] 1, [3,10,15] 1, [3,1,16] 1, [3,2,16] 1, [3,3,16] 1, [3,4,16] 1, [3,5,16] 1, [3,6,16] 1, [3,7,16] 1, [3,8,16] 1, [3,9,16] 1, [3,10,16] 1, [3,1,17] 1, [3,2,17] 1, [3,3,17] 1, [3,4,17] 1, [3,5,17] 1, [3,6,17] 1, [3,7,17] 1, [3,8,17] 1, [3,9,17] 1, [3,10,17] 1, [3,3,20] 1, [3,4,20] 1, [3,5,20] 1, [3,6,20] 1, [3,7,20] 1, [3,8,20] 1, [3,9,20] 1, [3,10,20] 1, [3,3,21] 1, [3,4,21] 1, [3,5,21] 1, [3,6,21] 1, [3,7,21] 1, [3,8,21] 1, [3,9,21] 1, [3,10,21] 1, [3,1,22] 1, [3,2,22] 1, [3,3,22] 1, [3,4,22] 1, [3,5,22] 1, [3,6,22] 1, [3,7,22] 1, [3,8,22] 1, [3,9,22] 1, [3,10,22] 1, [3,1,24] 1, [3,2,24] 1, [3,3,24] 1, [3,4,24] 1, [3,5,24] 1, [3,6,24] 1, [3,7,24] 1, [3,8,24] 1, [3,9,24] 1, [3,10,24] 1, [3,1,25] 1, [3,2,25] 1, [3,3,25] 1, [3,4,25] 1, [3,5,25] 1, [3,6,25] 1, [3,7,25] 1, [3,8,25] 1, [3,9,25] 1, [3,1,26] 1, [3,2,26] 1, [3,3,26] 1, [3,4,26] 1, [3,5,26] 1, [3,6,26] 1, [3,7,26] 1, [3,8,26] 1, [3,9,26] 1, [3,1,27] 1, [3,2,27] 1, [3,3,27] 1, [3,4,27] 1, [3,5,27] 1, [3,6,27] 1, [3,7,27] 1, [3,8,27] 1, [3,9,27] 1, [10,1,6] 1, [10,2,6] 1, [10,3,6] 1, [10,4,6] 1, [10,5,6] 1, [10,6,6] 1, [10,7,6] 1, [10,8,6] 1, [10,9,6] 1, [10,10,6] 1, [10,1,7] 1, [10,2,7] 1, [10,3,7] 1, [10,4,7] 1, [10,5,7] 1, [10,6,7] 1, [10,7,7] 1, [10,8,7] 1, [10,9,7] 1, [10,10,7] 1, [10,1,13] 1, [10,2,13] 1, [10,3,13] 1, [10,4,13] 1, [10,5,13] 1, [10,6,13] 1, [10,7,13] 1, [10,8,13] 1, [10,9,13] 1, [10,10,13] 1, [10,1,14] 1, [10,2,14] 1, [10,3,14] 1, [10,4,14] 1, [10,5,14] 1, [10,6,14] 1, [10,7,14] 1, [10,8,14] 1, [10,9,14] 1, [10,10,14] 1, [10,1,20] 1, [10,2,20] 1, [10,3,20] 1, [10,4,20] 1, [10,5,20] 1, [10,6,20] 1, [10,7,20] 1, [10,8,20] 1, [10,9,20] 1, [10,10,20] 1, [10,1,21] 1, [10,2,21] 1, [10,3,21] 1, [10,4,21] 1, [10,5,21] 1, [10,6,21] 1, [10,7,21] 1, [10,8,21] 1, [10,9,21] 1, [10,10,21] 1, [10,1,27] 1, [10,2,27] 1, [10,3,27] 1, [10,4,27] 1, [10,5,27] 1, [10,6,27] 1, [10,7,27] 1, [10,8,27] 1, [10,9,27] 1, [10,10,27] 1, [10,1,28] 1, [10,2,28] 1, [10,3,28] 1, [10,4,28] 1, [10,5,28] 1, [10,6,28] 1, [10,7,28] 1, [10,8,28] 1, [10,9,28] 1, [10,10,28] 1, [11,5,1] 1, [11,6,1] 1, [11,7,1] 1, [11,8,1] 1, [11,9,1] 1, [11,10,1] 1, [11,5,2] 1, [11,6,2] 1, [11,7,2] 1, [11,8,2] 1, [11,9,2] 1, [11,10,2] 1, [11,5,3] 1, [11,6,3] 1, [11,7,3] 1, [11,8,3] 1, [11,9,3] 1, [11,10,3] 1, [11,5,4] 1, [11,6,4] 1, [11,7,4] 1, [11,8,4] 1, [11,9,4] 1, [11,10,4] 1, [11,5,5] 1, [11,6,5] 1, [11,7,5] 1, [11,8,5] 1, [11,9,5] 1, [11,10,5] 1, [11,5,6] 1, [11,6,6] 1, [11,7,6] 1, [11,8,6] 1, [11,9,6] 1, [11,10,6] 1, [11,5,8] 1, [11,6,8] 1, [11,7,8] 1, [11,8,8] 1, [11,9,8] 1, [11,10,8] 1, [11,5,9] 1, [11,6,9] 1, [11,7,9] 1, [11,8,9] 1, [11,9,9] 1, [11,10,9] 1, [11,5,10] 1, [11,6,10] 1, [11,7,10] 1, [11,8,10] 1, [11,9,10] 1, [11,10,10] 1, [11,5,11] 1, [11,6,11] 1, [11,7,11] 1, [11,8,11] 1, [11,9,11] 1, [11,10,11] 1, [11,5,12] 1, [11,6,12] 1, [11,7,12] 1, [11,8,12] 1, [11,9,12] 1, [11,10,12] 1, [11,5,13] 1, [11,6,13] 1, [11,7,13] 1, [11,8,13] 1, [11,9,13] 1, [11,10,13] 1, [11,5,15] 1, [11,6,15] 1, [11,7,15] 1, [11,8,15] 1, [11,9,15] 1, [11,10,15] 1, [11,5,16] 1, [11,6,16] 1, [11,7,16] 1, [11,8,16] 1, [11,9,16] 1, [11,10,16] 1, [11,5,17] 1, [11,6,17] 1, [11,7,17] 1, [11,8,17] 1, [11,9,17] 1, [11,10,17] 1, [11,5,18] 1, [11,6,18] 1, [11,7,18] 1, [11,8,18] 1, [11,9,18] 1, [11,10,18] 1, [11,5,19] 1, [11,6,19] 1, [11,7,19] 1, [11,8,19] 1, [11,9,19] 1, [11,10,19] 1, [11,5,20] 1, [11,6,20] 1, [11,7,20] 1, [11,8,20] 1, [11,9,20] 1, [11,10,20] 1, [11,5,22] 1, [11,6,22] 1, [11,7,22] 1, [11,8,22] 1, [11,9,22] 1, [11,10,22] 1, [11,5,23] 1, [11,6,23] 1, [11,7,23] 1, [11,8,23] 1, [11,9,23] 1, [11,10,23] 1, [11,5,24] 1, [11,6,24] 1, [11,7,24] 1, [11,8,24] 1, [11,9,24] 1, [11,10,24] 1, [11,5,25] 1, [11,6,25] 1, [11,7,25] 1, [11,8,25] 1, [11,9,25] 1, [11,10,25] 1, [11,5,26] 1, [11,6,26] 1, [11,7,26] 1, [11,8,26] 1, [11,9,26] 1, [11,10,26] 1, [11,5,27] 1, [11,6,27] 1, [11,7,27] 1, [11,8,27] 1, [11,9,27] 1, [11,10,27] 1, [4,1,1] 1, [4,2,1] 1, [4,3,1] 1, [4,4,1] 1, [4,5,1] 1, [4,6,1] 1, [4,7,1] 1, [4,8,1] 1, [4,9,1] 1, [4,10,1] 1, [4,1,2] 1, [4,2,2] 1, [4,3,2] 1, [4,4,2] 1, [4,5,2] 1, [4,6,2] 1, [4,7,2] 1, [4,8,2] 1, [4,9,2] 1, [4,10,2] 1, [4,3,5] 1, [4,4,5] 1, [4,5,5] 1, [4,6,5] 1, [4,7,5] 1, [4,8,5] 1, [4,9,5] 1, [4,10,5] 1, [4,2,6] 1, [4,3,6] 1, [4,4,6] 1, [4,5,6] 1, [4,6,6] 1, [4,7,6] 1, [4,8,6] 1, [4,9,6] 1, [4,10,6] 1, [4,1,7] 1, [4,2,7] 1, [4,3,7] 1, [4,4,7] 1, [4,5,7] 1, [4,6,7] 1, [4,7,7] 1, [4,8,7] 1, [4,9,7] 1, [4,10,7] 1, [4,1,8] 1, [4,2,8] 1, [4,3,8] 1, [4,4,8] 1, [4,5,8] 1, [4,6,8] 1, [4,7,8] 1, [4,8,8] 1, [4,1,10] 1, [4,2,10] 1, [4,3,10] 1, [4,4,10] 1, [4,5,10] 1, [4,6,10] 1, [4,7,10] 1, [4,8,10] 1, [4,9,10] 1, [4,10,10] 1, [4,1,11] 1, [4,2,11] 1, [4,3,11] 1, [4,4,11] 1, [4,5,11] 1, [4,6,11] 1, [4,7,11] 1, [4,8,11] 1, [4,9,11] 1, [4,1,12] 1, [4,2,12] 1, [4,3,12] 1, [4,4,12] 1, [4,5,12] 1, [4,6,12] 1, [4,7,12] 1, [4,8,12] 1, [4,9,12] 1, [4,1,13] 1, [4,2,13] 1, [4,3,13] 1, [4,4,13] 1, [4,5,13] 1, [4,6,13] 1, [4,7,13] 1, [4,8,13] 1, [4,9,13] 1, [4,3,15] 1, [4,4,15] 1, [4,5,15] 1, [4,6,15] 1, [4,7,15] 1, [4,8,15] 1, [4,9,15] 1, [4,3,16] 1, [4,4,16] 1, [4,5,16] 1, [4,6,16] 1, [4,7,16] 1, [4,8,16] 1, [4,9,16] 1, [4,3,18] 1, [4,4,18] 1, [4,5,18] 1, [4,6,18] 1, [4,7,18] 1, [4,8,18] 1, [4,9,18] 1, [4,2,19] 1, [4,3,19] 1, [4,4,19] 1, [4,5,19] 1, [4,6,19] 1, [4,7,19] 1, [4,8,19] 1, [4,9,19] 1, [4,2,20] 1, [4,3,20] 1, [4,4,20] 1, [4,5,20] 1, [4,6,20] 1, [4,7,20] 1, [4,8,20] 1, [4,9,20] 1, [4,1,21] 1, [4,2,21] 1, [4,3,21] 1, [4,4,21] 1, [4,5,21] 1, [4,6,21] 1, [4,7,21] 1, [4,8,21] 1, [4,9,21] 1, [4,1,22] 1, [4,2,22] 1, [4,3,22] 1, [4,4,22] 1, [4,5,22] 1, [4,6,22] 1, [4,1,23] 1, [4,2,23] 1, [4,3,23] 1, [4,4,23] 1, [4,5,23] 1, [4,6,23] 1, [4,7,23] 1, [4,8,23] 1, [4,9,23] 1, [4,10,23] 1, [4,1,25] 1, [4,2,25] 1, [4,3,25] 1, [4,4,25] 1, [4,5,25] 1, [4,6,25] 1, [4,7,25] 1, [4,8,25] 1, [4,9,25] 1, [4,10,25] 1, [4,1,26] 1, [4,3,26] 1, [4,4,26] 1, [4,5,26] 1, [4,6,26] 1, [4,7,26] 1, [4,8,26] 1, [4,9,26] 1, [4,10,26] 1, [4,1,27] 1, [4,3,27] 1, [4,4,27] 1, [4,5,27] 1, [4,6,27] 1, [4,7,27] 1, [4,8,27] 1, [4,9,27] 1, [4,10,27] 1, [5,3,3] 1, [5,4,3] 1, [5,5,3] 1, [5,6,3] 1, [5,7,3] 1, [5,8,3] 1, [5,9,3] 1, [5,3,4] 1, [5,4,4] 1, [5,5,4] 1, [5,6,4] 1, [5,7,4] 1, [5,8,4] 1, [5,9,4] 1, [5,10,4] 1, [5,6,5] 1, [5,7,5] 1, [5,8,5] 1, [5,9,5] 1, [5,10,5] 1, [5,4,6] 1, [5,5,6] 1, [5,6,6] 1, [5,7,6] 1, [5,8,6] 1, [5,9,6] 1, [5,10,6] 1, [5,4,7] 1, [5,5,7] 1, [5,6,7] 1, [5,7,7] 1, [5,8,7] 1, [5,9,7] 1, [5,10,7] 1, [5,3,8] 1, [5,4,8] 1, [5,5,8] 1, [5,6,8] 1, [5,7,8] 1, [5,8,8] 1, [5,9,8] 1, [5,3,9] 1, [5,4,9] 1, [5,5,9] 1, [5,6,9] 1, [5,7,9] 1, [5,8,9] 1, [5,9,9] 1, [5,3,10] 1, [5,4,10] 1, [5,5,10] 1, [5,6,10] 1, [5,7,10] 1, [5,8,10] 1, [5,9,10] 1, [5,10,10] 1, [5,3,13] 1, [5,4,13] 1, [5,5,13] 1, [5,6,13] 1, [5,7,13] 1, [5,8,13] 1, [5,9,13] 1, [5,3,14] 1, [5,4,14] 1, [5,5,14] 1, [5,6,14] 1, [5,7,14] 1, [5,8,14] 1, [5,9,14] 1, [5,2,17] 1, [5,3,17] 1, [5,4,17] 1, [5,5,17] 1, [5,6,17] 1, [5,7,17] 1, [5,8,17] 1, [5,9,17] 1, [5,2,18] 1, [5,3,18] 1, [5,4,18] 1, [5,5,18] 1, [5,6,18] 1, [5,7,18] 1, [5,8,18] 1, [5,9,18] 1, [5,10,18] 1, [5,6,19] 1, [5,7,19] 1, [5,8,19] 1, [5,9,19] 1, [5,10,19] 1, [5,4,20] 1, [5,5,20] 1, [5,6,20] 1, [5,7,20] 1, [5,8,20] 1, [5,9,20] 1, [5,10,20] 1, [5,4,21] 1, [5,5,21] 1, [5,6,21] 1, [5,7,21] 1, [5,8,21] 1, [5,9,21] 1, [5,10,21] 1, [5,3,22] 1, [5,4,22] 1, [5,5,22] 1, [5,6,22] 1, [5,7,22] 1, [5,8,22] 1, [5,9,22] 1, [5,3,23] 1, [5,4,23] 1, [5,5,23] 1, [5,6,23] 1, [5,7,23] 1, [5,8,23] 1, [5,9,23] 1, [5,3,24] 1, [5,4,24] 1, [5,5,24] 1, [5,6,24] 1, [5,7,24] 1, [5,8,24] 1, [5,9,24] 1, [5,10,24] 1, [5,3,27] 1, [5,4,27] 1, [5,5,27] 1, [5,6,27] 1, [5,7,27] 1, [5,8,27] 1, [5,9,27] 1, [5,3,28] 1, [5,4,28] 1, [5,5,28] 1, [5,6,28] 1, [5,7,28] 1, [5,8,28] 1, [5,9,28] 1, [9,7,5] 1, [9,8,5] 1, [9,9,5] 1, [9,10,5] 1, [9,7,12] 1, [9,8,12] 1, [9,9,12] 1, [9,10,12] 1, [9,1,13] 1, [9,2,13] 1, [9,3,13] 1, [9,4,13] 1, [9,5,13] 1, [9,6,13] 1, [9,7,13] 1, [9,8,13] 1, [9,9,13] 1, [9,10,13] 1, [9,1,14] 1, [9,2,14] 1, [9,3,14] 1, [9,4,14] 1, [9,5,14] 1, [9,6,14] 1, [9,7,14] 1, [9,8,14] 1, [9,9,14] 1, [9,10,14] 1, [9,7,19] 1, [9,8,19] 1, [9,9,19] 1, [9,10,19] 1, [9,1,20] 1, [9,2,20] 1, [9,3,20] 1, [9,4,20] 1, [9,5,20] 1, [9,6,20] 1, [9,7,20] 1, [9,8,20] 1, [9,9,20] 1, [9,10,20] 1, [9,1,21] 1, [9,2,21] 1, [9,3,21] 1, [9,4,21] 1, [9,5,21] 1, [9,6,21] 1, [9,7,21] 1, [9,8,21] 1, [9,9,21] 1, [9,10,21] 1, [9,7,26] 1, [9,8,26] 1, [9,9,26] 1, [9,10,26] 1, [9,1,27] 1, [9,2,27] 1, [9,3,27] 1, [9,4,27] 1, [9,5,27] 1, [9,6,27] 1, [9,7,27] 1, [9,8,27] 1, [9,9,27] 1, [9,10,27] 1, [9,1,28] 1, [9,2,28] 1, [9,3,28] 1, [9,4,28] 1, [9,5,28] 1, [9,6,28] 1, [9,7,28] 1, [9,8,28] 1, [9,9,28] 1, [9,10,28] 1, [7,3,1] 1, [7,4,1] 1, [7,5,1] 1, [7,6,1] 1, [7,7,1] 1, [7,8,1] 1, [7,9,1] 1, [7,3,2] 1, [7,4,2] 1, [7,5,2] 1, [7,6,2] 1, [7,7,2] 1, [7,8,2] 1, [7,9,2] 1, [7,3,3] 1, [7,4,3] 1, [7,5,3] 1, [7,6,3] 1, [7,7,3] 1, [7,8,3] 1, [7,9,3] 1, [7,10,3] 1, [7,3,6] 1, [7,4,6] 1, [7,5,6] 1, [7,6,6] 1, [7,7,6] 1, [7,8,6] 1, [7,9,6] 1, [7,3,7] 1, [7,4,7] 1, [7,5,7] 1, [7,6,7] 1, [7,7,7] 1, [7,8,7] 1, [7,9,7] 1, [7,3,9] 1, [7,4,9] 1, [7,5,9] 1, [7,6,9] 1, [7,7,9] 1, [7,8,9] 1, [7,9,9] 1, [7,4,10] 1, [7,5,10] 1, [7,6,10] 1, [7,7,10] 1, [7,8,10] 1, [7,9,10] 1, [7,10,10] 1, [7,3,11] 1, [7,4,11] 1, [7,5,11] 1, [7,6,11] 1, [7,7,11] 1, [7,8,11] 1, [7,9,11] 1, [7,10,11] 1, [7,2,12] 1, [7,3,12] 1, [7,4,12] 1, [7,5,12] 1, [7,6,12] 1, [7,7,12] 1, [7,10,12] 1, [7,2,13] 1, [7,3,13] 1, [7,4,13] 1, [7,5,13] 1, [7,6,13] 1, [7,7,13] 1, [7,8,13] 1, [7,3,16] 1, [7,4,16] 1, [7,5,16] 1, [7,6,16] 1, [7,7,16] 1, [7,8,16] 1, [7,9,16] 1, [7,4,17] 1, [7,5,17] 1, [7,6,17] 1, [7,7,17] 1, [7,8,17] 1, [7,9,17] 1, [7,10,17] 1, [7,3,18] 1, [7,4,18] 1, [7,5,18] 1, [7,6,18] 1, [7,7,18] 1, [7,8,18] 1, [7,9,18] 1, [7,10,18] 1, [7,2,19] 1, [7,3,19] 1, [7,4,19] 1, [7,5,19] 1, [7,6,19] 1, [7,7,19] 1, [7,10,19] 1, [7,2,20] 1, [7,3,20] 1, [7,4,20] 1, [7,5,20] 1, [7,6,20] 1, [7,7,20] 1, [7,8,20] 1, [7,3,22] 1, [7,4,22] 1, [7,5,22] 1, [7,6,22] 1, [7,7,22] 1, [7,8,22] 1, [7,9,22] 1, [7,3,23] 1, [7,4,23] 1, [7,5,23] 1, [7,6,23] 1, [7,7,23] 1, [7,8,23] 1, [7,9,23] 1, [7,3,24] 1, [7,4,24] 1, [7,5,24] 1, [7,6,24] 1, [7,7,24] 1, [7,8,24] 1, [7,9,24] 1, [7,10,24] 1, [7,3,27] 1, [7,4,27] 1, [7,5,27] 1, [7,6,27] 1, [7,7,27] 1, [7,8,27] 1, [7,9,27] 1, [7,3,28] 1, [7,4,28] 1, [7,5,28] 1, [7,6,28] 1, [7,7,28] 1, [7,8,28] 1, [7,9,28] 1	[1,1,1] 7, [2,1,1] 3, [3,1,1] 2, [4,1,1] 0, [5,1,1] 2, [6,1,1] 0, [7,1,1] 0, [8,1,1] 0, [9,1,1] 2, [10,1,1] 2, [11,1,1] 0, [12,1,1] 3	[1,1,1,1] 199857, [1,2,1,1] 259814, [1,3,1,1] 399713, [1,4,1,1] 339756, [1,5,1,1] 319770, [1,6,1,1] 459670, [1,7,1,1] 679512, [1,8,1,1] 899354, [1,9,1,1] 699497, [1,10,1,1] 479655 [1,1,2,1] 188754, [1,2,2,1] 245381, [1,3,2,1] 377507, [1,4,2,1] 320882, [1,5,2,1] 302005, [1,6,2,1] 434134, [1,7,2,1] 641761, [1,8,2,1] 849391, [1,9,2,1] 660637, [1,10,2,1] 453008 [1,1,3,1] 213180, [1,2,3,1] 277134, [1,3,3,1] 426360, [1,4,3,1] 362406, [1,5,3,1] 341088, [1,6,3,1] 490314, [1,7,3,1] 724812, [1,8,3,1] 959310, [1,9,3,1] 746130, [1,10,3,1] 511632 [1,1,4,1] 193195, [1,2,4,1] 251154, [1,3,4,1] 386389, [1,4,4,1] 328432, [1,5,4,1] 309111, [1,6,4,1] 444349, [1,7,4,1] 656861, [1,8,4,1] 869376, [1,9,4,1] 676182, [1,10,4,1] 463667 [1,1,5,1] 199857, [1,2,5,1] 259814, [1,3,5,1] 399713, [1,4,5,1] 339756, [1,5,5,1] 319770, [1,6,5,1] 459670, [1,7,5,1] 679512, [1,8,5,1] 899354, [1,9,5,1] 699497, [1,10,5,1] 479655 [1,1,6,1] 399713, [1,2,6,1] 559598, [1,3,6,1] 799425, [1,4,6,1] 679512, [1,5,6,1] 543609, [1,6,6,1] 999282, [1,7,6,1] 1498922, [1,8,6,1] 1698779, [1,9,6,1] 1898635, [1,10,6,1] 1099210 [1,1,7,1] 347174, [1,2,7,1] 532367, [1,3,7,1] 668519, [1,4,7,1] 716229, [1,5,7,1] 625773, [1,6,7,1] 884581, [1,7,7,1] 1558370, [1,8,7,1] 1781385, [1,9,7,1] 2156371, [1,10,7,1] 887797 [1,1,8,1] 207027, [1,2,8,1] 264941, [1,3,8,1] 405390, [1,4,8,1] 336718, [1,5,8,1] 327568, [1,6,8,1] 467602, [1,7,8,1] 675415, [1,8,8,1] 895070, [1,9,8,1] 708158, [1,10,8,1] 485275 [1,1,9,1] 196083, [1,2,9,1] 245495, [1,3,9,1] 378254, [1,4,9,1] 315420, [1,5,9,1] 309475, [1,6,9,1] 424895, [1,7,9,1] 638317, [1,8,9,1] 846622, [1,9,9,1] 660635, [1,10,9,1] 460410 [1,1,10,1] 213096, [1,2,10,1] 271353, [1,3,10,1] 428517, [1,4,10,1] 352894, [1,5,10,1] 337091, [1,6,10,1] 492594, [1,7,10,1] 726637, [1,8,10,1] 964903, [1,9,10,1] 745091, [1,10,10,1] 519399 [1,1,11,1] 193691, [1,2,11,1] 256368, [1,3,11,1] 394842, [1,4,11,1] 334287, [1,5,11,1] 307433, [1,6,11,1] 452659, [1,7,11,1] 651157, [1,8,11,1] 864777, [1,9,11,1] 669373, [1,10,11,1] 465823 [1,1,12,1] 199502, [1,2,12,1] 255563, [1,3,12,1] 400459, [1,4,12,1] 347508, [1,5,12,1] 327611, [1,6,12,1] 463088, [1,7,12,1] 675116, [1,8,12,1] 905607, [1,9,12,1] 700075, [1,10,12,1] 475074 [1,1,13,1] 402273, [1,2,13,1] 567284, [1,3,13,1] 798309, [1,4,13,1] 684930, [1,5,13,1] 543629, [1,6,13,1] 989734, [1,7,13,1] 1502087, [1,8,13,1] 1701811, [1,9,13,1] 1889067, [1,10,13,1] 1095375 [1,1,14,1] 322143, [1,2,14,1] 479173, [1,3,14,1] 597619, [1,4,14,1] 637531, [1,5,14,1] 551268, [1,6,14,1] 802822, [1,7,14,1] 1391543, [1,8,14,1] 1591341, [1,9,14,1] 1941227, [1,10,14,1] 791551 [1,1,15,1] 214693, [1,2,15,1] 274128, [1,3,15,1] 414886, [1,4,15,1] 362353, [1,5,15,1] 328761, [1,6,15,1] 480349, [1,7,15,1] 720160, [1,8,15,1] 955519, [1,9,15,1] 739245, [1,10,15,1] 508820 [1,1,16,1] 204398, [1,2,16,1] 263206, [1,3,16,1] 419369, [1,4,16,1] 353777, [1,5,16,1] 321062, [1,6,16,1] 479455, [1,7,16,1] 702003, [1,8,16,1] 922850, [1,9,16,1] 725097, [1,10,16,1] 502299 [1,1,17,1] 220735, [1,2,17,1] 282434, [1,3,17,1] 427271, [1,4,17,1] 368833, [1,5,17,1] 339070, [1,6,17,1] 504060, [1,7,17,1] 741068, [1,8,17,1] 972156, [1,9,17,1] 759705, [1,10,17,1] 522798 [1,1,18,1] 205483, [1,2,18,1] 279728, [1,3,18,1] 410845, [1,4,18,1] 358432, [1,5,18,1] 340545, [1,6,18,1] 483308, [1,7,18,1] 698191, [1,8,18,1] 937759, [1,9,18,1] 720750, [1,10,18,1] 505675 [1,1,19,1] 211799, [1,2,19,1] 282719, [1,3,19,1] 419569, [1,4,19,1] 362704, [1,5,19,1] 328111, [1,6,19,1] 481612, [1,7,19,1] 724941, [1,8,19,1] 944308, [1,9,19,1] 737481, [1,10,19,1] 510352 [1,1,20,1] 427869, [1,2,20,1] 584369, [1,3,20,1] 838648, [1,4,20,1] 726877, [1,5,20,1] 569612, [1,6,20,1] 1051379, [1,7,20,1] 1589014, [1,8,20,1] 1789999, [1,9,20,1] 1998759, [1,10,20,1] 1165146 [1,1,21,1] 342652, [1,2,21,1] 504931, [1,3,21,1] 627916, [1,4,21,1] 679863, [1,5,21,1] 586320, [1,6,21,1] 853717, [1,7,21,1] 1468534, [1,8,21,1] 1683241, [1,9,21,1] 2054208, [1,10,21,1] 839757 [1,1,22,1] 241183, [1,2,22,1] 293191, [1,3,22,1] 460010, [1,4,22,1] 387784, [1,5,22,1] 375187, [1,6,22,1] 533061, [1,7,22,1] 794850, [1,8,22,1] 1038775, [1,9,22,1] 811271, [1,10,22,1] 547772 [1,1,23,1] 216109, [1,2,23,1] 292239, [1,3,23,1] 461361, [1,4,23,1] 375913, [1,5,23,1] 368136, [1,6,23,1] 509888, [1,7,23,1] 770843, [1,8,23,1] 1021827, [1,9,23,1] 797939, [1,10,23,1] 538007 [1,1,24,1] 248651, [1,2,24,1] 310620, [1,3,24,1] 469984, [1,4,24,1] 407910, [1,5,24,1] 377598, [1,6,24,1] 545193, [1,7,24,1] 820491, [1,8,24,1] 1079546, [1,9,24,1] 830509, [1,10,24,1] 569737 [1,1,25,1] 231198, [1,2,25,1] 303583, [1,3,25,1] 457205, [1,4,25,1] 387982, [1,5,25,1] 359928, [1,6,25,1] 530975, [1,7,25,1] 768187, [1,8,25,1] 1029871, [1,9,25,1] 802472, [1,10,25,1] 547872 [1,1,26,1] 230149, [1,2,26,1] 300741, [1,3,26,1] 455303, [1,4,26,1] 384861, [1,5,26,1] 375654, [1,6,26,1] 524071, [1,7,26,1] 789586, [1,8,26,1] 1052851, [1,9,26,1] 810959, [1,10,26,1] 564224 [1,1,27,1] 455534, [1,2,27,1] 653635, [1,3,27,1] 931585, [1,4,27,1] 794382, [1,5,27,1] 635940, [1,6,27,1] 1151686, [1,7,27,1] 1747507, [1,8,27,1] 1966193, [1,9,27,1] 2196262, [1,10,27,1] 1282290 [1,1,28,1] 363312, [1,2,28,1] 554507, [1,3,28,1] 697413, [1,4,28,1] 751412, [1,5,28,1] 657584, [1,6,28,1] 933381, [1,7,28,1] 1619871, [1,8,28,1] 1856171, [1,9,28,1] 2255153, [1,10,28,1] 928869	2018-05-29 00:06:02.025779	2018-09-17 16:14:09.374277	7	2018
+39	36	12	1	28	10	2500	85000			[1] 1, [2] 1	[2] 1, [3] 1, [4] 1, [5] 1	2	[6,3,2] 1, [6,4,2] 1, [6,5,2] 1, [6,6,2] 1, [6,7,2] 1, [6,8,2] 1, [6,9,2] 1, [6,4,3] 1, [6,5,3] 1, [6,6,3] 1, [6,7,3] 1, [6,8,3] 1, [6,9,3] 1, [6,3,4] 1, [6,4,4] 1, [6,5,4] 1, [6,6,4] 1, [6,7,4] 1, [6,8,4] 1, [6,9,4] 1, [6,10,4] 1, [6,2,5] 1, [6,3,5] 1, [6,4,5] 1, [6,5,5] 1, [6,6,5] 1, [6,7,5] 1, [6,10,5] 1, [6,2,6] 1, [6,3,6] 1, [6,4,6] 1, [6,5,6] 1, [6,6,6] 1, [6,7,6] 1, [6,8,6] 1, [6,3,9] 1, [6,4,9] 1, [6,5,9] 1, [6,6,9] 1, [6,7,9] 1, [6,8,9] 1, [6,9,9] 1, [6,10,9] 1, [6,4,11] 1, [6,5,11] 1, [6,6,11] 1, [6,7,11] 1, [6,8,11] 1, [6,9,11] 1, [6,10,11] 1, [6,2,12] 1, [6,3,12] 1, [6,4,12] 1, [6,5,12] 1, [6,6,12] 1, [6,7,12] 1, [6,8,12] 1, [6,9,12] 1, [6,10,12] 1, [6,2,13] 1, [6,3,13] 1, [6,4,13] 1, [6,5,13] 1, [6,6,13] 1, [6,7,13] 1, [6,8,13] 1, [6,9,13] 1, [6,10,13] 1, [6,6,14] 1, [6,7,14] 1, [6,8,14] 1, [6,9,14] 1, [6,10,14] 1, [6,3,16] 1, [6,4,16] 1, [6,5,16] 1, [6,6,16] 1, [6,7,16] 1, [6,8,16] 1, [6,9,16] 1, [6,4,17] 1, [6,5,17] 1, [6,6,17] 1, [6,7,17] 1, [6,8,17] 1, [6,9,17] 1, [6,10,17] 1, [6,3,18] 1, [6,4,18] 1, [6,5,18] 1, [6,6,18] 1, [6,7,18] 1, [6,8,18] 1, [6,9,18] 1, [6,10,18] 1, [6,2,19] 1, [6,3,19] 1, [6,4,19] 1, [6,5,19] 1, [6,6,19] 1, [6,7,19] 1, [6,10,19] 1, [6,2,20] 1, [6,3,20] 1, [6,4,20] 1, [6,5,20] 1, [6,6,20] 1, [6,7,20] 1, [6,8,20] 1, [6,3,23] 1, [6,4,23] 1, [6,5,23] 1, [6,6,23] 1, [6,7,23] 1, [6,8,23] 1, [6,9,23] 1, [6,10,23] 1, [6,4,25] 1, [6,5,25] 1, [6,6,25] 1, [6,7,25] 1, [6,8,25] 1, [6,9,25] 1, [6,10,25] 1, [6,3,26] 1, [6,4,26] 1, [6,5,26] 1, [6,6,26] 1, [6,7,26] 1, [6,8,26] 1, [6,9,26] 1, [6,10,26] 1, [6,3,27] 1, [6,4,27] 1, [6,5,27] 1, [6,6,27] 1, [6,7,27] 1, [6,8,27] 1, [6,9,27] 1, [6,10,27] 1, [6,6,28] 1, [6,7,28] 1, [6,8,28] 1, [6,9,28] 1, [6,10,28] 1, [8,1,1] 1, [8,2,1] 1, [8,3,1] 1, [8,4,1] 1, [8,5,1] 1, [8,6,1] 1, [8,7,1] 1, [8,8,1] 1, [8,9,1] 1, [8,10,1] 1, [8,5,5] 1, [8,6,5] 1, [8,7,5] 1, [8,8,5] 1, [8,9,5] 1, [8,10,5] 1, [8,1,6] 1, [8,2,6] 1, [8,3,6] 1, [8,4,6] 1, [8,5,6] 1, [8,6,6] 1, [8,7,6] 1, [8,8,6] 1, [8,9,6] 1, [8,10,6] 1, [8,1,7] 1, [8,2,7] 1, [8,3,7] 1, [8,4,7] 1, [8,5,7] 1, [8,6,7] 1, [8,7,7] 1, [8,8,7] 1, [8,9,7] 1, [8,10,7] 1, [8,1,8] 1, [8,2,8] 1, [8,3,8] 1, [8,4,8] 1, [8,5,8] 1, [8,6,8] 1, [8,7,8] 1, [8,8,8] 1, [8,3,10] 1, [8,4,10] 1, [8,5,10] 1, [8,6,10] 1, [8,7,10] 1, [8,8,10] 1, [8,3,11] 1, [8,4,11] 1, [8,5,11] 1, [8,6,11] 1, [8,7,11] 1, [8,8,11] 1, [8,3,12] 1, [8,4,12] 1, [8,5,12] 1, [8,6,12] 1, [8,7,12] 1, [8,8,12] 1, [8,1,14] 1, [8,2,14] 1, [8,3,14] 1, [8,4,14] 1, [8,5,14] 1, [8,6,14] 1, [8,7,14] 1, [8,8,14] 1, [8,9,14] 1, [8,10,14] 1, [8,1,15] 1, [8,2,15] 1, [8,3,15] 1, [8,4,15] 1, [8,5,15] 1, [8,6,15] 1, [8,7,15] 1, [8,8,15] 1, [8,9,15] 1, [8,10,15] 1, [8,5,19] 1, [8,6,19] 1, [8,7,19] 1, [8,8,19] 1, [8,9,19] 1, [8,10,19] 1, [8,1,20] 1, [8,2,20] 1, [8,3,20] 1, [8,4,20] 1, [8,5,20] 1, [8,6,20] 1, [8,7,20] 1, [8,8,20] 1, [8,9,20] 1, [8,10,20] 1, [8,1,21] 1, [8,2,21] 1, [8,3,21] 1, [8,4,21] 1, [8,5,21] 1, [8,6,21] 1, [8,7,21] 1, [8,8,21] 1, [8,9,21] 1, [8,10,21] 1, [8,1,22] 1, [8,2,22] 1, [8,3,22] 1, [8,4,22] 1, [8,5,22] 1, [8,6,22] 1, [8,7,22] 1, [8,8,22] 1, [8,3,24] 1, [8,4,24] 1, [8,5,24] 1, [8,6,24] 1, [8,7,24] 1, [8,8,24] 1, [8,3,25] 1, [8,4,25] 1, [8,5,25] 1, [8,6,25] 1, [8,7,25] 1, [8,8,25] 1, [8,3,26] 1, [8,4,26] 1, [8,5,26] 1, [8,6,26] 1, [8,7,26] 1, [8,8,26] 1, [8,1,28] 1, [8,2,28] 1, [8,3,28] 1, [8,4,28] 1, [8,5,28] 1, [8,6,28] 1, [8,7,28] 1, [8,8,28] 1, [8,9,28] 1, [8,10,28] 1, [12,5,1] 1, [12,6,1] 1, [12,7,1] 1, [12,8,1] 1, [12,9,1] 1, [12,10,1] 1, [12,5,2] 1, [12,6,2] 1, [12,7,2] 1, [12,8,2] 1, [12,9,2] 1, [12,10,2] 1, [12,5,3] 1, [12,6,3] 1, [12,7,3] 1, [12,8,3] 1, [12,9,3] 1, [12,10,3] 1, [12,5,4] 1, [12,6,4] 1, [12,7,4] 1, [12,8,4] 1, [12,9,4] 1, [12,10,4] 1, [12,5,5] 1, [12,6,5] 1, [12,7,5] 1, [12,8,5] 1, [12,9,5] 1, [12,10,5] 1, [12,5,7] 1, [12,6,7] 1, [12,7,7] 1, [12,8,7] 1, [12,9,7] 1, [12,10,7] 1, [12,5,8] 1, [12,6,8] 1, [12,7,8] 1, [12,8,8] 1, [12,9,8] 1, [12,10,8] 1, [12,5,9] 1, [12,6,9] 1, [12,7,9] 1, [12,8,9] 1, [12,9,9] 1, [12,10,9] 1, [12,5,10] 1, [12,6,10] 1, [12,7,10] 1, [12,8,10] 1, [12,9,10] 1, [12,10,10] 1, [12,5,11] 1, [12,6,11] 1, [12,7,11] 1, [12,8,11] 1, [12,9,11] 1, [12,10,11] 1, [12,5,12] 1, [12,6,12] 1, [12,7,12] 1, [12,8,12] 1, [12,9,12] 1, [12,10,12] 1, [12,5,14] 1, [12,6,14] 1, [12,7,14] 1, [12,8,14] 1, [12,9,14] 1, [12,10,14] 1, [12,5,15] 1, [12,6,15] 1, [12,7,15] 1, [12,8,15] 1, [12,9,15] 1, [12,10,15] 1, [12,5,16] 1, [12,6,16] 1, [12,7,16] 1, [12,8,16] 1, [12,9,16] 1, [12,10,16] 1, [12,5,17] 1, [12,6,17] 1, [12,7,17] 1, [12,8,17] 1, [12,9,17] 1, [12,10,17] 1, [12,5,18] 1, [12,6,18] 1, [12,7,18] 1, [12,8,18] 1, [12,9,18] 1, [12,10,18] 1, [12,5,19] 1, [12,6,19] 1, [12,7,19] 1, [12,8,19] 1, [12,9,19] 1, [12,10,19] 1, [12,5,21] 1, [12,6,21] 1, [12,7,21] 1, [12,8,21] 1, [12,9,21] 1, [12,10,21] 1, [12,5,22] 1, [12,6,22] 1, [12,7,22] 1, [12,8,22] 1, [12,9,22] 1, [12,10,22] 1, [12,5,23] 1, [12,6,23] 1, [12,7,23] 1, [12,8,23] 1, [12,9,23] 1, [12,10,23] 1, [12,5,24] 1, [12,6,24] 1, [12,7,24] 1, [12,8,24] 1, [12,9,24] 1, [12,10,24] 1, [12,5,25] 1, [12,6,25] 1, [12,7,25] 1, [12,8,25] 1, [12,9,25] 1, [12,10,25] 1, [12,5,26] 1, [12,6,26] 1, [12,7,26] 1, [12,8,26] 1, [12,9,26] 1, [12,10,26] 1, [12,5,28] 1, [12,6,28] 1, [12,7,28] 1, [12,8,28] 1, [12,9,28] 1, [12,10,28] 1, [1,2,1] 1, [1,3,1] 1, [1,4,1] 1, [1,5,1] 1, [1,6,1] 1, [1,7,1] 1, [1,1,2] 1, [1,2,2] 1, [1,3,2] 1, [1,4,2] 1, [1,5,2] 1, [1,6,2] 1, [1,7,2] 1, [1,8,2] 1, [1,9,2] 1, [1,10,2] 1, [1,2,3] 1, [1,3,3] 1, [1,4,3] 1, [1,5,3] 1, [1,6,3] 1, [1,7,3] 1, [1,8,3] 1, [1,9,3] 1, [1,10,3] 1, [1,1,4] 1, [1,2,4] 1, [1,3,4] 1, [1,4,4] 1, [1,5,4] 1, [1,6,4] 1, [1,7,4] 1, [1,8,4] 1, [1,9,4] 1, [1,10,4] 1, [1,1,5] 1, [1,2,5] 1, [1,3,5] 1, [1,4,5] 1, [1,5,5] 1, [1,6,5] 1, [1,7,5] 1, [1,8,5] 1, [1,9,5] 1, [1,10,5] 1, [1,3,8] 1, [1,4,8] 1, [1,5,8] 1, [1,6,8] 1, [1,7,8] 1, [1,8,8] 1, [1,9,8] 1, [1,3,9] 1, [1,4,9] 1, [1,5,9] 1, [1,6,9] 1, [1,7,9] 1, [1,8,9] 1, [1,9,9] 1, [1,3,11] 1, [1,4,11] 1, [1,5,11] 1, [1,6,11] 1, [1,7,11] 1, [1,8,11] 1, [1,9,11] 1, [1,2,12] 1, [1,3,12] 1, [1,4,12] 1, [1,5,12] 1, [1,6,12] 1, [1,7,12] 1, [1,8,12] 1, [1,9,12] 1, [1,2,13] 1, [1,3,13] 1, [1,4,13] 1, [1,5,13] 1, [1,6,13] 1, [1,7,13] 1, [1,8,13] 1, [1,9,13] 1, [1,2,14] 1, [1,3,14] 1, [1,4,14] 1, [1,5,14] 1, [1,6,14] 1, [1,7,14] 1, [1,8,14] 1, [1,9,14] 1, [1,1,15] 1, [1,2,15] 1, [1,3,15] 1, [1,4,15] 1, [1,5,15] 1, [1,6,15] 1, [1,7,15] 1, [1,8,15] 1, [1,9,15] 1, [1,10,15] 1, [1,1,17] 1, [1,2,17] 1, [1,3,17] 1, [1,4,17] 1, [1,5,17] 1, [1,6,17] 1, [1,7,17] 1, [1,8,17] 1, [1,9,17] 1, [1,10,17] 1, [1,1,18] 1, [1,2,18] 1, [1,3,18] 1, [1,4,18] 1, [1,5,18] 1, [1,6,18] 1, [1,7,18] 1, [1,8,18] 1, [1,9,18] 1, [1,1,19] 1, [1,2,19] 1, [1,3,19] 1, [1,4,19] 1, [1,5,19] 1, [1,6,19] 1, [1,7,19] 1, [1,8,19] 1, [1,9,19] 1, [1,1,20] 1, [1,2,20] 1, [1,3,20] 1, [1,4,20] 1, [1,5,20] 1, [1,6,20] 1, [1,7,20] 1, [1,8,20] 1, [1,9,20] 1, [1,1,24] 1, [1,2,24] 1, [1,3,24] 1, [1,4,24] 1, [1,5,24] 1, [1,6,24] 1, [1,7,24] 1, [1,8,24] 1, [1,9,24] 1, [1,10,24] 1, [1,3,26] 1, [1,4,26] 1, [1,5,26] 1, [1,6,26] 1, [1,7,26] 1, [1,8,26] 1, [1,9,26] 1, [1,10,26] 1, [1,2,27] 1, [1,3,27] 1, [1,4,27] 1, [1,5,27] 1, [1,6,27] 1, [1,7,27] 1, [1,8,27] 1, [1,9,27] 1, [1,10,27] 1, [1,3,28] 1, [1,4,28] 1, [1,5,28] 1, [1,6,28] 1, [1,7,28] 1, [1,8,28] 1, [1,9,28] 1, [1,10,28] 1, [2,3,2] 1, [2,4,2] 1, [2,5,2] 1, [2,6,2] 1, [2,7,2] 1, [2,8,2] 1, [2,9,2] 1, [2,1,3] 1, [2,2,3] 1, [2,3,3] 1, [2,4,3] 1, [2,5,3] 1, [2,6,3] 1, [2,7,3] 1, [2,8,3] 1, [2,9,3] 1, [2,10,3] 1, [2,3,4] 1, [2,4,4] 1, [2,5,4] 1, [2,6,4] 1, [2,7,4] 1, [2,8,4] 1, [2,9,4] 1, [2,10,4] 1, [2,2,5] 1, [2,3,5] 1, [2,4,5] 1, [2,5,5] 1, [2,6,5] 1, [2,7,5] 1, [2,10,5] 1, [2,2,6] 1, [2,3,6] 1, [2,4,6] 1, [2,5,6] 1, [2,6,6] 1, [2,7,6] 1, [2,8,6] 1, [2,9,6] 1, [2,1,7] 1, [2,2,7] 1, [2,3,7] 1, [2,4,7] 1, [2,5,7] 1, [2,6,7] 1, [2,7,7] 1, [2,8,7] 1, [2,9,7] 1, [2,2,8] 1, [2,3,8] 1, [2,4,8] 1, [2,5,8] 1, [2,6,8] 1, [2,7,8] 1, [2,1,9] 1, [2,2,9] 1, [2,3,9] 1, [2,4,9] 1, [2,5,9] 1, [2,6,9] 1, [2,7,9] 1, [2,8,9] 1, [2,9,9] 1, [2,10,9] 1, [2,1,11] 1, [2,2,11] 1, [2,3,11] 1, [2,4,11] 1, [2,5,11] 1, [2,6,11] 1, [2,7,11] 1, [2,8,11] 1, [2,9,11] 1, [2,10,11] 1, [2,1,12] 1, [2,3,12] 1, [2,4,12] 1, [2,5,12] 1, [2,6,12] 1, [2,7,12] 1, [2,8,12] 1, [2,9,12] 1, [2,10,12] 1, [2,1,13] 1, [2,3,13] 1, [2,4,13] 1, [2,5,13] 1, [2,6,13] 1, [2,7,13] 1, [2,8,13] 1, [2,9,13] 1, [2,10,13] 1, [2,1,15] 1, [2,2,15] 1, [2,3,15] 1, [2,4,15] 1, [2,5,15] 1, [2,6,15] 1, [2,7,15] 1, [2,8,15] 1, [2,9,15] 1, [2,10,15] 1, [2,1,16] 1, [2,2,16] 1, [2,3,16] 1, [2,4,16] 1, [2,5,16] 1, [2,6,16] 1, [2,7,16] 1, [2,8,16] 1, [2,9,16] 1, [2,10,16] 1, [2,1,17] 1, [2,2,17] 1, [2,3,17] 1, [2,4,17] 1, [2,5,17] 1, [2,6,17] 1, [2,7,17] 1, [2,8,17] 1, [2,9,17] 1, [2,10,17] 1, [2,3,20] 1, [2,4,20] 1, [2,5,20] 1, [2,6,20] 1, [2,7,20] 1, [2,8,20] 1, [2,9,20] 1, [2,10,20] 1, [2,3,21] 1, [2,4,21] 1, [2,5,21] 1, [2,6,21] 1, [2,7,21] 1, [2,8,21] 1, [2,9,21] 1, [2,10,21] 1, [2,1,22] 1, [2,2,22] 1, [2,3,22] 1, [2,4,22] 1, [2,5,22] 1, [2,6,22] 1, [2,7,22] 1, [2,8,22] 1, [2,9,22] 1, [2,10,22] 1, [2,1,24] 1, [2,2,24] 1, [2,3,24] 1, [2,4,24] 1, [2,5,24] 1, [2,6,24] 1, [2,7,24] 1, [2,8,24] 1, [2,9,24] 1, [2,10,24] 1, [2,1,25] 1, [2,2,25] 1, [2,3,25] 1, [2,4,25] 1, [2,5,25] 1, [2,6,25] 1, [2,7,25] 1, [2,8,25] 1, [2,9,25] 1, [2,1,26] 1, [2,2,26] 1, [2,3,26] 1, [2,4,26] 1, [2,5,26] 1, [2,6,26] 1, [2,7,26] 1, [2,8,26] 1, [2,9,26] 1, [2,1,27] 1, [2,2,27] 1, [2,3,27] 1, [2,4,27] 1, [2,5,27] 1, [2,6,27] 1, [2,7,27] 1, [2,8,27] 1, [2,9,27] 1, [3,1,1] 1, [3,2,1] 1, [3,3,1] 1, [3,4,1] 1, [3,5,1] 1, [3,6,1] 1, [3,7,1] 1, [3,8,1] 1, [3,9,1] 1, [3,1,3] 1, [3,2,3] 1, [3,3,3] 1, [3,4,3] 1, [3,5,3] 1, [3,6,3] 1, [3,7,3] 1, [3,8,3] 1, [3,9,3] 1, [3,10,3] 1, [3,1,4] 1, [3,2,4] 1, [3,3,4] 1, [3,4,4] 1, [3,5,4] 1, [3,6,4] 1, [3,7,4] 1, [3,8,4] 1, [3,9,4] 1, [3,10,4] 1, [3,1,5] 1, [3,2,5] 1, [3,3,5] 1, [3,4,5] 1, [3,5,5] 1, [3,6,5] 1, [3,7,5] 1, [3,8,5] 1, [3,9,5] 1, [3,1,6] 1, [3,2,6] 1, [3,3,6] 1, [3,4,6] 1, [3,5,6] 1, [3,6,6] 1, [3,7,6] 1, [3,8,6] 1, [3,9,6] 1, [3,1,8] 1, [3,2,8] 1, [3,3,8] 1, [3,4,8] 1, [3,5,8] 1, [3,6,8] 1, [3,7,8] 1, [3,1,9] 1, [3,2,9] 1, [3,3,9] 1, [3,4,9] 1, [3,5,9] 1, [3,6,9] 1, [3,7,9] 1, [3,8,9] 1, [3,9,9] 1, [3,10,9] 1, [3,1,11] 1, [3,2,11] 1, [3,3,11] 1, [3,4,11] 1, [3,5,11] 1, [3,6,11] 1, [3,7,11] 1, [3,8,11] 1, [3,9,11] 1, [3,10,11] 1, [3,1,12] 1, [3,3,12] 1, [3,4,12] 1, [3,5,12] 1, [3,6,12] 1, [3,7,12] 1, [3,8,12] 1, [3,9,12] 1, [3,10,12] 1, [3,1,13] 1, [3,3,13] 1, [3,4,13] 1, [3,5,13] 1, [3,6,13] 1, [3,7,13] 1, [3,8,13] 1, [3,9,13] 1, [3,10,13] 1, [3,1,15] 1, [3,2,15] 1, [3,3,15] 1, [3,4,15] 1, [3,5,15] 1, [3,6,15] 1, [3,7,15] 1, [3,8,15] 1, [3,9,15] 1, [3,10,15] 1, [3,1,16] 1, [3,2,16] 1, [3,3,16] 1, [3,4,16] 1, [3,5,16] 1, [3,6,16] 1, [3,7,16] 1, [3,8,16] 1, [3,9,16] 1, [3,10,16] 1, [3,1,17] 1, [3,2,17] 1, [3,3,17] 1, [3,4,17] 1, [3,5,17] 1, [3,6,17] 1, [3,7,17] 1, [3,8,17] 1, [3,9,17] 1, [3,10,17] 1, [3,3,20] 1, [3,4,20] 1, [3,5,20] 1, [3,6,20] 1, [3,7,20] 1, [3,8,20] 1, [3,9,20] 1, [3,10,20] 1, [3,3,21] 1, [3,4,21] 1, [3,5,21] 1, [3,6,21] 1, [3,7,21] 1, [3,8,21] 1, [3,9,21] 1, [3,10,21] 1, [3,1,22] 1, [3,2,22] 1, [3,3,22] 1, [3,4,22] 1, [3,5,22] 1, [3,6,22] 1, [3,7,22] 1, [3,8,22] 1, [3,9,22] 1, [3,10,22] 1, [3,1,24] 1, [3,2,24] 1, [3,3,24] 1, [3,4,24] 1, [3,5,24] 1, [3,6,24] 1, [3,7,24] 1, [3,8,24] 1, [3,9,24] 1, [3,10,24] 1, [3,1,25] 1, [3,2,25] 1, [3,3,25] 1, [3,4,25] 1, [3,5,25] 1, [3,6,25] 1, [3,7,25] 1, [3,8,25] 1, [3,9,25] 1, [3,1,26] 1, [3,2,26] 1, [3,3,26] 1, [3,4,26] 1, [3,5,26] 1, [3,6,26] 1, [3,7,26] 1, [3,8,26] 1, [3,9,26] 1, [3,1,27] 1, [3,2,27] 1, [3,3,27] 1, [3,4,27] 1, [3,5,27] 1, [3,6,27] 1, [3,7,27] 1, [3,8,27] 1, [3,9,27] 1, [10,1,6] 1, [10,2,6] 1, [10,3,6] 1, [10,4,6] 1, [10,5,6] 1, [10,6,6] 1, [10,7,6] 1, [10,8,6] 1, [10,9,6] 1, [10,10,6] 1, [10,1,7] 1, [10,2,7] 1, [10,3,7] 1, [10,4,7] 1, [10,5,7] 1, [10,6,7] 1, [10,7,7] 1, [10,8,7] 1, [10,9,7] 1, [10,10,7] 1, [10,1,13] 1, [10,2,13] 1, [10,3,13] 1, [10,4,13] 1, [10,5,13] 1, [10,6,13] 1, [10,7,13] 1, [10,8,13] 1, [10,9,13] 1, [10,10,13] 1, [10,1,14] 1, [10,2,14] 1, [10,3,14] 1, [10,4,14] 1, [10,5,14] 1, [10,6,14] 1, [10,7,14] 1, [10,8,14] 1, [10,9,14] 1, [10,10,14] 1, [10,1,20] 1, [10,2,20] 1, [10,3,20] 1, [10,4,20] 1, [10,5,20] 1, [10,6,20] 1, [10,7,20] 1, [10,8,20] 1, [10,9,20] 1, [10,10,20] 1, [10,1,21] 1, [10,2,21] 1, [10,3,21] 1, [10,4,21] 1, [10,5,21] 1, [10,6,21] 1, [10,7,21] 1, [10,8,21] 1, [10,9,21] 1, [10,10,21] 1, [10,1,27] 1, [10,2,27] 1, [10,3,27] 1, [10,4,27] 1, [10,5,27] 1, [10,6,27] 1, [10,7,27] 1, [10,8,27] 1, [10,9,27] 1, [10,10,27] 1, [10,1,28] 1, [10,2,28] 1, [10,3,28] 1, [10,4,28] 1, [10,5,28] 1, [10,6,28] 1, [10,7,28] 1, [10,8,28] 1, [10,9,28] 1, [10,10,28] 1, [11,5,1] 1, [11,6,1] 1, [11,7,1] 1, [11,8,1] 1, [11,9,1] 1, [11,10,1] 1, [11,5,2] 1, [11,6,2] 1, [11,7,2] 1, [11,8,2] 1, [11,9,2] 1, [11,10,2] 1, [11,5,3] 1, [11,6,3] 1, [11,7,3] 1, [11,8,3] 1, [11,9,3] 1, [11,10,3] 1, [11,5,4] 1, [11,6,4] 1, [11,7,4] 1, [11,8,4] 1, [11,9,4] 1, [11,10,4] 1, [11,5,5] 1, [11,6,5] 1, [11,7,5] 1, [11,8,5] 1, [11,9,5] 1, [11,10,5] 1, [11,5,6] 1, [11,6,6] 1, [11,7,6] 1, [11,8,6] 1, [11,9,6] 1, [11,10,6] 1, [11,5,8] 1, [11,6,8] 1, [11,7,8] 1, [11,8,8] 1, [11,9,8] 1, [11,10,8] 1, [11,5,9] 1, [11,6,9] 1, [11,7,9] 1, [11,8,9] 1, [11,9,9] 1, [11,10,9] 1, [11,5,10] 1, [11,6,10] 1, [11,7,10] 1, [11,8,10] 1, [11,9,10] 1, [11,10,10] 1, [11,5,11] 1, [11,6,11] 1, [11,7,11] 1, [11,8,11] 1, [11,9,11] 1, [11,10,11] 1, [11,5,12] 1, [11,6,12] 1, [11,7,12] 1, [11,8,12] 1, [11,9,12] 1, [11,10,12] 1, [11,5,13] 1, [11,6,13] 1, [11,7,13] 1, [11,8,13] 1, [11,9,13] 1, [11,10,13] 1, [11,5,15] 1, [11,6,15] 1, [11,7,15] 1, [11,8,15] 1, [11,9,15] 1, [11,10,15] 1, [11,5,16] 1, [11,6,16] 1, [11,7,16] 1, [11,8,16] 1, [11,9,16] 1, [11,10,16] 1, [11,5,17] 1, [11,6,17] 1, [11,7,17] 1, [11,8,17] 1, [11,9,17] 1, [11,10,17] 1, [11,5,18] 1, [11,6,18] 1, [11,7,18] 1, [11,8,18] 1, [11,9,18] 1, [11,10,18] 1, [11,5,19] 1, [11,6,19] 1, [11,7,19] 1, [11,8,19] 1, [11,9,19] 1, [11,10,19] 1, [11,5,20] 1, [11,6,20] 1, [11,7,20] 1, [11,8,20] 1, [11,9,20] 1, [11,10,20] 1, [11,5,22] 1, [11,6,22] 1, [11,7,22] 1, [11,8,22] 1, [11,9,22] 1, [11,10,22] 1, [11,5,23] 1, [11,6,23] 1, [11,7,23] 1, [11,8,23] 1, [11,9,23] 1, [11,10,23] 1, [11,5,24] 1, [11,6,24] 1, [11,7,24] 1, [11,8,24] 1, [11,9,24] 1, [11,10,24] 1, [11,5,25] 1, [11,6,25] 1, [11,7,25] 1, [11,8,25] 1, [11,9,25] 1, [11,10,25] 1, [11,5,26] 1, [11,6,26] 1, [11,7,26] 1, [11,8,26] 1, [11,9,26] 1, [11,10,26] 1, [11,5,27] 1, [11,6,27] 1, [11,7,27] 1, [11,8,27] 1, [11,9,27] 1, [11,10,27] 1, [4,1,1] 1, [4,2,1] 1, [4,3,1] 1, [4,4,1] 1, [4,5,1] 1, [4,6,1] 1, [4,7,1] 1, [4,8,1] 1, [4,9,1] 1, [4,10,1] 1, [4,1,2] 1, [4,2,2] 1, [4,3,2] 1, [4,4,2] 1, [4,5,2] 1, [4,6,2] 1, [4,7,2] 1, [4,8,2] 1, [4,9,2] 1, [4,10,2] 1, [4,3,5] 1, [4,4,5] 1, [4,5,5] 1, [4,6,5] 1, [4,7,5] 1, [4,8,5] 1, [4,9,5] 1, [4,10,5] 1, [4,2,6] 1, [4,3,6] 1, [4,4,6] 1, [4,5,6] 1, [4,6,6] 1, [4,7,6] 1, [4,8,6] 1, [4,9,6] 1, [4,10,6] 1, [4,1,7] 1, [4,2,7] 1, [4,3,7] 1, [4,4,7] 1, [4,5,7] 1, [4,6,7] 1, [4,7,7] 1, [4,8,7] 1, [4,9,7] 1, [4,10,7] 1, [4,1,8] 1, [4,2,8] 1, [4,3,8] 1, [4,4,8] 1, [4,5,8] 1, [4,6,8] 1, [4,7,8] 1, [4,8,8] 1, [4,1,10] 1, [4,2,10] 1, [4,3,10] 1, [4,4,10] 1, [4,5,10] 1, [4,6,10] 1, [4,7,10] 1, [4,8,10] 1, [4,9,10] 1, [4,10,10] 1, [4,1,11] 1, [4,2,11] 1, [4,3,11] 1, [4,4,11] 1, [4,5,11] 1, [4,6,11] 1, [4,7,11] 1, [4,8,11] 1, [4,9,11] 1, [4,1,12] 1, [4,2,12] 1, [4,3,12] 1, [4,4,12] 1, [4,5,12] 1, [4,6,12] 1, [4,7,12] 1, [4,8,12] 1, [4,9,12] 1, [4,1,13] 1, [4,2,13] 1, [4,3,13] 1, [4,4,13] 1, [4,5,13] 1, [4,6,13] 1, [4,7,13] 1, [4,8,13] 1, [4,9,13] 1, [4,3,15] 1, [4,4,15] 1, [4,5,15] 1, [4,6,15] 1, [4,7,15] 1, [4,8,15] 1, [4,9,15] 1, [4,3,16] 1, [4,4,16] 1, [4,5,16] 1, [4,6,16] 1, [4,7,16] 1, [4,8,16] 1, [4,9,16] 1, [4,3,18] 1, [4,4,18] 1, [4,5,18] 1, [4,6,18] 1, [4,7,18] 1, [4,8,18] 1, [4,9,18] 1, [4,2,19] 1, [4,3,19] 1, [4,4,19] 1, [4,5,19] 1, [4,6,19] 1, [4,7,19] 1, [4,8,19] 1, [4,9,19] 1, [4,2,20] 1, [4,3,20] 1, [4,4,20] 1, [4,5,20] 1, [4,6,20] 1, [4,7,20] 1, [4,8,20] 1, [4,9,20] 1, [4,1,21] 1, [4,2,21] 1, [4,3,21] 1, [4,4,21] 1, [4,5,21] 1, [4,6,21] 1, [4,7,21] 1, [4,8,21] 1, [4,9,21] 1, [4,1,22] 1, [4,2,22] 1, [4,3,22] 1, [4,4,22] 1, [4,5,22] 1, [4,6,22] 1, [4,1,23] 1, [4,2,23] 1, [4,3,23] 1, [4,4,23] 1, [4,5,23] 1, [4,6,23] 1, [4,7,23] 1, [4,8,23] 1, [4,9,23] 1, [4,10,23] 1, [4,1,25] 1, [4,2,25] 1, [4,3,25] 1, [4,4,25] 1, [4,5,25] 1, [4,6,25] 1, [4,7,25] 1, [4,8,25] 1, [4,9,25] 1, [4,10,25] 1, [4,1,26] 1, [4,3,26] 1, [4,4,26] 1, [4,5,26] 1, [4,6,26] 1, [4,7,26] 1, [4,8,26] 1, [4,9,26] 1, [4,10,26] 1, [4,1,27] 1, [4,3,27] 1, [4,4,27] 1, [4,5,27] 1, [4,6,27] 1, [4,7,27] 1, [4,8,27] 1, [4,9,27] 1, [4,10,27] 1, [5,3,3] 1, [5,4,3] 1, [5,5,3] 1, [5,6,3] 1, [5,7,3] 1, [5,8,3] 1, [5,9,3] 1, [5,3,4] 1, [5,4,4] 1, [5,5,4] 1, [5,6,4] 1, [5,7,4] 1, [5,8,4] 1, [5,9,4] 1, [5,10,4] 1, [5,6,5] 1, [5,7,5] 1, [5,8,5] 1, [5,9,5] 1, [5,10,5] 1, [5,4,6] 1, [5,5,6] 1, [5,6,6] 1, [5,7,6] 1, [5,8,6] 1, [5,9,6] 1, [5,10,6] 1, [5,4,7] 1, [5,5,7] 1, [5,6,7] 1, [5,7,7] 1, [5,8,7] 1, [5,9,7] 1, [5,10,7] 1, [5,3,8] 1, [5,4,8] 1, [5,5,8] 1, [5,6,8] 1, [5,7,8] 1, [5,8,8] 1, [5,9,8] 1, [5,3,9] 1, [5,4,9] 1, [5,5,9] 1, [5,6,9] 1, [5,7,9] 1, [5,8,9] 1, [5,9,9] 1, [5,3,10] 1, [5,4,10] 1, [5,5,10] 1, [5,6,10] 1, [5,7,10] 1, [5,8,10] 1, [5,9,10] 1, [5,10,10] 1, [5,3,13] 1, [5,4,13] 1, [5,5,13] 1, [5,6,13] 1, [5,7,13] 1, [5,8,13] 1, [5,9,13] 1, [5,3,14] 1, [5,4,14] 1, [5,5,14] 1, [5,6,14] 1, [5,7,14] 1, [5,8,14] 1, [5,9,14] 1, [5,2,17] 1, [5,3,17] 1, [5,4,17] 1, [5,5,17] 1, [5,6,17] 1, [5,7,17] 1, [5,8,17] 1, [5,9,17] 1, [5,2,18] 1, [5,3,18] 1, [5,4,18] 1, [5,5,18] 1, [5,6,18] 1, [5,7,18] 1, [5,8,18] 1, [5,9,18] 1, [5,10,18] 1, [5,6,19] 1, [5,7,19] 1, [5,8,19] 1, [5,9,19] 1, [5,10,19] 1, [5,4,20] 1, [5,5,20] 1, [5,6,20] 1, [5,7,20] 1, [5,8,20] 1, [5,9,20] 1, [5,10,20] 1, [5,4,21] 1, [5,5,21] 1, [5,6,21] 1, [5,7,21] 1, [5,8,21] 1, [5,9,21] 1, [5,10,21] 1, [5,3,22] 1, [5,4,22] 1, [5,5,22] 1, [5,6,22] 1, [5,7,22] 1, [5,8,22] 1, [5,9,22] 1, [5,3,23] 1, [5,4,23] 1, [5,5,23] 1, [5,6,23] 1, [5,7,23] 1, [5,8,23] 1, [5,9,23] 1, [5,3,24] 1, [5,4,24] 1, [5,5,24] 1, [5,6,24] 1, [5,7,24] 1, [5,8,24] 1, [5,9,24] 1, [5,10,24] 1, [5,3,27] 1, [5,4,27] 1, [5,5,27] 1, [5,6,27] 1, [5,7,27] 1, [5,8,27] 1, [5,9,27] 1, [5,3,28] 1, [5,4,28] 1, [5,5,28] 1, [5,6,28] 1, [5,7,28] 1, [5,8,28] 1, [5,9,28] 1, [9,7,5] 1, [9,8,5] 1, [9,9,5] 1, [9,10,5] 1, [9,7,12] 1, [9,8,12] 1, [9,9,12] 1, [9,10,12] 1, [9,1,13] 1, [9,2,13] 1, [9,3,13] 1, [9,4,13] 1, [9,5,13] 1, [9,6,13] 1, [9,7,13] 1, [9,8,13] 1, [9,9,13] 1, [9,10,13] 1, [9,1,14] 1, [9,2,14] 1, [9,3,14] 1, [9,4,14] 1, [9,5,14] 1, [9,6,14] 1, [9,7,14] 1, [9,8,14] 1, [9,9,14] 1, [9,10,14] 1, [9,7,19] 1, [9,8,19] 1, [9,9,19] 1, [9,10,19] 1, [9,1,20] 1, [9,2,20] 1, [9,3,20] 1, [9,4,20] 1, [9,5,20] 1, [9,6,20] 1, [9,7,20] 1, [9,8,20] 1, [9,9,20] 1, [9,10,20] 1, [9,1,21] 1, [9,2,21] 1, [9,3,21] 1, [9,4,21] 1, [9,5,21] 1, [9,6,21] 1, [9,7,21] 1, [9,8,21] 1, [9,9,21] 1, [9,10,21] 1, [9,7,26] 1, [9,8,26] 1, [9,9,26] 1, [9,10,26] 1, [9,1,27] 1, [9,2,27] 1, [9,3,27] 1, [9,4,27] 1, [9,5,27] 1, [9,6,27] 1, [9,7,27] 1, [9,8,27] 1, [9,9,27] 1, [9,10,27] 1, [9,1,28] 1, [9,2,28] 1, [9,3,28] 1, [9,4,28] 1, [9,5,28] 1, [9,6,28] 1, [9,7,28] 1, [9,8,28] 1, [9,9,28] 1, [9,10,28] 1, [7,3,1] 1, [7,4,1] 1, [7,5,1] 1, [7,6,1] 1, [7,7,1] 1, [7,8,1] 1, [7,9,1] 1, [7,3,2] 1, [7,4,2] 1, [7,5,2] 1, [7,6,2] 1, [7,7,2] 1, [7,8,2] 1, [7,9,2] 1, [7,3,3] 1, [7,4,3] 1, [7,5,3] 1, [7,6,3] 1, [7,7,3] 1, [7,8,3] 1, [7,9,3] 1, [7,10,3] 1, [7,3,6] 1, [7,4,6] 1, [7,5,6] 1, [7,6,6] 1, [7,7,6] 1, [7,8,6] 1, [7,9,6] 1, [7,3,7] 1, [7,4,7] 1, [7,5,7] 1, [7,6,7] 1, [7,7,7] 1, [7,8,7] 1, [7,9,7] 1, [7,3,9] 1, [7,4,9] 1, [7,5,9] 1, [7,6,9] 1, [7,7,9] 1, [7,8,9] 1, [7,9,9] 1, [7,4,10] 1, [7,5,10] 1, [7,6,10] 1, [7,7,10] 1, [7,8,10] 1, [7,9,10] 1, [7,10,10] 1, [7,3,11] 1, [7,4,11] 1, [7,5,11] 1, [7,6,11] 1, [7,7,11] 1, [7,8,11] 1, [7,9,11] 1, [7,10,11] 1, [7,2,12] 1, [7,3,12] 1, [7,4,12] 1, [7,5,12] 1, [7,6,12] 1, [7,7,12] 1, [7,10,12] 1, [7,2,13] 1, [7,3,13] 1, [7,4,13] 1, [7,5,13] 1, [7,6,13] 1, [7,7,13] 1, [7,8,13] 1, [7,3,16] 1, [7,4,16] 1, [7,5,16] 1, [7,6,16] 1, [7,7,16] 1, [7,8,16] 1, [7,9,16] 1, [7,4,17] 1, [7,5,17] 1, [7,6,17] 1, [7,7,17] 1, [7,8,17] 1, [7,9,17] 1, [7,10,17] 1, [7,3,18] 1, [7,4,18] 1, [7,5,18] 1, [7,6,18] 1, [7,7,18] 1, [7,8,18] 1, [7,9,18] 1, [7,10,18] 1, [7,2,19] 1, [7,3,19] 1, [7,4,19] 1, [7,5,19] 1, [7,6,19] 1, [7,7,19] 1, [7,10,19] 1, [7,2,20] 1, [7,3,20] 1, [7,4,20] 1, [7,5,20] 1, [7,6,20] 1, [7,7,20] 1, [7,8,20] 1, [7,3,22] 1, [7,4,22] 1, [7,5,22] 1, [7,6,22] 1, [7,7,22] 1, [7,8,22] 1, [7,9,22] 1, [7,3,23] 1, [7,4,23] 1, [7,5,23] 1, [7,6,23] 1, [7,7,23] 1, [7,8,23] 1, [7,9,23] 1, [7,3,24] 1, [7,4,24] 1, [7,5,24] 1, [7,6,24] 1, [7,7,24] 1, [7,8,24] 1, [7,9,24] 1, [7,10,24] 1, [7,3,27] 1, [7,4,27] 1, [7,5,27] 1, [7,6,27] 1, [7,7,27] 1, [7,8,27] 1, [7,9,27] 1, [7,3,28] 1, [7,4,28] 1, [7,5,28] 1, [7,6,28] 1, [7,7,28] 1, [7,8,28] 1, [7,9,28] 1	[1,1,1] 7, [2,1,1] 3, [3,1,1] 2, [4,1,1] 0, [5,1,1] 2, [6,1,1] 0, [7,1,1] 0, [8,1,1] 0, [9,1,1] 2, [10,1,1] 2, [11,1,1] 0, [12,1,1] 3	[1,1,1,1] 222917, [1,2,1,1] 327513, [1,3,1,1] 497189, [1,4,1,1] 421776, [1,5,1,1] 381838, [1,6,1,1] 568907, [1,7,1,1] 817683, [1,8,1,1] 1106082, [1,9,1,1] 823307, [1,10,1,1] 587778 [1,1,2,1] 259671, [1,2,2,1] 312062, [1,3,2,1] 491158, [1,4,2,1] 425837, [1,5,2,1] 390792, [1,6,2,1] 531623, [1,7,2,1] 808780, [1,8,2,1] 1063133, [1,9,2,1] 833102, [1,10,2,1] 558351 [1,1,3,1] 246635, [1,2,3,1] 303368, [1,3,3,1] 473335, [1,4,3,1] 421144, [1,5,3,1] 393426, [1,6,3,1] 569898, [1,7,3,1] 823252, [1,8,3,1] 1070379, [1,9,3,1] 863436, [1,10,3,1] 583199 [1,1,4,1] 243030, [1,2,4,1] 311590, [1,3,4,1] 481228, [1,4,4,1] 400205, [1,5,4,1] 382721, [1,6,4,1] 573545, [1,7,4,1] 830021, [1,8,4,1] 1101650, [1,9,4,1] 816742, [1,10,4,1] 584287 [1,1,5,1] 236663, [1,2,5,1] 306991, [1,3,5,1] 485503, [1,4,5,1] 414770, [1,5,5,1] 386869, [1,6,5,1] 567110, [1,7,5,1] 827169, [1,8,5,1] 1065565, [1,9,5,1] 847023, [1,10,5,1] 567503 [1,1,6,1] 459663, [1,2,6,1] 647612, [1,3,6,1] 924406, [1,4,6,1] 813087, [1,5,6,1] 642330, [1,6,6,1] 1149093, [1,7,6,1] 1737503, [1,8,6,1] 1986738, [1,9,6,1] 2211538, [1,10,6,1] 1297404 [1,1,7,1] 358760, [1,2,7,1] 535993, [1,3,7,1] 671820, [1,4,7,1] 739957, [1,5,7,1] 650405, [1,6,7,1] 883523, [1,7,7,1] 1561290, [1,8,7,1] 1774397, [1,9,7,1] 2142658, [1,10,7,1] 885522 [1,1,8,1] 234183, [1,2,8,1] 342775, [1,3,8,1] 512215, [1,4,8,1] 420108, [1,5,8,1] 388561, [1,6,8,1] 586187, [1,7,8,1] 814580, [1,8,8,1] 1104078, [1,9,8,1] 835994, [1,10,8,1] 581783 [1,1,9,1] 260712, [1,2,9,1] 320720, [1,3,9,1] 488297, [1,4,9,1] 419768, [1,5,9,1] 381146, [1,6,9,1] 530990, [1,7,9,1] 821968, [1,8,9,1] 1082694, [1,9,9,1] 849876, [1,10,9,1] 549885 [1,1,10,1] 263289, [1,2,10,1] 295377, [1,3,10,1] 467689, [1,4,10,1] 411486, [1,5,10,1] 397698, [1,6,10,1] 584578, [1,7,10,1] 821903, [1,8,10,1] 1067675, [1,9,10,1] 872676, [1,10,10,1] 588226 [1,1,11,1] 250003, [1,2,11,1] 326254, [1,3,11,1] 487821, [1,4,11,1] 414526, [1,5,11,1] 398122, [1,6,11,1] 576817, [1,7,11,1] 840836, [1,8,11,1] 1102843, [1,9,11,1] 831749, [1,10,11,1] 592490 [1,1,12,1] 238298, [1,2,12,1] 319760, [1,3,12,1] 484507, [1,4,12,1] 409752, [1,5,12,1] 377556, [1,6,12,1] 576019, [1,7,12,1] 820323, [1,8,12,1] 1085366, [1,9,12,1] 864328, [1,10,12,1] 583550 [1,1,13,1] 474396, [1,2,13,1] 663516, [1,3,13,1] 931097, [1,4,13,1] 815142, [1,5,13,1] 647310, [1,6,13,1] 1166088, [1,7,13,1] 1747341, [1,8,13,1] 1976875, [1,9,13,1] 2208215, [1,10,13,1] 1289071 [1,1,14,1] 356331, [1,2,14,1] 549306, [1,3,14,1] 683375, [1,4,14,1] 756784, [1,5,14,1] 655492, [1,6,14,1] 900336, [1,7,14,1] 1570479, [1,8,14,1] 1769338, [1,9,14,1] 2133166, [1,10,14,1] 899359 [1,1,15,1] 238869, [1,2,15,1] 341106, [1,3,15,1] 526725, [1,4,15,1] 427586, [1,5,15,1] 382646, [1,6,15,1] 602544, [1,7,15,1] 830619, [1,8,15,1] 1098279, [1,9,15,1] 826589, [1,10,15,1] 597617 [1,1,16,1] 270474, [1,2,16,1] 320383, [1,3,16,1] 482758, [1,4,16,1] 412611, [1,5,16,1] 391264, [1,6,16,1] 527571, [1,7,16,1] 825509, [1,8,16,1] 1083235, [1,9,16,1] 854760, [1,10,16,1] 558161 [1,1,17,1] 271981, [1,2,17,1] 312122, [1,3,17,1] 484336, [1,4,17,1] 426400, [1,5,17,1] 391343, [1,6,17,1] 595613, [1,7,17,1] 838096, [1,8,17,1] 1070399, [1,9,17,1] 873562, [1,10,17,1] 589245 [1,1,18,1] 268919, [1,2,18,1] 333774, [1,3,18,1] 507225, [1,4,18,1] 428611, [1,5,18,1] 399590, [1,6,18,1] 591076, [1,7,18,1] 844805, [1,8,18,1] 1102072, [1,9,18,1] 843986, [1,10,18,1] 609216 [1,1,19,1] 258017, [1,2,19,1] 336340, [1,3,19,1] 499192, [1,4,19,1] 404578, [1,5,19,1] 368507, [1,6,19,1] 589630, [1,7,19,1] 816707, [1,8,19,1] 1090913, [1,9,19,1] 866745, [1,10,19,1] 585221 [1,1,20,1] 488347, [1,2,20,1] 669196, [1,3,20,1] 927587, [1,4,20,1] 805568, [1,5,20,1] 641786, [1,6,20,1] 1166726, [1,7,20,1] 1738829, [1,8,20,1] 1986209, [1,9,20,1] 2214330, [1,10,20,1] 1295223 [1,1,21,1] 367252, [1,2,21,1] 555318, [1,3,21,1] 687648, [1,4,21,1] 754513, [1,5,21,1] 671463, [1,6,21,1] 899848, [1,7,21,1] 1563557, [1,8,21,1] 1762343, [1,9,21,1] 2128606, [1,10,21,1] 901964 [1,1,22,1] 248420, [1,2,22,1] 337908, [1,3,22,1] 528047, [1,4,22,1] 442439, [1,5,22,1] 384644, [1,6,22,1] 593123, [1,7,22,1] 821826, [1,8,22,1] 1110581, [1,9,22,1] 834054, [1,10,22,1] 592294 [1,1,23,1] 280370, [1,2,23,1] 322216, [1,3,23,1] 491646, [1,4,23,1] 418485, [1,5,23,1] 391782, [1,6,23,1] 534694, [1,7,23,1] 825620, [1,8,23,1] 1090893, [1,9,23,1] 850481, [1,10,23,1] 568849 [1,1,24,1] 279950, [1,2,24,1] 330465, [1,3,24,1] 485695, [1,4,24,1] 416676, [1,5,24,1] 395915, [1,6,24,1] 594960, [1,7,24,1] 847444, [1,8,24,1] 1081403, [1,9,24,1] 877075, [1,10,24,1] 592125 [1,1,25,1] 283197, [1,2,25,1] 334361, [1,3,25,1] 499222, [1,4,25,1] 420590, [1,5,25,1] 393100, [1,6,25,1] 607668, [1,7,25,1] 856783, [1,8,25,1] 1098123, [1,9,25,1] 855290, [1,10,25,1] 629013 [1,1,26,1] 277369, [1,2,26,1] 327422, [1,3,26,1] 492984, [1,4,26,1] 417201, [1,5,26,1] 362964, [1,6,26,1] 584394, [1,7,26,1] 830616, [1,8,26,1] 1087173, [1,9,26,1] 857098, [1,10,26,1] 603211 [1,1,27,1] 507097, [1,2,27,1] 675081, [1,3,27,1] 946774, [1,4,27,1] 796781, [1,5,27,1] 641799, [1,6,27,1] 1164907, [1,7,27,1] 1732229, [1,8,27,1] 2004181, [1,9,27,1] 2205199, [1,10,27,1] 1298299 [1,1,28,1] 376022, [1,2,28,1] 556794, [1,3,28,1] 703128, [1,4,28,1] 771700, [1,5,28,1] 673299, [1,6,28,1] 890690, [1,7,28,1] 1571781, [1,8,28,1] 1769625, [1,9,28,1] 2144829, [1,10,28,1] 901783	2018-06-01 16:47:26.212487	2018-09-17 16:16:25.871084	8	2018
 \.
 
 
@@ -1581,14 +1690,14 @@ COPY data_cases (id, id_case, turn_num, dep_num, day_num, hour_day, hp_val, prod
 -- Name: data_cases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('data_cases_id_seq', 39, true);
+SELECT pg_catalog.setval('public.data_cases_id_seq', 39, true);
 
 
 --
 -- Data for Name: departments; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY departments (id, origin_id, name, store_id, created_at, updated_at, productivity_obj, master_id) FROM stdin;
+COPY public.departments (id, origin_id, name, store_id, created_at, updated_at, productivity_obj, master_id) FROM stdin;
 4	4	Deportes	6	2017-08-22 16:00:12.567375	2017-08-22 16:00:12.579717	75000	4
 3	6	Tecnología	3	2017-08-22 16:00:12.561272	2017-08-22 16:00:12.561272	75000	3
 6	3	Infantil	1	2017-08-22 16:00:12.586491	2017-08-22 16:00:12.586491	75000	6
@@ -1603,14 +1712,14 @@ COPY departments (id, origin_id, name, store_id, created_at, updated_at, product
 -- Name: departments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('departments_id_seq', 7, true);
+SELECT pg_catalog.setval('public.departments_id_seq', 7, true);
 
 
 --
 -- Data for Name: historic_sales; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY historic_sales (id, department_id, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, twenty_four, created_at, updated_at, historic_date, store_id, week, month, year, day_number) FROM stdin;
+COPY public.historic_sales (id, department_id, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, twenty_four, created_at, updated_at, historic_date, store_id, week, month, year, day_number) FROM stdin;
 1722	5	0	0	0	264600	620439	991321	1126890	847833	1195260	1784051	1307062	1639494	605047	0	0	0	2017-10-12 19:12:41.56046	2017-10-12 19:12:41.56046	2015-01-01	1	1	1	2015	4
 1723	5	0	0	0	264600	441251	1501939	884073	1011784	1025951	1451805	2147288	931084	1053913	0	0	0	2017-10-12 19:12:41.575775	2017-10-12 19:12:41.575775	2015-01-02	1	1	1	2015	5
 1724	5	0	0	0	242550	299692	355362	1169306	712983	1296528	1673250	1221646	1169593	2099426	0	0	0	2017-10-12 19:12:41.585088	2017-10-12 19:12:41.585088	2015-01-03	1	1	1	2015	6
@@ -2715,14 +2824,14 @@ COPY historic_sales (id, department_id, nine, ten, eleven, twelve, thirteen, fou
 -- Name: historic_sales_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('historic_sales_id_seq', 2453, true);
+SELECT pg_catalog.setval('public.historic_sales_id_seq', 2453, true);
 
 
 --
 -- Data for Name: hs; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY hs (id, store_id, department_id, date, year, month, week, dow, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, total_day, created_at, updated_at) FROM stdin;
+COPY public.hs (id, store_id, department_id, date, year, month, week, dow, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, total_day, created_at, updated_at) FROM stdin;
 365	1	1	2017-01-02	2017	1	1	1	0	0	264600	620439	991321	1126890	847833	1195260	1784051	1307062	1639494	605047	0	0	0	10381998	2018-02-28 07:37:35.08384	2018-02-28 07:37:35.08384
 366	1	1	2017-01-03	2017	1	1	2	0	0	264600	441251	1501939	884073	1011784	1025951	1451805	2147288	931084	1053913	0	0	0	10713690	2018-02-28 07:37:35.090558	2018-02-28 07:37:35.090558
 367	1	1	2017-01-04	2017	1	1	3	0	0	242550	299692	355362	1169306	712983	1296528	1673250	1221646	1169593	2099426	0	0	0	10240339	2018-02-28 07:37:35.097046	2018-02-28 07:37:35.097046
@@ -3094,14 +3203,14 @@ COPY hs (id, store_id, department_id, date, year, month, week, dow, nine, ten, e
 -- Name: hs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('hs_id_seq', 728, true);
+SELECT pg_catalog.setval('public.hs_id_seq', 728, true);
 
 
 --
 -- Data for Name: master_departments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY master_departments (id, name, created_at, updated_at) FROM stdin;
+COPY public.master_departments (id, name, created_at, updated_at) FROM stdin;
 2	Moda Hombre	2018-05-19 22:38:20.025204	2018-05-19 22:38:20.025204
 4	Deportes	2018-05-19 22:38:20.032205	2018-05-19 22:38:20.032205
 5	Moda Mujer	2018-05-19 22:38:20.037205	2018-05-19 22:38:20.037205
@@ -3115,20 +3224,66 @@ COPY master_departments (id, name, created_at, updated_at) FROM stdin;
 -- Name: master_departments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('master_departments_id_seq', 1, false);
+SELECT pg_catalog.setval('public.master_departments_id_seq', 1, false);
+
+
+--
+-- Data for Name: request_details; Type: TABLE DATA; Schema: public; Owner: Magnius
+--
+
+COPY public.request_details (id, request_id, department_id, turn, quantity, rrhh, internal, laborum, trabajando, created_at, updated_at) FROM stdin;
+7	4	1	1	1	1	1	1	1	2018-09-21 18:39:05.203764	2018-09-21 18:39:05.203764
+8	4	1	2	1	1	1	1	1	2018-09-21 18:39:05.209764	2018-09-21 18:39:05.209764
+9	4	1	3	5	1	1	1	1	2018-09-21 18:39:05.215765	2018-09-21 18:39:05.215765
+10	4	1	4	3	1	1	1	1	2018-09-21 18:39:05.220765	2018-09-21 18:39:05.220765
+11	4	1	5	1	1	1	1	1	2018-09-21 18:39:05.225765	2018-09-21 18:39:05.225765
+12	5	1	1	1	0	1	1	0	2018-09-21 18:45:12.614779	2018-09-21 18:45:12.614779
+13	6	1	1	1	1	1	1	1	2018-10-02 22:44:35.812683	2018-10-02 22:44:35.812683
+14	7	1	1	0	0	1	0	0	2018-10-02 22:59:35.559146	2018-10-02 22:59:35.559146
+15	8	1	1	1	0	1	1	0	2018-10-03 12:49:09.390394	2018-10-03 12:49:09.390394
+\.
+
+
+--
+-- Name: request_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Magnius
+--
+
+SELECT pg_catalog.setval('public.request_details_id_seq', 15, true);
+
+
+--
+-- Data for Name: requests; Type: TABLE DATA; Schema: public; Owner: Magnius
+--
+
+COPY public.requests (id, user_id, created_at, updated_at) FROM stdin;
+4	2	2018-09-21 18:39:05.191763	2018-09-21 18:39:05.191763
+5	2	2018-09-21 18:45:12.604778	2018-09-21 18:45:12.604778
+6	2	2018-10-02 22:44:35.729679	2018-10-02 22:44:35.729679
+7	2	2018-10-02 22:59:35.550145	2018-10-02 22:59:35.550145
+8	2	2018-10-03 12:49:09.362393	2018-10-03 12:49:09.362393
+\.
+
+
+--
+-- Name: requests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Magnius
+--
+
+SELECT pg_catalog.setval('public.requests_id_seq', 8, true);
 
 
 --
 -- Data for Name: return_cases; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY return_cases (id, id_case, eff_margin, total_surplus, compensation_cost, "integer", status, "user", message, deficit_total, tolerance, version, format_result, max_time, lunchs, turns, delta, epsilon, support, model, sales_plan, obj_function, created_at, updated_at) FROM stdin;
+COPY public.return_cases (id, id_case, eff_margin, total_surplus, compensation_cost, "integer", status, "user", message, deficit_total, tolerance, version, format_result, max_time, lunchs, turns, delta, epsilon, support, model, sales_plan, obj_function, created_at, updated_at) FROM stdin;
 3	31	97.9%	24889837	0		FACTIBLE	fatapia@scipion.cl	Proceso ejecutado con éxito	20945151	3.0%	v1.2 18 de marzo de 2018	{"almuerzo":"[turno_i,departamento_j,período_t] valor, [... 	1.0 min	[1,1,5] 1, [3,1,5] 1, [4,1,5] 1, [8,1,5] 1, [1,1,15] 4, [4,1,15] 1, [3,1,23] 1, [1,1,25] 1, [2,1,25] 1, [3,1,25] 4, [3,1,33] 2, [1,1,35] 6, [1,1,45] 1, [2,1,45] 1, [3,1,45] 2, [6,1,45] 1, [10,1,53] 1, [2,1,54] 1, [3,1,54] 1, [4,1,55] 1, [6,1,55] 1, [8,1,55] 1, [10,1,55] 1, [2,1,65] 1, [4,1,65] 1, [10,1,65] 2, [3,1,73] 1, [4,1,73] 2, [8,1,74] 1, [2,1,75] 2, [4,1,75] 5, [2,1,83] 2, [3,1,85] 6, [4,1,95] 3, [2,1,105] 1, [3,1,105] 1, [4,1,105] 4, [4,1,113] 1, [1,1,115] 1, [2,1,115] 1, [3,1,115] 1, [6,1,115] 1, [7,1,115] 1, [2,1,123] 1, [3,1,123] 1, [4,1,123] 1, [10,1,123] 2, [1,1,124] 1, [6,1,124] 1, [9,1,124] 1, [9,1,125] 5, [10,1,133] 2, [1,1,135] 1, [9,1,135] 1, [10,1,135] 3, [8,1,143] 1, [1,1,145] 1, [2,1,145] 3, [3,1,145] 1, [2,1,155] 1, [3,1,155] 4, [3,1,163] 1, [1,1,165] 1, [2,1,165] 1, [3,1,165] 2, [5,1,165] 2, [1,1,173] 1, [5,1,175] 5, [1,1,185] 1, [4,1,185] 1, [6,1,185] 1, [8,1,193] 1, [10,1,193] 2, [1,1,194] 1, [4,1,194] 1, [6,1,194] 1, [9,1,195] 1, [10,1,195] 4, [4,1,203] 1, [9,1,203] 1, [10,1,204] 1, [8,1,205] 5, [10,1,205] 1, [3,1,213] 1, [4,1,213] 1, [2,1,215] 4, [4,1,215] 2, [4,1,225] 4, [2,1,233] 1, [1,1,235] 1, [3,1,235] 5, [2,1,245] 3, [3,1,245] 1, [4,1,245] 1, [2,1,255] 2, [3,1,255] 1, [4,1,255] 2, [2,1,263] 1, [9,1,263] 4, [1,1,264] 1, [10,1,264] 2, [3,1,265] 4, [4,1,265] 1, [8,1,273] 1, [9,1,273] 1, [8,1,275] 3, [10,1,275] 2	[1,1,1] 1, [2,1,1] 1, [3,1,1] 1, [4,1,1] 1, [5,1,1] 2, [6,1,1] 1, [9,1,1] 1, [10,1,1] 2, [11,1,1] 1, [12,1,1] 4	[1,1] 40600, [1,3] 39840, [1,4] 198600, [1,5] 45560, [1,8] 176120, [1,9] 425600, [1,10] 283800, [1,11] 42706, [1,12] 59068, [1,14] 118136, [1,15] 49416, [1,18] 13831, [1,19] 265806, [1,20] 206738, [1,21] 51130, [1,29] 136630, [1,30] 153490, [1,31] 53236, [1,32] 70408, [1,39] 146836, [1,41] 82720, [1,44] 119320, [1,45] 37672, [1,49] 289720, [1,51] 22992, [1,54] 88752, [1,55] 83939, [1,58] 252878, [1,59] 667192, [1,60] 537816, [1,63] 42113, [1,64] 77866, [1,68] 149372, [1,69] 472698, [1,70] 263765, [1,71] 34282, [1,73] 30995, [1,74] 14992, [1,75] 33993, [1,79] 309982, [1,80] 344986, [1,81] 53426, [1,82] 70612, [1,89] 147755, [1,90] 162142, [1,91] 140553, [1,92] 157903, [1,93] 60774, [1,94] 230806, [1,98] 145870, [1,99] 413063, [1,100] 170160, [1,104] 72645, [1,105] 82998, [1,109] 269700, [1,110] 190878, [1,112] 17432, [1,113] 14162, [1,114] 119864, [1,115] 38135, [1,119] 290945, [1,120] 188513, [1,128] 72700, [1,129] 398720, [1,130] 442338, [1,131] 18211, [1,133] 42495, [1,134] 78453, [1,135] 75185, [1,138] 65371, [1,139] 389020, [1,140] 349794, [1,143] 35177, [1,144] 106425, [1,145] 39462, [1,149] 239457, [1,150] 101245, [1,151] 37918, [1,152] 53912, [1,154] 110890, [1,155] 43256, [1,158] 1513, [1,159] 249502, [1,160] 194057, [1,169] 119680, [1,170] 55307, [1,171] 133211, [1,174] 48211, [1,179] 214725, [1,180] 148119, [1,181] 162031, [1,182] 11034, [1,183] 93212, [1,184] 280711, [1,185] 30354, [1,188] 60708, [1,189] 355349, [1,190] 172494, [1,198] 66779, [1,199] 475884, [1,200] 351243, [1,203] 36069, [1,209] 281777, [1,210] 77493, [1,213] 26471, [1,214] 8033, [1,215] 28078, [1,219] 209324, [1,220] 162807, [1,221] 133396, [1,222] 150196, [1,224] 133613, [1,228] 40142, [1,229] 300629, [1,230] 233822, [1,234] 53122, [1,235] 66403, [1,239] 225774, [1,243] 61188, [1,244] 146443, [1,245] 73477, [1,248] 61953, [1,249] 329497, [1,250] 256275, [1,252] 96300, [1,254] 107600, [1,255] 27710, [1,259] 263350, [1,260] 167050, [1,268] 50017, [1,269] 368699, [1,270] 418988, [1,271] 12061, [1,272] 32604, [1,273] 33885, [1,274] 65208, [1,275] 63927, [1,278] 42853, [1,279] 359218, [1,280] 241614	[1,2] 28200, [1,6] 317120, [1,7] 158360, [1,13] 42212, [1,16] 398491, [1,17] 238144, [1,22] 16860, [1,23] 30418, [1,24] 33720, [1,25] 20162, [1,26] 553976, [1,27] 387278, [1,28] 125324, [1,33] 27470, [1,34] 29184, [1,35] 16306, [1,36] 550347, [1,37] 382062, [1,38] 117613, [1,40] 93572, [1,42] 67840, [1,43] 71192, [1,46] 584544, [1,47] 479032, [1,48] 9656, [1,50] 67440, [1,52] 210624, [1,53] 35811, [1,56] 285998, [1,57] 76435, [1,61] 67062, [1,62] 46067, [1,65] 10314, [1,66] 379708, [1,67] 173955, [1,72] 35004, [1,76] 583006, [1,77] 429009, [1,78] 17014, [1,83] 27204, [1,84] 28776, [1,85] 15959, [1,86] 550021, [1,87] 381592, [1,88] 116919, [1,95] 12065, [1,96] 291356, [1,97] 121324, [1,101] 23951, [1,102] 6178, [1,103] 16531, [1,106] 451884, [1,107] 277709, [1,108] 4004, [1,111] 2027, [1,116] 414109, [1,117] 308406, [1,118] 8731, [1,121] 234788, [1,122] 213618, [1,123] 39703, [1,124] 2236, [1,125] 6150, [1,126] 460788, [1,127] 253321, [1,132] 45773, [1,136] 464237, [1,137] 258279, [1,141] 49140, [1,142] 33305, [1,146] 407860, [1,147] 251611, [1,148] 6077, [1,153] 46922, [1,156] 404288, [1,157] 246477, [1,161] 38847, [1,162] 192220, [1,163] 35315, [1,164] 41253, [1,165] 26565, [1,166] 560003, [1,167] 395941, [1,168] 138130, [1,172] 20003, [1,173] 32413, [1,175] 22771, [1,176] 471431, [1,177] 305807, [1,178] 45541, [1,186] 421432, [1,187] 318933, [1,191] 68265, [1,192] 217363, [1,193] 41967, [1,194] 5718, [1,195] 9111, [1,196] 463575, [1,197] 257326, [1,201] 73206, [1,202] 52683, [1,204] 16433, [1,205] 18218, [1,206] 557146, [1,207] 354647, [1,208] 36435, [1,211] 55316, [1,212] 39956, [1,216] 503574, [1,217] 267012, [1,218] 28844, [1,223] 32152, [1,225] 22429, [1,226] 386110, [1,227] 220345, [1,231] 34524, [1,232] 17565, [1,233] 29221, [1,236] 467503, [1,237] 300160, [1,238] 37193, [1,240] 13287, [1,241] 29151, [1,242] 11779, [1,246] 375846, [1,247] 205591, [1,251] 7722, [1,253] 78810, [1,256] 423920, [1,257] 322510, [1,258] 29580, [1,261] 240983, [1,262] 220289, [1,263] 48376, [1,264] 15578, [1,265] 17491, [1,266] 471463, [1,267] 268665, [1,276] 474834, [1,277] 273511	fatapia@scipion.cl	MOT	159255314	45834988	2018-05-26 14:11:04.528004	2018-07-08 17:14:25.035791
 1	29	93.2%	24373104	0		FACTIBLE	fatapia@scipion.cl	Proceso ejecutado con éxito	21648676	3.0%	v1.2 18 de marzo de 2018	{"almuerzo":"[turno_i,departamento_j,período_t] valor, [... 	1.0 min	[4,1,3] 1, [1,1,5] 1, [3,1,5] 1, [8,1,5] 3, [4,1,13] 1, [1,1,15] 5, [3,1,23] 1, [1,1,25] 5, [2,1,25] 1, [3,1,33] 1, [1,1,35] 5, [3,1,43] 1, [1,1,45] 3, [2,1,45] 1, [6,1,45] 1, [10,1,53] 2, [3,1,54] 1, [2,1,55] 1, [4,1,55] 1, [6,1,55] 1, [4,1,63] 1, [2,1,65] 1, [10,1,65] 3, [3,1,73] 1, [8,1,73] 1, [2,1,75] 4, [4,1,75] 2, [2,1,83] 2, [2,1,85] 5, [3,1,85] 1, [4,1,95] 3, [4,1,103] 1, [2,1,105] 1, [3,1,105] 1, [4,1,105] 4, [2,1,113] 1, [3,1,113] 1, [1,1,115] 2, [4,1,115] 2, [6,1,115] 1, [7,1,115] 1, [3,1,123] 5, [1,1,124] 1, [4,1,124] 1, [9,1,124] 1, [2,1,125] 1, [6,1,125] 1, [7,1,125] 1, [10,1,125] 2, [9,1,133] 1, [1,1,135] 1, [10,1,135] 2, [2,1,143] 1, [1,1,145] 2, [3,1,145] 3, [3,1,153] 1, [2,1,155] 6, [1,1,165] 1, [2,1,165] 1, [3,1,165] 3, [5,1,165] 1, [1,1,173] 1, [5,1,175] 5, [1,1,185] 1, [4,1,185] 1, [6,1,185] 1, [7,1,185] 1, [8,1,193] 4, [7,1,194] 1, [9,1,194] 1, [1,1,195] 1, [4,1,195] 1, [6,1,195] 1, [10,1,195] 2, [4,1,203] 1, [10,1,203] 1, [9,1,205] 1, [10,1,205] 4, [2,1,213] 1, [3,1,213] 1, [2,1,215] 1, [3,1,215] 1, [4,1,215] 1, [8,1,215] 3, [4,1,223] 1, [4,1,225] 5, [2,1,233] 1, [1,1,235] 1, [3,1,235] 4, [2,1,245] 1, [3,1,245] 2, [4,1,245] 1, [2,1,255] 1, [3,1,255] 2, [4,1,255] 1, [4,1,263] 1, [9,1,263] 1, [10,1,263] 3, [2,1,264] 1, [3,1,264] 2, [1,1,265] 2, [3,1,265] 2, [10,1,265] 1, [9,1,273] 2, [10,1,275] 4	[1,1,1] 1, [2,1,1] 1, [3,1,1] 1, [4,1,1] 1, [5,1,1] 1, [6,1,1] 1, [7,1,1] 1, [9,1,1] 1, [10,1,1] 2, [11,1,1] 1, [12,1,1] 4	[1,1] 39377, [1,3] 40135, [1,4] 114054, [1,5] 45946, [1,8] 91891, [1,9] 341621, [1,10] 284594, [1,11] 41471, [1,12] 57738, [1,14] 33594, [1,19] 181837, [1,20] 207540, [1,21] 49846, [1,29] 137702, [1,30] 69323, [1,31] 51940, [1,32] 69012, [1,34] 56297, [1,39] 232918, [1,41] 81253, [1,43] 14162, [1,44] 119864, [1,45] 38135, [1,48] 76269, [1,49] 375945, [1,50] 18513, [1,51] 21378, [1,54] 4351, [1,58] 253896, [1,59] 668539, [1,60] 623864, [1,63] 42495, [1,64] 78453, [1,68] 150371, [1,69] 474020, [1,70] 349794, [1,71] 33096, [1,73] 31281, [1,74] 15432, [1,75] 34367, [1,78] 68734, [1,79] 395972, [1,80] 345756, [1,81] 52128, [1,82] 69215, [1,89] 148837, [1,90] 162985, [1,91] 139243, [1,92] 156492, [1,93] 146089, [1,94] 231291, [1,98] 146695, [1,99] 414156, [1,100] 171010, [1,109] 178198, [1,110] 100821, [1,113] 12105, [1,114] 31700, [1,115] 35445, [1,119] 283826, [1,120] 97976, [1,128] 66848, [1,129] 475975, [1,130] 436314, [1,131] 16624, [1,133] 40274, [1,134] 160036, [1,138] 144562, [1,139] 466332, [1,140] 343814, [1,143] 32177, [1,144] 101811, [1,145] 35540, [1,149] 229076, [1,150] 93170, [1,151] 34358, [1,152] 50078, [1,154] 15155, [1,155] 34132, [1,159] 140350, [1,160] 175272, [1,169] 162583, [1,170] 3675, [1,171] 142411, [1,172] 74904, [1,174] 64807, [1,179] 252066, [1,180] 177163, [1,181] 179079, [1,183] 29711, [1,184] 228785, [1,185] 58468, [1,188] 201935, [1,189] 514767, [1,190] 230374, [1,195] 10961, [1,198] 106922, [1,199] 614014, [1,200] 477567, [1,203] 36471, [1,208] 49616, [1,209] 368169, [1,210] 163576, [1,213] 35049, [1,214] 21230, [1,215] 39295, [1,219] 239016, [1,220] 185902, [1,221] 103009, [1,222] 117472, [1,223] 8213, [1,224] 64943, [1,225] 4202, [1,229] 146122, [1,230] 113650, [1,234] 67693, [1,239] 258558, [1,240] 12212, [1,243] 60191, [1,244] 144909, [1,248] 59346, [1,249] 326046, [1,250] 253591, [1,251] 22283, [1,252] 128612, [1,254] 172225, [1,258] 80282, [1,259] 408756, [1,260] 280143, [1,264] 42411, [1,265] 31799, [1,268] 148599, [1,269] 499175, [1,270] 520469, [1,271] 11219, [1,272] 31697, [1,273] 32706, [1,274] 63394, [1,278] 39770, [1,279] 355137, [1,280] 238440	[1,2] 29517, [1,6] 401757, [1,7] 242838, [1,13] 41914, [1,15] 35195, [1,16] 483125, [1,17] 322617, [1,18] 70390, [1,22] 18243, [1,23] 30108, [1,24] 33244, [1,25] 19757, [1,26] 553595, [1,27] 386730, [1,28] 124514, [1,33] 27157, [1,35] 15898, [1,36] 464963, [1,37] 296509, [1,38] 31795, [1,40] 7731, [1,42] 69420, [1,46] 499109, [1,47] 393406, [1,52] 212362, [1,53] 35422, [1,55] 552, [1,56] 285519, [1,57] 75747, [1,61] 68647, [1,62] 47774, [1,65] 9815, [1,66] 379237, [1,67] 173279, [1,72] 36281, [1,76] 497654, [1,77] 343503, [1,83] 26891, [1,84] 28295, [1,85] 15550, [1,86] 549636, [1,87] 381039, [1,88] 116101, [1,95] 11652, [1,96] 290967, [1,97] 120765, [1,101] 25292, [1,102] 7623, [1,103] 18409, [1,104] 15245, [1,105] 4458, [1,106] 539196, [1,107] 366032, [1,108] 93917, [1,111] 3496, [1,112] 69150, [1,116] 501640, [1,117] 397045, [1,118] 14109, [1,121] 236386, [1,122] 300339, [1,123] 41940, [1,124] 5678, [1,125] 9076, [1,126] 463542, [1,127] 257279, [1,132] 47482, [1,135] 12719, [1,136] 381971, [1,137] 177208, [1,141] 49873, [1,142] 34094, [1,146] 411551, [1,147] 256917, [1,148] 13921, [1,153] 53899, [1,156] 497876, [1,157] 343821, [1,158] 101736, [1,161] 28515, [1,162] 96093, [1,163] 22921, [1,164] 22186, [1,165] 10358, [1,166] 544748, [1,167] 374013, [1,168] 105715, [1,173] 21625, [1,175] 8664, [1,176] 458154, [1,177] 286722, [1,178] 17328, [1,182] 55607, [1,186] 394972, [1,187] 280897, [1,191] 55441, [1,192] 288552, [1,193] 26618, [1,194] 67105, [1,196] 444684, [1,197] 230170, [1,201] 71092, [1,202] 50407, [1,204] 15814, [1,205] 17692, [1,206] 471651, [1,207] 268936, [1,211] 47822, [1,212] 31885, [1,216] 493016, [1,217] 251836, [1,218] 6410, [1,226] 441046, [1,227] 299316, [1,228] 76597, [1,231] 26250, [1,232] 8654, [1,233] 19750, [1,235] 6211, [1,236] 455846, [1,237] 283403, [1,238] 12423, [1,241] 29864, [1,242] 12545, [1,245] 12827, [1,246] 377073, [1,247] 207354, [1,253] 36804, [1,255] 2359, [1,256] 372220, [1,257] 248192, [1,261] 214059, [1,262] 191294, [1,263] 10683, [1,266] 425071, [1,267] 201977, [1,275] 22615, [1,276] 476285, [1,277] 275597	fatapia@scipion.cl	MOT	160900572	46021780	2018-05-23 21:31:16.381797	2018-07-08 18:53:22.551398
 5	33	101.7%	25074145	0		FACTIBLE	fatapia@scipion.cl	Proceso ejecutado con éxito	20046853	3.0%	v1.2 18 de marzo de 2018	{"almuerzo":"[turno_i,departamento_j,período_t] valor, [... 	1.0 min	[3,1,3] 1, [1,1,5] 2, [3,1,5] 1, [4,1,5] 1, [8,1,5] 1, [1,1,15] 4, [4,1,15] 1, [3,1,23] 1, [1,1,25] 1, [2,1,25] 4, [3,1,25] 1, [1,1,33] 2, [1,1,35] 4, [3,1,35] 2, [1,1,45] 1, [3,1,45] 2, [6,1,45] 1, [3,1,53] 2, [4,1,54] 1, [6,1,55] 1, [8,1,55] 1, [10,1,55] 2, [4,1,63] 1, [10,1,65] 2, [4,1,73] 2, [8,1,73] 1, [8,1,74] 1, [3,1,75] 6, [8,1,75] 1, [2,1,83] 2, [3,1,83] 1, [3,1,84] 1, [2,1,85] 6, [4,1,95] 3, [2,1,105] 2, [3,1,105] 2, [4,1,105] 1, [3,1,113] 1, [1,1,115] 1, [3,1,115] 1, [4,1,115] 1, [6,1,115] 1, [7,1,115] 1, [9,1,123] 6, [1,1,124] 1, [4,1,124] 1, [10,1,124] 1, [3,1,125] 2, [6,1,125] 1, [10,1,125] 3, [10,1,133] 2, [1,1,135] 1, [9,1,135] 1, [10,1,135] 1, [1,1,143] 1, [3,1,145] 3, [8,1,145] 2, [3,1,155] 4, [3,1,163] 2, [1,1,165] 1, [2,1,165] 3, [5,1,165] 2, [1,1,173] 2, [5,1,175] 5, [1,1,185] 1, [4,1,185] 1, [6,1,185] 1, [9,1,193] 2, [10,1,193] 2, [1,1,194] 1, [4,1,194] 1, [6,1,194] 1, [9,1,194] 1, [9,1,195] 7, [4,1,203] 1, [9,1,203] 1, [10,1,204] 1, [8,1,205] 4, [10,1,205] 1, [2,1,213] 1, [8,1,213] 1, [3,1,215] 3, [4,1,215] 2, [8,1,215] 1, [4,1,223] 1, [4,1,225] 5, [3,1,233] 1, [1,1,235] 4, [3,1,235] 1, [3,1,245] 3, [4,1,245] 1, [3,1,253] 1, [3,1,255] 2, [4,1,255] 3, [2,1,263] 4, [3,1,263] 2, [1,1,264] 1, [9,1,264] 1, [10,1,264] 2, [3,1,265] 5, [4,1,265] 1, [8,1,273] 1, [10,1,273] 1, [9,1,275] 1, [10,1,275] 3	[1,1,1] 1, [3,1,1] 2, [4,1,1] 1, [5,1,1] 2, [6,1,1] 1, [9,1,1] 1, [10,1,1] 2, [11,1,1] 2, [12,1,1] 3	[1,3] 25505, [1,4] 91547, [1,5] 26815, [1,8] 53630, [1,9] 290980, [1,10] 245207, [1,11] 11823, [1,12] 25809, [1,14] 136619, [1,15] 77876, [1,19] 201142, [1,20] 90333, [1,21] 51223, [1,29] 137083, [1,30] 153842, [1,39] 120146, [1,41] 13159, [1,44] 152574, [1,49] 279541, [1,50] 75754, [1,53] 60685, [1,54] 21438, [1,55] 13972, [1,58] 197944, [1,59] 621985, [1,60] 483766, [1,61] 2459, [1,62] 22264, [1,63] 190443, [1,64] 129527, [1,68] 262696, [1,69] 567687, [1,70] 290423, [1,73] 34887, [1,74] 20980, [1,75] 39083, [1,79] 323454, [1,80] 355464, [1,81] 39133, [1,82] 55220, [1,83] 37786, [1,84] 25439, [1,89] 78488, [1,90] 108269, [1,91] 132415, [1,92] 149139, [1,93] 49381, [1,94] 213278, [1,98] 116073, [1,99] 373627, [1,100] 139487, [1,104] 47738, [1,109] 213661, [1,110] 147292, [1,112] 12588, [1,113] 7864, [1,114] 110175, [1,115] 29899, [1,119] 269145, [1,120] 171557, [1,123] 42650, [1,129] 304559, [1,130] 350213, [1,131] 13352, [1,133] 35693, [1,134] 67989, [1,138] 132582, [1,139] 450476, [1,140] 416482, [1,143] 26190, [1,144] 92600, [1,145] 27710, [1,149] 208350, [1,150] 77050, [1,151] 49672, [1,152] 66570, [1,154] 133140, [1,158] 39337, [1,159] 299564, [1,160] 232994, [1,163] 55469, [1,169] 139699, [1,170] 70877, [1,171] 142168, [1,173] 63035, [1,174] 64284, [1,179] 250889, [1,180] 176247, [1,181] 163723, [1,182] 12855, [1,183] 93212, [1,184] 280711, [1,185] 30354, [1,188] 60708, [1,189] 355349, [1,190] 172494, [1,193] 38824, [1,194] 72806, [1,195] 70385, [1,199] 376314, [1,200] 254911, [1,203] 36069, [1,208] 48565, [1,209] 366777, [1,210] 162493, [1,213] 34655, [1,214] 20623, [1,215] 38779, [1,219] 237651, [1,220] 184840, [1,221] 123965, [1,222] 140039, [1,223] 37551, [1,224] 110079, [1,225] 42567, [1,228] 134, [1,229] 247678, [1,230] 192638, [1,234] 42904, [1,239] 202784, [1,243] 52034, [1,244] 132360, [1,248] 38012, [1,249] 297810, [1,250] 231630, [1,252] 97374, [1,253] 7586, [1,254] 109747, [1,255] 29535, [1,259] 268181, [1,260] 170808, [1,263] 42344, [1,264] 78222, [1,269] 303500, [1,270] 349389, [1,271] 13138, [1,272] 33764, [1,273] 35393, [1,274] 67527, [1,275] 65898, [1,278] 131796, [1,279] 449436, [1,280] 330672	[1,1] 54639, [1,2] 124227, [1,6] 419762, [1,7] 268721, [1,13] 448, [1,16] 366705, [1,17] 229638, [1,18] 14248, [1,22] 16759, [1,23] 30287, [1,24] 33519, [1,25] 19991, [1,26] 553815, [1,27] 387047, [1,28] 124982, [1,31] 37271, [1,32] 20523, [1,33] 35180, [1,34] 41046, [1,35] 26389, [1,36] 559837, [1,37] 395703, [1,38] 137778, [1,40] 114331, [1,42] 51213, [1,43] 49577, [1,45] 19062, [1,46] 557941, [1,47] 440790, [1,48] 38125, [1,51] 53797, [1,52] 201781, [1,56] 356850, [1,57] 141096, [1,65] 38652, [1,66] 236378, [1,67] 42294, [1,71] 47938, [1,72] 32010, [1,76] 578216, [1,77] 422124, [1,78] 6835, [1,85] 42127, [1,86] 574649, [1,87] 416995, [1,88] 169253, [1,95] 26963, [1,96] 305377, [1,97] 141480, [1,101] 35514, [1,102] 18631, [1,103] 32720, [1,105] 23172, [1,106] 471809, [1,107] 306351, [1,108] 46345, [1,111] 6526, [1,116] 421860, [1,117] 319548, [1,118] 25202, [1,121] 236678, [1,122] 215654, [1,124] 6307, [1,125] 9611, [1,126] 549046, [1,127] 343003, [1,128] 19222, [1,132] 51005, [1,135] 18709, [1,136] 387608, [1,137] 185312, [1,141] 54150, [1,142] 38700, [1,146] 418920, [1,147] 267510, [1,148] 29580, [1,153] 32459, [1,155] 22831, [1,156] 386488, [1,157] 220889, [1,161] 33237, [1,162] 186178, [1,164] 32356, [1,165] 19003, [1,166] 552885, [1,167] 385709, [1,168] 123005, [1,172] 10358, [1,175] 9108, [1,176] 458573, [1,177] 287323, [1,178] 18217, [1,186] 421432, [1,187] 318933, [1,191] 69411, [1,192] 218597, [1,196] 553755, [1,197] 349773, [1,198] 29230, [1,201] 71379, [1,202] 50716, [1,204] 16433, [1,205] 18218, [1,206] 472146, [1,207] 269647, [1,211] 48104, [1,212] 32189, [1,216] 493502, [1,217] 252534, [1,218] 7441, [1,226] 404937, [1,227] 247409, [1,231] 37759, [1,232] 21048, [1,233] 35862, [1,235] 27282, [1,236] 475677, [1,237] 311911, [1,238] 54563, [1,240] 31168, [1,241] 35690, [1,242] 18820, [1,245] 23494, [1,246] 387112, [1,247] 221786, [1,251] 6724, [1,256] 422202, [1,257] 320041, [1,258] 25930, [1,261] 236897, [1,262] 215889, [1,265] 10011, [1,266] 549422, [1,267] 343545, [1,268] 20023, [1,276] 387978, [1,277] 185844	fatapia@scipion.cl	MOT	157407708	45120998	2018-05-29 00:17:46.922097	2018-07-08 19:00:54.573252
 2	30	57.9%	21698895	0		FACTIBLE	fatapia@scipion.cl	Proceso ejecutado con éxito	23038826	3.0%	v1.2 18 de marzo de 2018	{"almuerzo":"[turno_i,departamento_j,período_t] valor, [...	1.0 min	[4,1,3] 2, [1,1,5] 5, [3,1,5] 2, [1,1,15] 3, [4,1,15] 2, [3,1,23] 2, [1,1,25] 1, [2,1,25] 5, [3,1,25] 1, [1,1,33] 1, [1,1,35] 2, [3,1,35] 4, [1,1,45] 1, [3,1,45] 2, [6,1,45] 1, [3,1,53] 2, [4,1,54] 1, [4,1,55] 1, [8,1,55] 2, [10,1,55] 2, [4,1,65] 2, [8,1,65] 1, [10,1,65] 2, [3,1,73] 2, [4,1,73] 2, [8,1,74] 1, [8,1,75] 8, [2,1,83] 2, [2,1,85] 5, [3,1,85] 2, [4,1,95] 6, [4,1,103] 1, [2,1,105] 2, [3,1,105] 2, [4,1,105] 2, [4,1,113] 1, [1,1,115] 2, [3,1,115] 2, [4,1,115] 1, [7,1,115] 1, [3,1,123] 2, [4,1,123] 2, [9,1,123] 2, [10,1,123] 1, [1,1,124] 1, [6,1,124] 3, [7,1,125] 1, [10,1,125] 6, [8,1,133] 1, [10,1,133] 2, [1,1,135] 1, [9,1,135] 4, [3,1,143] 1, [1,1,145] 1, [2,1,145] 4, [3,1,145] 1, [3,1,153] 1, [2,1,155] 4, [3,1,155] 1, [3,1,163] 2, [1,1,165] 1, [2,1,165] 3, [5,1,165] 3, [1,1,173] 2, [1,1,175] 4, [5,1,175] 3, [4,1,184] 1, [1,1,185] 1, [4,1,185] 1, [7,1,185] 1, [10,1,193] 4, [1,1,194] 1, [4,1,194] 1, [6,1,194] 2, [4,1,195] 1, [7,1,195] 1, [9,1,195] 2, [10,1,195] 4, [9,1,203] 1, [10,1,203] 1, [4,1,204] 1, [10,1,204] 1, [4,1,205] 1, [9,1,205] 7, [2,1,213] 3, [8,1,213] 1, [2,1,214] 1, [3,1,215] 2, [4,1,215] 2, [8,1,215] 4, [4,1,223] 2, [4,1,225] 7, [2,1,233] 2, [1,1,235] 1, [3,1,235] 6, [3,1,245] 2, [4,1,245] 2, [3,1,255] 2, [4,1,255] 2, [2,1,263] 4, [3,1,263] 2, [10,1,263] 1, [10,1,264] 3, [1,1,265] 2, [4,1,265] 2, [9,1,265] 2, [10,1,265] 1, [10,1,273] 3, [8,1,275] 1, [9,1,275] 5	[1,1,1] 1, [3,1,1] 2, [4,1,1] 2, [5,1,1] 3, [7,1,1] 1, [9,1,1] 2, [10,1,1] 2, [11,1,1] 2, [12,1,1] 4	[1,3] 28327, [1,4] 53580, [1,5] 52043, [1,8] 39085, [1,9] 283054, [1,10] 256264, [1,11] 13007, [1,12] 29008, [1,13] 31210, [1,14] 188015, [1,15] 55813, [1,18] 111626, [1,19] 358035, [1,20] 199027, [1,21] 86245, [1,22] 37879, [1,24] 10759, [1,25] 5895, [1,29] 202957, [1,30] 165078, [1,31] 23305, [1,32] 40097, [1,34] 80194, [1,35] 9665, [1,38] 19331, [1,39] 277937, [1,40] 42840, [1,41] 52137, [1,42] 71148, [1,43] 20992, [1,44] 207296, [1,49] 157665, [1,50] 21517, [1,51] 11851, [1,53] 55591, [1,54] 525, [1,55] 42696, [1,58] 215393, [1,59] 537432, [1,60] 439669, [1,61] 6908, [1,62] 27440, [1,63] 48672, [1,64] 54879, [1,65] 33647, [1,68] 197295, [1,69] 513478, [1,70] 291039, [1,73] 19677, [1,79] 318113, [1,80] 362976, [1,81] 88490, [1,82] 105297, [1,84] 15594, [1,85] 10005, [1,89] 213836, [1,90] 303539, [1,91] 90570, [1,92] 107537, [1,94] 85074, [1,95] 13813, [1,98] 27625, [1,99] 288916, [1,100] 51379, [1,104] 96651, [1,105] 23654, [1,108] 47307, [1,109] 314965, [1,110] 266640, [1,112] 6414, [1,113] 21338, [1,114] 142828, [1,115] 62904, [1,118] 60807, [1,119] 353863, [1,120] 217449, [1,128] 10439, [1,129] 394257, [1,130] 494422, [1,131] 7175, [1,133] 49045, [1,134] 55454, [1,135] 34136, [1,138] 198272, [1,139] 514772, [1,140] 487045, [1,141] 6767, [1,142] 22287, [1,143] 22474, [1,144] 109575, [1,145] 44389, [1,148] 23777, [1,149] 262794, [1,150] 175506, [1,151] 71011, [1,152] 86473, [1,153] 21415, [1,154] 107946, [1,158] 21008, [1,159] 259129, [1,160] 237656, [1,161] 27776, [1,163] 51886, [1,164] 24825, [1,165] 17851, [1,169] 234605, [1,170] 189693, [1,171] 158686, [1,174] 26785, [1,175] 19517, [1,179] 239016, [1,180] 193123, [1,181] 194754, [1,182] 19735, [1,183] 103655, [1,184] 364469, [1,185] 20549, [1,188] 41098, [1,189] 348806, [1,190] 199071, [1,193] 1857, [1,194] 17857, [1,195] 57428, [1,198] 49856, [1,199] 446428, [1,200] 339999, [1,205] 29245, [1,209] 306824, [1,210] 151974, [1,213] 25298, [1,219] 207572, [1,220] 248111, [1,221] 54930, [1,222] 69155, [1,224] 8310, [1,225] 13564, [1,229] 116199, [1,230] 177043, [1,231] 30003, [1,232] 47311, [1,234] 29623, [1,235] 21929, [1,239] 245401, [1,240] 3090, [1,243] 50028, [1,244] 216967, [1,245] 15422, [1,248] 160844, [1,249] 423175, [1,250] 314692, [1,251] 12741, [1,252] 163721, [1,253] 56838, [1,254] 262443, [1,255] 44326, [1,258] 153653, [1,259] 476746, [1,260] 313025, [1,263] 17531, [1,265] 12925, [1,268] 90851, [1,269] 435685, [1,270] 512199, [1,271] 1858, [1,272] 22001, [1,275] 24402, [1,278] 113804, [1,279] 424006, [1,280] 402005	[1,1] 54052, [1,2] 103210, [1,6] 425136, [1,7] 269883, [1,16] 291588, [1,17] 134782, [1,23] 22257, [1,26] 472393, [1,27] 309378, [1,28] 53210, [1,33] 19374, [1,36] 403844, [1,37] 239276, [1,45] 2549, [1,46] 484164, [1,47] 427860, [1,48] 135097, [1,52] 97237, [1,56] 311580, [1,57] 106646, [1,66] 320097, [1,67] 118889, [1,71] 60231, [1,72] 44864, [1,74] 24728, [1,75] 24269, [1,76] 565782, [1,77] 415187, [1,78] 48537, [1,83] 19114, [1,86] 468525, [1,87] 303817, [1,88] 44991, [1,93] 16202, [1,96] 399941, [1,97] 233665, [1,101] 34055, [1,102] 16674, [1,103] 8677, [1,106] 390679, [1,107] 220351, [1,111] 12616, [1,116] 353738, [1,117] 297248, [1,121] 250868, [1,122] 230165, [1,123] 13215, [1,124] 5330, [1,125] 27281, [1,126] 511264, [1,127] 308380, [1,132] 37273, [1,136] 319637, [1,137] 118228, [1,146] 367340, [1,147] 215239, [1,155] 21996, [1,156] 368643, [1,157] 217112, [1,162] 150088, [1,166] 461140, [1,167] 293202, [1,168] 29298, [1,172] 19108, [1,173] 11840, [1,176] 459572, [1,177] 290948, [1,178] 25966, [1,186] 397425, [1,187] 331610, [1,191] 45102, [1,192] 218572, [1,196] 492715, [1,197] 281715, [1,201] 125497, [1,202] 105150, [1,203] 19695, [1,204] 15300, [1,206] 519240, [1,207] 319845, [1,208] 6511, [1,211] 56215, [1,212] 40540, [1,214] 16079, [1,215] 16917, [1,216] 558863, [1,217] 275241, [1,218] 33835, [1,223] 1098, [1,226] 461352, [1,227] 321943, [1,228] 102872, [1,233] 9995, [1,236] 457302, [1,237] 287684, [1,238] 21141, [1,241] 38551, [1,242] 21517, [1,246] 268426, [1,247] 101488, [1,256] 245046, [1,257] 169441, [1,261] 228906, [1,262] 141515, [1,264] 23029, [1,266] 473423, [1,267] 253983, [1,273] 23398, [1,274] 20997, [1,276] 393798, [1,277] 196397	fatapia@scipion.cl	MOT	157924931	44737721	2018-05-26 13:54:21.372626	2018-07-08 18:55:59.562378
 4	32	101.9%	25546974	0		FACTIBLE	fatapia@scipion.cl	Proceso ejecutado con éxito	19682686	3.0%	v1.2 18 de marzo de 2018	{"almuerzo":"[turno_i,departamento_j,período_t] valor, [... 	1.0 min	[3,1,3] 1, [1,1,5] 2, [3,1,5] 1, [4,1,5] 1, [8,1,5] 1, [1,1,15] 3, [4,1,15] 1, [2,1,23] 1, [1,1,25] 1, [2,1,25] 3, [3,1,25] 2, [1,1,33] 2, [1,1,35] 4, [3,1,35] 2, [1,1,43] 1, [3,1,45] 2, [6,1,45] 2, [10,1,53] 1, [4,1,54] 1, [3,1,55] 2, [6,1,55] 1, [10,1,55] 1, [4,1,63] 1, [10,1,65] 2, [3,1,73] 2, [4,1,73] 1, [8,1,74] 1, [2,1,75] 6, [8,1,75] 1, [3,1,83] 3, [3,1,84] 1, [3,1,85] 7, [4,1,95] 3, [3,1,105] 2, [4,1,105] 4, [4,1,113] 1, [1,1,115] 1, [3,1,115] 2, [6,1,115] 1, [3,1,123] 2, [4,1,123] 1, [9,1,123] 2, [1,1,124] 2, [10,1,124] 1, [6,1,125] 5, [10,1,125] 1, [9,1,133] 2, [1,1,135] 1, [10,1,135] 3, [3,1,143] 1, [1,1,145] 2, [3,1,145] 1, [8,1,145] 1, [2,1,153] 1, [2,1,155] 3, [3,1,155] 2, [2,1,163] 1, [1,1,165] 1, [3,1,165] 2, [5,1,165] 4, [1,1,173] 2, [5,1,175] 5, [1,1,185] 1, [4,1,185] 1, [6,1,185] 1, [8,1,193] 2, [10,1,193] 2, [1,1,194] 1, [4,1,194] 1, [6,1,194] 1, [8,1,194] 1, [8,1,195] 6, [9,1,195] 1, [4,1,203] 1, [9,1,203] 1, [10,1,204] 1, [10,1,205] 5, [2,1,213] 2, [3,1,215] 3, [4,1,215] 3, [4,1,223] 1, [4,1,225] 4, [3,1,233] 2, [1,1,235] 5, [2,1,245] 1, [3,1,245] 2, [4,1,245] 1, [2,1,253] 1, [3,1,255] 4, [4,1,255] 1, [4,1,263] 6, [1,1,264] 1, [9,1,264] 1, [10,1,264] 2, [3,1,265] 2, [10,1,265] 4, [9,1,273] 2, [10,1,275] 3	[1,1,1] 1, [3,1,1] 2, [4,1,1] 1, [5,1,1] 2, [6,1,1] 1, [9,1,1] 1, [10,1,1] 2, [11,1,1] 2, [12,1,1] 3	[1,3] 27353, [1,4] 94389, [1,5] 29231, [1,8] 58461, [1,9] 297375, [1,10] 250181, [1,11] 30925, [1,12] 46380, [1,13] 26295, [1,14] 177761, [1,15] 27847, [1,18] 55693, [1,19] 293712, [1,20] 162332, [1,21] 52680, [1,29] 144143, [1,30] 159334, [1,39] 148552, [1,41] 4642, [1,43] 23499, [1,44] 134230, [1,49] 238267, [1,50] 43652, [1,54] 7599, [1,55] 2209, [1,58] 174418, [1,59] 590847, [1,60] 459548, [1,61] 9390, [1,62] 29728, [1,63] 200146, [1,64] 144456, [1,68] 288075, [1,69] 601275, [1,70] 316548, [1,73] 30176, [1,74] 13733, [1,75] 32923, [1,79] 307149, [1,80] 342783, [1,81] 14851, [1,82] 29070, [1,83] 3791, [1,90] 16745, [1,91] 139907, [1,92] 157208, [1,93] 59870, [1,94] 229415, [1,98] 143506, [1,99] 409935, [1,100] 167727, [1,104] 51763, [1,105] 65248, [1,109] 222716, [1,110] 154335, [1,111] 17625, [1,112] 38596, [1,113] 41674, [1,114] 162191, [1,118] 63225, [1,119] 386180, [1,120] 262585, [1,124] 31703, [1,125] 22697, [1,128] 45394, [1,129] 390081, [1,130] 416730, [1,131] 6746, [1,133] 26445, [1,134] 53761, [1,135] 54197, [1,138] 108394, [1,139] 418463, [1,140] 391582, [1,143] 28483, [1,144] 96128, [1,149] 216287, [1,150] 83223, [1,151] 34513, [1,152] 50244, [1,153] 31318, [1,154] 100489, [1,155] 34415, [1,159] 226100, [1,160] 175855, [1,165] 49244, [1,169] 95351, [1,170] 36384, [1,171] 129637, [1,173] 45492, [1,174] 37295, [1,179] 190164, [1,180] 129017, [1,181] 157985, [1,182] 6677, [1,183] 85179, [1,184] 268353, [1,185] 19850, [1,188] 39700, [1,189] 327544, [1,190] 150868, [1,193] 34197, [1,194] 65688, [1,195] 64335, [1,199] 360299, [1,200] 242455, [1,203] 27394, [1,208] 25876, [1,209] 336748, [1,210] 139137, [1,213] 19978, [1,215] 19587, [1,219] 186848, [1,220] 145326, [1,221] 129819, [1,222] 146344, [1,223] 45747, [1,224] 122688, [1,228] 21569, [1,229] 276047, [1,230] 214703, [1,233] 48610, [1,234] 42093, [1,239] 200958, [1,243] 56009, [1,244] 138476, [1,248] 48408, [1,249] 311570, [1,250] 242332, [1,252] 91938, [1,253] 520, [1,254] 98876, [1,255] 20295, [1,259] 243722, [1,260] 151784, [1,263] 30455, [1,264] 59931, [1,269] 262346, [1,270] 317380, [1,271] 7687, [1,272] 27893, [1,273] 27761, [1,274] 55786, [1,278] 111837, [1,279] 423020, [1,280] 310126	[1,1] 53319, [1,2] 122806, [1,6] 417489, [1,7] 265453, [1,16] 333791, [1,17] 182325, [1,22] 15190, [1,23] 28248, [1,24] 30381, [1,25] 17324, [1,26] 551305, [1,27] 383438, [1,28] 119647, [1,31] 31410, [1,32] 14211, [1,33] 26974, [1,34] 28421, [1,35] 15658, [1,36] 549737, [1,37] 381185, [1,38] 116317, [1,40] 92238, [1,42] 60385, [1,45] 34655, [1,46] 572616, [1,47] 461886, [1,48] 69309, [1,51] 60222, [1,52] 208701, [1,53] 33311, [1,56] 367921, [1,57] 157012, [1,65] 25963, [1,66] 224435, [1,67] 25126, [1,71] 51303, [1,72] 35634, [1,76] 584014, [1,77] 430457, [1,78] 19154, [1,84] 26860, [1,85] 1581, [1,86] 616488, [1,87] 477139, [1,88] 258162, [1,89] 39185, [1,95] 13247, [1,96] 292468, [1,97] 122922, [1,101] 33646, [1,102] 16619, [1,103] 30104, [1,106] 468590, [1,107] 301723, [1,108] 39503, [1,115] 10887, [1,116] 380247, [1,117] 259730, [1,121] 219031, [1,122] 196649, [1,123] 17643, [1,126] 518638, [1,127] 299292, [1,132] 58119, [1,136] 398991, [1,137] 201675, [1,141] 52512, [1,142] 36936, [1,145] 54292, [1,146] 416098, [1,147] 263453, [1,148] 23583, [1,156] 412609, [1,157] 258438, [1,158] 16169, [1,161] 42388, [1,162] 196033, [1,163] 42343, [1,164] 52066, [1,166] 568653, [1,167] 408376, [1,168] 156512, [1,172] 23852, [1,175] 32049, [1,176] 480164, [1,177] 318361, [1,178] 64098, [1,186] 431318, [1,187] 333144, [1,191] 72716, [1,192] 222156, [1,196] 559449, [1,197] 357958, [1,198] 41330, [1,201] 77576, [1,202] 57389, [1,204] 29779, [1,205] 29562, [1,206] 482823, [1,207] 284996, [1,211] 58587, [1,212] 43478, [1,214] 1956, [1,216] 511565, [1,217] 278500, [1,218] 45826, [1,225] 31715, [1,226] 394850, [1,227] 232909, [1,231] 38136, [1,232] 21454, [1,235] 27971, [1,236] 476326, [1,237] 312844, [1,238] 55943, [1,240] 32588, [1,241] 32851, [1,242] 15762, [1,245] 18296, [1,246] 382220, [1,247] 214753, [1,251] 11772, [1,256] 430899, [1,257] 332542, [1,258] 44410, [1,261] 245389, [1,262] 225034, [1,265] 25558, [1,266] 564055, [1,267] 364579, [1,268] 51117, [1,275] 29081, [1,276] 397371, [1,277] 199346	fatapia@scipion.cl	MOT	156570712	45229660	2018-05-26 14:44:27.858588	2018-07-08 19:16:37.214168
-6	34	88.2%	17082633	0		FACTIBLE	fatapia@scipion.cl	Proceso ejecutado con éxito	25111488	3.0%	v1.2 18 de marzo de 2018	{"almuerzo":"[turno_i,departamento_j,período_t] valor, [... 	2.0 min	[1,1,5] 1, [3,1,5] 1, [4,1,5] 2, [1,1,15] 2, [4,1,15] 2, [3,1,24] 1, [1,1,25] 2, [2,1,25] 1, [3,1,25] 2, [1,1,35] 1, [3,1,35] 4, [1,1,45] 3, [2,1,45] 1, [3,1,45] 1, [10,1,53] 1, [10,1,54] 4, [2,1,55] 1, [3,1,55] 1, [4,1,55] 3, [10,1,55] 4, [10,1,63] 3, [2,1,64] 3, [10,1,64] 1, [2,1,65] 1, [4,1,65] 2, [10,1,65] 3, [3,1,73] 1, [8,1,73] 1, [2,1,74] 1, [4,1,74] 2, [8,1,75] 7, [2,1,84] 1, [3,1,85] 6, [4,1,95] 4, [4,1,104] 1, [2,1,105] 1, [3,1,105] 3, [4,1,105] 1, [1,1,114] 1, [2,1,115] 1, [3,1,115] 1, [4,1,115] 2, [7,1,115] 1, [2,1,123] 3, [4,1,123] 2, [10,1,124] 6, [1,1,125] 6, [3,1,125] 2, [7,1,125] 2, [10,1,125] 1, [10,1,133] 3, [10,1,134] 2, [1,1,135] 1, [9,1,135] 1, [10,1,135] 2, [8,1,144] 1, [1,1,145] 1, [2,1,145] 1, [3,1,145] 1, [8,1,145] 2, [3,1,154] 1, [2,1,155] 1, [3,1,155] 4, [3,1,164] 1, [1,1,165] 1, [2,1,165] 1, [5,1,165] 3, [1,1,173] 1, [1,1,174] 1, [5,1,175] 5, [1,1,185] 1, [4,1,185] 2, [1,1,193] 1, [10,1,193] 1, [4,1,194] 6, [9,1,195] 4, [10,1,195] 6, [8,1,203] 3, [10,1,203] 1, [4,1,204] 1, [9,1,204] 4, [4,1,205] 1, [8,1,205] 1, [10,1,205] 6, [4,1,213] 1, [4,1,214] 1, [8,1,214] 1, [2,1,215] 3, [3,1,215] 2, [8,1,215] 1, [4,1,225] 5, [1,1,234] 1, [1,1,235] 3, [2,1,235] 1, [3,1,235] 1, [2,1,245] 1, [3,1,245] 1, [4,1,245] 2, [2,1,255] 1, [3,1,255] 1, [4,1,255] 3, [2,1,263] 1, [4,1,263] 2, [9,1,263] 1, [10,1,264] 5, [1,1,265] 6, [3,1,265] 2, [10,1,265] 2, [10,1,273] 2, [10,1,274] 2, [10,1,275] 3	[1,1,1] 1, [2,1,1] 1, [3,1,1] 1, [4,1,1] 2, [5,1,1] 2, [10,1,1] 7, [11,1,1] 3, [12,1,1] 1	[1,3] 104125, [1,4] 37507, [1,5] 15300, [1,7] 75013, [1,8] 404282, [1,9] 182219, [1,10] 22950, [1,12] 33682, [1,13] 104125, [1,14] 37507, [1,15] 15300, [1,17] 75013, [1,18] 319282, [1,19] 97219, [1,21] 52063, [1,22] 33682, [1,23] 19125, [1,24] 37507, [1,25] 15300, [1,28] 234282, [1,29] 12219, [1,31] 52063, [1,32] 118682, [1,33] 19125, [1,35] 15300, [1,38] 234282, [1,39] 12219, [1,41] 52063, [1,42] 33682, [1,43] 19125, [1,45] 15300, [1,48] 149282, [1,53] 38250, [1,55] 9010, [1,57] 305469, [1,58] 527532, [1,59] 749594, [1,60] 31344, [1,63] 71188, [1,64] 30600, [1,65] 26775, [1,67] 449438, [1,68] 671500, [1,69] 1049007, [1,78] 134354, [1,79] 104497, [1,80] 139655, [1,81] 18754, [1,82] 75381, [1,85] 47005, [1,88] 84391, [1,91] 43180, [1,92] 107134, [1,93] 86360, [1,94] 22406, [1,95] 1088, [1,97] 44812, [1,98] 279310, [1,99] 66130, [1,108] 104376, [1,112] 4814, [1,118] 134354, [1,123] 34425, [1,125] 33609, [1,127] 53922, [1,128] 253779, [1,129] 453635, [1,130] 79210, [1,133] 4569, [1,137] 463994, [1,138] 663850, [1,139] 1003606, [1,140] 119425, [1,142] 19249, [1,144] 18632, [1,148] 184319, [1,151] 35409, [1,152] 97030, [1,153] 70816, [1,154] 94193, [1,155] 73653, [1,157] 18388, [1,158] 244335, [1,159] 38928, [1,163] 10243, [1,164] 29957, [1,165] 8194, [1,168] 214296, [1,171] 122630, [1,172] 14918, [1,173] 75257, [1,174] 12969, [1,178] 169329, [1,181] 125960, [1,182] 19249, [1,183] 166919, [1,184] 103632, [1,188] 184319, [1,194] 37262, [1,197] 137197, [1,198] 348156, [1,199] 559116, [1,203] 37879, [1,205] 80687, [1,207] 286716, [1,208] 497675, [1,209] 856307, [1,213] 39111, [1,214] 54494, [1,215] 31289, [1,217] 108990, [1,218] 364249, [1,219] 132195, [1,220] 46933, [1,221] 55950, [1,222] 123733, [1,223] 111899, [1,224] 44113, [1,225] 106518, [1,227] 88226, [1,228] 336768, [1,229] 110821, [1,230] 32277, [1,232] 56199, [1,233] 53767, [1,234] 66953, [1,235] 43014, [1,237] 48904, [1,238] 312227, [1,239] 72843, [1,243] 116784, [1,244] 48266, [1,245] 25427, [1,247] 96531, [1,248] 347761, [1,249] 119370, [1,250] 38139, [1,252] 131672, [1,253] 39111, [1,255] 31289, [1,257] 23990, [1,258] 279249, [1,259] 47195, [1,263] 78222, [1,264] 23990, [1,265] 36191, [1,267] 295416, [1,268] 527470, [1,269] 759526, [1,270] 171305, [1,273] 16167, [1,274] 62577, [1,277] 689389, [1,278] 921443, [1,279] 1315937, [1,280] 163222	[1,1] 32937, [1,2] 51318, [1,6] 169256, [1,11] 32937, [1,16] 169256, [1,20] 62050, [1,26] 254256, [1,27] 9987, [1,30] 62050, [1,34] 47493, [1,36] 254256, [1,37] 9987, [1,40] 232050, [1,44] 47493, [1,46] 424256, [1,47] 179987, [1,49] 72781, [1,50] 317050, [1,51] 235875, [1,52] 313225, [1,54] 9987, [1,56] 249687, [1,61] 494700, [1,62] 317050, [1,66] 216750, [1,70] 131750, [1,71] 55143, [1,72] 80186, [1,73] 25287, [1,74] 244, [1,75] 20230, [1,76] 475330, [1,77] 255488, [1,83] 47493, [1,84] 19118, [1,86] 330866, [1,87] 123239, [1,89] 104363, [1,90] 56992, [1,96] 189686, [1,100] 168368, [1,101] 146805, [1,102] 88846, [1,103] 38611, [1,104] 11568, [1,105] 30889, [1,106] 320651, [1,107] 108139, [1,109] 88818, [1,110] 46333, [1,111] 140143, [1,113] 25287, [1,114] 244, [1,115] 20230, [1,116] 305330, [1,117] 85488, [1,119] 65503, [1,120] 30345, [1,121] 535287, [1,122] 290402, [1,124] 488, [1,126] 445718, [1,131] 275230, [1,132] 200345, [1,134] 40460, [1,135] 35402, [1,136] 135575, [1,141] 44040, [1,143] 3081, [1,145] 2465, [1,146] 279792, [1,147] 47738, [1,149] 26641, [1,150] 88697, [1,156] 207561, [1,160] 17021, [1,161] 37378, [1,162] 142092, [1,166] 264471, [1,167] 25087, [1,169] 3325, [1,170] 72709, [1,175] 7794, [1,176] 287455, [1,177] 59062, [1,179] 38300, [1,180] 11691, [1,185] 2465, [1,186] 279792, [1,187] 47738, [1,189] 26641, [1,190] 3697, [1,191] 258081, [1,192] 259313, [1,193] 6162, [1,195] 21190, [1,196] 390203, [1,200] 29722, [1,201] 427465, [1,202] 258697, [1,204] 4930, [1,206] 346162, [1,210] 176162, [1,211] 107943, [1,212] 38328, [1,216] 316272, [1,226] 160318, [1,231] 15616, [1,236] 214417, [1,240] 190480, [1,241] 111609, [1,242] 43091, [1,246] 154700, [1,251] 107943, [1,254] 30506, [1,256] 231272, [1,260] 38067, [1,261] 470889, [1,262] 200245, [1,266] 284722, [1,271] 223711, [1,272] 38067, [1,275] 30245, [1,276] 6778	fatapia@scipion.cl	MOT	185848855	42194121	2018-06-02 23:03:10.36476	2018-08-03 12:40:12.0223
+50	35	113.7%	21407438	0	\N	FACTIBLE	fatapia@scipion.cl	Proceso ejecutado con éxito	20430129	3.0%	v1.2 18 de marzo de 2018	{"almuerzo"=>"[turno_i,departamento_j,período_t] valor, [... ", "delta"=>"[departamento_j,período_t] valor, [... ", "epsilon"=>"[departamento_j,período_t] valor, [... ", "turno"=>"[turno_i,departamento_j,ventana_w] valor, [... "}	1.0 min	[1,1,5] 1, [3,1,5] 1, [4,1,5] 2, [1,1,15] 2, [4,1,15] 2, [3,1,24] 1, [1,1,25] 1, [2,1,25] 2, [3,1,25] 2, [1,1,34] 1, [3,1,35] 5, [2,1,44] 1, [1,1,45] 1, [3,1,45] 3, [6,1,45] 1, [8,1,53] 2, [2,1,54] 1, [4,1,54] 2, [8,1,54] 1, [10,1,54] 2, [3,1,55] 4, [10,1,55] 6, [4,1,63] 2, [10,1,63] 1, [2,1,64] 4, [2,1,65] 1, [10,1,65] 7, [8,1,73] 2, [3,1,74] 1, [4,1,74] 2, [2,1,75] 1, [8,1,75] 7, [3,1,84] 1, [2,1,85] 6, [4,1,95] 4, [3,1,104] 1, [2,1,105] 2, [3,1,105] 1, [4,1,105] 2, [4,1,114] 1, [1,1,115] 1, [2,1,115] 1, [3,1,115] 1, [4,1,115] 1, [7,1,115] 2, [4,1,123] 2, [9,1,123] 1, [10,1,123] 3, [6,1,124] 7, [1,1,125] 1, [2,1,125] 1, [3,1,125] 2, [6,1,125] 2, [10,1,125] 5, [10,1,133] 3, [10,1,134] 3, [1,1,135] 4, [9,1,135] 1, [10,1,135] 2, [1,1,145] 1, [2,1,145] 1, [3,1,145] 1, [8,1,145] 2, [2,1,155] 1, [3,1,155] 4, [1,1,165] 1, [2,1,165] 1, [3,1,165] 1, [5,1,165] 3, [1,1,174] 1, [5,1,175] 4, [1,1,185] 1, [4,1,185] 2, [9,1,193] 3, [4,1,194] 2, [6,1,194] 4, [1,1,195] 1, [10,1,195] 9, [4,1,203] 1, [10,1,203] 4, [4,1,204] 1, [10,1,204] 5, [10,1,205] 9, [8,1,213] 1, [8,1,214] 1, [2,1,215] 1, [3,1,215] 1, [4,1,215] 3, [8,1,215] 1, [4,1,225] 4, [1,1,234] 1, [2,1,235] 2, [3,1,235] 3, [2,1,245] 1, [3,1,245] 1, [4,1,245] 2, [2,1,255] 1, [3,1,255] 1, [4,1,255] 3, [4,1,263] 2, [9,1,263] 3, [1,1,264] 1, [9,1,264] 2, [10,1,264] 3, [2,1,265] 2, [3,1,265] 2, [10,1,265] 6, [8,1,273] 1, [9,1,273] 1, [10,1,273] 1, [10,1,274] 2, [10,1,275] 5	[1,1,1] 1, [2,1,1] 1, [3,1,1] 1, [4,1,1] 2, [5,1,1] 2, [10,1,1] 8, [11,1,1] 2, [12,1,1] 2	[1,3] 59713, [1,8] 304354, [1,9] 104497, [1,13] 37507, [1,18] 169391, [1,21] 43180, [1,22] 22134, [1,23] 1360, [1,24] 22406, [1,25] 1088, [1,28] 194310, [1,31] 23195, [1,32] 81154, [1,38] 104376, [1,41] 29857, [1,42] 4814, [1,48] 49354, [1,55] 33609, [1,57] 138922, [1,58] 338779, [1,59] 538635, [1,65] 30773, [1,67] 283370, [1,68] 506385, [1,69] 881371, [1,75] 72568, [1,78] 130070, [1,79] 113158, [1,80] 145275, [1,81] 26083, [1,82] 75495, [1,85] 54475, [1,88] 81622, [1,91] 43096, [1,92] 101353, [1,93] 88517, [1,94] 12894, [1,97] 46637, [1,98] 284903, [1,99] 65091, [1,108] 99777, [1,112] 563, [1,114] 7508, [1,115] 72611, [1,118] 140607, [1,123] 33309, [1,124] 4930, [1,125] 33629, [1,127] 57087, [1,128] 256811, [1,129] 444067, [1,130] 75375, [1,135] 41268, [1,137] 286543, [1,138] 486341, [1,139] 836227, [1,142] 19128, [1,148] 190519, [1,151] 34398, [1,152] 93206, [1,153] 79369, [1,154] 13777, [1,155] 66062, [1,157] 22003, [1,158] 242850, [1,159] 45097, [1,163] 2271, [1,165] 84070, [1,168] 207156, [1,171] 120483, [1,172] 24728, [1,174] 18432, [1,178] 172759, [1,181] 126799, [1,182] 27719, [1,183] 164569, [1,184] 107704, [1,188] 179308, [1,190] 352, [1,197] 144014, [1,198] 344999, [1,199] 553759, [1,203] 32916, [1,207] 108534, [1,208] 323241, [1,209] 694208, [1,213] 35010, [1,215] 35187, [1,217] 114850, [1,218] 358775, [1,219] 131271, [1,220] 37772, [1,221] 46109, [1,222] 122239, [1,223] 121361, [1,224] 35913, [1,225] 28136, [1,227] 90843, [1,228] 341827, [1,229] 117939, [1,230] 28007, [1,232] 55620, [1,233] 44984, [1,234] 67910, [1,235] 37598, [1,237] 55491, [1,238] 314546, [1,239] 65509, [1,243] 117205, [1,244] 47982, [1,245] 19928, [1,247] 88187, [1,248] 349871, [1,249] 122472, [1,250] 37872, [1,252] 130741, [1,253] 30303, [1,255] 35654, [1,257] 24586, [1,258] 287851, [1,259] 45959, [1,263] 81585, [1,264] 29382, [1,265] 40940, [1,267] 302507, [1,268] 521193, [1,269] 751262, [1,270] 177290, [1,273] 17413, [1,277] 514871, [1,278] 751171, [1,279] 1150153	[1,1] 55143, [1,2] 80186, [1,4] 244, [1,5] 20230, [1,6] 220330, [1,7] 488, [1,10] 30345, [1,11] 66246, [1,12] 9619, [1,14] 19118, [1,15] 37995, [1,16] 245866, [1,17] 38239, [1,19] 19363, [1,20] 141992, [1,26] 274686, [1,27] 40188, [1,29] 18870, [1,30] 83368, [1,33] 38611, [1,34] 11568, [1,35] 30889, [1,36] 320651, [1,37] 108139, [1,39] 88818, [1,40] 301333, [1,43] 25287, [1,44] 244, [1,45] 20230, [1,46] 475330, [1,47] 255488, [1,49] 150503, [1,50] 370345, [1,51] 365287, [1,52] 460402, [1,53] 50575, [1,54] 488, [1,56] 360718, [1,60] 90790, [1,61] 587826, [1,62] 402633, [1,63] 11481, [1,64] 48771, [1,66] 390419, [1,70] 302203, [1,71] 47973, [1,72] 75059, [1,73] 19610, [1,74] 3282, [1,76] 467398, [1,77] 259585, [1,83] 46746, [1,84] 24580, [1,86] 340105, [1,87] 126683, [1,89] 104365, [1,90] 49590, [1,95] 2909, [1,96] 187406, [1,100] 160601, [1,101] 146309, [1,102] 83632, [1,103] 30158, [1,104] 5713, [1,105] 32567, [1,106] 312341, [1,107] 113843, [1,109] 95627, [1,110] 44177, [1,111] 140498, [1,113] 24541, [1,116] 301912, [1,117] 89884, [1,119] 64925, [1,120] 34926, [1,121] 617727, [1,122] 367716, [1,126] 455266, [1,131] 357857, [1,132] 285827, [1,133] 82381, [1,134] 42469, [1,136] 302178, [1,140] 58449, [1,141] 40307, [1,143] 10114, [1,144] 62647, [1,145] 11239, [1,146] 284651, [1,147] 44840, [1,149] 25755, [1,150] 86180, [1,156] 200545, [1,160] 7701, [1,161] 34265, [1,162] 142566, [1,164] 56167, [1,166] 260940, [1,167] 23932, [1,169] 5295, [1,170] 72202, [1,173] 14155, [1,175] 84455, [1,176] 281692, [1,177] 66809, [1,179] 44250, [1,180] 4325, [1,185] 11889, [1,186] 283388, [1,187] 40059, [1,189] 27519, [1,191] 337131, [1,192] 350631, [1,193] 11352, [1,194] 38123, [1,195] 25388, [1,196] 393621, [1,200] 24854, [1,201] 507348, [1,202] 345069, [1,204] 137, [1,205] 8680, [1,206] 506283, [1,210] 350243, [1,211] 98817, [1,212] 46809, [1,214] 37216, [1,216] 316939, [1,226] 170112, [1,231] 6349, [1,236] 219807, [1,240] 195263, [1,241] 108802, [1,242] 36417, [1,246] 149025, [1,251] 109851, [1,254] 40139, [1,256] 240929, [1,260] 30776, [1,261] 564466, [1,262] 281365, [1,266] 293314, [1,271] 316688, [1,272] 125493, [1,274] 13588, [1,275] 22416, [1,276] 171619, [1,280] 6131	fatapia@scipion.cl	MOT	182027691	41837567	2018-09-17 16:14:09.417279	2018-09-17 16:14:09.417279
+52	36	97.6%	21170839	0	\N	FACTIBLE	fatapia@scipion.cl	Proceso ejecutado con éxito	22067045	3.0%	v1.2 18 de marzo de 2018	{"almuerzo"=>"[turno_i,departamento_j,período_t] valor, [... ", "delta"=>"[departamento_j,período_t] valor, [... ", "epsilon"=>"[departamento_j,período_t] valor, [... ", "turno"=>"[turno_i,departamento_j,ventana_w] valor, [... "}	1.0 min	[1,1,5] 1, [3,1,5] 2, [4,1,5] 2, [1,1,15] 2, [4,1,15] 2, [1,1,24] 1, [2,1,24] 1, [3,1,25] 6, [1,1,33] 1, [1,1,34] 2, [1,1,35] 5, [3,1,35] 2, [1,1,44] 1, [3,1,45] 2, [6,1,45] 3, [10,1,53] 2, [3,1,54] 1, [6,1,54] 1, [10,1,54] 4, [3,1,55] 1, [4,1,55] 4, [10,1,55] 6, [8,1,63] 2, [10,1,63] 1, [2,1,64] 3, [10,1,64] 2, [4,1,65] 2, [10,1,65] 5, [3,1,73] 2, [4,1,74] 2, [8,1,74] 2, [8,1,75] 8, [3,1,83] 1, [2,1,84] 2, [3,1,85] 7, [4,1,95] 4, [3,1,104] 1, [4,1,104] 1, [2,1,105] 4, [3,1,105] 1, [4,1,105] 1, [1,1,114] 1, [3,1,115] 3, [4,1,115] 2, [6,1,115] 1, [3,1,123] 2, [4,1,123] 2, [10,1,123] 2, [10,1,124] 7, [1,1,125] 1, [6,1,125] 1, [9,1,125] 10, [9,1,133] 1, [10,1,133] 3, [1,1,134] 1, [10,1,134] 2, [9,1,135] 2, [10,1,135] 3, [1,1,145] 1, [2,1,145] 1, [3,1,145] 2, [3,1,155] 4, [3,1,164] 1, [5,1,164] 1, [1,1,165] 1, [2,1,165] 3, [3,1,165] 1, [5,1,165] 2, [1,1,173] 1, [5,1,174] 3, [1,1,175] 6, [1,1,185] 1, [4,1,185] 2, [6,1,185] 1, [1,1,193] 2, [8,1,193] 1, [4,1,194] 7, [6,1,194] 1, [6,1,195] 1, [7,1,195] 1, [9,1,195] 3, [10,1,195] 8, [4,1,203] 2, [9,1,203] 1, [10,1,203] 1, [9,1,204] 6, [9,1,205] 1, [10,1,205] 7, [8,1,213] 1, [3,1,214] 1, [8,1,214] 1, [2,1,215] 3, [3,1,215] 1, [4,1,215] 2, [4,1,224] 1, [4,1,225] 6, [1,1,234] 1, [2,1,235] 3, [3,1,235] 2, [3,1,245] 2, [4,1,245] 3, [2,1,254] 1, [3,1,255] 4, [4,1,255] 2, [3,1,263] 2, [4,1,263] 2, [10,1,263] 2, [1,1,264] 1, [2,1,264] 1, [10,1,264] 6, [9,1,265] 12, [8,1,273] 4, [10,1,274] 3, [9,1,275] 1, [10,1,275] 5	[1,1,1] 1, [3,1,1] 2, [4,1,1] 2, [5,1,1] 3, [6,1,1] 1, [10,1,1] 8, [11,1,1] 3, [12,1,1] 1	[1,3] 72189, [1,5] 41838, [1,7] 52683, [1,8] 426082, [1,9] 143307, [1,10] 77778, [1,11] 4671, [1,12] 57062, [1,13] 151158, [1,14] 85837, [1,15] 50792, [1,17] 128780, [1,18] 383133, [1,19] 153102, [1,21] 76635, [1,22] 48368, [1,28] 135379, [1,32] 56590, [1,35] 42721, [1,38] 166650, [1,48] 45565, [1,57] 122503, [1,58] 371738, [1,59] 681538, [1,63] 76820, [1,64] 59957, [1,65] 55405, [1,67] 371290, [1,68] 584397, [1,69] 952658, [1,72] 2775, [1,73] 2215, [1,74] 80108, [1,75] 48561, [1,78] 254078, [1,79] 155994, [1,80] 241783, [1,81] 90712, [1,82] 150720, [1,85] 41146, [1,88] 147694, [1,91] 93289, [1,92] 125377, [1,93] 42689, [1,97] 56903, [1,98] 302675, [1,99] 107676, [1,103] 62821, [1,104] 74526, [1,105] 58122, [1,108] 252843, [1,115] 37556, [1,118] 235366, [1,119] 14328, [1,127] 47341, [1,128] 276875, [1,129] 508215, [1,130] 99071, [1,133] 3375, [1,137] 380479, [1,138] 579338, [1,139] 943166, [1,140] 49359, [1,142] 86106, [1,143] 101725, [1,144] 2586, [1,147] 65619, [1,148] 333279, [1,149] 61589, [1,150] 2617, [1,151] 100474, [1,152] 150383, [1,153] 57758, [1,157] 60509, [1,158] 318235, [1,159] 89760, [1,160] 48161, [1,161] 16981, [1,164] 1400, [1,165] 51343, [1,168] 135399, [1,171] 183919, [1,174] 88611, [1,178] 167072, [1,181] 173017, [1,183] 159192, [1,184] 64578, [1,185] 28507, [1,188] 240913, [1,189] 16745, [1,194] 40568, [1,195] 46786, [1,197] 38829, [1,198] 286209, [1,199] 599330, [1,203] 7648, [1,207] 203557, [1,208] 402343, [1,209] 768606, [1,213] 18047, [1,214] 17439, [1,217] 56826, [1,218] 345581, [1,219] 69054, [1,220] 82294, [1,221] 110370, [1,222] 152216, [1,225] 51782, [1,228] 240893, [1,229] 481, [1,231] 24950, [1,232] 75465, [1,238] 231403, [1,239] 27075, [1,243] 159222, [1,245] 53100, [1,247] 91783, [1,248] 333123, [1,249] 90290, [1,250] 34013, [1,252] 157422, [1,255] 22964, [1,258] 237173, [1,259] 7098, [1,263] 11774, [1,264] 31781, [1,267] 32229, [1,268] 304181, [1,269] 505199, [1,270] 23299, [1,273] 23128, [1,274] 6700, [1,275] 78299, [1,277] 381781, [1,278] 579625, [1,279] 954829	[1,1] 117083, [1,2] 97487, [1,4] 3224, [1,6] 196093, [1,16] 148377, [1,20] 36649, [1,23] 36665, [1,24] 3856, [1,25] 31574, [1,26] 365102, [1,27] 111748, [1,29] 71564, [1,30] 11801, [1,31] 11970, [1,33] 28772, [1,34] 24795, [1,36] 361455, [1,37] 104979, [1,39] 118258, [1,40] 350713, [1,41] 18337, [1,42] 33009, [1,43] 24497, [1,44] 10230, [1,45] 38131, [1,46] 537890, [1,47] 277831, [1,49] 172977, [1,50] 367497, [1,51] 390337, [1,52] 457388, [1,53] 10594, [1,54] 36913, [1,55] 37670, [1,56] 465907, [1,60] 62596, [1,61] 491240, [1,62] 314007, [1,66] 306477, [1,70] 304478, [1,71] 105817, [1,76] 433813, [1,77] 205420, [1,83] 21703, [1,84] 5232, [1,86] 404010, [1,87] 113032, [1,89] 85124, [1,90] 45115, [1,94] 13514, [1,95] 27302, [1,96] 180422, [1,100] 176774, [1,101] 89997, [1,102] 13746, [1,106] 273183, [1,107] 9164, [1,109] 18251, [1,110] 2510, [1,111] 101702, [1,112] 20240, [1,113] 25493, [1,114] 15248, [1,116] 273981, [1,117] 29677, [1,120] 11450, [1,121] 545604, [1,122] 356484, [1,123] 3903, [1,124] 34858, [1,125] 32690, [1,126] 533912, [1,131] 323669, [1,132] 215694, [1,134] 8216, [1,135] 24508, [1,136] 289664, [1,141] 16131, [1,145] 42354, [1,146] 162456, [1,154] 12389, [1,155] 33736, [1,156] 237429, [1,162] 197878, [1,163] 25664, [1,166] 339387, [1,167] 96904, [1,169] 61438, [1,170] 90755, [1,172] 6226, [1,173] 2775, [1,175] 25410, [1,176] 343924, [1,177] 90195, [1,179] 91014, [1,180] 70784, [1,182] 3660, [1,186] 345370, [1,187] 118293, [1,190] 94779, [1,191] 276653, [1,192] 350804, [1,193] 7413, [1,196] 533274, [1,200] 64777, [1,201] 482748, [1,202] 294682, [1,204] 10487, [1,205] 8537, [1,206] 460152, [1,210] 288036, [1,211] 91580, [1,212] 2092, [1,215] 40356, [1,216] 341877, [1,223] 18354, [1,224] 6515, [1,226] 315306, [1,227] 24380, [1,230] 26151, [1,233] 24305, [1,234] 8324, [1,235] 29085, [1,236] 255040, [1,237] 2556, [1,240] 257875, [1,241] 56803, [1,242] 5639, [1,244] 4410, [1,246] 157332, [1,251] 62631, [1,253] 17016, [1,254] 7799, [1,256] 265606, [1,257] 19384, [1,260] 76789, [1,261] 512903, [1,262] 259919, [1,265] 38201, [1,266] 535093, [1,271] 303978, [1,272] 123206, [1,276] 299310, [1,280] 33217	fatapia@scipion.cl	MOT	204896206	43237884	2018-10-02 18:51:23.970025	2018-10-02 18:51:23.970025
+37	34	88.2%	17082633	0	\N	FACTIBLE	fatapia@scipion.cl	Proceso ejecutado con éxito	25111488	3.0%	v1.2 18 de marzo de 2018	{"almuerzo"=>"[turno_i,departamento_j,período_t] valor, [...", "delta"=>"[departamento_j,período_t] valor, [..."}	2.0 min	[1,1,5] 1, [3,1,5] 1, [4,1,5] 2, [1,1,15] 2, [4,1,15] 2, [3,1,24] 1, [1,1,25] 2, [2,1,25] 1, [3,1,25] 2, [1,1,35] 1, [3,1,35] 4, [1,1,45] 3, [2,1,45] 1, [3,1,45] 1, [10,1,53] 1, [10,1,54] 4, [2,1,55] 1, [3,1,55] 1, [4,1,55] 3, [10,1,55] 4, [10,1,63] 3, [2,1,64] 3, [10,1,64] 1, [2,1,65] 1, [4,1,65] 2, [10,1,65] 3, [3,1,73] 1, [8,1,73] 1, [2,1,74] 1, [4,1,74] 2, [8,1,75] 7, [2,1,84] 1, [3,1,85] 6, [4,1,95] 4, [4,1,104] 1, [2,1,105] 1, [3,1,105] 3, [4,1,105] 1, [1,1,114] 1, [2,1,115] 1, [3,1,115] 1, [4,1,115] 2, [7,1,115] 1, [2,1,123] 3, [4,1,123] 2, [10,1,124] 6, [1,1,125] 6, [3,1,125] 2, [7,1,125] 2, [10,1,125] 1, [10,1,133] 3, [10,1,134] 2, [1,1,135] 1, [9,1,135] 1, [10,1,135] 2, [8,1,144] 1, [1,1,145] 1, [2,1,145] 1, [3,1,145] 1, [8,1,145] 2, [3,1,154] 1, [2,1,155] 1, [3,1,155] 4, [3,1,164] 1, [1,1,165] 1, [2,1,165] 1, [5,1,165] 3, [1,1,173] 1, [1,1,174] 1, [5,1,175] 5, [1,1,185] 1, [4,1,185] 2, [1,1,193] 1, [10,1,193] 1, [4,1,194] 6, [9,1,195] 4, [10,1,195] 6, [8,1,203] 3, [10,1,203] 1, [4,1,204] 1, [9,1,204] 4, [4,1,205] 1, [8,1,205] 1, [10,1,205] 6, [4,1,213] 1, [4,1,214] 1, [8,1,214] 1, [2,1,215] 3, [3,1,215] 2, [8,1,215] 1, [4,1,225] 5, [1,1,234] 1, [1,1,235] 3, [2,1,235] 1, [3,1,235] 1, [2,1,245] 1, [3,1,245] 1, [4,1,245] 2, [2,1,255] 1, [3,1,255] 1, [4,1,255] 3, [2,1,263] 1, [4,1,263] 2, [9,1,263] 1, [10,1,264] 5, [1,1,265] 6, [3,1,265] 2, [10,1,265] 2, [10,1,273] 2, [10,1,274] 2, [10,1,275] 3	[1,1,1] 1, [2,1,1] 1, [3,1,1] 1, [4,1,1] 2, [5,1,1] 2, [10,1,1] 7, [11,1,1] 3, [12,1,1] 1	[1,3] 104125, [1,4] 37507, [1,5] 15300, [1,7] 75013, [1,8] 404282, [1,9] 182219, [1,10] 22950, [1,12] 33682, [1,13] 104125, [1,14] 37507, [1,15] 15300, [1,17] 75013, [1,18] 319282, [1,19] 97219, [1,21] 52063, [1,22] 33682, [1,23] 19125, [1,24] 37507, [1,25] 15300, [1,28] 234282, [1,29] 12219, [1,31] 52063, [1,32] 118682, [1,33] 19125, [1,35] 15300, [1,38] 234282, [1,39] 12219, [1,41] 52063, [1,42] 33682, [1,43] 19125, [1,45] 15300, [1,48] 149282, [1,53] 38250, [1,55] 9010, [1,57] 305469, [1,58] 527532, [1,59] 749594, [1,60] 31344, [1,63] 71188, [1,64] 30600, [1,65] 26775, [1,67] 449438, [1,68] 671500, [1,69] 1049007, [1,78] 134354, [1,79] 104497, [1,80] 139655, [1,81] 18754, [1,82] 75381, [1,85] 47005, [1,88] 84391, [1,91] 43180, [1,92] 107134, [1,93] 86360, [1,94] 22406, [1,95] 1088, [1,97] 44812, [1,98] 279310, [1,99] 66130, [1,108] 104376, [1,112] 4814, [1,118] 134354, [1,123] 34425, [1,125] 33609, [1,127] 53922, [1,128] 253779, [1,129] 453635, [1,130] 79210, [1,133] 4569, [1,137] 463994, [1,138] 663850, [1,139] 1003606, [1,140] 119425, [1,142] 19249, [1,144] 18632, [1,148] 184319, [1,151] 35409, [1,152] 97030, [1,153] 70816, [1,154] 94193, [1,155] 73653, [1,157] 18388, [1,158] 244335, [1,159] 38928, [1,163] 10243, [1,164] 29957, [1,165] 8194, [1,168] 214296, [1,171] 122630, [1,172] 14918, [1,173] 75257, [1,174] 12969, [1,178] 169329, [1,181] 125960, [1,182] 19249, [1,183] 166919, [1,184] 103632, [1,188] 184319, [1,194] 37262, [1,197] 137197, [1,198] 348156, [1,199] 559116, [1,203] 37879, [1,205] 80687, [1,207] 286716, [1,208] 497675, [1,209] 856307, [1,213] 39111, [1,214] 54494, [1,215] 31289, [1,217] 108990, [1,218] 364249, [1,219] 132195, [1,220] 46933, [1,221] 55950, [1,222] 123733, [1,223] 111899, [1,224] 44113, [1,225] 106518, [1,227] 88226, [1,228] 336768, [1,229] 110821, [1,230] 32277, [1,232] 56199, [1,233] 53767, [1,234] 66953, [1,235] 43014, [1,237] 48904, [1,238] 312227, [1,239] 72843, [1,243] 116784, [1,244] 48266, [1,245] 25427, [1,247] 96531, [1,248] 347761, [1,249] 119370, [1,250] 38139, [1,252] 131672, [1,253] 39111, [1,255] 31289, [1,257] 23990, [1,258] 279249, [1,259] 47195, [1,263] 78222, [1,264] 23990, [1,265] 36191, [1,267] 295416, [1,268] 527470, [1,269] 759526, [1,270] 171305, [1,273] 16167, [1,274] 62577, [1,277] 689389, [1,278] 921443, [1,279] 1315937, [1,280] 163222	[1,1] 32937, [1,2] 51318, [1,6] 169256, [1,11] 32937, [1,16] 169256, [1,20] 62050, [1,26] 254256, [1,27] 9987, [1,30] 62050, [1,34] 47493, [1,36] 254256, [1,37] 9987, [1,40] 232050, [1,44] 47493, [1,46] 424256, [1,47] 179987, [1,49] 72781, [1,50] 317050, [1,51] 235875, [1,52] 313225, [1,54] 9987, [1,56] 249687, [1,61] 494700, [1,62] 317050, [1,66] 216750, [1,70] 131750, [1,71] 55143, [1,72] 80186, [1,73] 25287, [1,74] 244, [1,75] 20230, [1,76] 475330, [1,77] 255488, [1,83] 47493, [1,84] 19118, [1,86] 330866, [1,87] 123239, [1,89] 104363, [1,90] 56992, [1,96] 189686, [1,100] 168368, [1,101] 146805, [1,102] 88846, [1,103] 38611, [1,104] 11568, [1,105] 30889, [1,106] 320651, [1,107] 108139, [1,109] 88818, [1,110] 46333, [1,111] 140143, [1,113] 25287, [1,114] 244, [1,115] 20230, [1,116] 305330, [1,117] 85488, [1,119] 65503, [1,120] 30345, [1,121] 535287, [1,122] 290402, [1,124] 488, [1,126] 445718, [1,131] 275230, [1,132] 200345, [1,134] 40460, [1,135] 35402, [1,136] 135575, [1,141] 44040, [1,143] 3081, [1,145] 2465, [1,146] 279792, [1,147] 47738, [1,149] 26641, [1,150] 88697, [1,156] 207561, [1,160] 17021, [1,161] 37378, [1,162] 142092, [1,166] 264471, [1,167] 25087, [1,169] 3325, [1,170] 72709, [1,175] 7794, [1,176] 287455, [1,177] 59062, [1,179] 38300, [1,180] 11691, [1,185] 2465, [1,186] 279792, [1,187] 47738, [1,189] 26641, [1,190] 3697, [1,191] 258081, [1,192] 259313, [1,193] 6162, [1,195] 21190, [1,196] 390203, [1,200] 29722, [1,201] 427465, [1,202] 258697, [1,204] 4930, [1,206] 346162, [1,210] 176162, [1,211] 107943, [1,212] 38328, [1,216] 316272, [1,226] 160318, [1,231] 15616, [1,236] 214417, [1,240] 190480, [1,241] 111609, [1,242] 43091, [1,246] 154700, [1,251] 107943, [1,254] 30506, [1,256] 231272, [1,260] 38067, [1,261] 470889, [1,262] 200245, [1,266] 284722, [1,271] 223711, [1,272] 38067, [1,275] 30245, [1,276] 6778	fatapia@scipion.cl	MOT	185848855	42194121	2018-09-17 09:50:07.131365	2018-09-17 09:50:07.131365
 \.
 
 
@@ -3136,14 +3291,14 @@ COPY return_cases (id, id_case, eff_margin, total_surplus, compensation_cost, "i
 -- Name: return_cases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('return_cases_id_seq', 6, true);
+SELECT pg_catalog.setval('public.return_cases_id_seq', 52, true);
 
 
 --
 -- Data for Name: rs; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY rs (id, store_id, department_id, date, year, month, week, dow, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, total_day, created_at, updated_at) FROM stdin;
+COPY public.rs (id, store_id, department_id, date, year, month, week, dow, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, total_day, created_at, updated_at) FROM stdin;
 1	1	1	2018-01-01	2018	1	1	1	0	0	198450	763618	771028	830340	797960	919431	845077	980296	1639494	665552	0	0	0	8411246	2018-02-28 07:38:44.748798	2018-02-28 07:38:44.748798
 2	1	1	2018-01-02	2018	1	1	2	0	0	242550	610963	790494	884073	692273	879386	939403	3399873	1692880	554691	0	0	0	10686586	2018-02-28 07:38:44.755496	2018-02-28 07:38:44.755496
 3	1	1	2018-01-03	2018	1	1	3	0	0	308700	463160	513301	1242387	522854	729297	1812688	2110115	2209232	1364627	0	0	0	11276361	2018-02-28 07:38:44.761659	2018-02-28 07:38:44.761659
@@ -3515,14 +3670,14 @@ COPY rs (id, store_id, department_id, date, year, month, week, dow, nine, ten, e
 -- Name: rs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('rs_id_seq', 364, true);
+SELECT pg_catalog.setval('public.rs_id_seq', 364, true);
 
 
 --
 -- Data for Name: sale_by_sellers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY sale_by_sellers (id, seller, month, week, day, hour, department, sale, turn, year, created_at, updated_at) FROM stdin;
+COPY public.sale_by_sellers (id, seller, month, week, day, hour, department, sale, turn, year, created_at, updated_at) FROM stdin;
 35197	26	6	1	7	9	1	111205	2	2018	2018-08-07 20:46:33.660604	2018-08-07 20:46:33.660604
 35198	26	6	1	7	10	1	111205	2	2018	2018-08-07 20:46:33.667493	2018-08-07 20:46:33.667493
 35199	26	6	1	7	11	1	111205	2	2018	2018-08-07 20:46:33.673165	2018-08-07 20:46:33.673165
@@ -6966,14 +7121,14 @@ COPY sale_by_sellers (id, seller, month, week, day, hour, department, sale, turn
 -- Name: sale_by_sellers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('sale_by_sellers_id_seq', 38371, true);
+SELECT pg_catalog.setval('public.sale_by_sellers_id_seq', 38371, true);
 
 
 --
 -- Data for Name: sale_plans; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY sale_plans (id, department_id, created_at, updated_at, sale_date, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, twenty_four, store_id, week, month, year, day_number) FROM stdin;
+COPY public.sale_plans (id, department_id, created_at, updated_at, sale_date, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, twenty_four, store_id, week, month, year, day_number) FROM stdin;
 18626	1	2018-08-07 22:12:03.842784	2018-08-07 22:12:03.842784	2018-01-01	0	201324	209377	225483	295135	454054	385946	363243	522162	771891	1021621	794594	544864	0	0	0	1	1	1	2018	1
 18627	1	2018-08-07 22:12:03.856128	2018-08-07 22:12:03.856128	2018-01-02	0	203337	211471	227738	298086	458594	389805	366875	527383	779610	1031837	802540	550313	0	0	0	1	1	1	2018	2
 18628	1	2018-08-07 22:12:03.870931	2018-08-07 22:12:03.870931	2018-01-03	0	211390	219846	236757	309892	476756	405243	381405	548270	810486	1072702	834323	572108	0	0	0	1	1	1	2018	3
@@ -8381,14 +8536,14 @@ COPY sale_plans (id, department_id, created_at, updated_at, sale_date, nine, ten
 -- Name: sale_plans_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('sale_plans_id_seq', 20025, true);
+SELECT pg_catalog.setval('public.sale_plans_id_seq', 20025, true);
 
 
 --
 -- Data for Name: sale_reals; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY sale_reals (id, store_id, department_id, sale_date, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, twenty_four, week, month, year, day_number, created_at, updated_at) FROM stdin;
+COPY public.sale_reals (id, store_id, department_id, sale_date, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty_one, twenty_two, twenty_three, twenty_four, week, month, year, day_number, created_at, updated_at) FROM stdin;
 56148	1	1	2017-01-03	0	188275	195806	210868	276006	424624	360931	339699	488318	721861	955404	743092	509549	0	0	0	2	1	2017	2	2018-08-08 21:05:47.035241	2018-08-08 21:05:47.035241
 56149	1	1	2017-01-04	0	195732	203561	219220	286937	441441	375225	353153	507657	750450	993242	772522	529729	0	0	0	2	1	2017	3	2018-08-08 21:05:47.045884	2018-08-08 21:05:47.045884
 56150	1	1	2017-01-05	0	197596	205500	221307	289669	445645	378798	356516	512492	757597	1002702	779879	534774	0	0	0	2	1	2017	4	2018-08-08 21:05:47.054947	2018-08-08 21:05:47.054947
@@ -9073,14 +9228,14 @@ COPY sale_reals (id, store_id, department_id, sale_date, nine, ten, eleven, twel
 -- Name: sale_reals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('sale_reals_id_seq', 56623, true);
+SELECT pg_catalog.setval('public.sale_reals_id_seq', 56623, true);
 
 
 --
 -- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY schema_migrations (version) FROM stdin;
+COPY public.schema_migrations (version) FROM stdin;
 20170816011851
 20170816004646
 20170816004709
@@ -9128,6 +9283,11 @@ COPY schema_migrations (version) FROM stdin;
 20180519223234
 20180519224229
 20180616150814
+20180829175331
+20180915180133
+20180921174220
+20180921174501
+20181002191918
 \.
 
 
@@ -9135,7 +9295,7 @@ COPY schema_migrations (version) FROM stdin;
 -- Data for Name: sellers; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY sellers (id, rut, name, lastname, email, phone, street, number, city, district, county, country, department_id, created_at, updated_at, store_id, assigned_shift, begin_shift) FROM stdin;
+COPY public.sellers (id, rut, name, lastname, email, phone, street, number, city, district, county, country, department_id, created_at, updated_at, store_id, assigned_shift, begin_shift) FROM stdin;
 25	12.222.008-7	Ricardo	Gonzalez	demo@tooxs.com	56999999999	El Vergel	323	Santiago	-	Providencia	CL	1	2017-10-13 14:54:25.461079	2017-10-13 14:54:25.461079	1	1	2017-10-01
 78	9.725.248-3	Rocio	Niño	demo@tooxs.com	56999999999	El Vergel	323	Santiago	-	Providencia	CL	1	2017-10-13 14:54:25.461079	2017-10-13 14:54:25.461079	2	1	2017-10-01
 79	12.204.086-0	Lorena	Perez	demo@tooxs.com	56999999999	Los Poetas	234	Santiago	-	Maipu	CL	5	2017-10-13 14:54:25.472664	2017-10-13 14:54:25.472664	2	1	2017-10-01
@@ -9201,14 +9361,14 @@ COPY sellers (id, rut, name, lastname, email, phone, street, number, city, distr
 -- Name: sellers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('sellers_id_seq', 42, true);
+SELECT pg_catalog.setval('public.sellers_id_seq', 42, true);
 
 
 --
 -- Data for Name: shift_breaks; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY shift_breaks (id, seller_id, date, "time", created_at, updated_at) FROM stdin;
+COPY public.shift_breaks (id, seller_id, date, "time", created_at, updated_at) FROM stdin;
 630	25	2017-10-02	17:00:00	2017-11-10 07:49:23.298091	2017-11-10 07:49:23.298091
 631	25	2017-10-03	18:00:00	2017-11-10 07:49:23.306065	2017-11-10 07:49:23.306065
 632	25	2017-10-05	17:00:00	2017-11-10 07:49:23.311386	2017-11-10 07:49:23.311386
@@ -9477,14 +9637,14 @@ COPY shift_breaks (id, seller_id, date, "time", created_at, updated_at) FROM std
 -- Name: shift_breaks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('shift_breaks_id_seq', 890, true);
+SELECT pg_catalog.setval('public.shift_breaks_id_seq', 890, true);
 
 
 --
 -- Data for Name: sps; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY sps (id, store_id, department_id, date, year, month, week, dow, sale, created_at, updated_at) FROM stdin;
+COPY public.sps (id, store_id, department_id, date, year, month, week, dow, sale, created_at, updated_at) FROM stdin;
 365	1	1	2018-01-01	2018	1	1	1	9164359	2018-02-28 07:06:58.822045	2018-02-28 07:06:58.822045
 366	1	1	2018-01-02	2018	1	1	2	12019657	2018-02-28 07:06:58.834394	2018-02-28 07:06:58.834394
 367	1	1	2018-01-03	2018	1	1	3	11074253	2018-02-28 07:06:58.845199	2018-02-28 07:06:58.845199
@@ -9856,14 +10016,14 @@ COPY sps (id, store_id, department_id, date, year, month, week, dow, sale, creat
 -- Name: sps_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('sps_id_seq', 728, true);
+SELECT pg_catalog.setval('public.sps_id_seq', 728, true);
 
 
 --
 -- Data for Name: staffing_cases; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY staffing_cases (id, id_case, tolerance, actual_staffing_eval, max_time, "user", created_at, updated_at) FROM stdin;
+COPY public.staffing_cases (id, id_case, tolerance, actual_staffing_eval, max_time, "user", created_at, updated_at) FROM stdin;
 30	30	3	1	1	fatapia@scipion.cl	2018-05-16 19:59:43.571779	2018-05-16 19:59:43.571779
 31	31	3	1	1	fatapia@scipion.cl	2018-05-16 19:59:43.573779	2018-05-16 19:59:43.573779
 32	32	3	1	1	fatapia@scipion.cl	2018-05-16 19:59:43.575779	2018-05-16 19:59:43.575779
@@ -9880,29 +10040,554 @@ COPY staffing_cases (id, id_case, tolerance, actual_staffing_eval, max_time, "us
 -- Name: staffing_cases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('staffing_cases_id_seq', 37, true);
+SELECT pg_catalog.setval('public.staffing_cases_id_seq', 37, true);
 
 
 --
--- Data for Name: staffing_reals; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: staffing_reals; Type: TABLE DATA; Schema: public; Owner: Magnius
 --
 
-COPY staffing_reals (id, seller, date, hour, department, created_at, updated_at) FROM stdin;
+COPY public.staffing_reals (id, department_id, year, month, day, count, created_at, updated_at, hour, store_id) FROM stdin;
+1583	1	2018	1	1	78	2018-10-02 21:14:01.302693	2018-10-02 21:14:01.302693	1	1
+1584	1	2018	1	2	109	2018-10-02 21:14:01.340695	2018-10-02 21:14:01.340695	1	1
+1585	1	2018	1	3	145	2018-10-02 21:14:01.347696	2018-10-02 21:14:01.347696	1	1
+1586	1	2018	1	4	148	2018-10-02 21:14:01.355696	2018-10-02 21:14:01.355696	1	1
+1587	1	2018	1	5	145	2018-10-02 21:14:01.377697	2018-10-02 21:14:01.377697	1	1
+1588	1	2018	1	6	76	2018-10-02 21:14:01.387698	2018-10-02 21:14:01.387698	1	1
+1589	1	2018	1	7	79	2018-10-02 21:14:01.394698	2018-10-02 21:14:01.394698	1	1
+1590	1	2018	1	8	113	2018-10-02 21:14:01.401699	2018-10-02 21:14:01.401699	1	1
+1591	1	2018	1	9	131	2018-10-02 21:14:01.408699	2018-10-02 21:14:01.408699	1	1
+1592	1	2018	1	10	34	2018-10-02 21:14:01.4147	2018-10-02 21:14:01.4147	1	1
+1593	1	2018	1	11	117	2018-10-02 21:14:01.4217	2018-10-02 21:14:01.4217	1	1
+1594	1	2018	1	12	127	2018-10-02 21:14:01.4287	2018-10-02 21:14:01.4287	1	1
+1595	1	2018	1	13	155	2018-10-02 21:14:01.435701	2018-10-02 21:14:01.435701	1	1
+1596	1	2018	1	14	128	2018-10-02 21:14:01.441701	2018-10-02 21:14:01.441701	1	1
+1597	1	2018	1	15	138	2018-10-02 21:14:01.448702	2018-10-02 21:14:01.448702	1	1
+1598	1	2018	1	16	68	2018-10-02 21:14:01.454702	2018-10-02 21:14:01.454702	1	1
+1599	1	2018	1	17	154	2018-10-02 21:14:01.461702	2018-10-02 21:14:01.461702	1	1
+1600	1	2018	1	18	99	2018-10-02 21:14:01.468703	2018-10-02 21:14:01.468703	1	1
+1601	1	2018	1	19	99	2018-10-02 21:14:01.474703	2018-10-02 21:14:01.474703	1	1
+1602	1	2018	1	20	157	2018-10-02 21:14:01.481703	2018-10-02 21:14:01.481703	1	1
+1603	1	2018	1	21	112	2018-10-02 21:14:01.487704	2018-10-02 21:14:01.487704	1	1
+1604	1	2018	1	22	82	2018-10-02 21:14:01.493704	2018-10-02 21:14:01.493704	1	1
+1605	1	2018	1	23	32	2018-10-02 21:14:01.500704	2018-10-02 21:14:01.500704	1	1
+1606	1	2018	1	24	154	2018-10-02 21:14:01.507705	2018-10-02 21:14:01.507705	1	1
+1607	1	2018	1	25	63	2018-10-02 21:14:01.514705	2018-10-02 21:14:01.514705	1	1
+1608	1	2018	1	26	127	2018-10-02 21:14:01.520706	2018-10-02 21:14:01.520706	1	1
+1609	1	2018	1	27	162	2018-10-02 21:14:01.527706	2018-10-02 21:14:01.527706	1	1
+1610	1	2018	1	28	128	2018-10-02 21:14:01.534706	2018-10-02 21:14:01.534706	1	1
+1611	1	2018	2	1	90	2018-10-02 21:14:01.540707	2018-10-02 21:14:01.540707	1	1
+1612	1	2018	2	2	125	2018-10-02 21:14:01.546707	2018-10-02 21:14:01.546707	1	1
+1613	1	2018	2	3	160	2018-10-02 21:14:01.554708	2018-10-02 21:14:01.554708	1	1
+1614	1	2018	2	4	164	2018-10-02 21:14:01.560708	2018-10-02 21:14:01.560708	1	1
+1615	1	2018	2	5	161	2018-10-02 21:14:01.566708	2018-10-02 21:14:01.566708	1	1
+1616	1	2018	2	6	76	2018-10-02 21:14:01.572709	2018-10-02 21:14:01.572709	1	1
+1617	1	2018	2	7	85	2018-10-02 21:14:01.579709	2018-10-02 21:14:01.579709	1	1
+1618	1	2018	2	8	126	2018-10-02 21:14:01.587709	2018-10-02 21:14:01.587709	1	1
+1619	1	2018	2	9	144	2018-10-02 21:14:01.59371	2018-10-02 21:14:01.59371	1	1
+1620	1	2018	2	10	40	2018-10-02 21:14:01.59971	2018-10-02 21:14:01.59971	1	1
+1621	1	2018	2	11	130	2018-10-02 21:14:01.606711	2018-10-02 21:14:01.606711	1	1
+1622	1	2018	2	12	141	2018-10-02 21:14:01.612711	2018-10-02 21:14:01.612711	1	1
+1623	1	2018	2	13	163	2018-10-02 21:14:01.619711	2018-10-02 21:14:01.619711	1	1
+1624	1	2018	2	14	142	2018-10-02 21:14:01.625712	2018-10-02 21:14:01.625712	1	1
+1625	1	2018	2	15	154	2018-10-02 21:14:01.631712	2018-10-02 21:14:01.631712	1	1
+1626	1	2018	2	16	74	2018-10-02 21:14:01.637712	2018-10-02 21:14:01.637712	1	1
+1627	1	2018	2	17	170	2018-10-02 21:14:01.644713	2018-10-02 21:14:01.644713	1	1
+1628	1	2018	2	18	114	2018-10-02 21:14:01.650713	2018-10-02 21:14:01.650713	1	1
+1629	1	2018	2	19	114	2018-10-02 21:14:01.656713	2018-10-02 21:14:01.656713	1	1
+1630	1	2018	2	20	166	2018-10-02 21:14:01.663714	2018-10-02 21:14:01.663714	1	1
+1631	1	2018	2	21	118	2018-10-02 21:14:01.669714	2018-10-02 21:14:01.669714	1	1
+1632	1	2018	2	22	88	2018-10-02 21:14:01.675714	2018-10-02 21:14:01.675714	1	1
+1633	1	2018	2	23	38	2018-10-02 21:14:01.681715	2018-10-02 21:14:01.681715	1	1
+1634	1	2018	2	24	170	2018-10-02 21:14:01.688715	2018-10-02 21:14:01.688715	1	1
+1635	1	2018	2	25	69	2018-10-02 21:14:01.694716	2018-10-02 21:14:01.694716	1	1
+1636	1	2018	2	26	141	2018-10-02 21:14:01.701716	2018-10-02 21:14:01.701716	1	1
+1637	1	2018	2	27	171	2018-10-02 21:14:01.708716	2018-10-02 21:14:01.708716	1	1
+1638	1	2018	2	28	142	2018-10-02 21:14:01.714717	2018-10-02 21:14:01.714717	1	1
+1639	1	2018	3	1	78	2018-10-02 21:14:01.720717	2018-10-02 21:14:01.720717	1	1
+1640	1	2018	3	2	109	2018-10-02 21:14:01.727717	2018-10-02 21:14:01.727717	1	1
+1641	1	2018	3	3	145	2018-10-02 21:14:01.733718	2018-10-02 21:14:01.733718	1	1
+1642	1	2018	3	4	148	2018-10-02 21:14:01.740718	2018-10-02 21:14:01.740718	1	1
+1643	1	2018	3	5	145	2018-10-02 21:14:01.746719	2018-10-02 21:14:01.746719	1	1
+1644	1	2018	3	6	76	2018-10-02 21:14:01.753719	2018-10-02 21:14:01.753719	1	1
+1645	1	2018	3	7	79	2018-10-02 21:14:01.760719	2018-10-02 21:14:01.760719	1	1
+1646	1	2018	3	8	113	2018-10-02 21:14:01.76672	2018-10-02 21:14:01.76672	1	1
+1647	1	2018	3	9	131	2018-10-02 21:14:01.77372	2018-10-02 21:14:01.77372	1	1
+1648	1	2018	3	10	34	2018-10-02 21:14:01.780721	2018-10-02 21:14:01.780721	1	1
+1649	1	2018	3	11	117	2018-10-02 21:14:01.787721	2018-10-02 21:14:01.787721	1	1
+1650	1	2018	3	12	127	2018-10-02 21:14:01.794721	2018-10-02 21:14:01.794721	1	1
+1651	1	2018	3	13	155	2018-10-02 21:14:01.801722	2018-10-02 21:14:01.801722	1	1
+1652	1	2018	3	14	128	2018-10-02 21:14:01.807722	2018-10-02 21:14:01.807722	1	1
+1653	1	2018	3	15	138	2018-10-02 21:14:01.814722	2018-10-02 21:14:01.814722	1	1
+1654	1	2018	3	16	68	2018-10-02 21:14:01.820723	2018-10-02 21:14:01.820723	1	1
+1655	1	2018	3	17	154	2018-10-02 21:14:01.827723	2018-10-02 21:14:01.827723	1	1
+1656	1	2018	3	18	99	2018-10-02 21:14:01.833724	2018-10-02 21:14:01.833724	1	1
+1657	1	2018	3	19	99	2018-10-02 21:14:01.840724	2018-10-02 21:14:01.840724	1	1
+1658	1	2018	3	20	157	2018-10-02 21:14:01.846724	2018-10-02 21:14:01.846724	1	1
+1659	1	2018	3	21	112	2018-10-02 21:14:01.853725	2018-10-02 21:14:01.853725	1	1
+1660	1	2018	3	22	82	2018-10-02 21:14:01.861725	2018-10-02 21:14:01.861725	1	1
+1661	1	2018	3	23	32	2018-10-02 21:14:01.867725	2018-10-02 21:14:01.867725	1	1
+1662	1	2018	3	24	154	2018-10-02 21:14:01.873726	2018-10-02 21:14:01.873726	1	1
+1663	1	2018	3	25	63	2018-10-02 21:14:01.880726	2018-10-02 21:14:01.880726	1	1
+1664	1	2018	3	26	127	2018-10-02 21:14:01.887727	2018-10-02 21:14:01.887727	1	1
+1665	1	2018	3	27	162	2018-10-02 21:14:01.893727	2018-10-02 21:14:01.893727	1	1
+1666	1	2018	3	28	128	2018-10-02 21:14:01.900727	2018-10-02 21:14:01.900727	1	1
+1667	1	2018	3	29	78	2018-10-02 21:14:01.907728	2018-10-02 21:14:01.907728	1	1
+1668	1	2018	3	30	109	2018-10-02 21:14:01.913728	2018-10-02 21:14:01.913728	1	1
+1669	1	2018	3	31	145	2018-10-02 21:14:01.920729	2018-10-02 21:14:01.920729	1	1
+1670	1	2018	3	32	148	2018-10-02 21:14:01.927729	2018-10-02 21:14:01.927729	1	1
+1671	1	2018	3	33	145	2018-10-02 21:14:01.933729	2018-10-02 21:14:01.933729	1	1
+1672	1	2018	3	34	76	2018-10-02 21:14:01.94073	2018-10-02 21:14:01.94073	1	1
+1673	1	2018	3	35	79	2018-10-02 21:14:01.94673	2018-10-02 21:14:01.94673	1	1
+1674	1	2018	4	1	78	2018-10-02 21:14:01.95373	2018-10-02 21:14:01.95373	1	1
+1675	1	2018	4	2	109	2018-10-02 21:14:01.959731	2018-10-02 21:14:01.959731	1	1
+1676	1	2018	4	3	145	2018-10-02 21:14:01.966731	2018-10-02 21:14:01.966731	1	1
+1677	1	2018	4	4	148	2018-10-02 21:14:01.973732	2018-10-02 21:14:01.973732	1	1
+1678	1	2018	4	5	145	2018-10-02 21:14:01.980732	2018-10-02 21:14:01.980732	1	1
+1679	1	2018	4	6	76	2018-10-02 21:14:01.987732	2018-10-02 21:14:01.987732	1	1
+1680	1	2018	4	7	79	2018-10-02 21:14:01.993733	2018-10-02 21:14:01.993733	1	1
+1681	1	2018	4	8	113	2018-10-02 21:14:02.000733	2018-10-02 21:14:02.000733	1	1
+1682	1	2018	4	9	131	2018-10-02 21:14:02.007733	2018-10-02 21:14:02.007733	1	1
+1683	1	2018	4	10	34	2018-10-02 21:14:02.014734	2018-10-02 21:14:02.014734	1	1
+1684	1	2018	4	11	117	2018-10-02 21:14:02.020734	2018-10-02 21:14:02.020734	1	1
+1685	1	2018	4	12	127	2018-10-02 21:14:02.027735	2018-10-02 21:14:02.027735	1	1
+1686	1	2018	4	13	155	2018-10-02 21:14:02.033735	2018-10-02 21:14:02.033735	1	1
+1687	1	2018	4	14	128	2018-10-02 21:14:02.040735	2018-10-02 21:14:02.040735	1	1
+1688	1	2018	4	15	138	2018-10-02 21:14:02.046736	2018-10-02 21:14:02.046736	1	1
+1689	1	2018	4	16	68	2018-10-02 21:14:02.053736	2018-10-02 21:14:02.053736	1	1
+1690	1	2018	4	17	154	2018-10-02 21:14:02.059736	2018-10-02 21:14:02.059736	1	1
+1691	1	2018	4	18	99	2018-10-02 21:14:02.066737	2018-10-02 21:14:02.066737	1	1
+1692	1	2018	4	19	99	2018-10-02 21:14:02.073737	2018-10-02 21:14:02.073737	1	1
+1693	1	2018	4	20	157	2018-10-02 21:14:02.079738	2018-10-02 21:14:02.079738	1	1
+1694	1	2018	4	21	112	2018-10-02 21:14:02.086738	2018-10-02 21:14:02.086738	1	1
+1695	1	2018	4	22	82	2018-10-02 21:14:02.093738	2018-10-02 21:14:02.093738	1	1
+1696	1	2018	4	23	32	2018-10-02 21:14:02.100739	2018-10-02 21:14:02.100739	1	1
+1697	1	2018	4	24	154	2018-10-02 21:14:02.106739	2018-10-02 21:14:02.106739	1	1
+1698	1	2018	4	25	63	2018-10-02 21:14:02.11374	2018-10-02 21:14:02.11374	1	1
+1699	1	2018	4	26	127	2018-10-02 21:14:02.12074	2018-10-02 21:14:02.12074	1	1
+1700	1	2018	4	27	162	2018-10-02 21:14:02.12674	2018-10-02 21:14:02.12674	1	1
+1701	1	2018	4	28	128	2018-10-02 21:14:02.133741	2018-10-02 21:14:02.133741	1	1
+1702	1	2018	5	1	78	2018-10-02 21:14:02.140741	2018-10-02 21:14:02.140741	1	1
+1703	1	2018	5	2	109	2018-10-02 21:14:02.147741	2018-10-02 21:14:02.147741	1	1
+1704	1	2018	5	3	145	2018-10-02 21:14:02.170743	2018-10-02 21:14:02.170743	1	1
+1705	1	2018	5	4	148	2018-10-02 21:14:02.177743	2018-10-02 21:14:02.177743	1	1
+1706	1	2018	5	5	145	2018-10-02 21:14:02.185744	2018-10-02 21:14:02.185744	1	1
+1707	1	2018	5	6	76	2018-10-02 21:14:02.198744	2018-10-02 21:14:02.198744	1	1
+1708	1	2018	5	7	79	2018-10-02 21:14:02.205745	2018-10-02 21:14:02.205745	1	1
+1709	1	2018	5	8	113	2018-10-02 21:14:02.212745	2018-10-02 21:14:02.212745	1	1
+1710	1	2018	5	9	131	2018-10-02 21:14:02.219746	2018-10-02 21:14:02.219746	1	1
+1711	1	2018	5	10	34	2018-10-02 21:14:02.226746	2018-10-02 21:14:02.226746	1	1
+1712	1	2018	5	11	117	2018-10-02 21:14:02.232746	2018-10-02 21:14:02.232746	1	1
+1713	1	2018	5	12	127	2018-10-02 21:14:02.239747	2018-10-02 21:14:02.239747	1	1
+1714	1	2018	5	13	155	2018-10-02 21:14:02.245747	2018-10-02 21:14:02.245747	1	1
+1715	1	2018	5	14	128	2018-10-02 21:14:02.252747	2018-10-02 21:14:02.252747	1	1
+1716	1	2018	5	15	138	2018-10-02 21:14:02.258748	2018-10-02 21:14:02.258748	1	1
+1717	1	2018	5	16	68	2018-10-02 21:14:02.265748	2018-10-02 21:14:02.265748	1	1
+1718	1	2018	5	17	154	2018-10-02 21:14:02.271749	2018-10-02 21:14:02.271749	1	1
+1719	1	2018	5	18	99	2018-10-02 21:14:02.279749	2018-10-02 21:14:02.279749	1	1
+1720	1	2018	5	19	99	2018-10-02 21:14:02.285749	2018-10-02 21:14:02.285749	1	1
+1721	1	2018	5	20	157	2018-10-02 21:14:02.29275	2018-10-02 21:14:02.29275	1	1
+1722	1	2018	5	21	112	2018-10-02 21:14:02.29875	2018-10-02 21:14:02.29875	1	1
+1723	1	2018	5	22	82	2018-10-02 21:14:02.305751	2018-10-02 21:14:02.305751	1	1
+1724	1	2018	5	23	32	2018-10-02 21:14:02.312751	2018-10-02 21:14:02.312751	1	1
+1725	1	2018	5	24	154	2018-10-02 21:14:02.319751	2018-10-02 21:14:02.319751	1	1
+1726	1	2018	5	25	63	2018-10-02 21:14:02.327752	2018-10-02 21:14:02.327752	1	1
+1727	1	2018	5	26	127	2018-10-02 21:14:02.334752	2018-10-02 21:14:02.334752	1	1
+1728	1	2018	5	27	162	2018-10-02 21:14:02.341753	2018-10-02 21:14:02.341753	1	1
+1729	1	2018	5	28	128	2018-10-02 21:14:02.347753	2018-10-02 21:14:02.347753	1	1
+1730	1	2018	6	1	34	2018-10-02 21:14:02.354753	2018-10-02 21:14:02.354753	1	1
+1731	1	2018	6	2	41	2018-10-02 21:14:02.361754	2018-10-02 21:14:02.361754	1	1
+1732	1	2018	6	3	62	2018-10-02 21:14:02.368754	2018-10-02 21:14:02.368754	1	1
+1733	1	2018	6	4	62	2018-10-02 21:14:02.374754	2018-10-02 21:14:02.374754	1	1
+1734	1	2018	6	5	62	2018-10-02 21:14:02.380755	2018-10-02 21:14:02.380755	1	1
+1735	1	2018	6	6	77	2018-10-02 21:14:02.387755	2018-10-02 21:14:02.387755	1	1
+1736	1	2018	6	7	55	2018-10-02 21:14:02.394756	2018-10-02 21:14:02.394756	1	1
+1737	1	2018	6	8	48	2018-10-02 21:14:02.400756	2018-10-02 21:14:02.400756	1	1
+1738	1	2018	6	9	62	2018-10-02 21:14:02.407756	2018-10-02 21:14:02.407756	1	1
+1739	1	2018	6	10	18	2018-10-02 21:14:02.413757	2018-10-02 21:14:02.413757	1	1
+1740	1	2018	6	11	63	2018-10-02 21:14:02.420757	2018-10-02 21:14:02.420757	1	1
+1741	1	2018	6	12	62	2018-10-02 21:14:02.426757	2018-10-02 21:14:02.426757	1	1
+1742	1	2018	6	13	89	2018-10-02 21:14:02.432758	2018-10-02 21:14:02.432758	1	1
+1743	1	2018	6	14	40	2018-10-02 21:14:02.439758	2018-10-02 21:14:02.439758	1	1
+1744	1	2018	6	15	57	2018-10-02 21:14:02.446759	2018-10-02 21:14:02.446759	1	1
+1745	1	2018	6	16	54	2018-10-02 21:14:02.453759	2018-10-02 21:14:02.453759	1	1
+1746	1	2018	6	17	65	2018-10-02 21:14:02.460759	2018-10-02 21:14:02.460759	1	1
+1747	1	2018	6	18	33	2018-10-02 21:14:02.46676	2018-10-02 21:14:02.46676	1	1
+1748	1	2018	6	19	29	2018-10-02 21:14:02.47376	2018-10-02 21:14:02.47376	1	1
+1749	1	2018	6	20	83	2018-10-02 21:14:02.47976	2018-10-02 21:14:02.47976	1	1
+1750	1	2018	6	21	68	2018-10-02 21:14:02.486761	2018-10-02 21:14:02.486761	1	1
+1751	1	2018	6	22	53	2018-10-02 21:14:02.493761	2018-10-02 21:14:02.493761	1	1
+1752	1	2018	6	23	25	2018-10-02 21:14:02.499762	2018-10-02 21:14:02.499762	1	1
+1753	1	2018	6	24	58	2018-10-02 21:14:02.507762	2018-10-02 21:14:02.507762	1	1
+1754	1	2018	6	25	53	2018-10-02 21:14:02.513762	2018-10-02 21:14:02.513762	1	1
+1755	1	2018	6	26	61	2018-10-02 21:14:02.520763	2018-10-02 21:14:02.520763	1	1
+1756	1	2018	6	27	89	2018-10-02 21:14:02.527763	2018-10-02 21:14:02.527763	1	1
+1757	1	2018	6	28	40	2018-10-02 21:14:02.535764	2018-10-02 21:14:02.535764	1	1
+1758	2	2018	1	1	78	2018-10-02 21:14:02.542764	2018-10-02 21:14:02.542764	1	1
+1759	2	2018	1	2	109	2018-10-02 21:14:02.549764	2018-10-02 21:14:02.549764	1	1
+1760	2	2018	1	3	145	2018-10-02 21:14:02.556765	2018-10-02 21:14:02.556765	1	1
+1761	2	2018	1	4	148	2018-10-02 21:14:02.563765	2018-10-02 21:14:02.563765	1	1
+1762	2	2018	1	5	145	2018-10-02 21:14:02.571766	2018-10-02 21:14:02.571766	1	1
+1763	2	2018	1	6	76	2018-10-02 21:14:02.578766	2018-10-02 21:14:02.578766	1	1
+1764	2	2018	1	7	79	2018-10-02 21:14:02.585767	2018-10-02 21:14:02.585767	1	1
+1765	2	2018	1	8	113	2018-10-02 21:14:02.591767	2018-10-02 21:14:02.591767	1	1
+1766	2	2018	1	9	131	2018-10-02 21:14:02.598767	2018-10-02 21:14:02.598767	1	1
+1767	2	2018	1	10	34	2018-10-02 21:14:02.605768	2018-10-02 21:14:02.605768	1	1
+1768	2	2018	1	11	117	2018-10-02 21:14:02.611768	2018-10-02 21:14:02.611768	1	1
+1769	2	2018	1	12	127	2018-10-02 21:14:02.617768	2018-10-02 21:14:02.617768	1	1
+1770	2	2018	1	13	155	2018-10-02 21:14:02.624769	2018-10-02 21:14:02.624769	1	1
+1771	2	2018	1	14	128	2018-10-02 21:14:02.630769	2018-10-02 21:14:02.630769	1	1
+1772	2	2018	1	15	138	2018-10-02 21:14:02.63777	2018-10-02 21:14:02.63777	1	1
+1773	2	2018	1	16	68	2018-10-02 21:14:02.64377	2018-10-02 21:14:02.64377	1	1
+1774	2	2018	1	17	154	2018-10-02 21:14:02.64977	2018-10-02 21:14:02.64977	1	1
+1775	2	2018	1	18	99	2018-10-02 21:14:02.656771	2018-10-02 21:14:02.656771	1	1
+1776	2	2018	1	19	99	2018-10-02 21:14:02.663771	2018-10-02 21:14:02.663771	1	1
+1777	2	2018	1	20	157	2018-10-02 21:14:02.669771	2018-10-02 21:14:02.669771	1	1
+1778	2	2018	1	21	112	2018-10-02 21:14:02.676772	2018-10-02 21:14:02.676772	1	1
+1779	2	2018	1	22	82	2018-10-02 21:14:02.683772	2018-10-02 21:14:02.683772	1	1
+1780	2	2018	1	23	32	2018-10-02 21:14:02.689772	2018-10-02 21:14:02.689772	1	1
+1781	2	2018	1	24	154	2018-10-02 21:14:02.696773	2018-10-02 21:14:02.696773	1	1
+1782	2	2018	1	25	63	2018-10-02 21:14:02.702773	2018-10-02 21:14:02.702773	1	1
+1783	2	2018	1	26	127	2018-10-02 21:14:02.708774	2018-10-02 21:14:02.708774	1	1
+1784	2	2018	1	27	162	2018-10-02 21:14:02.715774	2018-10-02 21:14:02.715774	1	1
+1785	2	2018	1	28	128	2018-10-02 21:14:02.721774	2018-10-02 21:14:02.721774	1	1
+1786	2	2018	2	1	90	2018-10-02 21:14:02.727775	2018-10-02 21:14:02.727775	1	1
+1787	2	2018	2	2	125	2018-10-02 21:14:02.734775	2018-10-02 21:14:02.734775	1	1
+1788	2	2018	2	3	160	2018-10-02 21:14:02.740775	2018-10-02 21:14:02.740775	1	1
+1789	2	2018	2	4	164	2018-10-02 21:14:02.747776	2018-10-02 21:14:02.747776	1	1
+1790	2	2018	2	5	161	2018-10-02 21:14:02.754776	2018-10-02 21:14:02.754776	1	1
+1791	2	2018	2	6	76	2018-10-02 21:14:02.760777	2018-10-02 21:14:02.760777	1	1
+1792	2	2018	2	7	85	2018-10-02 21:14:02.766777	2018-10-02 21:14:02.766777	1	1
+1793	2	2018	2	8	126	2018-10-02 21:14:02.772777	2018-10-02 21:14:02.772777	1	1
+1794	2	2018	2	9	144	2018-10-02 21:14:02.778778	2018-10-02 21:14:02.778778	1	1
+1795	2	2018	2	10	40	2018-10-02 21:14:02.785778	2018-10-02 21:14:02.785778	1	1
+1796	2	2018	2	11	130	2018-10-02 21:14:02.792778	2018-10-02 21:14:02.792778	1	1
+1797	2	2018	2	12	141	2018-10-02 21:14:02.798779	2018-10-02 21:14:02.798779	1	1
+1798	2	2018	2	13	163	2018-10-02 21:14:02.805779	2018-10-02 21:14:02.805779	1	1
+1799	2	2018	2	14	142	2018-10-02 21:14:02.81278	2018-10-02 21:14:02.81278	1	1
+1800	2	2018	2	15	154	2018-10-02 21:14:02.81878	2018-10-02 21:14:02.81878	1	1
+1801	2	2018	2	16	74	2018-10-02 21:14:02.82578	2018-10-02 21:14:02.82578	1	1
+1802	2	2018	2	17	170	2018-10-02 21:14:02.831781	2018-10-02 21:14:02.831781	1	1
+1803	2	2018	2	18	114	2018-10-02 21:14:02.838781	2018-10-02 21:14:02.838781	1	1
+1804	2	2018	2	19	114	2018-10-02 21:14:02.845781	2018-10-02 21:14:02.845781	1	1
+1805	2	2018	2	20	166	2018-10-02 21:14:02.851782	2018-10-02 21:14:02.851782	1	1
+1806	2	2018	2	21	118	2018-10-02 21:14:02.859782	2018-10-02 21:14:02.859782	1	1
+1807	2	2018	2	22	88	2018-10-02 21:14:02.866783	2018-10-02 21:14:02.866783	1	1
+1808	2	2018	2	23	38	2018-10-02 21:14:02.873783	2018-10-02 21:14:02.873783	1	1
+1809	2	2018	2	24	170	2018-10-02 21:14:02.879783	2018-10-02 21:14:02.879783	1	1
+1810	2	2018	2	25	69	2018-10-02 21:14:02.886784	2018-10-02 21:14:02.886784	1	1
+1811	2	2018	2	26	141	2018-10-02 21:14:02.892784	2018-10-02 21:14:02.892784	1	1
+1812	2	2018	2	27	171	2018-10-02 21:14:02.899785	2018-10-02 21:14:02.899785	1	1
+1813	2	2018	2	28	142	2018-10-02 21:14:02.906785	2018-10-02 21:14:02.906785	1	1
+1814	2	2018	3	1	78	2018-10-02 21:14:02.912785	2018-10-02 21:14:02.912785	1	1
+1815	2	2018	3	2	109	2018-10-02 21:14:02.919786	2018-10-02 21:14:02.919786	1	1
+1816	2	2018	3	3	145	2018-10-02 21:14:02.926786	2018-10-02 21:14:02.926786	1	1
+1817	2	2018	3	4	148	2018-10-02 21:14:02.933786	2018-10-02 21:14:02.933786	1	1
+1818	2	2018	3	5	145	2018-10-02 21:14:02.940787	2018-10-02 21:14:02.940787	1	1
+1819	2	2018	3	6	76	2018-10-02 21:14:02.946787	2018-10-02 21:14:02.946787	1	1
+1820	2	2018	3	7	79	2018-10-02 21:14:02.964788	2018-10-02 21:14:02.964788	1	1
+1821	2	2018	3	8	113	2018-10-02 21:14:02.971789	2018-10-02 21:14:02.971789	1	1
+1822	2	2018	3	9	131	2018-10-02 21:14:02.977789	2018-10-02 21:14:02.977789	1	1
+1823	2	2018	3	10	34	2018-10-02 21:14:02.983789	2018-10-02 21:14:02.983789	1	1
+1824	2	2018	3	11	117	2018-10-02 21:14:02.99079	2018-10-02 21:14:02.99079	1	1
+1825	2	2018	3	12	127	2018-10-02 21:14:02.99679	2018-10-02 21:14:02.99679	1	1
+1826	2	2018	3	13	155	2018-10-02 21:14:03.004791	2018-10-02 21:14:03.004791	1	1
+1827	2	2018	3	14	128	2018-10-02 21:14:03.010791	2018-10-02 21:14:03.010791	1	1
+1828	2	2018	3	15	138	2018-10-02 21:14:03.017791	2018-10-02 21:14:03.017791	1	1
+1829	2	2018	3	16	68	2018-10-02 21:14:03.024792	2018-10-02 21:14:03.024792	1	1
+1830	2	2018	3	17	154	2018-10-02 21:14:03.030792	2018-10-02 21:14:03.030792	1	1
+1831	2	2018	3	18	99	2018-10-02 21:14:03.037792	2018-10-02 21:14:03.037792	1	1
+1832	2	2018	3	19	99	2018-10-02 21:14:03.043793	2018-10-02 21:14:03.043793	1	1
+1833	2	2018	3	20	157	2018-10-02 21:14:03.050793	2018-10-02 21:14:03.050793	1	1
+1834	2	2018	3	21	112	2018-10-02 21:14:03.057794	2018-10-02 21:14:03.057794	1	1
+1835	2	2018	3	22	82	2018-10-02 21:14:03.063794	2018-10-02 21:14:03.063794	1	1
+1836	2	2018	3	23	32	2018-10-02 21:14:03.069794	2018-10-02 21:14:03.069794	1	1
+1837	2	2018	3	24	154	2018-10-02 21:14:03.075795	2018-10-02 21:14:03.075795	1	1
+1838	2	2018	3	25	63	2018-10-02 21:14:03.083795	2018-10-02 21:14:03.083795	1	1
+1839	2	2018	3	26	127	2018-10-02 21:14:03.090795	2018-10-02 21:14:03.090795	1	1
+1840	2	2018	3	27	162	2018-10-02 21:14:03.097796	2018-10-02 21:14:03.097796	1	1
+1841	2	2018	3	28	128	2018-10-02 21:14:03.105796	2018-10-02 21:14:03.105796	1	1
+1842	2	2018	3	29	78	2018-10-02 21:14:03.112797	2018-10-02 21:14:03.112797	1	1
+1843	2	2018	3	30	109	2018-10-02 21:14:03.120797	2018-10-02 21:14:03.120797	1	1
+1844	2	2018	3	31	145	2018-10-02 21:14:03.126797	2018-10-02 21:14:03.126797	1	1
+1845	2	2018	3	32	148	2018-10-02 21:14:03.133798	2018-10-02 21:14:03.133798	1	1
+1846	2	2018	3	33	145	2018-10-02 21:14:03.140798	2018-10-02 21:14:03.140798	1	1
+1847	2	2018	3	34	76	2018-10-02 21:14:03.147799	2018-10-02 21:14:03.147799	1	1
+1848	2	2018	3	35	79	2018-10-02 21:14:03.155799	2018-10-02 21:14:03.155799	1	1
+1849	2	2018	4	1	78	2018-10-02 21:14:03.1628	2018-10-02 21:14:03.1628	1	1
+1850	2	2018	4	2	109	2018-10-02 21:14:03.1698	2018-10-02 21:14:03.1698	1	1
+1851	2	2018	4	3	145	2018-10-02 21:14:03.1768	2018-10-02 21:14:03.1768	1	1
+1852	2	2018	4	4	148	2018-10-02 21:14:03.182801	2018-10-02 21:14:03.182801	1	1
+1853	2	2018	4	5	145	2018-10-02 21:14:03.190801	2018-10-02 21:14:03.190801	1	1
+1854	2	2018	4	6	76	2018-10-02 21:14:03.196801	2018-10-02 21:14:03.196801	1	1
+1855	2	2018	4	7	79	2018-10-02 21:14:03.204802	2018-10-02 21:14:03.204802	1	1
+1856	2	2018	4	8	113	2018-10-02 21:14:03.211802	2018-10-02 21:14:03.211802	1	1
+1857	2	2018	4	9	131	2018-10-02 21:14:03.218803	2018-10-02 21:14:03.218803	1	1
+1858	2	2018	4	10	34	2018-10-02 21:14:03.225803	2018-10-02 21:14:03.225803	1	1
+1859	2	2018	4	11	117	2018-10-02 21:14:03.231803	2018-10-02 21:14:03.231803	1	1
+1860	2	2018	4	12	127	2018-10-02 21:14:03.238804	2018-10-02 21:14:03.238804	1	1
+1861	2	2018	4	13	155	2018-10-02 21:14:03.245804	2018-10-02 21:14:03.245804	1	1
+1862	2	2018	4	14	128	2018-10-02 21:14:03.252805	2018-10-02 21:14:03.252805	1	1
+1863	2	2018	4	15	138	2018-10-02 21:14:03.259805	2018-10-02 21:14:03.259805	1	1
+1864	2	2018	4	16	68	2018-10-02 21:14:03.265805	2018-10-02 21:14:03.265805	1	1
+1865	2	2018	4	17	154	2018-10-02 21:14:03.272806	2018-10-02 21:14:03.272806	1	1
+1866	2	2018	4	18	99	2018-10-02 21:14:03.279806	2018-10-02 21:14:03.279806	1	1
+1867	2	2018	4	19	99	2018-10-02 21:14:03.285807	2018-10-02 21:14:03.285807	1	1
+1868	2	2018	4	20	157	2018-10-02 21:14:03.292807	2018-10-02 21:14:03.292807	1	1
+1869	2	2018	4	21	112	2018-10-02 21:14:03.298807	2018-10-02 21:14:03.298807	1	1
+1870	2	2018	4	22	82	2018-10-02 21:14:03.306808	2018-10-02 21:14:03.306808	1	1
+1871	2	2018	4	23	32	2018-10-02 21:14:03.312808	2018-10-02 21:14:03.312808	1	1
+1872	2	2018	4	24	154	2018-10-02 21:14:03.319809	2018-10-02 21:14:03.319809	1	1
+1873	2	2018	4	25	63	2018-10-02 21:14:03.326809	2018-10-02 21:14:03.326809	1	1
+1874	2	2018	4	26	127	2018-10-02 21:14:03.332809	2018-10-02 21:14:03.332809	1	1
+1875	2	2018	4	27	162	2018-10-02 21:14:03.33981	2018-10-02 21:14:03.33981	1	1
+1876	2	2018	4	28	128	2018-10-02 21:14:03.34681	2018-10-02 21:14:03.34681	1	1
+1877	2	2018	5	1	78	2018-10-02 21:14:03.354811	2018-10-02 21:14:03.354811	1	1
+1878	2	2018	5	2	109	2018-10-02 21:14:03.361811	2018-10-02 21:14:03.361811	1	1
+1879	2	2018	5	3	145	2018-10-02 21:14:03.368811	2018-10-02 21:14:03.368811	1	1
+1880	2	2018	5	4	148	2018-10-02 21:14:03.375812	2018-10-02 21:14:03.375812	1	1
+1881	2	2018	5	5	145	2018-10-02 21:14:03.381812	2018-10-02 21:14:03.381812	1	1
+1882	2	2018	5	6	76	2018-10-02 21:14:03.388812	2018-10-02 21:14:03.388812	1	1
+1883	2	2018	5	7	79	2018-10-02 21:14:03.395813	2018-10-02 21:14:03.395813	1	1
+1884	2	2018	5	8	113	2018-10-02 21:14:03.402813	2018-10-02 21:14:03.402813	1	1
+1885	2	2018	5	9	131	2018-10-02 21:14:03.409814	2018-10-02 21:14:03.409814	1	1
+1886	2	2018	5	10	34	2018-10-02 21:14:03.416814	2018-10-02 21:14:03.416814	1	1
+1887	2	2018	5	11	117	2018-10-02 21:14:03.423814	2018-10-02 21:14:03.423814	1	1
+1888	2	2018	5	12	127	2018-10-02 21:14:03.430815	2018-10-02 21:14:03.430815	1	1
+1889	2	2018	5	13	155	2018-10-02 21:14:03.437815	2018-10-02 21:14:03.437815	1	1
+1890	2	2018	5	14	128	2018-10-02 21:14:03.443816	2018-10-02 21:14:03.443816	1	1
+1891	2	2018	5	15	138	2018-10-02 21:14:03.450816	2018-10-02 21:14:03.450816	1	1
+1892	2	2018	5	16	68	2018-10-02 21:14:03.457816	2018-10-02 21:14:03.457816	1	1
+1893	2	2018	5	17	154	2018-10-02 21:14:03.463817	2018-10-02 21:14:03.463817	1	1
+1894	2	2018	5	18	99	2018-10-02 21:14:03.469817	2018-10-02 21:14:03.469817	1	1
+1895	2	2018	5	19	99	2018-10-02 21:14:03.475817	2018-10-02 21:14:03.475817	1	1
+1896	2	2018	5	20	157	2018-10-02 21:14:03.482818	2018-10-02 21:14:03.482818	1	1
+1897	2	2018	5	21	112	2018-10-02 21:14:03.489818	2018-10-02 21:14:03.489818	1	1
+1898	2	2018	5	22	82	2018-10-02 21:14:03.495819	2018-10-02 21:14:03.495819	1	1
+1899	2	2018	5	23	32	2018-10-02 21:14:03.501819	2018-10-02 21:14:03.501819	1	1
+1900	2	2018	5	24	154	2018-10-02 21:14:03.507819	2018-10-02 21:14:03.507819	1	1
+1901	2	2018	5	25	63	2018-10-02 21:14:03.51482	2018-10-02 21:14:03.51482	1	1
+1902	2	2018	5	26	127	2018-10-02 21:14:03.52082	2018-10-02 21:14:03.52082	1	1
+1903	2	2018	5	27	162	2018-10-02 21:14:03.52782	2018-10-02 21:14:03.52782	1	1
+1904	2	2018	5	28	128	2018-10-02 21:14:03.533821	2018-10-02 21:14:03.533821	1	1
+1905	2	2018	6	1	34	2018-10-02 21:14:03.540821	2018-10-02 21:14:03.540821	1	1
+1906	2	2018	6	2	41	2018-10-02 21:14:03.547822	2018-10-02 21:14:03.547822	1	1
+1907	2	2018	6	3	62	2018-10-02 21:14:03.554822	2018-10-02 21:14:03.554822	1	1
+1908	2	2018	6	4	62	2018-10-02 21:14:03.560822	2018-10-02 21:14:03.560822	1	1
+1909	2	2018	6	5	62	2018-10-02 21:14:03.567823	2018-10-02 21:14:03.567823	1	1
+1910	2	2018	6	6	77	2018-10-02 21:14:03.574823	2018-10-02 21:14:03.574823	1	1
+1911	2	2018	6	7	55	2018-10-02 21:14:03.580823	2018-10-02 21:14:03.580823	1	1
+1912	2	2018	6	8	48	2018-10-02 21:14:03.587824	2018-10-02 21:14:03.587824	1	1
+1913	2	2018	6	9	62	2018-10-02 21:14:03.593824	2018-10-02 21:14:03.593824	1	1
+1914	2	2018	6	10	18	2018-10-02 21:14:03.628826	2018-10-02 21:14:03.628826	1	1
+1915	2	2018	6	11	63	2018-10-02 21:14:03.661828	2018-10-02 21:14:03.661828	1	1
+1916	2	2018	6	12	62	2018-10-02 21:14:03.69183	2018-10-02 21:14:03.69183	1	1
+1917	2	2018	6	13	89	2018-10-02 21:14:03.70283	2018-10-02 21:14:03.70283	1	1
+1918	2	2018	6	14	40	2018-10-02 21:14:03.710831	2018-10-02 21:14:03.710831	1	1
+1919	2	2018	6	15	57	2018-10-02 21:14:03.748833	2018-10-02 21:14:03.748833	1	1
+1920	2	2018	6	16	54	2018-10-02 21:14:03.760834	2018-10-02 21:14:03.760834	1	1
+1921	2	2018	6	17	65	2018-10-02 21:14:03.769834	2018-10-02 21:14:03.769834	1	1
+1922	2	2018	6	18	33	2018-10-02 21:14:03.800836	2018-10-02 21:14:03.800836	1	1
+1923	2	2018	6	19	29	2018-10-02 21:14:03.810837	2018-10-02 21:14:03.810837	1	1
+1924	2	2018	6	20	83	2018-10-02 21:14:03.819837	2018-10-02 21:14:03.819837	1	1
+1925	2	2018	6	21	68	2018-10-02 21:14:03.833838	2018-10-02 21:14:03.833838	1	1
+1926	2	2018	6	22	53	2018-10-02 21:14:03.844839	2018-10-02 21:14:03.844839	1	1
+1927	2	2018	6	23	25	2018-10-02 21:14:03.853839	2018-10-02 21:14:03.853839	1	1
+1928	2	2018	6	24	58	2018-10-02 21:14:03.884841	2018-10-02 21:14:03.884841	1	1
+1929	2	2018	6	25	53	2018-10-02 21:14:03.893841	2018-10-02 21:14:03.893841	1	1
+1930	2	2018	6	26	61	2018-10-02 21:14:03.902842	2018-10-02 21:14:03.902842	1	1
+1931	2	2018	6	27	89	2018-10-02 21:14:03.911842	2018-10-02 21:14:03.911842	1	1
+1932	2	2018	6	28	40	2018-10-02 21:14:03.928843	2018-10-02 21:14:03.928843	1	1
+1933	7	2018	1	1	78	2018-10-02 21:14:03.941844	2018-10-02 21:14:03.941844	1	1
+1934	7	2018	1	2	109	2018-10-02 21:14:03.953845	2018-10-02 21:14:03.953845	1	1
+1935	7	2018	1	3	145	2018-10-02 21:14:03.977846	2018-10-02 21:14:03.977846	1	1
+1936	7	2018	1	4	148	2018-10-02 21:14:04.061851	2018-10-02 21:14:04.061851	1	1
+1937	7	2018	1	5	145	2018-10-02 21:14:04.085852	2018-10-02 21:14:04.085852	1	1
+1938	7	2018	1	6	76	2018-10-02 21:14:04.154856	2018-10-02 21:14:04.154856	1	1
+1939	7	2018	1	7	79	2018-10-02 21:14:04.177858	2018-10-02 21:14:04.177858	1	1
+1940	7	2018	1	8	113	2018-10-02 21:14:04.189858	2018-10-02 21:14:04.189858	1	1
+1941	7	2018	1	9	131	2018-10-02 21:14:04.200859	2018-10-02 21:14:04.200859	1	1
+1942	7	2018	1	10	34	2018-10-02 21:14:04.210859	2018-10-02 21:14:04.210859	1	1
+1943	7	2018	1	11	117	2018-10-02 21:14:04.21786	2018-10-02 21:14:04.21786	1	1
+1944	7	2018	1	12	127	2018-10-02 21:14:04.22486	2018-10-02 21:14:04.22486	1	1
+1945	7	2018	1	13	155	2018-10-02 21:14:04.230861	2018-10-02 21:14:04.230861	1	1
+1946	7	2018	1	14	128	2018-10-02 21:14:04.237861	2018-10-02 21:14:04.237861	1	1
+1947	7	2018	1	15	138	2018-10-02 21:14:04.243861	2018-10-02 21:14:04.243861	1	1
+1948	7	2018	1	16	68	2018-10-02 21:14:04.251862	2018-10-02 21:14:04.251862	1	1
+1949	7	2018	1	17	154	2018-10-02 21:14:04.258862	2018-10-02 21:14:04.258862	1	1
+1950	7	2018	1	18	99	2018-10-02 21:14:04.264863	2018-10-02 21:14:04.264863	1	1
+1951	7	2018	1	19	99	2018-10-02 21:14:04.270863	2018-10-02 21:14:04.270863	1	1
+1952	7	2018	1	20	157	2018-10-02 21:14:04.277863	2018-10-02 21:14:04.277863	1	1
+1953	7	2018	1	21	112	2018-10-02 21:14:04.283864	2018-10-02 21:14:04.283864	1	1
+1954	7	2018	1	22	82	2018-10-02 21:14:04.290864	2018-10-02 21:14:04.290864	1	1
+1955	7	2018	1	23	32	2018-10-02 21:14:04.296864	2018-10-02 21:14:04.296864	1	1
+1956	7	2018	1	24	154	2018-10-02 21:14:04.303865	2018-10-02 21:14:04.303865	1	1
+1957	7	2018	1	25	63	2018-10-02 21:14:04.310865	2018-10-02 21:14:04.310865	1	1
+1958	7	2018	1	26	127	2018-10-02 21:14:04.317866	2018-10-02 21:14:04.317866	1	1
+1959	7	2018	1	27	162	2018-10-02 21:14:04.323866	2018-10-02 21:14:04.323866	1	1
+1960	7	2018	1	28	128	2018-10-02 21:14:04.329866	2018-10-02 21:14:04.329866	1	1
+1961	7	2018	2	1	90	2018-10-02 21:14:04.336867	2018-10-02 21:14:04.336867	1	1
+1962	7	2018	2	2	125	2018-10-02 21:14:04.342867	2018-10-02 21:14:04.342867	1	1
+1963	7	2018	2	3	160	2018-10-02 21:14:04.349867	2018-10-02 21:14:04.349867	1	1
+1964	7	2018	2	4	164	2018-10-02 21:14:04.356868	2018-10-02 21:14:04.356868	1	1
+1965	7	2018	2	5	161	2018-10-02 21:14:04.362868	2018-10-02 21:14:04.362868	1	1
+1966	7	2018	2	6	76	2018-10-02 21:14:04.370869	2018-10-02 21:14:04.370869	1	1
+1967	7	2018	2	7	85	2018-10-02 21:14:04.376869	2018-10-02 21:14:04.376869	1	1
+1968	7	2018	2	8	126	2018-10-02 21:14:04.383869	2018-10-02 21:14:04.383869	1	1
+1969	7	2018	2	9	144	2018-10-02 21:14:04.39087	2018-10-02 21:14:04.39087	1	1
+1970	7	2018	2	10	40	2018-10-02 21:14:04.39787	2018-10-02 21:14:04.39787	1	1
+1971	7	2018	2	11	130	2018-10-02 21:14:04.405871	2018-10-02 21:14:04.405871	1	1
+1972	7	2018	2	12	141	2018-10-02 21:14:04.411871	2018-10-02 21:14:04.411871	1	1
+1973	7	2018	2	13	163	2018-10-02 21:14:04.418871	2018-10-02 21:14:04.418871	1	1
+1974	7	2018	2	14	142	2018-10-02 21:14:04.424872	2018-10-02 21:14:04.424872	1	1
+1975	7	2018	2	15	154	2018-10-02 21:14:04.431872	2018-10-02 21:14:04.431872	1	1
+1976	7	2018	2	16	74	2018-10-02 21:14:04.438873	2018-10-02 21:14:04.438873	1	1
+1977	7	2018	2	17	170	2018-10-02 21:14:04.445873	2018-10-02 21:14:04.445873	1	1
+1978	7	2018	2	18	114	2018-10-02 21:14:04.452873	2018-10-02 21:14:04.452873	1	1
+1979	7	2018	2	19	114	2018-10-02 21:14:04.459874	2018-10-02 21:14:04.459874	1	1
+1980	7	2018	2	20	166	2018-10-02 21:14:04.465874	2018-10-02 21:14:04.465874	1	1
+1981	7	2018	2	21	118	2018-10-02 21:14:04.472874	2018-10-02 21:14:04.472874	1	1
+1982	7	2018	2	22	88	2018-10-02 21:14:04.479875	2018-10-02 21:14:04.479875	1	1
+1983	7	2018	2	23	38	2018-10-02 21:14:04.486875	2018-10-02 21:14:04.486875	1	1
+1984	7	2018	2	24	170	2018-10-02 21:14:04.493876	2018-10-02 21:14:04.493876	1	1
+1985	7	2018	2	25	69	2018-10-02 21:14:04.499876	2018-10-02 21:14:04.499876	1	1
+1986	7	2018	2	26	141	2018-10-02 21:14:04.506876	2018-10-02 21:14:04.506876	1	1
+1987	7	2018	2	27	171	2018-10-02 21:14:04.513877	2018-10-02 21:14:04.513877	1	1
+1988	7	2018	2	28	142	2018-10-02 21:14:04.520877	2018-10-02 21:14:04.520877	1	1
+1989	7	2018	3	1	78	2018-10-02 21:14:04.527878	2018-10-02 21:14:04.527878	1	1
+1990	7	2018	3	2	109	2018-10-02 21:14:04.537878	2018-10-02 21:14:04.537878	1	1
+1991	7	2018	3	3	145	2018-10-02 21:14:04.547879	2018-10-02 21:14:04.547879	1	1
+1992	7	2018	3	4	148	2018-10-02 21:14:04.556879	2018-10-02 21:14:04.556879	1	1
+1993	7	2018	3	5	145	2018-10-02 21:14:04.56488	2018-10-02 21:14:04.56488	1	1
+1994	7	2018	3	6	76	2018-10-02 21:14:04.57488	2018-10-02 21:14:04.57488	1	1
+1995	7	2018	3	7	79	2018-10-02 21:14:04.585881	2018-10-02 21:14:04.585881	1	1
+1996	7	2018	3	8	113	2018-10-02 21:14:04.594881	2018-10-02 21:14:04.594881	1	1
+1997	7	2018	3	9	131	2018-10-02 21:14:04.603882	2018-10-02 21:14:04.603882	1	1
+1998	7	2018	3	10	34	2018-10-02 21:14:04.612882	2018-10-02 21:14:04.612882	1	1
+1999	7	2018	3	11	117	2018-10-02 21:14:04.622883	2018-10-02 21:14:04.622883	1	1
+2000	7	2018	3	12	127	2018-10-02 21:14:04.631884	2018-10-02 21:14:04.631884	1	1
+2001	7	2018	3	13	155	2018-10-02 21:14:04.640884	2018-10-02 21:14:04.640884	1	1
+2002	7	2018	3	14	128	2018-10-02 21:14:04.649885	2018-10-02 21:14:04.649885	1	1
+2003	7	2018	3	15	138	2018-10-02 21:14:04.658885	2018-10-02 21:14:04.658885	1	1
+2004	7	2018	3	16	68	2018-10-02 21:14:04.666886	2018-10-02 21:14:04.666886	1	1
+2005	7	2018	3	17	154	2018-10-02 21:14:04.675886	2018-10-02 21:14:04.675886	1	1
+2006	7	2018	3	18	99	2018-10-02 21:14:04.683887	2018-10-02 21:14:04.683887	1	1
+2007	7	2018	3	19	99	2018-10-02 21:14:04.692887	2018-10-02 21:14:04.692887	1	1
+2008	7	2018	3	20	157	2018-10-02 21:14:04.700888	2018-10-02 21:14:04.700888	1	1
+2009	7	2018	3	21	112	2018-10-02 21:14:04.707888	2018-10-02 21:14:04.707888	1	1
+2010	7	2018	3	22	82	2018-10-02 21:14:04.714888	2018-10-02 21:14:04.714888	1	1
+2011	7	2018	3	23	32	2018-10-02 21:14:04.721889	2018-10-02 21:14:04.721889	1	1
+2012	7	2018	3	24	154	2018-10-02 21:14:04.728889	2018-10-02 21:14:04.728889	1	1
+2013	7	2018	3	25	63	2018-10-02 21:14:04.73689	2018-10-02 21:14:04.73689	1	1
+2014	7	2018	3	26	127	2018-10-02 21:14:04.74389	2018-10-02 21:14:04.74389	1	1
+2015	7	2018	3	27	162	2018-10-02 21:14:04.75089	2018-10-02 21:14:04.75089	1	1
+2016	7	2018	3	28	128	2018-10-02 21:14:04.757891	2018-10-02 21:14:04.757891	1	1
+2017	7	2018	3	29	78	2018-10-02 21:14:04.763891	2018-10-02 21:14:04.763891	1	1
+2018	7	2018	3	30	109	2018-10-02 21:14:04.771892	2018-10-02 21:14:04.771892	1	1
+2019	7	2018	3	31	145	2018-10-02 21:14:04.777892	2018-10-02 21:14:04.777892	1	1
+2020	7	2018	3	32	148	2018-10-02 21:14:04.784892	2018-10-02 21:14:04.784892	1	1
+2021	7	2018	3	33	145	2018-10-02 21:14:04.790893	2018-10-02 21:14:04.790893	1	1
+2022	7	2018	3	34	76	2018-10-02 21:14:04.797893	2018-10-02 21:14:04.797893	1	1
+2023	7	2018	3	35	79	2018-10-02 21:14:04.804893	2018-10-02 21:14:04.804893	1	1
+2024	7	2018	4	1	78	2018-10-02 21:14:04.813894	2018-10-02 21:14:04.813894	1	1
+2025	7	2018	4	2	109	2018-10-02 21:14:04.821894	2018-10-02 21:14:04.821894	1	1
+2026	7	2018	4	3	145	2018-10-02 21:14:04.828895	2018-10-02 21:14:04.828895	1	1
+2027	7	2018	4	4	148	2018-10-02 21:14:04.836895	2018-10-02 21:14:04.836895	1	1
+2028	7	2018	4	5	145	2018-10-02 21:14:04.844896	2018-10-02 21:14:04.844896	1	1
+2029	7	2018	4	6	76	2018-10-02 21:14:04.851896	2018-10-02 21:14:04.851896	1	1
+2030	7	2018	4	7	79	2018-10-02 21:14:04.860897	2018-10-02 21:14:04.860897	1	1
+2031	7	2018	4	8	113	2018-10-02 21:14:04.867897	2018-10-02 21:14:04.867897	1	1
+2032	7	2018	4	9	131	2018-10-02 21:14:04.874897	2018-10-02 21:14:04.874897	1	1
+2033	7	2018	4	10	34	2018-10-02 21:14:04.881898	2018-10-02 21:14:04.881898	1	1
+2034	7	2018	4	11	117	2018-10-02 21:14:04.887898	2018-10-02 21:14:04.887898	1	1
+2035	7	2018	4	12	127	2018-10-02 21:14:04.893899	2018-10-02 21:14:04.893899	1	1
+2036	7	2018	4	13	155	2018-10-02 21:14:04.900899	2018-10-02 21:14:04.900899	1	1
+2037	7	2018	4	14	128	2018-10-02 21:14:04.909899	2018-10-02 21:14:04.909899	1	1
+2038	7	2018	4	15	138	2018-10-02 21:14:04.9189	2018-10-02 21:14:04.9189	1	1
+2039	7	2018	4	16	68	2018-10-02 21:14:04.9259	2018-10-02 21:14:04.9259	1	1
+2040	7	2018	4	17	154	2018-10-02 21:14:04.931901	2018-10-02 21:14:04.931901	1	1
+2041	7	2018	4	18	99	2018-10-02 21:14:04.938901	2018-10-02 21:14:04.938901	1	1
+2042	7	2018	4	19	99	2018-10-02 21:14:04.945902	2018-10-02 21:14:04.945902	1	1
+2043	7	2018	4	20	157	2018-10-02 21:14:04.952902	2018-10-02 21:14:04.952902	1	1
+2044	7	2018	4	21	112	2018-10-02 21:14:04.959902	2018-10-02 21:14:04.959902	1	1
+2045	7	2018	4	22	82	2018-10-02 21:14:04.966903	2018-10-02 21:14:04.966903	1	1
+2046	7	2018	4	23	32	2018-10-02 21:14:04.972903	2018-10-02 21:14:04.972903	1	1
+2047	7	2018	4	24	154	2018-10-02 21:14:04.979903	2018-10-02 21:14:04.979903	1	1
+2048	7	2018	4	25	63	2018-10-02 21:14:04.986904	2018-10-02 21:14:04.986904	1	1
+2049	7	2018	4	26	127	2018-10-02 21:14:04.993904	2018-10-02 21:14:04.993904	1	1
+2050	7	2018	4	27	162	2018-10-02 21:14:05.009905	2018-10-02 21:14:05.009905	1	1
+2051	7	2018	4	28	128	2018-10-02 21:14:05.017906	2018-10-02 21:14:05.017906	1	1
+2052	7	2018	5	1	78	2018-10-02 21:14:05.027906	2018-10-02 21:14:05.027906	1	1
+2053	7	2018	5	2	109	2018-10-02 21:14:05.036907	2018-10-02 21:14:05.036907	1	1
+2054	7	2018	5	3	145	2018-10-02 21:14:05.045907	2018-10-02 21:14:05.045907	1	1
+2055	7	2018	5	4	148	2018-10-02 21:14:05.053908	2018-10-02 21:14:05.053908	1	1
+2056	7	2018	5	5	145	2018-10-02 21:14:05.059908	2018-10-02 21:14:05.059908	1	1
+2057	7	2018	5	6	76	2018-10-02 21:14:05.065908	2018-10-02 21:14:05.065908	1	1
+2058	7	2018	5	7	79	2018-10-02 21:14:05.072909	2018-10-02 21:14:05.072909	1	1
+2059	7	2018	5	8	113	2018-10-02 21:14:05.079909	2018-10-02 21:14:05.079909	1	1
+2060	7	2018	5	9	131	2018-10-02 21:14:05.08591	2018-10-02 21:14:05.08591	1	1
+2061	7	2018	5	10	34	2018-10-02 21:14:05.09291	2018-10-02 21:14:05.09291	1	1
+2062	7	2018	5	11	117	2018-10-02 21:14:05.09891	2018-10-02 21:14:05.09891	1	1
+2063	7	2018	5	12	127	2018-10-02 21:14:05.104911	2018-10-02 21:14:05.104911	1	1
+2064	7	2018	5	13	155	2018-10-02 21:14:05.110911	2018-10-02 21:14:05.110911	1	1
+2065	7	2018	5	14	128	2018-10-02 21:14:05.117911	2018-10-02 21:14:05.117911	1	1
+2066	7	2018	5	15	138	2018-10-02 21:14:05.124912	2018-10-02 21:14:05.124912	1	1
+2067	7	2018	5	16	68	2018-10-02 21:14:05.130912	2018-10-02 21:14:05.130912	1	1
+2068	7	2018	5	17	154	2018-10-02 21:14:05.138913	2018-10-02 21:14:05.138913	1	1
+2069	7	2018	5	18	99	2018-10-02 21:14:05.144913	2018-10-02 21:14:05.144913	1	1
+2070	7	2018	5	19	99	2018-10-02 21:14:05.151913	2018-10-02 21:14:05.151913	1	1
+2071	7	2018	5	20	157	2018-10-02 21:14:05.159914	2018-10-02 21:14:05.159914	1	1
+2072	7	2018	5	21	112	2018-10-02 21:14:05.165914	2018-10-02 21:14:05.165914	1	1
+2073	7	2018	5	22	82	2018-10-02 21:14:05.173915	2018-10-02 21:14:05.173915	1	1
+2074	7	2018	5	23	32	2018-10-02 21:14:05.180915	2018-10-02 21:14:05.180915	1	1
+2075	7	2018	5	24	154	2018-10-02 21:14:05.190916	2018-10-02 21:14:05.190916	1	1
+2076	7	2018	5	25	63	2018-10-02 21:14:05.198916	2018-10-02 21:14:05.198916	1	1
+2077	7	2018	5	26	127	2018-10-02 21:14:05.206916	2018-10-02 21:14:05.206916	1	1
+2078	7	2018	5	27	162	2018-10-02 21:14:05.212917	2018-10-02 21:14:05.212917	1	1
+2079	7	2018	5	28	128	2018-10-02 21:14:05.220917	2018-10-02 21:14:05.220917	1	1
+2080	7	2018	6	1	34	2018-10-02 21:14:05.226918	2018-10-02 21:14:05.226918	1	1
+2081	7	2018	6	2	41	2018-10-02 21:14:05.233918	2018-10-02 21:14:05.233918	1	1
+2082	7	2018	6	3	62	2018-10-02 21:14:05.240918	2018-10-02 21:14:05.240918	1	1
+2083	7	2018	6	4	62	2018-10-02 21:14:05.247919	2018-10-02 21:14:05.247919	1	1
+2084	7	2018	6	5	62	2018-10-02 21:14:05.254919	2018-10-02 21:14:05.254919	1	1
+2085	7	2018	6	6	77	2018-10-02 21:14:05.26192	2018-10-02 21:14:05.26192	1	1
+2086	7	2018	6	7	55	2018-10-02 21:14:05.26892	2018-10-02 21:14:05.26892	1	1
+2087	7	2018	6	8	48	2018-10-02 21:14:05.27492	2018-10-02 21:14:05.27492	1	1
+2088	7	2018	6	9	62	2018-10-02 21:14:05.280921	2018-10-02 21:14:05.280921	1	1
+2089	7	2018	6	10	18	2018-10-02 21:14:05.288921	2018-10-02 21:14:05.288921	1	1
+2090	7	2018	6	11	63	2018-10-02 21:14:05.294922	2018-10-02 21:14:05.294922	1	1
+2091	7	2018	6	12	62	2018-10-02 21:14:05.301922	2018-10-02 21:14:05.301922	1	1
+2092	7	2018	6	13	89	2018-10-02 21:14:05.308922	2018-10-02 21:14:05.308922	1	1
+2093	7	2018	6	14	40	2018-10-02 21:14:05.314923	2018-10-02 21:14:05.314923	1	1
+2094	7	2018	6	15	57	2018-10-02 21:14:05.322923	2018-10-02 21:14:05.322923	1	1
+2095	7	2018	6	16	54	2018-10-02 21:14:05.328923	2018-10-02 21:14:05.328923	1	1
+2096	7	2018	6	17	65	2018-10-02 21:14:05.335924	2018-10-02 21:14:05.335924	1	1
+2097	7	2018	6	18	33	2018-10-02 21:14:05.341924	2018-10-02 21:14:05.341924	1	1
+2098	7	2018	6	19	29	2018-10-02 21:14:05.348925	2018-10-02 21:14:05.348925	1	1
+2099	7	2018	6	20	83	2018-10-02 21:14:05.355925	2018-10-02 21:14:05.355925	1	1
+2100	7	2018	6	21	68	2018-10-02 21:14:05.362925	2018-10-02 21:14:05.362925	1	1
+2101	7	2018	6	22	53	2018-10-02 21:14:05.369926	2018-10-02 21:14:05.369926	1	1
+2102	7	2018	6	23	25	2018-10-02 21:14:05.376926	2018-10-02 21:14:05.376926	1	1
+2103	7	2018	6	24	58	2018-10-02 21:14:05.382927	2018-10-02 21:14:05.382927	1	1
+2104	7	2018	6	25	53	2018-10-02 21:14:05.390927	2018-10-02 21:14:05.390927	1	1
+2105	7	2018	6	26	61	2018-10-02 21:14:05.397927	2018-10-02 21:14:05.397927	1	1
+2106	7	2018	6	27	89	2018-10-02 21:14:05.404928	2018-10-02 21:14:05.404928	1	1
+2107	7	2018	6	28	40	2018-10-02 21:14:05.411928	2018-10-02 21:14:05.411928	1	1
 \.
 
 
 --
--- Name: staffing_reals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: staffing_reals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Magnius
 --
 
-SELECT pg_catalog.setval('staffing_reals_id_seq', 1, false);
+SELECT pg_catalog.setval('public.staffing_reals_id_seq', 2107, true);
 
 
 --
 -- Data for Name: store_categories; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY store_categories (id, name, created_at, updated_at) FROM stdin;
+COPY public.store_categories (id, name, created_at, updated_at) FROM stdin;
 \.
 
 
@@ -9910,14 +10595,14 @@ COPY store_categories (id, name, created_at, updated_at) FROM stdin;
 -- Name: store_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('store_categories_id_seq', 1, false);
+SELECT pg_catalog.setval('public.store_categories_id_seq', 1, false);
 
 
 --
 -- Data for Name: stores; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY stores (id, name, street, number, city, district, country, created_at, updated_at, origin_id, county, size, economic_segment, cluster_id) FROM stdin;
+COPY public.stores (id, name, street, number, city, district, country, created_at, updated_at, origin_id, county, size, economic_segment, cluster_id) FROM stdin;
 1	Alto Las Condes	 Av. Pdte. Kennedy Lateral 	9001	Santiago	-	CL	2017-08-22 14:30:06.648926	2018-05-19 19:18:24.16608	1	Las Condes	Grande	ABC1	1
 3	Plaza Oeste	 Av. Américo Vespucio	1501	Santiago	-	CL	2017-08-22 14:30:06.658309	2018-05-19 19:18:24.428095	3	Cerrillos	Grande	C3	3
 5	Plaza Egaña	 Av. Larrain	5	Santiago	-	CL	2017-08-22 14:30:06.665672	2018-05-19 19:18:24.659108	5	La Reina	Grande	C2	2
@@ -9931,14 +10616,14 @@ COPY stores (id, name, street, number, city, district, country, created_at, upda
 -- Name: stores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('stores_id_seq', 6, true);
+SELECT pg_catalog.setval('public.stores_id_seq', 6, true);
 
 
 --
 -- Data for Name: summary_cases; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY summary_cases (id, id_case, sale_plan, coverange_deficit, surplus_coverange, total_deviation, cost_of_remunerations, margin_adjustment, created_at, updated_at, type_io, real_dot) FROM stdin;
+COPY public.summary_cases (id, id_case, sale_plan, coverange_deficit, surplus_coverange, total_deviation, cost_of_remunerations, margin_adjustment, created_at, updated_at, type_io, real_dot) FROM stdin;
 67	33	157407708	14559717	76452009	91011726	0	42.2%	2018-05-29 00:10:04.565651	2018-07-06 12:26:08.031786	in	{1 : 7, 2 : 3, 3 : 2, 4 : 0 , 5 : 2 , 6 : 0 , 7 : 0 , 8 : 0 , 9 : 2 , 10 : 2 , 11 : 0 , 12 : 3}
 68	33	157407708	20046853	25074145	45120998	0	71.3%	2018-05-29 00:14:22.902427	2018-07-06 12:28:16.847211	out	{1 : 1 , 2 : 0 , 3 : 2 , 4 : 1 , 5 : 2, 6 : 1, 7 : 0 , 8 : 0, 9 : 1 , 10 : 2 , 11 : 2 , 12 : 3}
 59	29	160900572	15089963	73829391	88919354	0	44.7%	2018-05-16 19:59:43.59278	2018-07-08 16:20:15.086925	in	{1 : 7, 2 : 3, 3 : 2, 4 : 0 , 5 : 2 , 6 : 0 , 7 : 0 , 8 : 0 , 9 : 2 , 10 : 2 , 11 : 0 , 12 : 3}
@@ -9949,8 +10634,12 @@ COPY summary_cases (id, id_case, sale_plan, coverange_deficit, surplus_coverange
 64	31	159255314	20945151	24889837	45834988	0	71.2%	2018-05-16 19:59:43.604781	2018-07-08 16:36:12.371679	out	{1 : 1, 2 : 1, 3 : 1, 4 : 1 , 5 : 2 , 6 : 1 , 7 : 0 , 8 : 0 , 9 : 1 , 10 : 2 , 11 : 1 , 12 : 4}
 65	32	156570712	14549705	76768993	91318698	0	41.7%	2018-05-16 19:59:43.607781	2018-07-08 16:41:07.17554	in	{1 : 7, 2 : 3, 3 : 2, 4 : 0 , 5 : 2 , 6 : 0 , 7 : 0 , 8 : 0 , 9 : 2 , 10 : 2 , 11 : 0 , 12 : 3}
 66	32	156570712	19682686	25546974	45229660	0	71.1%	2018-05-16 19:59:43.609781	2018-07-08 16:42:51.20149	out	{1 : 1, 2 : 0, 3 : 2, 4 : 1, 5 : 2, 6 : 1, 7 : 0, 8 : 0, 9 : 1 , 10 : 2 , 11 : 2 , 12 : 3}
-69	34	185848855	73544271	5845416	79389687	0	57.3%	2018-06-02 22:53:47.633152	2018-08-03 12:05:24.911691	in	{1 : 1, 2 : 2, 3 : 2, 4 : 1 , 5 : 1 , 6 : 1 , 7 : 0 , 8 : 0 , 9 : 0 , 10 : 2 , 11 : 0 , 12 : 0}
-70	34	185848855	25111488	17082633	42194121	0	77.3%	2018-06-02 22:58:54.219547	2018-08-03 13:05:16.764367	out	{1 : 1, 2 : 1, 3 : 1, 4 : 2 , 5 : 2 , 6 : 0 , 7 : 0 , 8 : 0 , 9 : 0 , 10 : 7 , 11 : 3 , 12 : 1}
+81	34	185848855	73544271	5845416	79389687	0	42.7%	2018-09-17 09:50:07.138365	2018-09-17 09:50:07.138365	in	{1 : 1, 2 : 2, 3 : 2, 4 : 1, 5 : 1, 6 : 1, 7 : 0, 8 : 0, 9 : 0, 10 : 2, 11 : 0, 12 : 0}
+82	34	185848855	25111488	17082633	42194121	0	22.7%	2018-09-17 09:50:07.138365	2018-09-17 13:11:53.924805	out	{1 : 1, 2 : 1, 3 : 1, 4 : 2, 5 : 2, 6 : 0, 7 : 0, 8 : 0, 9 : 0, 10 : 7, 11 : 3, 12 : 1}
+107	35	182027691	24970668	64452977	89423645	0	49.1%	2018-09-17 16:14:09.441281	2018-09-17 16:14:09.441281	in	{1 : 7, 2 : 3, 3 : 2, 4 : 0, 5 : 2, 6 : 0, 7 : 0, 8 : 0, 9 : 2, 10 : 2, 11 : 0, 12 : 3}
+108	35	182027691	20430129	21407438	41837567	0	23.0%	2018-09-17 16:14:09.444281	2018-09-17 16:14:09.444281	out	{1 : 1, 2 : 1, 3 : 1, 4 : 2, 5 : 2, 6 : 0, 7 : 0, 8 : 0, 9 : 0, 10 : 8, 11 : 2, 12 : 2}
+111	36	204896206	31981487	53440281	85421768	0	41.7%	2018-10-02 18:51:24.099032	2018-10-02 18:51:24.099032	in	{1 : 7, 2 : 3, 3 : 2, 4 : 0, 5 : 2, 6 : 0, 7 : 0, 8 : 0, 9 : 2, 10 : 2, 11 : 0, 12 : 3}
+112	36	204896206	22067045	21170839	43237884	0	21.1%	2018-10-02 18:51:24.116033	2018-10-02 18:51:24.116033	out	{1 : 1, 2 : 0, 3 : 2, 4 : 2, 5 : 3, 6 : 1, 7 : 0, 8 : 0, 9 : 0, 10 : 8, 11 : 3, 12 : 1}
 \.
 
 
@@ -9958,16 +10647,75 @@ COPY summary_cases (id, id_case, sale_plan, coverange_deficit, surplus_coverange
 -- Name: summary_cases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('summary_cases_id_seq', 70, true);
+SELECT pg_catalog.setval('public.summary_cases_id_seq', 112, true);
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: coke
 --
 
-COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, created_at, updated_at, name, lastname, surname, role, picture, status, "position", rut) FROM stdin;
-3	coke@mta.cl	$2a$11$ZpgJ2DJub/fHP0mtggRi8eClLrs/SzZ4D9B86mjrNLo9xQvyNoynm	\N	\N	\N	1	2017-08-30 18:46:58.903108	2017-08-30 18:46:58.903108	127.0.0.1	127.0.0.1	2017-08-30 18:46:40.994371	2017-08-30 18:46:58.904372	Jorge	Astudillo	Andrades	0	\N	0	\N	151599516
-2	admin@mta.cl	$2a$11$d1GyWIsKhZNICoxsixCEFeclxwX0jQX9O67Meg74q0DrRLGOlttfS	\N	\N	\N	94	2018-08-30 18:42:43.141055	2018-08-30 18:11:16.076805	190.160.117.42	200.72.125.107	2017-08-30 18:46:40.860155	2018-08-30 18:42:43.143594	admin	sales	force	0	\N	0	\N	111111111
+COPY public.users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, created_at, updated_at, name, lastname, surname, role, picture, status, "position", rut, phone, street, number, city, district, county, country, department_id, store_id, assigned_shift, begin_shift) FROM stdin;
+3	coke@mta.cl	$2a$11$ZpgJ2DJub/fHP0mtggRi8eClLrs/SzZ4D9B86mjrNLo9xQvyNoynm	\N	\N	\N	1	2017-08-30 18:46:58.903108	2017-08-30 18:46:58.903108	127.0.0.1	127.0.0.1	2017-08-30 18:46:40.994371	2017-08-30 18:46:58.904372	Jorge	Astudillo	Andrades	0	\N	0	\N	151599516	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+35	demo86@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.563797	2017-10-13 14:54:25.563797	Carlos	Paz	\N	\N	\N	\N	\N	16.599.858-8	56999999999	Av. Sting	664	Santiago	-	La Reina	CL	5	1	2	2017-10-01
+36	demo87@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.571887	2017-10-13 14:54:25.571887	Antonio	Brown	\N	\N	\N	\N	\N	16.853.640-2	56999999999	Av Balmaceda	313	Santiago	-	Macul	CL	1	1	7	2017-10-01
+37	demo75@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.579953	2017-10-13 14:54:25.579953	Javiera	Ruiz	\N	\N	\N	\N	\N	16.423.245-K	56999999999	Los Robles	453	Santiago	-	La Florida	CL	1	1	8	2017-10-01
+38	demo77@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.587681	2017-10-13 14:54:25.587681	Alejandra	Fuentes	\N	\N	\N	\N	\N	8.434.840-3	56999999999	Tobalaba	44	Santiago	-	Providencia	CL	5	1	1	2017-10-01
+39	demo76@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.595473	2017-10-13 14:54:25.595473	Juan Pablo	Garcia	\N	\N	\N	\N	\N	8.658.424-7	56999999999	Vitacura	889	Santiago	-	Vitacura	CL	1	1	1	2017-10-01
+40	demo27@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.603214	2017-10-13 14:54:25.603214	Mauricio	Martinez	\N	\N	\N	\N	\N	13.953.401-8 	56999999999	Ricardo Lyon	65	Santiago	-	Providencia	CL	1	1	2	2017-10-01
+41	demo29@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.610789	2017-10-13 14:54:25.610789	Francisco	Lillo	\N	\N	\N	\N	\N	12.095.259-5	56999999999	Pedro de Valdivia	654	Santiago	-	Providencia	CL	5	1	9	2017-10-01
+42	demo66@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.618759	2017-10-13 14:54:25.618759	Luis	Moya	\N	\N	\N	\N	\N	16.163.012-8	56999999999	Holanda	64	Santiago	-	Providencia	CL	5	1	6	2017-10-01
+33	demo67@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.54668	2017-10-13 14:54:25.54668	Luis	Sanchez	\N	\N	\N	\N	\N	16.999.197-9	56999999999	Los Castaños	221	Santiago	-	Macul	CL	1	1	5	2017-10-01
+60	demo68@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.461079	2017-10-13 14:54:25.461079	Agustin	Perez	\N	\N	\N	\N	\N	9.431.626-K	56999999999	El Vergel	323	Santiago	-	Providencia	CL	2	1	1	2017-10-01
+61	demo69@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.472664	2017-10-13 14:54:25.472664	Claudia Andrea	Fuentes	\N	\N	\N	\N	\N	14.047.672-2	56999999999	Los Poetas	234	Santiago	-	Maipu	CL	5	1	1	2017-10-01
+62	demo65@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.482852	2017-10-13 14:54:25.482852	Marcela	Gaete	\N	\N	\N	\N	\N	6.309.467-6	56999999999	Los espinos	323	Santiago	-	Providencia	CL	1	1	1	2017-10-01
+63	demo74@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.492239	2017-10-13 14:54:25.492239	Luis	Garcia	\N	\N	\N	\N	\N	1.377.520-6	56999999999	Los Conquistadores	64	Santiago	-	Providencia	CL	5	1	2	2017-10-01
+64	demo73@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.502116	2017-10-13 14:54:25.502116	Maria Jose	Yañez	\N	\N	\N	\N	\N	16.533.751-4	56999999999	Mapocho	5	Santiago	-	Cerro Navia	CL	2	1	2	2017-10-01
+65	demo72@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.510929	2017-10-13 14:54:25.510929	Luis 	Donoso	\N	\N	\N	\N	\N	16.204.828-7	56999999999	Av Manuel Rodriguez	332	Santiago	-	Temuco	CL	5	1	2	2017-10-01
+66	demo70@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.519564	2017-10-13 14:54:25.519564	Carla	Cuevas	\N	\N	\N	\N	\N	14.537.332-8	56999999999	Costanera	22	Santiago	-	Vitacura	CL	2	1	3	2017-10-01
+67	demo71@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.52828	2017-10-13 14:54:25.52828	Lucia	Arellano	\N	\N	\N	\N	\N	8.157.465-0	56999999999	Los Robles	556	Santiago	-	Puente Alto	CL	5	1	4	2017-10-01
+68	demo88@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.555209	2017-10-13 14:54:25.555209	Francisca 	Pino	\N	\N	\N	\N	\N	8.882.104-1	56999999999	Av. Alemania	6332	Santiago	-	San Pedro de la Paz	CL	5	1	1	2017-10-01
+69	demo89@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.563797	2017-10-13 14:54:25.563797	Lorena	Rodriguez	\N	\N	\N	\N	\N	4.830.131-2	56999999999	Av. Sting	664	Santiago	-	La Reina	CL	5	1	2	2017-10-01
+70	demo90@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.571887	2017-10-13 14:54:25.571887	Marcelo	Lorenzini	\N	\N	\N	\N	\N	9.282.670-8	56999999999	Av Balmaceda	313	Santiago	-	Macul	CL	2	1	7	2017-10-01
+71	demo91@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.579953	2017-10-13 14:54:25.579953	Claudio	Rojas	\N	\N	\N	\N	\N	6.715.688-9	56999999999	Los Robles	453	Santiago	-	La Florida	CL	2	1	8	2017-10-01
+72	demo92@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.587681	2017-10-13 14:54:25.587681	Felipe	Catalan	\N	\N	\N	\N	\N	8.618.478-8	56999999999	Tobalaba	44	Santiago	-	Providencia	CL	5	1	1	2017-10-01
+73	demo93@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.595473	2017-10-13 14:54:25.595473	Loreto	Valenzuela	\N	\N	\N	\N	\N	11.711.484-8	56999999999	Vitacura	889	Santiago	-	Vitacura	CL	2	1	1	2017-10-01
+74	demo94@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.603214	2017-10-13 14:54:25.603214	Marcel	Claude	\N	\N	\N	\N	\N	8.070.284-1	56999999999	Ricardo Lyon	65	Santiago	-	Providencia	CL	2	1	2	2017-10-01
+75	demo95@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.610789	2017-10-13 14:54:25.610789	Juan Ramon	Rojas	\N	\N	\N	\N	\N	15.303.704-3	56999999999	Pedro de Valdivia	654	Santiago	-	Providencia	CL	5	1	9	2017-10-01
+76	demo96@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.618759	2017-10-13 14:54:25.618759	Sebastian	Jara	\N	\N	\N	\N	\N	12.421.757-1	56999999999	Holanda	64	Santiago	-	Providencia	CL	5	1	6	2017-10-01
+77	demo97@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.54668	2017-10-13 14:54:25.54668	Marcia	Naranjo	\N	\N	\N	\N	\N	7.059.330-0	56999999999	Los Castaños	221	Santiago	-	Macul	CL	2	1	5	2017-10-01
+78	demo98@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.461079	2017-10-13 14:54:25.461079	Rocio	Niño	\N	\N	\N	\N	\N	9.725.248-3	56999999999	El Vergel	323	Santiago	-	Providencia	CL	1	2	1	2017-10-01
+79	demo99@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.472664	2017-10-13 14:54:25.472664	Lorena	Perez	\N	\N	\N	\N	\N	12.204.086-0	56999999999	Los Poetas	234	Santiago	-	Maipu	CL	5	2	1	2017-10-01
+80	demo62@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.482852	2017-10-13 14:54:25.482852	Patricia	Lopez	\N	\N	\N	\N	\N	3.589.151-K	56999999999	E ramirez	323	Santiago	-	Providencia	CL	1	2	1	2017-10-01
+81	demo63@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.492239	2017-10-13 14:54:25.492239	Lorena	Quezada	\N	\N	\N	\N	\N	12.503.757-7	56999999999	12 de octubre	64	Santiago	-	Providencia	CL	5	2	2	2017-10-01
+26	demo78@tooxs.com	$2a$11$gqz7lETZjZEGwylpfJ56gOJcOh4g6.yjAvAad3nCgQ4ncNpQvlR7m	\N	\N	\N	1	2018-09-03 11:43:40.248616	2018-09-03 11:43:40.248616	127.0.0.1	127.0.0.1	2017-10-13 14:54:25.472664	2018-09-03 11:43:40.249616	Claudia Andrea	Bravo Lopez		7		0		18.004.462-0	56999999999	Los Poetas	234	Santiago	-	Maipu	CL	5	1	1	2017-10-01
+29	demo81@tooxs.com	$2a$11$B2tOI41DtsyLUIbxnL.94ejDgUDE3U54rsLv8BMbj/cW5Hx91fXnO	\N	\N	\N	1	2018-09-03 10:55:42.438014	2018-09-03 10:55:42.438014	127.0.0.1	127.0.0.1	2017-10-13 14:54:25.502116	2018-09-03 10:55:42.440014	Rodrigo	Sanz		5		0		12.637.373-2	56999999999	Mapocho	5	Santiago	-	Cerro Navia	CL	1	1	2	2017-10-01
+31	demo83@tooxs.com	$2a$11$C3n.JxxIv3NaWrHPxp3MJurXd.XuBJw4EsO6uh1qfO/6mtOjyI3hC	\N	\N	\N	1	2018-09-03 10:58:05.348188	2018-09-03 10:58:05.348188	127.0.0.1	127.0.0.1	2017-10-13 14:54:25.519564	2018-09-03 10:58:05.349188	Pedro	Silva		3		0		13.077.844-5	56999999999	Costanera	22	Santiago	-	Vitacura	CL	1	1	3	2017-10-01
+34	demo85@tooxs.com	$2a$11$AE4xQ.ahTVy4EAMK4.XhV.TBRT9LvLL8iIEcpNRapphVwRgiC7TnC	\N	\N	\N	1	2018-09-03 10:59:49.295134	2018-09-03 10:59:49.295134	127.0.0.1	127.0.0.1	2017-10-13 14:54:25.555209	2018-09-03 10:59:49.296134	Ricardo	Urrutia		1		0		17.034.487-1	56999999999	Av. Alemania	6332	Santiago	-	San Pedro de la Paz	CL	5	1	1	2017-10-01
+28	demo80@tooxs.com	$2a$11$oXqjxzpG5fcaVDZFNtTn3u4N6VpWX4Of03qBHGH0pUYotkgoUyWie	\N	\N	\N	3	2018-09-04 14:45:58.063012	2018-09-03 22:22:07.838684	127.0.0.1	127.0.0.1	2017-10-13 14:54:25.492239	2018-09-04 14:45:58.065012	Ulises	Medina		6		0		19.395.784-6	56999999999	Los Conquistadores	64	Santiago	-	Providencia	CL	5	1	2	2017-10-01
+82	demo64@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.502116	2017-10-13 14:54:25.502116	Gladis	Cerda	\N	\N	\N	\N	\N	9.221.203-3	56999999999	Caupolica	5	Santiago	-	Cerro Navia	CL	1	2	2	2017-10-01
+83	demo26@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.510929	2017-10-13 14:54:25.510929	Veronica	Rojas	\N	\N	\N	\N	\N	12.433.826-3	56999999999	Galvarino	332	Santiago	-	Temuco	CL	5	2	2	2017-10-01
+84	demo28@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.519564	2017-10-13 14:54:25.519564	Ricardo	Lazcano	\N	\N	\N	\N	\N	7.904.309-5	56999999999	Vespucio	22	Santiago	-	Vitacura	CL	1	2	3	2017-10-01
+85	demo30@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.52828	2017-10-13 14:54:25.52828	Maria Jose	Medina	\N	\N	\N	\N	\N	14.433.038-2	56999999999	Las Horquideas	556	Santiago	-	Puente Alto	CL	5	2	4	2017-10-01
+86	demo32@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.555209	2017-10-13 14:54:25.555209	Claudio	Meneses	\N	\N	\N	\N	\N	13.459.099-8	56999999999	Renato Sanchez	6332	Santiago	-	San Pedro de la Paz	CL	5	2	1	2017-10-01
+87	demo31@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.563797	2017-10-13 14:54:25.563797	Maritza	Miranda	\N	\N	\N	\N	\N	11.414.981-0	56999999999	Las Vervenas	664	Santiago	-	La Reina	CL	5	2	2	2017-10-01
+88	demo34@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.571887	2017-10-13 14:54:25.571887	Pablo	Soto	\N	\N	\N	\N	\N	17.595.628-K	56999999999	Holanda	313	Santiago	-	Macul	CL	1	2	7	2017-10-01
+89	demo33@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.579953	2017-10-13 14:54:25.579953	Pamela	Ricarte	\N	\N	\N	\N	\N	7.051.778-7	56999999999	Francisco Bilbao	453	Santiago	-	La Florida	CL	1	2	8	2017-10-01
+90	demo36@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.587681	2017-10-13 14:54:25.587681	Juan	Paz	\N	\N	\N	\N	\N	12.694.230-3	56999999999	Los Conquistadores	44	Santiago	-	Providencia	CL	5	2	1	2017-10-01
+91	demo35@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.595473	2017-10-13 14:54:25.595473	Rodrigo	Soto	\N	\N	\N	\N	\N	9.372.351-1	56999999999	Francia	889	Santiago	-	Vitacura	CL	1	2	1	2017-10-01
+92	demo38@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.603214	2017-10-13 14:54:25.603214	Maria Alejandra	Carmona	\N	\N	\N	\N	\N	6.706.128-4	56999999999	Pasaje Angostura	65	Santiago	-	Providencia	CL	1	2	2	2017-10-01
+93	demo37@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.610789	2017-10-13 14:54:25.610789	Tomas	Alcantara	\N	\N	\N	\N	\N	4.848.653-3	56999999999	Vitacura	654	Santiago	-	Vitacura	CL	5	2	9	2017-10-01
+94	demo40@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.618759	2017-10-13 14:54:25.618759	Loreto	Donoso	\N	\N	\N	\N	\N	6.432.300-8	56999999999	Puente Viejo	64	Santiago	-	Providencia	CL	5	2	6	2017-10-01
+95	demo39@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.54668	2017-10-13 14:54:25.54668	Diana	Tapia	\N	\N	\N	\N	\N	8.260.273-9	56999999999	Carrascal	221	Santiago	-	Macul	CL	1	2	5	2017-10-01
+96	demo42@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.461079	2017-10-13 14:54:25.461079	Claudia	Ruiz	\N	\N	\N	\N	\N	8.291.418-8	56999999999	Loreto	323	Santiago	-	Providencia	CL	2	2	1	2017-10-01
+97	demo41@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.472664	2017-10-13 14:54:25.472664	Macarena	Lopez	\N	\N	\N	\N	\N	19.461.711-9	56999999999	Tobalaba	234	Santiago	-	Maipu	CL	5	2	1	2017-10-01
+98	demo61@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.482852	2017-10-13 14:54:25.482852	Beatriz	Perez	\N	\N	\N	\N	\N	11.805.771-6	56999999999	Lo Beltran	323	Santiago	-	Providencia	CL	1	2	1	2017-10-01
+99	demo60@tooxs.com		\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.492239	2017-10-13 14:54:25.492239	Juan Manuel	Rodriguez	\N	\N	\N	\N	\N	4.148.862-K	56999999999		64	Santiago	-	Providencia	CL	5	2	2	2017-10-01
+4	erwin254@gmail.com	$2a$11$K./6WZYSt6lkPsgm2.I/1eBqYQ9PgkeL.yIA9.YFpOZsLeNAB5xGi	\N	\N	\N	0	\N	\N	\N	\N	2018-09-02 14:24:55.055121	2018-09-02 14:24:55.055121	erwin	henriquez	ferrada	6		0			\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+25	demo25@tooxs.com	$2a$11$sErMxmAawEwzbmYhHXyDP.on1jRVrd6fYqVjgFmksUcJXX3wTAqyK	\N	\N	\N	0	\N	\N	\N	\N	2017-10-13 14:54:25.461079	2018-09-02 14:34:41.284652	Ricardo	Gonzalez		\N		\N		12.222.008-7	56999999999	El Vergel	323	Santiago	-	Providencia	CL	1	1	1	2017-10-01
+27	demo79@tooxs.com	$2a$11$angPsqVYmJAMLQpO.2fpM.v0lArB9qftyPjk818fBDzPRs6HNRZEm	\N	\N	\N	2	2018-09-03 09:56:40.853447	2018-09-02 15:25:09.167837	127.0.0.1	127.0.0.1	2017-10-13 14:54:25.482852	2018-09-03 09:56:40.855447	Juan 	Herrera	Valenzuela	6		0		11.692.224-K	56999999999	Los espinos	323	Santiago	-	Providencia	CL	1	1	1	2017-10-01
+30	demo82@tooxs.com	$2a$11$wkLcKpUuPvMvXxUSq45Cb.JpDPizDaqgPmje6/sbqXXvdGz60pvKK	\N	\N	\N	1	2018-09-03 10:57:02.057568	2018-09-03 10:57:02.057568	127.0.0.1	127.0.0.1	2017-10-13 14:54:25.510929	2018-09-03 10:57:02.059568	Margarita	Cuevas		4		0		13.619.919-6	56999999999	Av Manuel Rodriguez	332	Santiago	-	Temuco	CL	5	1	2	2017-10-01
+32	demo84@tooxs.com	$2a$11$VwgPKEoqnPikBVzNSUuJ4OTip3tllR2Adu0G4SPjrMPhn2jErCYCK	\N	\N	\N	1	2018-09-03 10:58:31.25567	2018-09-03 10:58:31.25567	127.0.0.1	127.0.0.1	2017-10-13 14:54:25.52828	2018-09-03 10:58:31.25667	Pablo	Jara		2		0		19.686.769-4	56999999999	Los Robles	556	Santiago	-	Puente Alto	CL	5	1	4	2017-10-01
+2	admin@mta.cl	$2a$11$d1GyWIsKhZNICoxsixCEFeclxwX0jQX9O67Meg74q0DrRLGOlttfS	\N	\N	\N	109	2018-10-02 18:49:43.578475	2018-10-02 10:50:57.985837	127.0.0.1	127.0.0.1	2017-08-30 18:46:40.860155	2018-10-02 18:49:43.580475	admin	sales	force	0	\N	0	\N	111111111	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 \.
 
 
@@ -9975,499 +10723,550 @@ COPY users (id, email, encrypted_password, reset_password_token, reset_password_
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: coke
 --
 
-SELECT pg_catalog.setval('users_id_seq', 3, true);
+SELECT pg_catalog.setval('public.users_id_seq', 4, true);
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY ar_internal_metadata
+ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
 
 
 --
--- Name: available_shifts_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: available_shifts available_shifts_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY available_shifts
+ALTER TABLE ONLY public.available_shifts
     ADD CONSTRAINT available_shifts_pkey PRIMARY KEY (id);
 
 
 --
--- Name: clusters_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: clusters clusters_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY clusters
+ALTER TABLE ONLY public.clusters
     ADD CONSTRAINT clusters_pkey PRIMARY KEY (id);
 
 
 --
--- Name: data_cases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: data_cases data_cases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY data_cases
+ALTER TABLE ONLY public.data_cases
     ADD CONSTRAINT data_cases_pkey PRIMARY KEY (id);
 
 
 --
--- Name: departments_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: departments departments_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY departments
+ALTER TABLE ONLY public.departments
     ADD CONSTRAINT departments_pkey PRIMARY KEY (id);
 
 
 --
--- Name: historic_sales_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: historic_sales historic_sales_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY historic_sales
+ALTER TABLE ONLY public.historic_sales
     ADD CONSTRAINT historic_sales_pkey PRIMARY KEY (id);
 
 
 --
--- Name: hs_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: hs hs_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY hs
+ALTER TABLE ONLY public.hs
     ADD CONSTRAINT hs_pkey PRIMARY KEY (id);
 
 
 --
--- Name: master_departments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: master_departments master_departments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY master_departments
+ALTER TABLE ONLY public.master_departments
     ADD CONSTRAINT master_departments_pkey PRIMARY KEY (id);
 
 
 --
--- Name: return_cases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: request_details request_details_pkey; Type: CONSTRAINT; Schema: public; Owner: Magnius
 --
 
-ALTER TABLE ONLY return_cases
+ALTER TABLE ONLY public.request_details
+    ADD CONSTRAINT request_details_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: requests requests_pkey; Type: CONSTRAINT; Schema: public; Owner: Magnius
+--
+
+ALTER TABLE ONLY public.requests
+    ADD CONSTRAINT requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: return_cases return_cases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.return_cases
     ADD CONSTRAINT return_cases_pkey PRIMARY KEY (id);
 
 
 --
--- Name: rs_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: rs rs_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY rs
+ALTER TABLE ONLY public.rs
     ADD CONSTRAINT rs_pkey PRIMARY KEY (id);
 
 
 --
--- Name: sale_by_sellers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: sale_by_sellers sale_by_sellers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY sale_by_sellers
+ALTER TABLE ONLY public.sale_by_sellers
     ADD CONSTRAINT sale_by_sellers_pkey PRIMARY KEY (id);
 
 
 --
--- Name: sale_plans_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: sale_plans sale_plans_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sale_plans
+ALTER TABLE ONLY public.sale_plans
     ADD CONSTRAINT sale_plans_pkey PRIMARY KEY (id);
 
 
 --
--- Name: sale_reals_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: sale_reals sale_reals_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sale_reals
+ALTER TABLE ONLY public.sale_reals
     ADD CONSTRAINT sale_reals_pkey PRIMARY KEY (id);
 
 
 --
--- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY schema_migrations
+ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
 
 
 --
--- Name: sellers_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: sellers sellers_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sellers
+ALTER TABLE ONLY public.sellers
     ADD CONSTRAINT sellers_pkey PRIMARY KEY (id);
 
 
 --
--- Name: shift_breaks_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: shift_breaks shift_breaks_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY shift_breaks
+ALTER TABLE ONLY public.shift_breaks
     ADD CONSTRAINT shift_breaks_pkey PRIMARY KEY (id);
 
 
 --
--- Name: sps_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: sps sps_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sps
+ALTER TABLE ONLY public.sps
     ADD CONSTRAINT sps_pkey PRIMARY KEY (id);
 
 
 --
--- Name: staffing_cases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: staffing_cases staffing_cases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY staffing_cases
+ALTER TABLE ONLY public.staffing_cases
     ADD CONSTRAINT staffing_cases_pkey PRIMARY KEY (id);
 
 
 --
--- Name: staffing_reals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: staffing_reals staffing_reals_pkey; Type: CONSTRAINT; Schema: public; Owner: Magnius
 --
 
-ALTER TABLE ONLY staffing_reals
+ALTER TABLE ONLY public.staffing_reals
     ADD CONSTRAINT staffing_reals_pkey PRIMARY KEY (id);
 
 
 --
--- Name: store_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: store_categories store_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY store_categories
+ALTER TABLE ONLY public.store_categories
     ADD CONSTRAINT store_categories_pkey PRIMARY KEY (id);
 
 
 --
--- Name: stores_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: stores stores_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY stores
+ALTER TABLE ONLY public.stores
     ADD CONSTRAINT stores_pkey PRIMARY KEY (id);
 
 
 --
--- Name: summary_cases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: summary_cases summary_cases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY summary_cases
+ALTER TABLE ONLY public.summary_cases
     ADD CONSTRAINT summary_cases_pkey PRIMARY KEY (id);
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: coke; Tablespace: 
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY users
+ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
--- Name: index_available_shifts_on_store_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_available_shifts_on_store_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_available_shifts_on_store_id ON available_shifts USING btree (store_id);
+CREATE INDEX index_available_shifts_on_store_id ON public.available_shifts USING btree (store_id);
 
 
 --
--- Name: index_departments_on_origin_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_departments_on_origin_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_departments_on_origin_id ON departments USING btree (origin_id);
+CREATE INDEX index_departments_on_origin_id ON public.departments USING btree (origin_id);
 
 
 --
--- Name: index_departments_on_store_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_departments_on_store_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_departments_on_store_id ON departments USING btree (store_id);
+CREATE INDEX index_departments_on_store_id ON public.departments USING btree (store_id);
 
 
 --
--- Name: index_historic_sales_on_department_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_historic_sales_on_department_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_historic_sales_on_department_id ON historic_sales USING btree (department_id);
+CREATE INDEX index_historic_sales_on_department_id ON public.historic_sales USING btree (department_id);
 
 
 --
--- Name: index_historic_sales_on_store_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_historic_sales_on_store_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_historic_sales_on_store_id ON historic_sales USING btree (store_id);
+CREATE INDEX index_historic_sales_on_store_id ON public.historic_sales USING btree (store_id);
 
 
 --
--- Name: index_hs_on_department_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_hs_on_department_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_hs_on_department_id ON hs USING btree (department_id);
+CREATE INDEX index_hs_on_department_id ON public.hs USING btree (department_id);
 
 
 --
--- Name: index_hs_on_store_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_hs_on_store_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_hs_on_store_id ON hs USING btree (store_id);
+CREATE INDEX index_hs_on_store_id ON public.hs USING btree (store_id);
 
 
 --
--- Name: index_rs_on_department_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_rs_on_department_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_rs_on_department_id ON rs USING btree (department_id);
+CREATE INDEX index_rs_on_department_id ON public.rs USING btree (department_id);
 
 
 --
--- Name: index_rs_on_store_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_rs_on_store_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_rs_on_store_id ON rs USING btree (store_id);
+CREATE INDEX index_rs_on_store_id ON public.rs USING btree (store_id);
 
 
 --
--- Name: index_sale_plans_on_department_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_sale_plans_on_department_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_sale_plans_on_department_id ON sale_plans USING btree (department_id);
+CREATE INDEX index_sale_plans_on_department_id ON public.sale_plans USING btree (department_id);
 
 
 --
--- Name: index_sale_plans_on_store_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_sale_plans_on_store_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_sale_plans_on_store_id ON sale_plans USING btree (store_id);
+CREATE INDEX index_sale_plans_on_store_id ON public.sale_plans USING btree (store_id);
 
 
 --
--- Name: index_sale_reals_on_department_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_sale_reals_on_department_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_sale_reals_on_department_id ON sale_reals USING btree (department_id);
+CREATE INDEX index_sale_reals_on_department_id ON public.sale_reals USING btree (department_id);
 
 
 --
--- Name: index_sale_reals_on_store_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_sale_reals_on_store_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_sale_reals_on_store_id ON sale_reals USING btree (store_id);
+CREATE INDEX index_sale_reals_on_store_id ON public.sale_reals USING btree (store_id);
 
 
 --
--- Name: index_sellers_on_department_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_sellers_on_department_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_sellers_on_department_id ON sellers USING btree (department_id);
+CREATE INDEX index_sellers_on_department_id ON public.sellers USING btree (department_id);
 
 
 --
--- Name: index_sellers_on_store_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_sellers_on_store_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_sellers_on_store_id ON sellers USING btree (store_id);
+CREATE INDEX index_sellers_on_store_id ON public.sellers USING btree (store_id);
 
 
 --
--- Name: index_shift_breaks_on_seller_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_shift_breaks_on_seller_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_shift_breaks_on_seller_id ON shift_breaks USING btree (seller_id);
+CREATE INDEX index_shift_breaks_on_seller_id ON public.shift_breaks USING btree (seller_id);
 
 
 --
--- Name: index_sps_on_department_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_sps_on_department_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_sps_on_department_id ON sps USING btree (department_id);
+CREATE INDEX index_sps_on_department_id ON public.sps USING btree (department_id);
 
 
 --
--- Name: index_sps_on_store_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_sps_on_store_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_sps_on_store_id ON sps USING btree (store_id);
+CREATE INDEX index_sps_on_store_id ON public.sps USING btree (store_id);
 
 
 --
--- Name: index_stores_on_cluster_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_staffing_reals_on_department_id; Type: INDEX; Schema: public; Owner: Magnius
 --
 
-CREATE INDEX index_stores_on_cluster_id ON stores USING btree (cluster_id);
+CREATE INDEX index_staffing_reals_on_department_id ON public.staffing_reals USING btree (department_id);
 
 
 --
--- Name: index_stores_on_origin_id; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_stores_on_cluster_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE INDEX index_stores_on_origin_id ON stores USING btree (origin_id);
+CREATE INDEX index_stores_on_cluster_id ON public.stores USING btree (cluster_id);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_stores_on_origin_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+CREATE INDEX index_stores_on_origin_id ON public.stores USING btree (origin_id);
 
 
 --
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: coke; Tablespace: 
+-- Name: index_users_on_department_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+CREATE INDEX index_users_on_department_id ON public.users USING btree (department_id);
 
 
 --
--- Name: fk_rails_0114e1ed82; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sale_plans
-    ADD CONSTRAINT fk_rails_0114e1ed82 FOREIGN KEY (department_id) REFERENCES departments(id);
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
 
 
 --
--- Name: fk_rails_1280d3b3fa; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY historic_sales
-    ADD CONSTRAINT fk_rails_1280d3b3fa FOREIGN KEY (store_id) REFERENCES stores(id);
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
 
 
 --
--- Name: fk_rails_143adc4732; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: index_users_on_store_id; Type: INDEX; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sps
-    ADD CONSTRAINT fk_rails_143adc4732 FOREIGN KEY (store_id) REFERENCES stores(id);
+CREATE INDEX index_users_on_store_id ON public.users USING btree (store_id);
 
 
 --
--- Name: fk_rails_3be6c8adfb; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: sale_plans fk_rails_0114e1ed82; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY shift_breaks
-    ADD CONSTRAINT fk_rails_3be6c8adfb FOREIGN KEY (seller_id) REFERENCES sellers(id);
+ALTER TABLE ONLY public.sale_plans
+    ADD CONSTRAINT fk_rails_0114e1ed82 FOREIGN KEY (department_id) REFERENCES public.departments(id);
 
 
 --
--- Name: fk_rails_4ab334433c; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: historic_sales fk_rails_1280d3b3fa; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sale_reals
-    ADD CONSTRAINT fk_rails_4ab334433c FOREIGN KEY (store_id) REFERENCES stores(id);
+ALTER TABLE ONLY public.historic_sales
+    ADD CONSTRAINT fk_rails_1280d3b3fa FOREIGN KEY (store_id) REFERENCES public.stores(id);
 
 
 --
--- Name: fk_rails_7ee155299e; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: sps fk_rails_143adc4732; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sps
-    ADD CONSTRAINT fk_rails_7ee155299e FOREIGN KEY (department_id) REFERENCES departments(id);
+ALTER TABLE ONLY public.sps
+    ADD CONSTRAINT fk_rails_143adc4732 FOREIGN KEY (store_id) REFERENCES public.stores(id);
 
 
 --
--- Name: fk_rails_91370872b5; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: shift_breaks fk_rails_3be6c8adfb; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY hs
-    ADD CONSTRAINT fk_rails_91370872b5 FOREIGN KEY (store_id) REFERENCES stores(id);
+ALTER TABLE ONLY public.shift_breaks
+    ADD CONSTRAINT fk_rails_3be6c8adfb FOREIGN KEY (seller_id) REFERENCES public.sellers(id);
 
 
 --
--- Name: fk_rails_9243f9f41b; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: sale_reals fk_rails_4ab334433c; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY historic_sales
-    ADD CONSTRAINT fk_rails_9243f9f41b FOREIGN KEY (department_id) REFERENCES departments(id);
+ALTER TABLE ONLY public.sale_reals
+    ADD CONSTRAINT fk_rails_4ab334433c FOREIGN KEY (store_id) REFERENCES public.stores(id);
 
 
 --
--- Name: fk_rails_94a7ab9fa6; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: sps fk_rails_7ee155299e; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sale_reals
-    ADD CONSTRAINT fk_rails_94a7ab9fa6 FOREIGN KEY (department_id) REFERENCES departments(id);
+ALTER TABLE ONLY public.sps
+    ADD CONSTRAINT fk_rails_7ee155299e FOREIGN KEY (department_id) REFERENCES public.departments(id);
 
 
 --
--- Name: fk_rails_a4f89e69bb; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: hs fk_rails_91370872b5; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY departments
-    ADD CONSTRAINT fk_rails_a4f89e69bb FOREIGN KEY (store_id) REFERENCES stores(id);
+ALTER TABLE ONLY public.hs
+    ADD CONSTRAINT fk_rails_91370872b5 FOREIGN KEY (store_id) REFERENCES public.stores(id);
 
 
 --
--- Name: fk_rails_a961131721; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: historic_sales fk_rails_9243f9f41b; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY stores
-    ADD CONSTRAINT fk_rails_a961131721 FOREIGN KEY (cluster_id) REFERENCES clusters(id);
+ALTER TABLE ONLY public.historic_sales
+    ADD CONSTRAINT fk_rails_9243f9f41b FOREIGN KEY (department_id) REFERENCES public.departments(id);
 
 
 --
--- Name: fk_rails_b9da527f94; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: sale_reals fk_rails_94a7ab9fa6; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sellers
-    ADD CONSTRAINT fk_rails_b9da527f94 FOREIGN KEY (store_id) REFERENCES stores(id);
+ALTER TABLE ONLY public.sale_reals
+    ADD CONSTRAINT fk_rails_94a7ab9fa6 FOREIGN KEY (department_id) REFERENCES public.departments(id);
 
 
 --
--- Name: fk_rails_c11526c214; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: departments fk_rails_a4f89e69bb; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY available_shifts
-    ADD CONSTRAINT fk_rails_c11526c214 FOREIGN KEY (store_id) REFERENCES stores(id);
+ALTER TABLE ONLY public.departments
+    ADD CONSTRAINT fk_rails_a4f89e69bb FOREIGN KEY (store_id) REFERENCES public.stores(id);
 
 
 --
--- Name: fk_rails_ccea61b4d5; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: stores fk_rails_a961131721; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY rs
-    ADD CONSTRAINT fk_rails_ccea61b4d5 FOREIGN KEY (store_id) REFERENCES stores(id);
+ALTER TABLE ONLY public.stores
+    ADD CONSTRAINT fk_rails_a961131721 FOREIGN KEY (cluster_id) REFERENCES public.clusters(id);
 
 
 --
--- Name: fk_rails_e44209ac70; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: staffing_reals fk_rails_b2f71e4525; Type: FK CONSTRAINT; Schema: public; Owner: Magnius
 --
 
-ALTER TABLE ONLY rs
-    ADD CONSTRAINT fk_rails_e44209ac70 FOREIGN KEY (department_id) REFERENCES departments(id);
+ALTER TABLE ONLY public.staffing_reals
+    ADD CONSTRAINT fk_rails_b2f71e4525 FOREIGN KEY (department_id) REFERENCES public.departments(id);
 
 
 --
--- Name: fk_rails_e8a8459ef9; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: sellers fk_rails_b9da527f94; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sale_plans
-    ADD CONSTRAINT fk_rails_e8a8459ef9 FOREIGN KEY (store_id) REFERENCES stores(id);
+ALTER TABLE ONLY public.sellers
+    ADD CONSTRAINT fk_rails_b9da527f94 FOREIGN KEY (store_id) REFERENCES public.stores(id);
 
 
 --
--- Name: fk_rails_efd6f20315; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: available_shifts fk_rails_c11526c214; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY sellers
-    ADD CONSTRAINT fk_rails_efd6f20315 FOREIGN KEY (department_id) REFERENCES departments(id);
+ALTER TABLE ONLY public.available_shifts
+    ADD CONSTRAINT fk_rails_c11526c214 FOREIGN KEY (store_id) REFERENCES public.stores(id);
 
 
 --
--- Name: fk_rails_f92948468a; Type: FK CONSTRAINT; Schema: public; Owner: coke
+-- Name: users fk_rails_c6f326481e; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-ALTER TABLE ONLY hs
-    ADD CONSTRAINT fk_rails_f92948468a FOREIGN KEY (department_id) REFERENCES departments(id);
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT fk_rails_c6f326481e FOREIGN KEY (store_id) REFERENCES public.stores(id);
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: postgres
+-- Name: rs fk_rails_ccea61b4d5; Type: FK CONSTRAINT; Schema: public; Owner: coke
 --
 
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO PUBLIC;
+ALTER TABLE ONLY public.rs
+    ADD CONSTRAINT fk_rails_ccea61b4d5 FOREIGN KEY (store_id) REFERENCES public.stores(id);
+
+
+--
+-- Name: rs fk_rails_e44209ac70; Type: FK CONSTRAINT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.rs
+    ADD CONSTRAINT fk_rails_e44209ac70 FOREIGN KEY (department_id) REFERENCES public.departments(id);
+
+
+--
+-- Name: sale_plans fk_rails_e8a8459ef9; Type: FK CONSTRAINT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.sale_plans
+    ADD CONSTRAINT fk_rails_e8a8459ef9 FOREIGN KEY (store_id) REFERENCES public.stores(id);
+
+
+--
+-- Name: sellers fk_rails_efd6f20315; Type: FK CONSTRAINT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.sellers
+    ADD CONSTRAINT fk_rails_efd6f20315 FOREIGN KEY (department_id) REFERENCES public.departments(id);
+
+
+--
+-- Name: users fk_rails_f29bf9cdf2; Type: FK CONSTRAINT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT fk_rails_f29bf9cdf2 FOREIGN KEY (department_id) REFERENCES public.departments(id);
+
+
+--
+-- Name: hs fk_rails_f92948468a; Type: FK CONSTRAINT; Schema: public; Owner: coke
+--
+
+ALTER TABLE ONLY public.hs
+    ADD CONSTRAINT fk_rails_f92948468a FOREIGN KEY (department_id) REFERENCES public.departments(id);
 
 
 --

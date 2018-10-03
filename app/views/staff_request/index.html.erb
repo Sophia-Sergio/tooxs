@@ -23,6 +23,7 @@
         <div class="col-md-6">
           <div>
             <select class="full-width select required select2-hidden-accessible" data-init-plugin="select2" name="departments[]" id="department" tabindex="-1" aria-hidden="true" multiple="multiple">
+                <option value="0">Todos</option>
               <% @departments.each do |department| %>
                 <option value="<%= department.id %>"><%= department.name %></option>
               <% end %>
@@ -90,7 +91,7 @@
                     </td>
                     <td><%= resultado[:descrip] %></td>
                     <td><%= resultado[:cantidad] %></td>
-                    <td><input type="text" name="cantidad_<%= count_row %>" style="width: 2em;"></td>
+                    <td><input class="form-control" type="text" name="cantidad_<%= count_row %>"></td>
                     <td>
                       <%= resultado[:fecha] %>
                       <input type="hidden" name="fecha_<%= count_row %>" value="<%= resultado[:fecha] %>" >
