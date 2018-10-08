@@ -246,22 +246,24 @@ class ApplicationController < ActionController::Base
 
 
           @day.each do |s|
-            saleMonthnine += @sp_day.first.nine if s.nine
-            saleMonthten += @sp_day.first.ten if s.ten
-            saleMontheleven += @sp_day.first.eleven if s.eleven
-            saleMonthtwelve += @sp_day.first.twelve if s.twelve
-            saleMonththirteen += @sp_day.first.thirteen if s.thirteen
-            saleMonthfourteen += @sp_day.first.fourteen if s.fourteen
-            saleMonthfifteen += @sp_day.first.fifteen if s.fifteen
-            saleMonthsixteen += @sp_day.first.sixteen if s.sixteen
-            saleMonthseventeen += @sp_day.first.seventeen if s.seventeen
-            saleMontheighteen += @sp_day.first.eighteen if s.eighteen
-            saleMonthnineteen += @sp_day.first.nineteen if s.nineteen
-            saleMonthtwenty += @sp_day.first.twenty if s.twenty
-            saleMonthtwenty_one += @sp_day.first.twenty_one if s.twenty_one
-            saleMonthtwenty_two += @sp_day.first.twenty_two if s.twenty_two
-            saleMonthtwenty_three += @sp_day.first.twenty_three if s.twenty_three
-            saleMonthtwenty_four += @sp_day.first.twenty_four if s.twenty_four
+            if @sp_day.length > 0               
+              saleMonthnine += @sp_day.first.nine if s.nine
+              saleMonthten += @sp_day.first.ten if s.ten
+              saleMontheleven += @sp_day.first.eleven if s.eleven
+              saleMonthtwelve += @sp_day.first.twelve if s.twelve
+              saleMonththirteen += @sp_day.first.thirteen if s.thirteen
+              saleMonthfourteen += @sp_day.first.fourteen if s.fourteen
+              saleMonthfifteen += @sp_day.first.fifteen if s.fifteen
+              saleMonthsixteen += @sp_day.first.sixteen if s.sixteen
+              saleMonthseventeen += @sp_day.first.seventeen if s.seventeen
+              saleMontheighteen += @sp_day.first.eighteen if s.eighteen
+              saleMonthnineteen += @sp_day.first.nineteen if s.nineteen
+              saleMonthtwenty += @sp_day.first.twenty if s.twenty
+              saleMonthtwenty_one += @sp_day.first.twenty_one if s.twenty_one
+              saleMonthtwenty_two += @sp_day.first.twenty_two if s.twenty_two
+              saleMonthtwenty_three += @sp_day.first.twenty_three if s.twenty_three
+              saleMonthtwenty_four += @sp_day.first.twenty_four if s.twenty_four
+            end
           end
           
           totalDaySeller = 0  
@@ -646,7 +648,7 @@ class ApplicationController < ActionController::Base
 
     (0..plan.length-1).each do |i|
       if dotacion[i] == nil 
-        prod_week << (plan[i] / dotacion[0]).round
+        #prod_week << (plan[i] / dotacion[0]).round
       else
         prod_week << (plan[i] / dotacion[i]).round
       end    

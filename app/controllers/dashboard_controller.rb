@@ -86,19 +86,19 @@ class DashboardController < ApplicationController
 		@totalMonth = []
 		@contReal = 0
         
-        if dotReal.length != 0
+        if dotReal.length > 0
 	        sale_reals.each do |sale|
 	            totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
 	            @realMonth  << totalRealDay
 	            @totalMonth << (totalRealDay.to_f / dotReal[@contReal]).round
 	            @contReal += 1            
 	        end
-        end
 
-        excesoReal = matrix_calc(@prod_obj, @totalMonth, dotReal)
-        totalHour = (@realMonth.sum / @prod_obj)
-        @margin_adjustment = (1 - ((excesoReal[:exceso] + excesoReal[:faltante]) / totalHour)).round(4) * 100 
-		@prod_real = (@realMonth.sum / dotReal.sum).round
+	        excesoReal = matrix_calc(@prod_obj, @totalMonth, dotReal)
+	        totalHour = (@realMonth.sum / @prod_obj)
+	        @margin_adjustment = (1 - ((excesoReal[:exceso] + excesoReal[:faltante]) / totalHour)).round(4) * 100 
+			@prod_real = (@realMonth.sum / dotReal.sum).round
+	    end
 	end
 
 	def sale_real_per_seller(seller,year,month)

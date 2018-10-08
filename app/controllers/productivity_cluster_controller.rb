@@ -141,7 +141,10 @@ class ProductivityClusterController < ApplicationController
           totalDotDay = dotReal[countReal]
           realMonth  << totalRealDay
           dotMonth   << totalDotDay
-          totalMonth << (totalRealDay.to_f / dotReal[countReal].to_f).round
+          if dotReal[countReal] == nil
+          else
+            totalMonth << (totalRealDay.to_f / dotReal[countReal].to_f).round
+          end
           countReal += 1
         end
         store = Store.find(department.first[:store_id])

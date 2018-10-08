@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-=begin User.destroy_all
+User.destroy_all
 
 admin = User.create!(
   name: 'admin',
@@ -20,18 +20,6 @@ admin = User.create!(
   status: 'active'
 )
 
-admin = User.create!(
-  name: 'Jorge',
-  lastname: 'Astudillo',
-  surname: 'Andrades',
-  rut: '151599516',
-  email: 'coke@mta.cl',
-  password: 'lala123',
-  role: 'admin',
-  status: 'active'
-)
-
-=end
 Cluster.destroy_all
 SaleBySeller.destroy_all
 DataCase.destroy_all
@@ -74,47 +62,6 @@ store.update(cluster_id: 2, economic_segment: "C2")
 store = Store.find(6)
 store.update(cluster_id: 2, economic_segment: "C2")
 
-60.times do |i| 
-  sale = SaleBySeller.create!(
-    seller: 25,
-    month: 5,
-    week: 1,
-    day: rand(1..5),
-    hour: rand(4..9), 
-    department: 1,
-    sale: rand(10000..100000),
-    turn: 1,
-    year:2018
-    )
-end
-
-30.times do |i| 
-  sale = SaleBySeller.create!(
-    seller: 25,
-    month: 5,
-    week: 2,
-    day: rand(1..2),
-    hour: rand(4..9), 
-    department: 1,
-    sale: rand(10000..100000),
-    turn: 1,
-    year:2018
-    )
-end
-
-40.times do |i| 
-  sale = SaleBySeller.create!(
-    seller: 25,
-    month: 5,
-    week: 2,
-    day: rand(4..7),
-    hour: rand(4..9), 
-    department: 1,
-    sale: rand(10000..100000),
-    turn: 1,
-    year:2018
-    )
-end
 
 staffingCase = StaffingCase.create!(
   id_case: 29,
@@ -326,37 +273,3 @@ summaryCase = SummaryCase.create!(
   margin_adjustment: "53.0%" 
   )
 
-
-
-id_count = 120
-week_count = 1
-dow_count = 1 
-
-35.times do |t|
-
-  if dow_count > 7
-    dow_count = 1
-    week_count += 1
-  end
-  rs = Rs.find(id_count)
-  rs.update(month: 5, week: week_count, dow: dow_count)
-  dow_count += 1
-  id_count += 1
-end
-
-
-
-
-#SaleReal.where(department_id: 5).update_all(department_id: 7)
-#SaleReal.where(department_id: 7).update_all(year: 2018, store_id: 2)
-#SaleReal.where(department_id: 1).update_all(year: 2018)
-
-=begin
-
-SaleReal.all.map{|s|
-  saleReal = SaleReal.find(s[:id])
-  saleReal.sale_date = s[:sale_date] + 730 
-  saleReal.save
-}
-
-=end

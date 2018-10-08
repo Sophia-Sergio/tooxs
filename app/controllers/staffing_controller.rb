@@ -24,22 +24,23 @@ class StaffingController < ApplicationController
     @stores       = Store.where(id: 1)
     @departments  = Department.where(:id => [1,5]).order(:id)
     #staffing
-    fecha1 = DateTime.parse(@w1_days[0].to_s) 
-    fecha1 = fecha1.strftime("%Y%m%d")
+    if @w1_days.length > 0
+      fecha1 = DateTime.parse(@w1_days[0].to_s) 
+      fecha1 = fecha1.strftime("%Y%m%d")
+      fecha2 = DateTime.parse(@w2_days[0].to_s) 
+      fecha2 = fecha2.strftime("%Y%m%d")
 
-    fecha2 = DateTime.parse(@w2_days[0].to_s) 
-    fecha2 = fecha2.strftime("%Y%m%d")
+      fecha3 = DateTime.parse(@w3_days[0].to_s) 
+      fecha3 = fecha3.strftime("%Y%m%d")
 
-    fecha3 = DateTime.parse(@w3_days[0].to_s) 
-    fecha3 = fecha3.strftime("%Y%m%d")
+      fecha4 = DateTime.parse(@w4_days[0].to_s) 
+      fecha4 = fecha4.strftime("%Y%m%d")
 
-    fecha4 = DateTime.parse(@w4_days[0].to_s) 
-    fecha4 = fecha4.strftime("%Y%m%d")
-
-    @staffing_w1  = staffing_draw_real(fecha1, @store, @dep)
-    @staffing_w2  = staffing_draw_real(fecha2, @store, @dep)
-    @staffing_w3  = staffing_draw_real(fecha3, @store, @dep)
-    @staffing_w4  = staffing_draw_real(fecha4, @store, @dep)
+      @staffing_w1  = staffing_draw_real(fecha1, @store, @dep)
+      @staffing_w2  = staffing_draw_real(fecha2, @store, @dep)
+      @staffing_w3  = staffing_draw_real(fecha3, @store, @dep)
+      @staffing_w4  = staffing_draw_real(fecha4, @store, @dep)
+    end
 
 
     #binding.pry
