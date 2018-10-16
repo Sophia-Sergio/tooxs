@@ -6,6 +6,16 @@ class ApplicationController < ActionController::Base
     http_basic_authenticate_with name: "salesforce", password: "12345678"
   end
 
+  def timeNow
+    testing = 1
+    if testing == 1
+      date = Date.new(2018,6,24)   
+    else
+      date = Date.today
+    end
+    date 
+  end
+
   def staffing
 
   	days = {}
@@ -342,32 +352,34 @@ class ApplicationController < ActionController::Base
           staffingCase = StaffingCase.where(id_case: case_api.to_i).first
           dataCase = DataCase.where(id_case: case_api.to_i).first       
 
-      @data = { "accion": "ejecutar", 
-          "id_caso": staffingCase.id_case.to_i,    
-          "tolerancia": (3).round(1), 
-          "evaluar_dotacion_real": staffingCase.actual_staffing_eval.to_i,    
-          "tiempo_maximo": staffingCase.max_time.to_i,    
-          "usuario": staffingCase.user.to_s, 
-          "datos": 
-          {  
-              "num_turnos": dataCase.turn_num,
-              "num_departamentos": dataCase.dep_num,
-              "num_ventanas": 1,
-              "num_dias_ventana": dataCase.day_num,
-              "num_horas_dia": dataCase.hour_day,
-              "valor_hp": dataCase.hp_val.round(1),
-              "prod_obj": dataCase.prod_obj.round(1),
-              "VHP": "", 
-              "POV": dataCase.pov,
-              "Entrada_Almuerzo": dataCase.lunch_in,  
-              "Horas_Almuerzo": dataCase.lunch_hours,
-              "min_horas": dataCase.hour_min,  
-              "matriz_turnos": dataCase.turns_matrix.to_s, 
-              "dotacion_real": dataCase.real_dot.to_s, 
-              "plan_venta": plan_venta_string
-          }
-      }.to_json
-      return @data
+      if staffingCase
+        @data = { "accion": "ejecutar", 
+            "id_caso": staffingCase.id_case.to_i,    
+            "tolerancia": (3).round(1), 
+            "evaluar_dotacion_real": staffingCase.actual_staffing_eval.to_i,    
+            "tiempo_maximo": staffingCase.max_time.to_i,    
+            "usuario": staffingCase.user.to_s, 
+            "datos": 
+            {  
+                "num_turnos": dataCase.turn_num,
+                "num_departamentos": dataCase.dep_num,
+                "num_ventanas": 1,
+                "num_dias_ventana": dataCase.day_num,
+                "num_horas_dia": dataCase.hour_day,
+                "valor_hp": dataCase.hp_val.round(1),
+                "prod_obj": dataCase.prod_obj.round(1),
+                "VHP": "", 
+                "POV": dataCase.pov,
+                "Entrada_Almuerzo": dataCase.lunch_in,  
+                "Horas_Almuerzo": dataCase.lunch_hours,
+                "min_horas": dataCase.hour_min,  
+                "matriz_turnos": dataCase.turns_matrix.to_s, 
+                "dotacion_real": dataCase.real_dot.to_s, 
+                "plan_venta": plan_venta_string
+            }
+        }
+      end
+      @data.to_json
   end
 
   def calculo_semanal(datos, dias)

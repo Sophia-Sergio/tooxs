@@ -8,25 +8,15 @@
 
 
 User.destroy_all
-
-admin = User.create!(
-  name: 'admin',
-  lastname: 'sales',
-  surname: 'force',
-  rut: '111111111',
-  email: 'admin@mta.cl',
-  password: 'prueba',
-  role: 'admin',
-  status: 'active'
-)
-
+Department.destroy_all
+Store.destroy_all
 Cluster.destroy_all
+Department.destroy_all
 SaleBySeller.destroy_all
 DataCase.destroy_all
 StaffingCase.destroy_all
 SummaryCase.destroy_all
 MasterDepartment.destroy_all
-
 
 Cluster.create!([{id:1, name:'ABC1'},{id:2, name:'C2'},{id:3, name:'C3'},{id:4, name:'D'},{id:5, name:'E'}])
 
@@ -40,28 +30,38 @@ MasterDepartment.create!(
   {id: 6, name: 'Infantil'}
 ])
 
+Store.create!([
+  {id:1, name: "Alto Las Condes", street: " Av. Pdte. Kennedy Lateral ", number: "9001", city: "Santiago", district: "-", country: "CL", origin_id: 1, county: "Las Condes", size: "Grande", economic_segment: "ABC1", cluster_id: 1},
+  {id:2, name: "Parque Arauco", street: "Av Presidente Kennedy", number: "5413", city: "Santiago", district: "-", country: "CL", origin_id: 2, county: "Las Condes", size: "Grande", economic_segment: "C3", cluster_id: 3 },
+  {id:3, name: "Plaza Oeste", street: " Av. Américo Vespucio", number: "1501", city: "Santiago", district: "-", country: "CL", origin_id: 3, county: "Cerrillos", size: "Grande", economic_segment: "C2", cluster_id: 2},
+  {id:4, name: "Santiago Centro", street: "Ahumada", number: "112", city: "Santiago", district: "-", country: "CL", origin_id: 4, county: "Santiago", size: "Grande", economic_segment: "C2", cluster_id: 2},
+  {id:5, name: "Plaza Egaña", street: " Av. Larrain", number: "5", city: "Santiago", district: "-", country: "CL", origin_id: 5, county: "La Reina", size: "Grande", economic_segment: "C3", cluster_id: 3},
+  {id:6, name: "Portal La Dehesa", street: "Av. La Dehesa", number: "1445", city: "Santiago", district: "-", country: "CL", origin_id: 6, county: "Lo Barnechea", size: "Grande", economic_segment: "ABC1", cluster_id: 1}
+])
 
+Department.create!([
+  {id: 1, origin_id: 1, name: "Rincon juvenil Mujer", store_id: 1},
+  {id: 2, origin_id: 7, name: "Moda Hombre", store_id: 2},
+  {id: 3, origin_id: 6, name: "Tecnología", store_id: 3},
+  {id: 4, origin_id: 2, name: "Moda Mujer", store_id: 5},
+  {id: 5, origin_id: 4, name: "Deportes", store_id: 6},
+  {id: 6, origin_id: 3, name: "Infantíl", store_id: 1}
+])
 
+admin = User.create!(
+  name: 'admin',
+  lastname: 'sales',
+  surname: 'force',
+  rut: '111111111',
+  email: 'admin@mta.cl',
+  password: 'prueba',
+  role: 'admin',
+  status: 'active',
+  store_id: 1,
+  department_id: 1
+)
 
-
-store = Store.find(1)
-store.update(cluster_id: 1)
-
-store = Store.find(2)
-store.update(cluster_id: 1)
-
-store = Store.find(3)
-store.update(cluster_id: 3, economic_segment: "C3")
-
-store = Store.find(4)
-store.update(cluster_id: 3, economic_segment: "C3")
-
-store = Store.find(5)
-store.update(cluster_id: 2, economic_segment: "C2")
-
-store = Store.find(6)
-store.update(cluster_id: 2, economic_segment: "C2")
-
+=begin
 
 staffingCase = StaffingCase.create!(
   id_case: 29,
@@ -273,3 +273,4 @@ summaryCase = SummaryCase.create!(
   margin_adjustment: "53.0%" 
   )
 
+=end

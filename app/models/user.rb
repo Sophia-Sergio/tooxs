@@ -6,7 +6,8 @@ class User < ApplicationRecord
 
   enum role: [:admin, :gcc, :gcp, :gz, :gt, :gv, :jd, :colaborador]
   enum status: [:active, :disabled]
-
+  belongs_to :store
+  belongs_to :department
   has_many :request
 
   def fullname

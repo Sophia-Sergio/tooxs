@@ -31,7 +31,9 @@ class HourAnalysisController < ApplicationController
 		@venta_w_real.delete_at(4)
 		end
 
-		@plan = JSON.parse(@brain_json)
+        if @brain_json
+            @plan = JSON.parse(@brain_json)       
+        end
 
 		dotReal = dotacion_real(@dep, month, year)
         if dataCase.length > 0

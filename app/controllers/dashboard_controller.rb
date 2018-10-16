@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
         if params[:month]
         	@month = params[:month]
         else
-        	@month = 6
+        	@month = timeNow.strftime("%m").to_i 
         end
 
 		@department  = 1
@@ -17,7 +17,9 @@ class DashboardController < ApplicationController
         dayNow = day_now_charged
 		turnos = Array.new(12, 0)
 		dataCase = DataCase.where(dep_num: @department, month: @month).first
-		summaryCaseOut = SummaryCase.where( id_case: dataCase.id_case, type_io: 'out').first
+		if dataCase
+			summaryCaseOut = SummaryCase.where( id_case: dataCase.id_case, type_io: 'out').first
+		end
 
 		if summaryCaseOut
 			@margin_adjustment = summaryCaseOut.margin_adjustment.to_f
@@ -30,11 +32,12 @@ class DashboardController < ApplicationController
 		end
 		
 		#turnos cubiertos
-   	    shifts_covered_data = shifts_covered(dataCase.id_case, @department, @store)  
-		turnosOpTotal = shifts_covered_data[:turnosOpTotal]
-		@turnosEntrada = shifts_covered_data[:turnosEntrada]
-		@turnosOptimizados = shifts_covered_data[:turnosOptimizados]
-
+		if dataCase
+	   	    shifts_covered_data = shifts_covered(dataCase.id_case, @department, @store)  
+			turnosOpTotal = shifts_covered_data[:turnosOpTotal]
+			@turnosEntrada = shifts_covered_data[:turnosEntrada]
+			@turnosOptimizados = shifts_covered_data[:turnosOptimizados]
+		end
 
 		@sellers = Seller.where(department: @department, store: @store)
 		@setSellers = []
@@ -61,11 +64,12 @@ class DashboardController < ApplicationController
         end
 
 		@turnos_cubiertos = []
-
-		if @turnosOptimizados.sum != 0
-			@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{@turnosOptimizados.sum}", :porcentaje => ( turnosOpTotal* 100 / @turnosOptimizados.sum).round }
-		else
-			@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{@turnosOptimizados.sum}", :porcentaje => 0 }	
+		if @turnosOptimizados			
+			if @turnosOptimizados.sum != 0
+				@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{@turnosOptimizados.sum}", :porcentaje => ( turnosOpTotal* 100 / @turnosOptimizados.sum).round }
+			else
+				@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{@turnosOptimizados.sum}", :porcentaje => 0 }	
+			end
 		end
 
 		# calcular cumplimiento del plan

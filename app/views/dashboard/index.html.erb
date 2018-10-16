@@ -67,6 +67,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 			<div class="chart-dashboard">
 				<div class="sub-titulo-pantalla">Turnos cubiertos</div>
 				<div id="turnos-cubiertos">
+					<% if @turnos_cubiertos.length > 0 %>
 					<div class="progress">
 					  <div class="progress-bar" role="progressbar" style="width: <%= @turnos_cubiertos[:porcentaje] %>%" aria-valuenow="<%= @turnos_cubiertos[:porcentaje] %>" aria-valuemax="100"></div>
 					</div>
@@ -76,6 +77,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 							<%= @turnos_cubiertos[:texto] %>
 						</div> 
 					</div>
+					<% end %>
 				</div>
 			</div>
 			<div class="chart-dashboard">
@@ -85,17 +87,20 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 						<th>Actual</th>
 						<th>Optimizado</th>
 					</thead>
-					<% @turnosEntrada.count.times do |i| %>
-					<tr>
-						<td><%= i+1 %></td>
-						<td><%= @turnosEntrada[i].to_i %></td>
-						<td><%= @turnosOptimizados[i].to_i %></td>
-					</tr>
+					<tbody>
+					<%if @turnosEntrada %>
+						<% @turnosEntrada.count.times do |i| %>
+						<tr>
+							<td><%= i+1 %></td>
+							<td><%= @turnosEntrada[i].to_i %></td>
+							<td><%= @turnosOptimizados[i].to_i %></td>
+						</tr>
+						<% end %>
 					<% end %>
+					</tbody>
 				</table>
 			</div>
 		</div>
-
 		<div id="div-tabla" class="col-md-8">
 			<div class="chart-dashboard">
 				<div>					
