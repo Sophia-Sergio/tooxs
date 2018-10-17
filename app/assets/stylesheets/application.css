@@ -13,7 +13,7 @@
  *= require_tree .
  *= require_self
 
-  
+
   *= require pace/pace-theme-flash.css
   *= require bootstrap/css/bootstrap.css
   *= require font-awesome/css/font-awesome
@@ -24,7 +24,6 @@
   *= jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css
   *= datatables-responsive/css/datatables.responsive.css
   *= require nvd3/nv.d3.min.css
-
 
   *= require pages/css/pages-icons.css
   *= require pages/css/themes/corporate.css
