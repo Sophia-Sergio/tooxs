@@ -35,23 +35,25 @@ class ProductivityController < ApplicationController
         @w4_days = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: @dep).where(:year => year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
 
         #staffing
-        fecha1 = DateTime.parse(@w1_days[0].to_s) 
-        fecha1 = fecha1.strftime("%Y%m%d")
+        if @w1_days.length > 0         
+            fecha1 = DateTime.parse(@w1_days[0].to_s) 
+            fecha1 = fecha1.strftime("%Y%m%d")
 
-        fecha2 = DateTime.parse(@w2_days[0].to_s) 
-        fecha2 = fecha2.strftime("%Y%m%d")
+            fecha2 = DateTime.parse(@w2_days[0].to_s) 
+            fecha2 = fecha2.strftime("%Y%m%d")
 
-        fecha3 = DateTime.parse(@w3_days[0].to_s) 
-        fecha3 = fecha3.strftime("%Y%m%d")
+            fecha3 = DateTime.parse(@w3_days[0].to_s) 
+            fecha3 = fecha3.strftime("%Y%m%d")
 
-        fecha4 = DateTime.parse(@w4_days[0].to_s) 
-        fecha4 = fecha4.strftime("%Y%m%d")
+            fecha4 = DateTime.parse(@w4_days[0].to_s) 
+            fecha4 = fecha4.strftime("%Y%m%d")
 
-        @staffing_w1  = staffing_draw(fecha1)
-        @staffing_w2  = staffing_draw(fecha2)
-        @staffing_w3  = staffing_draw(fecha3)
-        @staffing_w4  = staffing_draw(fecha4)
-        @brain_json = brain_json(month, year, @store, @dep)
+            @staffing_w1  = staffing_draw(fecha1)
+            @staffing_w2  = staffing_draw(fecha2)
+            @staffing_w3  = staffing_draw(fecha3)
+            @staffing_w4  = staffing_draw(fecha4)
+            @brain_json = brain_json(month, year, @store, @dep)
+        end
     end
 
     def json_current
@@ -262,8 +264,11 @@ class ProductivityController < ApplicationController
         @plan = JSON.parse(@brain_json)
 
         dotReal = dotacion_real(@dep, month, year)
-    
-        @dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
+        if dataCase.length > 0
+            @dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
+        else
+            @dotacion_w_op = []
+        end
         @dotacion_w_real = calculo_semanal(dotReal, 7)
 
         @prod_w_op = cerebro_calculo_productividades_week(@venta_w_real, @dotacion_w_op)

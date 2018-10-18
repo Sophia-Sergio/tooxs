@@ -1,5 +1,6 @@
 class StaffingReal < ApplicationRecord
   belongs_to :department
+  belongs_to :store
 
   class << self
     def from_xlsx(file = '')
@@ -30,14 +31,16 @@ class StaffingReal < ApplicationRecord
       return if department.nil?
 
       staffing_real = StaffingReal.find_or_initialize_by(
-        department_id: row[0],
-        year: parse_integer(row[1]),
-        month: parse_integer(row[2]),
-        day: parse_integer(row[3])        
+        store_id: row[0],
+        department_id: row[1],
+        year: parse_integer(row[2]),
+        month: parse_integer(row[3]),
+        day: parse_integer(row[4]),
+        hour: parse_integer(row[5])        
       )
 
       staffing_real.update_attributes(
-        count: parse_integer(row[4])
+        count: parse_integer(row[6])
       )
     end
   end

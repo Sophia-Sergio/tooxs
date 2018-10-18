@@ -1,0 +1,77 @@
+<% if @carga.length > 0 %> 
+<div class="sub-titulo-pantalla">Resultado de solicitud</div>
+<div>
+  <%= simple_form_for @search, :url => staff_request_generated_path, :method => :post do |f| %>
+  <div class="row" style="overflow: -webkit-paged-x;">
+    <table class="table-shift table table-striped">
+          <thead>
+              <tr>
+                  <th>Tienda</th>
+                  <th>Departamento</th>           
+                  <th>Turno</th>           
+                  <th>Descripción de turno</th>           
+                  <th>Cantidad a solicitar</th>
+                  <th>Fecha inicial</th>
+              </tr>
+          </thead>
+          <tbody class="t-p-3">
+              <% count_row = 1 %>
+              <% @carga.each do |resultado| %>
+                <tr>
+                  <td>
+                    <%= resultado[:store].name %>
+                    <input class="form-control" type="hidden" name="store_<%= count_row %>" value="<%= resultado[:store].id %>" >  
+                  </td>
+                  <td>
+                    <%= resultado[:dep].name %>
+                    <input class="form-control" type="hidden" name="dep_<%= count_row %>" value="<%= resultado[:dep].id %>" > 
+                  </td>
+                  <td>
+                    <%= resultado[:turno].num %>
+                    <input class="form-control" type="hidden" name="turno_<%= count_row %>" value="<%= resultado[:turno].num %>" >                    
+                  </td>
+                  <td><%= resultado[:turno].name %></td>
+                  <td>
+                    <%= resultado[:cantidad] %>
+                    <input class="form-control" type="hidden" name="cantidad_<%= count_row %>" value="<%= resultado[:cantidad] %>" >       
+                  </td>
+                  <td>
+                    <%= resultado[:fecha] %>
+                    <input class="form-control" type="hidden" name="fecha_<%= count_row %>" value="<%= resultado[:fecha] %>" >
+                    <input  class="form-control" type="hidden" name="count_row" value="<%= count_row %>" > 
+                  </td>
+                </tr>
+                <% count_row += 1 %>
+              <% end %>
+          </tbody>
+      </table>
+  </div>
+  <div class="sub-titulo-pantalla">Dónde desea publicar</div>
+  <div class="row">
+    <div class="d-flex flex-wrap">
+      <div class="form-group mr-3">
+        <input type="checkbox" name="pos_interna">
+        <label>Postulación interna</label>
+      </div>
+      <div class="form-group mr-3">
+        <input type="checkbox" name="laborum">
+        <label>Laborum</label>
+      </div>
+      <div class="form-group mr-3">
+        <input type="checkbox" name="trabajando">
+        <label>Trabajando</label>
+      </div>
+      <div class="form-group mr-3">
+        <input type="checkbox" name="rrhh">
+        <label>RRHH</label>
+      </div>
+      <div class="form-group">
+      <%= button_tag type: 'submit',class: "btn btn-success" do %>
+        Publicar
+      <% end %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+<% end %>

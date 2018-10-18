@@ -4,7 +4,7 @@ class StaffingController < ApplicationController
     if params[:department] == nil
       params[:department] = 1
       params[:store] = 1
-      params[:month] = Date.today.strftime("%m").to_i
+      params[:month] = 6
     end
   
     @month = params[:month]
@@ -18,30 +18,29 @@ class StaffingController < ApplicationController
     @w3_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 3, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
     @w4_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
 
-
-
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Dotación personal", :staffing_index_path
   	@search       = ''
     @stores       = Store.where(id: 1)
     @departments  = Department.where(:id => [1,5]).order(:id)
     #staffing
-    fecha1 = DateTime.parse(@w1_days[0].to_s) 
-    fecha1 = fecha1.strftime("%Y%m%d")
+    if @w1_days.length > 0
+      fecha1 = DateTime.parse(@w1_days[0].to_s) 
+      fecha1 = fecha1.strftime("%Y%m%d")
+      fecha2 = DateTime.parse(@w2_days[0].to_s) 
+      fecha2 = fecha2.strftime("%Y%m%d")
 
-    fecha2 = DateTime.parse(@w2_days[0].to_s) 
-    fecha2 = fecha2.strftime("%Y%m%d")
+      fecha3 = DateTime.parse(@w3_days[0].to_s) 
+      fecha3 = fecha3.strftime("%Y%m%d")
 
-    fecha3 = DateTime.parse(@w3_days[0].to_s) 
-    fecha3 = fecha3.strftime("%Y%m%d")
+      fecha4 = DateTime.parse(@w4_days[0].to_s) 
+      fecha4 = fecha4.strftime("%Y%m%d")
 
-    fecha4 = DateTime.parse(@w4_days[0].to_s) 
-    fecha4 = fecha4.strftime("%Y%m%d")
-
-    @staffing_w1  = staffing_draw_real(fecha1, @store, @dep)
-    @staffing_w2  = staffing_draw_real(fecha2, @store, @dep)
-    @staffing_w3  = staffing_draw_real(fecha3, @store, @dep)
-    @staffing_w4  = staffing_draw_real(fecha4, @store, @dep)
+      @staffing_w1  = staffing_draw_real(fecha1, @store, @dep)
+      @staffing_w2  = staffing_draw_real(fecha2, @store, @dep)
+      @staffing_w3  = staffing_draw_real(fecha3, @store, @dep)
+      @staffing_w4  = staffing_draw_real(fecha4, @store, @dep)
+    end
 
 
     #binding.pry

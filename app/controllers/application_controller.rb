@@ -6,6 +6,16 @@ class ApplicationController < ActionController::Base
     http_basic_authenticate_with name: "salesforce", password: "12345678"
   end
 
+  def timeNow
+    testing = 1
+    if testing == 1
+      date = Date.new(2018,6,24)   
+    else
+      date = Date.today
+    end
+    date 
+  end
+
   def staffing
 
   	days = {}
@@ -246,22 +256,24 @@ class ApplicationController < ActionController::Base
 
 
           @day.each do |s|
-            saleMonthnine += @sp_day.first.nine if s.nine
-            saleMonthten += @sp_day.first.ten if s.ten
-            saleMontheleven += @sp_day.first.eleven if s.eleven
-            saleMonthtwelve += @sp_day.first.twelve if s.twelve
-            saleMonththirteen += @sp_day.first.thirteen if s.thirteen
-            saleMonthfourteen += @sp_day.first.fourteen if s.fourteen
-            saleMonthfifteen += @sp_day.first.fifteen if s.fifteen
-            saleMonthsixteen += @sp_day.first.sixteen if s.sixteen
-            saleMonthseventeen += @sp_day.first.seventeen if s.seventeen
-            saleMontheighteen += @sp_day.first.eighteen if s.eighteen
-            saleMonthnineteen += @sp_day.first.nineteen if s.nineteen
-            saleMonthtwenty += @sp_day.first.twenty if s.twenty
-            saleMonthtwenty_one += @sp_day.first.twenty_one if s.twenty_one
-            saleMonthtwenty_two += @sp_day.first.twenty_two if s.twenty_two
-            saleMonthtwenty_three += @sp_day.first.twenty_three if s.twenty_three
-            saleMonthtwenty_four += @sp_day.first.twenty_four if s.twenty_four
+            if @sp_day.length > 0               
+              saleMonthnine += @sp_day.first.nine if s.nine
+              saleMonthten += @sp_day.first.ten if s.ten
+              saleMontheleven += @sp_day.first.eleven if s.eleven
+              saleMonthtwelve += @sp_day.first.twelve if s.twelve
+              saleMonththirteen += @sp_day.first.thirteen if s.thirteen
+              saleMonthfourteen += @sp_day.first.fourteen if s.fourteen
+              saleMonthfifteen += @sp_day.first.fifteen if s.fifteen
+              saleMonthsixteen += @sp_day.first.sixteen if s.sixteen
+              saleMonthseventeen += @sp_day.first.seventeen if s.seventeen
+              saleMontheighteen += @sp_day.first.eighteen if s.eighteen
+              saleMonthnineteen += @sp_day.first.nineteen if s.nineteen
+              saleMonthtwenty += @sp_day.first.twenty if s.twenty
+              saleMonthtwenty_one += @sp_day.first.twenty_one if s.twenty_one
+              saleMonthtwenty_two += @sp_day.first.twenty_two if s.twenty_two
+              saleMonthtwenty_three += @sp_day.first.twenty_three if s.twenty_three
+              saleMonthtwenty_four += @sp_day.first.twenty_four if s.twenty_four
+            end
           end
           
           totalDaySeller = 0  
@@ -340,32 +352,34 @@ class ApplicationController < ActionController::Base
           staffingCase = StaffingCase.where(id_case: case_api.to_i).first
           dataCase = DataCase.where(id_case: case_api.to_i).first       
 
-      @data = { "accion": "ejecutar", 
-          "id_caso": staffingCase.id_case.to_i,    
-          "tolerancia": (3).round(1), 
-          "evaluar_dotacion_real": staffingCase.actual_staffing_eval.to_i,    
-          "tiempo_maximo": staffingCase.max_time.to_i,    
-          "usuario": staffingCase.user.to_s, 
-          "datos": 
-          {  
-              "num_turnos": dataCase.turn_num,
-              "num_departamentos": dataCase.dep_num,
-              "num_ventanas": 1,
-              "num_dias_ventana": dataCase.day_num,
-              "num_horas_dia": dataCase.hour_day,
-              "valor_hp": dataCase.hp_val.round(1),
-              "prod_obj": dataCase.prod_obj.round(1),
-              "VHP": "", 
-              "POV": dataCase.pov,
-              "Entrada_Almuerzo": dataCase.lunch_in,  
-              "Horas_Almuerzo": dataCase.lunch_hours,
-              "min_horas": dataCase.hour_min,  
-              "matriz_turnos": dataCase.turns_matrix.to_s, 
-              "dotacion_real": dataCase.real_dot.to_s, 
-              "plan_venta": plan_venta_string
-          }
-      }.to_json
-      return @data
+      if staffingCase
+        @data = { "accion": "ejecutar", 
+            "id_caso": staffingCase.id_case.to_i,    
+            "tolerancia": (3).round(1), 
+            "evaluar_dotacion_real": staffingCase.actual_staffing_eval.to_i,    
+            "tiempo_maximo": staffingCase.max_time.to_i,    
+            "usuario": staffingCase.user.to_s, 
+            "datos": 
+            {  
+                "num_turnos": dataCase.turn_num,
+                "num_departamentos": dataCase.dep_num,
+                "num_ventanas": 1,
+                "num_dias_ventana": dataCase.day_num,
+                "num_horas_dia": dataCase.hour_day,
+                "valor_hp": dataCase.hp_val.round(1),
+                "prod_obj": dataCase.prod_obj.round(1),
+                "VHP": "", 
+                "POV": dataCase.pov,
+                "Entrada_Almuerzo": dataCase.lunch_in,  
+                "Horas_Almuerzo": dataCase.lunch_hours,
+                "min_horas": dataCase.hour_min,  
+                "matriz_turnos": dataCase.turns_matrix.to_s, 
+                "dotacion_real": dataCase.real_dot.to_s, 
+                "plan_venta": plan_venta_string
+            }
+        }
+      end
+      @data.to_json
   end
 
   def calculo_semanal(datos, dias)
@@ -646,7 +660,7 @@ class ApplicationController < ActionController::Base
 
     (0..plan.length-1).each do |i|
       if dotacion[i] == nil 
-        prod_week << (plan[i] / dotacion[0]).round
+        #prod_week << (plan[i] / dotacion[0]).round
       else
         prod_week << (plan[i] / dotacion[i]).round
       end    
@@ -715,7 +729,53 @@ class ApplicationController < ActionController::Base
   end
 
   #calcula los turnos cubiertos entregando un array con turnos entrada, salida, cubiertos y faltantes
-  def shifts_covered
-    
+  def shifts_covered(id_case, department, store)  
+    turnosOptimizados = Array.new(12, 0)
+    turnosEntrada = Array.new(12, 0)
+    turnosNoCubiertos = Array.new(12, 0)
+    opt_turn = []
+
+    #turnos de entrada
+    sellers = Seller.where(department: department, store: store).pluck(:assigned_shift)
+    sellers.each do |turn|
+      turnosEntrada[turn.to_i-1] += 1
+    end
+
+    #turnos de salida
+    summaryCaseOut = SummaryCase.where( id_case: id_case, type_io: 'out').first       
+    if summaryCaseOut
+      opt_turn = summaryCaseOut.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
+    else
+      opt_turn = []
+    end
+
+    opt_turn.each do |turn|
+      turn = turn.split(":")
+      turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
+    end
+    #calcular turnos cubiertos y no cubiertos
+    turnosOpTotal = turnosOptimizados.sum
+    turnosOpId = []
+
+    for i in 0..turnosOptimizados.length - 1
+
+      if turnosOptimizados[i] - turnosEntrada[i] > 0
+        turnosOpTotal = turnosOpTotal - (turnosOptimizados[i] - turnosEntrada[i])
+        turnosNoCubiertos[i + 1] = turnosOptimizados[i] - turnosEntrada[i]
+      end
+
+      if turnosOptimizados[i] != 0  
+        turnosOpId << i + 1
+      end
+    end
+    datos = {}
+    datos[:turnosEntrada] = turnosEntrada
+    datos[:turnosOptimizados] = turnosOptimizados 
+    datos[:departamento] = department 
+    datos[:turnosOpTotal] = turnosOpTotal 
+    datos[:turnosNoCubiertos] = turnosNoCubiertos 
+    datos[:turnosOpId] = turnosOpId
+
+    return datos
   end
 end

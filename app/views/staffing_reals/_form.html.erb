@@ -2,11 +2,13 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.association :store %>
     <%= f.association :department %>
     <%= f.input :year %>
     <%= f.input :month %>
     <%= f.input :day %>
     <%= f.input :count %>
+    <%= f.input :hour %>
   </div>
 
   <div class="form-actions">

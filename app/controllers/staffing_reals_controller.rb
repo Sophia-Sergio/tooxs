@@ -93,6 +93,6 @@ class StaffingRealsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def staffing_real_params
-      params.require(:staffing_real).permit(:department_id, :year, :month, :day, :count)
+      params.require(:staffing_real).permit(:store_id, :department_id, :year, :month, :day, :hour, :count)
     end
 end

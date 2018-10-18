@@ -3,6 +3,7 @@ require 'rubyXL'
 # Store class for stores table
 class Store < ApplicationRecord
   has_many :departments
+  has_many :staffing_real
   belongs_to :cluster
   validates_presence_of :name,
                         :city,
