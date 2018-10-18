@@ -356,18 +356,16 @@ ActiveRecord::Schema.define(version: 20181002191918) do
   end
 
   create_table "staffing_reals", force: :cascade do |t|
-    t.integer "seller"
-    t.date "date"
+    t.bigint "department_id"
+    t.integer "year"
+    t.integer "month"
+    t.integer "day"
+    t.integer "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "hour"
-    t.integer "department"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "store_categories", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer "store_id"
+    t.index ["department_id"], name: "index_staffing_reals_on_department_id"
   end
 
   create_table "stores", force: :cascade do |t|
@@ -457,6 +455,7 @@ ActiveRecord::Schema.define(version: 20181002191918) do
   add_foreign_key "shift_breaks", "sellers"
   add_foreign_key "sps", "departments"
   add_foreign_key "sps", "stores"
+  add_foreign_key "staffing_reals", "departments"
   add_foreign_key "stores", "clusters"
   add_foreign_key "users", "departments"
   add_foreign_key "users", "stores"
