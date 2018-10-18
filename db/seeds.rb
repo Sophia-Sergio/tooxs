@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-User.destroy_all
+=beginUser.destroy_all
 Department.destroy_all
 Store.destroy_all
 Cluster.destroy_all
@@ -59,7 +59,7 @@ admin = User.create!(
   status: 'active',
   store_id: 1,
   department_id: 1
-)
+)=end
 
 =begin
 

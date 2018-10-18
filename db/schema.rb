@@ -368,6 +368,12 @@ ActiveRecord::Schema.define(version: 20181002191918) do
     t.index ["department_id"], name: "index_staffing_reals_on_department_id"
   end
 
+  create_table "store_categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "stores", force: :cascade do |t|
     t.string "name"
     t.string "street"
