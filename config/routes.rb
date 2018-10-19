@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       get 'downloads'
     end
   end
+  get 'efficiency/index'  
 
   namespace :market do
     get 'dashboard/index'
