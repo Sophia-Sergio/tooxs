@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181002191918) do
+ActiveRecord::Schema.define(version: 20181018220519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,66 +84,6 @@ ActiveRecord::Schema.define(version: 20181002191918) do
     t.index ["store_id"], name: "index_departments_on_store_id"
   end
 
-  create_table "historic_sales", force: :cascade do |t|
-    t.bigint "department_id"
-    t.bigint "nine", default: 0
-    t.bigint "ten", default: 0
-    t.bigint "eleven", default: 0
-    t.bigint "twelve", default: 0
-    t.bigint "thirteen", default: 0
-    t.bigint "fourteen", default: 0
-    t.bigint "fifteen", default: 0
-    t.bigint "sixteen", default: 0
-    t.bigint "seventeen", default: 0
-    t.bigint "eighteen", default: 0
-    t.bigint "nineteen", default: 0
-    t.bigint "twenty", default: 0
-    t.bigint "twenty_one", default: 0
-    t.bigint "twenty_two", default: 0
-    t.bigint "twenty_three", default: 0
-    t.bigint "twenty_four", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.date "historic_date"
-    t.bigint "store_id"
-    t.integer "week"
-    t.integer "month"
-    t.integer "year"
-    t.integer "day_number"
-    t.index ["department_id"], name: "index_historic_sales_on_department_id"
-    t.index ["store_id"], name: "index_historic_sales_on_store_id"
-  end
-
-  create_table "hs", force: :cascade do |t|
-    t.bigint "store_id"
-    t.bigint "department_id"
-    t.date "date"
-    t.integer "year"
-    t.integer "month"
-    t.integer "week"
-    t.integer "dow"
-    t.bigint "nine"
-    t.bigint "ten"
-    t.bigint "eleven"
-    t.bigint "twelve"
-    t.bigint "thirteen"
-    t.bigint "fourteen"
-    t.bigint "fifteen"
-    t.bigint "sixteen"
-    t.bigint "seventeen"
-    t.bigint "eighteen"
-    t.bigint "nineteen"
-    t.bigint "twenty"
-    t.bigint "twenty_one"
-    t.bigint "twenty_two"
-    t.bigint "twenty_three"
-    t.bigint "total_day"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["department_id"], name: "index_hs_on_department_id"
-    t.index ["store_id"], name: "index_hs_on_store_id"
-  end
-
   create_table "master_departments", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -193,36 +133,6 @@ ActiveRecord::Schema.define(version: 20181002191918) do
     t.integer "obj_function"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "rs", force: :cascade do |t|
-    t.bigint "store_id"
-    t.bigint "department_id"
-    t.date "date"
-    t.integer "year"
-    t.integer "month"
-    t.integer "week"
-    t.integer "dow"
-    t.bigint "nine"
-    t.bigint "ten"
-    t.bigint "eleven"
-    t.bigint "twelve"
-    t.bigint "thirteen"
-    t.bigint "fourteen"
-    t.bigint "fifteen"
-    t.bigint "sixteen"
-    t.bigint "seventeen"
-    t.bigint "eighteen"
-    t.bigint "nineteen"
-    t.bigint "twenty"
-    t.bigint "twenty_one"
-    t.bigint "twenty_two"
-    t.bigint "twenty_three"
-    t.bigint "total_day"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["department_id"], name: "index_rs_on_department_id"
-    t.index ["store_id"], name: "index_rs_on_store_id"
   end
 
   create_table "sale_by_sellers", force: :cascade do |t|
@@ -330,21 +240,6 @@ ActiveRecord::Schema.define(version: 20181002191918) do
     t.index ["seller_id"], name: "index_shift_breaks_on_seller_id"
   end
 
-  create_table "sps", force: :cascade do |t|
-    t.bigint "store_id"
-    t.bigint "department_id"
-    t.date "date"
-    t.integer "year"
-    t.integer "month"
-    t.integer "week"
-    t.integer "dow"
-    t.integer "sale"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["department_id"], name: "index_sps_on_department_id"
-    t.index ["store_id"], name: "index_sps_on_store_id"
-  end
-
   create_table "staffing_cases", force: :cascade do |t|
     t.integer "id_case"
     t.integer "tolerance"
@@ -357,21 +252,16 @@ ActiveRecord::Schema.define(version: 20181002191918) do
 
   create_table "staffing_reals", force: :cascade do |t|
     t.bigint "department_id"
+    t.bigint "store_id"
     t.integer "year"
     t.integer "month"
     t.integer "day"
     t.integer "count"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "hour"
-    t.integer "store_id"
-    t.index ["department_id"], name: "index_staffing_reals_on_department_id"
-  end
-
-  create_table "store_categories", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_staffing_reals_on_department_id"
+    t.index ["store_id"], name: "index_staffing_reals_on_store_id"
   end
 
   create_table "stores", force: :cascade do |t|
@@ -446,12 +336,6 @@ ActiveRecord::Schema.define(version: 20181002191918) do
 
   add_foreign_key "available_shifts", "stores"
   add_foreign_key "departments", "stores"
-  add_foreign_key "historic_sales", "departments"
-  add_foreign_key "historic_sales", "stores"
-  add_foreign_key "hs", "departments"
-  add_foreign_key "hs", "stores"
-  add_foreign_key "rs", "departments"
-  add_foreign_key "rs", "stores"
   add_foreign_key "sale_plans", "departments"
   add_foreign_key "sale_plans", "stores"
   add_foreign_key "sale_reals", "departments"
@@ -459,9 +343,8 @@ ActiveRecord::Schema.define(version: 20181002191918) do
   add_foreign_key "sellers", "departments"
   add_foreign_key "sellers", "stores"
   add_foreign_key "shift_breaks", "sellers"
-  add_foreign_key "sps", "departments"
-  add_foreign_key "sps", "stores"
   add_foreign_key "staffing_reals", "departments"
+  add_foreign_key "staffing_reals", "stores"
   add_foreign_key "stores", "clusters"
   add_foreign_key "users", "departments"
   add_foreign_key "users", "stores"
