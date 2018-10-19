@@ -66,4 +66,5 @@
 //= require mta/js/ProductivityCluster.js
 //= require mta/js/ProductivityReport.js
 //= require mta/js/HourAnalysis.js
+//= require mta/js/EfficiencyReport.js
 //= require mta/js/app.js
