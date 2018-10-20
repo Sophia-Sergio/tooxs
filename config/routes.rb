@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  
   resources :request_details
   resources :requests
   resources :master_departments
@@ -8,13 +7,13 @@ Rails.application.routes.draw do
   resources :data_cases
   resources :staffing_cases
   resources :sale_by_sellers, only: [:index] do
-    collection { 
+    collection do
       post 'import'
       get 'delete'
       get 'downloads'
-      }
+    end
   end
-  
+
   get 'staff_request/show'
   get 'staff_request/index'
   post 'staff_request/request_send'
@@ -25,7 +24,7 @@ Rails.application.routes.draw do
   get 'dashboard/productividad'
   get 'data_master/index'
 
-  resources :sales_statistics  
+  resources :sales_statistics
   resources :rs
   resources :hs
   resources :sps
@@ -42,25 +41,21 @@ Rails.application.routes.draw do
   get 'productivity/report_data'
   post 'productivity/save_case'
 
-
   resources :shift_breaks
   get 'staffing/index'
   get 'staffing/show'
 
-
-  #get 'assigned_shift/show'
-
+  # get 'assigned_shift/show'
   resources :sale_reals, only: [:index] do
-    collection { 
+    collection do
       post 'import'
       get 'delete'
       get 'downloads'
-      }
+    end
   end
 
-
-  resources :sales, only: [:index] do 
-    collection {
+  resources :sales, only: [:index] do
+    collection do
       get 'quarter'
       get 'week'
       get 'month'
@@ -75,23 +70,20 @@ Rails.application.routes.draw do
       get 'json_week'
       get 'json_month'
       get 'json_year'
-
-    }
+    end
   end
-#resources :staffing_reals
-
+  # resources :staffing_reals
   resources :staffing_reals, only: [:index] do
-    collection { 
+    collection do
       get 'index'
       post 'import'
       get 'delete'
       get 'downloads'
-      }
-  end  
+    end
+  end
 
-
-  resources :sales_cluster, only: [:index] do 
-    collection {
+  resources :sales_cluster, only: [:index] do
+    collection do
       get 'quarter'
       get 'week'
       get 'month'
@@ -106,22 +98,19 @@ Rails.application.routes.draw do
       get 'json_week'
       get 'json_month'
       get 'json_year'
-
-    }
+    end
   end
 
   resources :users
   devise_for :users, controllers: {
     registrations: 'users/registrations',
-    sessions: 'users/sessions',
+    sessions: 'users/sessions'
   }, path_prefix: 'my'
-
-
 
   get 'dashboard/index'
 
   resources :sale_plans, only: [:index] do
-    collection { 
+    collection do
       post 'import'
       get 'search'
       get 'json_day'
@@ -130,7 +119,7 @@ Rails.application.routes.draw do
       get 'json_year'
       get 'delete'
       get 'downloads'
-      }
+    end
   end
 
   resources :historic_sales, only: [:index] do
@@ -141,13 +130,13 @@ Rails.application.routes.draw do
     collection { post 'import'}
     collection { get 'calendar_json' }
   end
-  
+
   resources :sellers do
-    collection { 
+    collection do
       get 'import_form'
       post 'import'
       get 'calendar_shift'
-    }
+    end
     resources :assigned_shift, only: [:show], param: :num
   end
 
@@ -160,7 +149,7 @@ Rails.application.routes.draw do
   end
 
   authenticated :user, ->(u) { u.role == 'colaborador' } do
-    root to: "sellers#show", as: :colaborador_root
+    root to: 'sellers#show', as: :colaborador_root
   end
 
   root 'dashboard#index'
