@@ -1,6 +1,6 @@
 class ProductivityController < ApplicationController
     skip_before_action :verify_authenticity_token
-    
+
     def index
         params[:year]  = Date.today.strftime("%Y").to_i
         params[:month] = Date.today.strftime("%m").to_i
@@ -9,7 +9,7 @@ class ProductivityController < ApplicationController
 
 
         add_breadcrumb "Dashboard", :root_path
-        add_breadcrumb "Buscar", :productivity_index_path    
+        add_breadcrumb "Buscar", :productivity_index_path
         @search       = ''
         @stores       = Store.all.order(:id)
         @departments  = Department.all.order(:id)
@@ -17,10 +17,10 @@ class ProductivityController < ApplicationController
 
     def show
         add_breadcrumb "Dashboard", :root_path
-        add_breadcrumb "Buscar", :productivity_index_path   
-        add_breadcrumb "Productividad", :productivity_show_path    
+        add_breadcrumb "Buscar", :productivity_index_path
+        add_breadcrumb "Productividad", :productivity_show_path
         @search       = ''
-        @stores       = Store.all.order(:id).joins("INNER JOIN departments ON stores.id = departments.store_id INNER JOIN data_cases ON departments.id = data_cases.dep_num").distinct 
+        @stores       = Store.all.order(:id).joins("INNER JOIN departments ON stores.id = departments.store_id INNER JOIN data_cases ON departments.id = data_cases.dep_num").distinct
         @departments  = Department.all.order(:id).joins("INNER JOIN data_cases ON departments.id = data_cases.dep_num").distinct
 
         month  = params[:month].to_i
@@ -35,17 +35,17 @@ class ProductivityController < ApplicationController
         @w4_days = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: @dep).where(:year => year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
 
         #staffing
-        if @w1_days.length > 0         
-            fecha1 = DateTime.parse(@w1_days[0].to_s) 
+        if @w1_days.length > 0
+            fecha1 = DateTime.parse(@w1_days[0].to_s)
             fecha1 = fecha1.strftime("%Y%m%d")
 
-            fecha2 = DateTime.parse(@w2_days[0].to_s) 
+            fecha2 = DateTime.parse(@w2_days[0].to_s)
             fecha2 = fecha2.strftime("%Y%m%d")
 
-            fecha3 = DateTime.parse(@w3_days[0].to_s) 
+            fecha3 = DateTime.parse(@w3_days[0].to_s)
             fecha3 = fecha3.strftime("%Y%m%d")
 
-            fecha4 = DateTime.parse(@w4_days[0].to_s) 
+            fecha4 = DateTime.parse(@w4_days[0].to_s)
             fecha4 = fecha4.strftime("%Y%m%d")
 
             @staffing_w1  = staffing_draw(fecha1)
@@ -60,7 +60,7 @@ class ProductivityController < ApplicationController
 
         #dummy demo data
         month  = params[:month].to_i
-        year   = params[:year].to_i  
+        year   = params[:year].to_i
         @store = params[:store].to_i
         @dep   = params[:department].to_i
 
@@ -85,11 +85,11 @@ class ProductivityController < ApplicationController
 
         @sp_m1 = SalePlan.where(year: year).where(month: month, store_id: @store, department_id: @dep).where("week IN(?,?,?,?)", 1, 2, 3, 4).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
 
-        #obtener ventas reales del mes 
-        sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month) 
+        #obtener ventas reales del mes
+        sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month)
         @totalMonth = []
         @realMonth = []
-        @contReal = 0  
+        @contReal = 0
         dotReal = dotacion_real(@dep, month, year)
 
         if dotReal.length != 0
@@ -97,7 +97,7 @@ class ProductivityController < ApplicationController
                 totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
                 @realMonth  << totalRealDay
                 @totalMonth << (totalRealDay.to_f / dotReal[@contReal]).round
-                @contReal += 1  
+                @contReal += 1
             end
         end
 
@@ -126,9 +126,9 @@ class ProductivityController < ApplicationController
         @prd_w4_day = @sp_w4_daily.zip(@sd_w4_daily).map{|a,b| a/b }
 
         nombreTurnos = AvailableShift.all.distinct.order(:num).pluck(:num, :name)
-        @brain_json = brain_json(month, year, @store, @dep)          
+        @brain_json = brain_json(month, year, @store, @dep)
         @plan = JSON.parse(@brain_json)
-        dataCase = DataCase.where(month: month, year: year, dep_num: @dep)        
+        dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
         @prod_obj = dataCase.first.prod_obj.to_i
         @dotacion_actual = cerebro_sumatoria_turnos_entrada(@brain_json, dataCase.first[:id_case])
         @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
@@ -142,15 +142,15 @@ class ProductivityController < ApplicationController
         @data = { :dates_week => @w1_days,
               :dates_week_2 => @w2_days,
               :dates_week_3 => @w3_days,
-              :dates_week_4 => @w4_days, 
-              :sp => @sp_w1_daily, 
-              :sd => @sd_w1_daily, 
-              :prd => @prd_w1_day, 
+              :dates_week_4 => @w4_days,
+              :sp => @sp_w1_daily,
+              :sd => @sd_w1_daily,
+              :prd => @prd_w1_day,
               :prd1 => @prd_w2_day,
-              :prd2 => @prd_w3_day, 
+              :prd2 => @prd_w3_day,
               :prd3 => @prd_w4_day,
               :spm1 => @sp_m1,
-              :tsm1 => @totalMonth, 
+              :tsm1 => @totalMonth,
               :vrm1 => @realMonth,
               :vent_real => @realMonth.sum,
               :dot_real => dotReal.sum,
@@ -171,7 +171,7 @@ class ProductivityController < ApplicationController
         turns      = AvailableShift.all
         turnsTotal = AvailableShift.distinct.pluck(:num)
         turns_matrix = ""
-        turnsTotal.each do |i|            
+        turnsTotal.each do |i|
             turn = AvailableShift.where(num: i)
             j = 1
             turn.each do |s|
@@ -187,52 +187,51 @@ class ProductivityController < ApplicationController
                 (s.twenty) ? turns_matrix += " [#{i.to_i},10,#{j}] 1," : ""
                 j += 1
             end
-        end 
+        end
         turns_matrix = turns_matrix.slice 1 .. -2
         return turns_matrix
     end
 
     def data_month
-
         month = params[:month].to_i
         year = params[:year].to_i
         store = params[:store].to_i
         department = params[:department].to_i
 
         summary = "";
-        dataCase = DataCase.where(month: month, year: year, dep_num: department)    
+        dataCase = DataCase.where(month: month, year: year, dep_num: department)
 
         if dataCase.blank? == true
             summary = ''
-            existe = false           
+            existe = false
             json_result = ''
         else
-            returnCase = ReturnCase.where(id_case: dataCase.first[:id_case]).first  
+            returnCase = ReturnCase.where(id_case: dataCase.first[:id_case]).first
             if File.exist?(File.join(Rails.root, 'public', "caso#{dataCase.first[:id_case]}.txt"))
-                File.open(File.join(Rails.root, 'public', "caso#{dataCase.first[:id_case]}.txt"), 'r')do |f1|  
-                  while line = f1.gets 
+                File.open(File.join(Rails.root, 'public', "caso#{dataCase.first[:id_case]}.txt"), 'r')do |f1|
+                  while line = f1.gets
                     if line == ""
-                        line = "\n"    
-                    end 
+                        line = "\n"
+                    end
                     summary += "#{line}"
-                  end  
+                  end
                 end
                 existe = true
-                json_result = "{\"margen_eficiencia\":\"#{returnCase.eff_margin}\",\"excedente_total\":#{returnCase.total_surplus},\"costo_remuneracion\":#{returnCase.compensation_cost}, \"status\":\"#{returnCase.status}\",\"usuario\":\"#{returnCase.user}\",\"id_caso\":\"#{returnCase.id_case}\",\"mensaje\":\"#{returnCase.message}\", \"deficit_total\":#{returnCase.deficit_total},\"tolerancia\":\"#{returnCase.tolerance}\",\"version\":\"#{returnCase.version}\", \"formato_resultado\":{\"almuerzo\":\"[turno_i,departamento_j,período_t] valor, [...\", \"delta\":\"[departamento_j,período_t] valor, [...\"}, \"tiempo_maximo\":\"#{returnCase.max_time}\",\"resultado\":{\"almuerzos\":\"#{returnCase.lunchs}\",\"turnos\":\"#{returnCase.turns}\",\"delta\":\"#{returnCase.delta}\", \"epsilon\":\"#{returnCase.epsilon}\"},\"soporte\":\"fatapia@scipion.cl\",\"modelo\":\"#{returnCase.model}\",\"plan_venta\":#{returnCase.sales_plan}, \"funcion_objetivo\":#{returnCase.obj_function}}"         
+                json_result = "{\"margen_eficiencia\":\"#{returnCase.eff_margin}\",\"excedente_total\":#{returnCase.total_surplus},\"costo_remuneracion\":#{returnCase.compensation_cost}, \"status\":\"#{returnCase.status}\",\"usuario\":\"#{returnCase.user}\",\"id_caso\":\"#{returnCase.id_case}\",\"mensaje\":\"#{returnCase.message}\", \"deficit_total\":#{returnCase.deficit_total},\"tolerancia\":\"#{returnCase.tolerance}\",\"version\":\"#{returnCase.version}\", \"formato_resultado\":{\"almuerzo\":\"[turno_i,departamento_j,período_t] valor, [...\", \"delta\":\"[departamento_j,período_t] valor, [...\"}, \"tiempo_maximo\":\"#{returnCase.max_time}\",\"resultado\":{\"almuerzos\":\"#{returnCase.lunchs}\",\"turnos\":\"#{returnCase.turns}\",\"delta\":\"#{returnCase.delta}\", \"epsilon\":\"#{returnCase.epsilon}\"},\"soporte\":\"fatapia@scipion.cl\",\"modelo\":\"#{returnCase.model}\",\"plan_venta\":#{returnCase.sales_plan}, \"funcion_objetivo\":#{returnCase.obj_function}}"
             else
                 summary = ''
-                existe = false           
-                json_result = ''            
+                existe = false
+                json_result = ''
             end
         end
 
         @data = { :existe => existe, :summary => summary, :json_result => json_result}
-        render json: @data     
+        render json: @data
     end
 
     def report
         add_breadcrumb "Dashboard", :root_path
-        add_breadcrumb "Reporte de Productividad", :productivity_report_path    
+        add_breadcrumb "Reporte de Productividad", :productivity_report_path
         @search       = ''
         @stores       = Store.all.order(:id)
         @departments  = Department.all.order(:id)
@@ -243,8 +242,8 @@ class ProductivityController < ApplicationController
         @dep   = params[:department].to_i
 
 
-        #obtener ventas reales del mes 
-        sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month) 
+        #obtener ventas reales del mes
+        sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month)
         @realMonth = []
 
         sale_reals.each do |sale|
@@ -252,11 +251,11 @@ class ProductivityController < ApplicationController
             @realMonth  << totalRealDay
         end
 
-        @brain_json = brain_json(month, year, @store, @dep)    
+        @brain_json = brain_json(month, year, @store, @dep)
         dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
 
         @venta_w_real = calculo_semanal(@realMonth, 7)
-        
+
         if @venta_w_real.length > 4 #limitación para muestra
             @venta_w_real.delete_at(4)
         end
@@ -284,7 +283,7 @@ class ProductivityController < ApplicationController
 
         #dummy demo data
         month  = params[:month].to_i
-        year   = params[:year].to_i  
+        year   = params[:year].to_i
         @store = params[:store].to_i
         @dep   = params[:department].to_i
 
@@ -310,8 +309,8 @@ class ProductivityController < ApplicationController
 
         @sp_m1 = SalePlan.where(year: year).where(month: month, store_id: @store, department_id: @dep).where("week IN(?,?,?,?)", 1, 2, 3, 4).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
 
-        #obtener ventas reales del mes 
-        sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month) 
+        #obtener ventas reales del mes
+        sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month)
         @totalMonth = []
         @realMonth = []
         @dotMonth = []
@@ -348,11 +347,11 @@ class ProductivityController < ApplicationController
         @prd_w3_day = @sp_w3_daily.zip(@sd_w3_daily).map{|a,b| a/b }
         @prd_w4_day = @sp_w4_daily.zip(@sd_w4_daily).map{|a,b| a/b }
 
-        @brain_json = brain_json(month, year, @store, @dep)  
+        @brain_json = brain_json(month, year, @store, @dep)
         dotReal = dotacion_real(@dep, month, year)
         @plan = JSON.parse(@brain_json)
         dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
-        
+
         @prod_obj = dataCase.first.prod_obj.to_i
 
         @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
@@ -364,15 +363,15 @@ class ProductivityController < ApplicationController
         @data = { :dates_week => @w1_days,
               :dates_week_2 => @w2_days,
               :dates_week_3 => @w3_days,
-              :dates_week_4 => @w4_days, 
-              :sp => @sp_w1_daily, 
-              :sd => @sd_w1_daily, 
-              :prd => @prd_w1_day, 
+              :dates_week_4 => @w4_days,
+              :sp => @sp_w1_daily,
+              :sd => @sd_w1_daily,
+              :prd => @prd_w1_day,
               :prd1 => @prd_w2_day,
-              :prd2 => @prd_w3_day, 
+              :prd2 => @prd_w3_day,
               :prd3 => @prd_w4_day,
               :spm1 => @sp_m1,
-              :tsm1 => @totalMonth, 
+              :tsm1 => @totalMonth,
               :vrm1 => @realMonth,
               :vent_real => @realMonth.sum,
               :dot_real => @dotMonth.sum,
@@ -396,7 +395,7 @@ class ProductivityController < ApplicationController
         dataCase.save
 
         ReturnCase.where(id_case: params[:result][:id_caso]).destroy_all
-        #guardar result 
+        #guardar result
         returnCase = ReturnCase.create!(
             id_case: params[:result][:id_caso],
             eff_margin: params[:result][:margen_eficiencia],
@@ -458,7 +457,7 @@ class ProductivityController < ApplicationController
                 turno_count += 1
             end
         end
-        
+
         dot_out = dot_out.slice 0 .. -3
         dot_out += "}"
 
@@ -478,7 +477,7 @@ class ProductivityController < ApplicationController
           f2.puts params[:salida]
         end
 
-        render json: params 
+        render json: params
     end
 end
 

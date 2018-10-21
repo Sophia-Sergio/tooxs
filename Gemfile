@@ -75,3 +75,4 @@ gem 'seed_dump'
 gem 'smarter_csv'
 gem 'breadcrumbs_on_rails'
 gem 'wdm', '~> 0.1.0' if Gem.win_platform?
+gem 'newrelic_rpm'
