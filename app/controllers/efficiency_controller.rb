@@ -25,7 +25,10 @@ class EfficiencyController < ApplicationController
         sale_reals = SaleReal.where(department_id: @department, store_id: @store, year: @year, month: @month) 
         @realMonth = []
         @totalMonth = []
+        @totalOpMonth = []
+        @opMonth = []
         @contReal = 0
+        @contOp = 0
 
         #obtener productividad real
         dotReal = dotacion_real(@department, @month, @year)
@@ -38,20 +41,36 @@ class EfficiencyController < ApplicationController
                 @contReal += 1            
             end
         end
-        realExcess = matrix_calc(@prod_obj, @totalMonth, dotReal)
-        
 
+        # excess of hours with real endowment
+        realExcess = matrix_calc(@prod_obj, @totalMonth, dotReal)     
         realExcess[:matrixSet].each_with_index do |excess, index|
-
             prod_w_real << (1 - ((dotReal[index] + excess).to_f / dotReal[index].to_f)).round(4) * 100
             fecha << index + 1 
         end
 
 
-        #@margin_adjustment = (1 - ((excesoReal[:exceso] + excesoReal[:faltante]) / totalHour)).round(4) * 100 
-        
+        # excess hours with optimized endowment
+        @brain_json = brain_json(@month, @year, @store, @department)          
+        @plan = JSON.parse(@brain_json)
+        dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase[:id_case])
 
 
+        if dotacion_op.length > 0
+            sale_reals.each do |sale|
+                totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+                @opMonth  << totalRealDay
+                @totalOpMonth << (totalRealDay.to_f / dotacion_op[@contOp]).round
+                @contOp += 1            
+            end
+        end
+
+
+        opExcess = matrix_calc(@prod_obj, @totalOpMonth, dotacion_op)     
+        opExcess[:matrixSet].each_with_index do |excess, index|
+
+            prod_w_op << (1 - ((dotacion_op[index] + excess).to_f / dotacion_op[index].to_f)).round(4) * 100
+        end
 
         @data = { :fecha => fecha, :prod_w_real => prod_w_real,  :prod_w_op => prod_w_op }
         render json: @data
