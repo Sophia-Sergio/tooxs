@@ -6,53 +6,43 @@ class ProductivityController < ApplicationController
     params[:month] = Date.today.strftime("%m").to_i
     params[:department] = 1
     params[:store] = 1
-
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Buscar", :productivity_index_path
     @search       = ''
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)
   end
 
   def show
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Buscar", :productivity_index_path
-    add_breadcrumb "Productividad", :productivity_show_path
     @search       = ''
     @stores       = Store.all.joins("INNER JOIN departments ON stores.id = departments.store_id INNER JOIN data_cases ON departments.id = data_cases.dep_num").distinct
     @departments  = Department.all.joins("INNER JOIN data_cases ON departments.id = data_cases.dep_num").distinct
-
-    month  = params[:month].to_i
+    month  = params[:month]
     year   = params[:year].to_i
     @store = params[:store].to_i
-    @dep   = params[:department].to_i
+
+    @store = Store.find(params[:store])
+    days_by_week = @store.sale_plans.by_month(params[:month])
+                         .by_department(params[:department]).days_by_week
 
     # days of the week for this query dias de la semana según comienzo
-    @w1_days = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 1, store_id: @store, department_id: @dep).where(:year => year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
-    @w2_days = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 2, store_id: @store, department_id: @dep).where(:year => year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
-    @w3_days = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 3, store_id: @store, department_id: @dep).where(:year => year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
-    @w4_days = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: @dep).where(:year => year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
-
     # staffing
-    if @w1_days.length > 0
-      fecha1 = DateTime.parse(@w1_days[0].to_s)
-      fecha1 = fecha1.strftime("%Y%m%d")
+    fecha1 = DateTime.parse(days_by_week[1][0])
+    fecha1 = fecha1.strftime("%Y%m%d")
 
-      fecha2 = DateTime.parse(@w2_days[0].to_s)
-      fecha2 = fecha2.strftime("%Y%m%d")
+    fecha2 = DateTime.parse(days_by_week[2][0])
+    fecha2 = fecha2.strftime("%Y%m%d")
 
-      fecha3 = DateTime.parse(@w3_days[0].to_s)
-      fecha3 = fecha3.strftime("%Y%m%d")
+    fecha3 = DateTime.parse(days_by_week[3][0])
+    fecha3 = fecha3.strftime("%Y%m%d")
 
-      fecha4 = DateTime.parse(@w4_days[0].to_s)
-      fecha4 = fecha4.strftime("%Y%m%d")
+    fecha4 = DateTime.parse(days_by_week[4][0])
+    fecha4 = fecha4.strftime("%Y%m%d")
 
-      @staffing_w1  = staffing_draw(fecha1)
-      @staffing_w2  = staffing_draw(fecha2)
-      @staffing_w3  = staffing_draw(fecha3)
-      @staffing_w4  = staffing_draw(fecha4)
-      @brain_json = brain_json(month, year, @store, @dep)
-    end
+    @staffing_w1  = staffing_draw(fecha1)
+    @staffing_w2  = staffing_draw(fecha2)
+    @staffing_w3  = staffing_draw(fecha3)
+    @staffing_w4  = staffing_draw(fecha4)
+    @brain_json = brain_json(month, year, @store.id, params[:department] )
+
   end
 
   def json_current
@@ -224,8 +214,6 @@ class ProductivityController < ApplicationController
   end
 
   def report
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Reporte de Productividad", :productivity_report_path
     @search       = ''
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)
