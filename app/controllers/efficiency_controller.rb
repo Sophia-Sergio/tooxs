@@ -1,13 +1,9 @@
 class EfficiencyController < ApplicationController
 	def index	
-    	@stores       = Store.all.order(:id)
-    	@departments  = Department.all.order(:id)
-    	@search = ""
-        if params[:month]
-        	@month = params[:month]
-        else
-        	@month = timeNow.strftime("%m").to_i 
-        end
+		@stores       = Store.all.order(:id)
+		@departments  = Department.all.order(:id)
+		@search = ""
+		@month = params[:month] || timeNow.strftime("%m").to_i
 	end
 
     def report
@@ -54,11 +50,7 @@ class EfficiencyController < ApplicationController
 
         #@margin_adjustment = (1 - ((excesoReal[:exceso] + excesoReal[:faltante]) / totalHour)).round(4) * 100 
         
-
-
-
         @data = { :fecha => fecha, :prod_w_real => prod_w_real,  :prod_w_op => prod_w_op }
         render json: @data
     end
-
 end
