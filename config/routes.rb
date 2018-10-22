@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get 'downloads'
     end
   end
+  get '/efficiency/report'
   get 'efficiency/index'  
   get 'staff_request/show'
   get 'staff_request/index'
