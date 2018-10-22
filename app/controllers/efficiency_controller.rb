@@ -1,7 +1,7 @@
 class EfficiencyController < ApplicationController
 	def index	
     	@stores       = Store.all.order(:id)
-    	@departments  = Department.all.order(:id)
+    	@departments  = Department.all
     	@search = ""
         if params[:month]
         	@month = params[:month]
