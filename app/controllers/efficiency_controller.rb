@@ -1,9 +1,11 @@
 class EfficiencyController < ApplicationController
+    include DemoParameters
+
 	def index	
 		@stores       = Store.all.order(:id)
 		@departments  = Department.all.order(:id)
 		@search = ""
-		@month = params[:month] || timeNow.strftime("%m").to_i
+		@month = params[:month] || demo_data[:date].month
 	end
 
     def report
