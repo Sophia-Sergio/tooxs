@@ -45,7 +45,21 @@ class EfficiencyController < ApplicationController
         # excess of hours with real endowment
         realExcess = matrix_calc(@prod_obj, @totalMonth, dotReal)     
         realExcess[:matrixSet].each_with_index do |excess, index|
-            prod_w_real << (1 - ((dotReal[index] + excess).to_f / dotReal[index].to_f)).round(4) * 100
+            
+            percentDesviation = (((dotReal[index] + excess).to_f / dotReal[index].to_f)).round(4) * 100
+
+            if percentDesviation > 100
+                
+                prod_w_real << 100 - ( percentDesviation - 100)
+
+            elsif percentDesviation < 100 and percentDesviation > 0
+                
+                prod_w_real << percentDesviation 
+
+            else
+                prod_w_real << percentDesviation                
+            end
+
             fecha << index + 1 
         end
 
@@ -69,7 +83,20 @@ class EfficiencyController < ApplicationController
         opExcess = matrix_calc(@prod_obj, @totalOpMonth, dotacion_op)     
         opExcess[:matrixSet].each_with_index do |excess, index|
 
-            prod_w_op << (1 - ((dotacion_op[index] + excess).to_f / dotacion_op[index].to_f)).round(4) * 100
+            percentDesviation = (((dotacion_op[index] + excess).to_f / dotacion_op[index].to_f)).round(4) * 100
+            
+            if percentDesviation > 100
+                
+                prod_w_op << 100 - ( percentDesviation - 100)
+
+            elsif percentDesviation < 100 and percentDesviation > 0
+                
+                prod_w_op << percentDesviation 
+
+            else
+                prod_w_op << percentDesviation                
+            end
+
         end
 
         @data = { :fecha => fecha, :prod_w_real => prod_w_real,  :prod_w_op => prod_w_op }
