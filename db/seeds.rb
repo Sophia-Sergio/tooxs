@@ -1,3 +1,4 @@
+# initial data for demo
 Cluster.create!([
   {name: "ABC1", description: nil},
   {name: "C2", description: nil},
