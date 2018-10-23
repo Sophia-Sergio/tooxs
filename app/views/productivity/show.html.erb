@@ -7,7 +7,7 @@
   <div class="pantalla-seccion d-flex justify-content-between mb-2">
     <div class="align-self-end">
       <div class="titulo-pantalla">Optimizador de turnos</div>
-    </div>    
+    </div>
   </div>
 
   <div class="sub-titulo-pantalla">Parámetros</div>
@@ -16,33 +16,33 @@
     <div class="d-flex flex-wrap justify-content-end bd-highlight" id="sales_search_form">
 
       <div class="input-form">
-        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store]  , label: false %>  
+        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store]  , label: false %>
       </div>
 
       <div class="input-form">
-        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false %>  
+        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false %>
       </div>
 
       <div class="input-form">
-        <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year] , label: false %>  
+        <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year] , label: false %>
       </div>
 
       <div class="input-form">
-        <%= f.input :month, collection: (1..8).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: params[:month] , label: false  %>  
+        <%= f.input :month, collection: months_until(8), label: 'Mes', wrapper: :select2, selected: params[:month] , label: false  %>
       </div>
 
       <div class="boton-buscar">
         <%= button_tag type: 'submit', class: "btn btn-success" do %>
         <i class="fa fa-search" aria-hidden="true"></i> Buscar
         <% end %>
-      </div>  
+      </div>
     </div>
     <% end %>
   </div>
 
   <div class="formulario-comparacion">
     <div class="sub-titulo-pantalla">Resultado</div>
-    <div class="row ">  
+    <div class="row ">
       <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <h5 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Juvenil mujer - <%= I18n.l(Date.parse("#{'%02d' % params[:month] }/01"), format: "%B", locale: :es).capitalize %> <%= params[:year] %></h5>
         <div class="row ">
@@ -50,7 +50,7 @@
             <div id="chartContainer" style="width:100%;">
               <canvas id="canvas"> </canvas>
             </div>
-          </div>             
+          </div>
           <div id="productividades" class="col-xl-10 offset-xl-1"></div>
         </div>
         <div id="botones-optimizar" class="row m-t-30" style="display: none">
@@ -66,7 +66,7 @@
                 <span class="reloj" id="Centesimas">:00</span>
             </span>
           </div>
-        </div>            
+        </div>
       </div>
     </div>
   </div>
@@ -74,7 +74,7 @@
   <div class="formulario-comparacion">
     <div class="col-xl-8 offset-xl-2">
       <div >
-        <h3>Planificación de dotación</h3>      
+        <h3>Planificación de dotación</h3>
       </div>
       <table  id="tabla-resumen" class="table table-striped">
         <thead>
@@ -102,14 +102,14 @@
       </table>
     </div>
   </div>
-  
-  <div id="detalle-dotacion" class="formulario-comparacion">  
+
+  <div id="detalle-dotacion" class="formulario-comparacion">
     <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
     <div>
       <span class="label label-success tip" data-toggle="tooltip">Actual</span>
       <span class="label label-primary tip" data-toggle="tooltip">Optimizado</span>
     </div>
-    <div class="row">  
+    <div class="row">
       <div class="col-xl-12" style="overflow-y: auto">
         <table class="table-shift table table-striped">
           <thead>
@@ -125,9 +125,9 @@
             </tr>
           </thead>
           <tbody class="t-p-3">
-            <% hora = -1 
+            <% hora = -1
                dia = 0
-               countTurnos = 0 %>                         
+               countTurnos = 0 %>
             <% @staffing_w1[:draw].each do |k,v|%>
             <tr>
               <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
@@ -140,7 +140,7 @@
                       <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
                       <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
                     </div>
-                  </td>  
+                  </td>
                   <% else %>
                   <td class="text-center">
                     <div class="dotacion-row">
@@ -174,9 +174,9 @@
             </tr>
           </thead>
           <tbody class="t-p-3">
-            <% hora = 69 
+            <% hora = 69
                dia = 0
-               countTurnos = 0 %>   
+               countTurnos = 0 %>
             <% @staffing_w2[:draw].each do |k,v|%>
             <tr>
               <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
@@ -189,7 +189,7 @@
                     <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
                     <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
                   </div>
-                </td>  
+                </td>
                 <% else %>
                 <td class="text-center">
                   <div class="dotacion-row">
@@ -207,7 +207,7 @@
             <% end -%>
           </tbody>
         </table>
-      </div>              
+      </div>
       <div class="col-xl-12">
         <table class="table-shift table table-striped">
           <thead>
@@ -223,9 +223,9 @@
             </tr>
           </thead>
           <tbody class="t-p-3">
-            <% hora = 139 
+            <% hora = 139
                dia = 0
-               countTurnos = 0 %>   
+               countTurnos = 0 %>
             <% @staffing_w3[:draw].each do |k,v|%>
             <tr>
               <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
@@ -238,7 +238,7 @@
                     <div id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></div>
                     <div id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></div>
                   </div>
-                </td>  
+                </td>
                 <% else %>
                 <td class="text-center">
                   <div class="dotacion-row">
@@ -254,9 +254,9 @@
             <% hora += 1 %>
             <% end -%>
             <% end -%>
-          </tbody>             
+          </tbody>
         </table>
-      </div>              
+      </div>
       <div class="col-xl-12">
         <table class="table-shift table table-striped">
           <thead>
@@ -272,9 +272,9 @@
             </tr>
           </thead>
           <tbody class="t-p-3">
-            <% hora = 209 
+            <% hora = 209
                dia = 0
-               countTurnos = 0 %>   
+               countTurnos = 0 %>
             <% @staffing_w4[:draw].each do |k,v|%>
             <tr>
               <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
@@ -287,7 +287,7 @@
                     <span id="optimo-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"> </span>
                     <span id="optimizado-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
                   </div>
-                </td>  
+                </td>
                 <% else %>
                 <td class="text-center">
                   <div class="dotacion-row">
@@ -305,7 +305,7 @@
             <% end -%>
           </tbody>
         </table>
-      </div>  
-    </div>              
+      </div>
+    </div>
   </div>
 </div>

@@ -4,6 +4,7 @@ require 'rubyXL'
 class Store < ApplicationRecord
   has_many :departments
   has_many :staffing_real
+  has_many :sale_plans
   belongs_to :cluster
   validates_presence_of :name,
                         :city,
@@ -11,7 +12,7 @@ class Store < ApplicationRecord
                         :country,
                         :county,
                         :size,
-                     
+
   def to_s
     name
   end
