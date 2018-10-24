@@ -4,189 +4,16 @@
     <title>tooxs - workforce management optimizer - beta</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="description" content="">
     <meta name="author" content="">
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
- <body class="fixed-header menu-pin"> 
+ <body class="fixed-header menu-pin">
     <!-- BEGIN SIDEBAR -->
         <!-- BEGIN SIDEBPANEL-->
-    <nav class="page-sidebar" data-pages="sidebar">
-      <!-- BEGIN SIDEBAR MENU TOP TRAY CONTENT-->
-      <div class="sidebar-overlay-slide from-top" id="appMenu">
-        
-      </div>
-      <!-- END SIDEBAR MENU TOP TRAY CONTENT-->
-      <!-- BEGIN SIDEBAR MENU HEADER-->
-    
-        <div class="sidebar-header d-flex justify-content-between mb-2">
-          <div class="p-2 logo-move">            
-            <a href="<%= root_path %>">
-              <%= image_tag 'logo-tooxs.png', class: 'brand' %>  
-            </a>
-          </div>
-          <div class="p-2">
-            <!-- START User Info-->
-            <div class="dropdown pull-right hidden-md-down">
-              <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="thumbnail-wrapper d32 circular inline">
-                <%= image_tag 'avatar.jpg', width: '32', height: '32' %>
-                </span>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-                <a class="dropdown-item"><span class="semi-bold"><%= current_user.name %></span> <span class="text-master"><%= current_user.lastname %></span>
-                </a>
-                <a href="#" class="dropdown-item"><i class="pg-settings_small"></i> Opciones</a>
-
-                <%= link_to destroy_user_session_path, :method => :delete, class: "clearfix bg-master-lighter dropdown-item" do %>
-                  <span class="pull-left">Salir</span>
-                  <span class="pull-right"><i class="pg-power"></i></span>
-                <% end %>
-                
-              </div>
-            </div>
-          </div>
-          <!-- END User Info-->     
-          <div class="sidebar-header-controls hidden-md-down">
-        </div>
-      </div>
-      <!-- END SIDEBAR MENU HEADER-->
-      <!-- START SIDEBAR MENU -->
-      <div class="sidebar-menu">
-
-        <!-- BEGIN SIDEBAR MENU ITEMS-->
-        <ul class="menu-items">
-          <% if current_user.role == 'admin' or current_user.role == 'gcc' or current_user.role == 'gcp' or current_user.role == 'gz' or current_user.role == 'gt' or current_user.role == 'gv' or current_user.role == 'jd'%>
-          <li>
-            <div class="sub-menu-title"><span class="title">VENTAS</span></div>
-            <ul class="sub-menu" style="display: inline-block;">
-              <% if current_user.role == 'admin' or current_user.role == 'gcc' or current_user.role == 'gcp' or current_user.role == 'gz' or current_user.role == 'gt' or current_user.role == 'gv' or current_user.role == 'jd'%>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'estadisticas.jpg', class: 'icon-min-menu' %></span>
-                <a href="/sales/month?utf8=✓&store=1&department=1&year=2018&month=6">Estadísticas</a>
-              </li>
-              <% end %>
-              <% if current_user.role == 'admin' or current_user.role == 'gcc' or current_user.role == 'gcp' or current_user.role == 'gz' or current_user.role == 'gt' or current_user.role == 'gv'%>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'comparativo-venta.jpg', class: 'icon-min-menu' %></span>
-                <a href="/sales_cluster/month?utf8=✓&cluster=1&department=1&year=2018&month=6">Comparativo</a>
-              </li>
-              <% end %>
-              <% if current_user.role == 'admin' or current_user.role == 'gv' or current_user.role == 'jd'%>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'colaboradores.jpg', class: 'icon-min-menu' %></span>
-              <%= link_to 'Colaboradores', sellers_path %>
-              </li>
-              <% end %>
-            </ul>
-          </li>
-          <% end %>
-          <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv' or current_user.role == 'jd' or current_user.role == 'colaborador'%>
-          <li>
-            <div class="sub-menu-title"><span class="title">PRODUCTIVIDAD</span></div>
-            <ul class="sub-menu" style="display: inline-block;">
-              <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv' or current_user.role == 'jd' or current_user.role == 'colaborador'%>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'dotacion.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Dotación', staffing_index_path %>
-              </li>
-              <% end %>
-              <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv'%>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'optimizador.jpg', class: 'icon-min-menu' %></span>
-                <a href="/productivity/show?utf8=✓&store=1&department=1&year=2018&month=6">Optimizar turnos</a>
-              </li>
-              <% end %>
-              <% if current_user.role == 'admin' or current_user.role == 'gt'%>
-              <li class=""> 
-                  <span class="icon-thumbnail"><%= image_tag 'historico.jpg', class: 'icon-min-menu' %></span>
-                  <a href="/hour_analysis/index?utf8=✓&store=1&department=1&year=2018&month=6&grafico=1&value=3000">Análisis de horas</a>
-              </li>
-              <% end %>
-            </ul>
-          </li>
-          <% end %>
-          <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv'%>
-          <li>
-            <div class="sub-menu-title"><span class="title">REPORTABILIDAD</span></div>
-            <ul class="sub-menu" style="display: inline-block;">
-              <li class=""> 
-                <span class="icon-thumbnail"><%= image_tag 'reporte.jpg', class: 'icon-min-menu' %></span>
-                <a href="/productivity/report?utf8=✓&store=1&department=1&year=2018&month=6">Productividad</a>
-              </li>
-              <li class=""> 
-                <span class="icon-thumbnail"><%= image_tag 'comparativo-venta.jpg', class: 'icon-min-menu' %></span>
-                <a href="/productivity_cluster/month?utf8=✓&cluster=1&department=1&year=2018&month=6">Comparativo</a>
-              </li>
-            </ul>
-          </li> 
-          <% end %>
-          <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv'%>
-          <li>
-            <div class="sub-menu-title"><span class="title">DISPONIBILIZADOR</span></div>
-            <ul class="sub-menu" style="display: inline-block;">
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'dotacion.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Disponibilizador de turnos', staff_request_index_path %>
-              </li>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'reporte.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Solicitudes realizadas', staff_request_show_path %>
-              </li>
-            </ul>
-          </li>  
-          <% end %>                  
-          <% if current_user.role == 'admin' %>
-          <li>
-            <div class="sub-menu-title"><span class="title">ADMINISTRACIÓN</span></div>
-            <ul class="sub-menu" style="display: inline-block;">
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'tiendas.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Tiendas', stores_path %>
-              </li>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'departamentos.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Departamentos', departments_path %>
-              </li>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'estadisticas.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Turnos', available_shifts_path %>
-              </li>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'usuarios.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Usuarios', users_path %>
-              </li>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'comparativo-venta.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Plan de ventas', sale_plans_path %>
-              </li>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'historico.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Ventas reales', sale_reals_path %>
-              </li>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'usuarios.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Ventas por colaborador', sale_by_sellers_path %>
-              </li>
-              <li class="">
-                <span class="icon-thumbnail"><%= image_tag 'dotacion.jpg', class: 'icon-min-menu' %></span>
-                <%= link_to 'Dotación real', staffing_reals_path %>
-              </li>
-            </ul>
-          </li>
-          <% end %>
-            <li class="hidden-md-up">
-              <%= link_to destroy_user_session_path, :method => :delete, class: "" do %>
-                <span class="pull-left">Salir</span>
-              <% end %>
-                <span class="icon-thumbnail"><i class="pg-power"></i></span>
-            </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <!-- END SIDEBAR MENU -->
-    </nav>
+    <%= render 'shared/sidebar' %>
     <!-- END SIDEBAR -->
     <!-- END SIDEBAR -->
     <!-- START PAGE-CONTAINER -->
@@ -204,23 +31,10 @@
           </div>
           <!-- START NOTIFICATION LIST -->
           <ul class="hidden-md-down notification-list no-margin hidden-sm-down b-grey b-l b-r no-style p-l-30 p-r-20 dn">
-            <!--<li class="p-r-10 inline">
-              <div class="dropdown">
-                <a href="javascript:;" id="notification-center" class="header-icon pg pg-world" data-toggle="dropdown">
-                  <span class="bubble"></span>
-                </a>
-              </div>
-            </li>
-            <li class="p-r-10 inline">
-              <a href="#" class="header-icon pg pg-link"></a>
-            </li>
-            <li class="p-r-10 inline">
-              <a href="#" class="header-icon pg pg-thumbs"></a>
-            </li>-->
           </ul>
           <!-- END NOTIFICATIONS LIST -->
         </div>
-     
+
       </div>
       <!-- END HEADER -->
       <!-- END PAGE HEADER WRAPPER -->
@@ -239,7 +53,7 @@
             <!-- END PLACE PAGE CONTENT HERE -->
           </div>
           <!-- END CONTAINER FLUID -->
-        
+
         <!-- END PAGE CONTENT -->
         <!-- START FOOTER -->
         <br><br><br><br><br>
@@ -250,7 +64,7 @@
               <span class="font-montserrat">Tooxs</span>.
               <span class="hint-text">Todos los derechos reservados.</span>
             </p>
-            
+
             <div class="clearfix"></div>
           </div>
         </div>
@@ -263,9 +77,4 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
   </body>
-</html>
-
-    
-
-
 </html>

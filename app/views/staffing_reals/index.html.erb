@@ -2,20 +2,16 @@
   <div class="pantalla-seccion d-flex flex-wrap justify-content-between mb-2">
     <div class="align-self-end">
       <div class="titulo-pantalla">Turnos Reales Por Día</div>
-    </div>  
+    </div>
     <div class="align-self-end text-right boton-comparar">
-    <%= form_with url: import_staffing_reals_path, multipart: true, local: true do %>
-      <%= label_tag :file, 'Importar desde xlsx' %>
-      <%= file_field_tag :file  %>
-        <br>
-        <%= submit_tag '+ Importar', class: "btn" %>
+      <%= form_with url: import_staffing_reals_path, multipart: true, local: true do %>
         <%= link_to 'Resetear datos', delete_staffing_reals_path, class: "btn" %>
         <%= link_to 'Descargar datos de prueba', downloads_staffing_reals_path, class: "btn" %>
       <% end %>
-    </div>    
+    </div>
   </div>
   <div class="formulario-comparacion">
-    <div style="overflow: auto;">   
+    <div style="overflow: auto;">
       <table class="table  table-hover table-smallFont" id="table-staffing_real">
         <thead>
           <tr>

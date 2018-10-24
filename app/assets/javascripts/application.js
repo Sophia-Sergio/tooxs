@@ -12,18 +12,17 @@
 //
 //= require rails-ujs
 // require turbolinks
-//= require_tree .
 
-//= require plugins/pace/pace.min.js 
-//= require plugins/jquery/jquery-1.11.1.min.js 
-//= require plugins/modernizr.custom.js 
-//= require plugins/jquery-ui/jquery-ui.min.js 
-//= require plugins/tether/js/tether.min.js 
-//= require plugins/bootstrap/js/bootstrap.min.js 
-//= require plugins/jquery/jquery-easy.js 
-//= require plugins/jquery-unveil/jquery.unveil.min.js 
+//= require plugins/pace/pace.min.js
+//= require plugins/jquery/jquery-1.11.1.min.js
+//= require plugins/modernizr.custom.js
+//= require plugins/jquery-ui/jquery-ui.min.js
+//= require plugins/tether/js/tether.min.js
+//= require plugins/bootstrap/js/bootstrap.min.js
+//= require plugins/jquery/jquery-easy.js
+//= require plugins/jquery-unveil/jquery.unveil.min.js
 //= require plugins/jquery-bez/jquery.bez.min.js
-//= require plugins/jquery-ios-list/jquery.ioslist.min.js 
+//= require plugins/jquery-ios-list/jquery.ioslist.min.js
 //= require plugins/imagesloaded/imagesloaded.pkgd.min.js
 //= require plugins/jquery-actual/jquery.actual.min.js
 //= require plugins/jquery-scrollbar/jquery.scrollbar.min.js
@@ -50,8 +49,6 @@
 // require plugins/nvd3/src/models/line.js
 // require plugins/nvd3/src/models/lineWithFocusChart.js
 
-
-
 //= require pages/js/pages.js
 //= require pages/js/pages.calendar.js
 
@@ -67,3 +64,5 @@
 //= require mta/js/ProductivityReport.js
 //= require mta/js/HourAnalysis.js
 //= require mta/js/app.js
+//= require_tree .
+//= require_self

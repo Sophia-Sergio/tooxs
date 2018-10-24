@@ -26,17 +26,14 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
   <div class="pantalla-seccion d-flex flex-wrap justify-content-between mb-2">
     <div class="align-self-end">
       <div class="titulo-pantalla">Plan</div>
-    </div>  
+    </div>
     <div class="align-self-end text-right boton-comparar">
       <%= form_with url: import_sale_plans_path, multipart: true, local: true do %>
-        <%= label_tag :file, 'Importar desde xlsx' %>
-        <%= file_field_tag :file  %>
         <br>
-        <%= submit_tag '+ Importar', class: "btn btn-primary" %>
         <%= link_to 'Resetear datos', delete_sale_plans_path, class: "btn" %>
         <%= link_to 'Descargar datos de prueba', downloads_sale_plans_path, class: "btn" %>
       <% end %>
-    </div>    
+    </div>
   </div>
   <div class="formulario-comparacion">
     <div class="sub-titulo-pantalla">Plan de ventas</div>

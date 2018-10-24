@@ -2,17 +2,17 @@
   <div class="pantalla-seccion d-flex justify-content-between mb-2">
     <div class="align-self-end">
       <div class="titulo-pantalla">Comparativo de productividad</div>
-    </div>    
+    </div>
   </div>
 
   <%= render 'search_form', locals: { status: 'show', path: productivity_cluster_month_path} %>
-  
+
   <div class="row" id="compare_stores"></div>
   <div class="grafico-principal">
     <p class="m-t-20 grafico-1">Segmento: <span class="label label-default"><%= @cluster_name %></span>
     Departamento: <span class="label label-default"><%= @masterDeparment[:name] %></span>
     Tiendas:
-    <% @stores.each do |s| %>  
+    <% @stores.each do |s| %>
      <span class="label label-default"><%= s.name %></span>
     <% end %>
      </p>
@@ -41,10 +41,10 @@
           <% store[:prodWeek].each do |v| %>
             <td><%= number_to_currency v %></td>
           <% end %>
-        </tr>      
-        <% end %>     
+        </tr>
+        <% end %>
       </tbody>
-    </table>       
+    </table>
   </div>
-</div> 
+</div>
 

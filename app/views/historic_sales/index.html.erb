@@ -2,19 +2,17 @@
   <div class="pantalla-seccion d-flex flex-wrap justify-content-between mb-2">
     <div class="align-self-end">
       <div class="titulo-pantalla">Histórico</div>
-    </div>  
+    </div>
     <div class="align-self-end text-right boton-comparar">
       <%= form_with url: import_historic_sales_path, multipart: true, local: true do %>
-        <%= label_tag :file, 'Importar desde xlsx' %>
-        <%= file_field_tag :file  %>
         <br>
         <%= submit_tag '+ Importar', class: "btn btn-primary" %>
       <% end %>
-    </div>    
+    </div>
   </div>
   <div class="formulario-comparacion ">
     <div class="sub-titulo-pantalla">Ventas históricas</div>
-    <div style="overflow: auto;">      
+    <div style="overflow: auto;">
       <table id="historic_sales" class="table-shift table table-striped" >
         <thead>
           <tr>

@@ -6,17 +6,17 @@ class StaffingController < ApplicationController
       params[:store] = 1
       params[:month] = 6
     end
-  
+
     @month = params[:month]
     @year  = Date.today.strftime("%Y")
     @store = params[:store].to_i
     @dep   = params[:department].to_i
 
     #days of the week for this query dias de la semana según comienzo
-    @w1_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 1, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
-    @w2_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 2, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
-    @w3_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 3, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
-    @w4_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}
+    @w1_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 1, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}.reverse
+    @w2_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 2, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}.reverse
+    @w3_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 3, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}.reverse
+    @w4_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}.reverse
 
     add_breadcrumb "Dashboard", :root_path
     add_breadcrumb "Dotación personal", :staffing_index_path
@@ -25,15 +25,15 @@ class StaffingController < ApplicationController
     @departments  = Department.where(:id => [1,5]).order(:id)
     #staffing
     if @w1_days.length > 0
-      fecha1 = DateTime.parse(@w1_days[0].to_s) 
+      fecha1 = DateTime.parse(@w1_days[0].to_s)
       fecha1 = fecha1.strftime("%Y%m%d")
-      fecha2 = DateTime.parse(@w2_days[0].to_s) 
+      fecha2 = DateTime.parse(@w2_days[0].to_s)
       fecha2 = fecha2.strftime("%Y%m%d")
 
-      fecha3 = DateTime.parse(@w3_days[0].to_s) 
+      fecha3 = DateTime.parse(@w3_days[0].to_s)
       fecha3 = fecha3.strftime("%Y%m%d")
 
-      fecha4 = DateTime.parse(@w4_days[0].to_s) 
+      fecha4 = DateTime.parse(@w4_days[0].to_s)
       fecha4 = fecha4.strftime("%Y%m%d")
 
       @staffing_w1  = staffing_draw_real(fecha1, @store, @dep)
@@ -78,7 +78,7 @@ class StaffingController < ApplicationController
         hours = []
         active_sellers = []
         (ms[1].to_i.. ms[2].to_i).each {|d| hours << d } #cuenta las hora del vendedor recorriendo de la hora de inciio a la de termino
-      
+
         hours.each do |d|
           if d == 0
           else
@@ -94,7 +94,7 @@ class StaffingController < ApplicationController
 
   def staffing_draw_real(start_date, store, department)
 
-    @staffing = staffing_real(store, department) # tengo las horas en que trabajaron de 9 a 24 y quien es 
+    @staffing = staffing_real(store, department) # tengo las horas en que trabajaron de 9 a 24 y quien es
     hours = []
     dates = []
 
@@ -113,7 +113,7 @@ class StaffingController < ApplicationController
       result[h.to_s.to_sym] = []
       days = []
       dates.each do |d|
-        days << @staffing[d.to_sym][h] 
+        days << @staffing[d.to_sym][h]
       end
       result[h.to_s.to_sym] << days
     end

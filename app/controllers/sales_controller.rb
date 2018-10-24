@@ -12,9 +12,6 @@ class SalesController < ApplicationController
   end
 
   def month
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Estadísticas de Ventas", :sales_path
-    add_breadcrumb "Venta mensual", :month_sales_path
 
     @controller = 'Venta Mensual'
     @stores     = Store.where(:id => [1, 2]).order(:id)
@@ -121,11 +118,11 @@ class SalesController < ApplicationController
 
     element = [
       { label: 'Real', fill: 'true', data: @realMonth, backgroundColor: '#65ff00', borderColor: '#65ff00'},
-      { label: 'Meta', fill: 'false', data: @m_daily, backgroundColor: '#33d6ce', borderColor: '#33d6ce'},
+      { label: 'Meta', fill: 'false', data: @m_daily.reverse, backgroundColor: '#33d6ce', borderColor: '#33d6ce'},
       { label: 'Histórico', fill: 'false', data: @realMonth_h, backgroundColor: '#ff566b', borderColor: '#ff566b'}
     ]
 
-    @data = { :labels => @m_days , :datasets => element }
+    @data = { :labels => @m_days.reverse , :datasets => element }
 
     render json: @data
     #binding.pry

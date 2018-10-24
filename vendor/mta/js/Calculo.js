@@ -7,7 +7,7 @@ Calculo.semanal = function(datos, dias)
 
 	arraySemana = Array();
 
-	for (var i = 0; i < datos.length; i++) 
+	for (var i = 0; i < datos.length; i++)
 	{
 
 		if (arraySemana[semanasCount] == undefined)
@@ -33,12 +33,12 @@ Calculo.semanal = function(datos, dias)
 Calculo.excesoTotal = function(matriz)
 {
 	var exceso = 0;
-	for (var i = 0; i < matriz.length; i++) 
+	for (var i = 0; i < matriz.length; i++)
 	{
 		if (matriz[i] >= 0)
 		{
 			exceso += matriz[i];
-		}	
+		}
 	}
 
 	return exceso;
@@ -47,12 +47,12 @@ Calculo.excesoTotal = function(matriz)
 Calculo.faltanteTotal = function(matriz)
 {
 	var exceso = 0;
-	for (var i = 0; i < matriz.length; i++) 
+	for (var i = 0; i < matriz.length; i++)
 	{
 		if (matriz[i] < 0)
 		{
 			exceso += matriz[i];
-		}	
+		}
 	}
 
 	return -exceso;
@@ -63,7 +63,7 @@ Calculo.matrizExceso = function(prod_obj, matriz, dotacion)
 	var exceso = 0;
 	var matrizSet = [];
 
-	for (var i = 0; i < matriz.length; i++) 
+	for (var i = 0; i < matriz.length; i++)
 	{
 		matrizSet[i] = -(Math.round(((matriz[i] - prod_obj) * dotacion[i]) / prod_obj));
 	}
@@ -76,7 +76,7 @@ Calculo.matrizExcesoVal = function(prod_obj, matriz, dotacion, valor_hora = null
 	var exceso = 0;
 	var matrizSet = [];
 
-	for (var i = 0; i < matriz.length; i++) 
+	for (var i = 0; i < matriz.length; i++)
 	{
 		matrizSet[i] = -((Math.round(((matriz[i] - prod_obj) * dotacion[i]) / prod_obj)) * valor_hora);
 	}

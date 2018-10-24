@@ -10,12 +10,9 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
-
-
   *= require pace/pace-theme-flash.css
   *= require bootstrap/css/bootstrap.css
+  *= require pages/css/themes/corporate.css
   *= require font-awesome/css/font-awesome
   *= require jquery-scrollbar/jquery.scrollbar.css
   *= require select2/css/select2.min.css
@@ -24,10 +21,44 @@
   *= jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css
   *= datatables-responsive/css/datatables.responsive.css
   *= require nvd3/nv.d3.min.css
-
   *= require pages/css/pages-icons.css
-  *= require pages/css/themes/corporate.css
   *= require mta/css/mta-custom.css
   *= require mta/css/jquery.dataTables.min.css
-
+  *= require_self
+  *= require_tree .
 */
+
+/* Customizing theme*/
+
+.page-sidebar {
+  padding: 0.8em;
+
+  .sidebar-menu{
+    .title, .sub-title {
+      line-height: 19px;
+    }
+    .sub-title {
+      a {font-size: 15px !important}
+    }
+    .sub-menu{
+      padding-top: 5px !important;
+      padding-bottom: 0 !important;
+    }
+  }
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: #3fabdc;
+  border: 1px solid #3fabdc;
+}
+.dataTables_wrapper .dataTables_paginate ul li:hover > a {
+  color: black;
+}
+
+.today-date{
+  color: #3fabdc;
+  font-size: 13px;
+  position: absolute;
+  font-size: 13px;
+  bottom: -2px;
+  right: 11px;
+}

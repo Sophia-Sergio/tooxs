@@ -3,9 +3,9 @@ var fn = {
       var RegExPattern = /[0-9]+$/;
     return RegExPattern.test( value );
   },
-  
+
   formateaNumero : function ( value ) {
-      if ( fn.validaEntero ( value ) )  {  
+      if ( fn.validaEntero ( value ) )  {
       var retorno = '';
       value = value.toString().split('').reverse().join('');
       var i = value.length;
@@ -33,12 +33,12 @@ if ( $('#sales_year').length > 0) {
             grey: 'rgb(201, 203, 207)'
         };
 
-        var datasets = $.ajax({ 
+        var datasets = $.ajax({
                           type: "get",
                           url: "/sales/json_year",
                           data: 'y='+$('#year').val()+'&'+$('.simple_form').serialize(),
                           dataType: 'json',
-                          success: function(data){ 
+                          success: function(data){
 
                            var config = {
                             type: 'line',
@@ -125,12 +125,12 @@ if ( $('#sales_month').length > 0) {
           $('.grafico-1').hide();
           //llamo al 2o grafico
 
-          var datasets_compare =  $.ajax({ 
+          var datasets_compare =  $.ajax({
                           type: "get",
                           url: "/sales/compare_month_json",
                           data: $('#compare').serialize(),
                           dataType: 'json',
-                          success: function(data){ 
+                          success: function(data){
 
                           var config2 = {
                             type: 'line',
@@ -202,14 +202,14 @@ if ( $('#sales_month').length > 0) {
 
       });
 
-  
 
-        var datasets =  $.ajax({ 
+
+        var datasets =  $.ajax({
                           type: "get",
                           url: "/sales/json_month",
                           data: $('.simple_form').serialize(),
                           dataType: 'json',
-                          success: function(data){ 
+                          success: function(data){
 
                            var config = {
                             type: 'line',
@@ -297,14 +297,14 @@ if ( $('#sales_week').length > 0) {
             grey: 'rgb(201, 203, 207)'
         };
 
-        var datasets =   
+        var datasets =
 
-                        $.ajax({ 
+                        $.ajax({
                           type: "get",
                           url: "/sales/json_week",
                           data: 'week='+$('#week').val()+'&'+$('.simple_form').serialize(),
                           dataType: 'json',
-                          success: function(data){ 
+                          success: function(data){
 
                            var config = {
                             type: 'line',
@@ -364,7 +364,7 @@ if ( $('#sales_week').length > 0) {
                           }
                         })
 
- 
+
    })
 }
 
@@ -384,14 +384,14 @@ if ( $('#sales_day').length > 0) {
             grey: 'rgb(201, 203, 207)'
         };
 
-        var datasets =   
+        var datasets =
 
-                        $.ajax({ 
+                        $.ajax({
                           type: "get",
                           url: "/sales/json_day",
                           data: 'd='+$('#day').val()+'&'+$('.simple_form').serialize(),
                           dataType: 'json',
-                          success: function(data){ 
+                          success: function(data){
 
                            var config = {
                             type: 'line',
@@ -451,12 +451,12 @@ if ( $('#sales_day').length > 0) {
                           }
                         })
 
- 
+
    })
 }
 
 if ( $('#sales_search_form').length > 0) {
- 
+
   $(document).on('click','.btn-params-sales',function(){
     $('#sales_form').slideToggle('slow');
   });
@@ -466,13 +466,13 @@ if ( $('#sales_search_form').length > 0) {
 if ( $('#seller_details').length > 0) {
     console.log('init seller_details')
 
-           var myEvents =  
+           var myEvents =
                         $.parseJSON(
                             $.ajax({
                               method: "GET",
                               url: "/sellers/calendar_shift.json",
                               data: { id: $('#seller_id').val() },
-                              dataType: "json", 
+                              dataType: "json",
                               async: false
                             }).responseText)
 
@@ -541,12 +541,12 @@ if ( $('#seller_details').length > 0) {
 }
 
 /***
-* Inicio de API 
-* 
+* Inicio de API
+*
 *
 */
-if ($('#productivity_demo').length > 0) 
-{ 
+if ($('#productivity_demo').length > 0)
+{
   function setearProductividad( titulo, plan, dotacion)
   {
     productividad = Array();
@@ -563,9 +563,9 @@ if ($('#productivity_demo').length > 0)
     table.append(thead);
 
     tbody = $("<tbody/>", { "class": "t-p-3" });
-    planSet = $('<tr/>', {'html': '<td>Plan de venta</td><td class="plan-w1">'+fn.formateaNumero(plan[0])+'</td><td class="plan-w2">'+fn.formateaNumero(plan[1])+'</td><td class="plan-w3">'+fn.formateaNumero(plan[2])+'</td><td class="plan-w4">'+fn.formateaNumero(plan[3])+'</td>'});
-    dotacionSet = $('<tr/>', {'html': '<td>Dotación semanal (HH)</td><td class="dotacion-w1">'+fn.formateaNumero(dotacion[0])+'</td><td class="dotacion-w2">'+fn.formateaNumero(dotacion[1])+'</td><td class="dotacion-w3">'+fn.formateaNumero(dotacion[2])+'</td><td class="dotacion-w4">'+fn.formateaNumero(dotacion[3])+'</td>'});
-    productividadSet = $('<tr/>', {'html': '<td>Productividad</td><td class="productividad-w1">'+fn.formateaNumero(productividad[0])+'</td><td class="productividad-w2">'+fn.formateaNumero(productividad[1])+'</td><td class="productividad-w3">'+fn.formateaNumero(productividad[2])+'</td><td class="productividad-w4">'+fn.formateaNumero(productividad[3])+'</td>'}); 
+    planSet = $('<tr/>', {'html': '<td>Plan de venta</td><td class="plan-w1">'+fn.formateaNumero(plan[3])+'</td><td class="plan-w2">'+fn.formateaNumero(plan[2])+'</td><td class="plan-w3">'+fn.formateaNumero(plan[1])+'</td><td class="plan-w4">'+fn.formateaNumero(plan[0])+'</td>'});
+    dotacionSet = $('<tr/>', {'html': '<td>Dotación semanal (HH)</td><td class="dotacion-w1">'+fn.formateaNumero(dotacion[3])+'</td><td class="dotacion-w2">'+fn.formateaNumero(dotacion[2])+'</td><td class="dotacion-w3">'+fn.formateaNumero(dotacion[1])+'</td><td class="dotacion-w4">'+fn.formateaNumero(dotacion[0])+'</td>'});
+    productividadSet = $('<tr/>', {'html': '<td>Productividad</td><td class="productividad-w1">'+fn.formateaNumero(productividad[3])+'</td><td class="productividad-w2">'+fn.formateaNumero(productividad[2])+'</td><td class="productividad-w3">'+fn.formateaNumero(productividad[1])+'</td><td class="productividad-w4">'+fn.formateaNumero(productividad[3])+'</td>'});
 
     $(tbody).append(planSet);
     $(tbody).append(dotacionSet);
@@ -576,7 +576,7 @@ if ($('#productivity_demo').length > 0)
     $("#productividades").append(table);
   }
 
-  function getQueryVariable(variable) 
+  function getQueryVariable(variable)
   {
    var query = window.location.search.substring(1);
    var vars = query.split("&");
@@ -600,14 +600,14 @@ if ($('#productivity_demo').length > 0)
   $(document).ready(function()
   {
     var datasets1 = $.ajax(
-    { 
+    {
       type: "GET",
       url: '/productivity/data_month',
       async: false,
       data: 'month='+month+'&year='+year+'&store='+store+'&department='+department,
       dataType: 'json',
       success: function(json)
-      { 
+      {
         return json;
       }
     });
@@ -623,7 +623,7 @@ if ($('#productivity_demo').length > 0)
         }).show();
 
         var datasets = $.ajax(
-        { 
+        {
           type: "get",
           url: "/productivity/json_current",
           data: 'month='+month+'&year='+year+'&store='+store+'&department='+department+'&week='+$('#week').val(),
@@ -637,32 +637,32 @@ if ($('#productivity_demo').length > 0)
 
             prod_obj_line = [];
 
-            for (var i = 0; i < productividad_actual.length; i++) 
+            for (var i = 0; i < productividad_actual.length; i++)
             {
                 prod_obj_line[i] = plan_enviado.datos.prod_obj;
-            } 
+            }
 
             var config = {
               type: 'line',
               data: {
-              datasets: 
+              datasets:
               [
-                {pointRadius: 0, borderDash: [10, 5], data: prod_obj_line, fill: 'false', label: 'Productividad ideal', backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},                                  
+                {pointRadius: 0, borderDash: [10, 5], data: prod_obj_line, fill: 'false', label: 'Productividad ideal', backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},
                 {data: productividad_actual, fill: 'false', label: 'Prod. sin optimizar', backgroundColor: '#65ff00', borderColor: '#65ff00'}
               ],
               labels: fecha
               },
-              options: 
+              options:
               {
-                scales: 
+                scales:
                 {
-                  yAxes: 
+                  yAxes:
                   [{
                     id: 'left-y-axis',
                     type: 'linear',
                     position: 'left',
                     ticks: {
-                        callback: function(value, index, values) 
+                        callback: function(value, index, values)
                         {
                           if (parseInt(value) >= 1000) {
                             return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -684,7 +684,7 @@ if ($('#productivity_demo').length > 0)
                   }
                 }
               }
-            }    
+            }
             document.getElementById("chartContainer").innerHTML = '&nbsp;';
             document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
 
@@ -694,14 +694,14 @@ if ($('#productivity_demo').length > 0)
         });
 
         var datasets = $.ajax(
-        { 
+        {
           type: "get",
           url: "/productivity/json_current",
           data: 'month='+month+'&year='+year+'&store='+store+'&department='+department+'&week='+$('#week').val()+'&'+$('.simple_form').serialize(),
           dataType: 'json',
           success: function(data)
-          { 
-             
+          {
+
             fecha = data.dates_week.concat(data.dates_week_2).concat(data.dates_week_3).concat(data.dates_week_4);
             mes  = data.spm1;
             tsm1 = data.tsm1;
@@ -716,7 +716,7 @@ if ($('#productivity_demo').length > 0)
             productividad_objetivo = Cerebro.productividadObjetivo();
             productividad_actual = Cerebro.cacularProductividad(mes);
             productividad_real = Cerebro.cacularProductividad(vrm1);
-            for (var i = 0; i < sum_turnos_real.length; i++) 
+            for (var i = 0; i < sum_turnos_real.length; i++)
             {
               $("#optimo-"+[i+1]).html(sum_turnos_real[i]);
             }
@@ -731,7 +731,7 @@ if ($('#productivity_demo').length > 0)
 
             // setear datos de resumen
             plan_w = Calculo.semanal(Cerebro.planVentaDiario(), 7);
-            plan_w1 = plan_w[0]; 
+            plan_w1 = plan_w[0];
             plan_w2 = plan_w[1];
             plan_w3 = plan_w[2];
             plan_w4 = plan_w[3];
@@ -742,7 +742,7 @@ if ($('#productivity_demo').length > 0)
 
 
             dotacion_w = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
-            dotacion_w1 = dotacion_w[0]; 
+            dotacion_w1 = dotacion_w[0];
             dotacion_w2 = dotacion_w[1];
             dotacion_w3 = dotacion_w[2];
             dotacion_w4 = dotacion_w[3];
@@ -752,7 +752,7 @@ if ($('#productivity_demo').length > 0)
             $("#dotacion-w4").html(dotacion_w4);
 
             productividad_w = Calculo.semanal(Cerebro.productividadDiaria(), 7);
-            productividad_w1 = productividad_w[0]; 
+            productividad_w1 = productividad_w[0];
             productividad_w2 = productividad_w[1];
             productividad_w3 = productividad_w[2];
             productividad_w4 = productividad_w[3];
@@ -761,13 +761,13 @@ if ($('#productivity_demo').length > 0)
             $("#productividad-w3").html(fn.formateaNumero(parseInt(plan_w3/dotacion_w3)));
             $("#productividad-w4").html(fn.formateaNumero(parseInt(plan_w4/dotacion_w4)));
             //cargar turnos
-            
+
             Cerebro.setearTurnos();
-            turnos = Cerebro.turnos;                      
+            turnos = Cerebro.turnos;
             num_turnos = Cerebro.plan.datos.num_turnos;
             count_turnos = 0;
             resumenTurnosNormal = 0;
-            
+
 
             while(count_turnos < num_turnos)
             {
@@ -777,10 +777,10 @@ if ($('#productivity_demo').length > 0)
             }
             $("#tabla-resumen tbody").append("<tr><td>Total</td><td></td><td>" + resumenTurnosNormal + "</td><td id='turnos-total-op'></td></tr>");
 
-            //cargar margen de eficiencia                       
+            //cargar margen de eficiencia
             dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), Cerebro.sumatoriaTurnosDiaria().length);
             $("#hh-actual").html(fn.formateaNumero(dotacion_m1));
-            
+
             // mostrar botones
             $("#botones-optimizar").show();
           }
@@ -789,7 +789,7 @@ if ($('#productivity_demo').length > 0)
     else
     {
         var datasets = $.ajax(
-        { 
+        {
           type: "get",
           url: "/productivity/json_current",
           data: 'month='+month+'&year='+year+'&store='+store+'&department='+department+'&week='+$('#week').val(),
@@ -802,33 +802,33 @@ if ($('#productivity_demo').length > 0)
 
             prod_obj_line = [];
 
-            for (var i = 0; i < data.prod_w_op.length; i++) 
+            for (var i = 0; i < data.prod_w_op.length; i++)
             {
                 prod_obj_line[i] = data.prod_obj;
-            } 
+            }
 
             var config = {
               type: 'line',
               data: {
-              datasets: 
+              datasets:
               [
-                {pointRadius: 0, borderDash: [10, 5], data: prod_obj_line, fill: 'false', label: 'Productividad ideal', backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},                                  
+                {pointRadius: 0, borderDash: [10, 5], data: prod_obj_line, fill: 'false', label: 'Productividad ideal', backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},
                 {data: productividad_actual, fill: 'false', label: 'Prod. sin optimizar', backgroundColor: '#65ff00', borderColor: '#65ff00'},
                 {data: productividad_optimizada, fill: 'false', label: 'Productividad optimizada', backgroundColor: '#33d6ce', borderColor: '#33d6ce'}
               ],
               labels: fecha
               },
-              options: 
+              options:
               {
-                scales: 
+                scales:
                 {
-                  yAxes: 
+                  yAxes:
                   [{
                     id: 'left-y-axis',
                     type: 'linear',
                     position: 'left',
                     ticks: {
-                        callback: function(value, index, values) 
+                        callback: function(value, index, values)
                         {
                           if (parseInt(value) >= 1000) {
                             return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -850,7 +850,7 @@ if ($('#productivity_demo').length > 0)
                   }
                 }
               }
-            }    
+            }
             document.getElementById("chartContainer").innerHTML = '&nbsp;';
             document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
 
@@ -860,11 +860,11 @@ if ($('#productivity_demo').length > 0)
             mes = data.spm1;
             vrm1 = data.vrm1;
             nombreTurnos = data.nombreTurnos;
-            // incializar Datos guardados            
+            // incializar Datos guardados
             Cerebro.plan = plan_enviado;
             Cerebro.caso = Cerebro.plan.id_caso;
             Cerebro.salida = datasets1.responseJSON.summary;
-            Cerebro.brainJson = JSON.parse(datasets1.responseJSON.json_result);   
+            Cerebro.brainJson = JSON.parse(datasets1.responseJSON.json_result);
             Cerebro.setearResumen();
 
             productividad_diaria = Cerebro.productividadDiaria();
@@ -874,7 +874,7 @@ if ($('#productivity_demo').length > 0)
 
             //cargar turnos
             Cerebro.setearTurnos();
-            turnos       = Cerebro.turnos;                      
+            turnos       = Cerebro.turnos;
             num_turnos   = Cerebro.plan.datos.num_turnos;
             count_turnos = 0;
 
@@ -889,14 +889,14 @@ if ($('#productivity_demo').length > 0)
             }
             $("#tabla-resumen tbody").append("<tr><td>Total</td><td></td><td>" + resumenTurnosNormal + "</td><td id='turnos-total-op'></td></tr>");
 
-            //cargar margen de eficiencia                       
+            //cargar margen de eficiencia
             dotacion_m1 = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), Cerebro.sumatoriaTurnosDiaria().length);
             $("#hh-actual").html(fn.formateaNumero(dotacion_m1));
 
             eficiencia = (100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""))).toFixed(2);
             $("#margen-actual").html(parseFloat(eficiencia).toFixed(2)+"%");
-                 
-            for (var i = 0; i < sum_turnos_real.length; i++) 
+
+            for (var i = 0; i < sum_turnos_real.length; i++)
             {
               $("#optimo-"+[i+1]).html(sum_turnos_real[i]);
             }
@@ -905,20 +905,20 @@ if ($('#productivity_demo').length > 0)
             sum_turnos_real = Cerebro.totalTurnosReales();
             productividad_optimizada = Cerebro.productividadOptimizada();
             productividad_actual = Cerebro.cacularProductividad(mes);
-            sumatoria_turnos_optimizados = Cerebro.totalTurnosOptimizados();  
+            sumatoria_turnos_optimizados = Cerebro.totalTurnosOptimizados();
             initOptimizado = new Array(281);
 
-            for (var i = 0; i < sum_turnos_real.length; i++) 
+            for (var i = 0; i < sum_turnos_real.length; i++)
             {
               $("#optimo-"+[i+1]).html(sum_turnos_real[i]);
             }
 
-            for (var i = initOptimizado.length-1; i >= 0; i--) 
+            for (var i = initOptimizado.length-1; i >= 0; i--)
             {
               $("#optimizado-"+[i]).html(sumatoria_turnos_optimizados[i-1]);
             }
 
-            for (var i = matrixAlmuerzo.length - 1; i >= 0; i--) 
+            for (var i = matrixAlmuerzo.length - 1; i >= 0; i--)
             {
               if (matrixAlmuerzo[i])
               {
@@ -946,7 +946,7 @@ if ($('#productivity_demo').length > 0)
             $("#hh-optimizado").html(fn.formateaNumero(dotacion_m1));
 
             Cerebro.setearTurnos();
-            turnos = Cerebro.turnos;                      
+            turnos = Cerebro.turnos;
             num_turnos = Cerebro.plan.datos.num_turnos;
             count_turnos = 0;
             while(count_turnos < num_turnos)
@@ -965,8 +965,8 @@ if ($('#productivity_demo').length > 0)
   })
 }
 
-if ($('#dashboard').length > 0) 
-{ 
+if ($('#dashboard').length > 0)
+{
   $("#month").on("change", function()
   {
     $("#dasboard_form").submit();

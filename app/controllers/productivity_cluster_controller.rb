@@ -1,86 +1,77 @@
 class ProductivityClusterController < ApplicationController
+
+  before_action :set_stores, only: %i[month json_month]
+
   def index
-        add_breadcrumb "Dashboard", :root_path
-        add_breadcrumb "Productividad por Segmento", :productivity_cluster_index_path       
-        @search       = ''
-        @clusters     = Cluster.all.order(:id)
-        @departments  = Department.distinct.pluck(:name)
-        @masterDepartments = MasterDepartment.all.order(:id)
-        @month = Date.today.strftime("%m").to_i
-    end
+    @search       = ''
+    @clusters     = Cluster.all.order(:id)
+    @departments  = Department.distinct.pluck(:name)
+    @masterDepartments = MasterDepartment.all.order(:id)
+    @month = Date.today.strftime("%m").to_i
+  end
 
-    def month
-        add_breadcrumb "Dashboard", :root_path
-        add_breadcrumb "Productividad por Segmento", :productivity_cluster_index_path  
-        add_breadcrumb "Productividad mensual", :productivity_cluster_month_path 
+  def month
+    @search       = ''
+    @clusters     = Cluster.all.order(:id)
+    @departments  = Department.distinct.pluck(:name)
+    @masterDepartments = MasterDepartment.all.order(:id)
+    @masterDeparment   = MasterDepartment.find(params[:department])
 
-        @search       = ''
-
-        @stores      = Store.where(cluster_id: params[:cluster])
-        @clusters     = Cluster.all.order(:id)
-        @departments  = Department.distinct.pluck(:name)
-        @masterDepartments = MasterDepartment.all.order(:id)
-        @masterDeparment   = MasterDepartment.find(params[:department])
-
-        @cluster_name =  Cluster.find(params[:cluster]).name
-        @year  = params[:year].to_i  
-        @month = params[:month].to_i  
+    @cluster_name =  Cluster.find(params[:cluster]).name
+    @year  = params[:year].to_i
+    @month = params[:month].to_i
 
 
-        @elements = element(@month, @week, @year, @stores, @dep)
-        #calcular ventas reales por semana
+    @elements = element(@month, @week, @year, @stores, @dep)
+    #calcular ventas reales por semana
 
-        @resultStore = []
+    @resultStore = []
 
-        @elements.each do |element|
-            #calcular total por semana
-            saleWeek = []
+    @elements.each do |element|
+      #calcular total por semana
+      saleWeek = []
+      count = 0
+      week  = 0
+      saleWeek[week] = 0
+      element[:realMonth].each do |data|
+        if count > 6
+            week += 1
             count = 0
-            week  = 0
             saleWeek[week] = 0
-            element[:realMonth].each do |data|
-                if count > 6
-                    week += 1
-                    count = 0
-                    saleWeek[week] = 0
-                end
-                saleWeek[week] += data.to_i        
-                count += 1 
-            end
-
-            #calcular dotacion por semana
-            dotWeek = []
-            count = 0
-            week  = 0
-            dotWeek[week] = 0
-            element[:dotMonth].each do |data|
-                if count > 6
-                    week += 1
-                    count = 0
-                    dotWeek[week] = 0
-                end
-                dotWeek[week] += data.to_i        
-                count += 1 
-            end
-
-            #calcular productividad por semana
-            prodWeek = []
-            
-            (0..week).each do |count|
-            	prodWeek[count] = (saleWeek[count].to_f/ dotWeek[count].to_f).round(2)
-            end
-
-
-
-            @resultStore << { :label =>  element[:label], :prodWeek => prodWeek}
         end
+        saleWeek[week] += data.to_i
+        count += 1
+      end
+
+      #calcular dotacion por semana
+      dotWeek = []
+      count = 0
+      week  = 0
+      dotWeek[week] = 0
+      element[:dotMonth].each do |data|
+        if count > 6
+            week += 1
+            count = 0
+            dotWeek[week] = 0
+        end
+        dotWeek[week] += data.to_i
+        count += 1
+      end
+
+      #calcular productividad por semana
+      prodWeek = []
+      (0..week).each do |count|
+        prodWeek[count] = (saleWeek[count].to_f/ dotWeek[count].to_f).round(2)
+      end
+      @resultStore << { :label =>  element[:label], :prodWeek => prodWeek}
     end
+  end
+
   def json_month
     @month = params[:month].to_i
     @week  = params[:week].to_i   #replace params later
     @year  = params[:year].to_i
 
-    @stores = Store.where(cluster_id: params[:cluster])
     @dep    = Department.find(params[:department])
 
 
@@ -91,7 +82,7 @@ class ProductivityClusterController < ApplicationController
     month_end   = end_of_month.strftime("%d").to_i
     #binding.pry
 
-    #generar element 
+    #generar element
     element = element(@month, @week, @year, @stores, @dep)
 
     labels = []
@@ -99,7 +90,7 @@ class ProductivityClusterController < ApplicationController
     countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @stores.first, department_id: @dep).pluck(:week).length
     @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @stores.first, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
 
-    @data = { :labels => @m_days, :datasets => element }
+    @data = { :labels => @m_days.reverse, :datasets => element }
     render json: @data
     #binding.pry
   end
@@ -113,13 +104,13 @@ class ProductivityClusterController < ApplicationController
 
     colors << 'rgb(255, 205, 86)'
     colors << 'rgb(153, 102, 255)'
-       
+
     beginning_of_month = "#{@year}-#{@month}-01".to_date
     end_of_month = beginning_of_month.end_of_month
 
     month_start = beginning_of_month.strftime("%d").to_i
     month_end   = end_of_month.strftime("%d").to_i
- 
+
     #obtener departamentos
     @stores.each do |store|
       departments << Department.where(store: store[:id], master_id: params[:department])
@@ -127,15 +118,15 @@ class ProductivityClusterController < ApplicationController
 
     #obtener valores
     departments.each do |department|
-      if department.length > 0 
-        sale_reals = SaleReal.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month) 
+      if department.length > 0
+        sale_reals = SaleReal.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month)
         totalMonth = []
         realMonth = []
         dotMonth = []
 
         dotReal = dotacion_real(department, @month, @year)
 
-        countReal = 0      
+        countReal = 0
         sale_reals.each do |sale|
           totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
           totalDotDay = dotReal[countReal]
@@ -153,45 +144,49 @@ class ProductivityClusterController < ApplicationController
         count = 0
         week  = 0
         saleWeek[week] = 0
-        
+
         realMonth.each do |data|
           if count > 6
             week += 1
             count = 0
             saleWeek[week] = 0
           end
-          saleWeek[week] += data.to_i        
-          count += 1 
+          saleWeek[week] += data.to_i
+          count += 1
+        end
+        #calcular dotacion por semana
+        dotWeek = []
+        count = 0
+        week  = 0
+        dotWeek[week] = 0
+
+        dotMonth.each do |data|
+          if count > 6
+              week += 1
+              count = 0
+              dotWeek[week] = 0
+          end
+          dotWeek[week] += data.to_i
+          count += 1
         end
 
+        #calcular productividad por semana
+        prodWeek = []
 
-  	    #calcular dotacion por semana
-  	    dotWeek = []
-  	    count = 0
-  	    week  = 0
-  	    dotWeek[week] = 0
-  	    
-  	    dotMonth.each do |data|
-  	        if count > 6
-  	            week += 1
-  	            count = 0
-  	            dotWeek[week] = 0
-  	        end
-  	        dotWeek[week] += data.to_i        
-  	        count += 1 
-  	    end
+        (0..week).each do |count|
+          prodWeek[count] = (saleWeek[count].to_f/ dotWeek[count].to_f).round(2)
+        end
 
-  	    #calcular productividad por semana
-  	    prodWeek = []
-  	    
-  	    (0..week).each do |count|
-  	    	prodWeek[count] = (saleWeek[count].to_f/ dotWeek[count].to_f).round(2)
-  	    end
-         
         element << { label: store[:name], fill: 'false', data: totalMonth, totalMonth: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
         colorCount += 1
       end
     end
     return element
+  end
+
+  private
+
+  def set_stores
+    @stores = Store.by_cluster(params[:cluster])
   end
 end

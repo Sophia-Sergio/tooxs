@@ -1,7 +1,5 @@
 <h1>Funcionarios</h1>
 <%= form_with url: import_sellers_path, multipart: true, local: true do %>
-  <%= label_tag :file, 'Importar desde xlsx' %>
-  <%= file_field_tag :file  %>
   <br>
   <%= submit_tag 'Importar' %>
 <% end %>

@@ -2,7 +2,7 @@ class SalesClusterController < ApplicationController
 
   def index
     add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Ventas por Segmento", :sales_cluster_index_path       
+    add_breadcrumb "Ventas por Segmento", :sales_cluster_index_path
     @search       = ''
     @clusters     = Cluster.where(id: 1)
     @masterDepartments = MasterDepartment.where(id: 1)
@@ -10,28 +10,24 @@ class SalesClusterController < ApplicationController
 
     #@seasons      = [ [id: 1, name:'moo'] , [id: 2, name:'lala'] ]
   end
-  
-  def month
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Ventas por Segmento", :sales_cluster_index_path  
-    add_breadcrumb "Ventas mensual", :month_sales_cluster_index_path 
 
+  def month
     @search       = ''
 
-    @stores      = Store.where(cluster_id: params[:cluster])
+    @stores      = Store.by_cluster(params[:cluster])
     @clusters     = Cluster.all.order(:id)
     @departments  = Department.distinct.pluck(:name)
     @masterDepartments = MasterDepartment.all.order(:id)
     @masterDeparment   = MasterDepartment.find(params[:department])
 
     @cluster_name =  Cluster.find(params[:cluster]).name
-    @year  = params[:year].to_i  
-    @month = params[:month].to_i  
+    @year  = params[:year].to_i
+    @month = params[:month].to_i
 
 
     @elements = element(@month, @week, @year, @stores, @dep)
     #calcular ventas reales por semana
-    
+
     @resultStore = []
 
     @elements.each do |element|
@@ -47,20 +43,20 @@ class SalesClusterController < ApplicationController
           count = 0
           saleWeek[week] = 0
         end
-        saleWeek[week] += data.to_i        
-        count += 1 
+        saleWeek[week] += data.to_i
+        count += 1
       end
 
       @resultStore << { :label =>  element[:label], :saleWeek => saleWeek}
     end
   end
-  
+
   def json_month
     @month = params[:month].to_i
     @week  = params[:week].to_i   #replace params later
     @year  = params[:year].to_i
 
-    @stores = Store.where(cluster_id: params[:cluster])
+    @stores = Store.by_cluster(params[:cluster])
     @dep    = Department.find(params[:department])
 
 
@@ -71,7 +67,7 @@ class SalesClusterController < ApplicationController
     month_end   = end_of_month.strftime("%d").to_i
     #binding.pry
 
-    #generar element 
+    #generar element
     elements = element(@month, @week, @year, @stores, @dep)
 
     labels = []
@@ -97,13 +93,13 @@ class SalesClusterController < ApplicationController
 
     colors << '#65ff00'
     colors << '#33d6ce'
-       
+
     beginning_of_month = "#{@year}-#{@month}-01".to_date
     end_of_month = beginning_of_month.end_of_month
 
     month_start = beginning_of_month.strftime("%d").to_i
     month_end   = end_of_month.strftime("%d").to_i
- 
+
 
     @staffing = staffing
     dates = []
@@ -113,10 +109,10 @@ class SalesClusterController < ApplicationController
       dates << d.strftime("%Y%m%d")
     end
 
-    #sacar dotacion por dia   
+    #sacar dotacion por dia
     dates.each do |d|
       days << @staffing[d.to_sym][:hours].values.sum
-    end      
+    end
 
     #obtener departamentos
     @stores.each do |store|
@@ -126,7 +122,7 @@ class SalesClusterController < ApplicationController
     #obtener valores
     if departments.first.length > 0
       departments.each do |department|
-        sale_reals = SaleReal.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month) 
+        sale_reals = SaleReal.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month)
         totalMonth = []
         realMonth = []
         dotMonth = []
@@ -148,19 +144,19 @@ class SalesClusterController < ApplicationController
         count = 0
         week  = 0
         saleWeek[week] = 0
-        
+
         realMonth.each do |data|
           if count > 6
             week += 1
             count = 0
             saleWeek[week] = 0
           end
-          saleWeek[week] += data.to_i        
-          count += 1 
+          saleWeek[week] += data.to_i
+          count += 1
         end
 
 
-          
+
         element << { dates: sale_date, label: store[:name], fill: 'false', data: saleWeek, totalMonth: totalMonth.map(&:to_s), realMonth: realMonth, dotMonth: dotMonth, backgroundColor: colors[colorCount], borderColor: colors[colorCount]}
         colorCount += 1
       end
