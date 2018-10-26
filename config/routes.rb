@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :market do
+    get 'dashboard/index'
+  end
+
   get 'staff_request/show'
   get 'staff_request/index'
   post 'staff_request/request_send'
