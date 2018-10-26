@@ -6,7 +6,7 @@ class Seller < ApplicationRecord
   validates_presence_of :rut, :name, :lastname, :email, :phone, :number, :city,
                         :country
 
-
+  scope :by_department, ->(department) { where(department: department) }
 
   def fullname
     self.name+' '+self.lastname
@@ -22,9 +22,9 @@ class Seller < ApplicationRecord
     (self.begin_shift..self.begin_shift+12.months).each do |i|
       @shift_dates << i.strftime("%Y%m%d")
     end
-    
+
     @shift_days = []
-    
+
     @shifts.each do |d|
       @shift_days << [d.shift, d.week, d.day]
     end
@@ -42,23 +42,21 @@ class Seller < ApplicationRecord
       end
     end
     @x = @t.map { |x| x.flatten }
-
-    return @x
   end
 
   def my_days_off
     @shift = self.my_shift
     @do = {}
 
-    @shift.each do |d| 
+    @shift.each do |d|
       if d[1] == "0:00"
 
         year  = d[0][0,4]
         month = d[0][4,2]
         day   = d[0][6,2]
-        @do[year] = {} if @do[year].nil? 
+        @do[year] = {} if @do[year].nil?
         @do[year][month] = [] if @do[year][month].nil?
-        
+
         @do[year][month] << d
       end
     end

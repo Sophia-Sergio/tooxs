@@ -3,7 +3,7 @@ class SalePlan < ApplicationRecord
   belongs_to :department
   validates_presence_of :store_id, :department_id
 
-  scope :by_month, ->(month) { where(month: month) }
+  scope :by_date, ->(year, month) { where(month: month, year: year).order(:sale_date) }
   scope :by_department, ->(department) { where(department: department) }
 
   def week

@@ -7,38 +7,31 @@ class ApplicationController < ActionController::Base
   end
 
   def staffing
-
-  	days = {}
-  	date_start  = Date.today.beginning_of_year - 1.year
-  	date_end    = Date.today.end_of_year + 1.year
-      #defino un array con los todos los dias del año
+    days = {}
+    date_start  = Date.today.beginning_of_year - 1.year
+    date_end    = Date.today.end_of_year + 1.year
+    # array with all the days of 2 years
 
     (date_start..date_end).each do |d|
-      #convierto en sym el dia
-      day = d.strftime("%Y%m%d").to_sym
-      #crea un array desde el 01-01-2017 al 31-12-2019
-      days[day] = {:hours => [], :sellers => []}
-
+      # convierto en sym el dia
+      day = d.strftime('%Y%m%d').to_sym
+      # crea un array desde el 01-01-2017 al 31-12-2019
+      days[day] = { hours: [], sellers: [] }
     end
 
-    ##busco los vendedores y veo sus turnos
+    # busco los vendedores y veo sus turnos
     sellers = Seller.where(store: 1, department: 1)
 
     sellers.each do |s|
-    	s.my_shift.each do |ms|
-    		day = ms[0].to_sym
-
-    		hours = []
-    		active_sellers = []
-    		(ms[1].to_i.. ms[2].to_i).each {|d| hours << d }
-
-        binding.pry if days[day].nil?
+      s.my_shift.each do |my_shift|
+        day = my_shift[0].to_sym
+        hours = (my_shift[1].to_i..my_shift[2].to_i).to_a
         days[day][:hours] << hours
-        days[day][:sellers]  << s.fullname
+        days[day][:sellers] << s.fullname
       end
     end
-    days    = days.each { |k,v| days[k][:hours] = v[:hours].flatten }
-    result  = days.each { |k,v| days[k][:hours] = v[:hours].inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }}
+    days = days.each { |k, v| days[k][:hours] = v[:hours].flatten }
+    days.each { |k, v| days[k][:hours] = v[:hours].inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }}
   end
 
 	def staffing_draw(start_date)

@@ -4,20 +4,20 @@ class AvailableShift < ApplicationRecord
   belongs_to :store
   validates_presence_of :num, :name, :month, :week, :day
 
-  scope :code, lambda { |value| where('num = (?)', value) if value }
+  scope :code, ->(value) { where(num: value) if value }
 
   def shift
     cols = ['nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty','twenty_one','twenty_two','twenty_three','twenty_four']
     current = false
-    
+
     cols.each_with_index do |c,i|
 
       if self.public_send(cols[i]) == true
-        if current == false 
+        if current == false
           @start = cols[i]
         end
           current = true
-      else 
+      else
 
         if current == true
           @end = cols[i-1]
@@ -25,15 +25,15 @@ class AvailableShift < ApplicationRecord
         end
 
       end
-    end    
-    @start  = "#{NumbersInWords.in_numbers(@start)}:00" 
-    @end    = "#{NumbersInWords.in_numbers(@end)}:00" 
+    end
+    @start  = "#{NumbersInWords.in_numbers(@start)}:00"
+    @end    = "#{NumbersInWords.in_numbers(@end)}:00"
 
     shift = [@start,@end]
   end
 
   def date_shift
-    
+
     month = self.month
     week  = self.week
     day   = self.day
@@ -42,9 +42,9 @@ class AvailableShift < ApplicationRecord
     week_text   = week.ordinalize
     day_text    = Date::DAYNAMES[day.to_i]
 
-    
+
     @date = Chronic.parse("#{week_text} #{day_text} in #{month_text}")
-    if !@date.nil? 
+    if !@date.nil?
       @date.strftime("%F")
     end
 
