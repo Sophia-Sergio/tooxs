@@ -1,0 +1,109 @@
+h1{
+    color: 353e4f;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-left: 1.2vw;
+    margin-top: -2.1vh;
+    padding-bottom: 3.2vh;
+    border-bottom: solid 1px grey;
+    
+}
+
+
+#combobox{
+
+    display: flex;
+    background-color: #FFFFFF;
+    margin: 1vw;
+    float: right;
+    width: 15vw;
+    height: 5vh;
+    border: #FFFFFF;
+    border-radius: 0;
+
+}
+
+.chart{
+
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    align-content: center;
+
+}
+
+.chart__box{
+
+    float: left;
+    width: 500px;
+    border-radius: 5px;
+    padding-bottom: 20px;
+  
+}
+
+.chart__tittle{
+
+    text-align: center;
+    margin-top: 6vh;
+}
+
+.chart__description{
+    text-align: center;
+}
+
+.chart__drawing{
+    
+    margin-left: calc(50% - 13vw/2);
+    width: 13vw;
+    height: 13vw;
+    background-color: green;
+    border-radius: 50%;
+
+}
+
+.data{
+
+    padding: 0;
+    margin: 0;
+    float: left;
+
+}
+
+.data__productivity{
+    
+    float: left;
+    width: 100vw;
+    border-radius: 5px;
+    
+}
+
+.data__turns{
+
+    border-radius: 2.5%;
+ 
+}
+
+.data__turns--positivecolor{
+    
+    width: 3vw;
+    
+}
+
+.data__turns--bar{
+   
+    height: 4vh;
+    background-color: green;
+    border-radius: 5px;
+   
+}
+
+.data__fulfillment{
+    
+    width: 100vw;
+    border-radius: 5px;
+    // left: 1vw;
+    
+}
+
