@@ -44,22 +44,22 @@ class ApplicationController < ActionController::Base
 		end_date	= start_date + 6.days
 
     day_hours = [
-        :nine,
-        :ten,
-        :eleven,
-        :twelve,
-        :thirteen,
-        :fourteen,
-        :fifteen,
-        :sixteen,
-        :seventeen,
-        :eighteen,
-        :nineteen,
-        :twenty,
-        :twenty_one,
-        :twenty_two,
-        :twenty_three,
-      ]
+      :nine,
+      :ten,
+      :eleven,
+      :twelve,
+      :thirteen,
+      :fourteen,
+      :fifteen,
+      :sixteen,
+      :seventeen,
+      :eighteen,
+      :nineteen,
+      :twenty,
+      :twenty_one,
+      :twenty_two,
+      :twenty_three
+    ]
 
 		(9..24).each {|h| hours << h }
 
@@ -91,7 +91,6 @@ class ApplicationController < ActionController::Base
     sellers_per_day = spd.transpose.map {|x| x.reduce(:+)}
 
 		week = { :dates => dates, :draw => result, :sellers_per_day => sellers_per_day}
-
 	end
 
   def seller_staffing(seller, month, year)

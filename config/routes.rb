@@ -33,7 +33,6 @@ Rails.application.routes.draw do
   resources :hs
   resources :sps
 
-  get 'productivity_cluster/index'
   get 'productivity_cluster/month'
   get 'productivity_cluster/json_month'
 

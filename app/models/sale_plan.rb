@@ -3,13 +3,14 @@ class SalePlan < ApplicationRecord
   belongs_to :department
   validates_presence_of :store_id, :department_id
 
-  scope :by_date, ->(year, month) { where(month: month, year: year).order(:sale_date) }
+  scope :by_year_and_month, ->(year, month) { where(year: year, month: month).order(:sale_date) }
   scope :by_department, ->(department) { where(department: department) }
+  scope :by_day_number, ->(week_day) { where(day_number: week_day) }
 
-  # def week
-  #   ##%V - Week number of year according to ISO 8601 (01..53)
-  #   sale_date.strftime('%V').to_i
-  # end
+  def week_of_year
+    ##%V - Week number of year according to ISO 8601 (01..53)
+    sale_date.strftime('%V').to_i
+  end
 
   # def month
   #   self.sale_date.strftime("%B").to_s
@@ -20,7 +21,11 @@ class SalePlan < ApplicationRecord
   end
 
   def total_day
-    self.nine+self.ten+self.eleven+self.twelve+self.thirteen+self.fourteen+self.fifteen+self.sixteen+self.seventeen+self.eighteen+self.nineteen+self.twenty+self.twenty_one+self.twenty_two+self.twenty_three+self.twenty_four
+    (
+      nine + ten + eleven + twelve + thirteen + fourteen + fifteen +
+      + sixteen + seventeen + eighteen + nineteen + twenty +
+      twenty_one + twenty_two + twenty_three + twenty_four
+    )
   end
 
   def self.from_xlsx(file = '')
@@ -39,8 +44,14 @@ class SalePlan < ApplicationRecord
   end
 
   def self.days_by_week
-    pluck(:week, :sale_date).each_with_object({}) do |week_date, hash|
-      (hash[week_date[0]] ||= []) << week_date[1].strftime('%d')
+    all.each_with_object({}) do |sale_plan, hash|
+      (hash[sale_plan.week] ||= []) << sale_plan.sale_date.strftime('%d')
+    end
+  end
+
+  def self.sales_by_week
+    all.each_with_object({}) do |sale_plan, hash|
+      (hash[sale_plan.week] ||= []) << sale_plan.total_day
     end
   end
 

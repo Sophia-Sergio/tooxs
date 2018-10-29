@@ -2,16 +2,7 @@
 
 class ProductivityController < ApplicationController
   skip_before_action :verify_authenticity_token
-
-  def index
-    params[:year]  = Date.today.strftime('%Y').to_i
-    params[:month] = Date.today.strftime('%m').to_i
-    params[:department] = 1
-    params[:store] = 1
-    @search       = ''
-    @stores       = Store.all.order(:id)
-    @departments  = Department.all.order(:id)
-  end
+  before_action :set_store, only: %i[show json_current]
 
   def show
     @search       = ''
@@ -19,10 +10,8 @@ class ProductivityController < ApplicationController
     @departments  = Department.all.joins('INNER JOIN data_cases ON departments.id = data_cases.dep_num').distinct
     month  = params[:month]
     year   = params[:year].to_i
-    @store = params[:store].to_i
 
-    @store = Store.find(params[:store])
-    days_by_week = @store.sale_plans.by_date(params[:year], params[:month]).by_department(params[:department]).days_by_week
+    days_by_week = @store.sale_plans.by_year_and_month(params[:year], params[:month]).by_department(params[:department]).days_by_week
 
     # days of the week for this query dias de la semana según comienzo
     # staffing
@@ -45,35 +34,20 @@ class ProductivityController < ApplicationController
     @brain_json   = brain_json(month, year, @store.id, params[:department])
   end
 
-  def json_current
-    # dummy demo data
-    month  = params[:month].to_i
-    year   = params[:year].to_i
-    @store = params[:store].to_i
-    @dep   = params[:department].to_i
-
-    # dates per week
-    w1 = SalePlan.where(month: month).where(day_number: [1..7]).where(week: 1, store_id: @store, department_id: @dep).where(year: year).where(day_number: 1).select(:sale_date).pluck(:sale_date).map { |x| x.strftime('%Y%m%d').to_sym }
-    w2 = SalePlan.where(month: month).where(day_number: [1..7]).where(week: 2, store_id: @store, department_id: @dep).where(year: year).where(day_number: 1).select(:sale_date).pluck(:sale_date).map { |x| x.strftime('%Y%m%d').to_sym }
-    w3 = SalePlan.where(month: month).where(day_number: [1..7]).where(week: 3, store_id: @store, department_id: @dep).where(year: year).where(day_number: 1).select(:sale_date).pluck(:sale_date).map { |x| x.strftime('%Y%m%d').to_sym }
-    w4 = SalePlan.where(month: month).where(day_number: [1..7]).where(week: 4, store_id: @store, department_id: @dep).where(year: year).where(day_number: 1).select(:sale_date).pluck(:sale_date).map { |x| x.strftime('%Y%m%d').to_sym }
-
-    days_by_week = @store.sale_plans.by_date(params[:year], params[:month]).by_department(params[:department]).days_by_week
-
-    # sales plan per week
-    @sp_w1 = SalePlan.where(year: year).where(month: month).where(week: 1, store_id: @store, department_id: @dep).map { |x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four }.sum
-    @sp_w2 = SalePlan.where(year: year).where(month: month).where(week: 2, store_id: @store, department_id: @dep).map { |x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four }.sum
-    @sp_w3 = SalePlan.where(year: year).where(month: month).where(week: 3, store_id: @store, department_id: @dep).map { |x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four }.sum
-    @sp_w4 = SalePlan.where(year: year).where(month: month).where(week: 4, store_id: @store, department_id: @dep).map { |x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four }.sum
-
-    @sp_m1 = SalePlan.where(year: year).where(month: month, store_id: @store, department_id: @dep).where('week IN(?,?,?,?)', 1, 2, 3, 4).map { |x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four }
-
+  def json_currents
+    month  = params[:month]
+    year   = params[:year]
+    department = params[:department]
+    sale_plans = @store.sale_plans.by_year_and_month(year, month).by_department(department)
+    days_by_week = sale_plans.days_by_week
+    first_days_of_week = sale_plans.dates_by_week(1)
+    total_sales_of_week = sale_plans.sales_by_week
     # obtener ventas reales del mes
-    sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month)
+    sale_reals = SaleReal.where(department_id: department, store_id: @store, year: year, month: month)
     @totalMonth = []
     @realMonth = []
     @contReal = 0
-    dotReal = dotacion_real(@dep, month, year)
+    dotReal = dotacion_real(department, month, year)
 
     unless dotReal.empty?
       sale_reals.each do |sale|
@@ -83,65 +57,49 @@ class ProductivityController < ApplicationController
         @contReal += 1
       end
     end
-
-    # sales plan per day
-    @sp_w1_daily = SalePlan.where(year: year, month: month, week: 1, store_id: @store, department_id: @dep).map { |x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four }
-    @sp_w2_daily = SalePlan.where(year: year, month: month, week: 2, store_id: @store, department_id: @dep).map { |x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four }
-    @sp_w3_daily = SalePlan.where(year: year, month: month, week: 3, store_id: @store, department_id: @dep).map { |x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four }
-    @sp_w4_daily = SalePlan.where(year: year, month: month, week: 4, store_id: @store, department_id: @dep).map { |x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four }
-
-    # staffdrawing per week
-    # parece que no se usa
-    # @sd_w1 = staffing_draw(w1)[:draw].values.flatten.sum
-    # @sd_w2 = staffing_draw(w2)[:draw].values.flatten.sum
-    # @sd_w3 = staffing_draw(w3)[:draw].values.flatten.sum
-    # @sd_w4 = staffing_draw(w4)[:draw].values.flatten.sum
-
     # staffdrawing per day-week
-    @sd_w1_daily  = staffing_draw(w1)[:draw].values.map(&:flatten).transpose.map(&:sum)
-    @sd_w2_daily  = staffing_draw(w2)[:draw].values.map(&:flatten).transpose.map(&:sum)
-    @sd_w3_daily  = staffing_draw(w3)[:draw].values.map(&:flatten).transpose.map(&:sum)
-    @sd_w4_daily  = staffing_draw(w4)[:draw].values.map(&:flatten).transpose.map(&:sum)
-
+    @sd_w1_daily  = staffing_draw(first_days_of_week[1])[:draw].values.map(&:flatten).transpose.map(&:sum)
+    @sd_w2_daily  = staffing_draw(first_days_of_week[2])[:draw].values.map(&:flatten).transpose.map(&:sum)
+    @sd_w3_daily  = staffing_draw(first_days_of_week[3])[:draw].values.map(&:flatten).transpose.map(&:sum)
+    @sd_w4_daily  = staffing_draw(first_days_of_week[4])[:draw].values.map(&:flatten).transpose.map(&:sum)
     # productivity per day-week
-    @prd_w1_day = @sp_w1_daily.zip(@sd_w1_daily).map { |a, b| a / b }
-    @prd_w2_day = @sp_w2_daily.zip(@sd_w2_daily).map { |a, b| a / b }
-    @prd_w3_day = @sp_w3_daily.zip(@sd_w3_daily).map { |a, b| a / b }
-    @prd_w4_day = @sp_w4_daily.zip(@sd_w4_daily).map { |a, b| a / b }
+    @prd_w1_day = total_sales_of_week[1].zip(@sd_w1_daily).map { |a, b| a / b }
+    @prd_w2_day = total_sales_of_week[2].zip(@sd_w2_daily).map { |a, b| a / b }
+    @prd_w3_day = total_sales_of_week[3].zip(@sd_w3_daily).map { |a, b| a / b }
+    @prd_w4_day = total_sales_of_week[4].zip(@sd_w4_daily).map { |a, b| a / b }
 
     nombreTurnos = AvailableShift.all.distinct.order(:num).pluck(:num, :name)
-    @brain_json = brain_json(month, year, @store, @dep)
+    @brain_json = brain_json(month, year, @store.id, department)
     @plan = JSON.parse(@brain_json)
-    dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
+    dataCase = DataCase.where(month: month, year: year, dep_num: department)
     @prod_obj = dataCase.first.prod_obj.to_i
     @dotacion_actual = cerebro_sumatoria_turnos_entrada(@brain_json, dataCase.first[:id_case])
     @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
 
-    @dotacion_real = dotReal
-    @prod_w_op = cerebro_calculo_productividades_month(@sp_m1, @dotacion_op)
-    @prod_w_real = cerebro_calculo_productividades_month(@sp_m1, @dotacion_real)
-    @prod_w_actual = cerebro_calculo_productividades_month(@sp_m1, @dotacion_actual)
+    @prod_w_op = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, @dotacion_op)
+    @prod_w_real = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, dotReal)
+    @prod_w_actual = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, @dotacion_actual)
 
     render json: {
       dates_week: days_by_week[1],
       dates_week_2: days_by_week[2],
       dates_week_3: days_by_week[3],
       dates_week_4: days_by_week[4],
-      sp: @sp_w1_daily.reverse,
-      sd: @sd_w1_daily.reverse,
+      sp: total_sales_of_week[1],
+      sd: @sd_w1_daily,
       prd: @prd_w1_day,
       prd1: @prd_w2_day,
       prd2: @prd_w3_day,
       prd3: @prd_w4_day,
-      spm1: @sp_m1,
+      spm1: total_sales_of_week.values.flatten,
       tsm1: @totalMonth,
       vrm1: @realMonth,
       vent_real: @realMonth.sum,
       dot_real: dotReal.sum,
       nombreTurnos: nombreTurnos,
-      prod_w_op: @prod_w_op.reverse,
-      prod_w_real: @prod_w_real.reverse,
-      prod_w_actual: @prod_w_actual.reverse,
+      prod_w_op: @prod_w_op,
+      prod_w_real: @prod_w_real,
+      prod_w_actual: @prod_w_actual,
       dot_month_real: dotReal,
       dot_month_op: @dotacion_op,
       dot_month_actual: @dotacion_actual,
@@ -253,13 +211,13 @@ class ProductivityController < ApplicationController
 
   def report_data
     # dummy demo data
-    month  = params[:month].to_i
-    year   = params[:year].to_i
-    @dep   = params[:department].to_i
+    month = params[:month].to_i
+    year = params[:year].to_i
+    department = params[:department].to_i
     @store = Store.find(params[:store])
 
     # days of the week for this query
-    days_by_week = @store.sale_plans.by_date(year, month).by_department(params[:department]).days_by_week
+    days_by_week = @store.sale_plans.by_year_and_month(year, month).by_department(department).days_by_week
     # obtener ventas reales del mes
     sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month)
     @totalMonth = []
@@ -272,10 +230,10 @@ class ProductivityController < ApplicationController
       @totalMonth << (totalRealDay.to_f / totalDotDay.to_f).round
     end
 
-    @brain_json = brain_json(month, year, @store.id, @dep)
-    dotReal = dotacion_real(@dep, month, year)
+    @brain_json = brain_json(month, year, @store.id, department)
+    dotReal = dotacion_real(department, month, year)
     @plan = JSON.parse(@brain_json)
-    dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
+    dataCase = DataCase.where(month: month, year: year, dep_num: department)
 
     @prod_obj = dataCase.first.prod_obj.to_i
 
@@ -388,5 +346,11 @@ class ProductivityController < ApplicationController
     end
 
     render json: params
+  end
+
+  private
+
+  def set_store
+    @store = Store.find(params[:store])
   end
 end

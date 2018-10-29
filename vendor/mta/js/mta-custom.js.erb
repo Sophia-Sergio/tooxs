@@ -563,9 +563,9 @@ if ($('#productivity_demo').length > 0)
     table.append(thead);
 
     tbody = $("<tbody/>", { "class": "t-p-3" });
-    planSet = $('<tr/>', {'html': '<td>Plan de venta</td><td class="plan-w1">'+fn.formateaNumero(plan[3])+'</td><td class="plan-w2">'+fn.formateaNumero(plan[2])+'</td><td class="plan-w3">'+fn.formateaNumero(plan[1])+'</td><td class="plan-w4">'+fn.formateaNumero(plan[0])+'</td>'});
-    dotacionSet = $('<tr/>', {'html': '<td>Dotación semanal (HH)</td><td class="dotacion-w1">'+fn.formateaNumero(dotacion[3])+'</td><td class="dotacion-w2">'+fn.formateaNumero(dotacion[2])+'</td><td class="dotacion-w3">'+fn.formateaNumero(dotacion[1])+'</td><td class="dotacion-w4">'+fn.formateaNumero(dotacion[0])+'</td>'});
-    productividadSet = $('<tr/>', {'html': '<td>Productividad</td><td class="productividad-w1">'+fn.formateaNumero(productividad[3])+'</td><td class="productividad-w2">'+fn.formateaNumero(productividad[2])+'</td><td class="productividad-w3">'+fn.formateaNumero(productividad[1])+'</td><td class="productividad-w4">'+fn.formateaNumero(productividad[3])+'</td>'});
+    planSet = $('<tr/>', {'html': '<td>Plan de venta</td><td class="plan-w1">'+fn.formateaNumero(plan[0])+'</td><td class="plan-w2">'+fn.formateaNumero(plan[1])+'</td><td class="plan-w3">'+fn.formateaNumero(plan[2])+'</td><td class="plan-w4">'+fn.formateaNumero(plan[3])+'</td>'});
+    dotacionSet = $('<tr/>', {'html': '<td>Dotación semanal (HH)</td><td class="dotacion-w1">'+fn.formateaNumero(dotacion[0])+'</td><td class="dotacion-w2">'+fn.formateaNumero(dotacion[1])+'</td><td class="dotacion-w3">'+fn.formateaNumero(dotacion[2])+'</td><td class="dotacion-w4">'+fn.formateaNumero(dotacion[3])+'</td>'});
+    productividadSet = $('<tr/>', {'html': '<td>Productividad</td><td class="productividad-w1">'+fn.formateaNumero(productividad[0])+'</td><td class="productividad-w2">'+fn.formateaNumero(productividad[1])+'</td><td class="productividad-w3">'+fn.formateaNumero(productividad[2])+'</td><td class="productividad-w4">'+fn.formateaNumero(productividad[3])+'</td>'});
 
     $(tbody).append(planSet);
     $(tbody).append(dotacionSet);
