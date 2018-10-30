@@ -1,72 +1,38 @@
-window.onload = function() {
-    new Chart(document.getElementById("myChart1").getContext('2d'), {
-        type: 'pie',
-        data: {
-        labels: ["76.6% de cumplimiento"],
+$(document).ready(function () {
+    var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
         datasets: [{
-            label: "cumplimiento",
-            backgroundColor: ["#6b6ef9","#c8c7cd"],
-            data: [1500,433]
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
         }]
-        },
-        options: {
-        title: {
-            display: true,
-            text: 'Cumplimiento de plan'
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
         }
-        }
-    });
-
-    new Chart(document.getElementById("myChart2").getContext('2d'), {
-        type: 'pie',
-        data: {
-        labels: ["67.02% Productividad objetiva xxx unidades/hora"],
-        datasets: [{
-            label: "unidades",
-            backgroundColor: ["#ff0076","#c8c7cd"],
-            data: [784,433]
-        }]
-        },
-        options: {
-        title: {
-            display: true,
-            text: 'Eficiencia'
-        }
-        }
-    });
-
-    $(document).ready(function()
-        {$('#buscador').select2();
-    });
-
-    $('#buttonToggle').click(function(evt)
-        {$("#principalTable").toggleClass('.tableOut');
-    });
-        
-
-    
-  };
-
-  // new Chart(document.getElementById("myChart3"), {
-    //     type: 'horizontalBar',
-    //     data: {
-    //       labels: ["Africa",],
-    //       datasets: [
-    //         {
-    //           label: "Turnos",
-    //           backgroundColor: ["#3e95cd",],
-    //           data: [2478,5267,734,784,433]
-    //         }
-    //       ]
-    //     },
-    //     options: {
-    //       legend: { display: false },
-    //       title: {
-    //         display: true,
-    //         text: 'Turnos Cubiertos'
-    //       }
-    //     }
-    // });
-
-    
-    
+    }
+});
