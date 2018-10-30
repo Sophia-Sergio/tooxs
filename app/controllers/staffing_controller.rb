@@ -42,8 +42,6 @@ class StaffingController < ApplicationController
       @staffing_w4  = staffing_draw_real(fecha4, @store, @dep)
     end
 
-
-    #binding.pry
   end
 
   def staffing_real(store, department)

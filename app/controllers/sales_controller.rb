@@ -86,8 +86,6 @@ class SalesController < ApplicationController
   end
 
   def json_month
-
-    #binding.pry
     @month = params[:month].to_i
     @week  = params[:week].to_i   #replace params later
     @year  = params[:year].to_i
@@ -125,7 +123,6 @@ class SalesController < ApplicationController
     @data = { :labels => @m_days.reverse , :datasets => element }
 
     render json: @data
-    #binding.pry
   end
 
   def compare_month
@@ -198,14 +195,12 @@ class SalesController < ApplicationController
 
     @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store_source.id, department_id: @dep_source.id).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
 
-
     sale_reals = SaleReal.where(department_id: @dep_source.id, store_id: @store_source.id, year: @year, month: @month)
     @realMonth = []
     sale_reals.each do |sale|
       totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
       @realMonth  << totalRealDay
     end
-
 
     sale_reals_vs = SaleReal.where(department_id: @dep_source.id, store_id: @store.id, year: @year, month: @month)
 
@@ -214,9 +209,6 @@ class SalesController < ApplicationController
       totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
       @realMonth_vs  << totalRealDay
     end
-
-
-
     element = [
                 { label: @store_source.name, fill: 'false', data: @realMonth, backgroundColor: 'rgb(255, 99, 132)', borderColor: 'rgb(255, 99, 132)'},
                 { label: @store.name, fill: 'false', data: @realMonth_vs, backgroundColor: 'rgb(255, 205, 86)', borderColor: 'rgb(255, 205, 86)'},
@@ -226,8 +218,6 @@ class SalesController < ApplicationController
     @data = { :labels => @m_days , :datasets => element }
 
     render json: @data
-
-
   end
 end
 

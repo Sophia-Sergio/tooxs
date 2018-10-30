@@ -12,17 +12,17 @@ class SaleReal < ApplicationRecord
 
   def week
     ##%V - Week number of year according to ISO 8601 (01..53)
-    self.sale_date.strftime("%V").to_i
+    sale_date.strftime("%V").to_i
   end
 
   def month
-    self.sale_date.strftime("%B").to_s
+    sale_date.strftime("%B").to_s
   end
 
   def day
-    self.sale_date.strftime("%A").to_s
+    sale_date.strftime("%A").to_s
   end
-  
+
   def total_day
     self.nine+self.ten+self.eleven+self.twelve+self.thirteen+self.fourteen+self.fifteen+self.sixteen+self.seventeen+self.eighteen+self.nineteen+self.twenty+self.twenty_one+self.twenty_two+self.twenty_three+self.twenty_four
   end

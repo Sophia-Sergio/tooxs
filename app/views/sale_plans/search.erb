@@ -1,7 +1,7 @@
 <h2>Buscar -  Plan de Ventas</h2>
 
 <div class="container-fluid padding-25 sm-padding-10 bg-white" id="search-sale_plan">
-  
+
   <div class="card card-transparent">
     <div class="card-header ">
       <div class="card-title">Parámetros de Búsqueda
@@ -14,24 +14,24 @@
       <div class="row">
 
         <div class="col-md-3">
-          <%= f.input :store, collection: @stores, label: 'Tienda' %>  
+          <%= f.input :store, collection: @stores, label: 'Tienda' %>
         </div>
 
         <div class="col-md-3">
-          <%= f.input :department, collection: nil, label: 'Departamento' %>  
+          <%= f.input :department, collection: nil, label: 'Departamento' %>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-3">
           <%= f.button :submit %>
-        </div>  
+        </div>
 
       </div>
       <% end %>
 
     </div>
-  </div>  
+  </div>
 
  <div class="card card-transparent">
     <div class="card-header ">
@@ -57,7 +57,6 @@
               </tr>
             </thead>
             <tbody class="dn week_detail">
-              <% #binding.pry %>
             <% @week.each do |hour, value|  %>
             <tr>
               <th><%= hour %></th>
@@ -125,8 +124,8 @@
 
     </div>
 
-  </div>   
+  </div>
 
-</div> 
+</div>
 
 
