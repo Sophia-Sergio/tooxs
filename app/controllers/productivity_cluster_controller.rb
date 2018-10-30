@@ -80,7 +80,6 @@ class ProductivityClusterController < ApplicationController
 
     month_start = beginning_of_month.strftime("%d").to_i
     month_end   = end_of_month.strftime("%d").to_i
-    #binding.pry
 
     #generar element
     element = element(@month, @week, @year, @stores, @dep)
@@ -92,7 +91,6 @@ class ProductivityClusterController < ApplicationController
 
     @data = { :labels => @m_days.reverse, :datasets => element }
     render json: @data
-    #binding.pry
   end
 
   def element(month, week, year, stores, dep)

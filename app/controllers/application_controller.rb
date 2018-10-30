@@ -69,8 +69,6 @@ class ApplicationController < ActionController::Base
 			dates << d.strftime("%Y%m%d")
 		end
 
-    #binding.pry
-
 		result = {}
 
 		hours.each_with_index do |h,i|
@@ -93,9 +91,6 @@ class ApplicationController < ActionController::Base
     sellers_per_day = spd.transpose.map {|x| x.reduce(:+)}
 
 		week = { :dates => dates, :draw => result, :sellers_per_day => sellers_per_day}
-
-		#binding.pry
-		return week
 
 	end
 

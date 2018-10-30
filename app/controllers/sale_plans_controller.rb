@@ -132,8 +132,6 @@ class SalePlansController < ApplicationController
     @day << sp_day.twenty_three
     @day << sp_day.twenty_four
 
-    #binding.pry
-
     hours = []
     (9..24).each do |i|
       hours << "#{i}:00"
@@ -204,10 +202,6 @@ class SalePlansController < ApplicationController
       @total_week_real[d.day_number] = (d.total_day)
     end
 
-    #binding.pry
-
-
-
     week_days = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo']
 
     elements = [
@@ -221,8 +215,6 @@ class SalePlansController < ApplicationController
   end
 
   def json_month
-
-    #binding.pry
     month = params[:month].to_i
     week  = params[:week].to_i   #replace params later
     year  = params[:year].to_i
@@ -242,8 +234,6 @@ class SalePlansController < ApplicationController
     sp_month     = SalePlan.where(week: week_start..week_end, :store => @store, :department => @dep).group(:week).order(:week).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
     historic     = HistoricSale.where(week: week_start..week_end, :store => @store, :department => @dep, :year => year-1).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
     real         = SaleReal.where(week: week_start..week_end, :store => @store, :department => @dep).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
-
-    #binding.pry
 
     sp_month_last_year = {}
     sp_month_real = {}
@@ -267,8 +257,6 @@ class SalePlansController < ApplicationController
   end
 
   def json_year
-
-    #binding.pry
     y = params[:y].to_i
     months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
