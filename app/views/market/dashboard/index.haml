@@ -1,159 +1,149 @@
-<!DOCTYPE html>
-%html(lang="en")
-  %head
-    %meta(charset="UTF-8")/
-    %meta(name="viewport" content="width=device-width, initial-scale=1.0")/
-    %meta(http-equiv="X-UA-Compatible" content="ie=edge")/
-    %link(stylesheet href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous")/
-    %title Document
-  %body
+
+%div.title.container__fluid.col-lg-12
+  %row
+    %h1 Dashboard
+
+%div.container__fluid.col-lg-12
+  %row
+    %form
+      %select#combobox
+        %option(value="store")
+          %p Alto Las Condes
+        %option(value="store")
+          %p Parque Arauco
+        %option(value="store")
+          %p Costanera Center
+      %select#combobox
+        %option(value="deparment")
+          %p Juvenil Mujer
+        %option(value="deparment")
+          %p Juvenil Hombre
+        %option(value="deparment")
+          %p Juvenil Niño
+      %select#combobox
+        %option(value="date")
+          %p Octubre 2018
+        %option(value="date")
+          %p Noviembre 2018
+        %option(value="date")
+          %p Diciembre 2018
+
+%div.chart.container__fluid.col-lg-12
+  %row
+    %chart1.chart__box.col-lg-6.card 
+      %h2.chart__tittle Cumplimiento del plan
+      %p.chart__description Description
+      %canvas.chart__drawing
+    %chart2.chart__box.col-lg-6.card 
+      %h2.chart__tittle Eficiencia
+      %p.chart__description Description
+      %canvas.chart__drawing
+%div
+  %button
+    %p contraer
     
-    %div.title.container__fluid.col-lg-12
-      %row
-        %h1 Dashboard
+
+%div.data.container__fluid.col-lg-5
+  %row
+    %data.data__productivity.col-lg-12.card
+      %h2.data__productivity--tittle Productividad Real
+      %p.data__productivity--money $0.000.000
+      %p.data__productivity--description Productividad Objetivo $000.000
     
-    %div.container__fluid.col-lg-12
-      %row
-        %form
-          %select#combobox
-            %option(value="store")
-              %p Alto Las Condes
-            %option(value="store")
-              %p Parque Arauco
-            %option(value="store")
-              %p Costanera Center
-          %select#combobox
-            %option(value="deparment")
-              %p Juvenil Mujer
-            %option(value="deparment")
-              %p Juvenil Hombre
-            %option(value="deparment")
-              %p Juvenil Niño
-          %select#combobox
-            %option(value="date")
-              %p Octubre 2018
-            %option(value="date")
-              %p Noviembre 2018
-            %option(value="date")
-              %p Diciembre 2018
+    %data.data__turns.col-lg-12.card
+      %h2.data__turns--shiftCovered Turno
+      %canvas.data__turns--bar
+      %canvas.data__turns--positivecolor
+      %p.data__turns--total 7/18
+    %data.data__plannig.col-lg-12.card
+      %table
+        %th Turno
+        %th Actual
+        %th Optimizado
+        %tr
+          %td Turno 1
+          %td Turno 1 de 45HRS
+          %td 1
+        %tr
+          %td Turno 2
+          %td Turno 2 de 45HRS
+          %td 1
+        %tr
+          %td Turno 3
+          %td Turno 3 de 45HRS
+          %td 1
+        %tr
+          %td Turno 4
+          %td Turno 4 de 45HRS
+          %td 2
+        %tr
+          %td Turno 5
+          %td Turno 1 de 36HRS
+          %td 2 
+        %tr
+          %td Turno 6
+          %td Turno 2 de 36HRS
+          %td 0
+        %tr
+          %td Turno 7
+          %td Turno 3 de 36HRS
+          %td 0
+        %tr
+          %td Turno 8
+          %td Turno 4 de 36HRS
+          %td 0
+        %tr
+          %td Turno 9
+          %td Turno 1 de 24HRS
+          %td 0
+        %tr
+          %td Turno 10
+          %td Turno Sabado-Domingo
+          %td 7
+        %tr
+          %td Turno 11
+          %td Turno 1 Tarde
+          %td 3 
+        %tr
+          %td Turno 12
+          %td Turno 2 Tarde
+          %td 1
+        %tr
+          %td Total
+          %td 10
+          %td 18
+        %tr
+          %td Eficiencia dotacion
+          %td 57.3%
+          %td 77.3%
+        %tr
+          %td HH Total
+          %td 1,543
+          %td 2,327
+%div.col-lg-7.card
+  %row
+    %data.data2__fulfillment.col-lg-12
+      %h2.data__productivity--tittle Productividad Real
+      %p.data__productivity--money $0.000.000
+      %p.data__productivity--description Productividad Objetivo $9900.000
+      %h2.data__productivity--tittle Productividad Real
+      %p.data__productivity--money $0.000.000
+      %p.data__productivity--description Productividad Objetivo $9900.000
+      %h2.data__productivity--tittle Productividad Real
+      %p.data__productivity--money $0.000.000
+      %p.data__productivity--description Productividad Objetivo $9900.000
+      %h2.data__productivity--tittle Productividad Real
+      %p.data__productivity--money $0.000.000
+      %p.data__productivity--description Productividad Objetivo $9900.000
+      %p.data__productivity--description Productividad Objetivo $9900.000
+      %h2.data__productivity--tittle Productividad Real
+      %p.data__productivity--money $0.000.000
+      %p.data__productivity--description Productividad Objetivo $9900.000
+      %p.data__productivity--description Productividad Objetivo $9900.000
 
-    %div.chart.container__fluid.col-lg-12
-      %row
-        %chart1.chart__box.col-lg-6.card 
-          %h2.chart__tittle Cumplimiento del plan
-          %p.chart__description Description
-          %canvas.chart__drawing
-        %chart2.chart__box.col-lg-6.card 
-          %h2.chart__tittle Eficiencia
-          %p.chart__description Description
-          %canvas.chart__drawing
-    %div
-      %button
-        %p contraer
-        
-
-    %div.data.container__fluid.col-lg-5
-      %row
-        %data.data__productivity.col-lg-12.card
-          %h2.data__productivity--tittle Productividad Real
-          %p.data__productivity--money $0.000.000
-          %p.data__productivity--description Productividad Objetivo $000.000
-        
-        %data.data__turns.col-lg-12.card
-          %h2.data__turns--shiftCovered Turno
-          %canvas.data__turns--bar
-          %canvas.data__turns--positivecolor
-          %p.data__turns--total 7/18
-        %data.data__plannig.col-lg-12.card
-          %table
-            %th Turno
-            %th Actual
-            %th Optimizado
-            %tr
-              %td Turno 1
-              %td Turno 1 de 45HRS
-              %td 1
-            %tr
-              %td Turno 2
-              %td Turno 2 de 45HRS
-              %td 1
-            %tr
-              %td Turno 3
-              %td Turno 3 de 45HRS
-              %td 1
-            %tr
-              %td Turno 4
-              %td Turno 4 de 45HRS
-              %td 2
-            %tr
-              %td Turno 5
-              %td Turno 1 de 36HRS
-              %td 2 
-            %tr
-              %td Turno 6
-              %td Turno 2 de 36HRS
-              %td 0
-            %tr
-              %td Turno 7
-              %td Turno 3 de 36HRS
-              %td 0
-            %tr
-              %td Turno 8
-              %td Turno 4 de 36HRS
-              %td 0
-            %tr
-              %td Turno 9
-              %td Turno 1 de 24HRS
-              %td 0
-            %tr
-              %td Turno 10
-              %td Turno Sabado-Domingo
-              %td 7
-            %tr
-              %td Turno 11
-              %td Turno 1 Tarde
-              %td 3 
-            %tr
-              %td Turno 12
-              %td Turno 2 Tarde
-              %td 1
-            %tr
-              %td Total
-              %td 10
-              %td 18
-            %tr
-              %td Eficiencia dotacion
-              %td 57.3%
-              %td 77.3%
-            %tr
-              %td HH Total
-              %td 1,543
-              %td 2,327
-    %div.col-lg-7.card
-      %row
-        %data.data2__fulfillment.col-lg-12
-          %h2.data__productivity--tittle Productividad Real
-          %p.data__productivity--money $0.000.000
-          %p.data__productivity--description Productividad Objetivo $9900.000
-          %h2.data__productivity--tittle Productividad Real
-          %p.data__productivity--money $0.000.000
-          %p.data__productivity--description Productividad Objetivo $9900.000
-          %h2.data__productivity--tittle Productividad Real
-          %p.data__productivity--money $0.000.000
-          %p.data__productivity--description Productividad Objetivo $9900.000
-          %h2.data__productivity--tittle Productividad Real
-          %p.data__productivity--money $0.000.000
-          %p.data__productivity--description Productividad Objetivo $9900.000
-          %p.data__productivity--description Productividad Objetivo $9900.000
-          %h2.data__productivity--tittle Productividad Real
-          %p.data__productivity--money $0.000.000
-          %p.data__productivity--description Productividad Objetivo $9900.000
-          %p.data__productivity--description Productividad Objetivo $9900.000
-
-    
-    
-    %script(href="assets/javascripts/supermarket_main.js/app.js")/
-          
+%div.container__fluid.col-lg-12
+  %div.row
+    %canvas#myChart 
+  
 
 
- 
