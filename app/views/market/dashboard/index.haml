@@ -1,10 +1,10 @@
 
 %div.title.container__fluid.col-lg-12
-  %row
+  %div.row
     %h1 Dashboard
 
 %div.container__fluid.col-lg-12
-  %row
+  %div.row
     %form
       %select#combobox
         %option(value="store")
@@ -29,22 +29,22 @@
           %p Diciembre 2018
 
 %div.chart.container__fluid.col-lg-12
-  %row
+  %div.row
     %chart1.chart__box.col-lg-6.card 
       %h2.chart__tittle Cumplimiento del plan
-      %p.chart__description Description
-      %canvas.chart__drawing
+      -# %p.chart__description Description
+      %canvas#myChart1
     %chart2.chart__box.col-lg-6.card 
       %h2.chart__tittle Eficiencia
-      %p.chart__description Description
-      %canvas.chart__drawing
+      -# %p.chart__description Description
+      %canvas#myChart2
 %div
   %button
     %p contraer
     
 
 %div.data.container__fluid.col-lg-5
-  %row
+  %div.row
     %data.data__productivity.col-lg-12.card
       %h2.data__productivity--tittle Productividad Real
       %p.data__productivity--money $0.000.000
@@ -121,7 +121,7 @@
           %td 1,543
           %td 2,327
 %div.col-lg-7.card
-  %row
+  %div.row
     %data.data2__fulfillment.col-lg-12
       %h2.data__productivity--tittle Productividad Real
       %p.data__productivity--money $0.000.000
