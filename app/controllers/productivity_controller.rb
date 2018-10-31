@@ -34,7 +34,7 @@ class ProductivityController < ApplicationController
     @brain_json   = brain_json(month, year, @store.id, params[:department])
   end
 
-  def json_currents
+  def json_current
     month  = params[:month]
     year   = params[:year]
     department = params[:department]
