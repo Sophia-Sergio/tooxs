@@ -64,5 +64,6 @@
 //= require mta/js/ProductivityReport.js
 //= require mta/js/HourAnalysis.js
 //= require mta/js/app.js
+//= require supermarket_main/app
 //= require_tree .
 //= require_self
