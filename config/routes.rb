@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'config/change_plan'
+  post 'config/filter_parameters'
+
   resources :request_details
   resources :requests
   resources :master_departments
@@ -29,9 +32,6 @@ Rails.application.routes.draw do
   get 'data_master/index'
 
   resources :sales_statistics
-  resources :rs
-  resources :hs
-  resources :sps
 
   get 'productivity_cluster/month'
   get 'productivity_cluster/json_month'

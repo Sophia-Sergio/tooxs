@@ -9,7 +9,10 @@ module DemoParameters
       department: 1,
       store:      1,
       search:     '',
-      date:       Date.new(2018, 6, 24)
+      date:       Date.new(2018, 6, 24),
+      cluster:    1,
+      month:      6,
+      year:       2018
     }
   end
 end

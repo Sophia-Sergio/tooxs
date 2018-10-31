@@ -3,12 +3,11 @@ class SalePlan < ApplicationRecord
   belongs_to :department
   validates_presence_of :store_id, :department_id
 
-  scope :by_year_and_month, ->(year, month) { where(year: year, month: month).order(:sale_date) }
-  scope :by_department, ->(department) { where(department: department) }
   scope :by_day_number, ->(week_day) { where(day_number: week_day) }
+  scope :by_department, ->(department) { where(department: department) }
+  scope :by_year_and_month, ->(year, month) { where(year: year, month: month).order(:sale_date) }
 
   def week_of_year
-    ##%V - Week number of year according to ISO 8601 (01..53)
     sale_date.strftime('%V').to_i
   end
 

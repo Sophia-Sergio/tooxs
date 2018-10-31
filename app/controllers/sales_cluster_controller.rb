@@ -1,4 +1,5 @@
 class SalesClusterController < ApplicationController
+  include DemoParameters
 
   def index
     add_breadcrumb "Dashboard", :root_path
@@ -13,17 +14,18 @@ class SalesClusterController < ApplicationController
 
   def month
     @search       = ''
+    department = params[:department] || demo_data[:department]
+    cluster = params[:department] || demo_data[:cluster]
+    @year  = params[:year] || demo_data[:year]
+    @month = params[:month] || demo_data[:month]
 
-    @stores      = Store.by_cluster(params[:cluster])
+    @stores      = Store.by_cluster(cluster)
     @clusters     = Cluster.all.order(:id)
     @departments  = Department.distinct.pluck(:name)
     @masterDepartments = MasterDepartment.all.order(:id)
-    @masterDeparment   = MasterDepartment.find(params[:department])
+    @masterDeparment   = MasterDepartment.find(department)
 
-    @cluster_name =  Cluster.find(params[:cluster]).name
-    @year  = params[:year].to_i
-    @month = params[:month].to_i
-
+    @cluster_name =  Cluster.find(cluster).name
 
     @elements = element(@month, @week, @year, @stores, @dep)
     #calcular ventas reales por semana

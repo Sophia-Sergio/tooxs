@@ -4,44 +4,44 @@ class DashboardController < ApplicationController
 	def index
     @month = params[:month] || demo_data[:date].month
     @store = demo_data[:store]
-		@department  = demo_data[:department]
+    @department  = demo_data[:department]
     @search      = demo_data[:search]
     @stores      = Store.where(id: demo_data[:store]).order(:id)
     @departments = Department.where(id: demo_data[:department]).order(:id)
-		@year  = Date.today.year
+    @year  = Date.today.year
     dayNow = day_now_charged
-		turnos = Array.new(12, 0)
-		dataCase = DataCase.where(dep_num: demo_data[:department], month: @month).first
-		summaryCaseOut = SummaryCase.where(id_case: dataCase.id_case, type_io: 'out').first if dataCase
+    turnos = Array.new(12, 0)
+    dataCase = DataCase.where(dep_num: demo_data[:department], month: @month).first
+    summaryCaseOut = SummaryCase.where(id_case: dataCase.id_case, type_io: 'out').first if dataCase
 
-		if summaryCaseOut
-			@margin_adjustment = summaryCaseOut.margin_adjustment.to_f
-			@prod_obj = dataCase.prod_obj.to_f
-			@prod_real = setNum((@prod_obj * @margin_adjustment) / 100)
-		else
-			@prod_obj = 0
-			@prod_real = 0
-			@margin_adjustment = 0
-		end
+    if summaryCaseOut
+      @margin_adjustment = summaryCaseOut.margin_adjustment.to_f
+      @prod_obj = dataCase.prod_obj.to_f
+      @prod_real = setNum((@prod_obj * @margin_adjustment) / 100)
+    else
+      @prod_obj = 0
+      @prod_real = 0
+      @margin_adjustment = 0
+    end
 
 		#turnos cubiertos
-		if dataCase
-	   	shifts_covered_data = shifts_covered(dataCase.id_case, @department, @store)
-			turnosOpTotal = shifts_covered_data[:turnosOpTotal]
-			@turnosEntrada = shifts_covered_data[:turnosEntrada]
-			@turnosOptimizados = shifts_covered_data[:turnosOptimizados]
-		end
+    if dataCase
+      shifts_covered_data = shifts_covered(dataCase.id_case, @department, @store)
+      turnosOpTotal = shifts_covered_data[:turnosOpTotal]
+      @turnosEntrada = shifts_covered_data[:turnosEntrada]
+      @turnosOptimizados = shifts_covered_data[:turnosOptimizados]
+    end
 
-		@sellers = Seller.where(department: demo_data[:department], store:  demo_data[:store])
-		@setSellers = []
-		@planVentaTotal = 0
-		@ventaTotal = 0
+    @sellers = Seller.where(department: @department, store:  @store)
+    @setSellers = []
+    @planVentaTotal = 0
+    @ventaTotal = 0
 
     @sellers.each do |seller|
       seller_plan = seller_staffing(seller, @month, @year)
       plan = 0
-      (1..dayNow[:week]).each do |week|
-        plan += seller_plan[week - 1].first.values.first[:seller_plan_per_day].inject(:+)
+      seller_plan.flatten.each_with_index do |plan_, index|
+        plan += plan_[index + 1][:seller_plan_per_day].sum
       end
 
       sale = sale_real_per_seller(seller, @year, @month)

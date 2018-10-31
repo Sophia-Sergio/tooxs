@@ -12,7 +12,6 @@
  *
   *= require pace/pace-theme-flash.css
   *= require bootstrap/css/bootstrap.css
-  *= require pages/css/themes/corporate.css
   *= require font-awesome/css/font-awesome
   *= require jquery-scrollbar/jquery.scrollbar.css
   *= require select2/css/select2.min.css
@@ -24,15 +23,15 @@
   *= require pages/css/pages-icons.css
   *= require mta/css/mta-custom.css
   *= require mta/css/jquery.dataTables.min.css
-  *= require_self
   *= require_tree .
+  *= require_self
 */
 
 /* Customizing theme*/
+@import 'pages/css/themes/corporate.css';
 
 .page-sidebar {
   padding: 0.8em;
-
   .sidebar-menu{
     .title, .sub-title {
       line-height: 19px;
@@ -44,6 +43,7 @@
       padding-top: 5px !important;
       padding-bottom: 0 !important;
       padding-left: 10px !important;
+      display: inline-block !important;
     }
   }
 }
@@ -54,7 +54,6 @@
 .dataTables_wrapper .dataTables_paginate ul li:hover > a {
   color: black;
 }
-
 .today-date{
   color: #3fabdc;
   font-size: 13px;

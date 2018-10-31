@@ -2,16 +2,16 @@
 <div class="<%= 'dn' if locals[:status] == 'hidden' %>" id="sales_form">
   <%= simple_form_for @search, :url => locals[:path], :class => 'row', :method => :get do |f| %>
   <div id="sales_search_form" class="d-flex flex-wrap justify-content-end bd-highlight">
-    <div class="input-form"><%= f.input :store, collection: @stores, wrapper: :select2, selected: params[:store] , label: false %></div>
-    <div class="input-form" ><%= f.input :department, collection: @departments, wrapper: :select2,selected: params[:department] , label: false %></div>
+    <div class="input-form"><%= f.input :store, collection: @stores, wrapper: :select2, selected: @store, label: false %></div>
+    <div class="input-form" ><%= f.input :department, collection: @departments, wrapper: :select2,selected: @dep.id , label: false %></div>
     <div class="input-form"><%= f.input :year, collection: [2018], wrapper: :select2, selected: params[:year], label: false  %></div>
-    <div class="input-form"><%= f.input :month, collection: (1..7).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, wrapper: :select2, selected: params[:month] , label: false  %></div>
-    <input type="hidden" name="week" id="week" value="<%= params[:week] %>">
+    <div class="input-form"><%= f.input :month, collection: (1..7).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, wrapper: :select2, selected: @month , label: false  %></div>
+    <input type="hidden" name="week" id="week" value="<%= @week %>">
     <div class="boton-buscar">
       <%= button_tag type: 'submit', class: "btn btn-success" do %>
       <i class="fa fa-search" aria-hidden="true"></i> Buscar
       <% end %>
-    </div>  
+    </div>
   </div>
   <% end %>
 </div>
