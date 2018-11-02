@@ -5,7 +5,7 @@
     </div>
     <div class="align-self-end boton-comparar">
         <button type="button" class="btn btn-sm btn-primary btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i class="fa fa-exchange"></i> Comparar </button>
-    </div>        
+    </div>
   </div>
 
   <%= render 'search_form', locals: { status: 'show', path: month_sales_path} %>
@@ -14,12 +14,12 @@
       <canvas id="canvas"></canvas>
     </div>
   </div>
-  
+
   <div id="compare_stores"></div>
-  
+
   <div class="formulario-comparacion grafico-1">
     <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
-    <div style="overflow-y: auto;">     
+    <div style="overflow-y: auto;">
       <table class="table-shift table table-striped">
         <thead>
           <tr>
@@ -44,7 +44,7 @@
               <td>
                 <%= number_to_currency @sale_plan.sum %>
               </td>
-          </tr> 
+          </tr>
 
           <tr>
             <td>REAL</td>
@@ -56,7 +56,7 @@
               <td>
                 <%= number_to_currency @real_sale.sum %>
               </td>
-          </tr> 
+          </tr>
 
           <tr>
             <td>HISTORICO</td>
@@ -85,7 +85,7 @@
             <% end %>
             <td class="text-centerx">
             <% if @sum_dif != nil %>
-              <%= @sum_dif.round(2) %>% 
+              <%= @sum_dif.round(2) %>%
               <i class="text-success fa fa-caret-up"></i>
             <% else %>
               <i class="text-danger fa fa-caret-down"></i>
@@ -105,18 +105,18 @@
             <% end %>
             <td class="text-centerx">
             <% if @sum_dif2 != nil %>
-              <%= @sum_dif2.round(2) %>% 
+              <%= @sum_dif2.round(2) %>%
               <i class="text-success fa fa-caret-up"></i>
             <% else %>
               <i class="text-danger fa fa-caret-down"></i>
             <% end -%>
-           </td>             
-          </tr>              
+           </td>
+          </tr>
         </tfoot>
       </table>
     </div>
-  </div>    
-</div> 
+  </div>
+</div>
 
 <div class="modal fade slide-right" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -131,16 +131,16 @@
         <%= simple_form_for @compare, :url => '#', :method => :post, :remote => true, html: { id: 'compare'} do |f| %>
         <div class="row">
           <div class="col-lg-9 ">
-            <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store], class: 'store_search', label: false %>  
+            <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store], class: 'store_search', label: false %>
           </div>
           <div class="col-lg-3 no-padding sm-m-t-10 sm-text-center">
             <button type="button" class="btn btn-primary btn-lg btn-large fs-15 btn-compare">Comparar</button>
           </div>
         </div>
-      
+
         <div class="row dnx">
           <div class="col-lg-9">
-            
+
             <div class="dn">
             <%= f.input :month, input_html: {value: params[:month]} %>
             <%= f.input :year, input_html: {value: params[:year]} %>

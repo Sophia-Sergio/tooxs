@@ -15,7 +15,6 @@ class Store < ApplicationRecord
 
   scope :by_cluster, ->(cluster = nil) { where(cluster_id: cluster).order(:name) }
 
-
   def to_s
     name
   end

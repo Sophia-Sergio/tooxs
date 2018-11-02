@@ -11,8 +11,7 @@ Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets')
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'plugins')
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'js')
 Rails.application.config.assets.paths << Rails.root.join('vendor')
-Rails.application.config.assets.precompile += %w( *.svg *.eot *.woff *.ttf *.woff2)
-
+Rails.application.config.assets.precompile += %w[*scss *.svg *.eot *.woff *.ttf *.woff2]
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.

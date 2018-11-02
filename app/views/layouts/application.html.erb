@@ -11,15 +11,12 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
  <body class="fixed-header menu-pin">
-    <!-- BEGIN SIDEBAR -->
-        <!-- BEGIN SIDEBPANEL-->
-    <%= render 'shared/sidebar' %>
-    <!-- END SIDEBAR -->
-    <!-- END SIDEBAR -->
-    <!-- START PAGE-CONTAINER -->
+
+    <% cache "sidebar" do %>
+      <%= render 'shared/sidebar/sidebar' %>
+    <% end %>
+
     <div class="page-container">
-      <!-- START PAGE HEADER WRAPPER -->
-      <!-- START HEADER -->
       <div class="header hidden-lg-up">
         <!-- START MOBILE SIDEBAR TOGGLE -->
         <a href="#" class="btn-link toggle-sidebar hidden-lg-up pg pg-menu" data-toggle="sidebar">
@@ -44,12 +41,12 @@
         <div class="content sm-gutter">
           <!-- START CONTAINER FLUID -->
           <%  if controller_name == 'sellers' and action_name == 'show' %>
-          <div class="">
+            <div class="">
           <% else %>
-          <div class="container-fluid bg-white">
+            <div class="container-fluid bg-white">
           <% end -%>
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
-            <%= yield %>
+          <%= yield %>
             <!-- END PLACE PAGE CONTENT HERE -->
           </div>
           <!-- END CONTAINER FLUID -->

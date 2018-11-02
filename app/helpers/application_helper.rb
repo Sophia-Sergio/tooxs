@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def months_until(from = 1, month)
+  def months_until(month)
     {
       1 => 'Enero',
       2 => 'Febrero',
@@ -14,5 +14,14 @@ module ApplicationHelper
       11 => 'Noviembre',
       12 => 'Diciembre'
     }.map(&:reverse).first(month)
+  end
+
+  def filter_1
+    {
+      stores: Store.all.pluck(:name, :id),
+      departments: MasterDepartment.all.pluck(:name, :id),
+      years: (2016..2018),
+      months: months_until(7)
+    }
   end
 end

@@ -7,7 +7,7 @@
   <div class="pantalla-seccion d-flex justify-content-between mb-2">
     <div class="align-self-end">
       <div class="titulo-pantalla">Análisis de horas</div>
-    </div>    
+    </div>
   </div>
 
   <div class="sub-titulo-pantalla">Parámetros</div>
@@ -16,26 +16,26 @@
     <div class="d-flex flex-wrap justify-content-end bd-highlight" id="sales_search_form">
 
       <div class="input-form">
-        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] , label: false %>  
+        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] , label: false %>
       </div>
 
       <div class="input-form">
-        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department], label: false %>  
+        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department], label: false %>
       </div>
 
       <div class="input-form">
-        <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year], label: false %>  
+        <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year], label: false %>
       </div>
 
       <div class="input-form">
-        <%= f.input :month, collection: (1..6).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: params[:month], label: false  %>  
+        <%= f.input :month, collection: (1..6).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: params[:month], label: false  %>
       </div>
 
       <div class="boton-buscar">
         <%= button_tag type: 'submit',class: "btn btn-success" do %>
         <i class="fa fa-search" aria-hidden="true"></i> Buscar
         <% end %>
-      </div>  
+      </div>
     </div>
     <% end %>
   </div>
@@ -44,7 +44,7 @@
 
 <div class="formulario-comparacion">
   <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
-  <div class="row ">  
+  <div class="row ">
     <h5 class="text-uppercase m-t-30 fs-13 bold">Análisis de Horas - Alto Las Condes - Juvenil mujer</h5>
   </div>
   <div class="row justify-content-md-center">
@@ -53,7 +53,7 @@
       <button id="button-horas" type="button" class="btn btn-secondary cambiar-grafico" data-grafico="1">Horas</button>
       <button id="button-pesos" type="button" class="btn btn-secondary cambiar-grafico" data-grafico="2">Pesos</button>
     </div>
-  </div> 
+  </div>
   <div class="row ">
     <div class="col-sm-12 col-xl-10 offset-xl-1">
       <div id="chartContainer" style="width:100%; display: none;">
@@ -77,7 +77,7 @@
 </div>
 
 <div class="formulario-comparacion">
-  <div class="row"> 
+  <div class="row">
     <div class="col-sm-12 col-xl-10 offset-xl-1">
       <div class="sub-titulo-pantalla">Productividad</div><!-- al <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h2> -->
       <table id="table_desviaciones" class="table-shift table table-striped">
@@ -97,7 +97,7 @@
             <td id="prod_real-">
             <% if @dotacion_w_real.sum != 0 %>
               <%= number_to_currency (@venta_w_real.sum / @dotacion_w_real.sum).round %>
-            <% end %> 
+            <% end %>
             </td>
             <td id="sum-faltante"></td>
             <td id="sum-exceso"></td>
@@ -110,7 +110,7 @@
             <td id="prod_op-">
               <% if @dotacion_w_op.length > 0 %>
               <%= number_to_currency (@venta_w_real.sum / @dotacion_w_op.sum).round %>
-              <% end %>   
+              <% end %>
             </td>
             <td id="sum-faltante-op"></td>
             <td id="sum-exceso-op"></td>
@@ -142,6 +142,6 @@
         </tbody>
       </table>
     </div>
-  </div> 
+  </div>
 </div>
 

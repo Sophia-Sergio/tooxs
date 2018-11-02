@@ -35,7 +35,7 @@ class AvailableShift < ApplicationRecord
   def date_shift
 
     month = self.month
-    week  = self.week
+    week  = self.week_of_year
     day   = self.day
 
     month_text  = Date::MONTHNAMES[month.to_i]

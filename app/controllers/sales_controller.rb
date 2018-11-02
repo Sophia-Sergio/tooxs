@@ -1,30 +1,28 @@
 class SalesController < ApplicationController
+  include DemoParameters
 
   def index
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Estadísticas de Ventas", :sales_path
     @search       = ''
-            params[:year]  = Date.today.strftime("%Y").to_i
-        params[:month] = Date.today.strftime("%m").to_i
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)
-    @seasons      = [ [id: 1, name:'moo'] , [id: 2, name:'lala'] ]
+    @seasons      = [[id: 1, name: 'moo'], [id: 2, name: 'lala']]
   end
 
   def month
-
     @controller = 'Venta Mensual'
+    department = params[:department] || demo_data[:department]
+    store = params[:store] || demo_data[:store]
+    cluster = params[:cluster] || demo_data[:cluster]
+    @year  = params[:year] || demo_data[:year]
+    @month = params[:month] || demo_data[:month]
     @stores     = Store.where(:id => [1, 2]).order(:id)
     @departments = Department.where(:id => [1,5]).order(:id)
   	@search = ''
     @compare = 'compare'
-    @store  = Store.find(params[:store])
-    @dep    = Department.find(params[:department])
-    @year  = params[:year].to_i
-    @month = params[:month].to_i
+    @store  = Store.find(store)
+    @dep    = Department.find(department)
+    countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store.id, department_id: @dep.id).pluck(:week).length
 
-
-    countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store, department_id: @dep).pluck(:week).length
     real_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
     @historic_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year-1, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
 
@@ -32,7 +30,7 @@ class SalesController < ApplicationController
     historic_sale = []
 
     (1..countWeek).each do |week|
-      @sale_plan << SalePlan.where(year: @year).where(month: @month).where(week: week, store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}.sum
+      @sale_plan << SalePlan.where(year: @year).where(month: @month).where(week: week, store_id: @store.id, department_id: @dep.id).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}.sum
       if @historic_sale[week] == nil
         historic_sale << 0
       else
@@ -81,7 +79,7 @@ class SalesController < ApplicationController
       @sum_dif2 = ((@real_sale.sum / @historic_sale.sum) -1 ) * 100
     end
 
-    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m').to_sym}
+    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store.id, department_id: @dep.id).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m').to_sym}
 
   end
 
