@@ -1,8 +1,54 @@
-// .tables{
- 
-//   margin-left: 0;
-//   margin-right: 0;
-//   padding-left: 0;
-//   padding-right: 0;
+.general__box__big{
 
-// }
+    background-color: #f0f0f0;
+
+}
+
+.select__box{
+
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+  margin-left: 1vw;
+  background-color: #ffff;
+  height: 5vh;
+  border: solid 5px white;
+  box-sizing: border-box;
+}
+
+.charts{
+
+    margin-top: 1vh;
+
+}
+.generalChart{
+
+    padding-top: 3vh;
+    padding-bottom: 2vh;
+   
+}
+
+.generalChart{
+
+    border: solid 3px #f0f0f0;
+    box-sizing: border-box;
+    border-radius: 10px;
+
+}
+
+h1{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+}
+
+p{
+    margin-top: 0.5vh;
+    text-align: center;
+}
+
+.tableOut{
+    height: 1px;
+}
+

@@ -35,7 +35,19 @@ window.onload = function() {
         }
     });
 
-    // new Chart(document.getElementById("myChart3"), {
+    $(document).ready(function()
+        {$('#buscador').select2();
+    });
+
+    $('#buttonToggle').click(function(evt)
+        {$("#principalTable").toggleClass('.tableOut');
+    });
+        
+
+    
+  };
+
+  // new Chart(document.getElementById("myChart3"), {
     //     type: 'horizontalBar',
     //     data: {
     //       labels: ["Africa",],
@@ -55,5 +67,6 @@ window.onload = function() {
     //       }
     //     }
     // });
+
     
-  };
+    
