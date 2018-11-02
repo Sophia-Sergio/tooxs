@@ -2,176 +2,274 @@
   %div.row  
     %div.combobox.container__fluid.col-lg-12
       %select.combobox__locales.col-lg-4
-        %option
+        %option.dropdown
           %p.combobox__opcion Establecimientos
         %option
           %p.combobox__opcion local 1
         %option
           %p.combobox__opcion local 2
+        -# %input.typeahead.form-control{:placeholder => "Search Name....", :type => "text"}/
 
-      %select.combobox__fecha.col-lg-2
-        %option
-          %p.combobox__opcion Dia
-        %option
-          %p.combobox__opcion 1
-        %option
-          %p.combobox__opcion 2
-      %select.combobox__fecha.col-lg-2
-        %option
-          %p.combobox__opcion Mes
-        %option
-          %p.combobox__opcion Enero
-        %option
-          %p.combobox__opcion Febrero
-      %select.combobox__fecha.col-lg-2
-        %option
-          %p.combobox__opcion Año
-        %option
-          %p.combobox__opcion 2017
-        %option
-          %p.combobox__opcion 2018
-      %button.col-lg-1
-        %p ir
-  %div.charts.container__fluid.col-lg-12
+
+      -# %select.combobox__fecha.col-lg-2
+      -#   %option
+      -#     %p.combobox__opcion Dia
+      -#   %option
+      -#     %p.combobox__opcion 1
+      -#   %option
+      -#     %p.combobox__opcion 2
+      -# %select.combobox__fecha.col-lg-2
+      -#   %option
+      -#     %p.combobox__opcion Mes
+      -#   %option
+      -#     %p.combobox__opcion Enero
+      -#   %option
+      -#     %p.combobox__opcion Febrero
+      -# %select.combobox__fecha.col-lg-2
+      -#   %option
+      -#     %p.combobox__opcion Año
+      -#   %option
+      -#     %p.combobox__opcion 2017
+      -#   %option
+      -#     %p.combobox__opcion 2018
+      -# %button.col-lg-1
+      -#   %p ir
+
+  %div.charts.container__fluid.col-lg-12.bg-light
     %div.row
-      %div.generalChart.col-lg-6.card
+      %div.generalChart.col-lg-6
         %canvas#myChart1   
-      %div.generalChart.col-lg-6.card
+      %div.generalChart.col-lg-6
         %canvas#myChart2
 
 %div.container__fluid.card
   %button.col-lg-12
     %p Ampliar / Contraer
 
-%div.container__fluid.col-lg-12.card
+%div.container__fluid.col-lg-12.card.tables
   %div.row
-    %div.container__fluid.col-lg-12
-      %h1 Planificacion para la Dotacion de reponedores 
-    %div.table.col-lg-3
-      %h3 Turnos
-      %table
-        %th ID
-        %th Turno
-        %tr
-        %td Turno 1
-        %td 1 de 45 HRS
-        %tr
-        %td Turno 2
-        %td 2 de 45 HRS
-        %tr
-        %td Turno 3
-        %td 3 de 45 HRS
-        %tr
-        %td Turno 4
-        %td 4 de 45 HRS
-        %tr
-        %td Turno 5
-        %td 1 de 36 HRS
-        %tr
-        %td Turno 6
-        %td 2 de 36 HRS
-        %tr
-        %td Turno 7
-        %td 3 de 36 HRS
-        %tr
-        %td Turno 8
-        %td 4 de 36 HRS
-        %tr
-        %td Turno 9
-        %td 1 de 24 HRS
-        %tr
-        %td Turno 10
-        %td SA - DO
-        %tr
-        %td Turno 11
-        %td 1 Tarde
-        %tr
-        %td Turno 12
-        %td 2 Tarde
-        %tr
-        %td Total
-        %tr
-        %td Eficiencia Dotacion
-        %tr
-        %td HH
-       
-            
-          
-      -# aca van las columnas y las filas
+    %div.col-lg-12
+      %h1 Planificacion de Dotacion
+
+    %div.table.col-lg-4
+      %h3 Reponedores
+      %table.table.table-striped
+        %thead
+          %th ID
+          %th Turno
+        %tbody
+          %tr
+            %td 1
+            %td TURNO 1 DE 45 HORAS
+          %tr
+            %td 2
+            %td TURNO 2 DE 45 HORAS
+          %tr
+            %td 3
+            %td TURNO 3 DE 45 HORAS
+          %tr
+            %td 4
+            %td TURNO 4 DE 45 HORAS
+          %tr
+            %td 5
+            %td TURNO 1 DE 36 HORAS
+          %tr
+            %td 6
+            %td TURNO 2 DE 36 HORAS
+          %tr
+            %td 7
+            %td TURNO 3 DE 36 HORAS
+          %tr
+            %td 8
+            %td TURNO 4 DE 36 HORAS
+          %tr
+            %td 9
+            %td TURNO 1 DE 24 HORAS
+          %tr
+            %td 10
+            %td TURNO SA / DO
+          %tr
+            %td 11
+            %td TURNO 1 TARDE
+          %tr
+            %td 12
+            %td TURNO 2 TARDE
+          %tr
+            %td Total
+            %td
+          %tr
+            %td Eficiencia
+            %td
+          %tr
+            %td HH Totales
+
     %div.table.col-lg-3
       %h3 Bebidas
-      %table.table
+      %table.table.table-striped
         %thead
           %th Actual
           %th Optimizada
+        %tbody
           %tr
-          %td 1
-          %td 1
+            %td 1
+            %td 1
           %tr
-          %td 2
-          %td 1
+            %td 2
+            %td 1
           %tr
-          %td 2
-          %td 1
+            %td 2
+            %td 1
           %tr
-          %td 1
-          %td 2
+            %td 1
+            %td 2
           %tr
-          %td 1
-          %td 2
+            %td 1
+            %td 2
           %tr
-          %td 1
-          %td 0
+            %td 1
+            %td 0
           %tr
-          %td 0
-          %td 0
+            %td 0
+            %td 0
           %tr
-          %td 0
-          %td 0
+            %td 0
+            %td 0
           %tr
-          %td 0
-          %td 0
+            %td 0
+            %td 0
           %tr
-          %td 2
-          %td 7
+            %td 2
+            %td 7
           %tr
-          %td 0
-          %td 3
+            %td 0
+            %td 3
           %tr
-          %td 0
-          %td 1
+            %td 0
+            %td 1
           %tr
-          %td 10
-          %td 18
+            %td 10
+            %td 18
           %tr
-          %td 57.3%
-          %td 77.3%
+            %td 57.3%
+            %td 77.3%
           %tr
-          %td 1.543
-          %td 2.327
-            
-          
-      -# aca van las columnas y las filas
-    %div.table.col-lg-3
+            %td 1.543
+            %td 2.327
+      %div.progress
+        %div.progress-bar{style: 'width: 50%', role: 'progressbar', aria: {valuenow: '90', valuemin:'0', valuemax: "100"} }
+    
+    %div.table.col-lg-2
       %h3 Frutas y Verduras
-      %table
-        %thead
-          %th Actual 
-          %th Optimizada
-          
-          
-      -# aca van las columnas y las filas
-    %div.table.col-lg-3
-      %h3 Abarrotes
-      %table
+      %table.table.table-striped
         %thead
           %th Actual
           %th Optimizada
-          
-          
-      -# aca van las columnas y las filas
+        %tbody
+          %tr
+            %td 1
+            %td 1
+          %tr
+            %td 2
+            %td 1
+          %tr
+            %td 2
+            %td 1
+          %tr
+            %td 1
+            %td 2
+          %tr
+            %td 1
+            %td 2
+          %tr
+            %td 1
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 2
+            %td 7
+          %tr
+            %td 0
+            %td 3
+          %tr
+            %td 0
+            %td 1
+          %tr
+            %td 10
+            %td 18
+          %tr
+            %td 57.3%
+            %td 77.3%
+          %tr
+            %td 1.543
+            %td 2.327
+      %div.progress
+        %div.progress-bar{style: 'width: 50%', role: 'progressbar', aria: {valuenow: '40', valuemin:'0', valuemax: "100"} }
+  
 
-      -# VERIFICAR COMO AMPLIAR LA TABLA DE ID PARA QUE TODO QUEDE EN EL MISMO TAMAÑO
+    %div.table.col-lg-2
+      %h3 Abarrotes
+      %table.table.table-striped
+        %thead
+          %th Actual
+          %th Optimizada
+        %tbody
+          %tr
+            %td 1
+            %td 1
+          %tr
+            %td 2
+            %td 1
+          %tr
+            %td 2
+            %td 1
+          %tr
+            %td 1
+            %td 2
+          %tr
+            %td 1
+            %td 2
+          %tr
+            %td 1
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 2
+            %td 7
+          %tr
+            %td 0
+            %td 3
+          %tr
+            %td 0
+            %td 1
+          %tr
+            %td 10
+            %td 18
+          %tr
+            %td 57.3%
+            %td 77.3%
+          %tr
+            %td 1.543
+            %td 2.327
+      %div.progress
+        %div.progress-bar{style: 'width: 50%', role: 'progressbar', aria: {valuenow: '40', valuemin:'0', valuemax: "100"} }
+  
 
+          
           
          

@@ -14872,7 +14872,7 @@ body{
   display: inline-block;
 }
 
-#turnos-cubiertos .progress
+.progress
 {
   height: 2em;
   background-color: #dfffc9;
@@ -14897,7 +14897,7 @@ body{
   display: inline-block;
 }
 
-#turnos-cubiertos .progress-bar
+.progress .progress-bar
 {
     height: 2rem;
     box-shadow: none;
