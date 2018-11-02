@@ -23,7 +23,11 @@
       </div>
 
       <div class="input-form">
-        <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month, label: false  %>  
+        <%= f.input :month_init, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month, label: false  %>  
+      </div>
+
+      <div class="input-form">
+        <%= f.input :month_fin, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month_fin, label: false  %>  
       </div>
 
       <div class="boton-buscar">
