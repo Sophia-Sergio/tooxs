@@ -200,13 +200,13 @@ class ProductivityController < ApplicationController
     # dummy demo data
     month = params[:month].to_i
     year = params[:year].to_i
-    department = params[:department].to_i
+    department = params[:department]
     @store = Store.find(params[:store])
 
     # days of the week for this query
     days_by_week = @store.sale_plans.by_year_and_month(year, month).by_department(department).days_by_week
     # obtener ventas reales del mes
-    sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month)
+    sale_reals = SaleReal.where(department_id: department, store_id: @store.id, year: year, month: month)
     @totalMonth = []
     @realMonth = []
 
