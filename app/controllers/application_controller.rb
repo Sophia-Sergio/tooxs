@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
 
   if Rails.env.production?
     http_basic_authenticate_with name: "salesforce", password: "12345678"
