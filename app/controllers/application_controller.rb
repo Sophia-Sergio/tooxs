@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   if Rails.env.production?
     http_basic_authenticate_with name: "salesforce", password: "12345678"
@@ -297,7 +297,7 @@ class ApplicationController < ActionController::Base
       #[1,10,28,1] 1010672 # [numero, hora, dia, numero] valor
       # inicio crear plan_venta, tengo que crear el formato del plan de venta para 4 semanas
 
-      spm1 = SalePlan.where(year: year, month: month, store_id: store, department_id: department).where("week IN(1, 2, 3, 4)").map{|x, j|
+      spm1 = SalePlan.where(year: year, month: month, store_id: store, department_id: department).where("week IN(1, 2, 3, 4)").order(:id).map{|x, j|
 
         "[1,1,countRow,1] #{x.eleven}, " + "[1,2,countRow,1] #{x.twelve}, " + "[1,3,countRow,1] #{x.thirteen}, " +
         "[1,4,countRow,1] #{x.fourteen}, " + "[1,5,countRow,1] #{x.fifteen}, " + "[1,6,countRow,1] #{x.sixteen}, " +
