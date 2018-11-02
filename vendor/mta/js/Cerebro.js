@@ -23,7 +23,7 @@ Cerebro.productividadDiaria = function()
 	sumatoriaTurnosDiaria = this.sumatoriaTurnosDiaria();
 
 	if (Object.keys(Cerebro.plan).length !== 0)
-	{		
+	{
 		plan_venta_in = this.plan.datos.plan_venta.split(", [");
 		plan_venta_in[0] = plan_venta_in[0].replace("[", "");
 		num_horas_dia_in =  this.plan.datos.num_horas_dia;
@@ -34,20 +34,20 @@ Cerebro.productividadDiaria = function()
 
 		//inicializar en 0
 
-		for (var i = 0; i < plan_venta_in.length; i++) 
+		for (var i = 0; i < plan_venta_in.length; i++)
 		{
 		    plan_hora = plan_venta_in[i].split("] ")
 		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] = 0;
 		}
-		//sumatoria por día 
+		//sumatoria por día
 
-		for (var i = 0; i < plan_venta_in.length; i++) 
+		for (var i = 0; i < plan_venta_in.length; i++)
 		{
 		    plan_hora = plan_venta_in[i].split("] ")
 		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] += parseFloat(plan_hora[1]);
 		}
 
-		for (var i = 0; i < plan_venta_diario.length; i++) 
+		for (var i = 0; i < plan_venta_diario.length; i++)
 		{
 			plan_venta_diario[i] =  Math.round(parseInt(plan_venta_diario[i]) / parseInt(sumatoriaTurnosDiaria[i]));
 		}
@@ -62,7 +62,7 @@ Cerebro.cacularProductividad = function(mes)
 {
 	sumatoriaTurnosDiaria = this.sumatoriaTurnosDiaria();
 	productividadMes = [];
-	for (var i = 0; i < mes.length; i++) 
+	for (var i = 0; i < mes.length; i++)
 	{
 		productividadMes[i] =  Math.round(parseInt(mes[i]) / parseInt(sumatoriaTurnosDiaria[i]));
 	}
@@ -74,7 +74,7 @@ Cerebro.calcularProductividadReal = function(mes)
 {
 	sumatoriaTurnosDiaria = Cerebro.sumatoriaTurnosDiaria();
 	productividadMes = [];
-	for (var i = 0; i < mes.length; i++) 
+	for (var i = 0; i < mes.length; i++)
 	{
 		productividadMes[i] =  Math.round(parseInt(mes[i]) / parseInt(sumatoriaTurnosDiaria[i]));
 	}
@@ -86,7 +86,7 @@ Cerebro.productividadOptimizada = function()
 	sumatoriaTurnosDiaria = this.sumatoriaTurnosOptimizado();
 
 	if (Object.keys(Cerebro.plan).length !== 0)
-	{		
+	{
 		plan_venta_in = this.plan.datos.plan_venta.split(", [");
 		plan_venta_in[0] = plan_venta_in[0].replace("[", "");
 		num_horas_dia_in =  this.plan.datos.num_horas_dia;
@@ -97,20 +97,20 @@ Cerebro.productividadOptimizada = function()
 
 		//inicializar en 0
 
-		for (var i = 0; i < plan_venta_in.length; i++) 
+		for (var i = 0; i < plan_venta_in.length; i++)
 		{
 		    plan_hora = plan_venta_in[i].split("] ")
 		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] = 0;
 		}
-		//sumatoria por día 
+		//sumatoria por día
 
-		for (var i = 0; i < plan_venta_in.length; i++) 
+		for (var i = 0; i < plan_venta_in.length; i++)
 		{
 		    plan_hora = plan_venta_in[i].split("] ")
 		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] += parseFloat(plan_hora[1]);
 		}
 
-		for (var i = 0; i < plan_venta_diario.length; i++) 
+		for (var i = 0; i < plan_venta_diario.length; i++)
 		{
 			plan_venta_diario[i] =  Math.round(parseInt(plan_venta_diario[i]) / parseInt(sumatoriaTurnosDiaria[i]));
 		}
@@ -124,7 +124,7 @@ Cerebro.productividadOptimizada = function()
 Cerebro.planVentaOptimizada = function()
 {
 	if (Object.keys(Cerebro.plan).length !== 0)
-	{		
+	{
 		plan_venta_in = this.plan.datos.plan_venta.split(", [");
 		plan_venta_in[0] = plan_venta_in[0].replace("[", "");
 		num_horas_dia_in =  this.plan.datos.num_horas_dia;
@@ -135,20 +135,20 @@ Cerebro.planVentaOptimizada = function()
 
 		//inicializar en 0
 
-		for (var i = 0; i < plan_venta_in.length; i++) 
+		for (var i = 0; i < plan_venta_in.length; i++)
 		{
 		    plan_hora = plan_venta_in[i].split("] ")
 		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] = 0;
 		}
-		//sumatoria por día 
+		//sumatoria por día
 
-		for (var i = 0; i < plan_venta_in.length; i++) 
+		for (var i = 0; i < plan_venta_in.length; i++)
 		{
 		    plan_hora = plan_venta_in[i].split("] ")
 		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] += parseFloat(plan_hora[1]);
 		}
 
-		for (var i = 0; i < plan_venta_diario.length; i++) 
+		for (var i = 0; i < plan_venta_diario.length; i++)
 		{
 			plan_venta_diario[i] =  Math.round(parseInt(plan_venta_diario[i]));
 		}
@@ -165,11 +165,11 @@ Cerebro.productividadObjetivo = function()
 	num_dias_ventana = this.plan.datos.num_dias_ventana;
 	var plan_venta_diario = new Array(num_dias_ventana);
 
-	for (var i = 0; i < plan_venta_in.length; i++) 
+	for (var i = 0; i < plan_venta_in.length; i++)
 	{
 	    plan_hora = plan_venta_in[i].split("] ")
 	    plan_venta_diario[i] = Cerebro.plan.datos.prod_obj;
-	}	
+	}
 	return plan_venta_diario;
 }
 
@@ -178,7 +178,7 @@ Cerebro.productividadIdeal = function()
 	sumatoriaTurnosDiaria = this.sumatoriaTurnosOptimizado();
 	deltas = Cerebro.calcularPerdida(Cerebro.calcularDelta());
 	if (Object.keys(Cerebro.plan).length !== 0)
-	{		
+	{
 		plan_venta_in = this.plan.datos.plan_venta.split(", [");
 		plan_venta_in[0] = plan_venta_in[0].replace("[", "");
 		num_horas_dia_in =  this.plan.datos.num_horas_dia;
@@ -189,20 +189,20 @@ Cerebro.productividadIdeal = function()
 
 		//inicializar en 0
 
-		for (var i = 0; i < plan_venta_in.length; i++) 
+		for (var i = 0; i < plan_venta_in.length; i++)
 		{
 		    plan_hora = plan_venta_in[i].split("] ")
 		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] = 0;
 		}
-		//sumatoria por día 
+		//sumatoria por día
 
-		for (var i = 0; i < plan_venta_in.length; i++) 
+		for (var i = 0; i < plan_venta_in.length; i++)
 		{
 		    plan_hora = plan_venta_in[i].split("] ")
 		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] += parseFloat(plan_hora[1]);
 		}
 
-		for (var i = 0; i < plan_venta_diario.length; i++) 
+		for (var i = 0; i < plan_venta_diario.length; i++)
 		{
 			plan_venta_diario[i] =  Math.round((parseFloat(plan_venta_diario[i] - deltas[i] ))/ parseFloat(sumatoriaTurnosDiaria[i]));
 		}
@@ -217,7 +217,7 @@ Cerebro.productividadIdeal = function()
 Cerebro.planVentaDiario = function()
 {
 	if (Object.keys(Cerebro.plan).length !== 0)
-	{		
+	{
 		plan_venta_in = this.plan.datos.plan_venta.split(", [");
 		plan_venta_in[0] = plan_venta_in[0].replace("[", "");
 		num_horas_dia_in =  this.plan.datos.num_horas_dia;
@@ -229,14 +229,14 @@ Cerebro.planVentaDiario = function()
 		console.log(plan_venta_diario);
 		//inicializar en 0
 
-		for (var i = 0; i < plan_venta_in.length; i++) 
+		for (var i = 0; i < plan_venta_in.length; i++)
 		{
 		    plan_hora = plan_venta_in[i].split("] ")
 		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] = 0;
 		}
-		//sumatoria por día 
+		//sumatoria por día
 
-		for (var i = 0; i < plan_venta_in.length; i++) 
+		for (var i = 0; i < plan_venta_in.length; i++)
 		{
 		    plan_hora = plan_venta_in[i].split("] ")
 		    plan_venta_diario[parseInt(plan_hora[0].split(",")[2])-1] += parseFloat(plan_hora[1]);
@@ -263,7 +263,7 @@ Cerebro.calcularAlmuerzos = function()
 		matrixAlmuerzo = new Array();
 		matrixAlfaD = new Array();
 		horasDiarias = 10;
-		diaSemana = 1; 
+		diaSemana = 1;
 		count = 1;
 
 
@@ -271,9 +271,9 @@ Cerebro.calcularAlmuerzos = function()
 
 
 
-		for (var i = almuerzos.length - 1; i >= 0; i--) 
+		for (var i = almuerzos.length - 1; i >= 0; i--)
 		{
-		  almuerzo = almuerzos[i].split('] '); 
+		  almuerzo = almuerzos[i].split('] ');
 		  matrixAlmuerzo[almuerzo[0].replace("[", "").split(',')[2]] = almuerzo[1];
 		}
 	}
@@ -299,7 +299,7 @@ Cerebro.calcularDelta = function()
 		matrixAlmuerzo = new Array();
 		matrixAlfaD = new Array();
 		horasDiarias = 10;
-		diaSemana = 1; 
+		diaSemana = 1;
 		count = 1;
 
 
@@ -307,14 +307,14 @@ Cerebro.calcularDelta = function()
 
 
 
-		for (var i = almuerzos.length - 1; i >= 0; i--) 
+		for (var i = almuerzos.length - 1; i >= 0; i--)
 		{
-		  almuerzo = almuerzos[i].split('] '); 
+		  almuerzo = almuerzos[i].split('] ');
 		  matrixAlmuerzo[almuerzo[0].replace("[", "").split(',')[2]] = almuerzo[1];
 		}
 
-		for (var i = deltas.length - 1; i >= 0; i--) 
-		{ 
+		for (var i = deltas.length - 1; i >= 0; i--)
+		{
 		  delta = deltas[i].split("] ");
 		  matrixAlfaD[delta[0].split(',')[1]] = delta[1];
 		}
@@ -340,14 +340,14 @@ Cerebro.calcularEpsilon = function()
 		matrixAlmuerzo = new Array();
 		matrixAlfaE = new Array();
 		horasDiarias = 10;
-		diaSemana = 1; 
+		diaSemana = 1;
 		count = 1;
 
 		matrixSemanaE = new Array(28);
 
-		for (var i = almuerzos.length - 1; i >= 0; i--) 
+		for (var i = almuerzos.length - 1; i >= 0; i--)
 		{
-		  almuerzo = almuerzos[i].split('] '); 
+		  almuerzo = almuerzos[i].split('] ');
 		  matrixAlmuerzo[almuerzo[0].replace("[", "").split(',')[2]] = almuerzo[1];
 		}
 
@@ -361,7 +361,7 @@ Cerebro.calcularEpsilon = function()
 		matrixAlfaE = "";
 	}
 
-	
+
 	return matrixAlfaE;
 
 }
@@ -369,7 +369,7 @@ Cerebro.calcularEpsilon = function()
 Cerebro.totalDeTurnos = function()
 {
 	if (Object.keys(Cerebro.plan).length !== 0)
-	{	
+	{
 		////////////////////////////////////////////////////////////////
 		// Matriz de turnos
 		////////////////////////////////////////////////////////////////
@@ -380,7 +380,7 @@ Cerebro.totalDeTurnos = function()
 
 		matriz_turnos_in = Array();
 
-		for (var i = 0; i < matriz_turnos.length; i++) 
+		for (var i = 0; i < matriz_turnos.length; i++)
 		{
 		  turno = matriz_turnos[i].split("] ")[0];
 		  turno_1 = matriz_turnos[i].split("] ")[1];
@@ -405,7 +405,7 @@ Cerebro.totalDeTurnos = function()
 
 
 		//////////////////////////////////////////////////////////////////
-		// sumatoria de turnos total 
+		// sumatoria de turnos total
 		//////////////////////////////////////////////////////////////////
 
 		dia = 0; // maximo  plan.datos.num_dias_ventana
@@ -413,12 +413,12 @@ Cerebro.totalDeTurnos = function()
 
 		sumatoria_turnos = Array(this.plan.datos.num_dias_ventana * this.plan.datos.num_horas_dia);
 
-		for (var i = 0; i < sumatoria_turnos.length; i++) 
+		for (var i = 0; i < sumatoria_turnos.length; i++)
 		{
 		  sumatoria_turnos[i] = 0;
 		}
 
-		for (var i = 0; i < matriz_turnos_in.length; i++) 
+		for (var i = 0; i < matriz_turnos_in.length; i++)
 		{
 		  hora_turno = matriz_turnos_in[i];
 		  coordenada = parseFloat((hora_turno.dia-1)*10) + parseFloat(hora_turno.hora) - 1;
@@ -447,7 +447,7 @@ Cerebro.totalTurnosReales = function()
 
 		matriz_turnos_in = Array();
 
-		for (var i = 0; i < matriz_turnos.length; i++) 
+		for (var i = 0; i < matriz_turnos.length; i++)
 		{
 		  turno = matriz_turnos[i].split("] ")[0];
 		  turno_1 = matriz_turnos[i].split("] ")[1];
@@ -479,17 +479,17 @@ Cerebro.totalTurnosReales = function()
 
 		sumatoria_turnos_real = Array(this.plan.datos.num_dias_ventana * this.plan.datos.num_horas_dia);
 
-		for (var i = 0; i < sumatoria_turnos_real.length; i++) 
+		for (var i = 0; i < sumatoria_turnos_real.length; i++)
 		{
 		  sumatoria_turnos_real[i] = 0;
 		}
 
 
-		for (var i = 0; i < matriz_turnos_in.length; i++) 
+		for (var i = 0; i < matriz_turnos_in.length; i++)
 		{
 		  hora_turno = matriz_turnos_in[i];
 		  coordenada = parseFloat((hora_turno.dia-1)*10) + parseFloat(hora_turno.hora) - 1;
-		 for (var j = 0; j < matriz_dotacion_real.length; j++) 
+		 for (var j = 0; j < matriz_dotacion_real.length; j++)
 		 {
 		    if (matriz_dotacion_real[j].turno == matriz_turnos_in[i].turno)
 		    {
@@ -503,14 +503,14 @@ Cerebro.totalTurnosReales = function()
 	else
 	{
 		sumatoria_turnos_real = "";
-	}	
+	}
 	return sumatoria_turnos_real;
 }
 
 Cerebro.sumatoriaMatriz = function(matriz)
 {
 	sumatoria = 0;
-	for (var i = 0; i < matriz.length; i++) 
+	for (var i = 0; i < matriz.length; i++)
 	{
 	 sumatoria += matriz[i];
 	}
@@ -523,7 +523,7 @@ Cerebro.calcularPerdida = function(matrixAlfaD)
 {
 
 	/////////////////////////////////////////////////////////////////
-	// calcular la sumatoria por día de perdida 
+	// calcular la sumatoria por día de perdida
 	/////////////////////////////////////////////////////////////////
 
 	diaSemana = 1;
@@ -532,14 +532,14 @@ Cerebro.calcularPerdida = function(matrixAlfaD)
 	count = 1;
 	diaMes = 0;
 
-	for (var i = 0; i < matrixSemanaD.length; i++) 
+	for (var i = 0; i < matrixSemanaD.length; i++)
 	{
 	 matrixSemanaD[i] = 0;
 	}
 
 	countDia = 0;
 
-	for (var i = 1; i < num_horas_dia_in * num_dias_ventana + 1; i++) 
+	for (var i = 1; i < num_horas_dia_in * num_dias_ventana + 1; i++)
 	{
 	  countDia++;
 	  if (matrixAlfaD[i] == undefined)
@@ -575,7 +575,7 @@ Cerebro.totalTurnosOptimizados = function()
 
 		matriz_turnos_in = Array();
 
-		for (var i = 0; i < matriz_turnos.length; i++) 
+		for (var i = 0; i < matriz_turnos.length; i++)
 		{
 		  turno = matriz_turnos[i].split("] ")[0];
 		  turno_1 = matriz_turnos[i].split("] ")[1];
@@ -607,18 +607,18 @@ Cerebro.totalTurnosOptimizados = function()
 
 		sumatoria_turnos_real = Array(this.plan.datos.num_dias_ventana * this.plan.datos.num_horas_dia);
 
-		for (var i = 0; i < sumatoria_turnos_real.length; i++) 
+		for (var i = 0; i < sumatoria_turnos_real.length; i++)
 		{
 		  sumatoria_turnos_real[i] = 0;
 		}
 
 
-		for (var i = 0; i < matriz_turnos_in.length; i++) 
+		for (var i = 0; i < matriz_turnos_in.length; i++)
 		{
 		  hora_turno = matriz_turnos_in[i];
 		  coordenada = parseFloat((hora_turno.dia-1)*10) + parseFloat(hora_turno.hora) - 1;
 
-		 for (var j = 0; j < matriz_dotacion_real.length; j++) 
+		 for (var j = 0; j < matriz_dotacion_real.length; j++)
 		 {
 		    if (matriz_dotacion_real[j].turno == matriz_turnos_in[i].turno)
 		    {
@@ -632,18 +632,18 @@ Cerebro.totalTurnosOptimizados = function()
 	else
 	{
 		sumatoria_turnos_real = "";
-	}	
+	}
 	return sumatoria_turnos_real;
 }
 
 Cerebro.setearResumen = function()
 {
 	datosArray = Array();
-	
+
 	if ((Object.keys(Cerebro.salida).length !== 0))
 	{
 		salida = Cerebro.salida.split(/\n/);
-		for (var i = 0; i < salida.length; i++) 
+		for (var i = 0; i < salida.length; i++)
 		{
 			if (salida[i].includes( 'RESUMEN' ))
 			{
@@ -667,14 +667,14 @@ Cerebro.setearResumen = function()
 Cerebro.setearTurnos = function()
 {
 	datosArray = Array();
-	
+
 	if ((Object.keys(Cerebro.salida).length !== 0))
 	{
 		salida = Cerebro.salida.split(/\n/);
 
 		if (salida.length > 1)
 		{
-			for (var i = 0; i < salida.length; i++) 
+			for (var i = 0; i < salida.length; i++)
 			{
 				if (salida[i].includes( 'Turnos    Vendedores         Costo' ))
 				{
@@ -694,7 +694,7 @@ Cerebro.setearTurnos = function()
 			}
 		}
 		else
-		{	
+		{
 			// obtener turnos del array de entrada
 			turnos = plan_enviado.datos.dotacion_real.split(", [");
 			matriz_turnos[0] = matriz_turnos[0].replace("[", "");
@@ -725,7 +725,7 @@ Cerebro.sumatoriaTurnosDiaria = function()
 	turnosSumatoria = new Array(this.plan.datos.num_dias_ventana);
 
 	if (Object.keys(Cerebro.plan).length !== 0)
-	{		
+	{
 		totalTurnosReales = this.totalTurnosReales();
 		diaSemana = 1;
 		horasDiarias = 10;
@@ -735,12 +735,12 @@ Cerebro.sumatoriaTurnosDiaria = function()
 
 		countDia = 1;
 
-		for (var i = 0; i < turnosSumatoria.length; i++) 
+		for (var i = 0; i < turnosSumatoria.length; i++)
 		{
 			turnosSumatoria[i] = 0;
 		}
 
-		for (var i = 0; i < totalTurnosReales.length; i++) 
+		for (var i = 0; i < totalTurnosReales.length; i++)
 		{
 		  turnosSumatoria[diaMes] += parseInt(totalTurnosReales[i]);
 
@@ -764,7 +764,7 @@ Cerebro.sumatoriaTurnosOptimizado = function()
 	turnosSumatoria = new Array(this.plan.datos.num_dias_ventana);
 
 	if (Object.keys(Cerebro.plan).length !== 0)
-	{		
+	{
 		totalTurnosReales = this.totalTurnosOptimizados();
 		diaSemana = 1;
 		horasDiarias = 10;
@@ -774,12 +774,12 @@ Cerebro.sumatoriaTurnosOptimizado = function()
 
 		countDia = 1;
 
-		for (var i = 0; i < turnosSumatoria.length; i++) 
+		for (var i = 0; i < turnosSumatoria.length; i++)
 		{
 			turnosSumatoria[i] = 0;
 		}
 
-		for (var i = 0; i < totalTurnosReales.length; i++) 
+		for (var i = 0; i < totalTurnosReales.length; i++)
 		{
 		  turnosSumatoria[diaMes] += parseInt(totalTurnosReales[i]);
 
@@ -806,16 +806,16 @@ Cerebro.obtenerResumen = function()
 
 Cerebro.save = function()
 {
-	data = $.ajax({ 
+	data = $.ajax({
       type: "post",
       url: "/productivity/save_case",
       data: { result: Cerebro.brainJson, salida: Cerebro.salida, resumen: Cerebro.resumen, turnos: Cerebro.turnos, plan: plan_enviado},
       dataType: 'json',
       success: function(data)
-      { 
+      {
       	location.reload();
       }
   	});
 
-    
+
 }

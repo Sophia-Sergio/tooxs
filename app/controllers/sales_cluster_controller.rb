@@ -8,14 +8,12 @@ class SalesClusterController < ApplicationController
     @clusters     = Cluster.where(id: 1)
     @masterDepartments = MasterDepartment.where(id: 1)
     @month = Date.today.strftime("%m").to_i
-
-    #@seasons      = [ [id: 1, name:'moo'] , [id: 2, name:'lala'] ]
   end
 
   def month
     @search       = ''
     department = params[:department] || demo_data[:department]
-    cluster = params[:department] || demo_data[:cluster]
+    cluster = params[:cluster] || demo_data[:cluster]
     @year  = params[:year] || demo_data[:year]
     @month = params[:month] || demo_data[:month]
 
@@ -24,12 +22,10 @@ class SalesClusterController < ApplicationController
     @departments  = Department.distinct.pluck(:name)
     @masterDepartments = MasterDepartment.all.order(:id)
     @masterDeparment   = MasterDepartment.find(department)
-
+    @dep = Department.find(department)
     @cluster_name =  Cluster.find(cluster).name
-
-    @elements = element(@month, @week, @year, @stores, @dep)
+    @elements = element(@month.to_i, @week, @year.to_i, @stores, @dep)
     #calcular ventas reales por semana
-
     @resultStore = []
 
     @elements.each do |element|
@@ -116,7 +112,7 @@ class SalesClusterController < ApplicationController
 
     #obtener departamentos
     @stores.each do |store|
-      departments << Department.where(store: store[:id], master_id: params[:department])
+      departments << Department.where(store: store[:id], master_id: @dep.id)
     end
 
     #obtener valores

@@ -54,6 +54,12 @@ class SalePlan < ApplicationRecord
     end
   end
 
+  def self.dates_by_week(day_number)
+    by_day_number(day_number).each_with_object({}) do |sale_plan, hash|
+      (hash[sale_plan.week] ||= []) << sale_plan.sale_date.strftime('%Y%m%d').to_sym
+    end
+  end
+
   def to_hour
     # busco la venta por hora del año anterior
     historic_sale = SaleReal.where(year: year-1, week: week, month: month).first

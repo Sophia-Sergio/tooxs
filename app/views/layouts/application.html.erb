@@ -41,12 +41,12 @@
         <div class="content sm-gutter">
           <!-- START CONTAINER FLUID -->
           <%  if controller_name == 'sellers' and action_name == 'show' %>
-          <div class="">
+            <div class="">
           <% else %>
-          <div class="container-fluid bg-white">
+            <div class="container-fluid bg-white">
           <% end -%>
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
-            <%= yield %>
+          <%= yield %>
             <!-- END PLACE PAGE CONTENT HERE -->
           </div>
           <!-- END CONTAINER FLUID -->

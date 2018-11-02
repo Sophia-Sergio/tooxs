@@ -5,15 +5,15 @@ class SalesController < ApplicationController
     @search       = ''
     @stores       = Store.all.order(:id)
     @departments  = Department.all.order(:id)
-    @seasons      = [ [id: 1, name:'moo'] , [id: 2, name:'lala'] ]
+    @seasons      = [[id: 1, name: 'moo'], [id: 2, name: 'lala']]
   end
 
   def month
     @controller = 'Venta Mensual'
     department = params[:department] || demo_data[:department]
     store = params[:store] || demo_data[:store]
-    cluster = params[:department] || demo_data[:cluster]
-    @year  = params[:year].to_i || demo_data[:year]
+    cluster = params[:cluster] || demo_data[:cluster]
+    @year  = params[:year] || demo_data[:year]
     @month = params[:month] || demo_data[:month]
     @stores     = Store.where(:id => [1, 2]).order(:id)
     @departments = Department.where(:id => [1,5]).order(:id)
@@ -22,6 +22,7 @@ class SalesController < ApplicationController
     @store  = Store.find(store)
     @dep    = Department.find(department)
     countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store.id, department_id: @dep.id).pluck(:week).length
+
     real_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
     @historic_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year-1, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
 

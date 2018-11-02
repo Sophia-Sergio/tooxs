@@ -9,29 +9,16 @@ class ProductivityController < ApplicationController
     @stores       = Store.all.joins('INNER JOIN departments ON stores.id = departments.store_id INNER JOIN data_cases ON departments.id = data_cases.dep_num').distinct
     @departments  = Department.all.joins('INNER JOIN data_cases ON departments.id = data_cases.dep_num').distinct
     month  = params[:month]
-    year   = params[:year].to_i
+    year   = params[:year]
+    department = params[:department]
+    first_day_of_weeks = @store.sale_plans.by_year_and_month(year, month)
+                               .by_department(department).dates_by_week(1)
 
-    days_by_week = @store.sale_plans.by_year_and_month(params[:year], params[:month]).by_department(params[:department]).days_by_week
-
-    # days of the week for this query dias de la semana según comienzo
-    # staffing
-    fecha1 = DateTime.parse(days_by_week[1].first)
-    fecha1 = fecha1.strftime('%Y%m%d')
-
-    fecha2 = DateTime.parse(days_by_week[2].first)
-    fecha2 = fecha2.strftime('%Y%m%d')
-
-    fecha3 = DateTime.parse(days_by_week[3].first)
-    fecha3 = fecha3.strftime('%Y%m%d')
-
-    fecha4 = DateTime.parse(days_by_week[4].first)
-    fecha4 = fecha4.strftime('%Y%m%d')
-
-    @staffing_w1  = staffing_draw(fecha1)
-    @staffing_w2  = staffing_draw(fecha2)
-    @staffing_w3  = staffing_draw(fecha3)
-    @staffing_w4  = staffing_draw(fecha4)
-    @brain_json   = brain_json(month, year, @store.id, params[:department])
+    @staffing_w1  = staffing_draw(first_day_of_weeks[1])
+    @staffing_w2  = staffing_draw(first_day_of_weeks[2])
+    @staffing_w3  = staffing_draw(first_day_of_weeks[3])
+    @staffing_w4  = staffing_draw(first_day_of_weeks[4])
+    @brain_json   = brain_json(month, year, @store.id, department)
   end
 
   def json_current
@@ -40,10 +27,10 @@ class ProductivityController < ApplicationController
     department = params[:department]
     sale_plans = @store.sale_plans.by_year_and_month(year, month).by_department(department)
     days_by_week = sale_plans.days_by_week
-    first_days_of_week = sale_plans.dates_by_week(1)
+    first_day_of_weeks = sale_plans.dates_by_week(1)
     total_sales_of_week = sale_plans.sales_by_week
     # obtener ventas reales del mes
-    sale_reals = SaleReal.where(department_id: department, store_id: @store, year: year, month: month)
+    sale_reals = SaleReal.where(department_id: department, store_id: @store.id, year: year, month: month)
     @totalMonth = []
     @realMonth = []
     @contReal = 0
@@ -58,10 +45,10 @@ class ProductivityController < ApplicationController
       end
     end
     # staffdrawing per day-week
-    @sd_w1_daily  = staffing_draw(first_days_of_week[1])[:draw].values.map(&:flatten).transpose.map(&:sum)
-    @sd_w2_daily  = staffing_draw(first_days_of_week[2])[:draw].values.map(&:flatten).transpose.map(&:sum)
-    @sd_w3_daily  = staffing_draw(first_days_of_week[3])[:draw].values.map(&:flatten).transpose.map(&:sum)
-    @sd_w4_daily  = staffing_draw(first_days_of_week[4])[:draw].values.map(&:flatten).transpose.map(&:sum)
+    @sd_w1_daily  = staffing_draw(first_day_of_weeks[1])[:draw].values.map(&:flatten).transpose.map(&:sum)
+    @sd_w2_daily  = staffing_draw(first_day_of_weeks[2])[:draw].values.map(&:flatten).transpose.map(&:sum)
+    @sd_w3_daily  = staffing_draw(first_day_of_weeks[3])[:draw].values.map(&:flatten).transpose.map(&:sum)
+    @sd_w4_daily  = staffing_draw(first_day_of_weeks[4])[:draw].values.map(&:flatten).transpose.map(&:sum)
     # productivity per day-week
     @prd_w1_day = total_sales_of_week[1].zip(@sd_w1_daily).map { |a, b| a / b }
     @prd_w2_day = total_sales_of_week[2].zip(@sd_w2_daily).map { |a, b| a / b }
