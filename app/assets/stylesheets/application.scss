@@ -15,6 +15,7 @@
   *= require font-awesome/css/font-awesome
   *= require jquery-scrollbar/jquery.scrollbar.css
   *= require select2/css/select2.min.css
+  *= require pages/css/themes/corporate.css
   *= require switchery/css/switchery.min.css
   *= jquery-datatable/media/css/dataTables.bootstrap.css
   *= jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css
@@ -28,7 +29,7 @@
 */
 
 /* Customizing theme*/
-@import 'pages/css/themes/corporate.css';
+
 
 .page-sidebar {
   padding: 0.8em;
