@@ -753,16 +753,23 @@ class ApplicationController < ActionController::Base
 
     (matrix.length).times do |i|
 
-      calculo = -((((matrix[i] - prod_obj) * staff[i]) / prod_obj)).round 
+      if matrix[i] == 0
 
-      if calculo >= 0
-        exceso += calculo
-      else
-        faltante += calculo
+        calculo = 0
+
+      else        
+        calculo = -((((matrix[i] - prod_obj) * staff[i]) / prod_obj)).round 
+
+        if calculo >= 0
+          exceso += calculo
+        else
+          faltante += calculo
+        end
+
       end
 
       matrixSet << calculo 
-    
+
     end
 
     data = {:exceso => exceso, :faltante => -faltante, :matrixSet => matrixSet }

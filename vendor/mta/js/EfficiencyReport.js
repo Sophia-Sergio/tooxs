@@ -14,7 +14,8 @@ if ($("#efficiency_report").length > 0)
   }
 
   console.log('init productivity_demo');
-  var month = getQueryVariable('month');
+  var month_init = getQueryVariable('month_init');
+  var month_fin = getQueryVariable('month_fin');
   var year = getQueryVariable('year');
   var store = getQueryVariable('store');
   var department = getQueryVariable('department');
@@ -29,7 +30,7 @@ if ($("#efficiency_report").length > 0)
     { 
       type: "get",
       url: "/efficiency/report",
-      data: 'month='+month+'&year='+year+'&store='+store+'&department='+department,
+      data: 'month_init='+month_init+'&month_fin='+month_fin+'&year='+year+'&store='+store+'&department='+department,
       dataType: 'json',
       success: function(data)
       { 
