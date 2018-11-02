@@ -96,24 +96,7 @@ class DashboardController < ApplicationController
 	end
 
 	def sale_real_per_seller(seller,year,month)
-    @department_id = seller.department.id
-    SaleBySeller.where(month: month, seller: seller.id, department: @department_id, year: year).sum("sale")
-  end
-
-
-  def matrix_calc (prod_obj, matrix, staff)
-    exceso = 0
-    faltante = 0
-    matrixSet = []
-    (matrix.length).times do |i|
-      calculo = -((((matrix[i] - prod_obj) * staff[i]) / prod_obj)).round
-      if calculo >= 0
-        exceso += calculo
-      else
-        faltante += calculo
-      end
-      matrixSet << calculo
-    end
-    { exceso: exceso, faltante: -faltante, matrixSet: matrixSet }
+      @dep   = seller.department.id  
+      SaleBySeller.where(month: month, seller: seller.id, department: @dep, year: year).sum("sale")
   end
 end

@@ -135,5 +135,4 @@ class EfficiencyController < ApplicationController
             data = { :fecha => date_month, :prod_w_real => prod_w_real,  :prod_w_op => prod_w_op }
         end
     end
-
 end
