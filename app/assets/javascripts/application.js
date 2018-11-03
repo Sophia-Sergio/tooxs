@@ -54,6 +54,7 @@
 
 //= require js/calendar.js
 //= require js/scripts.js
+//= require js/chart.min.js
 // require js/mta-components_init.js
 //= require mta/js/Cerebro.js
 //= require mta/js/mta-custom.js
