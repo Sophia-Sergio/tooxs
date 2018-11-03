@@ -211,13 +211,9 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 				}
 			}
 		};
+    window.onload = function(){
+    console.log('asas')
 
-		window.onload = function() {
-			var ctx1 = document.getElementById('chart-area1').getContext('2d');
-			window.myPie1 = new Chart(ctx1, config1);
-			var ctx2 = document.getElementById('chart-area2').getContext('2d');
-			window.myPie2 = new Chart(ctx2, config2);
-		};
+    }
 
-		var colorNames = Object.keys(window.chartColors);
 </script>
