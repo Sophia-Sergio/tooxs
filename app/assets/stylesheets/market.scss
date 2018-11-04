@@ -1,27 +1,16 @@
-h1{
-    color: 353e4f;
-    font-size: 3rem;
-    font-weight: bold;
-    margin-left: 1.2vw;
-    margin-top: -2.1vh;
-    padding-bottom: 3.2vh;
-    border-bottom: solid 1px grey;
-    
-}
+.first__container{
 
 
 #combobox{
 
-    display: flex;
-    background-color: #FFFFFF;
-    margin: 1vw;
-    position: relative;
-    float: left;
-    max-width: 100%;
-    height: 5vh;
-    border: #FFFFFF;
-    border-radius: 0;
+.search{
 
+    margin-top: 2vh;
+    margin-bottom: 1vh;
+
+}
+.search__box{
+    width: 100%;
 }
 
 .chart{
@@ -33,29 +22,51 @@ h1{
     
 
 }
+.charts__chartbox{
 
-.chart__box{
-
-    float: left;
-    width: 500px;
-    border-radius: 5px;
-    padding-bottom: 20px;
-    align-content: space-around;
-    
-    
-  
+    padding-top: 3vh;
+    padding-bottom: 2vh;
+    border: solid 3px #f0f0f0;
+    box-sizing: border-box;
+    border-radius: 10px;
+   
 }
 
+.buttonbox{
 
-
-.chart__tittle{
-
-    text-align: center;
-    margin-top: 6vh;
+    margin-bottom: 1vh;
+    
 }
 
-.chart__description{
+.buttonbox__button{
+
+    background-color:#f0f0f0;
+    border-radius: 10px;
+}
+
+.buttonbox__options{
+
+    margin-top: 1.5vh;
+    font-size: 1.5rem;
+    color: grey;
+
+}
+
+.tables__tittle{
+    
+    margin-top: 3vh;
     text-align: center;
+    font-weight: bold;
+    font-size: 1.8em;
+    color: grey;
+}
+
+.table__subtittle{
+    
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3em;
+    color: grey;
 }
 
 // .chart__drawing{
@@ -76,13 +87,6 @@ h1{
 
 }
 
-.data__productivity{
-    
-    float: left;
-    width: 100vw;
-    border-radius: 5px;
-    
-}
 
 .data__turns{
 

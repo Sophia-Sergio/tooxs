@@ -45,5 +45,35 @@ window.onload = function() {
         }
       }
     });
-  }
+
+    $(document).ready(function(){
+	    $('#search').select2();
+});
+
+
 };
+
+ 
+  // new Chart(document.getElementById("myChart3"), {
+    //     type: 'horizontalBar',
+    //     data: {
+    //       labels: ["Africa",],
+    //       datasets: [
+    //         {
+    //           label: "Turnos",
+    //           backgroundColor: ["#3e95cd",],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false },
+    //       title: {
+    //         display: true,
+    //         text: 'Turnos Cubiertos'
+    //       }
+    //     }
+    // });
+
+    
+    

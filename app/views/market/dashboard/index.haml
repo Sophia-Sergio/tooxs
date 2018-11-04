@@ -1,149 +1,283 @@
-
-%div.title.container__fluid.col-lg-12
+%div.first__container.container__fluid.col-lg-12.card
   %div.row
-    %h1 Dashboard
 
-%div.container__fluid.col-lg-12
-  %div.row
-    %form
-      %select#combobox
-        %option(value="store")
-          %p Alto Las Condes
-        %option(value="store")
-          %p Parque Arauco
-        %option(value="store")
-          %p Costanera Center
-      %select#combobox
-        %option(value="deparment")
-          %p Juvenil Mujer
-        %option(value="deparment")
-          %p Juvenil Hombre
-        %option(value="deparment")
-          %p Juvenil Niño
-      %select#combobox
-        %option(value="date")
-          %p Octubre 2018
-        %option(value="date")
-          %p Noviembre 2018
-        %option(value="date")
-          %p Diciembre 2018
+    %div.search.container__fluid.select.col-lg-12
+      %select#search.search__box.col-lg-5
+        %option.search__item Supermercado 1
+        %option.search__item Supermercado 2
+        %option.search__item supermercado 3
+        %option.search__item supermercado 4
 
-%div.chart.container__fluid.col-lg-12
+    %div.charts.container__fluid.col-lg-12
+      %div.row
+        %div.charts__chartbox.col-lg-6.card
+          %canvas#myChart1   
+        %div.charts__chartbox.col-lg-6.card
+          %canvas#myChart2
+
+%div.buttonbox.container__fluid
+  %button.buttonbox__button.col-lg-12
+    %p.buttonbox__options Ampliar / Contraer
+
+%div.second__container.container__fluid.col-lg-12.card
   %div.row
-    %chart1.chart__box.col-lg-6.card 
-      %h2.chart__tittle Cumplimiento del plan
-      -# %p.chart__description Description
-      %canvas#myChart1
-    %chart2.chart__box.col-lg-6.card 
-      %h2.chart__tittle Eficiencia
-      -# %p.chart__description Description
-      %canvas#myChart2
-%div
-  %button
-    %p contraer
+    %div.tables.col-lg-12
+      %h1.tables__tittle Planificación de Dotación
     
+    %div.table.col-lg-4
+      %h3.table__subtittle Reponedores
+      %table.table.table-striped
+        %thead
+          %th ID
+          %th Turno
+        %tbody
+          %tr
+            %td 1
+            %td TURNO 1 DE 45 HORAS
+          %tr
+            %td 2
+            %td TURNO 2 DE 45 HORAS
+          %tr
+            %td 3
+            %td TURNO 3 DE 45 HORAS
+          %tr
+            %td 4
+            %td TURNO 4 DE 45 HORAS
+          %tr
+            %td 5
+            %td TURNO 1 DE 36 HORAS
+          %tr
+            %td 6
+            %td TURNO 2 DE 36 HORAS
+          %tr
+            %td 7
+            %td TURNO 3 DE 36 HORAS
+          %tr
+            %td 8
+            %td TURNO 4 DE 36 HORAS
+          %tr
+            %td 9
+            %td TURNO 1 DE 24 HORAS
+          %tr
+            %td 10
+            %td TURNO SA / DO
+          %tr
+            %td 11
+            %td TURNO 1 TARDE
+          %tr
+            %td 12
+            %td TURNO 2 TARDE
+          %tr
+            %td Total
+            %td
+          %tr
+            %td Eficiencia
+            %td
+          %tr
+            %td HH Totales
+            %td
+      %div
+        %table.table-striped
+          %thead
+            %td Productividad Real
+            %td
+          %tbody
+            %td Productividad Objetivo
+            %td
 
-%div.data.container__fluid.col-lg-5
-  %div.row
-    %data.data__productivity.col-lg-11.card
-      %h2.data__productivity--tittle Productividad Real
-      %p.data__productivity--money $0.000.000
-      %p.data__productivity--description Productividad Objetivo $000.000
+    %div.table.col-lg-3
+      %h3.table__subtittle Bebidas
+      %table.table.table-striped
+        %thead
+          %th Actual
+          %th Optimizada
+        %tbody
+          %tr
+            %td 1
+            %td 1
+          %tr
+            %td 2
+            %td 1
+          %tr
+            %td 2
+            %td 1
+          %tr
+            %td 1
+            %td 2
+          %tr
+            %td 1
+            %td 2
+          %tr
+            %td 1
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 2
+            %td 7
+          %tr
+            %td 0
+            %td 3
+          %tr
+            %td 0
+            %td 1
+          %tr
+            %td 10
+            %td 18
+          %tr
+            %td 57.3%
+            %td 77.3%
+          %tr
+            %td 1.543
+            %td 2.327
+      %div
+        %table.table-striped
+          %thead
+            %td XXX Un/hora
+            %td
+          %tbody
+            %td YYY Un/hora
+            %td    
+      %p Turnos cubiertos
+      %div.progress
+        %div.progress-bar{style: 'width: 50%', role: 'progressbar', aria: {valuenow: '90', valuemin:'0', valuemax: "100"} } 7 de 18
     
-    %data.data__turns.col-lg-11.card
-      %h2.data__turns--shiftCovered Turno
-      %canvas.data__turns--bar
-      %canvas.data__turns--positivecolor
-      %p.data__turns--total 7/18
-    %data.data__plannig.col-lg-11.card
-      %table
-        %th Turno
-        %th Actual
-        %th Optimizado
-        %tr
-          %td Turno 1
-          %td Turno 1 de 45HRS
-          %td 1
-        %tr
-          %td Turno 2
-          %td Turno 2 de 45HRS
-          %td 1
-        %tr
-          %td Turno 3
-          %td Turno 3 de 45HRS
-          %td 1
-        %tr
-          %td Turno 4
-          %td Turno 4 de 45HRS
-          %td 2
-        %tr
-          %td Turno 5
-          %td Turno 1 de 36HRS
-          %td 2 
-        %tr
-          %td Turno 6
-          %td Turno 2 de 36HRS
-          %td 0
-        %tr
-          %td Turno 7
-          %td Turno 3 de 36HRS
-          %td 0
-        %tr
-          %td Turno 8
-          %td Turno 4 de 36HRS
-          %td 0
-        %tr
-          %td Turno 9
-          %td Turno 1 de 24HRS
-          %td 0
-        %tr
-          %td Turno 10
-          %td Turno Sabado-Domingo
-          %td 7
-        %tr
-          %td Turno 11
-          %td Turno 1 Tarde
-          %td 3 
-        %tr
-          %td Turno 12
-          %td Turno 2 Tarde
-          %td 1
-        %tr
-          %td Total
-          %td 10
-          %td 18
-        %tr
-          %td Eficiencia dotacion
-          %td 57.3%
-          %td 77.3%
-        %tr
-          %td HH Total
-          %td 1,543
-          %td 2,327
-%div.col-lg-6.card
-  %div.row
-    %data.data2__fulfillment.col-lg-12
-      %h2.data__productivity--tittle Productividad Real
-      %p.data__productivity--money $0.000.000
-      %p.data__productivity--description Productividad Objetivo $9900.000
-      %h2.data__productivity--tittle Productividad Real
-      %p.data__productivity--money $0.000.000
-      %p.data__productivity--description Productividad Objetivo $9900.000
-      %h2.data__productivity--tittle Productividad Real
-      %p.data__productivity--money $0.000.000
-      %p.data__productivity--description Productividad Objetivo $9900.000
-      %h2.data__productivity--tittle Productividad Real
-      %p.data__productivity--money $0.000.000
-      %p.data__productivity--description Productividad Objetivo $9900.000
-      %p.data__productivity--description Productividad Objetivo $9900.000
-      %h2.data__productivity--tittle Productividad Real
-      %p.data__productivity--money $0.000.000
-      %p.data__productivity--description Productividad Objetivo $9900.000
-      %p.data__productivity--description Productividad Objetivo $9900.000
-
-%div.container__fluid.col-lg-12
-  %div.row
-    %canvas#myChart 
+    %div.table.col-lg-2
+      %h3.table__subtittle Frutas y Verduras
+      %table.table.table-striped
+        %thead
+          %th Actual
+          %th Optimizada
+        %tbody
+          %tr
+            %td 1
+            %td 1
+          %tr
+            %td 2
+            %td 1
+          %tr
+            %td 2
+            %td 1
+          %tr
+            %td 1
+            %td 2
+          %tr
+            %td 1
+            %td 2
+          %tr
+            %td 1
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 2
+            %td 7
+          %tr
+            %td 0
+            %td 3
+          %tr
+            %td 0
+            %td 1
+          %tr
+            %td 10
+            %td 18
+          %tr
+            %td 57.3%
+            %td 77.3%
+          %tr
+            %td 1.543
+            %td 2.327
+        %div
+        %table.table-striped
+          %thead
+            %td ZZZ Un/hora
+            %td
+          %tbody
+            %td TTT Un/hora
+            %td    
+      %p Turnos cubiertos
+      %div.progress
+        %div.progress-bar{style: 'width: 50%', role: 'progressbar', aria: {valuenow: '40', valuemin:'0', valuemax: "100"} } 7 de 18
+    
+    %div.table.col-lg-2
+      %h3.table__subtittle Abarrotes
+      %table.table.table-striped
+        %thead
+          %th Actual
+          %th Optimizada
+        %tbody
+          %tr
+            %td 1
+            %td 1
+          %tr
+            %td 2
+            %td 1
+          %tr
+            %td 2
+            %td 1
+          %tr
+            %td 1
+            %td 2
+          %tr
+            %td 1
+            %td 2
+          %tr
+            %td 1
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 0
+            %td 0
+          %tr
+            %td 2
+            %td 7
+          %tr
+            %td 0
+            %td 3
+          %tr
+            %td 0
+            %td 1
+          %tr
+            %td 10
+            %td 18
+          %tr
+            %td 57.3%
+            %td 77.3%
+          %tr
+            %td 1.543
+            %td 2.327
+        %div
+        %table.table-striped
+          %thead
+            %td RRR Un/hora
+            %td
+          %tbody
+            %td PPP Un/hora
+            %td    
+      %p Turnos Cubiertos
+      %div.progress
+        %div.progress-bar{style: 'width: 50%', role: 'progressbar', aria: {valuenow: '40', valuemin:'0', valuemax: "100"} } 7 de 18
   
 
-
+          
+          
+        
