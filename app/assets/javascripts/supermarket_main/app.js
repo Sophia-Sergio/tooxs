@@ -1,4 +1,8 @@
 window.onload = function() {
+  $('#sale_plans').DataTable();
+  $('#historic_sales').DataTable();
+  $('#tabla-colaboradores').dataTable( { "pageLength": 20 } );
+  $('#seller-table').DataTable();
 
   if($('#chart-area1').length > 0) {
     var ctx1 = document.getElementById('chart-area1').getContext('2d');
@@ -15,7 +19,7 @@ window.onload = function() {
       labels: ["76.6% de cumplimiento"],
       datasets: [{
           label: "cumplimiento",
-          backgroundColor: ["#6b6ef9","#c8c7cd"],
+          backgroundColor: ['rgb(54, 162, 235)','rgb(201, 203, 207)'],
           data: [1500,433]
       }]
       },
@@ -34,7 +38,7 @@ window.onload = function() {
       labels: ["67.02% Productividad objetiva xxx unidades/hora"],
       datasets: [{
           label: "unidades",
-          backgroundColor: ["#ff0076","#c8c7cd"],
+          backgroundColor: ['rgb(255, 99, 132)','rgb(201, 203, 207)'],
           data: [784,433]
       }]
       },

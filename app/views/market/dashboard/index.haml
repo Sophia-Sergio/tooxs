@@ -1,25 +1,14 @@
 %div.first__container.container__fluid.col-lg-12.card
   %div.row
 
-    %div.search.container__fluid.select.col-lg-12
-      %select#search.search__box.col-lg-5
-        %option.search__item Supermercado 1
-        %option.search__item Supermercado 2
-        %option.search__item supermercado 3
-        %option.search__item supermercado 4
+  %div.charts.container__fluid.col-lg-12
+    %div.row
+      %div.generalChart.generalChart--left.col-lg-6.card
+        %canvas#myChart1
+      %div.generalChart.generalChart--right.col-lg-6.card
+        %canvas#myChart2
 
-    %div.charts.container__fluid.col-lg-12
-      %div.row
-        %div.charts__chartbox.col-lg-6.card
-          %canvas#myChart1   
-        %div.charts__chartbox.col-lg-6.card
-          %canvas#myChart2
-
-%div.buttonbox.container__fluid
-  %button.buttonbox__button.col-lg-12
-    %p.buttonbox__options Ampliar / Contraer
-
-%div.second__container.container__fluid.col-lg-12.card
+%div#principalTable.container__fluid.col-lg-12.card.tables
   %div.row
     %div.tables.col-lg-12
       %h1.tables__tittle Planificación de Dotación
