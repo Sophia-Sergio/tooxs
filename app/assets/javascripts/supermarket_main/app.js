@@ -35,18 +35,14 @@ window.onload = function() {
         }
     });
 
-    $(document).ready(function()
-        {$('#buscador').select2();
-    });
+    $(document).ready(function(){
+	    $('#search').select2();
+});
 
-    $('#buttonToggle').click(function(evt)
-        {$("#principalTable").toggleClass('.tableOut');
-    });
-        
 
-    
-  };
+};
 
+ 
   // new Chart(document.getElementById("myChart3"), {
     //     type: 'horizontalBar',
     //     data: {
