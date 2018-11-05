@@ -1,4 +1,5 @@
 %div.container-fluid
+  = render 'shared/filter_parameters/filter_2', filter: market_parameters
   %div.row.text-center
     %div.col-md-6
       %div.chart-dashboard
@@ -69,14 +70,14 @@
                 %tr
                   %td.clean-background.text--left Productividad Objetivo
                 %tr
-                  %td.clean-background.text--left.no-border Turno Cubiertos
+                  %td.clean-background.text--left.no-border Turnos Cubiertos
         %div.tables__rigth.col-md-8
+          %div.col-md-4
+            %h3.table__title Abarrotes
+            = render 'table'
           %div.col-md-4
             %h3.table__title Bebidas
             = render 'table'
           %div.col-md-4
             %h3.table__title Frutas y Verduras
-            = render 'table'
-          %div.col-md-4
-            %h3.table__title Abarrotes
             = render 'table'
