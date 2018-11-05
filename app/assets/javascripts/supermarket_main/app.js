@@ -4,6 +4,25 @@ window.onload = function() {
   $('#tabla-colaboradores').dataTable( { "pageLength": 20 } );
   $('#seller-table').DataTable();
 
+
+  $.fn.datepicker.dates['es'] = {
+    days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Vienes", "Sábado"],
+    daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+    months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+    monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+    today: "Hoy",
+    clear: "Limpiar",
+    format: "dd/mm/yyyy",
+    titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+    weekStart: 1
+  };
+
+  $('.date').datepicker({
+    language: 'es',
+    autoclose: true,
+  });
+
   if($('#chart-area1').length > 0) {
     var ctx1 = document.getElementById('chart-area1').getContext('2d');
     window.myPie1 = new Chart(ctx1, config1);

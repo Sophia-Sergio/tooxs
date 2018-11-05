@@ -40,22 +40,14 @@
 //= require plugins/classie/classie.js
 //= require plugins/switchery/js/switchery.js
 
-// require plugins/nvd3/lib/d3.v3.js
-// require plugins/nvd3/nv.d3.min.js
-// require plugins/nvd3/src/utils.js
-// require plugins/nvd3/src/tooltip.js
-// require plugins/nvd3/src/interactiveLayer.js
-// require plugins/nvd3/src/models/axis.js
-// require plugins/nvd3/src/models/line.js
-// require plugins/nvd3/src/models/lineWithFocusChart.js
-
 //= require pages/js/pages.js
 //= require pages/js/pages.calendar.js
+
+//= require js/bootstrap-datepicker.min
 
 //= require js/calendar.js
 //= require js/scripts.js
 //= require js/chart.min.js
-// require js/mta-components_init.js
 //= require mta/js/Cerebro.js
 //= require mta/js/mta-custom.js
 //= require mta/js/api.js
