@@ -16,10 +16,19 @@ module ApplicationHelper
     }.map(&:reverse).first(month)
   end
 
-  def filter_1
+  def retail_parameters
     {
       stores: Store.all.pluck(:name, :id),
       departments: MasterDepartment.all.pluck(:name, :id),
+      years: (2016..2018),
+      months: months_until(7)
+    }
+  end
+
+  def market_parameters
+    {
+      stores: [['Supermercado 1', 1], ['Supermercado 2', 2], ['Supermercado 3', 3]],
+      departments: [['Abarrotes', 1], ['Bebidas', 2], ['Frutas y Verduras', 3]],
       years: (2016..2018),
       months: months_until(7)
     }

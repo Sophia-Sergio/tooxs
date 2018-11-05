@@ -24,6 +24,9 @@
   *= require pages/css/pages-icons.css
   *= require mta/css/mta-custom.css
   *= require mta/css/jquery.dataTables.min.css
+
+  *= require css/bootstrap-datepicker.min
+
   *= require_tree .
   *= require_self
 */
@@ -62,4 +65,10 @@
   font-size: 13px;
   bottom: -2px;
   right: 11px;
+}
+.row{
+  &--right{
+    display: flex;
+    justify-content: flex-end;
+  }
 }
