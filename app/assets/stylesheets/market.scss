@@ -1,117 +1,64 @@
-.first__container{
+$black: #353e4f;
+$grey: #5d6a80;
+$grey-borders: #dce3e6;
 
-
-#combobox{
-
-.search{
-
-    margin-top: 2vh;
-    margin-bottom: 1vh;
-
+.box {
+  margin-top: 1em;
+  background: white;
+  border: 1px solid $grey-borders;
+  padding: 1em;
+  border-radius: 0.5em;
 }
-.search__box{
-    width: 100%;
+.search {
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+  &__box { width: 100%; }
 }
-
-.chart{
-
-   
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    
-
-}
-.charts__chartbox{
-
+.charts {
+  margin-top: 1vh;
+  &__chartbox {
     padding-top: 3vh;
     padding-bottom: 2vh;
-    border: solid 3px #f0f0f0;
+    border: solid 3px $grey-borders;
     box-sizing: border-box;
     border-radius: 10px;
-   
+  }
 }
-
-.buttonbox{
-
-    margin-bottom: 1vh;
-    
-}
-
-.buttonbox__button{
-
-    background-color:#f0f0f0;
-    border-radius: 10px;
-}
-
-.buttonbox__options{
-
-    margin-top: 1.5vh;
-    font-size: 1.5rem;
-    color: grey;
-
-}
-
-.tables__tittle{
-    
+.tables {
+  text-align: center;
+  &__title {
+    color: $black;
     margin-top: 3vh;
-    text-align: center;
     font-weight: bold;
     font-size: 1.8em;
-    color: grey;
-}
-
-.table__subtittle{
-    
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.3em;
-    color: grey;
-}
-
-// .chart__drawing{
-    
-//     margin-left: calc(50% - 13vw/2);
-//     width: 13vw;
-//     height: 13vw;
-//     background-color: green;
-//     border-radius: 50%;
-
-// }
-
-.data{
-
-    padding: 0;
-    margin: 0;
-    float: left;
-
-}
-
-
-.data__turns{
-
-    border-radius: 2.5%;
- 
-}
-
-.data__turns--positivecolor{
-    
-    width: 3vw;
-    
-}
-
-.data__turns--bar{
-   
-    height: 4vh;
-    background-color: green;
-    border-radius: 5px;
-   
-}
-
-.data__fulfillment{
-    
-    width: 100vw;
-    border-radius: 5px;
-    
-    
+  }
+  &__container { display: flex; }
+  .table{
+    &__title {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: $black;
+    }
+    &__subtitle {
+      color:$grey;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+    td.clean-background { background-color: #fff; }
+    td.text--left{ text-align: left; }
+    td.no-border { border-bottom: 0; }
+    .progress {
+      margin-bottom: 0;
+      .progress-bar {
+        span {
+          color: $grey;
+          font-size: 16px;
+          line-height: 25px;
+          letter-spacing: 1px;
+        }
+      }
+    }
+  }
+  &__rigth{ display: flex; }
 }

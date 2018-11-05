@@ -12,8 +12,8 @@ window.onload = function() {
     var ctx2 = document.getElementById('chart-area2').getContext('2d');
     window.myPie2 = new Chart(ctx2, config2);
   }
-  if($('#myChart1').length > 0){
-    new Chart(document.getElementById("myChart1").getContext('2d'), {
+  if($('#market-plan-compliance').length > 0){
+    new Chart(document.getElementById("market-plan-compliance").getContext('2d'), {
       type: 'pie',
       data: {
       labels: ["76.6% de cumplimiento"],
@@ -24,18 +24,15 @@ window.onload = function() {
       }]
       },
       options: {
-      title: {
-          display: true,
-          text: 'Cumplimiento de plan'
-        }
+        responsive: true
       }
     });
   }
-  if($('#myChart2').length > 0){
-    new Chart(document.getElementById("myChart2").getContext('2d'), {
+  if($('#market-efficiency').length > 0){
+    new Chart(document.getElementById("market-efficiency").getContext('2d'), {
       type: 'pie',
       data: {
-      labels: ["67.02% Productividad objetiva xxx unidades/hora"],
+      labels: ["67.02% de Eficiencia (Productividad objetivo 584 unidades/hora)"],
       datasets: [{
           label: "unidades",
           backgroundColor: ['rgb(255, 99, 132)','rgb(201, 203, 207)'],
@@ -43,41 +40,8 @@ window.onload = function() {
       }]
       },
       options: {
-      title: {
-          display: true,
-          text: 'Eficiencia'
-        }
+        responsive: true
       }
     });
-
-    $(document).ready(function(){
-	    $('#search').select2();
-});
-
-
+  }
 };
-
- 
-  // new Chart(document.getElementById("myChart3"), {
-    //     type: 'horizontalBar',
-    //     data: {
-    //       labels: ["Africa",],
-    //       datasets: [
-    //         {
-    //           label: "Turnos",
-    //           backgroundColor: ["#3e95cd",],
-    //           data: [2478,5267,734,784,433]
-    //         }
-    //       ]
-    //     },
-    //     options: {
-    //       legend: { display: false },
-    //       title: {
-    //         display: true,
-    //         text: 'Turnos Cubiertos'
-    //       }
-    //     }
-    // });
-
-    
-    

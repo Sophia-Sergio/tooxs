@@ -8745,7 +8745,7 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
   background: #fdf5df !important;
 }
 .table.table-striped tbody tr td {
-  background: #f0f0f0 !important;
+  background: #f0f0f0;
 }
 .table.table-striped tbody tr:nth-child(2n+1) td {
   background: #fff !important;
