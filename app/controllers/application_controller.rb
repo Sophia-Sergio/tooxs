@@ -732,4 +732,35 @@ class ApplicationController < ActionController::Base
       turnosOpId:        turnosOpId
     }
   end
+
+  def matrix_calc (prod_obj, matrix, staff)
+    exceso = 0
+    faltante = 0
+    matrixSet = []
+
+    (matrix.length).times do |i|
+
+      if matrix[i] == 0
+
+        calculo = 0
+
+      else        
+        calculo = -((((matrix[i] - prod_obj) * staff[i]) / prod_obj)).round 
+
+        if calculo >= 0
+          exceso += calculo
+        else
+          faltante += calculo
+        end
+
+      end
+
+      matrixSet << calculo 
+
+    end
+
+    data = {:exceso => exceso, :faltante => -faltante, :matrixSet => matrixSet }
+    
+    return data
+  end
 end
