@@ -1,0 +1,99 @@
+%div{:class => "pantalla-seccion d-flex justify-content-between mb-2"}
+  %div.align-self-end
+    %div{:class => "titulo-pantalla"} Dashboard Sodimac
+.row
+  .col-md-6
+    %div{:class => "dashoboard-sodimac__cumplimiento"}
+      %h3 Cumplimiento de eficiencia
+      %table{:class => "table"}
+        %thead
+          %tr
+            %th Departamento
+            %th Eficiencia
+        %tbody
+          %tr.table-handle
+            %td Electro hogar
+            %td 40%
+          %tr.table-handle
+            %td Muebles y decoración
+            %td 60%
+          %tr.table-handle
+            %td Piso y revestimiento
+            %td 54%
+      %table{:class => "table"}
+        %thead
+          %tr
+            %th Cajas
+            %th Eficiencia
+        %tbody
+          %tr
+            %td 1
+            %td 40%
+          %tr
+            %td 2
+            %td 60%
+          %tr
+            %td 3
+            %td 54%
+          %tr
+            %td 4
+            %td 80%
+  .col-md-6
+    %div{:class => "dashoboard-sodimac__cumplimiento"}
+      .dashoboard-sodimac__cumplimiento__turnos-cubiertos
+        %h3 Turnos cubiertos en tienda
+        .progress
+          %div{:class => "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
+      .dashoboard-sodimac__cumplimiento__detalle
+        %h3.dashoboard-sodimac__cumplimiento__detalle-title Detalle personas Junio
+        %table{:class => "table table-details"}
+          %thead
+            %tr
+              %th Departamento
+              %th Colaborador
+              %th Turno
+          %tbody{:id => "table-details"}
+            %tr
+              %td John
+              %td Doe
+              %td Doe
+            %tr
+              %td Mary
+              %td Moe
+              %td Moe
+            %tr
+              %td July
+              %td Dooley
+              %td Dooley
+:javascript
+  /*
+  (function($){
+    $('.table-details').DataTable()
+  })( jQuery );
+  */
+  let tableBody = document.getElementById('table-details')
+  const getDetail = e => {
+    let targetEl = e.target || e.srcElement
+    let detailTitle = targetEl.textContent || targetEl.innerText
+    console.log(this)
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then((response) => response.json())
+    .then((data) => {
+      output = ''
+      data.forEach(detail => {
+        output += `
+          <tr>
+            <td>${detail.id}</td>
+            <td>${detail.name}</td>
+            <td>${detail.email}</td>
+          </tr>
+        `
+      })
+      document.querySelector('.dashoboard-sodimac__cumplimiento__detalle-title').textContent = detailTitle
+      tableBody.innerHTML = output
+    })
+  }
+  tableHanlde = document.querySelectorAll('.table-handle')
+  for (var i = 0; i < tableHanlde.length; i++) {
+    tableHanlde[i].addEventListener('click', getDetail)
+  }
