@@ -5,5 +5,7 @@ module Market
   # Main dashboard controller
   class DashboardController < ApplicationController
     def index() end
+
+    def production() end
   end
 end
