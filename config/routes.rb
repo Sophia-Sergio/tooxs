@@ -24,7 +24,11 @@ Rails.application.routes.draw do
     get 'dashboard/production'
   end
 
-  get 'efficiency/index'
+  namespace :sodimac do
+    get 'dashboard/index'
+  end
+
+  get 'efficiency/index'  
   get 'staff_request/show'
   get 'staff_request/index'
   post 'staff_request/request_send'
