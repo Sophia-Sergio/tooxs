@@ -6,7 +6,7 @@
     border: 1px solid #dce3e6;
     margin-top: 2em;
     padding: 3em 2em 2em 2em;
-    
+
     h3 {
       font-size: 1.5em;
       font-weight: bold;
@@ -37,8 +37,11 @@
       }
 
       &.table-details {
+        display: table !important;
+        width: 100%;
 
-        thead {  
+        thead {
+          width: 100%;
           tr {
             th {
               width: auto;
@@ -47,8 +50,9 @@
         }
 
         tbody {
+          width: 100%;
           tr {
-            cursor: auto;  
+            cursor: auto;
             &:hover {
               td {
                 background-color: white;
