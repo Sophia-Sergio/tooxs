@@ -143,6 +143,7 @@ Rails.application.routes.draw do
       get 'import_form'
       post 'import'
       get 'calendar_shift'
+      get 'staffing_store'
     end
     resources :assigned_shift, only: [:show], param: :num
   end

@@ -3188,7 +3188,7 @@ hr.dotted {
   font-size: 11px;
   line-height: 1;
   text-shadow: none;
-  background-color: #e1e1e1;
+  /* background-color: #e1e1e1; */
   font-weight: 600;
   color: #a0adc4;
   border-radius: .25em;
@@ -14616,9 +14616,9 @@ Main components
 }
 
 .label{
+  line-height: 18px;
   padding: 0px 10px;
   font-size: 16px;
-  line-height: 1;
   text-shadow: none;
   background-color: #e1e1e1;
   font-weight: 600;
@@ -14633,6 +14633,28 @@ Main components
   font-size: 16px;
   color: #FFFFFF;
   padding: 0 10px;
+}
+
+.label-warning {
+  background-color: #f7cf5f;
+  color: #fff;
+}
+.label-important,
+.label-danger {
+  background-color: #f35958;
+  color: #fff;
+}
+.label-info {
+  background-color: #37b0e9;
+  color: #fff;
+}
+.label-inverse {
+  background-color: #2d8fbd;
+  color: #fff;
+}
+.label-white {
+  background-color: #fff;
+  color: #a0adc4;
 }
 
 .btn-primary
