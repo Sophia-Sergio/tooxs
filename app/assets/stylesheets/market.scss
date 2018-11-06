@@ -3,6 +3,7 @@ $grey: #5d6a80;
 $grey-borders: #dce3e6;
 
 .box {
+  overflow: hidden;
   margin-top: 1em;
   background: white;
   border: 1px solid $grey-borders;
@@ -60,5 +61,26 @@ $grey-borders: #dce3e6;
       }
     }
   }
-  &__rigth{ display: flex; }
+  &__right{ display: flex; }
+}
+@media screen and (max-width: 1680px) {
+  .tables {
+    &__right{
+      padding-left: 0px;
+    }
+    .table{
+      &__title {font-size: 1.2em; }
+      &__subtitle{
+        max-width: 85px;
+        overflow: hidden;
+        font-size: 0.8em;
+      }
+    }
+    td {
+      font-size: 15px !important;
+    }
+    .col-md-4{
+      padding-left: 0px;
+    }
+  }
 }
