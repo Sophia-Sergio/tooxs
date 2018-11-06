@@ -17,13 +17,14 @@ Rails.application.routes.draw do
     end
   end
   get '/efficiency/report'
-  get 'efficiency/index'  
+  get 'efficiency/index'
 
   namespace :market do
     get 'dashboard/index'
+    get 'dashboard/production'
   end
 
-  get 'efficiency/index'  
+  get 'efficiency/index'
   get 'staff_request/show'
   get 'staff_request/index'
   post 'staff_request/request_send'
