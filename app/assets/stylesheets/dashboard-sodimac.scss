@@ -1,0 +1,108 @@
+.dashoboard-sodimac {
+
+  &__cumplimiento {
+    background-color: white;
+    border-radius: 0.5em;
+    border: 1px solid #dce3e6;
+    margin-top: 2em;
+    padding: 3em 2em 2em 2em;
+    
+    h3 {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin: 0 0 20px 0;
+    }
+
+    &__turnos-cubiertos {
+
+      .progress {
+        background-color: #dfffc9;
+        border: none;
+        border-radius: 12.5px;
+        height: auto;
+
+        .progress-bar {
+          background-color: #65ff00;
+          height: 25px;
+        }
+      }
+
+    }
+
+    table {
+      font-size: 12px;
+
+      + table {
+        margin-top: 2em;
+      }
+
+      &.table-details {
+
+        thead {  
+          tr {
+            th {
+              width: auto;
+            }
+          }
+        }
+
+        tbody {
+          tr {
+            cursor: auto;  
+            &:hover {
+              td {
+                background-color: white;
+                color: black;
+              }
+            }
+          }
+        }
+
+      }
+
+      thead {
+        text-transform: uppercase;
+
+        tr {
+
+          th {
+            width: 50%;
+            word-wrap: break-word;
+          }
+
+        }
+
+      }
+
+      tbody {
+
+        tr {
+          cursor: pointer;
+          transition: all .2s ease-in-out;
+
+          &:nth-of-type(even) {
+            td {
+              background-color: #f0f0f0;
+            }
+          }
+
+          &:hover {
+            td {
+              background-color: #353E4F;
+              color: white;
+            }
+          }
+
+          td {
+            transition: all .2s ease-in-out;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
