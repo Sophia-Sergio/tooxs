@@ -28,8 +28,8 @@ module ApplicationHelper
   def market_parameters
     {
       stores: [['Supermercado 1', 1], ['Supermercado 2', 2], ['Supermercado 3', 3]],
-      departments: [['Abarrotes', 1], ['Bebidas', 2], ['Frutas y Verduras', 3]],
-      production_departments: [['Carnes', 1], ['Fiambrería y Quesos', 2], ['Pescados y Mariscos', 3]],
+      departments: [['Todos', 1], ['Abarrotes', 2], ['Bebidas', 2], ['Frutas y Verduras', 3]],
+      production_departments: [['Todos', 1 ], ['Carnes', 2], ['Fiambrería y Quesos', 3], ['Pescados y Mariscos', 4]],
       years: (2016..2018),
       months: months_until(7)
     }
