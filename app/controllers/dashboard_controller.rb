@@ -6,13 +6,16 @@ class DashboardController < ApplicationController
     @store = demo_data[:store]
     @department  = demo_data[:department]
     @search      = demo_data[:search]
-    @stores      = Store.where(id: demo_data[:store]).order(:id)
-    @departments = Department.where(id: demo_data[:department]).order(:id)
+    @stores      = Store.where(id: demo_data[:store])
+    @departments = Department.where(id: demo_data[:department])
     @year  = Date.today.year
     # dayNow = day_now_charged
     turnos = Array.new(12, 0)
 
     dataCase = DataCase.where(dep_num: demo_data[:department], month: @month).first
+
+    binding.pry
+
     summaryCaseOut = SummaryCase.where(id_case: dataCase.id_case, type_io: 'out').first if dataCase
 
     if summaryCaseOut

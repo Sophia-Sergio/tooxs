@@ -17,16 +17,6 @@ Store.create!([
 ])
 
 Department.create!([
-  {origin_id: 1, name: "Juvenil mujer", store_id: 1, productivity_obj: 85000.0, master_id: 1},
-  {origin_id: 7, name: "Moda hombre", store_id: 2, productivity_obj: 75000.0, master_id: 2},
-  {origin_id: 6, name: "Tecnología", store_id: 3, productivity_obj: 75000.0, master_id: 3},
-  {origin_id: 4, name: "Deportes", store_id: 6, productivity_obj: 75000.0, master_id: 4},
-  {origin_id: 2, name: "Moda mujer", store_id: 5, productivity_obj: 75000.0, master_id: 5},
-  {origin_id: 3, name: "Infantil", store_id: 1, productivity_obj: 75000.0, master_id: 6},
-  {origin_id: 8, name: "Juvenil mujer", store_id: 2, productivity_obj: 65000.0, master_id: 1}
-])
-
-MasterDepartment.create!([
   {name: "Juvenil Mujer"},
   {name: "Moda Hombre"},
   {name: "Tecnología"},
@@ -34,6 +24,18 @@ MasterDepartment.create!([
   {name: "Moda Mujer"},
   {name: "Infantil"}
 ])
+
+StoreDepartment.create!([
+  {origin_id: 1, store_id: 1, department_id: 1, productivity_obj: 85000.0, master_id: 1},
+  {origin_id: 7, store_id: 2, department_id: 2, productivity_obj: 75000.0, master_id: 2},
+  {origin_id: 6, store_id: 3, department_id: 3, productivity_obj: 75000.0, master_id: 3},
+  {origin_id: 4, store_id: 6, department_id: 4, productivity_obj: 75000.0, master_id: 4},
+  {origin_id: 2, store_id: 5, department_id: 5, productivity_obj: 75000.0, master_id: 5},
+  {origin_id: 3, store_id: 1, department_id: 6, productivity_obj: 75000.0, master_id: 6},
+  {origin_id: 8, store_id: 2, department_id: 1, productivity_obj: 65000.0, master_id: 1}
+])
+
+
 User.create!([
   {email: "demo25@tooxs.com", password: "123456", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 0, current_sign_in_at: nil, last_sign_in_at: nil, current_sign_in_ip: nil, last_sign_in_ip: nil, name: "Ricardo", lastname: "Gonzalez", surname: "", role: nil, picture: "", status: nil, position: "", rut: "12.222.008-7", phone: "56999999999", street: "El Vergel", number: "323", city: "Santiago", district: "-", county: "Providencia", country: "CL", department_id: 1, store_id: 1, assigned_shift: 1, begin_shift: "2017-10-01"},
   {email: "demo78@tooxs.com", password: "123456", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1, current_sign_in_at: "2018-09-03 11:43:40", last_sign_in_at: "2018-09-03 11:43:40", current_sign_in_ip: "127.0.0.1", last_sign_in_ip: "127.0.0.1", name: "Claudia Andrea", lastname: "Bravo Lopez", surname: "", role: "colaborador", picture: "", status: "active", position: "", rut: "18.004.462-0", phone: "56999999999", street: "Los Poetas", number: "234", city: "Santiago", district: "-", county: "Maipu", country: "CL", department_id: 5, store_id: 1, assigned_shift: 1, begin_shift: "2017-10-01"},

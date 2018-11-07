@@ -2,7 +2,8 @@ require 'rubyXL'
 
 # Store class for stores table
 class Store < ApplicationRecord
-  has_many :departments
+  has_many :store_departments
+  has_many :departments, through: :store_departments
   has_many :staffing_real
   has_many :sale_plans
   belongs_to :cluster
