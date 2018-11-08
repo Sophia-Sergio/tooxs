@@ -1,14 +1,16 @@
 %div{class: 'row dashboard-market'}
   %div{class: "col-md-12 dashboard-market__title"}
     %h1 Dashboard Supermercado
+  %div{class: 'col-md-12 dashboard-market__filter clearfix'}
+    = render 'shared/filter_parameters/filter_3', filter: market_parameters
   .col-md-6
     .dashboard-market__chart
       %h3.sub-titulo-pantalla Cumplimiento de plan
-      %canvas#chart-cumplimiento
+      %canvas#market-plan-compliance
   .col-md-6
     .dashboard-market__chart
       %h3.sub-titulo-pantalla Eficiencia
-      %canvas#chart-eficiencia
+      %canvas#market-efficiency
   .col-md-12
     .dashboard-market__tables
       .row
