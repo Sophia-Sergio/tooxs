@@ -1,87 +1,392 @@
-%div.container-fluid
-  %div.pantalla-seccion.d-flex.justify-content-between.mb-2
-    %div.align-self-end
-      %div.titulo-pantalla Dashboard de Supermercado
-  %div.m-t-10
-    = render 'shared/filter_parameters/filter_2', filter: market_parameters
-    %div.row.text-center
-      %div.col-md-6
-        %div.chart-dashboard
-          %div.sub-titulo-pantalla Cumplimiento de plan
-          %canvas#market-plan-compliance
-      %div.col-md-6
-        %div.chart-dashboard
-          %div.sub-titulo-pantalla Eficiencia
-          %canvas#market-efficiency
-    %div.row{style: 'padding: 0 5px' }
-      %div.tables.box.col-md-12
-        %h1.tables__title Planificación de Dotación
-        %div.tables__container
-          %div.table.col-md-4
-            %h3.table__title Colaboradores
-            %table.table.table-striped
-              %thead
-                %th.table__subtitle ID
-                %th.table__subtitle Turno
-              %tbody
-                %tr
-                  %td 1
-                  %td TURNO 1 DE 45 HORAS
-                %tr
-                  %td 2
-                  %td TURNO 2 DE 45 HORAS
-                %tr
-                  %td 3
-                  %td TURNO 3 DE 45 HORAS
-                %tr
-                  %td 4
-                  %td TURNO 4 DE 45 HORAS
-                %tr
-                  %td 5
-                  %td TURNO 1 DE 36 HORAS
-                %tr
-                  %td 6
-                  %td TURNO 2 DE 36 HORAS
-                %tr
-                  %td 7
-                  %td TURNO 3 DE 36 HORAS
-                %tr
-                  %td 8
-                  %td TURNO 4 DE 36 HORAS
-                %tr
-                  %td 9
-                  %td TURNO 1 DE 24 HORAS
-                %tr
-                  %td 10
-                  %td TURNO SA / DO
-                %tr
-                  %td 11
-                  %td TURNO 1 TARDE
-                %tr
-                  %td 12
-                  %td TURNO 2 TARDE
-                %tr
-                  %td.clean-background.text--left{colspan: 2} Total
-                %tr
-                  %td.clean-background.text--left{colspan: 2} Eficiencia
-                %tr
-                  %td.clean-background.text--left{colspan: 2} HH Totales
-            %div
-              %table.table-striped{width: '100%'}
+%div{class: 'row dashboard-market'}
+  %div{class: "col-md-12 dashboard-market__title"}
+    %h1 Dashboard Supermercado
+  .col-md-6
+    .dashboard-market__chart
+      %h3.sub-titulo-pantalla Cumplimiento de plan
+      %canvas#chart-cumplimiento
+  .col-md-6
+    .dashboard-market__chart
+      %h3.sub-titulo-pantalla Eficiencia
+      %canvas#chart-eficiencia
+  .col-md-12
+    .dashboard-market__tables
+      .row
+        .col-md-4
+          %h4 Colaboradores
+          %table
+            %thead
+              %tr
+                %th ID
+                %th{'colspan': '2'} Turno
+            %tbody
+              %tr
+                %td 1
+                %td Turno 1 de 45 horas
+              %tr
+                %td 2
+                %td Turno 2 de 45 horas
+              %tr
+                %td 3
+                %td Turno 3 de 45 horas
+              %tr
+                %td 4
+                %td Turno 4 de 45 horas
+              %tr
+                %td 5
+                %td Turno 1 de 36 horas
+              %tr
+                %td 6
+                %td Turno 1 de 36 horas
+              %tr
+                %td 7
+                %td Turno 1 de 36 horas
+              %tr
+                %td 8
+                %td Turno 1 de 36 horas
+              %tr
+                %td 9
+                %td Turno 1 de 24 horas
+              %tr
+                %td 10
+                %td Turno SA / DO
+              %tr
+                %td 11
+                %td Turno 1 Tarde
+              %tr
+                %td 12
+                %td Turno 2 Tarde
+            %tfoot
+              %tr
+                %td{'colspan': '2'} Total
+              %tr
+                %td{'colspan': '2'} Eficiencia
+              %tr
+                %td{'colspan': '2'} HH Totales
+              %tr
+                %td{'colspan': '2'} Productividad Real
+              %tr
+                %td{'colspan': '2'} Productividad Objetivo
+              %tr
+                %td{'colspan': '2'} Turnos cubiertos
+        .col-md-8
+          %div{class: 'dashboard-market__tables__carousel__controls left'}
+            %a{class: 'dashboard-market__tables__carousel__controls-prev', href: '#', }
+          %div{class: 'dashboard-market__tables__carousel__controls right'}
+            %a{class: 'dashboard-market__tables__carousel__controls-next', href: '#'}
+          %div{class: 'dashboard-market__tables__carousel owl-carousel'}
+            .dashboard-market__tables__carousel-item
+              %h4 Abarrotes
+              %table
+                %thead
+                  %tr
+                    %th Actual
+                    %th Optimizada
                 %tbody
                   %tr
-                    %td.clean-background.text--left Productividad Real
+                    %td 1
+                    %td 1
                   %tr
-                    %td.clean-background.text--left Productividad Objetivo
+                    %td 2
+                    %td 1
                   %tr
-                    %td.clean-background.text--left.no-border Turnos Cubiertos
-          %div.tables__right.col-md-8
-            %div.col-md-4
-              %h3.table__title Abarrotes
-              = render 'table_index'
-            %div.col-md-4
-              %h3.table__title Bebidas
-              = render 'table_index'
-            %div.col-md-4
-              %h3.table__title Frutas y Verduras
-              = render 'table_index'
+                    %td 2
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 2
+                  %tr
+                    %td 1
+                    %td 2
+                  %tr
+                    %td 1
+                    %td 0
+                  %tr
+                    %td 0
+                    %td 0
+                  %tr
+                    %td 0
+                    %td 0
+                  %tr
+                    %td 2
+                    %td 7
+                  %tr
+                    %td 0
+                    %td 3
+                  %tr
+                    %td 0
+                    %td 1
+                  %tr
+                    %td 0
+                    %td 1
+                %tfoot
+                  %tr
+                    %td 10
+                    %td 18
+                  %tr
+                    %td 57.3%
+                    %td 77.3%
+                  %tr
+                    %td 1.543
+                    %td 2.327
+                  %tr
+                    %td{'colspan': '2'} 458 unidad/hora
+                  %tr
+                    %td{'colspan': '2'} 578 unidad/hora
+                  %tr
+                    %td{'colspan': '2'}
+                      %div{class: "progress" }
+                        %div{class: "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
+                          7 de 10
+            .dashboard-market__tables__carousel-item
+              %h4 Bebidas
+              %table
+                %thead
+                  %tr
+                    %th Actual
+                    %th Optimizada
+                %tbody
+                  %tr
+                    %td 1
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 2
+                  %tr
+                    %td 1
+                    %td 2
+                  %tr
+                    %td 1
+                    %td 0
+                  %tr
+                    %td 0
+                    %td 0
+                  %tr
+                    %td 0
+                    %td 0
+                  %tr
+                    %td 2
+                    %td 7
+                  %tr
+                    %td 0
+                    %td 3
+                  %tr
+                    %td 0
+                    %td 1
+                  %tr
+                    %td 0
+                    %td 1
+                %tfoot
+                  %tr
+                    %td 10
+                    %td 18
+                  %tr
+                    %td 57.3%
+                    %td 77.3%
+                  %tr
+                    %td 1.543
+                    %td 2.327
+                  %tr
+                    %td{'colspan': '2'} 458 unidad/hora
+                  %tr
+                    %td{'colspan': '2'} 578 unidad/hora
+                  %tr
+                    %td{'colspan': '2'}
+                      %div{class: "progress" }
+                        %div{class: "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
+                          7 de 10
+            .dashboard-market__tables__carousel-item
+              %h4 Frutas y Verduras
+              %table
+                %thead
+                  %tr
+                    %th Actual
+                    %th Optimizada
+                %tbody
+                  %tr
+                    %td 1
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 2
+                  %tr
+                    %td 1
+                    %td 2
+                  %tr
+                    %td 1
+                    %td 0
+                  %tr
+                    %td 0
+                    %td 0
+                  %tr
+                    %td 0
+                    %td 0
+                  %tr
+                    %td 2
+                    %td 7
+                  %tr
+                    %td 0
+                    %td 3
+                  %tr
+                    %td 0
+                    %td 1
+                  %tr
+                    %td 0
+                    %td 1
+                %tfoot
+                  %tr
+                    %td 10
+                    %td 18
+                  %tr
+                    %td 57.3%
+                    %td 77.3%
+                  %tr
+                    %td 1.543
+                    %td 2.327
+                  %tr
+                    %td{'colspan': '2'} 458 unidad/hora
+                  %tr
+                    %td{'colspan': '2'} 578 unidad/hora
+                  %tr
+                    %td{'colspan': '2'}
+                      %div{class: "progress" }
+                        %div{class: "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
+                          7 de 10
+            .dashboard-market__tables__carousel-item
+              %h4 Lacteos
+              %table
+                %thead
+                  %tr
+                    %th Actual
+                    %th Optimizada
+                %tbody
+                  %tr
+                    %td 1
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 2
+                  %tr
+                    %td 1
+                    %td 2
+                  %tr
+                    %td 1
+                    %td 0
+                  %tr
+                    %td 0
+                    %td 0
+                  %tr
+                    %td 0
+                    %td 0
+                  %tr
+                    %td 2
+                    %td 7
+                  %tr
+                    %td 0
+                    %td 3
+                  %tr
+                    %td 0
+                    %td 1
+                  %tr
+                    %td 0
+                    %td 1
+                %tfoot
+                  %tr
+                    %td 10
+                    %td 18
+                  %tr
+                    %td 57.3%
+                    %td 77.3%
+                  %tr
+                    %td 1.543
+                    %td 2.327
+                  %tr
+                    %td{'colspan': '2'} 458 unidad/hora
+                  %tr
+                    %td{'colspan': '2'} 578 unidad/hora
+                  %tr
+                    %td{'colspan': '2'}
+                      %div{class: "progress" }
+                        %div{class: "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
+                          7 de 10
+            .dashboard-market__tables__carousel-item
+              %h4 Pescados
+              %table
+                %thead
+                  %tr
+                    %th Actual
+                    %th Optimizada
+                %tbody
+                  %tr
+                    %td 1
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 1
+                  %tr
+                    %td 2
+                    %td 2
+                  %tr
+                    %td 1
+                    %td 2
+                  %tr
+                    %td 1
+                    %td 0
+                  %tr
+                    %td 0
+                    %td 0
+                  %tr
+                    %td 0
+                    %td 0
+                  %tr
+                    %td 2
+                    %td 7
+                  %tr
+                    %td 0
+                    %td 3
+                  %tr
+                    %td 0
+                    %td 1
+                  %tr
+                    %td 0
+                    %td 1
+                %tfoot
+                  %tr
+                    %td 10
+                    %td 18
+                  %tr
+                    %td 57.3%
+                    %td 77.3%
+                  %tr
+                    %td 1.543
+                    %td 2.327
+                  %tr
+                    %td{'colspan': '2'} 458 unidad/hora
+                  %tr
+                    %td{'colspan': '2'} 578 unidad/hora
+                  %tr
+                    %td{'colspan': '2'}
+                      %div{class: "progress" }
+                        %div{class: "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
+                          7 de 10
