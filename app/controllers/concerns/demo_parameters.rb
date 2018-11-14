@@ -7,12 +7,13 @@ module DemoParameters
   def demo_data
     {
       department: 1,
-      store:      1,
-      search:     '',
-      date:       Date.new(2018, 5, 27),
-      cluster:    1,
-      month:      5,
-      year:       2018
+      store: 1,
+      search: '',
+      date: Date.new(2018, 6, 24),
+      cluster: 1,
+      month: 6,
+      year: 2018,
+      target_productivity: 85000
     }
   end
 
