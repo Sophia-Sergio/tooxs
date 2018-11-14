@@ -1,0 +1,12 @@
+%li
+  .sub-menu-title
+    %span.title DISPONIBILIZADORs
+  %ul.sub-menu
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'dotacion.jpg', class: 'icon-min-menu'
+      = link_to('Disponibilizador de turnos', staff_request_index_path)
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'reporte.jpg', class: 'icon-min-menu'
+      = link_to('Solicitudes realizadas', staff_request_show_path)

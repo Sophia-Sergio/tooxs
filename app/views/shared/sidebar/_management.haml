@@ -1,0 +1,36 @@
+%li
+  .sub-menu-title
+    %span.title DISPONIBILIZADOR
+  %ul.sub-menu
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'tiendas.jpg', class: 'icon-min-menu'
+      = link_to('Tiendas', stores_path)
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'departamentos.jpg', class: 'icon-min-menu'
+      = link_to('Departamentos', departments_path)
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'estadisticas.jpg', class: 'icon-min-menu'
+      = link_to('Turnos', available_shifts_path)
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'usuarios.jpg', class: 'icon-min-menu'
+      = link_to('Usuarios', users_path)
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'comparativo-venta.jpg', class: 'icon-min-menu'
+      = link_to('Plan de ventas', sale_plans_path)
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'historico.jpg', class: 'icon-min-menu'
+      = link_to('Ventas reales', sale_reals_path)
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'usuarios.jpg', class: 'icon-min-menu'
+      = link_to('Ventas por colaborador', sale_by_sellers_path)
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'dotacion.jpg', class: 'icon-min-menu'
+      = link_to('Dotación real', staffing_reals_path)
