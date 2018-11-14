@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SaleBySellersController, type: :routing do
+RSpec.describe SellerSalesController, type: :routing do
   describe "routing" do
 
     it "routes to #index" do

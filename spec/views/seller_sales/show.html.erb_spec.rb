@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "sale_by_sellers/show", type: :view do
   before(:each) do
-    @sale_by_seller = assign(:sale_by_seller, SaleBySeller.create!(
+    @sale_by_seller = assign(:sale_by_seller, SellerSale.create!(
       :seller => 2,
       :month => 3,
       :week => 4,

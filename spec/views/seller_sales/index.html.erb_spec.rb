@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "sale_by_sellers/index", type: :view do
   before(:each) do
     assign(:sale_by_sellers, [
-      SaleBySeller.create!(
+      SellerSale.create!(
         :seller => 2,
         :month => 3,
         :week => 4,
@@ -14,7 +14,7 @@ RSpec.describe "sale_by_sellers/index", type: :view do
         :turn => 9,
         :year => 10
       ),
-      SaleBySeller.create!(
+      SellerSale.create!(
         :seller => 2,
         :month => 3,
         :week => 4,
