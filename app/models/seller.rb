@@ -2,7 +2,7 @@ class Seller < ApplicationRecord
   belongs_to :store
   belongs_to :department
   has_many :available_shift, foreign_key: 'num', primary_key: 'assigned_shift'
-
+  has_many :seller_sales
   validates_presence_of :rut, :name, :lastname, :email, :phone, :number, :city,
                         :country
 
@@ -15,7 +15,7 @@ class Seller < ApplicationRecord
   def my_shift
     #@seller = Seller.find(params[:seller_id])
 
-    @shifts = AvailableShift.code(self.assigned_shift)
+    @shifts = AvailableShift.code(assigned_shift)
     begin_shift_day = self.begin_shift.strftime('%u').to_i
     @shift_dates = []
 

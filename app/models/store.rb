@@ -6,6 +6,8 @@ class Store < ApplicationRecord
   has_many :departments, through: :store_departments
   has_many :staffing_real
   has_many :sale_plans
+  has_many :sale_reals
+  has_many :sellers
   belongs_to :cluster
   validates_presence_of :name,
                         :city,

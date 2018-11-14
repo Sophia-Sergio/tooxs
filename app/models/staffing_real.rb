@@ -1,8 +1,11 @@
 class StaffingReal < ApplicationRecord
+  extend UniqCaseFilter::StaffingReal
+
   belongs_to :department
   belongs_to :store
 
   class << self
+
     def from_xlsx(file = '')
       return if file.blank?
       worksheet = RubyXL::Parser.parse(file)[0]
@@ -36,7 +39,7 @@ class StaffingReal < ApplicationRecord
         year: parse_integer(row[2]),
         month: parse_integer(row[3]),
         day: parse_integer(row[4]),
-        hour: parse_integer(row[5])        
+        hour: parse_integer(row[5])
       )
 
       staffing_real.update_attributes(

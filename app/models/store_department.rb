@@ -5,7 +5,7 @@ class StoreDepartment < ApplicationRecord
   # has_many :sellers
   # has_many :users
   # has_many :request_detail
-  validates_presence_of :name, :origin_id
+  validates_presence_of :origin_id
 
   def to_s
     name
