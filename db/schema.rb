@@ -23,21 +23,21 @@ ActiveRecord::Schema.define(version: 20181018220519) do
     t.integer "week"
     t.string "day"
     t.boolean "nine", default: false, null: false
-    t.boolean "ten"
-    t.boolean "eleven"
-    t.boolean "twelve"
-    t.boolean "thirteen"
-    t.boolean "fourteen"
-    t.boolean "fifteen"
-    t.boolean "sixteen"
-    t.boolean "seventeen"
-    t.boolean "eighteen"
-    t.boolean "nineteen"
-    t.boolean "twenty"
-    t.boolean "twenty_one"
-    t.boolean "twenty_two"
-    t.boolean "twenty_three"
-    t.boolean "twenty_four"
+    t.boolean "ten", default: false, null: false
+    t.boolean "eleven", default: false, null: false
+    t.boolean "twelve", default: false, null: false
+    t.boolean "thirteen", default: false, null: false
+    t.boolean "fourteen", default: false, null: false
+    t.boolean "fifteen", default: false, null: false
+    t.boolean "sixteen", default: false, null: false
+    t.boolean "seventeen", default: false, null: false
+    t.boolean "eighteen", default: false, null: false
+    t.boolean "nineteen", default: false, null: false
+    t.boolean "twenty", default: false, null: false
+    t.boolean "twenty_one", default: false, null: false
+    t.boolean "twenty_two", default: false, null: false
+    t.boolean "twenty_three", default: false, null: false
+    t.boolean "twenty_four", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["store_id"], name: "index_available_shifts_on_store_id"
@@ -51,13 +51,13 @@ ActiveRecord::Schema.define(version: 20181018220519) do
   end
 
   create_table "data_cases", force: :cascade do |t|
-    t.integer "id_case"
     t.integer "turn_num"
-    t.integer "dep_num"
+    t.bigint "store_id"
+    t.bigint "department_id"
     t.integer "day_num"
     t.integer "hour_day"
     t.float "hp_val"
-    t.float "prod_obj"
+    t.float "target_productivity"
     t.string "vhp"
     t.string "pov"
     t.string "lunch_in"
@@ -70,21 +70,11 @@ ActiveRecord::Schema.define(version: 20181018220519) do
     t.datetime "updated_at", null: false
     t.integer "month"
     t.integer "year"
+    t.index ["department_id"], name: "index_data_cases_on_department_id"
+    t.index ["store_id"], name: "index_data_cases_on_store_id"
   end
 
   create_table "departments", force: :cascade do |t|
-    t.integer "origin_id"
-    t.string "name"
-    t.bigint "store_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.float "productivity_obj"
-    t.integer "master_id"
-    t.index ["origin_id"], name: "index_departments_on_origin_id"
-    t.index ["store_id"], name: "index_departments_on_store_id"
-  end
-
-  create_table "master_departments", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -110,7 +100,7 @@ ActiveRecord::Schema.define(version: 20181018220519) do
   end
 
   create_table "return_cases", force: :cascade do |t|
-    t.integer "id_case"
+    t.bigint "data_case_id"
     t.string "eff_margin"
     t.integer "total_surplus"
     t.string "compensation_cost"
@@ -133,20 +123,7 @@ ActiveRecord::Schema.define(version: 20181018220519) do
     t.integer "obj_function"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "sale_by_sellers", force: :cascade do |t|
-    t.integer "seller"
-    t.integer "month"
-    t.integer "week"
-    t.integer "day"
-    t.integer "hour"
-    t.integer "department"
-    t.float "sale"
-    t.integer "turn"
-    t.integer "year"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["data_case_id"], name: "index_return_cases_on_data_case_id"
   end
 
   create_table "sale_plans", force: :cascade do |t|
@@ -209,6 +186,22 @@ ActiveRecord::Schema.define(version: 20181018220519) do
     t.index ["store_id"], name: "index_sale_reals_on_store_id"
   end
 
+  create_table "seller_sales", force: :cascade do |t|
+    t.bigint "seller_id"
+    t.bigint "department_id"
+    t.integer "month"
+    t.integer "week"
+    t.integer "day"
+    t.integer "hour"
+    t.float "sale"
+    t.integer "turn"
+    t.integer "year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_seller_sales_on_department_id"
+    t.index ["seller_id"], name: "index_seller_sales_on_seller_id"
+  end
+
   create_table "sellers", force: :cascade do |t|
     t.string "rut"
     t.string "name"
@@ -241,13 +234,14 @@ ActiveRecord::Schema.define(version: 20181018220519) do
   end
 
   create_table "staffing_cases", force: :cascade do |t|
-    t.integer "id_case"
+    t.bigint "data_case_id"
     t.integer "tolerance"
     t.integer "actual_staffing_eval"
     t.integer "max_time"
     t.string "user"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["data_case_id"], name: "index_staffing_cases_on_data_case_id"
   end
 
   create_table "staffing_reals", force: :cascade do |t|
@@ -262,6 +256,20 @@ ActiveRecord::Schema.define(version: 20181018220519) do
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_staffing_reals_on_department_id"
     t.index ["store_id"], name: "index_staffing_reals_on_store_id"
+  end
+
+  create_table "store_departments", force: :cascade do |t|
+    t.integer "origin_id"
+    t.string "name"
+    t.bigint "store_id"
+    t.bigint "department_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "productivity_obj"
+    t.integer "master_id"
+    t.index ["department_id"], name: "index_store_departments_on_department_id"
+    t.index ["origin_id"], name: "index_store_departments_on_origin_id"
+    t.index ["store_id"], name: "index_store_departments_on_store_id"
   end
 
   create_table "stores", force: :cascade do |t|
@@ -283,7 +291,7 @@ ActiveRecord::Schema.define(version: 20181018220519) do
   end
 
   create_table "summary_cases", force: :cascade do |t|
-    t.integer "id_case"
+    t.bigint "data_case_id"
     t.string "sale_plan"
     t.string "coverange_deficit"
     t.string "surplus_coverange"
@@ -294,6 +302,7 @@ ActiveRecord::Schema.define(version: 20181018220519) do
     t.datetime "updated_at", null: false
     t.string "type_io"
     t.string "real_dot"
+    t.index ["data_case_id"], name: "index_summary_cases_on_data_case_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -335,17 +344,25 @@ ActiveRecord::Schema.define(version: 20181018220519) do
   end
 
   add_foreign_key "available_shifts", "stores"
-  add_foreign_key "departments", "stores"
+  add_foreign_key "data_cases", "departments"
+  add_foreign_key "data_cases", "stores"
+  add_foreign_key "return_cases", "data_cases"
   add_foreign_key "sale_plans", "departments"
   add_foreign_key "sale_plans", "stores"
   add_foreign_key "sale_reals", "departments"
   add_foreign_key "sale_reals", "stores"
+  add_foreign_key "seller_sales", "departments"
+  add_foreign_key "seller_sales", "sellers"
   add_foreign_key "sellers", "departments"
   add_foreign_key "sellers", "stores"
   add_foreign_key "shift_breaks", "sellers"
+  add_foreign_key "staffing_cases", "data_cases"
   add_foreign_key "staffing_reals", "departments"
   add_foreign_key "staffing_reals", "stores"
+  add_foreign_key "store_departments", "departments"
+  add_foreign_key "store_departments", "stores"
   add_foreign_key "stores", "clusters"
+  add_foreign_key "summary_cases", "data_cases"
   add_foreign_key "users", "departments"
   add_foreign_key "users", "stores"
 end
