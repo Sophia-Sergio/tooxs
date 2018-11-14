@@ -1,0 +1,57 @@
+.brands-nav {
+
+  &:after {
+    clear: both;
+    display: table;
+  }
+
+  &__list {
+    float: right;
+    list-style-type: none;
+
+    li {
+      border-bottom: 4px solid gray;
+      border-radius: 3px;
+      float: left;
+      overflow: hidden;
+      padding: 0;
+
+      + li {
+        margin-left: 1px;
+      }
+
+      &.active {
+        border-color: #ccd325;
+
+        a img {
+          opacity: 1;
+        }
+
+      }
+
+      a {
+        display: block;
+
+        img {
+          height: 50px;
+          opacity: .5;
+          transition: all .2s ease-in-out;
+          vertical-align: top;
+          width: auto;
+        }
+
+        &:hover {
+
+          img {
+            opacity: 1;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
