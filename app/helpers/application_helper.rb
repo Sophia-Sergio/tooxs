@@ -18,8 +18,8 @@ module ApplicationHelper
 
   def retail_parameters
     {
-      stores: Store.first(2).pluck(:name, :id),
-      departments: MasterDepartment.all.pluck(:name, :id),
+      stores: Store.all.pluck(:name, :id),
+      departments: Department.all.pluck(:name, :id),
       years: (2016..2018),
       months: months_until(7)
     }
