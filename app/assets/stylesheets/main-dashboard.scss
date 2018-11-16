@@ -1,5 +1,19 @@
 .dashboard {
 
+  &__title {
+    border-bottom: 1px solid #dce3e6;
+    margin-bottom: 40px;
+    padding-bottom: 2em;
+
+    h1 {
+      color: #353e4f;
+      font-size: 3em;
+      font-weight: bold;
+      line-height: 1em;
+    }
+
+  }
+
   &__charts {
 
     &__info {
