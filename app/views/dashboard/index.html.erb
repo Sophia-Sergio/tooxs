@@ -21,66 +21,76 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
     border-top: 1px solid #eceeef;
 }
 </style>
-<div id="dashboard" class="container-fluid">
-	<div class="pantalla-seccion d-flex justify-content-between mb-2">
-		<div class="align-self-end">
-			<div class="titulo-pantalla">Dashboard</div>
-		</div>
-	</div>
-	  <div class="m-t-10">
-	    <%= simple_form_for @search, :url => dashboard_index_path, html: { method: :post, id: :dasboard_form } do |f| %>
-	    <div class="d-flex flex-wrap justify-content-end bd-highlight" id="sales_search_form">
-		  <div class="col-12 col-sm-6 col-md-6 col-lg-3">
-	        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: @store, label: false  %>
-	      </div>
 
-	      <div class="col-12 col-sm-6 col-md-6 col-lg-3">
-	        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: @dep, label: false %>
-	      </div>
-	      <div class="input-form">
-	      <%= f.input :month, collection: (6..7).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month , label: false %>
-	      </div>
-	    </div>
-	    <% end %>
-	  </div>
-	<div class="row text-center">
-		<div class="col-md-6">
-			<div class="chart-dashboard">
-				<div class="sub-titulo-pantalla">Cumplimiento de plan</div>
-				<canvas id="chart-area1"></canvas>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="chart-dashboard">
-				<div class="sub-titulo-pantalla">Eficiencia</div>
-				<canvas id="chart-area2"></canvas>
-			</div>
-		</div>
+<div id="dashboard" class="container-fluid">
+	<div class="row mb-2">
+    <div class="col">
+		  <h2 class="titulo-pantalla">Dashboard</h2>
+    </div>
 	</div>
+
+	<div class="row mb-2">
+    <div class="col-md-12">
+      <%= simple_form_for @search, :url => dashboard_index_path, html: { method: :post, id: :dasboard_form } do |f| %>
+      <div class="row">
+        <div class="col">
+          <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: @store, label: false  %>
+        </div>
+        <div class="col">
+          <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: @dep, label: false %>
+        </div>
+        <div class="col">
+          <%= f.input :month, collection: (6..7).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month , label: false %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+	</div>
+
+	<div class="row dashboard__charts">
+		<div class="col-md-4 dashboard__charts__info mb-4">
+			<div class="dashboard__charts__info__item">
+				<h4 class="dashboard__charts__info__item__title">Cumplimiento plan de venta al <span>25-06-2018</span></h4>
+        <h5 class="dashboard__charts__info__item__value">104%</h5>
+        <h5 class="dashboard__charts__info__item__amount">Plan $56.000</h5>
+        <h5 class="dashboard__charts__info__item__amount">plan $56.000</h5>
+			</div>
+
+			<div class="dashboard__charts__info__item">
+				<h4 class="dashboard__charts__info__item__title">Productividad real al <span>25-06-2018</span></h4>
+        <h5 class="dashboard__charts__info__item__value"><%= number_to_currency @prod_real %></h5>
+        <h5 class="dashboard__charts__info__item__amount">Productividad objetivo <%= number_to_currency @prod_obj.to_i %></h5>
+			</div>
+
+			<div class="dashboard__charts__info__item">
+				<h4 class="dashboard__charts__info__item__title">Cumplimiento de eficiencia al <span>25-06-2018</span></h4>
+        <h5 class="dashboard__charts__info__item__value">65%</h5>
+        <h5 class="dashboard__charts__info__item__amount">Eficiencia objetivo 75%</h5>
+			</div>
+		</div>
+
+    <div class="col-md-8">
+      <div class="dashboard__charts__line-chart">
+        <h4 class="dashboard__charts__line-chart__title">Resultado de la búsqueda</h4>
+        Incluir gráfico de linea
+        <canvas id="chart-area1"></canvas>
+      </div>
+    </div>
+	</div>
+
 	<div class="row">
-		<div id="productividad-graficos" class="col-md-4 col-xs-12">
-			<div class="chart-dashboard">
-				<div class="sub-titulo-pantalla">Productividad real</div>
-				<div id="prod-real"><%= number_to_currency @prod_real %></div>
-				<div id="prod-obj">Productividad objetivo <%= number_to_currency @prod_obj.to_i %></div>
-			</div>
-			<div class="chart-dashboard">
-				<div class="sub-titulo-pantalla">Turnos cubiertos</div>
-				<div id="turnos-cubiertos">
-					<% if @turnos_cubiertos.length > 0 %>
-					<div class="progress">
-					  <div class="progress-bar" role="progressbar" style="width: <%= @turnos_cubiertos[:porcentaje] %>%" aria-valuenow="<%= @turnos_cubiertos[:porcentaje] %>" aria-valuemax="100"></div>
-					</div>
-					<div>
-						<div class="color-progress"></div>
-						<div class="text-progress">
-							<%= @turnos_cubiertos[:texto] %>
-						</div>
-					</div>
-					<% end %>
-				</div>
-			</div>
-			<div class="chart-dashboard">
+		<div id="productividad-graficos" class="col-md-4 dashboard__productivity-charts">
+      <div class="dashboard__productivity-charts__item">
+        <h4 class="dashboard__productivity-charts__item__title">Turnos cubiertos</h4>
+        <% if @turnos_cubiertos.length > 0 %>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= @turnos_cubiertos[:porcentaje] %>%"></div>
+        </div>
+        <h5 class="dashboard__productivity-charts__item__amount"><%= @turnos_cubiertos[:texto] %></h5>
+        <% end %>
+      </div>
+
+			<div class="dashboard__productivity-charts__item">
 				<table class="table table-striped">
 					<thead>
 						<th>Turno</th>
@@ -101,13 +111,13 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 				</table>
 			</div>
 		</div>
-		<div id="div-tabla" class="col-md-8">
-			<div class="chart-dashboard">
-				<div>
-					<div class="sub-titulo-pantalla">Cumplimiento de mis colaboradores - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
-					<br>
-					<br>
-					<table id="tabla-colaboradores" class="table table-striped table-striped" style="width: 100%">
+
+		<div id="div-tabla" class="col-md-8 dashboard__productivity-charts">
+      <div class="dashboard__productivity-charts__item">
+        <h4 class="dashboard__productivity-charts__item__title">
+          Cumplimiento de mis colaboradores - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %>
+        </h4>
+				<table id="tabla-colaboradores" class="table table-striped table-striped" style="width: 100%">
 					<thead>
 						<tr>
 							<th>Colaboradores</th>
@@ -128,13 +138,11 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 						</tr>
 						<% end %>
 					</tbody>
-					<tfoot></tfoot>
-					</table>
-				</div>
+				</table>
 			</div>
 		</div>
-	</div>
-	<div class="padding-5em"></div>
+  </div>
+
 </div>
 
 
@@ -164,12 +172,11 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 
 
 		var config1 = {
-			type: 'pie',
+			type: 'line',
 			data: {
 				datasets: [{
 					data: [rConfig1, rConfig2],
-					backgroundColor: [ window.chartColors.blue, window.chartColors.grey],
-					label: 'Dataset 1'
+					label: 'Real'
 				}],
 				labels: [randomConfig1_1 + '% de cumplimiento']
 			},

@@ -1,0 +1,100 @@
+.dashboard {
+
+  &__charts {
+
+    &__info {
+
+      &__item {
+        background-color: white;
+        border: 1px solid #dce3e6;
+        border-radius: 3px;
+        padding: 30px 15px 15px 15px;
+
+        + div {
+          margin-top: 5px;
+        }
+
+        &__title {
+          font-size: 1.25em;
+          font-weight: bold;
+          margin: 0 0 20px 0;
+
+          span {
+            color: #5d6a80;
+          }
+
+        }
+
+        &__value {
+          font-weight: bold;
+          font-size: 2.5em;
+          color: #46c4fd;
+        }
+
+        &__amount {
+          font-weight: normal;
+          font-size: 1em;
+          color: #5d6a80;
+          margin: 0;
+        }
+
+      }
+
+    }
+
+    &__line-chart {
+      background-color: white;
+      border: 1px solid #dce3e6;
+      border-radius: 3px;
+      padding: 30px 15px 15px 15px;
+
+      &__title {
+        font-size: 1.25em;
+        font-weight: bold;
+        margin: 0 0 20px 0;
+
+        span {
+          color: #5d6a80;
+        }
+
+      }
+
+    }
+
+  }
+
+  &__productivity-charts {
+
+    &__item {
+      background-color: white;
+      border: 1px solid #dce3e6;
+      border-radius: 3px;
+      padding: 30px 15px 15px 15px;
+
+      + div {
+        margin-top: 5px;
+      }
+
+      &__title {
+        font-size: 1.25em;
+        font-weight: bold;
+        margin: 0 0 20px 0;
+      }
+
+      .progress {
+        margin: 0 0 10px 0;
+      }
+
+      &__amount {
+        font-weight: normal;
+        font-size: 1em;
+        color: #5d6a80;
+        margin: 0;
+      }
+
+    }
+
+  }
+
+
+}
