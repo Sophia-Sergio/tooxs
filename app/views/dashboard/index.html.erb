@@ -93,17 +93,19 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 			<div class="dashboard__productivity-charts__item">
 				<table class="table table-striped">
 					<thead>
-						<th>Turno</th>
-						<th>Actual</th>
-						<th>Optimizado</th>
+						<th style="font-size: 12px;">Turno</th>
+						<th style="font-size: 12px;">Actual</th>
+						<th style="font-size: 12px;">Comprometido</th>
+						<th style="font-size: 12px;">Optimizado</th>
 					</thead>
 					<tbody>
 					<%if @turnosEntrada %>
 						<% @turnosEntrada.count.times do |i| %>
 						<tr>
-							<td><%= i+1 %></td>
-							<td><%= @turnosEntrada[i].to_i %></td>
-							<td><%= @turnosOptimizados[i].to_i %></td>
+							<td style="font-size: 12px; text-align: center;"><%= i+1 %></td>
+							<td style="font-size: 12px; text-align: center;"><%= @turnosEntrada[i].to_i %></td>
+							<td style="font-size: 12px; text-align: center;"><%= @turnosEntrada[i].to_i %></td>
+							<td style="font-size: 12px; text-align: center;"><%= @turnosOptimizados[i].to_i %></td>
 						</tr>
 						<% end %>
 					<% end %>
@@ -119,7 +121,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
         </h4>
 				<table id="tabla-colaboradores" class="table table-striped table-striped" style="width: 100%">
 					<thead>
-						<tr>
+						<tr style="font-size: 14px;">
 							<th>Colaboradores</th>
 							<th>Ventas</th>
 							<th>Meta</th>
@@ -175,7 +177,10 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 			type: 'line',
 			data: {
 				datasets: [{
-					data: [rConfig1, rConfig2],
+					data: [
+            {
+            rConfig1, rConfig2],
+            }
 					label: 'Real'
 				}],
 				labels: [randomConfig1_1 + '% de cumplimiento']
@@ -205,7 +210,15 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 			type: 'pie',
 			data: {
 				datasets: [{
-					data: [ rConfig1_2, rConfig2_2],
+					data: [
+            {
+              x: 10,
+              y: 20
+            }, {
+              x: 15,
+              y: 10
+            }
+          ],
 					backgroundColor: [  window.chartColors.red, window.chartColors.grey],
 					label: 'Dataset 1'
 				}],
