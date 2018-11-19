@@ -49,19 +49,19 @@
         <ul class="sub-menu" style="display: inline-block;">
           <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv' or current_user.role == 'jd' or current_user.role == 'colaborador'%>
           <li class="sub-title">
-            <span class="icon-thumbnail"><%= image_tag 'dotacion.jpg', class: 'icon-min-menu' %></span>
+            <span class="icon-thumbnail"><%= image_tag 'icons/collaboration.svg', class: 'icon-min-menu' %></span>
             <%= link_to 'Dotación', staffing_index_path %>
           </li>
           <% end %>
           <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv'%>
           <li class="sub-title">
-            <span class="icon-thumbnail"><%= image_tag 'optimizador.jpg', class: 'icon-min-menu' %></span>
+            <span class="icon-thumbnail"><%= image_tag 'icons/time.svg', class: 'icon-min-menu' %></span>
             <a href="/productivity/show?utf8=✓&store=1&department=1&year=2018&month=6">Optimizar turnos</a>
           </li>
           <% end %>
           <% if current_user.role == 'admin' or current_user.role == 'gt'%>
           <li class="sub-title">
-              <span class="icon-thumbnail"><%= image_tag 'historico.jpg', class: 'icon-min-menu' %></span>
+              <span class="icon-thumbnail"><%= image_tag 'icons/horizontal-bar-chart.svg', class: 'icon-min-menu' %></span>
               <a href="/hour_analysis/index?utf8=✓&store=1&department=1&year=2018&month=6&grafico=1&value=3000">Análisis de horas</a>
           </li>
           <% end %>
