@@ -1,21 +1,6 @@
 <div class="social-wrapper" id="seller_details">
   <input type="hidden" id="seller_id" value="<%= @seller_id %>">
   <div class="social " data-pages="social">
-    <!-- START JUMBOTRON -->
-    <div class="jumbotron" data-pages="parallax" data-social="cover">
-      <div class="cover-photo">
-        <%= image_tag 'bg_cover2.jpg', alt: 'Cover Photo' %>
-      </div>
-      <div class=" container-fluid   container-fixed-lg sm-p-l-0 sm-p-r-0">
-        <div class="inner">
-          <div class="pull-bottom bottom-left m-b-40 sm-p-l-15">
-            <h5 class="text-white no-margin">Detalle de colaborador</h5>
-            <h1 class="text-white no-margin"><span class="semi-bold"><%= @seller.fullname %></span></h1>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- END JUMBOTRON -->
     <div class=" container-fluid container-fixed-lg sm-p-l-0 sm-p-r-0">
       <div class="feed">
         <!-- START DAY -->
@@ -78,7 +63,7 @@
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-home fa-stack-1x fa-inverse"></i>
                       </span>
-                      <%= @seller.street %> <%= @seller.number %> - <%= @seller.city %> - <%= @seller.district %> <%= @seller.county %> 
+                      <%= @seller.street %> <%= @seller.number %> - <%= @seller.city %> - <%= @seller.district %> <%= @seller.county %>
                       <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.8.0/flags/1x1/<%= @seller.country.downcase %>.svg" width="15" height="15" class="m-l-10">
                     </p>
 
@@ -115,7 +100,7 @@
                    <div class="card" data-social="item">
                     <div id="calendar_container" style="height: 850px" class="padding-20">
                     </div>
-                  </div>           
+                  </div>
                   </div>
                 </div>
               </div>
@@ -149,7 +134,7 @@
                       <% end -%>
                     </div>
                     </div>
-                  </div>           
+                  </div>
                   </div>
                 </div>
               </div>
@@ -160,7 +145,7 @@
                     <div id="sales_plan_container" style="min-height: 850px" class="padding-20">
                       <div class="d-flex">
                         <div class="col-md-10">
-                          <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Juvenil mujer</h3>  
+                          <h3 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Juvenil mujer</h3>
                           <h5>Plan Mensual: <%= number_to_currency @totalMonth %></h5>
                           <h5>Ventas Plan / Real:  <%= number_to_currency @totalNow %> / <%= number_to_currency @totalRealMonth %></h5>
                           <h5>Mi cumplimiento a la fecha: <%= @cumplimiento.round(2) %>%</h5>
@@ -168,19 +153,19 @@
                         <div class="col-md-2">
                           <div class="m-t-30 fs-13">
                             <%= simple_form_for "asd", :url => "/", :method => :get do |f| %>
-                              <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: 6 , label: false  %>  
+                              <%= f.input :month, collection: (1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: 6 , label: false  %>
                            <% end %>
                           </div>
                         </div>
                       </div>
-                      <div class="row ">  
+                      <div class="row ">
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                           <div class="row ">
-                          <% 
+                          <%
                             i = 0
                             j = 0
                             @sp.each do |k,v|  %>
-                            <% if @real_week[j] != nil %>  
+                            <% if @real_week[j] != nil %>
                             <div class="col-lg-12 col-xl-12 col-sm-12 m-t-30">
                                   <table id="table_shift_w1" class="table-shift table table-striped">
                                     <thead>
@@ -197,34 +182,34 @@
                                         <th>Jue</th>
                                         <th>Vie</th>
                                         <th>Sáb</th>
-                                        <th>Dom</th>  
-                                        <th>Total</th>  
+                                        <th>Dom</th>
+                                        <th>Total</th>
                                       </tr>
                                       <tr>
                                         <th> - </th>
                                         <% k.values.first[:dates].each do |day| %>
                                         <th><%= DateTime.parse(day).strftime("%d") %></th>
                                         <% end -%>
-                                        <th></th> 
+                                        <th></th>
                                       </tr>
                                     </thead>
                                     <tbody class="t-p-3">
                                     <tr>
-                                        <th>Plan</th>  
+                                        <th>Plan</th>
                                         <%
                                         @sp_staffing[i].first.values.first[:seller_plan_per_day].each do |d| %>
-                                        <td><%= number_to_currency d %></td>  
+                                        <td><%= number_to_currency d %></td>
                                         <% end -%>
-                                        <td><%= number_to_currency @sp_staffing[i].first.values.first[:seller_plan_per_day].inject(:+) %></td>  
-                                    </tr>                                                
+                                        <td><%= number_to_currency @sp_staffing[i].first.values.first[:seller_plan_per_day].inject(:+) %></td>
+                                    </tr>
                                     <tr>
-                                      <th>Real</th> 
+                                      <th>Real</th>
                                       <% @real_week[j].first.values.first[:sale_per_day].each do |r| %>
-                                      <td><%= number_to_currency r %></td>  
+                                      <td><%= number_to_currency r %></td>
                                       <% end -%>
-                                      <td><%= number_to_currency @real_week[j-1].first.values.first[:sale_per_day].inject(:+) %></td>  
-                                      
-                                    </tr>                                               
+                                      <td><%= number_to_currency @real_week[j-1].first.values.first[:sale_per_day].inject(:+) %></td>
+
+                                    </tr>
                                     </tbody>
                                   </table>
                             </div>
@@ -236,7 +221,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>           
+                  </div>
                   </div>
                 </div>
               </div>
@@ -261,13 +246,13 @@
                                     <thead>
                                         <tr>
                                             <th>Tienda</th>
-                                            <th>Departamento</th>           
-                                            <th>Turno</th>           
-                                            <th>Descripción de turno</th>           
+                                            <th>Departamento</th>
+                                            <th>Turno</th>
+                                            <th>Descripción de turno</th>
                                             <th>Cantidad</th>
                                             <th>Fecha inicial</th>
                                             <th>Fecha final</th>
-                                            <th></th>    
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody class="t-p-3">
@@ -301,7 +286,7 @@
                                 <button class="btn btn-success">Postular</button>
                               </div>
                             </div>
-                          </div>                          
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -312,7 +297,7 @@
             </div>
           </div>
         </div>
-      </div>        
+      </div>
           <!-- END ITEM -->
 
         </div>
