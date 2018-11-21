@@ -13,57 +13,6 @@ $grey-borders: #dce3e6;
   margin: 0;
   padding: 0 15px;
 
-  &__markets {
-    margin: 0 -15px;
-
-    &__item {
-      background-color: white;
-      background-image: image-url('tottus_login_card.jpg');
-      background-size: cover;
-      background-position: top center;
-      background-repeat: no-repeat;
-      border-radius: 3px;
-      height: 33.33vh;
-      margin: 0 -15px;
-      position: relative;
-
-      &.falabella {
-        background-image: image-url('falabella_login_card.jpg');
-      }
-
-      &.sodimac {
-        background-image: image-url('sodimac_login_card.jpg');
-      }
-
-      &.tottus {
-        background-image: image-url('tottus_login_card.jpg');
-      }
-
-      img {
-        display: block;
-        height: auto;
-        margin-bottom: 15px;
-        width: 100%;
-      }
-
-      h3 {
-        background-color: $black;
-        bottom: 0;
-        color: $blue;
-        font-size: 16px;
-        font-weight: normal;
-        left: 0;
-        margin: 0;
-        padding: 10px 50px 10px 50px;
-        position: absolute;
-        text-align: center;
-        z-index: 1;
-      }
-
-    }
-
-  }
-
   &__brand {
     background-color: $black;
     background-image: image-url('login__brand_bg.png');
@@ -72,7 +21,16 @@ $grey-borders: #dce3e6;
     background-size: 100%;
     padding: 60px 40px;
 
+    @media only screen and (max-width: 767px) {
+      background-image: none;
+      padding: 40px;
+    }
+
     &__logo {
+
+      @media only screen and (max-width: 767px) {
+        margin-bottom: 15px;
+      }
 
       img {
         display: block;
@@ -89,6 +47,10 @@ $grey-borders: #dce3e6;
       left: 0;
       position: absolute;
       right: 0;
+
+      @media only screen and (max-width: 767px) {
+        position: static;
+      }
 
       p {
         font-size: 10px;
@@ -121,6 +83,10 @@ $grey-borders: #dce3e6;
       flex-wrap: wrap;
       margin-bottom: 100px;
 
+      @media only screen and (max-width: 767px) {
+        margin-bottom: 30px;
+      }
+
       &__item {
         width: 33.3%;
 
@@ -137,8 +103,25 @@ $grey-borders: #dce3e6;
 
     &__login-form {
 
-      label {
-        text-align: center;
+      .form-group {
+        background-color: $black;
+
+        label {
+          text-align: center;
+        }
+
+        input {
+          color: white;
+        }
+
+        &.focused {
+
+          label {
+            font-size: 8px;
+          }
+
+        }
+
       }
 
       .login-alert {
