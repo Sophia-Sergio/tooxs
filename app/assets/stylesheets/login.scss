@@ -5,6 +5,11 @@ $grey-borders: #dce3e6;
 
 
 .login {
+  background-color: white;
+  background-image: image-url('login_bg.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
   margin: 0;
   padding: 0 15px;
 
@@ -59,32 +64,94 @@ $grey-borders: #dce3e6;
 
   }
 
-}
-
-.sidebar-login {
-  background-color: $black;
-  min-height: 100vh;
-  padding-bottom: 40px;
-  padding-top: 40px;
-
   &__brand {
-    margin-bottom: 30px;
+    background-color: $black;
+    background-image: image-url('login__brand_bg.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+    padding: 60px 40px;
 
-    img {
-      display: block;
-      height: auto;
-      margin: 0 auto;
-      max-width: 200px;
-      width: 80%;
+    &__logo {
+
+      img {
+        display: block;
+        margin: 0 auto;
+        max-width: 240px;
+        vertical-align: top;
+        width: 100%;
+      }
+
+    }
+
+    &__copyright {
+      bottom: 50px;
+      left: 0;
+      position: absolute;
+      right: 0;
+
+      p {
+        font-size: 10px;
+        letter-spacing: .05em;
+        line-height: 12px;
+        margin: 0;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
     }
 
   }
 
-  p {
-    font-size: 12px;
-    letter-spacing: .05em;
-    text-align: center;
-    text-transform: uppercase;
+  &__form {
+    background-color: white;
+    padding: 70px 60px;
+
+    h3 {
+      font-size: 12px;
+      line-height: normal;
+      margin: 0 0 15px 0;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    &__brands {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-bottom: 100px;
+
+      &__item {
+        width: 33.3%;
+
+        img {
+          display: block;
+          height: auto;
+          vertical-align: top;
+          width: 100%;
+        }
+
+      }
+
+    }
+
+    &__login-form {
+
+      label {
+        text-align: center;
+      }
+
+      .login-alert {
+        color: red;
+        display: block;
+        font-size: 10px;
+        margin-bottom: 15px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+    }
+
   }
 
 }
