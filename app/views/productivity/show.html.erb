@@ -3,80 +3,119 @@
   var plan_enviado = JSON.parse(data.replace(/&quot;/g,'"'));
 </script>
 
-<div class="container-fluid" id="productivity_demo">
-  <div class="pantalla-seccion d-flex justify-content-between mb-2">
-    <div class="align-self-end">
-      <div class="titulo-pantalla">Optimizador de turnos</div>
+<style>
+  #productividades table + h3 {
+    margin-top: 30px;
+  }
+  #tabla-resumen thead tr th, #productividades thead tr th, #detalle-dotacion thead tr th {
+    font-size: 12px;
+  }
+  #tabla-resumen tbody tr td, #productividades tbody tr td, #detalle-dotacion tbody tr td {
+    font-size: 12px;
+  }
+  #detalle-dotacion tbody tr td .dotacion {
+    border: none;
+    font-size: 12px;
+    height: auto;
+    line-height: normal;
+  }
+  #detalle-dotacion table {
+    margin-bottom: 30px;
+  }
+</style>
+
+<div id="productivity_demo">
+
+  <div class="row mb-2 dashboard__title">
+    <div class="col">
+      <h1>Optimizador de turnos</h1>
     </div>
   </div>
 
-  <div class="sub-titulo-pantalla">Parámetros</div>
-  <div>
-    <%= simple_form_for @search, :url => productivity_show_path, :class => 'row', :method => :get do |f| %>
-    <div class="d-flex flex-wrap justify-content-end bd-highlight" id="sales_search_form">
-
-      <div class="input-form">
-        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store]  , label: false %>
-      </div>
-
-      <div class="input-form">
-        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false %>
-      </div>
-
-      <div class="input-form">
-        <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year] , label: false %>
-      </div>
-
-      <div class="input-form">
-        <%= f.input :month, collection: months_until(8), label: 'Mes', wrapper: :select2, selected: params[:month] , label: false  %>
-      </div>
-
-      <div class="boton-buscar">
-        <%= button_tag type: 'submit', class: "btn btn-success" do %>
-        <i class="fa fa-search" aria-hidden="true"></i> Buscar
-        <% end %>
-      </div>
-    </div>
+  <div class="row mb-2 dashboard__filter-optimizer">
+    <%= simple_form_for @search, :url => productivity_show_path, :class => '', :method => :get do |f| %>
+      <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store]  , label: false %>
+      <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false %>
+      <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year] , label: false %>
+      <%= f.input :month, collection: months_until(8), label: 'Mes', wrapper: :select2, selected: params[:month] , label: false  %>
+      <button class="btn btn-primary" type="submit" name="button"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
     <% end %>
   </div>
 
-  <div class="formulario-comparacion">
-    <div class="sub-titulo-pantalla">Resultado</div>
-    <div class="row ">
-      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <h5 class="text-uppercase m-t-30 fs-13 bold">Alto Las Condes - Juvenil mujer - <%= I18n.l(Date.parse("#{'%02d' % params[:month] }/01"), format: "%B", locale: :es).capitalize %> <%= params[:year] %></h5>
-        <div class="row ">
-          <div class="col-sm-12 col-xl-10 offset-xl-1">
-            <div id="chartContainer" style="width:100%;">
-              <canvas id="canvas"> </canvas>
-            </div>
+  <div class="row dashboard__charts">
+    <div class="col-md-12 dashboard__charts__info mb-4">
+
+      <h3 class="dashboard__charts__info__title">
+        Resultado de búsqueda<br>
+        <small>
+          Alto Las Condes - Juvenil mujer - <%= I18n.l(Date.parse("#{'%02d' % params[:month] }/01"), format: "%B", locale: :es).capitalize %> <%= params[:year] %>
+        </small>
+      </h3>
+
+      <div class="row mb-2">
+        <div class="col-md-4">
+          <div class="dashboard__charts__info__item">
+            <h4 class="dashboard__charts__info__item__title">Productividad sin optimizar</h4>
+            <h5 class="dashboard__charts__info__item__value">$481.910</h5>
           </div>
-          <div id="productividades" class="col-xl-10 offset-xl-1"></div>
         </div>
-        <div id="botones-optimizar" class="row m-t-30" style="display: none">
-          <div class="col-xl-1">
-            <input type="number" class="form-control" id="minutos_optimizando" name="minutos_optimizando" placeholder="minutos" min="0" max="10">
+
+        <div class="col-md-4">
+          <div class="dashboard__charts__info__item">
+            <h4 class="dashboard__charts__info__item__title">Productividad real</h4>
+            <h5 class="dashboard__charts__info__item__value">$319.564</h5>
           </div>
-          <div class="col-xl-11" >
-            <button type="button" class="btn btn-info btn-optimize"> <i class="fa fa-cogs"></i> Optimizar </button>
-            <span id="contenedor">
-                <span class="reloj" id="Horas">00</span>
-                <span class="reloj" id="Minutos">:00</span>
-                <span class="reloj" id="Segundos">:00</span>
-                <span class="reloj" id="Centesimas">:00</span>
-            </span>
+        </div>
+
+        <div class="col-md-4">
+          <div class="dashboard__charts__info__item">
+            <h4 class="dashboard__charts__info__item__title">Productividad ideal</h4>
+            <h5 class="dashboard__charts__info__item__value">$85.000</h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="dashboard__charts__line-chart">
+            <canvas id="canvas"></canvas>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="formulario-comparacion">
-    <div class="col-xl-8 offset-xl-2">
-      <div >
-        <h3>Planificación de dotación</h3>
+  <div class="formulario-comparacion" style="padding: 20px 15px;">
+
+    <div class="col-sm-12 col-xl-10 offset-xl-1">
+      <div id="chartContainer" style="display: none;">
+        <canvas id="canvas"> </canvas>
       </div>
-      <table  id="tabla-resumen" class="table table-striped">
+    </div>
+
+    <div id="productividades"></div>
+
+    <div id="botones-optimizar" class="row m-t-30" style="display: none">
+      <div class="col-xl-1">
+        <input type="number" class="form-control" id="minutos_optimizando" name="minutos_optimizando" placeholder="minutos" min="0" max="10">
+      </div>
+      <div class="col-xl-11" >
+        <button type="button" class="btn btn-info btn-optimize"> <i class="fa fa-cogs"></i> Optimizar </button>
+        <span id="contenedor">
+          <span class="reloj" id="Horas">00</span>
+          <span class="reloj" id="Minutos">:00</span>
+          <span class="reloj" id="Segundos">:00</span>
+          <span class="reloj" id="Centesimas">:00</span>
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="formulario-comparacion" style="padding: 20px 15px;">
+    <div class="table-responsive">
+      <h3 class="dashboard__charts__info__title">Planificación de dotación</h3>
+      <table id="tabla-resumen" class="table" style="font-size: 12px;">
         <thead>
           <th>ID</th>
           <th>Turno</th>
@@ -103,41 +142,94 @@
     </div>
   </div>
 
-  <div id="detalle-dotacion" class="formulario-comparacion">
-    <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
-    <div>
-      <span class="label label-primary tip" data-toggle="tooltip">Actual</span>
-      <span class="label label-success tip" data-toggle="tooltip">Optimizado</span>
-    </div>
-    <div class="row">
-      <div class="col-xl-12" style="overflow-y: auto">
-        <table class="table-shift table table-striped">
-          <thead>
-            <tr>
-              <th colspan="8" class="text-center">Semana 1</th>
-            </tr>
-            <tr>
-                <th class="text-center"> Hora</th>
-              <% if @staffing_w1 != nil %>
-              <% @staffing_w1[:dates].each do |d| %>
-                <th class="text-center"> <%= d.to_date.strftime("%d") %></th>
+  <div id="detalle-dotacion" class="formulario-comparacion"  style="padding: 20px 15px;">
+    <h3 class="dashboard__charts__info__title">Planificación de dotación</h3>
+
+    <div class="table-responsive">
+
+      <div style="margin-bottom: 15px;">
+        <span class="label label-primary tip" data-toggle="tooltip" style="border: none; height: auto; padding: 5px;">Actual</span>
+        <span class="label label-success tip" data-toggle="tooltip" style="border: none; height: auto; padding: 5px;">Optimizado</span>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12" style="overflow-y: auto">
+          <table class="table-shift table">
+            <thead>
+              <tr>
+                <th colspan="8" class="text-center">Semana 1</th>
+              </tr>
+              <tr>
+                  <th class="text-center"> Hora</th>
+                <% if @staffing_w1 != nil %>
+                <% @staffing_w1[:dates].each do |d| %>
+                  <th class="text-center"> <%= d.to_date.strftime("%d") %></th>
+                <% end -%>
+              </tr>
+            </thead>
+            <tbody class="t-p-3">
+              <% hora = -1
+                 dia = 0
+                 countTurnos = 0 %>
+              <% @staffing_w1[:draw].each do |k,v|%>
+              <tr>
+                <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
+                <td class="text-center" align="center"><%= k %><span class="hidden-xs-down">:00</span></td>
+                <% dia = 0 %>
+                <% v.first.each do |n| %>
+                  <% if n != 0 %>
+                    <td class="hora text-center">
+                      <div class="dotacion-row">
+                        <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                        <span id="optimizado-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
+                      </div>
+                    </td>
+                    <% else %>
+                    <td class="text-center">
+                      <div class="dotacion-row">
+                        <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                        <span id="optimizado-<%= hora+dia %>"  class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                      </div>
+                    </td>
+                    <% end -%>
+                    <% dia += 10 %>
+                  <% end -%>
+                <% end -%>
+              </tr>
+              <% hora += 1 %>
               <% end -%>
-            </tr>
-          </thead>
-          <tbody class="t-p-3">
-            <% hora = -1
-               dia = 0
-               countTurnos = 0 %>
-            <% @staffing_w1[:draw].each do |k,v|%>
-            <tr>
-              <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
-              <td class="text-center" align="center"><%= k %><span class="hidden-xs-down">:00</span></td>
-              <% dia = 0 %>
-              <% v.first.each do |n| %>
-                <% if n != 0 %>
-                  <td class="hora text-center">
+              <% end -%>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xl-12">
+          <table class="table-shift table">
+            <thead>
+              <tr>
+                <th colspan="8" class="text-center">Semana 2</th>
+              </tr>
+              <tr>
+                  <th class="text-center"> Hora </th>
+                <% if @staffing_w2 != nil %>
+                <% @staffing_w2[:dates].each do |d| %>
+                  <th class="text-center"> <%= d.to_date.strftime("%d") %></th>
+                <% end -%>
+              </tr>
+            </thead>
+            <tbody class="t-p-3">
+              <% hora = 69
+                 dia = 0
+                 countTurnos = 0 %>
+              <% @staffing_w2[:draw].each do |k,v|%>
+              <tr>
+                <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
+                <td class="text-center" align="center"><%= k %>:00</td>
+                <% dia = 0 %>
+                <% v.first.each do |n| %>
+                  <% if n != 0 %>
+                  <td class="text-center">
                     <div class="dotacion-row">
-                      <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></span>
+                      <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"> </span>
                       <span id="optimizado-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
                     </div>
                   </td>
@@ -145,167 +237,168 @@
                   <td class="text-center">
                     <div class="dotacion-row">
                       <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
-                      <span id="optimizado-<%= hora+dia %>"  class="dotacion label label-success tip" data-toggle="tooltip">0</span>
+                      <span id="optimizado-<%= hora+dia %>" class="dotacion label label-success  tip" data-toggle="tooltip">0</span>
                     </div>
                   </td>
                   <% end -%>
                   <% dia += 10 %>
                 <% end -%>
-              <% end -%>
-            </tr>
-            <% hora += 1 %>
-            <% end -%>
-            <% end -%>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-xl-12">
-        <table class="table-shift table table-striped">
-          <thead>
-            <tr>
-              <th colspan="8" class="text-center">Semana 2</th>
-            </tr>
-            <tr>
-                <th class="text-center"> Hora </th>
-              <% if @staffing_w2 != nil %>
-              <% @staffing_w2[:dates].each do |d| %>
-                <th class="text-center"> <%= d.to_date.strftime("%d") %></th>
-              <% end -%>
-            </tr>
-          </thead>
-          <tbody class="t-p-3">
-            <% hora = 69
-               dia = 0
-               countTurnos = 0 %>
-            <% @staffing_w2[:draw].each do |k,v|%>
-            <tr>
-              <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
-              <td class="text-center" align="center"><%= k %>:00</td>
-              <% dia = 0 %>
-              <% v.first.each do |n| %>
-                <% if n != 0 %>
-                <td class="text-center">
-                  <div class="dotacion-row">
-                    <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"> </span>
-                    <span id="optimizado-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
-                  </div>
-                </td>
-                <% else %>
-                <td class="text-center">
-                  <div class="dotacion-row">
-                    <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
-                    <span id="optimizado-<%= hora+dia %>" class="dotacion label label-success  tip" data-toggle="tooltip">0</span>
-                  </div>
-                </td>
                 <% end -%>
-                <% dia += 10 %>
+              </tr>
+              <% hora += 1 %>
               <% end -%>
               <% end -%>
-            </tr>
-            <% hora += 1 %>
-            <% end -%>
-            <% end -%>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-xl-12">
-        <table class="table-shift table table-striped">
-          <thead>
-            <tr>
-              <th colspan="8" class="text-center">Semana 3</th>
-            </tr>
-            <tr>
-                <th class="text-center"> Hora </th>
-              <% if @staffing_w3 != nil %>
-              <% @staffing_w3[:dates].each do |d| %>
-                <th class="text-center"> <%= d.to_date.strftime("%d") %></th>
-              <% end -%>
-            </tr>
-          </thead>
-          <tbody class="t-p-3">
-            <% hora = 139
-               dia = 0
-               countTurnos = 0 %>
-            <% @staffing_w3[:draw].each do |k,v|%>
-            <tr>
-              <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
-              <td class="text-center" align="center"><%= k %>:00</td>
-              <% dia = 0 %>
-              <% v.first.each do |n| %>
-                <% if n != 0 %>
-                <td class="text-center">
-                  <div class="dotacion-row">
-                    <div id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></div>
-                    <div id="optimizado-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></div>
-                  </div>
-                </td>
-                <% else %>
-                <td class="text-center">
-                  <div class="dotacion-row">
-                    <div id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip">0</div>
-                    <div id="optimizado-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip">0</div>
-                  </div>
-                </td>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xl-12">
+          <table class="table-shift table">
+            <thead>
+              <tr>
+                <th colspan="8" class="text-center">Semana 3</th>
+              </tr>
+              <tr>
+                  <th class="text-center"> Hora </th>
+                <% if @staffing_w3 != nil %>
+                <% @staffing_w3[:dates].each do |d| %>
+                  <th class="text-center"> <%= d.to_date.strftime("%d") %></th>
                 <% end -%>
-                <% dia += 10 %>
-              <% end -%>
-              <% end -%>
-            </tr>
-            <% hora += 1 %>
-            <% end -%>
-            <% end -%>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-xl-12">
-        <table class="table-shift table table-striped">
-          <thead>
-            <tr>
-              <th colspan="8" class="text-center">Semana 4</th>
-            </tr>
-            <tr>
-                <th class="text-center"> Hora </th>
-              <% if @staffing_w4 != nil %>
-              <% @staffing_w4[:dates].each do |d| %>
-                <th class="text-center"> <%= d.to_date.strftime("%d") %></th>
-              <% end -%>
-            </tr>
-          </thead>
-          <tbody class="t-p-3">
-            <% hora = 209
-               dia = 0
-               countTurnos = 0 %>
-            <% @staffing_w4[:draw].each do |k,v|%>
-            <tr>
-              <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
-              <td class="text-center" align="center"><%= k %>:00</td>
-              <% dia = 0 %>
-              <% v.first.each do |n| %>
-                <% if n != 0 %>
-                <td class="text-center">
-                  <div class="dotacion-row">
-                    <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary  tip" data-toggle="tooltip"> </span>
-                    <span id="optimizado-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
-                  </div>
-                </td>
-                <% else %>
-                <td class="text-center">
-                  <div class="dotacion-row">
-                    <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
-                    <span id="optimizado-<%= hora+dia %>" class="dotacion label label-success  tip" data-toggle="tooltip">0</span>
-                  </div>
-                </td>
+              </tr>
+            </thead>
+            <tbody class="t-p-3">
+              <% hora = 139
+                 dia = 0
+                 countTurnos = 0 %>
+              <% @staffing_w3[:draw].each do |k,v|%>
+              <tr>
+                <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
+                <td class="text-center" align="center"><%= k %>:00</td>
+                <% dia = 0 %>
+                <% v.first.each do |n| %>
+                  <% if n != 0 %>
+                  <td class="text-center">
+                    <div class="dotacion-row">
+                      <div id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip"></div>
+                      <div id="optimizado-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></div>
+                    </div>
+                  </td>
+                  <% else %>
+                  <td class="text-center">
+                    <div class="dotacion-row">
+                      <div id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip">0</div>
+                      <div id="optimizado-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip">0</div>
+                    </div>
+                  </td>
+                  <% end -%>
+                  <% dia += 10 %>
                 <% end -%>
-                <% dia += 10 %>
+                <% end -%>
+              </tr>
+              <% hora += 1 %>
               <% end -%>
               <% end -%>
-            </tr>
-            <% hora += 1 %>
-            <% end -%>
-            <% end -%>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xl-12">
+          <table class="table-shift table">
+            <thead>
+              <tr>
+                <th colspan="8" class="text-center">Semana 4</th>
+              </tr>
+              <tr>
+                  <th class="text-center"> Hora </th>
+                <% if @staffing_w4 != nil %>
+                <% @staffing_w4[:dates].each do |d| %>
+                  <th class="text-center"> <%= d.to_date.strftime("%d") %></th>
+                <% end -%>
+              </tr>
+            </thead>
+            <tbody class="t-p-3">
+              <% hora = 209
+                 dia = 0
+                 countTurnos = 0 %>
+              <% @staffing_w4[:draw].each do |k,v|%>
+              <tr>
+                <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
+                <td class="text-center" align="center"><%= k %>:00</td>
+                <% dia = 0 %>
+                <% v.first.each do |n| %>
+                  <% if n != 0 %>
+                  <td class="text-center">
+                    <div class="dotacion-row">
+                      <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary  tip" data-toggle="tooltip"> </span>
+                      <span id="optimizado-<%= hora+dia %>" class="dotacion label label-success tip" data-toggle="tooltip"></span>
+                    </div>
+                  </td>
+                  <% else %>
+                  <td class="text-center">
+                    <div class="dotacion-row">
+                      <span id="optimo-<%= hora+dia %>" class="dotacion label label-primary tip" data-toggle="tooltip">0</span>
+                      <span id="optimizado-<%= hora+dia %>" class="dotacion label label-success  tip" data-toggle="tooltip">0</span>
+                    </div>
+                  </td>
+                  <% end -%>
+                  <% dia += 10 %>
+                <% end -%>
+                <% end -%>
+              </tr>
+              <% hora += 1 %>
+              <% end -%>
+              <% end -%>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
+
 </div>
+<script type="text/javascript">
+
+  const chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(70, 196, 253)',
+    blueAlfa: 'rgba(70, 196, 253, .25)',
+    grey: 'rgb(201, 203, 207)',
+    greenAlfa: 'rgba(75, 192, 192, .25)',
+  }
+
+  var config1 = {
+    type: 'line',
+    data: {
+      labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5'],
+      datasets: [
+        {
+          backgroundColor: chartColors.blueAlfa,
+          borderColor: chartColors.blue,
+          pointBackgroundColor: 'white',
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          data: [65, 107, 80, 91, 86],
+          label: 'Plan Real'
+        },
+        {
+          data: [75, 50, 86, 70, 76],
+          label: 'Plan'
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+    }
+  };
+
+  randomConfig2_1 = <%= @margin_adjustment %>;
+  if (randomConfig2_1 > 100){
+    rConfig1_2 = 100;
+    rConfig2_2 = 0;
+  } else {
+    rConfig1_2 = randomConfig2_1
+    rConfig2_2 = 100 - randomConfig2_1;
+  }
+
+</script>
