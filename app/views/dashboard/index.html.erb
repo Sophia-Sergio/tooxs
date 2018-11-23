@@ -100,18 +100,18 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
                 <tr>
                   <th style="font-size: 12px;">Turno</th>
                   <th style="font-size: 12px;">Actual</th>
-                  <th style="font-size: 12px;">Comprometido</th>
                   <th style="font-size: 12px;">Optimizado</th>
+                  <th style="font-size: 12px;">Comprometido</th>
                 </tr>
     					</thead>
     					<tbody>
     					<%if @turnosEntrada %>
     						<% @turnosEntrada.count.times do |i| %>
     						<tr>
-    							<td style="font-size: 12px; text-align: center;"><%= i+1 %></td>
-    							<td style="font-size: 12px; text-align: center;"><%= @turnosEntrada[i].to_i %></td>
+    							<td class="shifts" style="font-size: 12px; text-align: center;">T<%= i+1 %></td>
     							<td style="font-size: 12px; text-align: center;"><%= @turnosEntrada[i].to_i %></td>
     							<td style="font-size: 12px; text-align: center;"><%= @turnosOptimizados[i].to_i %></td>
+                  <td style="font-size: 12px; text-align: center;"><%= @turnosEntrada[i].to_i %></td>
     						</tr>
     						<% end %>
     					<% end %>
@@ -196,24 +196,31 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
   var config1 = {
     type: 'line',
     data: {
-      labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5'],
+      labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
       datasets: [
         {
-          backgroundColor: chartColors.blueAlfa,
-          borderColor: chartColors.blue,
+          backgroundColor: chartColors.greenAlfa,
+          borderColor: chartColors.green,
           pointBackgroundColor: 'white',
           pointBorderWidth: 2,
           pointRadius: 5,
-          data: [65, 107, 80, 91, 86],
-          label: 'Plan Real'
+          data: [65, 95, 80, 91, 86],
+          label: 'Eficiencia Falabella'
         },
         {
+          backgroundColor: chartColors.blueAlfa,
+          borderColor: chartColors.blue,
           data: [75, 50, 86, 70, 76],
-          label: 'Plan'
+          label: 'Eficiencia Sodimac'
+        },
+        {
+          data: [59, 60, 82, 64, 90],
+          label: 'Eficiencia Tottus'
         },
       ],
     },
     options: {
+      maintainAspectRatio: false,
       responsive: true,
     }
   };
