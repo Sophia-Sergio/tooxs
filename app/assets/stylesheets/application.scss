@@ -24,9 +24,7 @@
   *= require pages/css/pages-icons.css
   *= require mta/css/mta-custom.css
   *= require mta/css/jquery.dataTables.min.css
-
-  *= require css/bootstrap-datepicker.min
-
+  *= require owl.carousel.min
   *= require_tree .
   *= require_self
 */
@@ -35,7 +33,6 @@
 * {
   box-sizing: border-box;
 }
-
 
 .page-sidebar {
   padding: 0.8em;
@@ -54,14 +51,17 @@
     }
   }
 }
+
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
   background: #3fabdc;
   border: 1px solid #3fabdc;
 }
+
 .dataTables_wrapper .dataTables_paginate ul li:hover > a {
   color: black;
 }
-.today-date {
+
+.today-date{
   color: #3fabdc;
   font-size: 13px;
   position: absolute;

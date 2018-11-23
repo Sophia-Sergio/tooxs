@@ -27,6 +27,7 @@ module ApplicationHelper
 
   def market_parameters
     {
+      name: 'Tottus Kennedy',
       stores: [['Supermercado 1', 1], ['Supermercado 2', 2], ['Supermercado 3', 3]],
       departments: [['Todos', 1], ['Abarrotes', 2], ['Bebidas', 2], ['Frutas y Verduras', 3]],
       production_departments: [['Todos', 1 ], ['Carnes', 2], ['Fiambrería y Quesos', 3], ['Pescados y Mariscos', 4]],

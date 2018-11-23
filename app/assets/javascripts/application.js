@@ -58,6 +58,6 @@
 //= require mta/js/HourAnalysis.js
 //= require mta/js/EfficiencyReport.js
 //= require mta/js/app.js
-//= require supermarket_main/app
+//= require owl.carousel.min
 //= require_tree .
 //= require_self
