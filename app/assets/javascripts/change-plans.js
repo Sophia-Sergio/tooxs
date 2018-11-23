@@ -1,59 +1,8 @@
-  // const form = document.querySelector('.change-plans__form')
-  // let weekOne = document.querySelector('.week-one')
-  // let weekTwo = document.querySelector('.week-two')
-  // let weekThree = document.querySelector('.week-three')
-  // let weekFour = document.querySelector('.week-four')
-  // let monthAmount = document.querySelector('.month-amount')
-  // let weekOneAdj = document.querySelector('.week-one-adj')
-  // let weekTwoAdj = document.querySelector('.week-two-adj')
-  // let weekThreeAdj = document.querySelector('.week-three-adj')
-  // let weekFourAdj = document.querySelector('.week-four-adj')
-  // let monthAmountAdj = document.querySelector('.month-amount-adj')
-  // let weekOneInitialAmount = Number(weekOne.textContent)
-  // console.log(weekOneInitialAmount)
-  // const inputPercentage = document.querySelector('.percentage')
-  // const inputAmount = document.querySelector('.amount')
-  // console.log({inputPercentage, inputAmount})
-  //
-  // const addAmount = ( sum, initial ) => { return initial + sum }
-  //
-  // inputPercentage.addEventListener( 'change', ( e ) => {
-  //   console.log(e.target);
-  //   e.stopPropagation()
-  //   inputAmount.value = 0
-  //   let pctVal = Number( inputPercentage.value )
-  //   let weekOneAmountAdj = Number( weekOneAdj.textContent )
-  //   let weekTwoAmountAdj = Number( weekTwoAdj.textContent )
-  //   let weekThreeAmountAdj = Number( weekThreeAdj.textContent )
-  //   let weekFourAmountAdj = Number( weekFourAdj.textContent )
-  //   weekOneAdj.textContent = ( pctVal / 100 ) * 8500 + 8500
-  //   weekTwoAdj.textContent = ( pctVal / 100 ) * 8500 + 8500
-  //   weekThreeAdj.textContent = ( pctVal / 100 ) * 8500 + 8500
-  //   weekFourAdj.textContent = ( pctVal / 100 ) * 8500 + 8500
-  //   monthAmountAdj.textContent = weekOneAmountAdj + weekTwoAmountAdj + weekThreeAmountAdj + weekFourAmountAdj
-  // }, true )
-  //
-  // inputAmount.addEventListener( 'change', ( e ) => {
-  //   e.stopPropagation()
-  //   inputPercentage.value = 0
-  //   let sumVal = Number( inputAmount.value )
-  //   let weekOneAmountAdj = Number( weekOneAdj.textContent )
-  //   let weekTwoAmountAdj = Number( weekTwoAdj.textContent )
-  //   let weekThreeAmountAdj = Number( weekThreeAdj.textContent )
-  //   let weekFourAmountAdj = Number( weekFourAdj.textContent )
-  //   weekOneAdj.textContent = sumVal + 8500
-  //   weekTwoAdj.textContent = sumVal + 8500
-  //   weekThreeAdj.textContent = sumVal + 8500
-  //   weekFourAdj.textContent = sumVal + 8500
-  //   monthAmountAdj.textContent = weekOneAmountAdj + weekTwoAmountAdj + weekThreeAmountAdj + weekFourAmountAdj
-  // }, true )
-  //
-  // console.log({inputPercentage, inputAmount, weekOneInitialAmount})
-
 (function($){
 
   $('.pct-week-one').change(function(e){
     let table = $(this).closest('.table')
+    table.find('.amt-week-1').val(0)
     let pctVal = Number( $(this).val() )
     let weekOne = Number( table.find('.week-one').text() )
     let weekTwo = Number( table.find('.week-two').text() )
@@ -64,16 +13,20 @@
     let weekThreeAdj = table.find('.week-three-adj')
     let weekFourAdj = table.find('.week-four-adj')
     let monthAmountAdj = table.find('.month-amount-adj')
-    table.find('.amt-week-1').val(0)
     weekOneAdj.text( ( pctVal / 100 ) * weekOne + weekOne )
-    weekTwoAdj.text( weekTwo )
-    weekThreeAdj.text( weekThree )
-    weekFourAdj.text( weekFour )
-    monthAmountAdj.text( Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text()) )
+    // weekTwoAdj.text( weekTwo )
+    // weekThreeAdj.text( weekThree )
+    // weekFourAdj.text( weekFour )
+    monthAmountAdj.text(
+      new Intl.NumberFormat('de-DE').format(
+        Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text())
+      )
+    )
   })
 
   $('.pct-week-two').change(function(e){
     let table = $(this).closest('.table')
+    table.find('.amt-week-2').val(0)
     let pctVal = Number( $(this).val() )
     let weekOne = Number( table.find('.week-one').text() )
     let weekTwo = Number( table.find('.week-two').text() )
@@ -84,12 +37,15 @@
     let weekThreeAdj = table.find('.week-three-adj')
     let weekFourAdj = table.find('.week-four-adj')
     let monthAmountAdj = table.find('.month-amount-adj')
-    table.find('.amt-week-2').val(0)
-    weekOneAdj.text( weekOne )
+    // weekOneAdj.text( weekOne )
     weekTwoAdj.text( ( pctVal / 100 ) * weekTwo + weekTwo )
-    weekThreeAdj.text( weekThree )
-    weekFourAdj.text( weekFour )
-    monthAmountAdj.text( Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text()) )
+    // weekThreeAdj.text( weekThree )
+    // weekFourAdj.text( weekFour )
+    monthAmountAdj.text(
+      new Intl.NumberFormat('de-DE').format(
+        Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text())
+      )
+    )
   })
 
   $('.pct-week-three').change(function(e){
@@ -105,11 +61,15 @@
     let weekFourAdj = table.find('.week-four-adj')
     let monthAmountAdj = table.find('.month-amount-adj')
     table.find('.amt-week-3').val(0)
-    weekOneAdj.text( weekOne )
-    weekTwoAdj.text( weekTwo )
+    // weekOneAdj.text( weekOne )
+    // weekTwoAdj.text( weekTwo )
     weekThreeAdj.text( ( pctVal / 100 ) * weekThree + weekThree )
-    weekFourAdj.text( weekFour )
-    monthAmountAdj.text( Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text()) )
+    // weekFourAdj.text( weekFour )
+    monthAmountAdj.text(
+      new Intl.NumberFormat('de-DE').format(
+        Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text())
+      )
+    )
   })
 
   $('.pct-week-four').change(function(e){
@@ -125,11 +85,15 @@
     let weekFourAdj = table.find('.week-four-adj')
     let monthAmountAdj = table.find('.month-amount-adj')
     table.find('.amt-week-3').val(0)
-    weekOneAdj.text( weekOne )
-    weekTwoAdj.text( weekTwo )
-    weekThreeAdj.text( weekThree )
+    // weekOneAdj.text( weekOne )
+    // weekTwoAdj.text( weekTwo )
+    // weekThreeAdj.text( weekThree )
     weekFourAdj.text( ( pctVal / 100 ) * weekFour + weekFour )
-    monthAmountAdj.text( Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text()) )
+    monthAmountAdj.text(
+      new Intl.NumberFormat('de-DE').format(
+        Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text())
+      )
+    )
   })
 
   $('.amt-week-1').change(function(e){
@@ -146,10 +110,14 @@
     let monthAmountAdj = table.find('.month-amount-adj')
     table.find('.pct-week-one').val( 0 )
     weekOneAdj.text(amtVal + weekOne)
-    weekTwoAdj.text(weekTwo)
-    weekThreeAdj.text(weekThree)
-    weekFourAdj.text(weekFour)
-    monthAmountAdj.text( Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text()) )
+    // weekTwoAdj.text(weekTwo)
+    // weekThreeAdj.text(weekThree)
+    // weekFourAdj.text(weekFour)
+    monthAmountAdj.text(
+      new Intl.NumberFormat('de-DE').format(
+        Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text())
+      )
+    )
   })
 
   $('.amt-week-2').change(function(e){
@@ -165,11 +133,15 @@
     let weekFourAdj = table.find('.week-four-adj')
     let monthAmountAdj = table.find('.month-amount-adj')
     table.find('.pct-week-two').val( 0 )
-    weekOneAdj.text(weekOne)
+    // weekOneAdj.text(weekOne)
     weekTwoAdj.text(amtVal + weekTwo)
-    weekThreeAdj.text(weekThree)
-    weekFourAdj.text(weekFour)
-    monthAmountAdj.text( Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text()) )
+    // weekThreeAdj.text(weekThree)
+    // weekFourAdj.text(weekFour)
+    monthAmountAdj.text(
+      new Intl.NumberFormat('de-DE').format(
+        Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text())
+      )
+    )
   })
 
   $('.amt-week-3').change(function(e){
@@ -185,11 +157,15 @@
     let weekFourAdj = table.find('.week-four-adj')
     let monthAmountAdj = table.find('.month-amount-adj')
     table.find('.pct-week-three').val( 0 )
-    weekOneAdj.text(weekOne)
-    weekTwoAdj.text(weekTwo)
+    // weekOneAdj.text(weekOne)
+    // weekTwoAdj.text(weekTwo)
     weekThreeAdj.text(amtVal + weekThree)
-    weekFourAdj.text(weekFour)
-    monthAmountAdj.text( Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text()) )
+    // weekFourAdj.text(weekFour)
+    monthAmountAdj.text(
+      new Intl.NumberFormat('de-DE').format(
+        Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text())
+      )
+    )
   })
 
   $('.amt-week-4').change(function(e){
@@ -205,11 +181,15 @@
     let weekFourAdj = table.find('.week-four-adj')
     let monthAmountAdj = table.find('.month-amount-adj')
     table.find('.pct-week-four').val( 0 )
-    weekOneAdj.text(weekOne)
-    weekTwoAdj.text(weekTwo)
-    weekThreeAdj.text(weekThree)
+    // weekOneAdj.text(weekOne)
+    // weekTwoAdj.text(weekTwo)
+    // weekThreeAdj.text(weekThree)
     weekFourAdj.text(amtVal + weekFour)
-    monthAmountAdj.text( Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text()) )
+    monthAmountAdj.text(
+      new Intl.NumberFormat('de-DE').format(
+        Number(weekOneAdj.text()) + Number(weekTwoAdj.text()) + Number(weekThreeAdj.text()) + Number(weekFourAdj.text())
+      )
+    )
   })
 
 })( jQuery )
