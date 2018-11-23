@@ -130,7 +130,7 @@
       padding: 0;
 
       canvas {
-        height: 300px;
+        height: 350px;
       }
 
     }
@@ -177,6 +177,12 @@
 
               td {
                 font-size: 12px;
+
+                &.shifts {
+                  background-color: rgba(34, 42, 66, 0.1);
+                  color: black;
+                  font-weight: bold;
+                }
 
                 &.progress-container {
                   position: relative;
