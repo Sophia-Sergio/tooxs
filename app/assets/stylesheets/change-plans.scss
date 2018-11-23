@@ -1,0 +1,26 @@
+$black: #353e4f;
+$grey: #5d6a80;
+$grey-borders: #dce3e6;
+
+.change-plans{
+
+
+  &__cont {
+    background: white;
+    border-radius: 0.5em;
+    border: 1px solid $grey-borders;
+    margin-top: 1em;
+    overflow: hidden;
+    padding: 2em !important;
+
+    &__title {
+      color: #353e4f;
+      font-size: 1.5em;
+      font-weight: bold;
+      line-height: 2em;
+      margin: 0 0 20px 0;
+    }
+
+  }
+
+}
