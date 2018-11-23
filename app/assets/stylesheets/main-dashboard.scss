@@ -1,0 +1,248 @@
+#dashboard {
+  padding: 0 15px;
+}
+
+.dashboard {
+
+  &__title {
+    border-bottom: 1px solid #dce3e6;
+    margin-bottom: 20px !important;
+    margin-top: -64px;
+    padding-bottom: 2em;
+
+    h1 {
+      color: #353e4f;
+      font-size: 3em;
+      font-weight: bold;
+      line-height: 1em;
+      margin: 0;
+    }
+
+  }
+
+  &__filter {
+    background-color: white;
+    border: 1px solid #dce3e6;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    padding: 15px;
+
+    form {
+      display: block;
+      font-size: 14px;
+      width: 100%;
+
+      .form-group {
+        float: left;
+        margin: 0;
+        width: 33%;
+
+        + div {
+          margin-left: .5%;
+        }
+
+      }
+
+    }
+
+    &-optimizer {
+      background-color: white;
+      border: 1px solid #dce3e6;
+      border-radius: 3px;
+      margin-bottom: 20px;
+      padding: 15px;
+
+      form {
+        display: flex;
+        font-size: 14px;
+        width: 100%;
+
+        .form-group {
+          float: left;
+          margin: 0;
+
+          + div, + button {
+            margin-left: .5%;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+  &__charts {
+
+    &__info {
+      background-color: white;
+      border: 1px solid #dce3e6;
+      border-radius: 3px;
+      padding: 20px 15px !important;
+
+      &__title {
+        font-weight: bold;
+        line-height: normal;
+        margin: 0 0 20px 0;
+
+        small {
+          font-size: 16px;
+          font-weight: normal;
+        }
+
+      }
+
+      &__item {
+        background-color: white;
+        border: 1px solid #dce3e6;
+        border-radius: 3px;
+        padding: 15px;
+
+        &__title {
+          font-size: 14px;
+          font-weight: bold;
+          line-height: normal;
+          margin: 0 0 10px 0;
+          text-transform: uppercase;
+        }
+
+        &__value {
+          font-weight: bold;
+          font-size: 30px;
+          color: #46c4fd;
+          line-height: normal;
+        }
+
+        &__amount {
+          font-weight: normal;
+          font-size: 14px;
+          color: #5d6a80;
+          line-height: normal;
+          margin: 0;
+        }
+
+      }
+
+    }
+
+    &__line-chart {
+      padding: 0;
+
+      canvas {
+        height: 300px;
+      }
+
+    }
+
+  }
+
+  &__productivity-charts {
+
+    &__item {
+      background-color: white;
+      border: 1px solid #dce3e6;
+      border-radius: 3px;
+      padding: 30px 15px 15px 15px;
+
+      + div {
+        margin-top: 5px;
+      }
+
+      &__title {
+        font-size: 1.25em;
+        font-weight: bold;
+        margin: 0 0 20px 0;
+      }
+
+      &__table {
+
+        .table-responsive {
+          overflow-x: auto;
+
+          table {
+            font-size: 12px;
+
+            thead {
+              tr {
+                th {
+                  font-size: 14px;
+                  padding: 8px 10px;
+                  vertical-align: middle;
+                }
+              }
+            }
+
+            tr {
+
+              td {
+                font-size: 12px;
+
+                &.progress-container {
+                  position: relative;
+                  vertical-align: top;
+                }
+
+                .progress {
+                  background-color: rgba(34,42,66,.1);
+                  border: 1px solid rgba(34,42,66,.1);
+                  height: 10px;
+                  margin: 3px 0 0 40px;
+
+                  .progress-value {
+                    color: black;
+                    font-size: 9px;
+                    left: 10px;
+                    position: absolute;
+                    top: 8px;
+                  }
+
+                  .progress-bar {
+                    background-color: #46c4fd;
+                    height: auto;
+                  }
+
+                }
+
+
+                .thumbnail {
+                  border-radius: 50%;
+                  height: 30px;
+                  overflow: hidden;
+                  width: 30px;
+
+                  img {
+                    display: block;
+                    height: auto;
+                    width: 100%;
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+      .progress {
+        margin: 0 0 10px 0;
+      }
+
+      &__amount {
+        font-weight: normal;
+        font-size: 1em;
+        color: #5d6a80;
+        margin: 0;
+      }
+
+    }
+
+  }
+
+
+}

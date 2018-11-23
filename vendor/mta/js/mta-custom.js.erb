@@ -556,7 +556,7 @@ if ($('#productivity_demo').length > 0)
     productividad[3] = parseInt(plan[3]/dotacion[3]);
 
 
-    table = $("<table/>", { "class": "table-shift table table-striped" });
+    table = $("<table/>", { "class": "table-shift table" });
     thead = $("<thead/>", {});
 
     $(thead).html('<tr><th></th><th>Semana 1</th><th>Semana 2</th><th>Semana 3</th><th>Semana 4</th></tr>');
@@ -572,7 +572,7 @@ if ($('#productivity_demo').length > 0)
     $(tbody).append(productividadSet);
     $(table).append(tbody);
 
-    $("#productividades").append("<br><h3>"+titulo+"</h3>");
+    $("#productividades").append("<h3 class=\"dashboard__charts__info__title\">"+titulo+"</h3>");
     $("#productividades").append(table);
   }
 
@@ -812,9 +812,30 @@ if ($('#productivity_demo').length > 0)
               data: {
               datasets:
               [
-                {pointRadius: 0, borderDash: [10, 5], data: prod_obj_line, fill: 'false', label: 'Productividad ideal', backgroundColor: 'rgb(179, 178, 178)', borderColor: 'rgb(179, 178, 178)'},
-                {data: productividad_actual, fill: 'false', label: 'Prod. sin optimizar', backgroundColor: '#65ff00', borderColor: '#65ff00'},
-                {data: productividad_optimizada, fill: 'false', label: 'Productividad optimizada', backgroundColor: '#33d6ce', borderColor: '#33d6ce'}
+                {
+                  backgroundColor: 'transparent',
+                  borderColor: 'rgb(255, 205, 86)',
+                  pointRadius: 0,
+                  borderDash: [10, 10],
+                  data: prod_obj_line,
+                  fill: 'false',
+                  label: 'Productividad ideal',
+                },
+                {
+                  backgroundColor: 'rgba(70, 196, 253, .25)',
+                  borderColor: 'rgb(70, 196, 253)',
+                  pointBackgroundColor: 'white',
+                  pointBorderWidth: 2,
+                  pointRadius: 5,
+                  data: productividad_actual,
+                  label: 'Prod. sin optimizar',
+                },
+                {
+                  backgroundColor: 'rgba(201, 203, 207, .25)',
+                  borderColor: 'rgb(201, 203, 207)',
+                  data: productividad_optimizada,
+                  label: 'Productividad optimizada',
+                }
               ],
               labels: fecha
               },
@@ -883,7 +904,7 @@ if ($('#productivity_demo').length > 0)
 
             while(count_turnos < num_turnos)
             {
-              $("#tabla-resumen tbody").append("<tr><td>" + turnos[count_turnos].turno + "</td><td>"+(nombreTurnos[parseInt(count_turnos)][1])+"</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
+              $("#tabla-resumen tbody").append("<tr><td style=\"font-size: 12px;\">" + turnos[count_turnos].turno + "</td><td>"+(nombreTurnos[parseInt(count_turnos)][1])+"</td><td>" + turnos[count_turnos].vendedores + "</td><td id='turnos-"+count_turnos+"'></td></tr>");
               resumenTurnosNormal += parseInt(turnos[count_turnos].vendedores);
               count_turnos++;
             }
