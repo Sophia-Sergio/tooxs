@@ -2,10 +2,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :authenticate_user!
 
-  if Rails.env.production?
-    http_basic_authenticate_with name: "salesforce", password: "12345678"
-  end
-
   def staffing
     days = {}
     date_start  = Date.today.beginning_of_year - 1.year
@@ -744,8 +740,8 @@ class ApplicationController < ActionController::Base
 
         calculo = 0
 
-      else        
-        calculo = -((((matrix[i] - prod_obj) * staff[i]) / prod_obj)).round 
+      else
+        calculo = -((((matrix[i] - prod_obj) * staff[i]) / prod_obj)).round
 
         if calculo >= 0
           exceso += calculo
@@ -755,12 +751,12 @@ class ApplicationController < ActionController::Base
 
       end
 
-      matrixSet << calculo 
+      matrixSet << calculo
 
     end
 
     data = {:exceso => exceso, :faltante => -faltante, :matrixSet => matrixSet }
-    
+
     return data
   end
 end
