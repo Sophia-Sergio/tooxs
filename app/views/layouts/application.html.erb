@@ -43,9 +43,8 @@
           <%  if controller_name == 'sellers' and action_name == 'show' %>
             <div class="">
           <% else %>
-            <div class="container-fluid bg-white">
-            <%= render 'shared/brand-nav' %>
-          <% end -%>
+            <%= render 'shared/brand-nav', link: link_options %>
+          <% end %>
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
           <%= yield %>
             <!-- END PLACE PAGE CONTENT HERE -->

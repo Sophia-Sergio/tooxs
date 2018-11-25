@@ -77,9 +77,10 @@
 }
 
 .staffing_store {
-  .label {
-    height: 20px;
+  .inactive{
+    display: none;
   }
+
   th:first-child{
     width: 5%;
   }

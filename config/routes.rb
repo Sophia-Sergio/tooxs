@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get '/efficiency/report'
   get 'efficiency/index'
 
-  namespace :market do
+  namespace :tottus do
     get 'dashboard/index'
     get 'dashboard/production'
   end
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     get 'dashboard/index'
   end
 
-  get 'efficiency/index'  
+  get 'efficiency/index'
   get 'staff_request/show'
   get 'staff_request/index'
   post 'staff_request/request_send'

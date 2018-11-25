@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Main dashboard controller
-module Market
+module Tottus
   # Main dashboard controller
   class DashboardController < ApplicationController
     def index() end

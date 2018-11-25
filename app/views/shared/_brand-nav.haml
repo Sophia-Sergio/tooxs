@@ -1,14 +1,19 @@
-.container-fluid
+.container-fluid{ style: 'z-index:10'}
   .row
     .col
       %nav.brands-nav
         %ul.brands-nav__list
-          %li.active
-            %a{ href: '#', 'title': 'Falabella' }
-              = image_tag('falabella_logo.jpg')
-          %li
-            %a{ href: '#', 'title': 'Sodimac' }
-              = image_tag('sodimac_logo.jpg')
-          %li
-            %a{ href: '#', 'title': 'Tottus' }
-              = image_tag('tottus_logo.jpg')
+          - if params[:controller] == 'tottus/dashboard' && params[:action] == 'production'
+            %li{class: tottus_active}
+              %a{ href: link[:tottus], 'title': 'Tottus', class: 'tottus' }
+                = image_tag('tottus_logo.jpg')
+          - else
+            %li{class: falabella_active}
+              %a{ href: link[:falabella], 'title': 'Falabella', class: 'falabella' }
+                = image_tag('falabella_logo.jpg')
+            %li{class: sodimac_active}
+              %a{ href: link[:sodimac], 'title': 'Sodimac', class: 'sodimac' }
+                = image_tag('sodimac_logo.jpg')
+            %li{class: tottus_active}
+              %a{ href: link[:tottus], 'title': 'Tottus', class: 'tottus' }
+                = image_tag('tottus_logo.jpg')
