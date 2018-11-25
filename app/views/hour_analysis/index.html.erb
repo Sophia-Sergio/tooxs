@@ -3,6 +3,8 @@
   var plan_enviado = JSON.parse(data.replace(/&quot;/g,'"'));
 </script>
 
+<div class="container-fluid">
+
 <div class="pantalla-seccion d-flex justify-content-between mb-2">
   <div class="align-self-end">
     <div class="titulo-pantalla">Análisis de horas</div>
@@ -56,70 +58,76 @@
 
 <div class="formulario-comparacion">
   <div class="row">
-    <div class="col-sm-12 col-xl-10 offset-xl-1">
+    <div class="col-md-12">
       <div class="sub-titulo-pantalla">Productividad</div><!-- al <%= I18n.l(Time.now, format: "%A, %d %B %Y", locale: :es) %></h2> -->
-      <table id="table_desviaciones" class="table-shift table table-striped">
-        <thead>
-          <th></th>
-          <th>Dotación</th>
-          <th>Venta</th>
-          <th>Prod.</th>
-          <th>Horas faltantes</th>
-          <th>Horas exeso</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Prod. Real</td>
-            <td id="dot_real-"><%= @dotacion_w_real.sum %></td>
-            <td id="vent_real-"><%= number_to_currency @venta_w_real.sum %></td>
-            <td id="prod_real-">
-            <% if @dotacion_w_real.sum != 0 %>
-              <%= number_to_currency (@venta_w_real.sum / @dotacion_w_real.sum).round %>
-            <% end %>
-            </td>
-            <td id="sum-faltante"></td>
-            <td id="sum-exceso"></td>
-          </tr>
-          <tr>
-            <td>Prod. Optimizada</td>
-            <td id="dot_op-"><%= @dotacion_w_op.sum %></td>
-            <td id="vent_op-"><%= number_to_currency @venta_w_real.sum %></td>
-
-            <td id="prod_op-">
-              <% if @dotacion_w_op.length > 0 %>
-              <%= number_to_currency (@venta_w_real.sum / @dotacion_w_op.sum).round %>
+      <div class="table-responsive">
+        <table id="table_desviaciones" class="table">
+          <thead>
+            <th></th>
+            <th>Dotación</th>
+            <th>Venta</th>
+            <th>Prod.</th>
+            <th>Horas faltantes</th>
+            <th>Horas exeso</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Prod. Real</td>
+              <td id="dot_real-"><%= @dotacion_w_real.sum %></td>
+              <td id="vent_real-"><%= number_to_currency @venta_w_real.sum %></td>
+              <td id="prod_real-">
+              <% if @dotacion_w_real.sum != 0 %>
+                <%= number_to_currency (@venta_w_real.sum / @dotacion_w_real.sum).round %>
               <% end %>
-            </td>
-            <td id="sum-faltante-op"></td>
-            <td id="sum-exceso-op"></td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+              <td id="sum-faltante"></td>
+              <td id="sum-exceso"></td>
+            </tr>
+            <tr>
+              <td>Prod. Optimizada</td>
+              <td id="dot_op-"><%= @dotacion_w_op.sum %></td>
+              <td id="vent_op-"><%= number_to_currency @venta_w_real.sum %></td>
+
+              <td id="prod_op-">
+                <% if @dotacion_w_op.length > 0 %>
+                <%= number_to_currency (@venta_w_real.sum / @dotacion_w_op.sum).round %>
+                <% end %>
+              </td>
+              <td id="sum-faltante-op"></td>
+              <td id="sum-exceso-op"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="col-sm-12 col-xl-10 offset-xl-1">
+    <div class="col-md-12">
       <div class="sub-titulo-pantalla">Detalle</div>
-      <table id="table_desviaciones" class="table table-striped">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Total</th>
-            <th>En pesos</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Ahorro en costo</td>
-            <td id="sum-ahorro"></td>
-            <td id="ahorro-total"></td>
-          </tr>
-          <tr>
-            <td>Venta recuperada</td>
-            <td id="sum-recuperada"></td>
-            <td id="recuperada-total"></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table id="table_desviaciones" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Total</th>
+              <th>En pesos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ahorro en costo</td>
+              <td id="sum-ahorro"></td>
+              <td id="ahorro-total"></td>
+            </tr>
+            <tr>
+              <td>Venta recuperada</td>
+              <td id="sum-recuperada"></td>
+              <td id="recuperada-total"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
+</div>
+
 </div>
 
