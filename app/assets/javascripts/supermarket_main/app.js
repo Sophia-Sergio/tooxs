@@ -23,14 +23,6 @@ window.onload = function() {
     autoclose: true,
   });
 
-  if($('#chart-area1').length > 0) {
-    var ctx1 = document.getElementById('chart-area1').getContext('2d');
-    window.myPie1 = new Chart(ctx1, config1);
-  }
-  if($('#chart-area2').length > 0){
-    var ctx2 = document.getElementById('chart-area2').getContext('2d');
-    window.myPie2 = new Chart(ctx2, config2);
-  }
   if($('#market-plan-compliance').length > 0){
     new Chart(document.getElementById("market-plan-compliance").getContext('2d'), {
       type: 'pie',
@@ -87,4 +79,57 @@ window.onload = function() {
     add_active($('.sodimac').parent());
     $('.hour-switch').removeClass('inactive');
   })
+
+  if($('#chart-area1').length > 0) {
+    setTimeout(function(){
+      var form = $('#dasboard_form').serializeArray();
+      var data = {};
+      $.map(form, function(field, i){
+        data[field['name']] = field['value'];
+      })
+
+      $.ajax({
+        type: "POST",
+        url: '/efficiency/report_post',
+        data: data,
+        success: function(data){
+          load_chart(data)
+        },
+        dataType: 'json'
+      });
+    }, 1000)
+  }
+
+  load_chart = function(data){
+    var config = {
+      type: 'line',
+      data: {
+        labels: data.fecha,
+        datasets: [
+          {
+            backgroundColor: chartColors.greenAlfa,
+            borderColor: chartColors.green,
+            pointBackgroundColor: 'white',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            data: data.prod_w_real,
+            label: 'Eficiencia Falabella'
+          },
+          {
+            backgroundColor: chartColors.blueAlfa,
+            borderColor: chartColors.blue,
+            data: data.prod_w_op,
+            label: 'Eficiencia Sodimac'
+          },
+        ],
+      },
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+      }
+    };
+    var ctx1 = document.getElementById('chart-area1').getContext('2d');
+    window.myPie1 = new Chart(ctx1, config);
+  }
+
 };
