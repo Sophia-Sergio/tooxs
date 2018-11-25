@@ -1,55 +1,58 @@
-<p id="notice"><%= notice %></p>
+<div class="container-fluid">
+  <div class="box">
+  <p id="notice"><%= notice %></p>
 
-<h1>Detalle de solicitud</h1>
+  <div class="sub-titulo-pantalla">Detalle de solicitud</div>
 
-<table class="table table-stripped table-condensed table-hover table-smallFont" id="table-request_detail">
-  <thead>
-    <tr>
-      <th>Solicitud</th>
-      <th>Tienda</th>
-      <th>Departamento</th>
-      <th>Turno</th>
-      <th>Cantidad</th>
-      <th>Recursos Humanos</th>
-      <th>Interno</th>
-      <th>Laborum</th>
-      <th>Trabajando</th>
-      <th>Fecha solicitud</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
+  <div class="table-responsive mb-4">
+    <table class="table" id="table-request_detail">
+      <thead>
+        <tr>
+          <th>Solicitud</th>
+          <th>Tienda</th>
+          <th>Departamento</th>
+          <th>Turno</th>
+          <th>Cantidad</th>
+          <th>Recursos Humanos</th>
+          <th>Interno</th>
+          <th>Laborum</th>
+          <th>Trabajando</th>
+          <th>Fecha solicitud</th>
+          <th colspan="1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @request_details.each do |request_detail| %>
+          <tr>
+            <td><%= request_detail.request_id %></td>
+            <td><%= request_detail.department.store %></td>
+            <td><%= request_detail.department %></td>
+            <td><%= request_detail.turn %></td>
+            <td><%= request_detail.quantity %></td>
+            <td><%= request_detail.rrhh == 1 ? 'Sí' : 'No' %></td>
+            <td><%= request_detail.internal == 1 ? 'Sí' : 'No' %></td>
+            <td><%= request_detail.laborum == 1 ? 'Sí' : 'No' %></td>
+            <td><%= request_detail.trabajando == 1 ? 'Sí' : 'No' %></td>
+            <td><%= request_detail.created_at %></td>
+            <td>
+              <%= link_to request_detail_path(request_detail), :class => 'btn btn-default' do %>
+              <i class="fa fa-eye"></i>
+              <% end %>
 
-  <tbody>
-    <% @request_details.each do |request_detail| %>
-      <tr>
-        <td><%= request_detail.request_id %></td>
-        <td><%= request_detail.department.store %></td>
-        <td><%= request_detail.department %></td>
-        <td><%= request_detail.turn %></td>
-        <td><%= request_detail.quantity %></td>
-        <td><%= request_detail.rrhh == 1 ? 'Sí' : 'No' %></td>
-        <td><%= request_detail.internal == 1 ? 'Sí' : 'No' %></td>
-        <td><%= request_detail.laborum == 1 ? 'Sí' : 'No' %></td>
-        <td><%= request_detail.trabajando == 1 ? 'Sí' : 'No' %></td>
-        <td><%= request_detail.created_at %></td>
-        <td>
-          <%= link_to request_detail_path(request_detail), :class => 'btn btn-default' do %>
-          <i class="fa fa-eye"></i>
-          <% end %>
+              <%= link_to edit_request_detail_path(request_detail), :class => 'btn btn-default' do %>
+              <i class="fa fa-edit"></i>
+              <% end %>
 
-          <%= link_to edit_request_detail_path(request_detail), :class => 'btn btn-default' do %>
-          <i class="fa fa-edit"></i>
-          <% end %>
+              <%= link_to request_detail_path(request_detail), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
+              <i class="fa fa-trash-o"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-          <%= link_to request_detail_path(request_detail), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
-          <i class="fa fa-trash-o"></i>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Request Detail', new_request_detail_path %>
+  <%= link_to 'New Request Detail', new_request_detail_path, class: 'btn btn-primary' %>
+  </div>
+</div>
