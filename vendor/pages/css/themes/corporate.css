@@ -568,6 +568,11 @@ body.menu-pin .overlay .overlay-brand {
   padding: 0px 20px 0 40px;
   margin-top: 1px;
 }
+.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li:after {
+  content: '';
+  clear: both;
+  display: table;
+}
 .page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li:hover > .icon-thumbnail {
   color: #fff;
 }
@@ -585,19 +590,14 @@ body.menu-pin .overlay .overlay-brand {
   font-size: 16px;
   height: 30px;
   line-height: 30px;
-  margin: 0 10px 0 0;
-  padding-top: 10px;
+  margin: 0;
+  padding: 5px 0;
   width: 30px;
-}
-.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li .icon-thumbnail:after {
-  content: '';
-  clear: both;
-  display: table;
 }
 .page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li .icon-thumbnail img {
   display: block;
-  height: auto;
-  width: 100%;
+  height: 100%;
+  width: auto;
 }
 .page-sidebar .sidebar-menu .muted {
   color: #576775;
