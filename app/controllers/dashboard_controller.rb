@@ -11,6 +11,9 @@ class DashboardController < ApplicationController
     @year  = Date.today.year
     dayNow = day_now_charged
     turnos = Array.new(12, 0)
+
+    binding.pry
+
     dataCase = DataCase.where(dep_num: demo_data[:department], month: @month).first
     summaryCaseOut = SummaryCase.where(id_case: dataCase.id_case, type_io: 'out').first if dataCase
 
@@ -61,7 +64,8 @@ class DashboardController < ApplicationController
 			else
 				@turnos_cubiertos = { :texto => " #{turnosOpTotal} de #{@turnosOptimizados.sum}", :porcentaje => 0 }
 			end
-		end
+    end
+    binding.pry
 
 		# calcular cumplimiento del plan
 		ventaTotal = SaleBySeller.where(month: @month, department: @department, year: @year).sum("sale").to_f
@@ -96,7 +100,7 @@ class DashboardController < ApplicationController
 	end
 
 	def sale_real_per_seller(seller,year,month)
-      @dep   = seller.department.id  
+      @dep   = seller.department.id
       SaleBySeller.where(month: month, seller: seller.id, department: @dep, year: year).sum("sale")
   end
 end

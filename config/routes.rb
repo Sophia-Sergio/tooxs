@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   end
 
   get 'efficiency/index'
+  post 'efficiency/report_post'
   get 'staff_request/show'
   get 'staff_request/index'
   post 'staff_request/request_send'

@@ -1,6 +1,6 @@
 if ($("#efficiency_report").length > 0)
 {
-  function getQueryVariable(variable) 
+  function getQueryVariable(variable)
   {
    var query = window.location.search.substring(1);
    var vars = query.split("&");
@@ -13,7 +13,6 @@ if ($("#efficiency_report").length > 0)
    return false;
   }
 
-  console.log('init productivity_demo');
   var month_init = getQueryVariable('month_init');
   var month_fin = getQueryVariable('month_fin');
   var year = getQueryVariable('year');
@@ -21,47 +20,46 @@ if ($("#efficiency_report").length > 0)
   var department = getQueryVariable('department');
   var data_month = "";
 
-  console.log("init report");
   //si existen datos en la bd los trae
   $(document).ready(function()
   {
 
     var datasets = $.ajax(
-    { 
+    {
       type: "get",
       url: "/efficiency/report",
       data: 'month_init='+month_init+'&month_fin='+month_fin+'&year='+year+'&store='+store+'&department='+department,
       dataType: 'json',
       success: function(data)
-      { 
+      {
 
         var config = {
           type: 'line',
           data: {
-          datasets: 
-          [                            
+          datasets:
+          [
             {data: data.prod_w_real, label: 'Real',fill: 'false', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
             {data: data.prod_w_op, label: 'Optimizado', fill: 'false', yAxisID: 'left-y-axis',borderColor: 'rgb(54, 162, 235)'}
           ],
           labels: data.fecha
           },
-          options: 
+          options:
           {
-            scales: 
+            scales:
             {
-              yAxes: 
+              yAxes:
               [{
                 id: 'left-y-axis',
                 type: 'linear',
                 position: 'left',
                 ticks: {
-                  callback: function(value, index, values) 
+                  callback: function(value, index, values)
                   {
-                    if (parseInt(value) >= 1000) 
+                    if (parseInt(value) >= 1000)
                     {
                       return value.toFixed(2) + '%';
-                    } 
-                    else 
+                    }
+                    else
                     {
                       return value.toFixed(2) + '%';
                     }
@@ -80,7 +78,7 @@ if ($("#efficiency_report").length > 0)
               }
             }
           }
-        }    
+        }
 
         document.getElementById("chartContainer").innerHTML = '&nbsp;';
         document.getElementById("chartContainer").innerHTML = '<canvas id="canvas"></canvas>';
@@ -89,7 +87,7 @@ if ($("#efficiency_report").length > 0)
         var ctx = document.getElementById("canvas").getContext("2d");
         var myChart = new Chart(ctx, config);
      }
-    });      
+    });
 
   })
 }
