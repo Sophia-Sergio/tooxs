@@ -590,14 +590,19 @@ body.menu-pin .overlay .overlay-brand {
   font-size: 16px;
   height: 30px;
   line-height: 30px;
-  margin: 0;
-  padding: 5px 0;
+  margin: 0 10px 0 0;
+  padding-top: 10px;
   width: 30px;
+}
+.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li .icon-thumbnail:after {
+  content: '';
+  clear: both;
+  display: table;
 }
 .page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li .icon-thumbnail img {
   display: block;
-  height: 100%;
-  width: auto;
+  height: auto;
+  width: 100%;
 }
 .page-sidebar .sidebar-menu .muted {
   color: #576775;
