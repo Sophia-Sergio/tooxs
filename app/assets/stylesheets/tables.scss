@@ -1,0 +1,74 @@
+.table-responsive {
+  overflow-x: auto;
+
+  table {
+
+    thead {
+      tr {
+        th {
+          font-size: 14px !important;
+          padding: 8px 10px;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    tr {
+
+      td {
+        font-size: 12px !important;
+
+        &.shifts {
+          background-color: rgba(34, 42, 66, 0.1);
+          color: black;
+          font-weight: bold;
+        }
+
+        &.progress-container {
+          position: relative;
+          vertical-align: top;
+        }
+
+        .progress {
+          background-color: rgba(34,42,66,.1);
+          border: 1px solid rgba(34,42,66,.1);
+          height: 10px;
+          margin: 3px 0 0 40px;
+
+          .progress-value {
+            color: black;
+            font-size: 9px;
+            left: 10px;
+            position: absolute;
+            top: 8px;
+          }
+
+          .progress-bar {
+            background-color: #46c4fd;
+            height: auto;
+          }
+
+        }
+
+
+        .thumbnail {
+          border-radius: 50%;
+          height: 30px;
+          overflow: hidden;
+          width: 30px;
+
+          img {
+            display: block;
+            height: auto;
+            width: 100%;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}

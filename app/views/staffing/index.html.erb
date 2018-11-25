@@ -2,29 +2,15 @@
   <div class="pantalla-seccion d-flex justify-content-between mb-2">
     <div class="align-self-end">
       <div class="titulo-pantalla">Dotación de personal actual</div>
-    </div>        
-  </div>
-  
-  <div class="sub-titulo-pantalla">Parámetros</div>
-  <div>
-    <%= simple_form_for @search, :url => staffing_index_path, :method => :get do |f| %>
-    <div class="d-flex flex-wrap justify-content-end bd-highlight" id="sales_search_form">
-      <div class="input-form">
-        <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] , label: false%>  
-      </div>
-
-      <div class="input-form">
-        <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false %>  
-      </div>
-      <div class="input-form">
-      <%= f.input :month, collection: (1..9).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month , label: false %>  
-      </div>
-      <div class="boton-buscar">
-        <%= button_tag type: 'submit', class: "btn btn-success" do %>
-        <i class="fa fa-search" aria-hidden="true"></i> Buscar
-        <% end %>
-      </div>  
     </div>
+  </div>
+
+  <div class="dashboard__filter">
+    <%= simple_form_for @search, :url => staffing_index_path, :method => :get do |f| %>
+      <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] , label: false%>
+      <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false %>
+      <%= f.input :month, collection: (1..9).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month , label: false %>
+      <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
     <% end %>
   </div>
   <div class="formulario-comparacion">
@@ -47,7 +33,7 @@
                   <th class="text-center">J</th>
                   <th class="text-center">V</th>
                   <th class="text-center">S</th>
-                  <th class="text-center">D</th>  
+                  <th class="text-center">D</th>
                 </tr>
                 <tr>
                     <th class="text-center"> </th>
@@ -70,7 +56,7 @@
                       <% data_names = "" %>
                       <% n[:sellers].map { |e| data_names += "#{e}<br>" } %>
                       <span class="label label-success tip" data-toggle="tooltip" data-original-title="<%=  data_names %>"><%= n[:hours] %></span>
-                    </td>  
+                    </td>
                     <% else %>
                     <td>  </td>
                     <% end -%>
@@ -98,7 +84,7 @@
                   <th class="text-center">J</th>
                   <th class="text-center">V</th>
                   <th class="text-center">S</th>
-                  <th class="text-center">D</th>  
+                  <th class="text-center">D</th>
                 </tr>
                 <tr>
                     <th class="text-center"> </th>
@@ -115,14 +101,14 @@
                 <tr>
                   <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
                   <td class="text-center" align="center"><%= k %>:00</td>
-                  <% 
+                  <%
                   v.first.each do |n| %>
                     <% if n != 0 %>
                     <td class="text-center">
                       <% data_names = "" %>
                       <% n[:sellers].map { |e| data_names += "#{e}<br>" } %>
                       <span class="label label-success tip" data-toggle="tooltip" data-original-title="<%=  data_names %>"><%= n[:hours] %></span>
-                    </td>  
+                    </td>
                     <% else %>
                     <td>  </td>
                     <% end -%>
@@ -133,7 +119,7 @@
                 <% end -%>
               </tbody>
             </table>
-      </div>              
+      </div>
 
       <div class="col-xl-6 col-sm-12">
             <table class="table-shift table table-striped">
@@ -149,7 +135,7 @@
                   <th class="text-center">J</th>
                   <th class="text-center">V</th>
                   <th class="text-center">S</th>
-                  <th class="text-center">D</th>  
+                  <th class="text-center">D</th>
                 </tr>
                 <tr>
                     <th class="text-center"> </th>
@@ -164,14 +150,14 @@
                 <tr>
                   <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
                   <td class="text-center" align="center"><%= k %>:00</td>
-                  <% 
+                  <%
                   v.first.each do |n| %>
                     <% if n != 0 %>
                     <td class="text-center">
                       <% data_names = "" %>
                       <% n[:sellers].map { |e| data_names += "#{e}<br>" } %>
                       <span class="label label-success tip" data-toggle="tooltip" data-original-title="<%=  data_names %>"><%= n[:hours] %></span>
-                    </td>  
+                    </td>
                     <% else %>
                     <td>  </td>
                     <% end -%>
@@ -182,7 +168,7 @@
                 <% end -%>
               </tbody>
             </table>
-      </div>              
+      </div>
 
       <div class="col-xl-6 col-sm-12">
             <table class="table-shift table table-striped">
@@ -198,7 +184,7 @@
                   <th class="text-center">J</th>
                   <th class="text-center">V</th>
                   <th class="text-center">S</th>
-                  <th class="text-center">D</th>  
+                  <th class="text-center">D</th>
                 </tr>
                 <tr>
                     <th class="text-center"> </th>
@@ -213,14 +199,14 @@
                 <tr>
                   <% if k != :"9"  && k != :"10"  &&  k != :"21" &&  k != :"22" &&  k != :"23" &&  k != :"24" %>
                   <td class="text-center" align="center"><%= k %>:00</td>
-                  <% 
+                  <%
                   v.first.each do |n| %>
                     <% if n != 0 %>
                     <td class="text-center">
                       <% data_names = "" %>
                       <% n[:sellers].map { |e| data_names += "#{e}<br>" } %>
                       <span class="label label-success tip" data-toggle="tooltip" data-original-title="<%=  data_names %>"><%= n[:hours] %></span>
-                    </td>  
+                    </td>
                     <% else %>
                     <td>  </td>
                     <% end -%>
@@ -231,7 +217,7 @@
                  <% end -%>
               </tbody>
             </table>
-      </div>                    
+      </div>
     </div>
   </div>
 </div>

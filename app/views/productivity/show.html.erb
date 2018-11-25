@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div class="row mb-2 dashboard__filter-optimizer">
+  <div class="row mb-2 dashboard__filter">
     <%= simple_form_for @search, :url => productivity_show_path, :class => '', :method => :get do |f| %>
       <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store]  , label: false %>
       <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false %>

@@ -1,28 +1,8 @@
-<div class="sub-titulo-pantalla">Parámetros</div>
-<div class="<%= 'dn' if locals[:status] == 'hidden' %>" id="sales_form">
   <%= simple_form_for @search, :url => locals[:path], :class => 'row', :method => :get do |f| %>
-  <div class="d-flex flex-wrap justify-content-end bd-highlight" id="sales_search_form">
-    <div class="input-form">
-    <%= f.input :cluster, collection: @clusters, label: 'Segmento económico', wrapper: :select2, selected: params[:cluster] , label: false%>  
-    </div>
-
-    <div class="input-form">
-    <%= f.input :department, collection: @masterDepartments, label: 'Departamento', wrapper: :select2, selected: params[:department] , label: false%>  
-    </div>
-
-    <div class="input-form">
-    <%= f.input :year, collection: [2018], label: 'Año', wrapper: :select2, selected: params[:year] , label: false%>  
-    </div>
-
-    <div class="input-form">
-    <%= f.input :month, collection: (1..6).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month , label: false %>  
-    </div>
-    <div class="boton-buscar">
-      <input type="hidden" name="week" id="week" value="<%= params[:week] %>">
-      <%= button_tag type: 'submit', class: "btn btn-success" do %>
-      <i class="fa fa-search" aria-hidden="true"></i> Buscar
-      <% end %>
-    </div>  
+    <%= f.input :cluster, collection: @clusters, label: 'Segmento económico', wrapper: :select2, selected: params[:cluster] , label: false%>
+    <%= f.input :department, collection: @masterDepartments, label: 'Departamento', wrapper: :select2, selected: params[:department] , label: false%>
+    <%= f.input :year, collection: [2018], label: 'Año', wrapper: :select2, selected: params[:year] , label: false%>
+    <%= f.input :month, collection: (1..6).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month , label: false %>
+    <input type="hidden" name="week" id="week" value="<%= params[:week] %>">
+    <button class="btn btn-success" type="submit">Buscar</button>
   <% end %>
-  </div>
-</div>
