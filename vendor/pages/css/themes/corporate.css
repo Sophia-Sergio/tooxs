@@ -579,12 +579,25 @@ body.menu-pin .overlay .overlay-brand {
   white-space: normal;
 }
 .page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li .icon-thumbnail {
-  width: 30px;
+  background-color: transparent;
+  display: block;
+  float: left;;
+  font-size: 16px;
   height: 30px;
   line-height: 30px;
-  margin: 0;
-  background-color: #353E4F;
-  font-size: 16px;
+  margin: 0 10px 0 0;
+  padding-top: 10px;
+  width: 30px;
+}
+.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li .icon-thumbnail:after {
+  content: '';
+  clear: both;
+  display: table;
+}
+.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li .icon-thumbnail img {
+  display: block;
+  height: auto;
+  width: 100%;
 }
 .page-sidebar .sidebar-menu .muted {
   color: #576775;
