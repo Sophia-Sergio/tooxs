@@ -22,29 +22,31 @@
   <div class="formulario-comparacion">
     <!-- tabla -->
     <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
-    <table class="table-shift table table-striped">
-      <thead>
-        <tr>
-          <th>TIENDA</th>
-          <% week = 0 %>
-          <% if @resultStore.length > 0 %>
-            <% (@resultStore.first[:prodWeek].length).times do |i| %>
-            <th> <%= "Semana #{week += 1 }" %> </th>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>TIENDA</th>
+            <% week = 0 %>
+            <% if @resultStore.length > 0 %>
+              <% (@resultStore.first[:prodWeek].length).times do |i| %>
+              <th> <%= "Semana #{week += 1 }" %> </th>
+              <% end %>
             <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @resultStore.each do |store| %>
+          <tr>
+            <td><%= store[:label] %></td>
+            <% store[:prodWeek].each do |v| %>
+              <td><%= number_to_currency v %></td>
+            <% end %>
+          </tr>
           <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% @resultStore.each do |store| %>
-        <tr>
-          <td><%= store[:label] %></td>
-          <% store[:prodWeek].each do |v| %>
-            <td><%= number_to_currency v %></td>
-          <% end %>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

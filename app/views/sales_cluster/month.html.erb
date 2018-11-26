@@ -2,19 +2,23 @@
   <div class="pantalla-seccion d-flex justify-content-between mb-2">
     <div class="align-self-end">
       <div class="titulo-pantalla">Comparativo de Ventas</div>
-    </div>        
+    </div>
   </div>
 
-  <%= render 'search_form', locals: { status: 'show', path: month_sales_cluster_index_path} %>
+  <div class="row mb-2 dashboard__filter">
+    <%= render 'search_form', locals: { status: 'show', path: month_sales_cluster_index_path} %>
+  </div>
+
+
 
  <div class="row" id="compare_stores"></div>
   <div class="grafico-principal">
-    <div>    
+    <div>
       <div class="grafico-1">Venta Real por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></div>
       <p class="m-t-20 grafico-1">
         Tiendas:
         <% count = 0 %>
-        <% @stores.each do |s| %>  
+        <% @stores.each do |s| %>
           <% if count == 0 %>
             <span><%= s.name %></span>
             <% count = 1 %>
@@ -30,8 +34,8 @@
   <div class="formulario-comparacion">
   <!-- tabla -->
     <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
-    <div style="overflow-y: auto;">
-      <table class="table-shift table table-striped">
+    <div class="table-responsive">
+      <table class="table">
         <thead>
           <tr>
             <th></th>
@@ -50,12 +54,12 @@
             <% store[:saleWeek].each do |v| %>
               <td><%= number_to_currency v %></td>
             <% end %>
-          </tr>      
-          <% end %>     
+          </tr>
+          <% end %>
         </tbody>
       </table>
-    </div>       
+    </div>
   </div>
-  
-</div> 
+
+</div>
 

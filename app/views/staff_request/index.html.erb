@@ -9,48 +9,27 @@
   <div class="pantalla-seccion d-flex justify-content-between mb-2">
     <div class="align-self-end">
       <div class="titulo-pantalla">Disponibilizador de turnos</div>
-    </div>        
-  </div>
-  
-  <div class="sub-titulo-pantalla">Parámetros</div>
-  <div>
-    <%= simple_form_for @search, :url => staff_request_index_path, :method => :get do |f| %>
-    <div class="d-flex flex-wrap bd-highlight" id="sales_search_form">
-      <div class="d-flex col-md-6"> 
-        <div class="col-md-6">
-          <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] , label: false%>  
-        </div>
-        <div class="col-md-6">
-          <div>
-            <select class="full-width select required select2-hidden-accessible" data-init-plugin="select2" name="departments[]" id="department" tabindex="-1" aria-hidden="true" multiple="multiple">
-                <option value="0">Todos</option>
-              <% @departments.each do |department| %>
-                <option value="<%= department.id %>"><%= department.name %></option>
-              <% end %>
-            </select>
-          </div>  
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="d-flex justify-content-end" >
-          <div class="label-formulario">
-            Desde:  
-          </div>
-          <div class="input-form">
-            <%= f.input :year, collection: (2016..2018), label: 'Año', wrapper: :select2,selected: params[:year], label: false %>  
-          </div>
-
-          <div class="input-form">
-            <%= f.input :month, collection: (6..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month.to_i, label: false  %>  
-          </div>
-          <div>
-            <%= button_tag type: 'submit',class: "btn btn-success" do %>
-              <i class="fa fa-search" aria-hidden="true"></i> Buscar
-            <% end %>
-          </div>          
-        </div>
-      </div>
     </div>
+  </div>
+
+  <div class="dashboard__filter">
+    <%= simple_form_for @search, :url => staff_request_index_path, :method => :get do |f| %>
+      <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] , label: false%>
+      <div style="flex: 1;">
+        <select class="" data-init-plugin="select2" name="departments[]" id="department" tabindex="-1" aria-hidden="true" multiple="multiple">
+          <option value="0">Todos</option>
+          <% @departments.each do |department| %>
+            <option value="<%= department.id %>"><%= department.name %></option>
+          <% end %>
+        </select>
+      </div>
+
+      <div class="input-form" style="display: flex; flex: 1;">
+        <label style="display: block; line-height: 35px; margin: 0 10px 0 0;">Desde:</label>
+        <%= f.input :year, collection: (2016..2018), label: 'Año', wrapper: :select2,selected: params[:year], label: false %>
+      </div>
+      <%= f.input :month, collection: (6..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month.to_i, label: false  %>
+      <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
     <% end %>
   </div>
 
@@ -59,18 +38,18 @@
     <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
     <div id="resultado_busqueda">
       <%= simple_form_for @search, :url => staff_request_request_send_path, :method => :post do |f| %>
-      <div class="row" style="overflow: -webkit-paged-x;">
-        <table class="table-shift table table-striped">
+      <div class="table-responsive">
+        <table class="table">
               <thead>
                   <tr>
                       <th>Tienda</th>
-                      <th>Departamento</th>           
-                      <th>Turno</th>           
-                      <th>Descripción de turno</th>           
+                      <th>Departamento</th>
+                      <th>Turno</th>
+                      <th>Descripción de turno</th>
                       <th>Cantidad necesaria</th>
                       <th>Cantidad a solicitar</th>
                       <th>Fecha inicial</th>
-                      <th>Seleccionar</th>         
+                      <th>Seleccionar</th>
                   </tr>
               </thead>
               <tbody class="t-p-3">
@@ -79,15 +58,15 @@
                   <tr>
                     <td>
                       <%= resultado[:tienda].name %>
-                      <input type="hidden" name="store_<%= count_row %>" value="<%= resultado[:tienda].id %>" >  
+                      <input type="hidden" name="store_<%= count_row %>" value="<%= resultado[:tienda].id %>" >
                     </td>
                     <td>
                       <%= resultado[:dep].name %>
-                      <input type="hidden" name="dep_id_<%= count_row %>" value="<%= resultado[:dep].id %>" > 
+                      <input type="hidden" name="dep_id_<%= count_row %>" value="<%= resultado[:dep].id %>" >
                     </td>
                     <td>
                       <%= resultado[:turno] %>
-                      <input type="hidden" name="turno_id_<%= count_row %>" value="<%= resultado[:turno] %>" >     
+                      <input type="hidden" name="turno_id_<%= count_row %>" value="<%= resultado[:turno] %>" >
                     </td>
                     <td><%= resultado[:descrip] %></td>
                     <td><%= resultado[:cantidad] %></td>

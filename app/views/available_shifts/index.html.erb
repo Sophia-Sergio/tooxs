@@ -15,23 +15,25 @@
   </div>
   <div class="formulario-comparacion">
     <div class="sub-titulo-pantalla">Listado de turnos</div>
-    <table class="table-shift table table-striped">
-      <thead>
-        <tr>
-          <td>Numero Turno</td>
-          <td>Nombre</td>
-          <td colspan="1"></td>
-        </tr>
-      </thead>
-      <tbody>
-        <% @available_shifts.each do |available_shift| %>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
           <tr>
-            <td><%= available_shift.num %></td>
-            <td><%= available_shift.name %></td>
-            <td><%= link_to 'Detalle', available_shift_path(:num => available_shift.num)%></td>
+            <td>Numero Turno</td>
+            <td>Nombre</td>
+            <td colspan="1"></td>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @available_shifts.each do |available_shift| %>
+            <tr>
+              <td><%= available_shift.num %></td>
+              <td><%= available_shift.name %></td>
+              <td><%= link_to 'Detalle', available_shift_path(:num => available_shift.num)%></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

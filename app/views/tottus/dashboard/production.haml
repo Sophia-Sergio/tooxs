@@ -1,16 +1,16 @@
-%div.container-fluid
-  %div.pantalla-seccion.d-flex.justify-content-between.mb-2
+.container-fluid
+  .pantalla-seccion.d-flex.justify-content-between.mb-2
     %div.align-self-end
       %div.titulo-pantalla Dashboard de Producción
-  %div.m-t-10
-    = render 'shared/filter_parameters/filter_2', filter: market_parameters.except(:departments)
-    %div.row{style: 'padding: 0 5px' }
-      %div.tables.box.col-md-12
-        %h1.tables__title Dotación
-        %div.tables__container
-          %div.table.col-md-1
-            %h3.table__title Horario
-            %table.table.table-striped
+  = render 'shared/filter_parameters/filter_2', filter: market_parameters.except(:departments)
+  .row{style: 'padding: 0 5px' }
+    .tables.box.col-md-12
+      %h1.tables__title Dotación
+      .row
+        .col-sm-1
+          %h3.table__title Horario
+          .table-responsive
+            %table.table
               %thead
                 %th.table__subtitle Tramo
               %tbody
@@ -34,13 +34,17 @@
                   %td 20 - 21
                 %tr
                   %td.no-border 21 - 22
-          %div.tables__right.col-md-11
-            %div.col-md-4
+        .col-sm-11
+          .row
+            .col-sm-4
               %h3.table__title Carnes
-              = render 'table_production'
-            %div.col-md-4
+              .table-responsive
+                = render 'table_production'
+            .col-sm-4
               %h3.table__title Fiambrería y Quesos
-              = render 'table_production'
-            %div.col-md-4
+              .table-responsive
+                = render 'table_production'
+            .col-sm-4
               %h3.table__title Pescados y Mariscos
-              = render 'table_production'
+              .table-responsive
+                = render 'table_production'

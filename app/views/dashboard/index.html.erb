@@ -102,16 +102,18 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
                   <th style="font-size: 12px;">Actual</th>
                   <th style="font-size: 12px;">Optimizado</th>
                   <th style="font-size: 12px;">Comprometido</th>
+                  <th style="font-size: 12px;">Diferencia</th>
                 </tr>
     					</thead>
     					<tbody>
     					<%if @turnosEntrada %>
     						<% @turnosEntrada.count.times do |i| %>
     						<tr>
-    							<td class="shifts" style="font-size: 12px; text-align: center;">T<%= i+1 %></td>
+    							<td class="shifts" style="font-size: 12px; text-align: center;" title="Turno <%= i+1 %>">T<%= i+1 %></td>
     							<td style="font-size: 12px; text-align: center;"><%= @turnosEntrada[i].to_i %></td>
     							<td style="font-size: 12px; text-align: center;"><%= @turnosOptimizados[i].to_i %></td>
                   <td style="font-size: 12px; text-align: center;"><%= @turnosEntrada[i].to_i %></td>
+                  <td style="font-size: 12px; text-align: center;"><%= @turnosOptimizados[i].to_i %></td>
     						</tr>
     						<% end %>
     					<% end %>
