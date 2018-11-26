@@ -59,6 +59,10 @@
 //= require mta/js/EfficiencyReport.js
 //= require mta/js/app.js
 //= require owl.carousel.min
-//= require webshim/polyfiller.js
+//= require webshims/polyfiller
 //= require_tree .
 //= require_self
+
+$.webshims.setOptions('basePath', '/assets/webshims/shims/')
+$.webshims.polyfill()
+
