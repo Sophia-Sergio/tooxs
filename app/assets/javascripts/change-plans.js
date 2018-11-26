@@ -1,16 +1,18 @@
 (function($){
 
-  webshim.activeLang('de');
-  webshims.setOptions('forms-ext', {
-    replaceUI: 'auto',
-    types: 'number'
-  });
-  webshims.polyfill('forms forms-ext');
+  $('[name=number-format]').maskMoney({
+    thousands: '.',
+    decimal: '',
+    allowZero: true,
+    precision: 0,
+    allowZero: true,
+    allowNegative: true,
+  })
 
   $('.pct-week-one').change(function(e){
     let table = $(this).closest('.table')
     table.find('.amt-week-1').val(0)
-    let pctVal = Number( $(this).val() )
+    let pctVal = Number( $(this).val().replace(/\./g, '') )
     let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
     let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
     let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
@@ -34,7 +36,7 @@
   $('.pct-week-two').change(function(e){
     let table = $(this).closest('.table')
     table.find('.amt-week-2').val(0)
-    let pctVal = Number( $(this).val() )
+    let pctVal = Number( $(this).val().replace(/\./g, '') )
     let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
     let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
     let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
@@ -57,7 +59,7 @@
 
   $('.pct-week-three').change(function(e){
     let table = $(this).closest('.table')
-    let pctVal = Number( $(this).val() )
+    let pctVal = Number( $(this).val().replace(/\./g, '') )
     let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
     let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
     let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
@@ -81,7 +83,7 @@
 
   $('.pct-week-four').change(function(e){
     let table = $(this).closest('.table')
-    let pctVal = Number( $(this).val() )
+    let pctVal = Number( $(this).val().replace(/\./g, '') )
     let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
     let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
     let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
@@ -105,7 +107,7 @@
 
   $('.amt-week-1').change(function(e){
     let table = $(this).closest('.table')
-    let amtVal = Number( $(this).val() )
+    let amtVal = Number( $(this).val().replace(/\./g, '') )
     let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
     let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
     let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
@@ -129,7 +131,7 @@
 
   $('.amt-week-2').change(function(e){
     let table = $(this).closest('.table')
-    let amtVal = Number( $(this).val() )
+    let amtVal = Number( $(this).val().replace(/\./g, '') )
     let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
     let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
     let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
@@ -153,7 +155,7 @@
 
   $('.amt-week-3').change(function(e){
     let table = $(this).closest('.table')
-    let amtVal = Number( $(this).val() )
+    let amtVal = Number( $(this).val().replace(/\./g, '') )
     let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
     let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
     let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
@@ -177,7 +179,8 @@
 
   $('.amt-week-4').change(function(e){
     let table = $(this).closest('.table')
-    let amtVal = Number( $(this).val() )
+    let amtVal = Number( $(this).val().replace(/\./g, '') )
+    console.log( $(this).val().replace(/\./g, '') );
     let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
     let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
     let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )

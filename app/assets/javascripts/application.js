@@ -59,6 +59,6 @@
 //= require mta/js/EfficiencyReport.js
 //= require mta/js/app.js
 //= require owl.carousel.min
-//= require webshim/polyfiller.js
+//= require js/jquery.maskMoney.min
 //= require_tree .
 //= require_self
