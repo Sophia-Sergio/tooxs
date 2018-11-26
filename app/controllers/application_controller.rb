@@ -130,7 +130,7 @@ class ApplicationController < ActionController::Base
           countAlltwenty_four = 0
 
           @sellers.each do |seller|
-            @days = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d)
+            @days = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d, month: @month)
             @days.each do |s|
 
               countAllnine += 1 if s.nine
@@ -183,7 +183,7 @@ class ApplicationController < ActionController::Base
             end
           end
 
-          @day = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d)
+          @day = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d, month: @month)
           count = 0
           @day.each do |s|
             count += 1 if s.nine
@@ -205,7 +205,7 @@ class ApplicationController < ActionController::Base
           end
 
 
-          @day = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d)
+          @day = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d, month: @month)
           saleMonth = 0
 
           @sp_day = SalePlan.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d)
