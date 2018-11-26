@@ -406,3 +406,21 @@
             %td{class: 'week-four-adj', 'data-value': '85000'} 85.000
             %td{class: 'month-amount-adj'} 340.000
       %button{ 'type': 'button', class: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#exampleModalCenter'} Cambiar plan
+  %div{class: 'modal fade', id: 'exampleModalCenter', 'tabindex': -1, 'role': 'dialog', 'aria-labelledby': 'exampleModalCenterTitle', 'aria-hidden': 'true'}
+    %div{ class: 'modal-dialog modal-dialog-centered', 'role': 'document'}
+      .modal-content
+        .modal-header
+          %h5.modal-title#exampleModalCenterTitle Guardar cambios
+          %button{type: 'button', class: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close'}
+            %span{'aria-hidden': 'true'} &times;
+        .modal-body
+          Ingresa tus datos para guardar los cambios
+          %form
+            .form-group
+              %label Usuario
+              %input{'type': 'text', class: 'form-control', id: 'exampleInputEmail1', 'aria-describedby': 'emailHelp', 'placeholder': 'Usuario'}
+            .form-group
+              %label Password
+              %input{type: 'password', class: 'form-control', id: 'exampleInputPassword1', 'placeholder': 'Password'}
+            %button{'type': 'button', class: 'btn btn-secondary', 'data-dismiss': 'modal'} Cerrar
+            %button{'type': 'button', class: 'btn btn-primary'} Guardar cambios
