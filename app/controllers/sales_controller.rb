@@ -24,7 +24,7 @@ class SalesController < ApplicationController
     countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store.id, department_id: @dep.id).pluck(:week).length
 
     real_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
-    @historic_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year-1, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    @historic_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year.to_i-1, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
 
     @sale_plan = []
     historic_sale = []
@@ -114,7 +114,7 @@ class SalesController < ApplicationController
 
     element = [
       { label: 'Real', fill: 'true', data: @realMonth, backgroundColor: '#65ff00', borderColor: '#65ff00'},
-      { label: 'Meta', fill: 'false', data: @m_daily.reverse, backgroundColor: '#33d6ce', borderColor: '#33d6ce'},
+      { label: 'Plan', fill: 'false', data: @m_daily.reverse, backgroundColor: '#33d6ce', borderColor: '#33d6ce'},
       { label: 'Histórico', fill: 'false', data: @realMonth_h, backgroundColor: '#ff566b', borderColor: '#ff566b'}
     ]
 
@@ -126,13 +126,13 @@ class SalesController < ApplicationController
   def compare_month
 
     @store  = Store.find(params[:compare][:store]);
-    @year   = params[:compare][:year]
-    @month  = params[:compare][:month]
+    @year   = 2018
+    @month  = 5
     @week   = params[:compare][:week]
 
     #sources
-    @store_source = Store.find(params[:compare][:store_source])
-    @dep_source   = Department.find(params[:compare][:department_source])
+    @store_source = Store.find(1)
+    @dep_source   = Department.find(1)
 
     beginning_of_month = "#{@year}-#{@month}-01".to_date
     end_of_month = beginning_of_month.end_of_month
@@ -167,14 +167,14 @@ class SalesController < ApplicationController
 
   def compare_month_json
 
-    @store  = Store.find(params[:compare][:store]);
-    @year   = params[:compare][:year]
-    @month  = params[:compare][:month]
+    @store  = Store.find(2)
+    @year   = 2018
+    @month  = 5
     @week   = params[:compare][:week]
 
     #sources
-    @store_source = Store.find(params[:compare][:store_source])
-    @dep_source   = Department.find(params[:compare][:department_source])
+    @store_source = Store.find(1)
+    @dep_source   = Department.find(1)
 
     beginning_of_month = "#{@year}-#{@month}-01".to_date
     end_of_month = beginning_of_month.end_of_month
@@ -213,7 +213,7 @@ class SalesController < ApplicationController
 
     ]
 
-    @data = { :labels => @m_days , :datasets => element }
+    @data = { :labels => @m_days.reverse , :datasets => element }
 
     render json: @data
   end

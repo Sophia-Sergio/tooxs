@@ -35,12 +35,14 @@ class EfficiencyController < ApplicationController
   def report_post
     @department = params[:department]
     @store = params[:store]
-    @year = params[:year] ||  demo_data[:date].year
+    @year = params[:year] || demo_data[:date].year
     data = {
       fecha: [],
       prod_w_real: [],
       prod_w_op: []
     }
+
+
     month_data = report_data( @department, @store, @year, params[:month])
 
     if month_data
@@ -60,7 +62,7 @@ class EfficiencyController < ApplicationController
             prod_obj = data_case.prod_obj.to_f
 
             #obtener ventas reales del mes
-            sale_reals = SaleReal.where(department_id: department, store_id: store, year: year, month: month)
+            sale_reals = SaleReal.where(department_id: department, store_id: store, year: year, month: month).order(:sale_date)
             real_month = []
             total_month = []
             total_op_month = []

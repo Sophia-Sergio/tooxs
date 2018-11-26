@@ -42,14 +42,14 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 
       <h3 class="dashboard__charts__info__title">
         Resultado de búsqueda<br>
-        <small>Datos desde 30 de abril  al 10 de mayo de 2018</small>
+        <small>Datos desde el 30 de abril  al 27 de mayo de 2018</small>
       </h3>
       <div class="row mb-2">
   			<div class="col-md-4">
           <div class="dashboard__charts__info__item">
     				<h4 class="dashboard__charts__info__item__title">Cumplimiento plan de venta</h4>
-            <h5 class="dashboard__charts__info__item__value"><%= number_to_currency @cumplimientoPlan %></h5>
-            <h5 class="dashboard__charts__info__item__amount">Plan $56.000, Plan real $56.000</h5>
+            <h5 class="dashboard__charts__info__item__value"><%= @cumplimientoPlan %>%</h5>
+            <h5 class="dashboard__charts__info__item__amount">Plan $56.000. Real $60.000</h5>
   			  </div>
         </div>
 
@@ -64,7 +64,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
   			<div class="col-md-4">
           <div class="dashboard__charts__info__item">
     				<h4 class="dashboard__charts__info__item__title">Cumplimiento de eficiencia</h4>
-            <h5 class="dashboard__charts__info__item__value"><%= number_to_currency @margin_adjustment %></h5>
+            <h5 class="dashboard__charts__info__item__value"><%= @margin_adjustment.round(2) %>%</h5>
             <h5 class="dashboard__charts__info__item__amount">Eficiencia objetivo 75%</h5>
   			  </div>
         </div>
