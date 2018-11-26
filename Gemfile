@@ -66,7 +66,6 @@ platforms :ruby do
   gem 'unicorn'
 end
 
-gem 'webshims-rails'
 gem 'devise'
 gem 'simple_form'
 gem 'chronic'
