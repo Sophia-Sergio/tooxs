@@ -11,10 +11,10 @@
     let table = $(this).closest('.table')
     table.find('.amt-week-1').val(0)
     let pctVal = Number( $(this).val() )
-    let weekOne = Number( table.find('.week-one').text().replace('.', '') )
-    let weekTwo = Number( table.find('.week-two').text().replace('.', '') )
-    let weekThree = Number( table.find('.week-three').text().replace('.', '') )
-    let weekFour = Number( table.find('.week-four').text().replace('.', '') )
+    let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
+    let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
+    let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
+    let weekFour = Number( table.find('.week-four').text().replace(/\./g, '') )
     let weekOneAdj = table.find('.week-one-adj')
     let weekTwoAdj = table.find('.week-two-adj')
     let weekThreeAdj = table.find('.week-three-adj')
@@ -26,7 +26,7 @@
     // weekFourAdj.text( weekFour )
     monthAmountAdj.text(
       new Intl.NumberFormat('de-DE').format(
-        Number(weekOneAdj.text().replace('.', '')) + Number(weekTwoAdj.text().replace('.', '')) + Number(weekThreeAdj.text().replace('.', '')) + Number(weekFourAdj.text().replace('.', ''))
+        Number(weekOneAdj.text().replace(/\./g, '')) + Number(weekTwoAdj.text().replace(/\./g, '')) + Number(weekThreeAdj.text().replace(/\./g, '')) + Number(weekFourAdj.text().replace(/\./g, ''))
       )
     )
   })
@@ -35,10 +35,10 @@
     let table = $(this).closest('.table')
     table.find('.amt-week-2').val(0)
     let pctVal = Number( $(this).val() )
-    let weekOne = Number( table.find('.week-one').text().replace('.', '') )
-    let weekTwo = Number( table.find('.week-two').text().replace('.', '') )
-    let weekThree = Number( table.find('.week-three').text().replace('.', '') )
-    let weekFour = Number( table.find('.week-four').text().replace('.', '') )
+    let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
+    let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
+    let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
+    let weekFour = Number( table.find('.week-four').text().replace(/\./g, '') )
     let weekOneAdj = table.find('.week-one-adj')
     let weekTwoAdj = table.find('.week-two-adj')
     let weekThreeAdj = table.find('.week-three-adj')
@@ -50,7 +50,7 @@
     // weekFourAdj.text( weekFour )
     monthAmountAdj.text(
       new Intl.NumberFormat('de-DE').format(
-        Number(weekOneAdj.text().replace('.', '')) + Number(weekTwoAdj.text().replace('.', '')) + Number(weekThreeAdj.text().replace('.', '')) + Number(weekFourAdj.text().replace('.', ''))
+        Number(weekOneAdj.text().replace(/\./g, '')) + Number(weekTwoAdj.text().replace(/\./g, '')) + Number(weekThreeAdj.text().replace(/\./g, '')) + Number(weekFourAdj.text().replace(/\./g, ''))
       )
     )
   })
@@ -58,10 +58,10 @@
   $('.pct-week-three').change(function(e){
     let table = $(this).closest('.table')
     let pctVal = Number( $(this).val() )
-    let weekOne = Number( table.find('.week-one').text().replace('.', '') )
-    let weekTwo = Number( table.find('.week-two').text().replace('.', '') )
-    let weekThree = Number( table.find('.week-three').text().replace('.', '') )
-    let weekFour = Number( table.find('.week-four').text().replace('.', '') )
+    let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
+    let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
+    let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
+    let weekFour = Number( table.find('.week-four').text().replace(/\./g, '') )
     let weekOneAdj = table.find('.week-one-adj')
     let weekTwoAdj = table.find('.week-two-adj')
     let weekThreeAdj = table.find('.week-three-adj')
@@ -74,7 +74,7 @@
     // weekFourAdj.text( weekFour )
     monthAmountAdj.text(
       new Intl.NumberFormat('de-DE').format(
-        Number(weekOneAdj.text().replace('.', '')) + Number(weekTwoAdj.text().replace('.', '')) + Number(weekThreeAdj.text().replace('.', '')) + Number(weekFourAdj.text().replace('.', ''))
+        Number(weekOneAdj.text().replace(/\./g, '')) + Number(weekTwoAdj.text().replace(/\./g, '')) + Number(weekThreeAdj.text().replace(/\./g, '')) + Number(weekFourAdj.text().replace(/\./g, ''))
       )
     )
   })
@@ -82,10 +82,10 @@
   $('.pct-week-four').change(function(e){
     let table = $(this).closest('.table')
     let pctVal = Number( $(this).val() )
-    let weekOne = Number( table.find('.week-one').text().replace('.', '') )
-    let weekTwo = Number( table.find('.week-two').text().replace('.', '') )
-    let weekThree = Number( table.find('.week-three').text().replace('.', '') )
-    let weekFour = Number( table.find('.week-four').text().replace('.', '') )
+    let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
+    let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
+    let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
+    let weekFour = Number( table.find('.week-four').text().replace(/\./g, '') )
     let weekOneAdj = table.find('.week-one-adj')
     let weekTwoAdj = table.find('.week-two-adj')
     let weekThreeAdj = table.find('.week-three-adj')
@@ -98,7 +98,7 @@
     weekFourAdj.text( Intl.NumberFormat('de-DE').format(( pctVal / 100 ) * weekFour + weekFour) )
     monthAmountAdj.text(
       new Intl.NumberFormat('de-DE').format(
-        Number(weekOneAdj.text().replace('.', '')) + Number(weekTwoAdj.text().replace('.', '')) + Number(weekThreeAdj.text().replace('.', '')) + Number(weekFourAdj.text().replace('.', ''))
+        Number(weekOneAdj.text().replace(/\./g, '')) + Number(weekTwoAdj.text().replace(/\./g, '')) + Number(weekThreeAdj.text().replace(/\./g, '')) + Number(weekFourAdj.text().replace(/\./g, ''))
       )
     )
   })
@@ -106,10 +106,10 @@
   $('.amt-week-1').change(function(e){
     let table = $(this).closest('.table')
     let amtVal = Number( $(this).val() )
-    let weekOne = Number( table.find('.week-one').text().replace('.', '') )
-    let weekTwo = Number( table.find('.week-two').text().replace('.', '') )
-    let weekThree = Number( table.find('.week-three').text().replace('.', '') )
-    let weekFour = Number( table.find('.week-four').text().replace('.', '') )
+    let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
+    let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
+    let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
+    let weekFour = Number( table.find('.week-four').text().replace(/\./g, '') )
     let weekOneAdj = table.find('.week-one-adj')
     let weekTwoAdj = table.find('.week-two-adj')
     let weekThreeAdj = table.find('.week-three-adj')
@@ -122,7 +122,7 @@
     // weekFourAdj.text(weekFour)
     monthAmountAdj.text(
       new Intl.NumberFormat('de-DE').format(
-        Number(weekOneAdj.text().replace('.', '')) + Number(weekTwoAdj.text().replace('.', '')) + Number(weekThreeAdj.text().replace('.', '')) + Number(weekFourAdj.text().replace('.', ''))
+        Number(weekOneAdj.text().replace(/\./g, '')) + Number(weekTwoAdj.text().replace(/\./g, '')) + Number(weekThreeAdj.text().replace(/\./g, '')) + Number(weekFourAdj.text().replace(/\./g, ''))
       )
     )
   })
@@ -130,10 +130,10 @@
   $('.amt-week-2').change(function(e){
     let table = $(this).closest('.table')
     let amtVal = Number( $(this).val() )
-    let weekOne = Number( table.find('.week-one').text().replace('.', '') )
-    let weekTwo = Number( table.find('.week-two').text().replace('.', '') )
-    let weekThree = Number( table.find('.week-three').text().replace('.', '') )
-    let weekFour = Number( table.find('.week-four').text().replace('.', '') )
+    let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
+    let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
+    let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
+    let weekFour = Number( table.find('.week-four').text().replace(/\./g, '') )
     let weekOneAdj = table.find('.week-one-adj')
     let weekTwoAdj = table.find('.week-two-adj')
     let weekThreeAdj = table.find('.week-three-adj')
@@ -146,7 +146,7 @@
     // weekFourAdj.text(weekFour)
     monthAmountAdj.text(
       new Intl.NumberFormat('de-DE').format(
-        Number(weekOneAdj.text().replace('.', '')) + Number(weekTwoAdj.text().replace('.', '')) + Number(weekThreeAdj.text().replace('.', '')) + Number(weekFourAdj.text().replace('.', ''))
+        Number(weekOneAdj.text().replace(/\./g, '')) + Number(weekTwoAdj.text().replace(/\./g, '')) + Number(weekThreeAdj.text().replace(/\./g, '')) + Number(weekFourAdj.text().replace(/\./g, ''))
       )
     )
   })
@@ -154,10 +154,10 @@
   $('.amt-week-3').change(function(e){
     let table = $(this).closest('.table')
     let amtVal = Number( $(this).val() )
-    let weekOne = Number( table.find('.week-one').text().replace('.', '') )
-    let weekTwo = Number( table.find('.week-two').text().replace('.', '') )
-    let weekThree = Number( table.find('.week-three').text().replace('.', '') )
-    let weekFour = Number( table.find('.week-four').text().replace('.', '') )
+    let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
+    let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
+    let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
+    let weekFour = Number( table.find('.week-four').text().replace(/\./g, '') )
     let weekOneAdj = table.find('.week-one-adj')
     let weekTwoAdj = table.find('.week-two-adj')
     let weekThreeAdj = table.find('.week-three-adj')
@@ -170,7 +170,7 @@
     // weekFourAdj.text(weekFour)
     monthAmountAdj.text(
       new Intl.NumberFormat('de-DE').format(
-        Number(weekOneAdj.text().replace('.', '')) + Number(weekTwoAdj.text().replace('.', '')) + Number(weekThreeAdj.text().replace('.', '')) + Number(weekFourAdj.text().replace('.', ''))
+        Number(weekOneAdj.text().replace(/\./g, '')) + Number(weekTwoAdj.text().replace(/\./g, '')) + Number(weekThreeAdj.text().replace(/\./g, '')) + Number(weekFourAdj.text().replace(/\./g, ''))
       )
     )
   })
@@ -178,10 +178,10 @@
   $('.amt-week-4').change(function(e){
     let table = $(this).closest('.table')
     let amtVal = Number( $(this).val() )
-    let weekOne = Number( table.find('.week-one').text().replace('.', '') )
-    let weekTwo = Number( table.find('.week-two').text().replace('.', '') )
-    let weekThree = Number( table.find('.week-three').text().replace('.', '') )
-    let weekFour = Number( table.find('.week-four').text().replace('.', '') )
+    let weekOne = Number( table.find('.week-one').text().replace(/\./g, '') )
+    let weekTwo = Number( table.find('.week-two').text().replace(/\./g, '') )
+    let weekThree = Number( table.find('.week-three').text().replace(/\./g, '') )
+    let weekFour = Number( table.find('.week-four').text().replace(/\./g, '') )
     let weekOneAdj = table.find('.week-one-adj')
     let weekTwoAdj = table.find('.week-two-adj')
     let weekThreeAdj = table.find('.week-three-adj')
@@ -194,7 +194,7 @@
     weekFourAdj.text(Intl.NumberFormat('de-DE').format(amtVal + weekFour))
     monthAmountAdj.text(
       new Intl.NumberFormat('de-DE').format(
-        Number(weekOneAdj.text().replace('.', '')) + Number(weekTwoAdj.text().replace('.', '')) + Number(weekThreeAdj.text().replace('.', '')) + Number(weekFourAdj.text().replace('.', ''))
+        Number(weekOneAdj.text().replace(/\./g, '')) + Number(weekTwoAdj.text().replace(/\./g, '')) + Number(weekThreeAdj.text().replace(/\./g, '')) + Number(weekFourAdj.text().replace(/\./g, ''))
       )
     )
   })
