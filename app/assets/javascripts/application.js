@@ -63,6 +63,6 @@
 //= require_tree .
 //= require_self
 
-$.webshims.setOptions('basePath', '/assets/webshims/shims/')
+$.webshims.setOptions('basePath', '/webshims/1.16.0/shims/')
 $.webshims.polyfill()
 
