@@ -1,5 +1,7 @@
 class EfficiencyController < ApplicationController
     include DemoParameters
+    skip_before_action :verify_authenticity_token, only: [:report_post]
+
 
 	def index
 		@stores       = Store.all.order(:id)

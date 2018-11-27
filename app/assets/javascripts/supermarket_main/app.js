@@ -132,4 +132,5 @@ window.onload = function() {
     window.myPie1 = new Chart(ctx1, config);
   }
 
+
 };
