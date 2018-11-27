@@ -11,6 +11,7 @@ Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets')
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'plugins')
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'js')
 Rails.application.config.assets.paths << Rails.root.join('vendor')
+Rails.application.config.assets.paths << Rails.root.join('vendor', 'pages')
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'owlcarousel')
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'owlcarousel', 'assets')
 Rails.application.config.assets.precompile += %w[*scss *.svg *.eot *.woff *.ttf *.woff2]
