@@ -104,7 +104,7 @@ class SalesController < ApplicationController
       @realMonth  << totalRealDay
     end
 
-    sale_reals_h = SaleReal.where(department_id: @dep, store_id: @store, year: @year-1, month: @month)
+    sale_reals_h = SaleReal.where(department_id: @dep, store_id: @store, year: @year-1, month: @month).order(:sale_date)
 
     @realMonth_h = []
     sale_reals_h.each do |sale|
