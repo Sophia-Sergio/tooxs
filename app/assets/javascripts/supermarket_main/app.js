@@ -113,13 +113,13 @@ window.onload = function() {
             pointBorderWidth: 2,
             pointRadius: 5,
             data: data.prod_w_real,
-            label: 'Eficiencia Falabella'
+            label: 'Productividad Real'
           },
           {
             backgroundColor: chartColors.blueAlfa,
             borderColor: chartColors.blue,
             data: data.prod_w_op,
-            label: 'Eficiencia Sodimac'
+            label: 'Productividad Óptima'
           },
         ],
       },
