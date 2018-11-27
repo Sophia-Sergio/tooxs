@@ -95,7 +95,7 @@ class SalesController < ApplicationController
 
     #days of the week for this query
     @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).order(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
-    @m_daily = SalePlan.where(year: @year, month: @month, week: [1..countWeek], store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
+    @m_daily = SalePlan.where(year: @year, month: @month, week: [1..countWeek], store_id: @store, department_id: @dep).order(:sale_date).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
     sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: @year, month: @month)
 
     @realMonth = []
