@@ -1,68 +1,470 @@
-%div{:class => "pantalla-seccion d-flex justify-content-between mb-2"}
-  %div.align-self-end
-    %div{:class => "titulo-pantalla"} Dashboard Sodimac
-.row
-  .col-md-6
-    %div{:class => "dashoboard-sodimac__cumplimiento"}
-      %h3 Cumplimiento de eficiencia
-      %table{:class => "table"}
-        %thead
-          %tr
-            %th Departamento
-            %th Eficiencia
-        %tbody
-          %tr.table-handle
-            %td Electro hogar
-            %td 40%
-          %tr.table-handle
-            %td Muebles y decoración
-            %td 60%
-          %tr.table-handle
-            %td Piso y revestimiento
-            %td 54%
-      %table{:class => "table"}
-        %thead
-          %tr
-            %th Cajas
-            %th Eficiencia
-        %tbody
-          %tr
-            %td 1
-            %td 40%
-          %tr
-            %td 2
-            %td 60%
-          %tr
-            %td 3
-            %td 54%
-          %tr
-            %td 4
-            %td 80%
-  .col-md-6
-    %div{:class => "dashoboard-sodimac__cumplimiento"}
-      .dashoboard-sodimac__cumplimiento__turnos-cubiertos
-        %h3 Turnos cubiertos en tienda
-        %div{class: "progress" }
-          %div{id: "shifts", class: "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
-      .dashoboard-sodimac__cumplimiento__detalle
-        %h3.dashoboard-sodimac__cumplimiento__detalle-title Detalle personas Junio
-        %table{id: "table_details", class: "table table-details display"}
-          %thead
-            %tr
-              %th Departamento
-              %th Colaborador
-              %th Turno
-          %tbody{:id => "table-details"}
-            %tr
-              %td Electro Hogar
-              %td Giacomo S.
-              %td 1 (Turno de 36 horas)
-            %tr
-              %td Muebles
-              %td Susana M.
-              %td 1 (Turno de 36 horas)
-            %tr
-              %td Piso y Revestimiento
-              %td Marcelo C.
-              %td 1 (Turno de 36 horas)
-
+.container-fluid
+  %div{class: 'row dashboard-market'}
+    %div{class: "col-md-12 dashboard-market__title"}
+      %h1 Dashboard Sodimac
+    %div{class: 'col-md-12 dashboard-market__filter clearfix'}
+      = render 'shared/filter_parameters/filter_3', filter: market_parameters
+    .col-md-12.mb-4
+      .dashboard-market__tables
+        .row
+          .col-md-3
+            %h4 Colaboradores
+            %table
+              %thead
+                %tr
+                  %th ID
+                  %th{'colspan': '2'} Turno
+              %tbody
+                %tr
+                  %td T1
+                  %td Turno 1 de 45 horas
+                %tr
+                  %td T2
+                  %td Turno 2 de 45 horas
+                %tr
+                  %td T3
+                  %td Turno 3 de 45 horas
+                %tr
+                  %td T4
+                  %td Turno 4 de 45 horas
+                %tr
+                  %td T5
+                  %td Turno 1 de 36 horas
+                %tr
+                  %td T6
+                  %td Turno 1 de 36 horas
+                %tr
+                  %td T7
+                  %td Turno 1 de 36 horas
+                %tr
+                  %td T8
+                  %td Turno 1 de 36 horas
+                %tr
+                  %td T9
+                  %td Turno 1 de 24 horas
+                %tr
+                  %td T10
+                  %td Turno SA / DO
+                %tr
+                  %td T11
+                  %td Turno 1 Tarde
+                %tr
+                  %td T12
+                  %td Turno 2 Tarde
+              %tfoot
+                %tr
+                  %td{'colspan': '2'} Total
+                %tr
+                  %td{'colspan': '2'} Eficiencia
+                %tr
+                  %td{'colspan': '2'} HH Totales
+                %tr
+                  %td{'colspan': '2'} Productividad Real
+                %tr
+                  %td{'colspan': '2'} Productividad Objetivo
+                %tr
+                  %td{'colspan': '2'} Turnos cubiertos
+          .col-md-9
+            %div{class: 'dashboard-market__tables__carousel owl-carousel'}
+              .dashboard-market__tables__carousel-item
+                %h4 Cajas
+                %table
+                  %thead
+                    %tr
+                      %th Actual
+                      %th Optimizado
+                      %th Comprometido
+                      %th Diferencia
+                  %tbody
+                    %tr
+                      %td 1
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 2
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 2
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 2
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 1
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 1
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 2
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 1
+                      %td 0
+                      %td 1
+                  %tfoot
+                    %tr
+                      %td 11
+                      %td 8
+                      %td 7
+                      %td 1
+                    %tr
+                      %td{colspan: 2} 57.3%
+                      %td{colspan: 2} 77.3%
+                    %tr
+                      %td{colspan: 2} 1.543
+                      %td{colspan: 2} 2.327
+                    %tr
+                      %td{'colspan': '4'} 458 unidad/hora
+                    %tr
+                      %td{'colspan': '4'} 578 unidad/hora
+                    %tr
+                      %td{'colspan': '4'}
+                        %div{class: "progress" }
+                          %div{class: "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
+                            7 de 10
+              .dashboard-market__tables__carousel-item
+                %h4 Electrohogar
+                %table
+                  %thead
+                    %tr
+                      %th Actual
+                      %th Optimizado
+                      %th Comprometido
+                      %th Diferencia
+                  %tbody
+                    %tr
+                      %td 1
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 2
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 1
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 2
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 1
+                      %td 0
+                      %td 1
+                    %tr
+                      %td 0
+                      %td 1
+                      %td 1
+                      %td 0
+                  %tfoot
+                    %tr
+                      %td 6
+                      %td 5
+                      %td 4
+                      %td 1
+                    %tr
+                      %td{colspan: 2} 57.3%
+                      %td{colspan: 2} 77.3%
+                    %tr
+                      %td{colspan: 2} 1.543
+                      %td{colspan: 2} 2.327
+                    %tr
+                      %td{'colspan': '4'} 458 unidad/hora
+                    %tr
+                      %td{'colspan': '4'} 578 unidad/hora
+                    %tr
+                      %td{'colspan': '4'}
+                        %div{class: "progress" }
+                          %div{class: "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
+                            7 de 10
+              .dashboard-market__tables__carousel-item
+                %h4 Muebles y decoración
+                %table
+                  %thead
+                    %tr
+                      %th Actual
+                      %th Optimizado
+                      %th Comprometido
+                      %th Diferencia
+                  %tbody
+                    %tr
+                      %td 1
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 1
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 1
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                  %tfoot
+                    %tr
+                      %td 3
+                      %td 3
+                      %td 3
+                      %td 0
+                    %tr
+                      %td{colspan: 2} 57.3%
+                      %td{colspan: 2} 77.3%
+                    %tr
+                      %td{colspan: 2} 1.543
+                      %td{colspan: 2} 2.327
+                    %tr
+                      %td{'colspan': '4'} 458 unidad/hora
+                    %tr
+                      %td{'colspan': '4'} 578 unidad/hora
+                    %tr
+                      %td{'colspan': '4'}
+                        %div{class: "progress" }
+                          %div{class: "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
+                            7 de 10
+              .dashboard-market__tables__carousel-item
+                %h4 Piso y revestimiento
+                %table
+                  %thead
+                    %tr
+                      %th Actual
+                      %th Optimizado
+                      %th Comprometido
+                      %th Diferencia
+                  %tbody
+                    %tr
+                      %td 1
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 1
+                      %td 0
+                      %td 1
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 1
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 1
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 1
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                    %tr
+                      %td 1
+                      %td 1
+                      %td 1
+                      %td 0
+                    %tr
+                      %td 0
+                      %td 0
+                      %td 0
+                      %td 0
+                  %tfoot
+                    %tr
+                      %td 5
+                      %td 4
+                      %td 3
+                      %td 1
+                    %tr
+                      %td{colspan: 2} 57.3%
+                      %td{colspan: 2} 77.3%
+                    %tr
+                      %td{colspan: 2} 1.543
+                      %td{colspan: 2} 2.327
+                    %tr
+                      %td{'colspan': '4'} 458 unidad/hora
+                    %tr
+                      %td{'colspan': '4'} 578 unidad/hora
+                    %tr
+                      %td{'colspan': '4'}
+                        %div{class: "progress" }
+                          %div{class: "progress-bar", :role => "progressbar", "aria-valuenow" => "70", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "width: 70%"}
+                            7 de 10
+    .col-md-6
+      .dashboard-market__chart
+        %h3.sub-titulo-pantalla Cumplimiento de plan
+        %canvas#market-plan-compliance
+    .col-md-6.dashboard__productivity-charts
+      .dashboard__productivity-charts__item__table{style: 'background-color: white; border-radius: 5px; border: 1px solid #dce3e6; padding: 20px;'}
+        .table-responsive
+          %table.table.table-details
+            %thead
+              %tr{style: 'font-size: 14px;'}
+                %th &nbsp;
+                %th Colaborador
+                %th Ventas
+                %th Meta
+                %th Turno
+                %th Cumplimiento
+                %th &nbsp;
+            %tbody
+              - @setSellers.each do |data|
+                %tr
+                  %td
+                    .thumbnail
+                      = image_tag 'table-thumbnail-default.jpg', alt: data[:seller].fullname
+                  %td
+                    = data[:seller].fullname
+                  %td
+                    = data[:sale]
+                  %td
+                    = data[:plan]
+                  %td
+                    T#{data[:seller].assigned_shift}
+                  %td.progress-container
+                    .progress
+                      %span.progress-value
+                        = data[:cumplimiento]
+                      .progress-bar{role: 'progressbar', aria: {valuenow: 60, valuemin: 0, valuemax: 0}, style: "width: #{data[:cumplimiento]}%"}
+                  %td
+                    = link_to '<i class="fa fa-caret-right"></i>'.html_safe, data[:seller]
