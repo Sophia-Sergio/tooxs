@@ -94,9 +94,9 @@ class SalesController < ApplicationController
     countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store, department_id: @dep).pluck(:week).length
 
     #days of the week for this query
-    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
-    @m_daily = SalePlan.where(year: @year, month: @month, week: [1..countWeek], store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
-    sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: @year, month: @month)
+    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store, department_id: @dep).where(:year => @year).order(:sale_date).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
+    @m_daily = SalePlan.where(year: @year, month: @month, week: [1..countWeek], store_id: @store, department_id: @dep).order(:sale_date).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
+    sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: @year, month: @month).order(:sale_date)
 
     @realMonth = []
     sale_reals.each do |sale|
@@ -104,7 +104,7 @@ class SalesController < ApplicationController
       @realMonth  << totalRealDay
     end
 
-    sale_reals_h = SaleReal.where(department_id: @dep, store_id: @store, year: @year-1, month: @month)
+    sale_reals_h = SaleReal.where(department_id: @dep, store_id: @store, year: @year-1, month: @month).order(:sale_date)
 
     @realMonth_h = []
     sale_reals_h.each do |sale|
@@ -114,7 +114,7 @@ class SalesController < ApplicationController
 
     element = [
       { label: 'Real', fill: 'true', data: @realMonth, backgroundColor: '#65ff00', borderColor: '#65ff00'},
-      { label: 'Plan', fill: 'false', data: @m_daily.reverse, backgroundColor: '#33d6ce', borderColor: '#33d6ce'},
+      { label: 'Plan', fill: 'false', data: @m_daily, backgroundColor: '#33d6ce', borderColor: '#33d6ce'},
       { label: 'Histórico', fill: 'false', data: @realMonth_h, backgroundColor: '#ff566b', borderColor: '#ff566b'}
     ]
 
