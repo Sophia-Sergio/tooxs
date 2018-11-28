@@ -78,7 +78,7 @@
     loop: false,
     margin: 15,
     nav: true,
-    responsive:{ 0:{ items: 1 }, 480:{ items: 2 }, 992:{ items: 2 } }
+    responsive:{ 0:{ items: 1 }, 480:{ items: 1 }, 992:{ items: 2 } }
   });
   // Custom Navigation Events
   $('.dashboard-market__tables__carousel__controls-next').click( function (e) {
