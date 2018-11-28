@@ -118,7 +118,7 @@ class SalesController < ApplicationController
       { label: 'Histórico', fill: 'false', data: @realMonth_h, backgroundColor: '#ff566b', borderColor: '#ff566b'}
     ]
 
-    @data = { :labels => @m_days.reverse , :datasets => element }
+    @data = { :labels => @m_days , :datasets => element }
 
     render json: @data
   end
