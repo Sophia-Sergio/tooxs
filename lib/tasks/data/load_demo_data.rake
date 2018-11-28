@@ -17,6 +17,11 @@ namespace :db do
       load_data('AvailableShift', excel)
     end
 
+    task staffing_real: :environment do
+      excel = load_excel('staffing_real.xlsx')
+      load_data('StaffingReal', excel)
+    end
+
     task plan_sales: :environment do
       excel = load_excel('sale_plans.xlsx')
       load_data('SalePlan', excel)
