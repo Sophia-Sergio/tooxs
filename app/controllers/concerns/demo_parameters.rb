@@ -195,22 +195,22 @@ module DemoParameters
       {
         shift: 'T7',
         desc: 'TURNO 3 de 36',
-        cuantity: 1
+        quantity: 1
       },
       {
         shift: 'T10',
         desc: 'TURNO SÁBADO',
-        cuantity: 3
+        quantity: 3
       },
       {
         shift: 'T11',
         desc: 'TURNO 1 TARDE',
-        cuantity: 1
+        quantity: 1
       },
       {
         shift: 'T12',
         desc: 'TURNO 2 TARDE',
-        cuantity: 1
+        quantity: 1
       }
     ]
   end

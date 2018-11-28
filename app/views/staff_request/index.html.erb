@@ -28,7 +28,7 @@
         <label style="display: block; line-height: 35px; margin: 0 10px 0 0;">Desde:</label>
         <%= f.input :year, collection: (2016..2018), label: 'Año', wrapper: :select2,selected: params[:year], label: false %>
       </div>
-      <%= f.input :month, collection: (6..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month.to_i, label: false  %>
+      <%= f.input :month, collection: (6..6).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: 6, label: false  %>
       <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
     <% end %>
   </div>
