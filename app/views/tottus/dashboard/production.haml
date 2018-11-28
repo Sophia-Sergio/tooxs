@@ -1,50 +1,63 @@
 .container-fluid
-  .pantalla-seccion.d-flex.justify-content-between.mb-2
-    %div.align-self-end
-      %div.titulo-pantalla Dashboard de Producción
+  %div{class: 'row dashboard-market'}
+    %div{class: "col-md-12 dashboard-market__title"}
+      %h1 Dashboard de producción
   = render 'shared/filter_parameters/filter_2', filter: market_parameters.except(:departments)
-  .row{style: 'padding: 0 5px' }
-    .tables.box.col-md-12
-      %h1.tables__title Dotación
-      .row
-        .col-sm-1
-          %h3.table__title Horario
-          .table-responsive
-            %table.table
-              %thead
-                %th.table__subtitle Tramo
-              %tbody
-                %tr
-                  %td 10 - 11
-                %tr
-                  %td 12 - 13
-                %tr
-                  %td 13 - 14
-                %tr
-                  %td 14 - 15
-                %tr
-                  %td 15 - 16
-                %tr
-                  %td 16 - 17
-                %tr
-                  %td 17 - 18
-                %tr
-                  %td 18 - 19
-                %tr
-                  %td 20 - 21
-                %tr
-                  %td.no-border 21 - 22
-        .col-sm-11
-          .row
-            .col-sm-4
-              %h3.table__title Carnes
-              .table-responsive
-                = render 'table_production'
-            .col-sm-4
-              %h3.table__title Fiambrería y Quesos
-              .table-responsive
-                = render 'table_production'
-            .col-sm-4
-              %h3.table__title Pescados y Mariscos
-              .table-responsive
-                = render 'table_production'
+  .row
+    .col-md-12
+      .dashboard-market__tables
+        %h1.tables__title Dotación
+        .row
+          .col-sm-3
+            %h4 Horario
+            .table-responsive
+              %table.table
+                %thead
+                  %th.table__subtitle Horario
+                %tbody
+                  %tr
+                    %td 8 - 9
+                  %tr
+                    %td 9 - 10
+                  %tr
+                    %td 10 - 11
+                  %tr
+                    %td 11 - 12
+                  %tr
+                    %td 12 - 13
+                  %tr
+                    %td 13 - 14
+                  %tr
+                    %td 14 - 15
+                  %tr
+                    %td 15 - 16
+                  %tr
+                    %td 16 - 17
+                  %tr
+                    %td 17 - 18
+                  %tr
+                    %td 18 - 19
+                  %tr
+                    %td 19 - 20
+                  %tr
+                    %td 20 - 21
+                  %tr
+                    %td.no-border 21 - 22
+          .col-sm-9
+            .dashboard-market__tables__carousel.owl-carousel
+              .dashboard-market__tables__carousel-item
+                %h4 Carnes
+                .table-responsive
+                  = render 'table_production_butchery'
+              .dashboard-market__tables__carousel-item
+                %h4 Fiambrería y Quesos
+                .table-responsive
+                  = render 'table_production_dairy_prods'
+              .dashboard-market__tables__carousel-item
+                %h4 Pescados y Mariscos
+                .table-responsive
+                  = render 'table_production_seafoods'
+              .dashboard-market__tables__carousel-item
+                %h4 Panadería
+                .table-responsive
+                  = render 'table_production_bakery'
