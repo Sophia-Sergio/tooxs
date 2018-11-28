@@ -49,7 +49,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
           <div class="dashboard__charts__info__item">
     				<h4 class="dashboard__charts__info__item__title">Cumplimiento plan de venta</h4>
             <h5 class="dashboard__charts__info__item__value"><%= @cumplimientoPlan %>%</h5>
-            <h5 class="dashboard__charts__info__item__amount">Plan $56.000. Real $60.000</h5>
+            <h5 class="dashboard__charts__info__item__amount">Plan <%=  number_to_currency @planVentaTotal %>. Real <%= number_to_currency @realMonth.sum %></h5>
   			  </div>
         </div>
 

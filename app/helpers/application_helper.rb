@@ -18,7 +18,7 @@ module ApplicationHelper
 
   def retail_parameters
     {
-      stores: Store.all.pluck(:name, :id),
+      stores: Store.first(2).pluck(:name, :id),
       departments: MasterDepartment.all.pluck(:name, :id),
       years: (2016..2018),
       months: months_until(7)
@@ -74,13 +74,13 @@ module ApplicationHelper
   end
 
   def falabella_active
-    return 'active' if falabella_controllers.include? params[:controller]
+    return 'active' if falabella_controllers.include?(params[:controller]) || params[:type] == 'falabella'
 
-    all_active
+    all_active if params[:action] != 'staffing_store'
   end
 
   def sodimac_active
-    return 'active' if sodimac_controllers.include? params[:controller]
+    return 'active' if sodimac_controllers.include?(params[:controller]) || params[:type] == 'sodimac'
 
     all_active if params[:action] != 'staffing_store'
   end

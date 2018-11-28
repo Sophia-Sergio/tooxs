@@ -7,16 +7,13 @@
             %li{class: tottus_active}
               %a{ href: link[:tottus], 'title': 'Tottus', class: 'tottus' }
                 = image_tag('tottus_logo.jpg')
-          - if params[:controller] == 'tottus/dashboard' && params[:action] == 'production'
+          - if params[:controller] == 'sellers' && params[:action] == 'staffing_store'
             %li{class: falabella_active}
-              %a{ href: 'sellers/staffing_store?type=falabella', 'title': 'Falabella', class: 'falabella' }
+              %a{ href: 'staffing_store?type=falabella', 'title': 'Falabella', class: 'falabella' }
                 = image_tag('falabella_logo.jpg')
             %li{class: sodimac_active}
-              %a{ href: 'sellers/staffing_store?type=sodimac', 'title': 'Sodimac', class: 'sodimac' }
+              %a{ href: 'staffing_store?type=sodimac', 'title': 'Sodimac', class: 'sodimac' }
                 = image_tag('sodimac_logo.jpg')
-            %li{class: tottus_active}
-              %a{ href: 'sellers/staffing_store?type=tottus', 'title': 'Tottus', class: 'tottus' }
-                = image_tag('tottus_logo.jpg')
           - else
             %li{class: falabella_active}
               %a{ href: link[:falabella], 'title': 'Falabella', class: 'falabella' }

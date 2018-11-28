@@ -4,7 +4,9 @@ class SellersController < ApplicationController
   # GET /sellers
   # GET /sellers.json
 
-  def staffing_store() end
+  def staffing_store
+    params[:type] ||= 'falabella'
+  end
 
   def calendar_shift
 

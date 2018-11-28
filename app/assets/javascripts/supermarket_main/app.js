@@ -65,19 +65,16 @@ window.onload = function() {
     remove_active($('.falabella').parent());
     remove_active($('.sodimac').parent());
     add_active($('.tottus').parent());
-    $('.hour-switch').removeClass('inactive');
   })
   $('.falabella').click(function(){
     remove_active($('.tottus').parent());
     remove_active($('.sodimac').parent());
     add_active($('.falabella').parent());
-    $('.hour-switch').addClass('inactive');
   })
   $('.sodimac').click(function(){
     remove_active($('.tottus').parent());
     remove_active($('.falabella').parent());
     add_active($('.sodimac').parent());
-    $('.hour-switch').removeClass('inactive');
   })
 
   if($('#chart-area1').length > 0) {
