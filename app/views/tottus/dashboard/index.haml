@@ -8,12 +8,12 @@
       .dashboard-market__tables
         .row
           .col-md-3
-            %h4 Colaboradores
+            %h4 Turnos
             %table
               %thead
                 %tr
                   %th ID
-                  %th{'colspan': '2'} Turno
+                  %th{'colspan': '2'} &nbsp;
               %tbody
                 %tr
                   %td T1
@@ -143,15 +143,15 @@
                       %td 7
                       %td 1
                     %tr
-                      %td{colspan: 2} 57.3%
-                      %td{colspan: 2} 77.3%
+                      %td{colspan: 2} 49.8%
+                      %td{colspan: 2} 71.2%
                     %tr
-                      %td{colspan: 2} 1.543
-                      %td{colspan: 2} 2.327
+                      %td{colspan: 2} 1.308
+                      %td{colspan: 2} 1.709
                     %tr
-                      %td{'colspan': '4'} 458 unidad/hora
+                      %td{'colspan': '4'} 642 unidad/hora
                     %tr
-                      %td{'colspan': '4'} 578 unidad/hora
+                      %td{'colspan': '4'} 692 unidad/hora
                     %tr
                       %td{'colspan': '4'}
                         %div{class: "progress" }
@@ -234,15 +234,15 @@
                       %td 4
                       %td 1
                     %tr
-                      %td{colspan: 2} 57.3%
-                      %td{colspan: 2} 77.3%
+                      %td{colspan: 2} 57.2%
+                      %td{colspan: 2} 72.8%
                     %tr
                       %td{colspan: 2} 1.543
                       %td{colspan: 2} 2.327
                     %tr
-                      %td{'colspan': '4'} 458 unidad/hora
+                      %td{'colspan': '4'} 472 unidad/hora
                     %tr
-                      %td{'colspan': '4'} 578 unidad/hora
+                      %td{'colspan': '4'} 508 unidad/hora
                     %tr
                       %td{'colspan': '4'}
                         %div{class: "progress" }
@@ -325,15 +325,15 @@
                       %td 3
                       %td 0
                     %tr
-                      %td{colspan: 2} 57.3%
-                      %td{colspan: 2} 77.3%
+                      %td{colspan: 2} 61.5%
+                      %td{colspan: 2} 73.2%
                     %tr
-                      %td{colspan: 2} 1.543
-                      %td{colspan: 2} 2.327
+                      %td{colspan: 2} 1.407
+                      %td{colspan: 2} 1.702
                     %tr
-                      %td{'colspan': '4'} 458 unidad/hora
+                      %td{'colspan': '4'} 542 unidad/hora
                     %tr
-                      %td{'colspan': '4'} 578 unidad/hora
+                      %td{'colspan': '4'} 598 unidad/hora
                     %tr
                       %td{'colspan': '4'}
                         %div{class: "progress" }
@@ -416,15 +416,15 @@
                       %td 3
                       %td 1
                     %tr
-                      %td{colspan: 2} 57.3%
-                      %td{colspan: 2} 77.3%
+                      %td{colspan: 2} 63.1%
+                      %td{colspan: 2} 72.8%
                     %tr
-                      %td{colspan: 2} 1.543
-                      %td{colspan: 2} 2.327
+                      %td{colspan: 2} 1.204
+                      %td{colspan: 2} 1.408
                     %tr
-                      %td{'colspan': '4'} 458 unidad/hora
+                      %td{'colspan': '4'} 427 unidad/hora
                     %tr
-                      %td{'colspan': '4'} 578 unidad/hora
+                      %td{'colspan': '4'} 492 unidad/hora
                     %tr
                       %td{'colspan': '4'}
                         %div{class: "progress" }
@@ -507,15 +507,15 @@
                       %td 3
                       %td 1
                     %tr
-                      %td{colspan: 2} 57.3%
-                      %td{colspan: 2} 77.3%
+                      %td{colspan: 2} 56.8%
+                      %td{colspan: 2} 72.5%
                     %tr
-                      %td{colspan: 2} 1.543
-                      %td{colspan: 2} 2.327
+                      %td{colspan: 2} 2.507
+                      %td{colspan: 2} 2.905
                     %tr
-                      %td{'colspan': '4'} 458 unidad/hora
+                      %td{'colspan': '4'} 682 unidad/hora
                     %tr
-                      %td{'colspan': '4'} 578 unidad/hora
+                      %td{'colspan': '4'} 704 unidad/hora
                     %tr
                       %td{'colspan': '4'}
                         %div{class: "progress" }
@@ -598,15 +598,15 @@
                       %td 4
                       %td 0
                     %tr
-                      %td{colspan: 2} 57.3%
-                      %td{colspan: 2} 77.3%
+                      %td{colspan: 2} 55.3%
+                      %td{colspan: 2} 72.9%
                     %tr
-                      %td{colspan: 2} 1.543
-                      %td{colspan: 2} 2.327
+                      %td{colspan: 2} 1.340
+                      %td{colspan: 2} 1.602
                     %tr
-                      %td{'colspan': '4'} 458 unidad/hora
+                      %td{'colspan': '4'} 908 unidad/hora
                     %tr
-                      %td{'colspan': '4'} 578 unidad/hora
+                      %td{'colspan': '4'} 1.102 unidad/hora
                     %tr
                       %td{'colspan': '4'}
                         %div{class: "progress" }
@@ -619,16 +619,12 @@
     .col-md-6.dashboard__productivity-charts
       .dashboard__productivity-charts__item__table{style: 'background-color: white; border-radius: 5px; border: 1px solid #dce3e6; padding: 20px;'}
         .table-responsive
-          %table.table.table-details
+          %table.table.table-details{css: 'width: 100%;'}
             %thead
               %tr{style: 'font-size: 14px;'}
                 %th &nbsp;
                 %th Colaborador
-                %th Ventas
-                %th Meta
                 %th Turno
-                %th Cumplimiento
-                %th &nbsp;
             %tbody
               - @setSellers.each do |data|
                 %tr
@@ -638,15 +634,4 @@
                   %td
                     = data[:seller].fullname
                   %td
-                    = data[:sale]
-                  %td
-                    = data[:plan]
-                  %td
                     T#{data[:seller].assigned_shift}
-                  %td.progress-container
-                    .progress
-                      %span.progress-value
-                        = data[:cumplimiento]
-                      .progress-bar{role: 'progressbar', aria: {valuenow: 60, valuemin: 0, valuemax: 0}, style: "width: #{data[:cumplimiento]}%"}
-                  %td
-                    = link_to '<i class="fa fa-caret-right"></i>'.html_safe, data[:seller]
