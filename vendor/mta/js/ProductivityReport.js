@@ -117,6 +117,11 @@ if ($('#productivity_report').length > 0)
       }
     });
 
+    label_graph = '';
+    if(month == 6){
+      label_graph = "No Optimizado";
+    }
+
     var datasets = $.ajax(
     {
       type: "get",
@@ -161,7 +166,7 @@ if ($('#productivity_report').length > 0)
           datasets:
           [
             {pointRadius: 0, borderDash: [10, 5], data: prod_obj_line, fill: 'false', label: 'Productividad ideal', borderColor: 'rgb(179, 178, 178)'},
-            {data: data.prod_w_real, label: 'Real',fill: 'false', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
+            {data: data.prod_w_real, label: label_graph,fill: 'false', yAxisID: 'left-y-axis',borderColor: 'rgb(255, 99, 132)'},
             {data: data.prod_w_op, label: 'Optimizado', fill: 'false', yAxisID: 'left-y-axis',borderColor: 'rgb(54, 162, 235)'}
           ],
           labels: fecha

@@ -55,7 +55,7 @@ class ProductivityController < ApplicationController
     @prd_w3_day = total_sales_of_week[3].zip(@sd_w3_daily).map { |a, b| a / b }
     @prd_w4_day = total_sales_of_week[4].zip(@sd_w4_daily).map { |a, b| a / b }
 
-    nombreTurnos = AvailableShift.all.distinct.order(:num).pluck(:num, :name)
+    nombreTurnos = AvailableShift.all.where(month: month, store_id: 1).distinct.order(:num).pluck(:num, :name)
     @brain_json = brain_json(month, year, @store.id, department)
     @plan = JSON.parse(@brain_json)
     dataCase = DataCase.where(month: month, year: year, dep_num: department)

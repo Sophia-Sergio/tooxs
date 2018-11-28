@@ -10,8 +10,6 @@ class SellersController < ApplicationController
     @shift_optimized = shift_optimized
   end
 
-
-
   def staffing_store
     params[:type] ||= 'falabella'
   end

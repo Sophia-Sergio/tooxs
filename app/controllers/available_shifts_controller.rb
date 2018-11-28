@@ -31,9 +31,6 @@ class AvailableShiftsController < ApplicationController
   # GET /available_shifts/1
   # GET /available_shifts/1.json
   def show
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Turnos", :available_shifts_path
-    add_breadcrumb "Detalle", :available_shift_path
 
     @as       = AvailableShift.where(num: params[:num]).where(store_id: 1, month: 10)
     @sellers  = Seller.where(assigned_shift: params[:num])
@@ -41,9 +38,6 @@ class AvailableShiftsController < ApplicationController
     @w2       = shift_week(params[:num], 2)
     @w3       = shift_week(params[:num], 3)
     @w4       = shift_week(params[:num], 4)
-
-
-
     @wx = 'moo'
 
   end

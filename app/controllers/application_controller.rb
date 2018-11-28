@@ -130,7 +130,7 @@ class ApplicationController < ActionController::Base
           countAlltwenty_four = 0
 
           @sellers.each do |seller|
-            @days = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d, month: @month)
+            @days = AvailableShift.where(store_id: 1, num: seller.assigned_shift, week: @week, day: d, month: @month)
             @days.each do |s|
 
               countAllnine += 1 if s.nine
@@ -641,9 +641,7 @@ class ApplicationController < ActionController::Base
   end
 
   def dotacion_real(department, month, year)
-
-    dotacion = StaffingReal.where(department_id: department, month: month, year: year).order(:day).pluck(:count)
-    return dotacion
+    StaffingReal.where(store_id: 1, department_id: department, month: 5, year: year).order(:day).pluck(:count)
   end
 
   def day_now(year, month)

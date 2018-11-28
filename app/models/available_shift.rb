@@ -4,7 +4,7 @@ class AvailableShift < ApplicationRecord
   belongs_to :store
   validates_presence_of :num, :name, :month, :week, :day
 
-  scope :code, ->(value) { where(num: value) if value }
+  scope :code, ->(value) { where(num: value, store_id: 1, month: 10) if value }
 
   def shift
     cols = ['nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty','twenty_one','twenty_two','twenty_three','twenty_four']
