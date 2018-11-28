@@ -1,10 +1,13 @@
 class SellersController < ApplicationController
+  include DemoParameters
   before_action :set_seller, only: [:show, :edit, :update, :destroy]
 
   # GET /sellers
   # GET /sellers.json
   def staff
-
+    @staff_planifitacion = staff_planification
+    @shift_available = shift_available
+    @shift_optimized = shift_optimized
   end
 
 
