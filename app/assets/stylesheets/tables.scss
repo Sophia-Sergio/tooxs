@@ -15,6 +15,10 @@
 
     tr {
 
+      th[scope=col] {
+        font-size: 12px;
+      }
+
       td {
         font-size: 12px !important;
 
@@ -61,6 +65,19 @@
             display: block;
             height: auto;
             width: 100%;
+          }
+
+        }
+
+        .input-group {
+
+          input {
+            font-size: 12px;
+
+            &:focus {
+              background-color: white;
+              border-color: #46c4fd;
+            }
           }
 
         }
