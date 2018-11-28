@@ -619,19 +619,130 @@
     .col-md-6.dashboard__productivity-charts
       .dashboard__productivity-charts__item__table{style: 'background-color: white; border-radius: 5px; border: 1px solid #dce3e6; padding: 20px;'}
         .table-responsive
-          %table.table.table-details{css: 'width: 100%;'}
+          %table.table.table-details{style: 'display: table !important;'}
             %thead
               %tr{style: 'font-size: 14px;'}
                 %th &nbsp;
                 %th Colaborador
                 %th Turno
+                %th Descripción
             %tbody
-              - @setSellers.each do |data|
-                %tr
-                  %td
-                    .thumbnail
-                      = image_tag 'table-thumbnail-default.jpg', alt: data[:seller].fullname
-                  %td
-                    = data[:seller].fullname
-                  %td
-                    T#{data[:seller].assigned_shift}
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Ricardo Gonzalez
+                %td T1
+                %td TURNO 1 DE 45 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Carlos Paz
+                %td T1
+                %td TURNO 1 DE 45 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Claudia Andrea Bravo Lopez
+                %td T2
+                %td TURNO 2 DE 45 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Juan Herrera
+                %td T2
+                %td TURNO 2 DE 45 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Ulises Medina
+                %td T3
+                %td TURNO 2 DE 45 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Rodrigo Sanz
+                %td T3
+                %td TURNO 3 DE 45 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Margarita Cuevas
+                %td T4
+                %td TURNO 4 DE 45 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Antonio Brown
+                %td T4
+                %td TURNO 4 DE 45 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Pedro Silva
+                %td T5
+                %td TURNO 1 DE 36 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Javiera Ruiz
+                %td T5
+                %td TURNO 1 DE 36 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Pablo Jara
+                %td T6
+                %td TURNO 2 DE 45 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Alejandra Fuentes
+                %td T6
+                %td TURNO 2 DE 45 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Juan Pablo Garcia
+                %td T9
+                %td TURNO 1 DE 24 HORAS
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Luis Sanchez
+                %td T9
+                %td TURNO SÁBADO
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Ricardo Urrutia
+                %td T9
+                %td TURNO SÁBADO
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Mauricio Martinez
+                %td T9
+                %td TURNO 1 TARDE
+              %tr
+                %td
+                  .thumbnail
+                    = image_tag 'table-thumbnail-default.jpg'
+                %td Francisco Lillo
+                %td T1
+                %td TURNO 1 DE 45 HORAS
