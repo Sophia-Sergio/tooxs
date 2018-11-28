@@ -76,19 +76,15 @@ module ApplicationHelper
   def falabella_active
     return 'active' if falabella_controllers.include?(params[:controller]) || params[:type] == 'falabella'
 
-    all_active if params[:action] != 'staffing_store'
+    all_active
   end
 
   def sodimac_active
-    return 'active' if sodimac_controllers.include?(params[:controller]) || params[:type] == 'sodimac'
-
-    all_active if params[:action] != 'staffing_store'
+    'active' if sodimac_controllers.include?(params[:controller]) || params[:type] == 'sodimac'
   end
 
   def tottus_active
-    return 'active' if tottus_controllers.include? params[:controller]
-
-    all_active if params[:action] != 'staffing_store'
+    'active' if tottus_controllers.include? params[:controller]
   end
 
   def link_options

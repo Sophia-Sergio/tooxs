@@ -30,7 +30,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 	</div>
 
 	<div class="row mb-2 dashboard__filter">
-    <%= simple_form_for @search, :url => dashboard_index_path, html: { method: :post, id: :dasboard_form } do |f| %>
+    <%= simple_form_for @search, :url => dashboard_index_path, html: { method: :get, id: :dasboard_form } do |f| %>
       <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: @store, label: false  %>
       <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: @dep, label: false %>
       <%= f.input :month, collection: (4..5).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month , label: false %>
@@ -42,7 +42,11 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 
       <h3 class="dashboard__charts__info__title">
         Resultado de búsqueda<br>
-        <small>Datos desde el 30 de abril  al 27 de mayo de 2018</small>
+        <% if params[:month] == '4' %>
+          <small>Datos desde el 26 de marzo  al 29 de abril de 2018</small>
+        <% else  %>
+          <small>Datos desde el 30 de abril  al 27 de mayo de 2018</small>
+        <% end %>
       </h3>
       <div class="row mb-2">
   			<div class="col-md-4">

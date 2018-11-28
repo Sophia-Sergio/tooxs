@@ -1,5 +1,6 @@
 class EfficiencyController < ApplicationController
-    include DemoParameters
+  include DemoParameters
+  skip_before_action :verify_authenticity_token, only: [:report_post]
 
 	def index
 		@stores       = Store.all.order(:id)
@@ -41,7 +42,6 @@ class EfficiencyController < ApplicationController
       prod_w_real: [],
       prod_w_op: []
     }
-
 
     month_data = report_data( @department, @store, @year, params[:month])
 

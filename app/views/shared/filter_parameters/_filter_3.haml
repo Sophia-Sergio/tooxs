@@ -1,7 +1,7 @@
 = simple_form_for '', url: config_filter_parameters_path, method: :post, html: { class: 'form-inline' } do |f|
   %label= filter[:name]
   %div.input-group.date
-    %input.form-control{type: "text", value: Date.today.strftime("%d/%m/%Y")}
+    %input.form-control{type: "text", value: '27/05/2018'}
       %div.input-group-addon
   = button_tag 'submit', class: 'btn btn-success' do
     %i.fa.fa-search{ aria: { hidden: 'true' } }
