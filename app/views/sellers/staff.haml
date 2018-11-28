@@ -1,9 +1,42 @@
 .container-fluid
   .row.mb-2.dashboard__title
     .col
-      %h1 Planificación dotación
+      %h1 Planificación de dotación
+  = render 'shared/filter_parameters/filter_2', filter: retail_parameters
   .row
     .col-md-12.dashboard__productivity-charts.mb-4
+      .dashboard__productivity-charts__item
+        %h3.text-center{style: 'font-size: 20px; font-weight: bold;'} Colaboradores
+        .table-responsive
+          %table.table
+            %thead
+              %tr
+                %th &nbsp;
+                %th Nombre
+                %th RUT
+                %th Tienda
+                %th Departamento
+                %th Turno actual
+                %th Descripción
+                %th Junio 2018
+                %th Descripción
+            %tbody
+              - @staff_planifitacion.each do |shift|
+                %tr
+                  %td
+                    .thumbnail
+                      = image_tag 'table-thumbnail-default.jpg'
+                  </div>
+                  %td= shift[:name]
+                  %td= shift[:rut]
+                  %td= shift[:store]
+                  %td= shift[:department]
+                  %td= shift[:shift]
+                  %td= shift[:shift_desc]
+                  %td= shift[:new_shift]
+                  %td{style: "background-color: #{ shift[:new_shift_desc] == '' ? '#ff8a80' : '#81c784' }; color: white;"}= shift[:new_shift_desc]
+  .row
+    .col-md-5.dashboard__productivity-charts.mb-4
       .dashboard__productivity-charts__item
         .table-responsive
           %table.table
@@ -17,37 +50,12 @@
             %tbody
               - @shift_optimized.each do |shift|
                 %tr
-                  %td{style: 'text-align: center;'}= shift[:shift]
+                  %td{style: 'background-color: rgba(34, 42, 66, 0.1); text-align: center;'}= shift[:shift]
                   %td{style: 'text-align: center;'}= shift[:actual]
                   %td{style: 'text-align: center;'}= shift[:optimized]
                   %td{style: 'text-align: center;'}= shift[:committed]
                   %td{style: 'text-align: center;'}= shift[:to_cover]
-    .col-md-12.dashboard__productivity-charts.mb-4
-      .dashboard__productivity-charts__item
-        .table-responsive
-          %table.table
-            %thead
-              %tr
-                %th{style: 'text-align: center;'} Nombre
-                %th{style: 'text-align: center;'} RUT
-                %th{style: 'text-align: center;'} Tienda
-                %th{style: 'text-align: center;'} Departamento
-                %th{style: 'text-align: center;'} Turno actual
-                %th{style: 'text-align: center;'} Descripción
-                %th{style: 'text-align: center;'} Turno propuesto
-                %th{style: 'text-align: center;'} Descripción
-            %tbody
-              - @staff_planifitacion.each do |shift|
-                %tr
-                  %td{style: 'text-align: center;'}= shift[:name]
-                  %td{style: 'text-align: center;'}= shift[:rut]
-                  %td{style: 'text-align: center;'}= shift[:store]
-                  %td{style: 'text-align: center;'}= shift[:department]
-                  %td{style: 'text-align: center;'}= shift[:shift]
-                  %td{style: 'text-align: center;'}= shift[:shift_desc]
-                  %td{style: 'text-align: center;'}= shift[:new_shift]
-                  %td{style: 'text-align: center;'}= shift[:new_shift_desc]
-    .col-md-12.dashboard__productivity-charts
+    .col-md-7.dashboard__productivity-charts
       .dashboard__productivity-charts__item
         .table-responsive
           %table.table
@@ -56,7 +64,7 @@
                 %th{style: 'text-align: center;'} Turno disponible
                 %th{style: 'text-align: center;'} Descripción
                 %th{style: 'text-align: center;'} Cantidad
-                %th{style: 'text-align: center;'} &nbsp;
+                %th{rowspan: 2, style: 'text-align: center;'} &nbsp;
             %tbody
               - @shift_available.each do |shift|
                 %tr
@@ -67,8 +75,9 @@
                     %label
                       %input{type: 'checkbox'}
               %tr
-                %td &nbsp;
-                %td &nbsp;
-                %td &nbsp;
-                %td
-                  %button.btn.btn-primary Publicar
+                %td{rowspan: 2} &nbsp;
+                %td{rowspan: 2} &nbsp;
+                %td{rowspan: 2} &nbsp;
+                %td{rowspan: 2}
+                  %button.btn.btn-primary{style: 'width: 100%;'} Publicar
+
