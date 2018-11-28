@@ -1,0 +1,74 @@
+.container-fluid
+  .row.mb-2.dashboard__title
+    .col
+      %h1 Planificación dotación
+  .row
+    .col-md-12.dashboard__productivity-charts.mb-4
+      .dashboard__productivity-charts__item
+        .table-responsive
+          %table.table
+            %thead
+              %tr
+                %th{style: 'text-align: center;'} Turno
+                %th{style: 'text-align: center;'} Actual
+                %th{style: 'text-align: center;'} Optimizado
+                %th{style: 'text-align: center;'} Comprometido
+                %th{style: 'text-align: center;'} Por cumplir
+            %tbody
+              - @shift_optimized.each do |shift|
+                %tr
+                  %td{style: 'text-align: center;'}= shift[:shift]
+                  %td{style: 'text-align: center;'}= shift[:actual]
+                  %td{style: 'text-align: center;'}= shift[:optimized]
+                  %td{style: 'text-align: center;'}= shift[:committed]
+                  %td{style: 'text-align: center;'}= shift[:to_cover]
+    .col-md-12.dashboard__productivity-charts.mb-4
+      .dashboard__productivity-charts__item
+        .table-responsive
+          %table.table
+            %thead
+              %tr
+                %th{style: 'text-align: center;'} Nombre
+                %th{style: 'text-align: center;'} RUT
+                %th{style: 'text-align: center;'} Tienda
+                %th{style: 'text-align: center;'} Departamento
+                %th{style: 'text-align: center;'} Turno actual
+                %th{style: 'text-align: center;'} Descripción
+                %th{style: 'text-align: center;'} Turno propuesto
+                %th{style: 'text-align: center;'} Descripción
+            %tbody
+              - @staff_planifitacion.each do |shift|
+                %tr
+                  %td{style: 'text-align: center;'}= shift[:name]
+                  %td{style: 'text-align: center;'}= shift[:rut]
+                  %td{style: 'text-align: center;'}= shift[:store]
+                  %td{style: 'text-align: center;'}= shift[:department]
+                  %td{style: 'text-align: center;'}= shift[:shift]
+                  %td{style: 'text-align: center;'}= shift[:shift_desc]
+                  %td{style: 'text-align: center;'}= shift[:new_shift]
+                  %td{style: 'text-align: center;'}= shift[:new_shift_desc]
+    .col-md-12.dashboard__productivity-charts
+      .dashboard__productivity-charts__item
+        .table-responsive
+          %table.table
+            %thead
+              %tr
+                %th{style: 'text-align: center;'} Turno disponible
+                %th{style: 'text-align: center;'} Descripción
+                %th{style: 'text-align: center;'} Cantidad
+                %th{style: 'text-align: center;'} &nbsp;
+            %tbody
+              - @shift_available.each do |shift|
+                %tr
+                  %td{style: 'text-align: center;'}= shift[:shift]
+                  %td{style: 'text-align: center;'}= shift[:desc]
+                  %td{style: 'text-align: center;'}= shift[:quantity]
+                  %td{style: 'text-align: center;'}
+                    %label
+                      %input{type: 'checkbox'}
+              %tr
+                %td &nbsp;
+                %td &nbsp;
+                %td &nbsp;
+                %td
+                  %button.btn.btn-primary Publicar
