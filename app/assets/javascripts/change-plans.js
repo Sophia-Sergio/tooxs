@@ -114,7 +114,7 @@
     let weekFiveAdj = table.find('.week-five-adj')
     let monthAmountAdj = table.find('.month-amount-adj')
     table.find('.amt-week-5').val(0)
-    weekFourAdj.text( Intl.NumberFormat('de-DE').format( ( ( pctVal / 100 ) * weekFour + weekFour ).toFixed(0) ) )
+    weekFiveAdj.text( Intl.NumberFormat('de-DE').format( ( ( pctVal / 100 ) * weekFive + weekFive ).toFixed(0) ) )
     monthAmountAdj.text(
       new Intl.NumberFormat('de-DE').format(
         Number(weekOneAdj.text().replace(/\./g, '')) + Number(weekTwoAdj.text().replace(/\./g, '')) + Number(weekThreeAdj.text().replace(/\./g, '')) + Number(weekFourAdj.text().replace(/\./g, '')) + Number(weekFiveAdj.text().replace(/\./g, ''))
@@ -230,8 +230,8 @@
     let weekFourAdj = table.find('.week-four-adj')
     let weekFiveAdj = table.find('.week-five-adj')
     let monthAmountAdj = table.find('.month-amount-adj')
-    table.find('.pct-week-four').val( 0 )
-    weekFourAdj.text(Intl.NumberFormat('de-DE').format(amtVal + weekFive))
+    table.find('.pct-week-five').val( 0 )
+    weekFiveAdj.text(Intl.NumberFormat('de-DE').format(amtVal + weekFive))
     monthAmountAdj.text(
       new Intl.NumberFormat('de-DE').format(
         Number(weekOneAdj.text().replace(/\./g, '')) + Number(weekTwoAdj.text().replace(/\./g, '')) + Number(weekThreeAdj.text().replace(/\./g, '')) + Number(weekFourAdj.text().replace(/\./g, '')) + Number(weekFiveAdj.text().replace(/\./g, ''))
