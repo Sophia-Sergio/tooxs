@@ -3,6 +3,11 @@ class SellersController < ApplicationController
 
   # GET /sellers
   # GET /sellers.json
+  def staff
+
+  end
+
+
 
   def staffing_store
     params[:type] ||= 'falabella'

@@ -7,7 +7,7 @@
             %li{class: tottus_active}
               %a{ href: link[:tottus], 'title': 'Tottus', class: 'tottus' }
                 = image_tag('tottus_logo.jpg')
-          - if params[:controller] == 'sellers' && params[:action] == 'staffing_store'
+          - elsif params[:controller] == 'sellers' && params[:action] == 'staffing_store'
             %li{class: falabella_active}
               %a{ href: 'staffing_store?type=falabella', 'title': 'Falabella', class: 'falabella' }
                 = image_tag('falabella_logo.jpg')

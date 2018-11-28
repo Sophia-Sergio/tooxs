@@ -145,6 +145,7 @@ Rails.application.routes.draw do
 
   resources :sellers do
     collection do
+      get 'staff'
       get 'import_form'
       post 'import'
       get 'calendar_shift'

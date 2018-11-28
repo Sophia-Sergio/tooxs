@@ -76,7 +76,7 @@ module ApplicationHelper
   def falabella_active
     return 'active' if falabella_controllers.include?(params[:controller]) || params[:type] == 'falabella'
 
-    all_active
+    all_active if params[:action] != 'staffing_store'
   end
 
   def sodimac_active

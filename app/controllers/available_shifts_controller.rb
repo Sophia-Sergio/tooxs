@@ -4,20 +4,18 @@ class AvailableShiftsController < ApplicationController
   # GET /available_shifts
   # GET /available_shifts.json
   def calendar_json
-    
-    @available_shift = AvailableShift.where(num: params[:num])
+
+    @available_shift = AvailableShift.where(num: params[:num]).where(store_id: 1, month: 10)
     @shifts = @available_shift.map do |s|
       { :id => s.id, :title => s.name, :class => 'bg-success-lighter', :start => s.date_time_shift.first, :end => s.date_time_shift.last  }
     end
     json = @shifts.to_json
     render json: json
-    
+
   end
 
   def index
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Turnos", :available_shifts_path
-    @available_shifts = AvailableShift.select('DISTINCT name,num,store_id,month').order(:num) # separo por nombre / num
+    @available_shifts = AvailableShift.where(month: 10, store_id: 1).select('DISTINCT name,num,store_id,month').order(:num) # separo por nombre / num
   end
 
   def import
@@ -37,7 +35,7 @@ class AvailableShiftsController < ApplicationController
     add_breadcrumb "Turnos", :available_shifts_path
     add_breadcrumb "Detalle", :available_shift_path
 
-    @as       = AvailableShift.where(num: params[:num])
+    @as       = AvailableShift.where(num: params[:num]).where(store_id: 1, month: 10)
     @sellers  = Seller.where(assigned_shift: params[:num])
     @w1       = shift_week(params[:num], 1)
     @w2       = shift_week(params[:num], 2)
@@ -47,7 +45,7 @@ class AvailableShiftsController < ApplicationController
 
 
     @wx = 'moo'
-    
+
   end
 
   # GET /available_shifts/new
@@ -122,7 +120,7 @@ class AvailableShiftsController < ApplicationController
 
       @cols = ['nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty','twenty_one','twenty_two','twenty_three','twenty_four']
 
-      @as = AvailableShift.where(num: params[:num], week:week)
+      @as = AvailableShift.where(num: params[:num], week: week, month: 10, store_id: 1)
 
       nine         = []
       ten          = []
@@ -140,9 +138,9 @@ class AvailableShiftsController < ApplicationController
       twenty_two   = []
       twenty_three = []
       twenty_four  = []
-     
-      @as.each do |d| 
-        @cols.each do |v| 
+
+      @as.each do |d|
+        @cols.each do |v|
           eval(v) << d.public_send( v.to_sym )
         end
       end
