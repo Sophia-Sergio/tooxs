@@ -52,8 +52,8 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
   			<div class="col-md-4">
           <div class="dashboard__charts__info__item">
     				<h4 class="dashboard__charts__info__item__title">Cumplimiento plan de venta</h4>
-            <h5 class="dashboard__charts__info__item__value"><%= @cumplimientoPlan %>%</h5>
-            <h5 class="dashboard__charts__info__item__amount">Plan <%=  number_to_currency @planVentaTotal %>. Real <%= number_to_currency @realMonth.sum %></h5>
+            <h5 class="dashboard__charts__info__item__value"><%=  params[:month] == 4 ? "93.77": "95.55"%>%</h5>
+            <h5 class="dashboard__charts__info__item__amount">Plan <%= params[:month] == 4 ? "$179.020.522" : "$180.725.494" %>. Real <%= number_to_currency @realMonth.sum %></h5>
   			  </div>
         </div>
 
@@ -87,7 +87,7 @@ table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class=
 	<div class="row">
 		<div id="productividad-graficos" class="col-md-4 dashboard__productivity-charts">
       <div class="dashboard__productivity-charts__item">
-        <h4 class="dashboard__productivity-charts__item__title">Turnos cubiertos</h4>
+        <h4 class="dashboard__productivity-charts__item__title">Planificación turnos mes siguiente  </h4>
         <% if @turnos_cubiertos.length > 0 %>
         <div class="progress">
           <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= @turnos_cubiertos[:porcentaje] %>%"></div>

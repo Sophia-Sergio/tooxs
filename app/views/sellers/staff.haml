@@ -37,9 +37,10 @@
                   %td= shift[:shift]
                   %td= shift[:shift_desc]
                   %td= shift[:new_shift]
-                  %td{style: "background-color: #{ shift[:new_shift] == '' && shift[:new_shift_desc] == '' ? '#ff8a80' : '#81c784' }; color: white;"}= shift[:new_shift_desc]
+                  %td{style: "background-color: #{ shift[:new_shift] == '' && shift[:new_shift_desc] == '' ? '#ff8a80' : '#81c784' }; color: black;"}= shift[:new_shift_desc]
   .row
     .col-md-5.dashboard__productivity-charts.mb-4
+      %h3.text-center{style: 'font-size: 20px; font-weight: bold;'} Planificación turnos mes siguiente
       .dashboard__productivity-charts__item
         .table-responsive
           %table.table
@@ -66,6 +67,7 @@
                 %td{style: 'background-color: rgba(34, 42, 66, .05); text-align: center;'} 10
                 %td{style: 'background-color: rgba(34, 42, 66, .05); text-align: center;'} 6
     .col-md-7.dashboard__productivity-charts
+      %h3.text-center{style: 'font-size: 20px; font-weight: bold;'} Turnos disponibles
       .dashboard__productivity-charts__item
         .table-responsive
           %table.table

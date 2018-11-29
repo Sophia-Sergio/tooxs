@@ -6,84 +6,6 @@
     = render 'shared/filter_parameters/filter_4', filter: retail_parameters
   .row
     .col-12.change-plans__cont.mb-4
-      %h3.change-plans__cont__title Mayo
-      %form.change-plans__form
-        .table-responsive
-          %table.table.mb-2
-            %thead.thead-dark
-              %tr
-                %th{scope: 'col'}
-                %th{scope: 'col'} Semana 1
-                %th{scope: 'col'} Semana 2
-                %th{scope: 'col'} Semana 3
-                %th{scope: 'col'} Semana 4
-                %th{scope: 'col', style: 'display: none'} Semana 5
-                %th{scope: 'col'} Total
-            %tbody
-              %tr.week
-                %th{scope: 'row'} Plan
-                %td.week-one 44.881.213
-                %td.week-two 45.163.912
-                %td.week-three 45.552.588
-                %td.week-four 45.127.781
-                %td.week-five{style: 'display: none'} 0
-                %td.month-amount 180.725.494
-              %tr
-                %th{scope: 'row'} Ajuste %
-                %td
-                  .input-group
-                    %input{name: 'number-format', class: 'form-control pct-week-one', 'aria-describedby': 'basic-addon1', 'value': 0, placeholder: 0}
-                    %span{class: 'input-group-addon'} %
-                %td
-                  .input-group
-                    %input{name: 'number-format', class: 'form-control pct-week-two', 'aria-describedby': 'basic-addon1', 'value': 0}
-                    %span{class: 'input-group-addon'} %
-                %td
-                  .input-group
-                    %input{name: 'number-format', class: 'form-control pct-week-three', 'aria-describedby': 'basic-addon1', 'value': 0}
-                    %span{class: 'input-group-addon'} %
-                %td
-                  .input-group
-                    %input{name: 'number-format', class: 'form-control pct-week-four', 'aria-describedby': 'basic-addon1', 'value': 0}
-                    %span{class: 'input-group-addon'} %
-                %td{style: 'display: none'}
-                  .input-group
-                    %input{name: 'number-format', class: 'form-control pct-week-five', 'aria-describedby': 'basic-addon1', 'value': 0}
-                    %span{class: 'input-group-addon'} %
-                %td
-              %tr
-                %th{scope: 'row'} Ajuste monto
-                %td
-                  .input-group
-                    %span{class: 'input-group-addon'} $
-                    %input{name: 'number-format', class: 'form-control amt-week-1', 'aria-describedby': 'basic-addon1', 'value': 0}
-                %td
-                  .input-group
-                    %span{class: 'input-group-addon'} $
-                    %input{name: 'number-format', class: 'form-control amt-week-2', 'aria-describedby': 'basic-addon1', 'value': 0}
-                %td
-                  .input-group
-                    %span{class: 'input-group-addon'} $
-                    %input{name: 'number-format', class: 'form-control amt-week-3', 'aria-describedby': 'basic-addon1', 'value': 0}
-                %td
-                  .input-group
-                    %span{class: 'input-group-addon'} $
-                    %input{name: 'number-format', class: 'form-control amt-week-4', 'aria-describedby': 'basic-addon1', 'value': 0}
-                %td{style: 'display: none'}
-                  .input-group
-                    %span{class: 'input-group-addon'} $
-                    %input{name: 'number-format', class: 'form-control amt-week-5', 'aria-describedby': 'basic-addon1', 'value': 0}
-                %td
-              %tr
-                %th{scope: 'row'} Plan ajustado
-                %td.week-one-adj 44.881.213
-                %td.week-two-adj 45.163.912
-                %td.week-three-adj 45.552.588
-                %td.week-four-adj 45.127.781
-                %td.week-five-adj{style: 'display: none'} 0
-                %td.month-amount-adj 180.725.494
-        %button{ 'type': 'button', class: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#exampleModalCenter'} Cambiar plan
-    .col-12.change-plans__cont.mb-4
       %h3.change-plans__cont__title Junio
       %form.change-plans__form
         .table-responsive
@@ -397,6 +319,83 @@
         %button{ 'type': 'button', class: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#exampleModalCenter'} Cambiar plan
     .col-12.change-plans__cont.mb-4
       %h3.change-plans__cont__title Octubre
+      %form.change-plans__form
+        .table-responsive
+          %table.table.mb-2
+            %thead.thead-dark
+              %tr
+                %th{scope: 'col'}
+                %th{scope: 'col'} Semana 1
+                %th{scope: 'col'} Semana 2
+                %th{scope: 'col'} Semana 3
+                %th{scope: 'col'} Semana 4
+                %th{scope: 'col', style: 'display: table-cell'} Semana 5
+                %th{scope: 'col'} Total
+            %tbody
+              %tr.week
+                %th{scope: 'row'} Plan
+                %td.week-one 53.645.282
+                %td.week-two 54.061.696
+                %td.week-three 54.558.313
+                %td.week-four 54.865.738
+                %td.week-five{style: 'display: table-cell'} 53.388.007
+                %td.month-amount 270.519.036
+              %tr
+                %th{scope: 'row'} Ajuste %
+                %td
+                  .input-group
+                    %input{name: 'number-format', class: 'form-control pct-week-one', 'aria-describedby': 'basic-addon1', 'value': 0, placeholder: 0}
+                    %span{class: 'input-group-addon'} %
+                %td
+                  .input-group
+                    %input{name: 'number-format', class: 'form-control pct-week-two', 'aria-describedby': 'basic-addon1', 'value': 0}
+                    %span{class: 'input-group-addon'} %
+                %td
+                  .input-group
+                    %input{name: 'number-format', class: 'form-control pct-week-three', 'aria-describedby': 'basic-addon1', 'value': 0}
+                    %span{class: 'input-group-addon'} %
+                %td
+                  .input-group
+                    %input{name: 'number-format', class: 'form-control pct-week-four', 'aria-describedby': 'basic-addon1', 'value': 0}
+                    %span{class: 'input-group-addon'} %
+                %td{style: 'display: table-cell'}
+                  .input-group
+                    %input{name: 'number-format', class: 'form-control pct-week-five', 'aria-describedby': 'basic-addon1', 'value': 0}
+                    %span{class: 'input-group-addon'} %
+                %td
+              %tr
+                %th{scope: 'row'} Ajuste monto
+                %td
+                  .input-group
+                    %span{class: 'input-group-addon'} $
+                    %input{name: 'number-format', class: 'form-control amt-week-1', 'aria-describedby': 'basic-addon1', 'value': 0}
+                %td
+                  .input-group
+                    %span{class: 'input-group-addon'} $
+                    %input{name: 'number-format', class: 'form-control amt-week-2', 'aria-describedby': 'basic-addon1', 'value': 0}
+                %td
+                  .input-group
+                    %span{class: 'input-group-addon'} $
+                    %input{name: 'number-format', class: 'form-control amt-week-3', 'aria-describedby': 'basic-addon1', 'value': 0}
+                %td
+                  .input-group
+                    %span{class: 'input-group-addon'} $
+                    %input{name: 'number-format', class: 'form-control amt-week-4', 'aria-describedby': 'basic-addon1', 'value': 0}
+                %td{style: 'display: table-cell'}
+                  .input-group
+                    %span{class: 'input-group-addon'} $
+                    %input{name: 'number-format', class: 'form-control amt-week-5', 'aria-describedby': 'basic-addon1', 'value': 0}
+                %td
+              %tr
+                %th{scope: 'row'} Plan ajustado
+                %td.week-one-adj 53.645.282
+                %td.week-two-adj 54.061.696
+                %td.week-three-adj 54.558.313
+                %td.week-four-adj 54.865.738
+                %td.week-five-adj{style: 'display: table-cell'} 53.388.007
+                %td.month-amount-adj 270.519.036
+    .col-12.change-plans__cont.mb-4
+      %h3.change-plans__cont__title Noviembre
       %form.change-plans__form
         .table-responsive
           %table.table.mb-2

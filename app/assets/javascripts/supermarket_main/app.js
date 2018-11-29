@@ -24,14 +24,28 @@ window.onload = function() {
   });
 
   if($('#market-plan-compliance').length > 0){
+
+    var url = $(location).attr('href').split("/").splice(0, 5).join("/");
+
+    label = "";
+    data_ = 0;
+    if (url.includes('tottus')){
+      label = "95.7% de cumplimiento";
+      data_ = 35;
+    }else{
+      label = "97.6% de cumplimiento";
+      data_ = 20;
+    }
+
+
     new Chart(document.getElementById("market-plan-compliance").getContext('2d'), {
       type: 'pie',
       data: {
-      labels: ["76.6% de cumplimiento"],
+      labels: [label],
       datasets: [{
           label: "cumplimiento",
           backgroundColor: ['rgb(54, 162, 235)','rgb(201, 203, 207)'],
-          data: [1500,433]
+          data: [1500,data_]
       }]
       },
       options: {
