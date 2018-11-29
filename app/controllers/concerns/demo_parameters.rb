@@ -36,7 +36,7 @@ module DemoParameters
         shift: 'T1',
         shift_desc: 'TURNO 1 DE 45 HORAS',
         new_shift: '',
-        new_shift_desc: 'TURNO 1 DE 45 HORAS'
+        new_shift_desc: ''
       },
       {
         name: 'Claudia Andrea Bravo Lopez',
