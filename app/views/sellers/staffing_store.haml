@@ -3,7 +3,7 @@
     %div.align-self-end
       %div.titulo-pantalla Cobertura de tienda
   %div.m-t-10
-    = render 'shared/filter_parameters/filter_2', filter: retail_parameters.except(:departments)
+    = render 'shared/filter_parameters/filter_2', filter: params[:type] == 'falabella'? retail_parameters.except(:departments): { departments: [['Sodimac Parque Arauco', 1]]}
     %div.container-fluid.box.staffing_store
       %div
         %span.label.label-success.tip{ data: { toggle: 'tooltip' } } Exceso
