@@ -199,7 +199,7 @@ module DemoParameters
       },
       {
         shift: 'T10',
-        desc: 'TURNO SÁBADO',
+        desc: 'TURNO SÁBADO - DOMINGO',
         quantity: 3
       },
       {
@@ -219,21 +219,21 @@ module DemoParameters
     [
       {
         shift: 'T1',
-        actual: 2,
+        actual: 3,
         optimized: 1,
         committed: 1,
         to_cover: 0
       },
       {
         shift: 'T2',
-        actual: 2,
+        actual: 3,
         optimized: 1,
         committed: 1,
         to_cover: 0
       },
       {
         shift: 'T3',
-        actual: 2,
+        actual: 3,
         optimized: 1,
         committed: 1,
         to_cover: 0
