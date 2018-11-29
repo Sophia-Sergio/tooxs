@@ -117,7 +117,7 @@ if ($('#productivity_report').length > 0)
       }
     });
 
-    label_graph = '';
+    label_graph = 'Real';
     if(month == 6){
       label_graph = "No Optimizado";
     }

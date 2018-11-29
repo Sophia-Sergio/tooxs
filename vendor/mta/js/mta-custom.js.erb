@@ -555,7 +555,6 @@ if ($('#productivity_demo').length > 0)
     productividad[2] = parseInt(plan[2]/dotacion[2]);
     productividad[3] = parseInt(plan[3]/dotacion[3]);
 
-
     table = $("<table/>", { "class": "table-shift table" });
     thead = $("<thead/>", {});
 
@@ -760,6 +759,7 @@ if ($('#productivity_demo').length > 0)
             $("#productividad-w2").html(fn.formateaNumero(parseInt(plan_w2/dotacion_w2)));
             $("#productividad-w3").html(fn.formateaNumero(parseInt(plan_w3/dotacion_w3)));
             $("#productividad-w4").html(fn.formateaNumero(parseInt(plan_w4/dotacion_w4)));
+
             //cargar turnos
 
             Cerebro.setearTurnos();
@@ -952,11 +952,16 @@ if ($('#productivity_demo').length > 0)
             dotacion_w = Calculo.semanal(Cerebro.sumatoriaTurnosDiaria(), 7);
             setearProductividad("Productividad sin optimizar", plan_w, dotacion_w);
 
+
             // setear plan optimizado
             plan_w_op = Calculo.semanal(Cerebro.planVentaOptimizada(), 7);
             dotacion_w_op = Calculo.semanal(Cerebro.sumatoriaTurnosOptimizado(), 7);
             setearProductividad("Productividad optimizada", plan_w, dotacion_w_op);
 
+            real_productivity = parseInt((plan_w[0] + plan_w[1] + plan_w[2] + plan_w[3])/(dotacion_w[0] + dotacion_w[1] + dotacion_w[2] + dotacion_w[3]));
+            optimized_productivity = parseInt((plan_w[0] + plan_w[1] + plan_w[2] + plan_w[3])/(dotacion_w_op[0] + dotacion_w_op[1] + dotacion_w_op[2] + dotacion_w_op[3]))
+            $("#real_productivity").html(fn.formateaNumero(real_productivity));
+            $("#optimized_productivity").html(fn.formateaNumero(optimized_productivity));
             //
             eficiencia1 = 100-parseFloat(resumen_plan[0].margeAjuste.replace("%", ""));
             eficiencia2 = 100-parseFloat(resumen_plan[1].margeAjuste.replace("%", ""));

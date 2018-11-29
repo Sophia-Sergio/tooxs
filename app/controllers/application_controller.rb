@@ -528,7 +528,7 @@ class ApplicationController < ActionController::Base
       #asd
       #cuadrar dotaciones reales con optimizadas.
       diaSemana = 1
-      horasDiarias = 10
+      horasDiarias = 12
       num_horas_dia_in = plan["datos"]["num_horas_dia"]
       count = 1;
       diaMes = 0;

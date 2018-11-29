@@ -23,6 +23,7 @@ class ProductivityController < ApplicationController
 
   def json_current
     month  = params[:month]
+    month = "4" if month == "6"
     year   = params[:year]
     department = params[:department]
     sale_plans = @store.sale_plans.by_year_and_month(year, month).by_department(department)
@@ -58,11 +59,11 @@ class ProductivityController < ApplicationController
     nombreTurnos = AvailableShift.all.where(month: month, store_id: 1).distinct.order(:num).pluck(:num, :name)
     @brain_json = brain_json(month, year, @store.id, department)
     @plan = JSON.parse(@brain_json)
+
     dataCase = DataCase.where(month: month, year: year, dep_num: department)
     @prod_obj = dataCase.first.prod_obj.to_i
     @dotacion_actual = cerebro_sumatoria_turnos_entrada(@brain_json, dataCase.first[:id_case])
     @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
-
     @prod_w_op = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, @dotacion_op)
     @prod_w_real = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, dotReal)
     @prod_w_actual = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, @dotacion_actual)
@@ -199,6 +200,8 @@ class ProductivityController < ApplicationController
   def report_data
     # dummy demo data
     month = params[:month].to_i
+
+    month = 4 if month == 6
     year = params[:year].to_i
     department = params[:department]
     @store = Store.find(params[:store])
