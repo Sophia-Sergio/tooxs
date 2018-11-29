@@ -11,13 +11,17 @@
           %span.icon-thumbnail
             = image_tag 'icons/bar-chart.svg', class: 'icon-min-menu'
           = link_to('Comparativo', month_sales_cluster_index_path)
-        - if current_user.can_view_colaborators?
-          %li.sub-title
-            %span.icon-thumbnail
-              = image_tag 'icons/business-user.svg',class: 'icon-min-menu'
-            = link_to('Colaboradores', sellers_path)
         - if current_user.can_view_change_plan?
           %li.sub-title
             %span.icon-thumbnail
               = image_tag 'icons/ballpoint-pen.svg',class: 'icon-min-menu'
             = link_to('Cambiar plan', config_change_plan_path)
+        - if current_user.can_view_colaborators?
+          %li.sub-title
+            %span.icon-thumbnail
+              = image_tag 'icons/business-user.svg',class: 'icon-min-menu'
+            = link_to('Colaboradores', sellers_path)
+        %li.sub-title
+          %span.icon-thumbnail
+            = image_tag 'icons/collaboration.svg',class: 'icon-min-menu'
+          = link_to('Dotación', staffing_index_path)

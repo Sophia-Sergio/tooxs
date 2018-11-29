@@ -47,12 +47,6 @@
       <li>
         <div class="sub-menu-title"><span class="title">PRODUCTIVIDAD</span></div>
         <ul class="sub-menu" style="display: inline-block;">
-          <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv' or current_user.role == 'jd' or current_user.role == 'colaborador'%>
-          <li class="sub-title">
-            <span class="icon-thumbnail"><%= image_tag 'icons/collaboration.svg', class: 'icon-min-menu' %></span>
-            <%= link_to 'Dotación', staffing_index_path %>
-          </li>
-          <% end %>
           <% if current_user.role == 'admin' or current_user.role == 'gt' or current_user.role == 'gv'%>
           <li class="sub-title">
             <span class="icon-thumbnail"><%= image_tag 'icons/time.svg', class: 'icon-min-menu' %></span>
