@@ -2,7 +2,10 @@
   .row.mb-2.dashboard__title
     .col
       %h1 Planificación de dotación
-  = render 'shared/filter_parameters/filter_2', filter: retail_parameters
+  .row.mb-2
+    .col-md-12
+      .dashboard__filter
+        = render 'shared/filter_parameters/filter_6', filter: retail_parameters
   .row
     .col-md-12.dashboard__productivity-charts.mb-4
       .dashboard__productivity-charts__item
