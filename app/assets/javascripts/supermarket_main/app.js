@@ -98,6 +98,10 @@ window.onload = function() {
   }
 
   load_chart = function(data){
+    var data_er_decimals = data.prod_w_real;
+    var data_er_fixed = data_er_decimals.map((data) => data.toFixed(2) );
+    var data_eo_decimals = data.prod_w_op;
+    var data_eo_fixed = data_eo_decimals.map((data) => data.toFixed(2) );
     var config = {
       type: 'line',
       data: {
@@ -109,13 +113,13 @@ window.onload = function() {
             pointBackgroundColor: 'white',
             pointBorderWidth: 2,
             pointRadius: 5,
-            data: data.prod_w_real,
+            data: data_er_fixed,
             label: 'Eficiencia real'
           },
           {
             backgroundColor: chartColors.blueAlfa,
             borderColor: chartColors.blue,
-            data: data.prod_w_op,
+            data: data_eo_fixed,
             label: 'Eficiencia óptima'
           },
         ],
