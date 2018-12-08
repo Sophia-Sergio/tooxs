@@ -1,0 +1,426 @@
+.dashboard {
+  overflow: hidden;
+  padding-bottom: 20px;
+  padding-top: 20px;
+
+  &__container {
+    transition: all .5s ease-in-out;
+
+    &.translated {
+      transform: translateX(0);
+
+      @include large {
+        transform: translateX(300px);
+      }
+
+    }
+
+  }
+
+  .item {
+    background-color: white;
+    border: 1px solid $mid-gray;
+    border-radius: 5px;
+    }
+
+  &__navbar {
+    background-color: $dark-blue;
+    width: 100%;
+    }
+  
+  &__header {
+    border-bottom: 1px solid $mid-gray;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    padding-top: 0;
+    @include clearfix;
+
+    &__title {
+      float: left;
+      @include clearfix;
+
+      button {
+        border: none;
+        border-radius: 3px;
+        color: $dark-blue;
+        display: none;
+        float: left;
+        height: 50px;
+        margin-right: 10px;
+        transition: all .2s ease-in-out;
+        width: 50px;
+
+        @include large {
+          display: block;
+        }
+
+        &:hover {
+          background-color: $dark-blue;
+          color: $light-blue;
+          }
+
+        }
+  
+      h2 {
+        color: black;
+        float: right;
+        font-size: 3em;
+        margin: 0;
+        }
+          
+      }
+
+    .brands-nav {
+      float: right;
+      @include clearfix;
+
+      &__list {
+        float: right;
+        list-style-type: none;
+        margin: 0;
+    
+        li {
+          border-bottom: 4px solid gray;
+          border-radius: 3px;
+          float: left;
+          height: 50px;
+          overflow: hidden;
+          padding: 0;
+        
+          + li {
+            margin-left: 1px;
+            }
+          
+          &.active {
+            border-color: $green;
+    
+            a img {
+              opacity: 1;
+              }
+    
+            }
+        
+            a {
+              display: block;
+              height: 100%;
+            
+              img {
+                height: inherit;
+                opacity: .25;
+                transition: all .2s ease-in-out;
+                vertical-align: top;
+                width: auto;
+                }
+            
+              &:hover img {
+                opacity: 1;
+                }
+
+              }
+            
+          }
+            
+        }
+            
+      }
+
+    }
+
+  &__filter {
+
+    form {
+      display: flex;
+      padding: 15px;
+
+      @include medium {
+        display: block;
+        }
+
+      .form-group {
+        margin: 0;
+        flex: 1;
+
+        @include medium {
+          display: block;
+          margin: 0;
+          width: 100%;
+          }
+
+        + div {
+          margin-left: 10px;
+
+          @include medium {
+            margin: 10px 0 0 0;
+            }
+
+          }
+        
+        .select2-container {
+          width: 100% !important;
+
+          &.select2-container--open {
+
+            .select2-selection__rendered {
+              background-color: $light-gray;
+              }
+
+            }
+
+          .select2-container--open .select2-dropdown--below {
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            padding: 5px;
+            }
+
+          .select2-selection--single {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: block;
+            height: 35px;
+            user-select: none;
+            -webkit-user-select: none;
+            }
+
+            .select2-selection__rendered {
+              line-height: 35px;
+            }
+
+            .select2-selection__arrow {
+              height: 35px;
+              position: absolute;
+              top: 1px;
+              right: 1px;
+              width: 20px;
+          }
+
+          }
+
+        }
+
+      button {
+        background-color: $light-blue;
+        border: none;
+        border-radius: 3px;
+        color: white;
+        margin-left: 10px;
+        line-height: 35px;
+        padding: 0 15px;
+
+        @include medium {
+          margin: 10px 0 0 0;
+          }
+
+        }
+
+      }
+
+    }
+
+  &__chart {
+    padding: 15px;
+
+    .card-title {
+      color: $dark-blue;
+      border-bottom: 1px solid $mid-gray;
+      font-family: $font-title;
+      font-size: 1.5em;
+      padding-bottom: 5px;
+      text-transform: uppercase;
+      }
+
+    &__info {
+      margin-bottom: 20px;
+
+      &__item {
+        border-color: rgba($light-blue, .25);
+        padding: 15px;
+
+        &__title {
+          color: $dark-blue;
+          border-bottom: 1px solid $mid-gray;
+          font-size: 1em;
+          padding-bottom: 5px;
+          text-transform: uppercase;
+
+          @include extra-large {
+            min-height: 38px;
+            }
+
+          @include large {
+            font-size: 12px;
+            }
+
+          }
+        
+        &__value {
+          color: $light-blue;
+          font-family: $font-text;
+          font-size: 2.5em;
+          font-weight: $font-regular;
+          margin: 0;
+          }
+
+        &__text {
+          color: $dark-blue;
+          font-family: $font-text;
+          font-size: 1em;
+          margin: 0;
+          }
+
+        }
+
+      }
+
+    &__canvas {
+      height: 400px;
+    }
+
+    }
+
+  &__progress {
+    padding: 15px;
+
+    .card-title {
+      color: $dark-blue;
+      border-bottom: 1px solid $mid-gray;
+      font-size: 1em;
+      padding-bottom: 5px;
+      text-transform: uppercase;
+      }
+  
+    .progress {
+      margin-bottom: 10px;
+
+      .progress-bar {
+        background-color: $light-blue;
+        }
+
+      }
+
+    }
+
+  &__table {
+    padding: 15px;
+
+    .table-responsive {
+      overflow: auto;
+
+      /* width */
+      &::-webkit-scrollbar {
+        width: 2px;
+        }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: $light-gray;
+        }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: $mid-gray;
+        transition: all .2s ease-in-out;
+        }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: $dark-gray;
+        }
+
+      table {
+        font-size: 1em;
+        margin: 0;
+
+        thead {
+          background-color: $light-gray;
+
+          tr {
+
+            th {
+              padding: 8px 10px;
+              vertical-align: middle;
+              }
+
+            }
+
+          }
+    
+        tr {
+    
+          th[scope=col] {
+            font-size: 12px;
+          }
+    
+          td {
+    
+            &.shifts {
+              background-color: rgba($light-blue, .25);
+              color: black;
+              font-weight: bold;
+              }
+    
+            &.progress-container {
+              position: relative;
+              vertical-align: top;
+              }
+    
+            .progress {
+              background-color: rgba(34,42,66,.1);
+              border: 1px solid rgba(34,42,66,.1);
+              height: 10px;
+              margin: 3px 0 0 40px;
+    
+              .progress-value {
+                color: black;
+                font-size: 9px;
+                left: 10px;
+                position: absolute;
+                top: 8px;
+              }
+    
+              .progress-bar {
+                background-color: #46c4fd;
+                height: auto;
+              }
+    
+            }
+    
+            .thumbnail {
+              border-radius: 50%;
+              height: 30px;
+              overflow: hidden;
+              width: 30px;
+    
+              img {
+                display: block;
+                height: auto;
+                width: 100%;
+                }
+    
+              }
+    
+            .input-group {
+    
+              input {
+                font-size: 12px;
+    
+                &:focus {
+                  background-color: white;
+                  border-color: #46c4fd;
+                  }
+
+                }
+    
+              }
+    
+            }
+    
+          }
+    
+        }
+
+      }
+
+    }
+
+  }

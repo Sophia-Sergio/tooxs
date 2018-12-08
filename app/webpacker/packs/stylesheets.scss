@@ -1,0 +1,10 @@
+$fa-font-path: "~font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome';
+@import '~bootstrap/scss/bootstrap';
+@import '~select2/dist/css/select2';
+@import '../src/stylesheets/fonts';
+@import '../src/stylesheets/variables';
+@import '../src/stylesheets/scaffolding';
+@import '../src/stylesheets/mixins';
+@import '../src/stylesheets/dashboard';
+@import '../src/stylesheets/sidebar';

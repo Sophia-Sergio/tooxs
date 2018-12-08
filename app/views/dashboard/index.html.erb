@@ -1,212 +1,219 @@
-<style type="text/css">
-.dataTables_wrapper .row > div {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    flex-direction: column;
-}
+<div class="container-fluid dashboard">
 
-.dataTables_length, #tabla-colaboradores_filter
-{
-	display: none;
-}
+  <div class="row">
 
-.table.dataTable.no-footer {
-    display: inline-table;
-    border: none;
-    overflow: auto;
-}
+    <%= render 'shared/sidebar' %>
 
-table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class='sorting_disabled']) {
-    border-top: 1px solid #eceeef;
-}
-</style>
-
-<div id="dashboard" class="container-fluid">
-	<div class="row mb-2 dashboard__title">
-    <div class="col">
-		  <h1>Dashboard</h1>
-    </div>
-	</div>
-
-	<div class="row mb-2 dashboard__filter">
-    <%= simple_form_for @search, :url => dashboard_index_path, html: { method: :get, id: :dasboard_form } do |f| %>
-      <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: @store, label: false  %>
-      <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: @dep, label: false %>
-      <%= f.input :month, collection: (4..5).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: @month , label: false %>
-    <% end %>
-	</div>
-
-	<div class="row dashboard__charts">
-		<div class="col-md-12 dashboard__charts__info mb-4">
-
-      <h3 class="dashboard__charts__info__title">
-        Resultado de búsqueda<br>
-        <% if params[:month] == '4' %>
-          <small>Datos desde el 26 de marzo  al 29 de abril de 2018</small>
-        <% else  %>
-          <small>Datos desde el 30 de abril  al 27 de mayo de 2018</small>
-        <% end %>
-      </h3>
-      <div class="row mb-2">
-  			<div class="col-md-4">
-          <div class="dashboard__charts__info__item">
-    				<h4 class="dashboard__charts__info__item__title">Cumplimiento plan de venta</h4>
-            <h5 class="dashboard__charts__info__item__value"><%=  params[:month] == 4 ? "93.77": "95.55"%>%</h5>
-            <h5 class="dashboard__charts__info__item__amount">Plan <%= params[:month] == 4 ? "$179.020.522" : "$180.725.494" %>. Real <%= number_to_currency @realMonth.sum %></h5>
-  			  </div>
-        </div>
-
-  			<div class="col-md-4">
-          <div class="dashboard__charts__info__item">
-    				<h4 class="dashboard__charts__info__item__title">Productividad real</h4>
-            <h5 class="dashboard__charts__info__item__value"><%= number_to_currency @prod_real %></h5>
-            <h5 class="dashboard__charts__info__item__amount">Productividad objetivo <%= number_to_currency @prod_obj.to_i %></h5>
-  			  </div>
-        </div>
-
-  			<div class="col-md-4">
-          <div class="dashboard__charts__info__item">
-    				<h4 class="dashboard__charts__info__item__title">Cumplimiento de eficiencia</h4>
-            <h5 class="dashboard__charts__info__item__value"><%= @margin_adjustment.round(2) %>%</h5>
-            <h5 class="dashboard__charts__info__item__amount">Eficiencia objetivo 75%</h5>
-  			  </div>
-        </div>
-  		</div>
+    <div class="col-lg-9 offset-lg-3 dashboard__container">
 
       <div class="row">
-        <div class="col-md-12">
-          <div class="dashboard__charts__line-chart">
-            <canvas id="chart-area1"></canvas>
+
+        <div class="col-12">
+          <div class="dashboard__header">
+            <%= render 'shared/brands-nav' %>
+            <div class="dashboard__header__title">
+              <button data-toggle="sidebar"><i class="fa fa-bars"></i></button>
+              <h2>Dashboard</h2>
+            </div>
           </div>
         </div>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__filter">
+            <form action="">
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Alto Las Condes</option>
+                  <option>Departamental</option>
+                  <option>Plaza Egaña</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Juvenil Mujer</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Abril</option>
+                  <option>Mayo</option>
+                </select>
+              </div>
+
+              <button>Buscar</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__chart">
+            <h5 class="card-title">Resultado de búsqueda</h5>
+            <p class="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
+
+            <div class="row dashboard__chart__info">
+
+              <div class="col-md-4">
+                <div class="card dashboard__chart__info__item">
+                  <h5 class="dashboard__chart__info__item__title">Cumplimiento plan de venta</h4>
+                  <h6 class="dashboard__chart__info__item__value">95.55%</h6>
+                  <p class="dashboard__chart__info__item__text">Plan $180.725.494. Real $172.803.395</p>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="card dashboard__chart__info__item">
+                  <h5 class="dashboard__chart__info__item__title">Productividad real</h4>
+                  <h6 class="dashboard__chart__info__item__value">$54.875</h6>
+                  <p class="dashboard__chart__info__item__text">Productividad objetivo $85.000</p>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="card dashboard__chart__info__item">
+                  <h5 class="dashboard__chart__info__item__title">Cumplimiento de eficiencia</h4>
+                  <h6 class="dashboard__chart__info__item__value">58.78%</h6>
+                  <p class="dashboard__chart__info__item__text">Eficiencia objetivo 75%</p>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="dashboard__chart__canvas">
+              <canvas class="main-dashboard-chart" data-chart="canvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+
+          <div class="row">
+
+            <div class="col-md-4">
+
+              <div class="card dashboard__progress mb-2">
+                <h5 class="card-title">Planificación turnos mes siguiente</h5>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 53%"></div>
+                </div>
+                <p class="card-text">8 de 15</p>
+              </div>
+
+              <div class="card dashboard__table">
+                  <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th style="font-size: 12px;">Turno</th>
+                            <th style="font-size: 12px;">Actual</th>
+                            <th style="font-size: 12px;">Optimizado</th>
+                            <th style="font-size: 12px;">Comprometido</th>
+                            <th style="font-size: 12px;">Diferencia</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 1">T1</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 2">T2</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 3">T3</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 4">T4</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 5">T5</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 6">T6</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 7">T7</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 8">T8</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 9">T9</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">1</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 10">T10</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 11">T11</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">2</td>
+                          </tr>
+                          <tr>
+                            <td class="shifts" style="font-size: 12px; text-align: center;" title="Turno 12">T12</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">3</td>
+                            <td style="font-size: 12px; text-align: center;">0</td>
+                            <td style="font-size: 12px; text-align: center;">3</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <%= render 'shared/footer' %>
+
       </div>
+
     </div>
-	</div>
 
-	<div class="row">
-		<div id="productividad-graficos" class="col-md-4 dashboard__productivity-charts">
-      <div class="dashboard__productivity-charts__item">
-        <h4 class="dashboard__productivity-charts__item__title">Planificación turnos mes siguiente  </h4>
-        <% if @turnos_cubiertos.length > 0 %>
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= @turnos_cubiertos[:porcentaje] %>%"></div>
-        </div>
-        <h5 class="dashboard__productivity-charts__item__amount"><%= @turnos_cubiertos[:texto] %></h5>
-        <% end %>
-      </div>
-
-			<div class="dashboard__productivity-charts__item">
-			  <div class="dashboard__productivity-charts__item__table">
-          <div class="table-responsive">
-    				<table class="table">
-    					<thead>
-                <tr>
-                  <th style="font-size: 12px;">Turno</th>
-                  <th style="font-size: 12px;">Actual</th>
-                  <th style="font-size: 12px;">Optimizado</th>
-                  <th style="font-size: 12px;">Comprometido</th>
-                  <th style="font-size: 12px;">Diferencia</th>
-                </tr>
-    					</thead>
-    					<tbody>
-    					<%if @turnosEntrada %>
-    						<% @turnosEntrada.count.times do |i| %>
-    						<tr>
-    							<td class="shifts" style="font-size: 12px; text-align: center;" title="Turno <%= i+1 %>">T<%= i+1 %></td>
-    							<td style="font-size: 12px; text-align: center;"><%= @turnosEntrada[i].to_i %></td>
-    							<td style="font-size: 12px; text-align: center;"><%= @turnosOptimizados[i].to_i %></td>
-                  <td style="font-size: 12px; text-align: center;"><%= @turnosEntrada[i].to_i %></td>
-                  <td style="font-size: 12px; text-align: center;"><%= @turnosOptimizados[i].to_i %></td>
-    						</tr>
-    						<% end %>
-    					<% end %>
-    					</tbody>
-    				</table>
-          </div>
-			  </div>
-			</div>
-		</div>
-
-		<div class="col-md-8 dashboard__productivity-charts">
-      <div class="dashboard__productivity-charts__item">
-        <h4 class="dashboard__productivity-charts__item__title">
-          Cumplimiento de mis colaboradores - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %>
-        </h4>
-        <div class="dashboard__productivity-charts__item__table">
-          <div class="table-responsive">
-    				<table id="tabla-colaboradores" class="table">
-    					<thead>
-    						<tr style="font-size: 14px;">
-    							<th>&nbsp;</th>
-    							<th>Colaborador</th>
-    							<th>Ventas</th>
-    							<th>Meta</th>
-    							<th>Turno</th>
-    							<th>Cumplimiento</th>
-    							<th>&nbsp;</th>
-    						</tr>
-    					</thead>
-    					<tbody>
-    						<% @setSellers.each do |data| %>
-    						<tr>
-    							<td>
-                    <div class="thumbnail">
-                      <img src="<%= image_url('table-thumbnail-default.jpg') %>" alt="<%= data[:seller].fullname %>">
-                    </div>
-                  </td>
-    							<td><%= data[:seller].fullname %></td>
-    							<td><%= data[:sale] %></td>
-    							<td><%= data[:plan] %></td>
-    							<td><%= data[:seller].assigned_shift %></td>
-    							<td class="progress-container">
-                    <div class="progress">
-                      <span class="progress-value"><%= data[:cumplimiento] %>%</span>
-                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= data[:cumplimiento] %>%;">
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <%= link_to '<i class="fa fa-caret-right"></i>'.html_safe, data[:seller] %>
-                  </td>
-    						</tr>
-    						<% end %>
-    					</tbody>
-    				</table>
-          </div>
-        </div>
-			</div>
-		</div>
   </div>
 
 </div>
-
-
-
-
-<script type="text/javascript">
-
-  const chartColors = {
-    red: 'rgb(255, 99, 132)',
-    orange: 'rgb(255, 159, 64)',
-    yellow: 'rgb(255, 205, 86)',
-    green: 'rgb(75, 192, 192)',
-    blue: 'rgb(70, 196, 253)',
-    blueAlfa: 'rgba(70, 196, 253, .25)',
-    grey: 'rgb(201, 203, 207)',
-    greenAlfa: 'rgba(75, 192, 192, .25)',
-  }
-
-  randomConfig1_1 = <%= @cumplimientoPlan %>;
-
-
-  randomConfig2_1 = <%= @margin_adjustment %>;
-  if (randomConfig2_1 > 100){
-    rConfig1_2 = 100;
-    rConfig2_2 = 0;
-  } else {
-    rConfig1_2 = randomConfig2_1
-    rConfig2_2 = 100 - randomConfig2_1;
-  }
-
-</script>

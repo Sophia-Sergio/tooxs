@@ -1,76 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>tooxs</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="icon" href="<%= asset_pack_path('images/favicon.png') %>" type="image/png">
     <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_pack_tag 'stylesheets', media: 'all' %>
   </head>
-  <body class="fixed-header menu-pin">
-
-    <% cache "sidebar" do %>
-      <%= render 'shared/sidebar/sidebar' %>
-    <% end %>
-
-    <div class="page-container">
-      <div class="header hidden-lg-up">
-        <!-- START MOBILE SIDEBAR TOGGLE -->
-        <a href="#" class="btn-link toggle-sidebar hidden-lg-up pg pg-menu" data-toggle="sidebar">
-        </a>
-        <!-- END MOBILE SIDEBAR TOGGLE -->
-        <div class="">
-          <div class="brand inline   ">
-
-          </div>
-          <!-- START NOTIFICATION LIST -->
-          <ul class="hidden-md-down notification-list no-margin hidden-sm-down b-grey b-l b-r no-style p-l-30 p-r-20 dn">
-          </ul>
-          <!-- END NOTIFICATIONS LIST -->
-        </div>
-
-      </div>
-      <!-- END HEADER -->
-      <!-- END PAGE HEADER WRAPPER -->
-      <!-- START PAGE CONTENT WRAPPER -->
-      <div class="page-content-wrapper">
-        <!-- START PAGE CONTENT -->
-        <div class="content sm-gutter">
-          <!-- START CONTAINER FLUID -->
-          <%  if controller_name == 'sellers' and action_name == 'show' %>
-            <div class="">
-          <% else %>
-            <%= render 'shared/brand-nav', link: link_options %>
-          <% end %>
-            <!-- BEGIN PlACE PAGE CONTENT HERE -->
-          <%= yield %>
-            <!-- END PLACE PAGE CONTENT HERE -->
-          </div>
-          <!-- END CONTAINER FLUID -->
-
-        <!-- END PAGE CONTENT -->
-        <!-- START FOOTER -->
-        <br><br><br><br><br>
-        <div class="container-fluid container-fixed-lg footer">
-          <div class="copyright sm-text-center">
-            <p class="small no-margin pull-left sm-pull-reset">
-              <span class="hint-text">Copyright © 2018</span>
-              <span class="font-montserrat">Tooxs</span>.
-              <span class="hint-text">Todos los derechos reservados.</span>
-            </p>
-
-            <div class="clearfix"></div>
-          </div>
-        </div>
-        <!-- END FOOTER -->
-      </div>
-      <!-- END PAGE CONTENT WRAPPER -->
-    </div>
-    <!-- END PAGE CONTAINER -->
-
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <body>
+    <%= yield %>
+    <%= javascript_pack_tag 'application' %>
   </body>
 </html>
