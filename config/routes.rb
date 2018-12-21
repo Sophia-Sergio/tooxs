@@ -58,7 +58,7 @@ Rails.application.routes.draw do
   get 'staffing/show'
 
   # get 'assigned_shift/show'
-  resources :sale_reals, only: [:index] do
+  resources :real_sales, only: [:index] do
     collection do
       post 'import'
       get 'delete'

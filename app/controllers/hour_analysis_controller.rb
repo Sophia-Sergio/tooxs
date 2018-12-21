@@ -1,36 +1,26 @@
 class HourAnalysisController < ApplicationController
+  include FilterParameters
+  before_action :set_params, only: %i[index data]
   before_action :set_store, only: %i[index data]
+  before_action :set_department, only: %i[index data]
 
-	def index
-    @search       = ''
-    @stores       = Store.all.order(:id)
-    @departments  = Department.all.order(:id)
-
-    month  = params[:month].to_i
-    year   = params[:year].to_i
-    @dep   = params[:department].to_i
-
+  def index
     #obtener ventas reales del mes
-    sale_reals = SaleReal.where(department_id: @dep, store_id: @store.id, year: year, month: month)
-    @realMonth = []
-
-    sale_reals.each do |sale|
-      totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
-      @realMonth << totalRealDay
-    end
+    real_sales = RealSale.where(department: @department, store: @store, year: @year, month: @month)
+    sale_real_month = real_sales.each_with_object([]) { |sale, array| array << sale.total_day}
 
     @data = data
-    @brain_json = brain_json(month, year, @store.id, @dep)
-    dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
+    @brain_json = brain_json(@month, @year, @store.id, @department.id)
+    dataCase = DataCase.where(month: @month, year: @year, department: @department)
 
-    @venta_w_real = calculo_semanal(@realMonth, 7)
+    @venta_w_real = calculo_semanal(sale_real_month, 7)
     #limitación para muestra
     @venta_w_real.delete_at(4) if @venta_w_real.length > 4
 
     @plan = JSON.parse(@brain_json) if @brain_json
-    dotReal = dotacion_real(@dep, month, year)
-    if dataCase.length > 0
-      @dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
+    dotReal = RealStaff.staff_by_day(filter_params)
+    if dataCase
+      @dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first.id), 7)
     else
       @dotacion_w_op = []
     end
@@ -45,20 +35,17 @@ class HourAnalysisController < ApplicationController
 	end
 
   def data
-    month  = params[:month]
-    year   = params[:year]
-    department = params[:department]
-    sale_plans = @store.sale_plans.by_year_and_month(year, month).by_department(department)
+    sale_plans = @store.sale_plans.by_year(@year).by_month(@month).by_department(@department)
     first_day_of_weeks = sale_plans.dates_by_week(1)
     total_sales_of_week = sale_plans.sales_by_week
 
     #obtener ventas reales del mes
-    sale_reals = SaleReal.where(department_id: department, store_id: @store.id, year: year, month: month)
+    real_sales = RealSale.where(department: @department, store: @store, year: @year, month: @month)
     @totalMonth = []
     @realMonth = []
     @dotMonth = []
 
-    sale_reals.each do |sale|
+    real_sales.each do |sale|
         totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
         totalDotDay = staffing[("#{sale[:sale_date].strftime("%Y%m%d")}").to_sym][:hours].values.sum
         @realMonth  << totalRealDay
@@ -76,10 +63,5 @@ class HourAnalysisController < ApplicationController
       :vent_real => @realMonth.sum,
       :dot_real => @dotMonth.sum
     }
-  end
-  private
-
-  def set_store
-    @store = Store.find(params[:store])
   end
 end

@@ -1,3 +1,0 @@
-class RealSale < Sale
-
-end

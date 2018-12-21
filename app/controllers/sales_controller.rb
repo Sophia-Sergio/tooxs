@@ -1,5 +1,5 @@
 class SalesController < ApplicationController
-  include DemoParameters
+  include FilterParameters
 
   def index
     @search       = ''
@@ -21,16 +21,16 @@ class SalesController < ApplicationController
     @compare = 'compare'
     @store  = Store.find(store)
     @dep    = Department.find(department)
-    countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store.id, department_id: @dep.id).pluck(:week).length
+    countWeek = PlanSale.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store.id, department_id: @dep.id).pluck(:week).length
 
-    real_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
-    @historic_sale = SaleReal.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year.to_i-1, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    real_sale = RealSale.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    @historic_sale = RealSale.where(week: 1..countWeek, :store => @store, :department => @dep, year: @year-1, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
 
     @sale_plan = []
     historic_sale = []
 
     (1..countWeek).each do |week|
-      @sale_plan << SalePlan.where(year: @year).where(month: @month).where(week: week, store_id: @store.id, department_id: @dep.id).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}.sum
+      @sale_plan << PlanSale.where(year: @year).where(month: @month).where(week: week, store_id: @store.id, department_id: @dep.id).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}.sum
       if @historic_sale[week] == nil
         historic_sale << 0
       else
@@ -79,7 +79,7 @@ class SalesController < ApplicationController
       @sum_dif2 = ((@real_sale.sum / @historic_sale.sum) -1 ) * 100
     end
 
-    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store.id, department_id: @dep.id).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m').to_sym}
+    @m_days = PlanSale.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store.id, department_id: @dep.id).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m').to_sym}
 
   end
 
@@ -91,23 +91,23 @@ class SalesController < ApplicationController
     @store  = Store.find(params[:store])
     @dep    = Department.find(params[:department])
 
-    countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store, department_id: @dep).pluck(:week).length
+    countWeek = PlanSale.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store, department_id: @dep).pluck(:week).length
 
     #days of the week for this query
-    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store, department_id: @dep).where(:year => @year).order(:sale_date).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
-    @m_daily = SalePlan.where(year: @year, month: @month, week: [1..countWeek], store_id: @store, department_id: @dep).order(:sale_date).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
-    sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: @year, month: @month).order(:sale_date)
+    @m_days = PlanSale.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
+    @m_daily = PlanSale.where(year: @year, month: @month, week: [1..countWeek], store_id: @store, department_id: @dep).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
+    real_sales = RealSale.where(department_id: @dep, store_id: @store, year: @year, month: @month)
 
     @realMonth = []
-    sale_reals.each do |sale|
+    real_sales.each do |sale|
       totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
       @realMonth  << totalRealDay
     end
 
-    sale_reals_h = SaleReal.where(department_id: @dep, store_id: @store, year: @year-1, month: @month).order(:sale_date)
+    real_sales_h = RealSale.where(department_id: @dep, store_id: @store, year: @year-1, month: @month)
 
     @realMonth_h = []
-    sale_reals_h.each do |sale|
+    real_sales_h.each do |sale|
       totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
       @realMonth_h  << totalRealDay
     end
@@ -146,9 +146,9 @@ class SalesController < ApplicationController
     @sum1 = 0
     @sum2 = 0
 
-    countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store_source.id, department_id: @dep_source.id).pluck(:week).length
-    @real_source = SaleReal.where(week: 1..countWeek, :store => @store_source.id, :department => @dep_source.id, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
-    @real_vs = SaleReal.where(week: 1..countWeek, :store => @store.id, :department => @dep_source.id, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    countWeek = PlanSale.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store_source.id, department_id: @dep_source.id).pluck(:week).length
+    @real_source = RealSale.where(week: 1..countWeek, :store => @store_source.id, :department => @dep_source.id, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    @real_vs = RealSale.where(week: 1..countWeek, :store => @store.id, :department => @dep_source.id, year: @year, :month => @month).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
 
     @dif1 =[]
     @real_vs.each do |k,v|
@@ -187,23 +187,23 @@ class SalesController < ApplicationController
 
     @sum1 = 0
     @sum2 = 0
-    countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store_source.id, department_id: @dep_source.id).pluck(:week).length
-    @real_source = SaleReal.where(week: 1..countWeek, :store => @store_source.id, :department => @dep_source.id, year: @year, :month => @month).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
-    @real_vs = SaleReal.where(week: 1..countWeek, :store => @store.id, :department => @dep_source.id, year: @year, :month => @month).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    countWeek = PlanSale.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @store_source.id, department_id: @dep_source.id).pluck(:week).length
+    @real_source = RealSale.where(week: 1..countWeek, :store => @store_source.id, :department => @dep_source.id, year: @year, :month => @month).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    @real_vs = RealSale.where(week: 1..countWeek, :store => @store.id, :department => @dep_source.id, year: @year, :month => @month).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
 
-    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store_source.id, department_id: @dep_source.id).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
+    @m_days = PlanSale.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @store_source.id, department_id: @dep_source.id).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
 
-    sale_reals = SaleReal.where(department_id: @dep_source.id, store_id: @store_source.id, year: @year, month: @month)
+    real_sales = RealSale.where(department_id: @dep_source.id, store_id: @store_source.id, year: @year, month: @month)
     @realMonth = []
-    sale_reals.each do |sale|
+    real_sales.each do |sale|
       totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
       @realMonth  << totalRealDay
     end
 
-    sale_reals_vs = SaleReal.where(department_id: @dep_source.id, store_id: @store.id, year: @year, month: @month)
+    real_sales_vs = RealSale.where(department_id: @dep_source.id, store_id: @store.id, year: @year, month: @month)
 
     @realMonth_vs = []
-    sale_reals_vs.each do |sale|
+    real_sales_vs.each do |sale|
       totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
       @realMonth_vs  << totalRealDay
     end

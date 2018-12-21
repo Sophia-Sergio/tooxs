@@ -4,16 +4,15 @@
       <div class="titulo-pantalla">Comparativo de productividad</div>
     </div>
   </div>
-
-  <%= render 'search_form', locals: { status: 'show', path: productivity_cluster_month_path} %>
+  <%= render 'shared/filter_parameters/filter_5', filter: retail_parameters, route: productivity_cluster_month_path %>
 
   <div class="row" id="compare_stores"></div>
   <div class="grafico-principal">
-    <p class="m-t-20 grafico-1">Segmento: <span class="label label-default"><%= @cluster_name %></span>
-    Departamento: <span class="label label-default"><%= @masterDeparment[:name] %></span>
+    <p class="m-t-20 grafico-1">Segmento: <span class="label label-default"><%= retail_parameters[:cluster_object].name %></span>
+    Departamento: <span class="label label-default"><%= @department.name %></span>
     Tiendas:
-    <% @stores.each do |s| %>
-     <span class="label label-default"><%= s.name %></span>
+    <% retail_parameters[:stores].first(2).each do |s| %>
+     <span class="label label-default"><%= s[0] %></span>
     <% end %>
      </p>
     <canvas id="canvas"></canvas>

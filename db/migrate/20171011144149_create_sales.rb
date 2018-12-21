@@ -1,8 +1,7 @@
 class CreateSales < ActiveRecord::Migration[5.1]
   def change
     create_table :sales do |t|
-      t.references :store, foreign_key: true
-      t.references :department, foreign_key: true
+      t.references :store_department, foreign_key: true
       t.date :sale_date
       t.integer :week
       t.integer :month

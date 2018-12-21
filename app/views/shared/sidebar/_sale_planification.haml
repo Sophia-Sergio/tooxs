@@ -7,6 +7,11 @@
           %span.icon-thumbnail
             = image_tag 'icons/line-charts.svg',class: 'icon-min-menu'
           = link_to('Estadísticas', month_sales_path)
+        - if current_user.can_view_change_plan?
+          %li.sub-title
+            %span.icon-thumbnail
+              = image_tag 'colaboradores.jpg',class: 'icon-min-menu'
+            = link_to('Cambiar Plan', config_change_plan_path)
         %li.sub-title
           %span.icon-thumbnail
             = image_tag 'icons/bar-chart.svg', class: 'icon-min-menu'

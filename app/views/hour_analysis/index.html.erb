@@ -3,25 +3,15 @@
   var plan_enviado = JSON.parse(data.replace(/&quot;/g,'"'));
 </script>
 
-<div class="container-fluid" id="hour_analysis"">
-
-<div class="pantalla-seccion d-flex justify-content-between mb-2">
-  <div class="align-self-end">
-    <div class="titulo-pantalla">Análisis de horas</div>
-  </div>
+<div class="container-fluid" id="hour_analysis">
+  <div class="pantalla-seccion d-flex justify-content-between mb-2">
+    <div class="align-self-end">
+      <div class="titulo-pantalla">Análisis de horas</div>
+    </div>
+  </div>s
+  <div class="sub-titulo-pantalla">Parámetros</div>
+  <%= render 'shared/filter_parameters/filter_1', filter: retail_parameters, route: hour_analysis_index_path %>
 </div>
-
-<div class="dashboard__filter">
-  <%= simple_form_for @search, :url => hour_analysis_index_path, :class => 'row', :method => :get do |f| %>
-    <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] , label: false %>
-    <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department], label: false %>
-    <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year], label: false %>
-    <%= f.input :month, collection: (1..6).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: params[:month], label: false  %>
-    <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
-  <% end %>
-</div>
-
-
 <div class="formulario-comparacion">
   <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
   <div class="row ">

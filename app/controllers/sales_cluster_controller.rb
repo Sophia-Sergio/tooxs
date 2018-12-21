@@ -1,13 +1,9 @@
 class SalesClusterController < ApplicationController
-  include DemoParameters
+  include FilterParameters
+  before_action
 
   def index
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Ventas por Segmento", :sales_cluster_index_path
-    @search       = ''
     @clusters     = Cluster.where(id: 1)
-    @masterDepartments = MasterDepartment.where(id: 1)
-    @month = Date.today.strftime("%m").to_i
   end
 
   def month
@@ -18,10 +14,6 @@ class SalesClusterController < ApplicationController
     @month = params[:month] || demo_data[:month]
 
     @stores      = Store.by_cluster(cluster)
-    @clusters     = Cluster.all.order(:id)
-    @departments  = Department.distinct.pluck(:name)
-    @masterDepartments = MasterDepartment.all.order(:id)
-    @masterDeparment   = MasterDepartment.find(department)
     @dep = Department.find(department)
     @cluster_name =  Cluster.find(cluster).name
     @elements = element(@month.to_i, @week, @year.to_i, @stores, @dep)
@@ -96,7 +88,6 @@ class SalesClusterController < ApplicationController
     month_start = beginning_of_month.strftime("%d").to_i
     month_end   = end_of_month.strftime("%d").to_i
 
-
     @staffing = staffing
     dates = []
     days  = []
@@ -104,7 +95,6 @@ class SalesClusterController < ApplicationController
     (beginning_of_month..end_of_month).each do |d|
       dates << d.strftime("%Y%m%d")
     end
-
     #sacar dotacion por dia
     dates.each do |d|
       days << @staffing[d.to_sym][:hours].values.sum
@@ -112,19 +102,19 @@ class SalesClusterController < ApplicationController
 
     #obtener departamentos
     @stores.each do |store|
-      departments << Department.where(store: store[:id], master_id: @dep.id)
+      departments << StoreDepartment.where(store: store[:id], master_id: @dep.id)
     end
 
     #obtener valores
     if departments.first.length > 0
       departments.each do |department|
-        sale_reals = SaleReal.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month).order(:sale_date)
+        real_sales = RealSale.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month)
         totalMonth = []
         realMonth = []
         dotMonth = []
         sale_date = []
 
-        sale_reals.each do |sale|
+        real_sales.each do |sale|
           sale_date << sale[:sale_date].strftime("%d")
           totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
           totalDotDay = @staffing[("#{sale[:sale_date].strftime("%Y%m%d")}").to_sym][:hours].values.sum

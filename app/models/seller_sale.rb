@@ -1,6 +1,13 @@
 class SellerSale < ApplicationRecord
   belongs_to :seller
-  belongs_to :department
+  belongs_to :store_department
+
+  scope :by_month, ->(month) { where(month: month) }
+  scope :by_year, ->(year) { where(year: year) }
+
+  def self.total_sales(department, month, year = Date.today.year)
+    by_department(department).by_month(month).by_year(year).sum(:sale)
+  end
 
   class << self
     def from_xlsx(file = '')

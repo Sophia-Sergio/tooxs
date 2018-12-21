@@ -1,5 +1,8 @@
 class EfficiencyController < ApplicationController
-  include DemoParameters
+  include FilterParameters
+  before_action :set_params, only: %i[index report]
+  before_action :set_store, only: %i[index]
+  before_action :set_department, only: %i[index]
 
   def index
     @stores       = Store.all.order(:id)
@@ -10,14 +13,11 @@ class EfficiencyController < ApplicationController
   end
 
   def report
-    @department = params[:department]
-    @store = params[:store]
-    @year = params[:year]
     @month = params[:month_init]
     @month_fin = params[:month_fin]
     data = {:fecha => [], :prod_w_real => [], :prod_w_op => []}
     (@month..@month_fin).each do |month|
-      month_data = report_data( @department, @store, @year, month)
+      month_data = report_data(@department, @store, @year, month)
       if month_data
         data[:fecha] = data[:fecha] + month_data[:fecha]
         data[:prod_w_real] = data[:prod_w_real] + month_data[:prod_w_real]
@@ -29,11 +29,11 @@ class EfficiencyController < ApplicationController
 
 
   def report_data department, store, year, month
-    data_case = DataCase.where(dep_num: department, month: month).first
+    data_case = DataCase.where(department: department, month: month).first
     if data_case
-      prod_obj = data_case.prod_obj.to_f
+      prod_obj = data_case.target_productivity.to_f
       #obtener ventas reales del mes
-      sale_reals = SaleReal.where(department_id: department, store_id: store, year: year, month: month)
+      real_sales = RealSale.where(department: department, store: store, year: year, month: month)
       real_month = []
       total_month = []
       total_op_month = []
@@ -45,10 +45,11 @@ class EfficiencyController < ApplicationController
       cont_op = 0
       date_month = []
       #obtener productividad real
-      dotReal = dotacion_real(department, month, year)
+      params[:month] = month
+      dotReal = RealStaff.staff_by_day(filter_params)
       if dotReal.length > 0
-        sale_reals.each do |sale|
-          total_real_day = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+        real_sales.each do |sale|
+          total_real_day = sale.total_day
           date_month << sale[:sale_date].strftime('%d-%m').to_sym
           real_month  << total_real_day
           total_month << (total_real_day.to_f / dotReal[cont_real]).round
@@ -73,14 +74,14 @@ class EfficiencyController < ApplicationController
       plan = JSON.parse(brain_json)
       dotacion_op = cerebro_sumatoria_turnos_optimizado(brain_json, data_case[:id_case])
       if dotacion_op.length > 0
-        sale_reals.each do |sale|
+        real_sales.each do |sale|
           if dotacion_op[cont_op] == nil
             opMonth  << 0
             total_op_month << 0
             cont_op += 1
           else
             # eficiencia debería estar definida por hora
-            total_real_day = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+            total_real_day = sale.total_day
             opMonth  << total_real_day
             total_op_month << (total_real_day.to_f / dotacion_op[cont_op]).round
             cont_op += 1

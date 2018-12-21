@@ -1,3 +1,5 @@
 class WorkedShift < ApplicationRecord
-  extend Shift
+  belongs_to :user
+
+  scope :by_date, ->(date) { where('date = ?', date) }
 end

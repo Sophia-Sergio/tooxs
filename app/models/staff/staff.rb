@@ -1,8 +1,7 @@
 class Staff < ApplicationRecord
   extend UniqCaseFilter::Staff
 
-  belongs_to :department
-  belongs_to :store
+  belongs_to :store_department
 
   class << self
 

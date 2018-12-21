@@ -24,17 +24,7 @@ module FilterParameters
     params[:store] ||= demo_data[:store]
   end
 
-  def set_store
-    @store = Store.find(params[:store])
-  end
 
-  def set_department
-    @department = @store.departments.find(params[:department])
-  end
-
-  def filter_params
-    params.permit(:year, :month, :store, :department, :encrypted_password)
-  end
 
   def set_stores
     @stores = Store.by_cluster(params[:cluster])

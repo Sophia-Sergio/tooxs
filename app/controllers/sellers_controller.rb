@@ -209,10 +209,10 @@ class SellersController < ApplicationController
     #loop por cada semana del mes en cuestion
     (week_start..week_end).each do |w|
       @week = w
-      #@sp_week     = SalePlan.where(week: @week, :store => @store, :department => @dep)
+      #@sp_week     = PlanSale.where(week: @week, :store => @store, :department => @dep)
       #totales week/month
-      #sp_week_total         = SalePlan.where(week: @week, :store => @store, :department => @dep).group(:week).order(:week).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
-      sp_month_total = SalePlan.where(month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+      #sp_week_total         = PlanSale.where(week: @week, :store => @store, :department => @dep).group(:week).order(:week).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+      sp_month_total = PlanSale.where(month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
       #sp_total_week = sp_week_total.first[1].to_i
       sp_total_month = sp_month_total.first[1].to_i
       #data de venta real año anterior de la semana en cuestion
@@ -324,7 +324,7 @@ class SellersController < ApplicationController
     end
     return result
     #incluye toda la semana, independiente si pertenece a otro mes
-    #sp_week   = SalePlan.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep)
+    #sp_week   = PlanSale.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep)
   end
 
     # old
@@ -351,9 +351,9 @@ class SellersController < ApplicationController
       (week_start..week_end).each do |w|
         @week = w
 
-        @real_week  = SaleReal.where(week: @week, :store => @store, :department => @dep, year: @year)
+        @real_week  = RealSale.where(week: @week, :store => @store, :department => @dep, year: @year)
 
-        @real_total_month  = SaleReal.where(year: @year, month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+        @real_total_month  = RealSale.where(year: @year, month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
 
 
         @year_plus_one = @year.to_i + 1
@@ -434,7 +434,7 @@ class SellersController < ApplicationController
       end
       return result
       #incluye toda la semana, independiente si pertenece a otro mes
-      #sp_week   = SalePlan.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep)
+      #sp_week   = PlanSale.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep)
     end
 
     def sale_real_per_week(seller,year,month)
@@ -488,7 +488,7 @@ class SellersController < ApplicationController
           @dates_week << Date.commercial(@year.to_i,@week.to_i,d).strftime('%d-%m-%Y')
 
           # acá hacer la magia
-          day[dayCount] = SalePlan.where(month: month, day_number: d, store_id: @store, department_id: @dep, year: @year)
+          day[dayCount] = PlanSale.where(month: month, day_number: d, store_id: @store, department_id: @dep, year: @year)
 
 
           day[dayCount] = 0 if day[dayCount] == nil
@@ -595,7 +595,7 @@ class SellersController < ApplicationController
             count += 1 if s.twenty_four
           end
 
-          @sp_m1 = SalePlan.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
+          @sp_m1 = PlanSale.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
 
           dayResult[d-1] = count
 
@@ -615,7 +615,7 @@ class SellersController < ApplicationController
       ## sacamos el 1er dia lunes del mes "2" del 2018 desde el Plan de ventas.
       month_search = month
 
-      start_date = SalePlan.where(month: month, day_number: 1, week: 1).select(:sale_date).first
+      start_date = PlanSale.where(month: month, day_number: 1, week: 1).select(:sale_date).first
       start_date = start_date.sale_date.strftime('%Y%m%d')
 
 
@@ -630,10 +630,10 @@ class SellersController < ApplicationController
       end
 
       #fechas de la semanas del mes en curso
-      w1 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 1).where(:year => year).select(:date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
-      w2 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 2).where(:year => year).select(:date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
-      w3 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 3).where(:year => year).select(:date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
-      w4 = SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 4).where(:year => year).select(:date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
+      w1 = PlanSale.where(:month => month).where(:day_number => [1..7]).where(:week => 1).where(:year => year).select(:date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
+      w2 = PlanSale.where(:month => month).where(:day_number => [1..7]).where(:week => 2).where(:year => year).select(:date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
+      w3 = PlanSale.where(:month => month).where(:day_number => [1..7]).where(:week => 3).where(:year => year).select(:date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
+      w4 = PlanSale.where(:month => month).where(:day_number => [1..7]).where(:week => 4).where(:year => year).select(:date).pluck(:sale_date).map{|x| x.strftime('%Y%m%d').to_sym}
       ## opcional no aplicable para este mes
       ## w5 = {}
 
@@ -648,10 +648,10 @@ class SellersController < ApplicationController
       #plan de venta
       #recupero los planes de venta por semana del mes
 
-      sp_w1 =  SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 1).where(:year => year)
-      sp_w2 =  SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 1).where(:year => year)
-      sp_w3 =  SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 1).where(:year => year)
-      sp_w4 =  SalePlan.where(:month => month).where(:day_number => [1..7]).where(:week => 1).where(:year => year)
+      sp_w1 =  PlanSale.where(:month => month).where(:day_number => [1..7]).where(:week => 1).where(:year => year)
+      sp_w2 =  PlanSale.where(:month => month).where(:day_number => [1..7]).where(:week => 1).where(:year => year)
+      sp_w3 =  PlanSale.where(:month => month).where(:day_number => [1..7]).where(:week => 1).where(:year => year)
+      sp_w4 =  PlanSale.where(:month => month).where(:day_number => [1..7]).where(:week => 1).where(:year => year)
 
       week[:one][:sp] = week_sale_plan(sp_w1)
       week[:two][:sp] = week_sale_plan(sp_w2)

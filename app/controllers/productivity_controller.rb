@@ -1,47 +1,38 @@
 # frozen_string_literal: true
 
 class ProductivityController < ApplicationController
+  include FilterParameters
   skip_before_action :verify_authenticity_token
+  before_action :set_params, only: %i[show json_current]
   before_action :set_store, only: %i[show json_current]
+  before_action :set_department, only: %i[show json_current]
 
   def show
-    @search       = ''
-    @stores       = Store.all.joins('INNER JOIN departments ON stores.id = departments.store_id INNER JOIN data_cases ON departments.id = data_cases.dep_num').distinct
-    @departments  = Department.all.joins('INNER JOIN data_cases ON departments.id = data_cases.dep_num').distinct
-    month  = params[:month]
-    year   = params[:year]
-    department = params[:department]
-    first_day_of_weeks = @store.sale_plans.by_year_and_month(year, month)
-                               .by_department(department).dates_by_week(1)
-
+    first_day_of_weeks = @store.sale_plans.by_year_and_month(@year, @month)
+                               .by_department(@department).dates_by_week(1)
     @staffing_w1  = staffing_draw(first_day_of_weeks[1])
     @staffing_w2  = staffing_draw(first_day_of_weeks[2])
     @staffing_w3  = staffing_draw(first_day_of_weeks[3])
     @staffing_w4  = staffing_draw(first_day_of_weeks[4])
-    @brain_json   = brain_json(month, year, @store.id, department)
+    @brain_json   = brain_json(@month, @year, @store.id, @department.id)
   end
 
   def json_current
-    month  = params[:month]
-    month = "4" if month == "6"
-    year   = params[:year]
-    department = params[:department]
-    sale_plans = @store.sale_plans.by_year_and_month(year, month).by_department(department)
+    sale_plans = @store.sale_plans.by_year_and_month(@year, @month)
+                       .by_department(@department)
     days_by_week = sale_plans.days_by_week
     first_day_of_weeks = sale_plans.dates_by_week(1)
     total_sales_of_week = sale_plans.sales_by_week
     # obtener ventas reales del mes
-    sale_reals = SaleReal.where(department_id: department, store_id: @store.id, year: year, month: month)
+    real_sales = RealSale.where(department: @department, store: @store, year: @year, month: @month)
     @totalMonth = []
     @realMonth = []
     @contReal = 0
-    dotReal = dotacion_real(department, month, year)
-
-    unless dotReal.empty?
-      sale_reals.each do |sale|
-        totalRealDay = sale[:nine] + sale[:ten] + sale[:eleven] + sale[:twelve] + sale[:thirteen] + sale[:fourteen] + sale[:fifteen] + sale[:sixteen] + sale[:seventeen] + sale[:eighteen] + sale[:nineteen] + sale[:twenty] + sale[:twenty_one] + sale[:twenty_two] + sale[:twenty_three] + sale[:twenty_four]
-        @realMonth  << totalRealDay
-        @totalMonth << (totalRealDay.to_f / dotReal[@contReal]).round
+    staff = params[:month].to_i > 6 ? PlanStaff.staff_by_day(filter_params) : RealStaff.staff_by_day(filter_params)
+    unless staff.empty?
+      real_sales.each do |sale|
+        @realMonth  << sale.total_day
+        @totalMonth << (sale.total_day.to_f / staff[@contReal]).round
         @contReal += 1
       end
     end
@@ -56,16 +47,16 @@ class ProductivityController < ApplicationController
     @prd_w3_day = total_sales_of_week[3].zip(@sd_w3_daily).map { |a, b| a / b }
     @prd_w4_day = total_sales_of_week[4].zip(@sd_w4_daily).map { |a, b| a / b }
 
-    nombreTurnos = AvailableShift.all.where(month: month, store_id: 1).distinct.order(:num).pluck(:num, :name)
-    @brain_json = brain_json(month, year, @store.id, department)
+    nombreTurnos = AvailableShift.all.distinct.order(:num).pluck(:num, :name)
+    @brain_json = brain_json(@month, @year, @store.id, @department.id)
     @plan = JSON.parse(@brain_json)
+    dataCase = DataCase.find_case(filter_params)
 
-    dataCase = DataCase.where(month: month, year: year, dep_num: department)
-    @prod_obj = dataCase.first.prod_obj.to_i
-    @dotacion_actual = cerebro_sumatoria_turnos_entrada(@brain_json, dataCase.first[:id_case])
-    @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
+    @prod_obj = dataCase.target_productivity
+    @dotacion_actual = cerebro_sumatoria_turnos_entrada(@brain_json, dataCase.id)
+    @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.id)
     @prod_w_op = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, @dotacion_op)
-    @prod_w_real = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, dotReal)
+    @prod_w_real = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, staff)
     @prod_w_actual = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, @dotacion_actual)
 
     render json: {
@@ -83,12 +74,12 @@ class ProductivityController < ApplicationController
       tsm1: @totalMonth,
       vrm1: @realMonth,
       vent_real: @realMonth.sum,
-      dot_real: dotReal.sum,
+      dot_real: staff.sum,
       nombreTurnos: nombreTurnos,
       prod_w_op: @prod_w_op,
       prod_w_real: @prod_w_real,
       prod_w_actual: @prod_w_actual,
-      dot_month_real: dotReal,
+      dot_month_real: staff,
       dot_month_op: @dotacion_op,
       dot_month_actual: @dotacion_actual,
       prod_obj: @prod_obj
@@ -120,29 +111,28 @@ class ProductivityController < ApplicationController
   end
 
   def data_month
-    month = params[:month].to_i
-    year = params[:year].to_i
-    store = params[:store].to_i
-    department = params[:department].to_i
-
+    month  = params[:month] ||= demo_data[:month]
+    year   = params[:year] ||= demo_data[:year]
+    department = params[:department] ||= demo_data[:department]
+    store = params[:store] ||= demo_data[:store]
+    data_case = DataCase.find_by(store: store, month: month, year: year, department: department)
     summary = ''
-    dataCase = DataCase.where(month: month, year: year, dep_num: department)
-
-    if dataCase.blank?
+    if data_case.blank?
       summary = ''
       existe = false
       json_result = ''
     else
-      returnCase = ReturnCase.where(id_case: dataCase.first[:id_case]).first
-      if File.exist?(File.join(Rails.root, 'public', "caso#{dataCase.first[:id_case]}.txt"))
-        File.open(File.join(Rails.root, 'public', "caso#{dataCase.first[:id_case]}.txt"), 'r') do |f1|
+
+      return_case = ReturnCase.find_by(data_case: data_case)
+      if File.exist?(File.join(Rails.root, 'public', "caso#{data_case.id}.txt"))
+        File.open(File.join(Rails.root, 'public', "caso#{data_case.id}.txt"), 'r') do |f1|
           while line = f1.gets
-            line = "\n" if line == ''
+            line = "\n" if line.nil?
             summary += line.to_s
           end
         end
         existe = true
-        json_result = "{\"margen_eficiencia\":\"#{returnCase.eff_margin}\",\"excedente_total\":#{returnCase.total_surplus},\"costo_remuneracion\":#{returnCase.compensation_cost}, \"status\":\"#{returnCase.status}\",\"usuario\":\"#{returnCase.user}\",\"id_caso\":\"#{returnCase.id_case}\",\"mensaje\":\"#{returnCase.message}\", \"deficit_total\":#{returnCase.deficit_total},\"tolerancia\":\"#{returnCase.tolerance}\",\"version\":\"#{returnCase.version}\", \"formato_resultado\":{\"almuerzo\":\"[turno_i,departamento_j,período_t] valor, [...\", \"delta\":\"[departamento_j,período_t] valor, [...\"}, \"tiempo_maximo\":\"#{returnCase.max_time}\",\"resultado\":{\"almuerzos\":\"#{returnCase.lunchs}\",\"turnos\":\"#{returnCase.turns}\",\"delta\":\"#{returnCase.delta}\", \"epsilon\":\"#{returnCase.epsilon}\"},\"soporte\":\"fatapia@scipion.cl\",\"modelo\":\"#{returnCase.model}\",\"plan_venta\":#{returnCase.sales_plan}, \"funcion_objetivo\":#{returnCase.obj_function}}"
+        json_result = "{\"margen_eficiencia\":\"#{return_case.eff_margin}\",\"excedente_total\":#{return_case.total_surplus},\"costo_remuneracion\":#{return_case.compensation_cost}, \"status\":\"#{return_case.status}\",\"usuario\":\"#{return_case.user}\",\"id_caso\":\"#{return_case.data_case.id}\",\"mensaje\":\"#{return_case.message}\", \"deficit_total\":#{return_case.deficit_total},\"tolerancia\":\"#{return_case.tolerance}\",\"version\":\"#{return_case.version}\", \"formato_resultado\":{\"almuerzo\":\"[turno_i,departamento_j,período_t] valor, [...\", \"delta\":\"[departamento_j,período_t] valor, [...\"}, \"tiempo_maximo\":\"#{return_case.max_time}\",\"resultado\":{\"almuerzos\":\"#{return_case.lunchs}\",\"turnos\":\"#{return_case.turns}\",\"delta\":\"#{return_case.delta}\", \"epsilon\":\"#{return_case.epsilon}\"},\"soporte\":\"fatapia@scipion.cl\",\"modelo\":\"#{return_case.model}\",\"plan_venta\":#{return_case.sales_plan}, \"funcion_objetivo\":#{return_case.obj_function}}"
       else
         summary = ''
         existe = false
@@ -155,25 +145,24 @@ class ProductivityController < ApplicationController
   end
 
   def report
-    @search       = ''
-    @stores       = Store.all.order(:id)
-    @departments  = Department.all.order(:id)
+    @stores       = Store.all
+    @departments  = Department.all
 
-    month  = params[:month].to_i
-    year   = params[:year].to_i
-    @store = params[:store].to_i
-    @dep   = params[:department].to_i
+    month  = params[:month] ||= demo_data[:month]
+    year   = params[:year] ||= demo_data[:year]
+    department = params[:department] ||= demo_data[:department]
+    store = params[:store] ||= demo_data[:store]
     # obtener ventas reales del mes
-    sale_reals = SaleReal.where(department_id: @dep, store_id: @store, year: year, month: month)
+    real_sales = RealSale.where(department: department, store: store, year: year, month: month)
     @realMonth = []
 
-    sale_reals.each do |sale|
+    real_sales.each do |sale|
       totalRealDay = sale[:nine] + sale[:ten] + sale[:eleven] + sale[:twelve] + sale[:thirteen] + sale[:fourteen] + sale[:fifteen] + sale[:sixteen] + sale[:seventeen] + sale[:eighteen] + sale[:nineteen] + sale[:twenty] + sale[:twenty_one] + sale[:twenty_two] + sale[:twenty_three] + sale[:twenty_four]
       @realMonth << totalRealDay
     end
 
-    @brain_json = brain_json(month, year, @store, @dep)
-    dataCase = DataCase.where(month: month, year: year, dep_num: @dep)
+    @brain_json = brain_json(month, year, store, department)
+    dataCase = DataCase.where(store: store, month: month, year: year, department: department)
 
     @venta_w_real = calculo_semanal(@realMonth, 7)
 
@@ -181,9 +170,9 @@ class ProductivityController < ApplicationController
 
     @plan = JSON.parse(@brain_json)
 
-    dotReal = dotacion_real(@dep, month, year)
+    dotReal = RealStaff.staff_by_day(filter_params)
     if !dataCase.empty?
-      @dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case]), 7)
+      @dotacion_w_op = calculo_semanal(cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first.id), 7)
     else
       @dotacion_w_op = []
     end
@@ -199,35 +188,34 @@ class ProductivityController < ApplicationController
 
   def report_data
     # dummy demo data
-    month = params[:month].to_i
-
-    month = 4 if month == 6
-    year = params[:year].to_i
-    department = params[:department]
-    @store = Store.find(params[:store])
+    month  = params[:month] ||= demo_data[:month]
+    year   = params[:year] ||= demo_data[:year]
+    department = params[:department] ||= demo_data[:department]
+    store = params[:store] ||= demo_data[:store]
+    @store = Store.find(store)
 
     # days of the week for this query
     days_by_week = @store.sale_plans.by_year_and_month(year, month).by_department(department).days_by_week
     # obtener ventas reales del mes
-    sale_reals = SaleReal.where(department_id: department, store_id: @store.id, year: year, month: month)
+    real_sales = RealSale.where(department_id: department, store_id: @store.id, year: year, month: month)
     @totalMonth = []
     @realMonth = []
 
-    sale_reals.each do |sale|
+    real_sales.each do |sale|
       totalRealDay = sale[:nine] + sale[:ten] + sale[:eleven] + sale[:twelve] + sale[:thirteen] + sale[:fourteen] + sale[:fifteen] + sale[:sixteen] + sale[:seventeen] + sale[:eighteen] + sale[:nineteen] + sale[:twenty] + sale[:twenty_one] + sale[:twenty_two] + sale[:twenty_three] + sale[:twenty_four]
       totalDotDay = staffing[sale[:sale_date].strftime('%Y%m%d').to_s.to_sym][:hours].values.sum
       @realMonth  << totalRealDay
       @totalMonth << (totalRealDay.to_f / totalDotDay.to_f).round
     end
 
-    @brain_json = brain_json(month, year, @store.id, department)
-    dotReal = dotacion_real(department, month, year)
+    @brain_json = brain_json(month, year, store, department)
+    dotReal = RealStaff.staff_by_day(filter_params)
     @plan = JSON.parse(@brain_json)
-    dataCase = DataCase.where(month: month, year: year, dep_num: department)
+    dataCase = DataCase.where(month: month, year: year, department: department)
 
-    @prod_obj = dataCase.first.prod_obj.to_i
+    @prod_obj = dataCase.first.target_productivity.to_i
 
-    @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
+    @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first.id)
     @dotacion_real = dotReal
 
     @prod_w_op = cerebro_calculo_productividades_month(@realMonth, @dotacion_op)
@@ -247,12 +235,12 @@ class ProductivityController < ApplicationController
   end
 
   def save_case
-    dataCase = DataCase.where(id_case: params[:result][:id_caso].to_s).first
+    dataCase = DataCase.where(id: params[:result][:id_caso].to_s).first
     dataCase = DataCase.find(dataCase.id)
     dataCase.sale_plan = params[:plan][:datos][:plan_venta]
     dataCase.save
 
-    ReturnCase.where(id_case: params[:result][:id_caso]).destroy_all
+    ReturnCase.where(data_case: params[:result][:id_caso]).destroy_all
     # guardar result
     returnCase = ReturnCase.create!(
       id_case: params[:result][:id_caso],
@@ -291,7 +279,7 @@ class ProductivityController < ApplicationController
     dot_in = dot_in.slice 0..-3
     dot_in += '}'
 
-    SummaryCase.where(id_case: params[:result][:id_caso]).destroy_all
+    SummaryCase.where(data_case: params[:result][:id_caso]).destroy_all
 
     summaryCase = SummaryCase.create!(
       id_case: params[:result][:id_caso],
@@ -341,6 +329,10 @@ class ProductivityController < ApplicationController
   private
 
   def set_store
-    @store = Store.find(params[:store])
+    @store = Store.find(params[:store] || demo_data[:store])
+  end
+
+  def filter_params
+    params.permit(:year, :month, :store, :department, :encrypted_password)
   end
 end

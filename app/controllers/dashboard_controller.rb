@@ -1,8 +1,14 @@
 class DashboardController < ApplicationController
-  include DemoParameters
+  include FilterParameters
+  include Statistics
+  before_action :set_params, only: %i[index report]
+  before_action :set_store_department, only: %i[index]
   before_action :index_data, :index
 
   def index
+
+    shifts = Statistics::seller_shifts(@store_department, filter_params)
+
     #turnos cubiertos
     if @data_case
       shifts_covered_data = shifts_covered(@data_case.id, @department.id, @store.id)
@@ -18,7 +24,7 @@ class DashboardController < ApplicationController
     @ventaTotal = 0
 
     @sellers.each do |seller|
-      seller_plan = seller_staffing(seller, @month, @year)
+      seller_plan = seller_staffing(@store, seller, params)
       plan = 0
       seller_plan.flatten.each_with_index do |plan_, index|
         plan += plan_[index + 1][:seller_plan_per_day].sum
@@ -31,7 +37,11 @@ class DashboardController < ApplicationController
                 :cumplimiento => cumplimiento }
       @planVentaTotal += plan
       @ventaTotal += sale
+
+      binding.pry
     end
+    total_real_sales = @store.real_sales.total_sales(@department, @month).to_f
+    total_plan_sales = @store.plan_sales.total_sales(@department, @month).to_f
 
 		@turnos_cubiertos = []
     if @turnosOptimizados
@@ -42,7 +52,7 @@ class DashboardController < ApplicationController
       end
     end
 
-    @cumplimientoPlan = (@ventaTotal / @planVentaTotal * 100).round(1)
+    @cumplimientoPlan = (total_real_sales / total_plan_sales * 100).round(1)
 
     excesoReal = matrix_calc(@target_productivity, @average_sale_by_day, @staff_by_day)
     totalHour = (@sales_by_day.sum / @target_productivity)
@@ -58,22 +68,19 @@ class DashboardController < ApplicationController
   private
 
   def index_data
-    @year = params[:year] ||= demo_data[:date].year
-    @month = params[:month] ||= demo_data[:date].month
-    store = params[:store] ||= demo_data[:store]
-    department = params[:department] ||= demo_data[:department]
-    @store = Store.find(store)
-    @department = Department.find(department)
-    @staff_by_day = StaffingReal.staff_by_day(filter_params)
-    @sales_by_day = @store.sale_reals.sales_by_day(@department, @month)
-    @average_sale_by_day = @sales_by_day.zip(@staff_by_day).map { |sale_staff| (sale_staff[0] / sale_staff[1].to_f).round(2) }
-    @real_productivity = (@sales_by_day.sum / @staff_by_day.sum).round(2)
-    @data_case = DataCase.find_case(filter_params)
-    @summary_case_out = @data_case.summary_case_output
+    @staff = @store_department.real_staffs.staff_by_day(params[:month], params[:year]).values
+    @sales = @store_department.real_sales.sales_by_day(params[:month], params[:year])
+    @average_sales = @sales.zip(@staff).map { |sale| (sale[0] / sale[1].to_f).round(2) }
+    @real_productivity = (@sales.sum / @staff.sum).round(2)
     @target_productivity = @data_case.target_productivity.to_f
   end
 
   def filter_params
     params.permit(:year, :month, :store, :department, :encrypted_password)
+  end
+
+  def set_store_department
+    @store_department = StoreDepartment.find_by(store: params[:store],
+                                                department: params[:department])
   end
 end

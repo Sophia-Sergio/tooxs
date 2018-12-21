@@ -2,8 +2,7 @@ class CreateDataCases < ActiveRecord::Migration[5.1]
   def change
     create_table :data_cases do |t|
       t.integer :turn_num
-      t.references :store, foreign_key: true
-      t.references :department, foreign_key: true
+      t.references :store_department, foreign_key: true
       t.integer :day_num
       t.integer :hour_day
       t.float :hp_val

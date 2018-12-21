@@ -2,48 +2,24 @@
 class StoreDepartment < ApplicationRecord
   belongs_to :store
   belongs_to :department
-  # has_many :sellers
-  # has_many :users
-  # has_many :request_detail
-  validates_presence_of :origin_id
+  has_many :achievements
+  has_many :real_staffs
+  has_many :plan_staffs
+  has_many :real_sales
+  has_many :plan_sales
+  has_many :data_cases
+  has_many :user_shifts
+  has_many :sellers
+  has_many :users
+  has_many :cashiers
+  has_many :target_producitivities
+  has_many :target_sales
 
-  def to_s
-    name
+  def optimized_shifts(opt)
+    data_cases.find_case(opt[:month], opt[:year]).summary_cases.output.real_dot
   end
 
-  class << self
-    def from_xlsx(file = '')
-      return if file.blank?
-      worksheet = RubyXL::Parser.parse(file)[0]
-
-      worksheet.each_with_index do |row, i|
-        next if i.zero?
-        values = []
-        row && row.cells.each do |cell|
-          val = cell && cell.value
-          values << val
-        end
-        import_row(values)
-      end
-    end
-
-    private
-
-    def import_row(row)
-      store = Store.find_by_origin_id(row[0])
-      return if store.nil?
-      department = Department.find_or_initialize_by(origin_id: row[1])
-      department.update_attributes(
-        name: row[2],
-        store_id: store.id
-      )
-
-      department.save
-    end
+  def actual_shifts(opt)
+    seller_shifts.by_year(opt[:year]).by_month(opt[:month]).shifts_staff
   end
-
-  def to_s
-    name
-  end
-
 end

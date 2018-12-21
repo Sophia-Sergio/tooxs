@@ -10,122 +10,114 @@
       <div class="titulo-pantalla">Productividad</div>
     </div>
   </div>
-
-  <div class="dashboard__filter">
-    <%= simple_form_for @search, :url => productivity_report_path, :class => 'row', :method => :get do |f| %>
-      <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] , label: false %>
-      <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department], label: false %>
-      <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year], label: false %>
-      <%= f.input :month, collection: (1..6).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: params[:month], label: false  %>
-      <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
-    <% end %>
-  </div>
-
-  <div class="formulario-comparacion">
-    <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
+  <div class="sub-titulo-pantalla">Parámetros</div>
+  <%= render 'shared/filter_parameters/filter_1', filter: retail_parameters, route: productivity_report_path %>
+</div>
+<div class="formulario-comparacion">
+  <div class="sub-titulo-pantalla">Resultado de búsqueda</div>
+  <div class="row ">
     <h5 class="text-uppercase m-t-30 fs-13 bold">Productividad por Hora - Alto Las Condes - Juvenil mujer</h5>
     <div id="chartContainer" style="width:100%;">
       <canvas id="canvas"> </canvas>
     </div>
   </div>
-
-  <div  class="formulario-comparacion">
-      <div id="productividades">
-        <% if !@plan_w_total.blank? %>
-        <% for week in @plan_w_total %>
+</div>
+<div  class="formulario-comparacion">
+  <div class="row">
+    <div id="productividades" class="col-md-10 offset-md-1">
+    <% if !@plan_w_total.blank? %>
+      <% for week in @plan_w_total %>
         <br><br>
         <div class="sub-titulo-pantalla"><%= week[:name] %></div>
         <div class="table-responsive">
           <table class="table ">
             <thead>
-              <tr>
-                <th>
-                </th>
-                <% countWeek = 0 %>
-                <% for semana in week[:plan_w] %>
-                <th> Semana <%= countWeek +=1 %></th>
-                <% end %>
-              </tr>
+                <tr>
+                    <th>
+                    </th>
+                    <% countWeek = 0 %>
+                    <% for semana in week[:plan_w] %>
+                    <th> Semana <%= countWeek +=1 %></th>
+                    <% end %>
+                </tr>
             </thead>
             <tbody class="t-p-3">
-              <tr>
-                <td>Ventas reales</td>
-                <% if !week[:plan_w].blank? %>
-                <% for semana in week[:plan_w] %>
-                <td><%= number_to_currency semana %></td>
-                <% end %>
-                <% else %>
-                <% if countWeek != 0 %>
-                <% (1..countWeek).each do |i| %>
-                <td></td>
-                <% end %>
-                <% end %>
-                <% end %>
-              </tr>
-              <tr>
-                <td> Semanal (HH) </td>
-                <% if !week[:dot_w].blank? %>
-                <% for dotacion in week[:dot_w] %>
-                <td><%= dotacion %></td>
-                <% end %>
-                <% else %>
-                <% if countWeek != 0 %>
-                <% (1..countWeek).each do |i| %>
-                <td></td>
-                <% end %>
-                <% end %>
-                <% end %>
-              </tr>
-              <tr>
-                <td>Productividad</td>
-                <% if !week[:prod_w].blank? %>
-                <% for productividad in week[:prod_w] %>
-                <td><%= number_to_currency productividad %></td>
-                <% end %>
-                <% else %>
-                <% if countWeek != 0 %>
-                <% (1..countWeek).each do |i| %>
-                <td></td>
-                <% end %>
-                <% end %>
-                <% end %>
-              </tr>
+                <tr>
+                  <td>Ventas reales</td>
+                  <% if !week[:plan_w].blank? %>
+                    <% for semana in week[:plan_w] %>
+                    <td><%= number_to_currency semana %></td>
+                    <% end %>
+                  <% else %>
+                    <% if countWeek != 0 %>
+                      <% (1..countWeek).each do |i| %>
+                      <td></td>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </tr>
+                <tr>
+                  <td> Semanal (HH) </td>
+                  <% if !week[:dot_w].blank? %>
+                    <% for dotacion in week[:dot_w] %>
+                    <td><%= dotacion %></td>
+                    <% end %>
+                  <% else %>
+                  <% if countWeek != 0 %>
+                      <% (1..countWeek).each do |i| %>
+                      <td></td>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </tr>
+                <tr>
+                  <td>Productividad</td>
+                  <% if !week[:prod_w].blank? %>
+                  <% for productividad in week[:prod_w] %>
+                  <td><%= number_to_currency productividad %></td>
+                  <% end %>
+                  <% else %>
+                  <% if countWeek != 0 %>
+                      <% (1..countWeek).each do |i| %>
+                      <td></td>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </tr>
             </tbody>
-          </table>
-        </div>
-        <% end %>
-        <% else %>
-        <% end %>
-      </div>
-  </div>
-  <div class="formulario-comparacion">
-    <div class="col-md-8 offset-md-2">
-      <div class="sub-titulo-pantalla">Eficiencia</div>
-      <div class="table-responsive">
-        <table id="table_desviaciones" class="table">
-          <thead>
-            <th>Item</th>
-            <th>Valor %</th>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Nivel eficiencia optimizada</td>
-              <td id="efinciencia-op"></td>
-            </tr>
-            <tr>
-              <td>Nivel esfuerzo sin optimizar</td>
-              <td id="efinciencia-real"></td>
-            </tr>
-            <tr>
-              <td>Mejora de eficiencia</td>
-              <td id="eficiencia-total"></td>
-            </tr>
-          </tbody>
         </table>
-      </div>
+      <% end %>
+    <% else %>
+    <% end %>
     </div>
   </div>
-
+</div>
+<div class="formulario-comparacion">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3">
+      <div class="sub-titulo-pantalla">Eficiencia</div>
+      <table id="table_desviaciones" class="table-shift table table-striped">
+        <thead>
+          <th>Item</th>
+          <th>Valor %</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Nivel eficiencia optimizada</td>
+            <td id="efinciencia-op"></td>
+          </tr>
+          <tr>
+            <td>Nivel esfuerzo sin optimizar</td>
+            <td id="efinciencia-real"></td>
+          </tr>
+          <tr>
+            <td>Mejora de eficiencia</td>
+            <td id="eficiencia-total"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 
