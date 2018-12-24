@@ -4,19 +4,11 @@
 
     <%= render 'shared/sidebar' %>
 
-    <div class="col-lg-9 offset-lg-3 dashboard__container">
+    <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
 
       <div class="row">
 
-        <div class="col-12">
-          <div class="dashboard__header">
-            <%= render 'shared/brands-nav' %>
-            <div class="dashboard__header__title">
-              <button data-toggle="sidebar"><i class="fa fa-bars"></i></button>
-              <h2>Dashboard</h2>
-            </div>
-          </div>
-        </div>
+        <%= react_component("DashboardHeader", { title: "Dashboard" }) %>
 
         <div class="col-12 mb-2">
           <div class="card dashboard__filter">
@@ -24,6 +16,7 @@
 
               <div class="form-group">
                 <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Tienda 5</option>
                   <option>Alto Las Condes</option>
                   <option>Departamental</option>
                   <option>Plaza Egaña</option>
@@ -32,6 +25,7 @@
 
               <div class="form-group">
                 <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Departamento 3</option>
                   <option>Juvenil Mujer</option>
                 </select>
               </div>
@@ -40,6 +34,12 @@
                 <select class="dashboard__filter-select" data-filter="select" name="" id="">
                   <option>Abril</option>
                   <option>Mayo</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>2018</option>
                 </select>
               </div>
 
@@ -53,37 +53,12 @@
             <h5 class="card-title">Resultado de búsqueda</h5>
             <p class="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
 
-            <div class="row dashboard__chart__info">
-
-              <div class="col-md-4">
-                <div class="card dashboard__chart__info__item">
-                  <h5 class="dashboard__chart__info__item__title">Cumplimiento plan de venta</h4>
-                  <h6 class="dashboard__chart__info__item__value">95.55%</h6>
-                  <p class="dashboard__chart__info__item__text">Plan $180.725.494. Real $172.803.395</p>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="card dashboard__chart__info__item">
-                  <h5 class="dashboard__chart__info__item__title">Productividad real</h4>
-                  <h6 class="dashboard__chart__info__item__value">$54.875</h6>
-                  <p class="dashboard__chart__info__item__text">Productividad objetivo $85.000</p>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="card dashboard__chart__info__item">
-                  <h5 class="dashboard__chart__info__item__title">Cumplimiento de eficiencia</h4>
-                  <h6 class="dashboard__chart__info__item__value">58.78%</h6>
-                  <p class="dashboard__chart__info__item__text">Eficiencia objetivo 75%</p>
-                </div>
-              </div>
-
-            </div>
+            <%= react_component('Stats') %>
 
             <div class="dashboard__chart__canvas">
               <canvas class="main-dashboard-chart" data-chart="canvas"></canvas>
             </div>
+
           </div>
         </div>
 
@@ -202,6 +177,10 @@
                       </table>
                     </div>
               </div>
+            </div>
+
+            <div class="col-md-8">
+              <%= react_component('EmployeesTable') %>
             </div>
 
           </div>

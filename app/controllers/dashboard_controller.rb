@@ -9,7 +9,7 @@ class DashboardController < ApplicationController
     @stores      = Store.where(id: demo_data[:store]).order(:id)
     @departments = Department.where(id: demo_data[:department]).order(:id)
     @year  = Date.today.year
-    dayNow = day_now_charged
+    # dayNow = day_now_charged
     turnos = Array.new(12, 0)
 
     dataCase = DataCase.where(dep_num: demo_data[:department], month: @month).first

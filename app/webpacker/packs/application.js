@@ -12,7 +12,6 @@ import Chart from 'chart.js';
 import 'bootstrap/dist/js/bootstrap';
 import 'select2';
 import Hello from '../src/javascript/hello';
-import Sidebar from '../src/javascript/sidebar';
 import Select from '../src/javascript/filter';
 
 console.log('Hello World from Tooxs App');
@@ -21,10 +20,6 @@ const components = [
   {
     class: Hello,
     selector: '.main-dashboard-chart'
-  },
-  {
-    class: Sidebar,
-    selector: '.sidebar'
   },
   {
     class: Select,
@@ -41,6 +36,4 @@ components.forEach(component => {
 })
 
 // Support component names relative to this directory:
-
-
 Rails.start();

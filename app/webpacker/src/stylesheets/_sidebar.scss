@@ -13,7 +13,7 @@
     transform: translateX(-100%);
     width: 300px;
     }
-  
+
   &.open {
     transform: translateX(0);
   }
@@ -28,6 +28,7 @@
       display: block;
       float: left;
       height: 40px;
+      padding: 6px 0;
 
       img {
         display: block;
@@ -153,12 +154,20 @@
             padding: 5px 15px 5px 10px;
             font-weight: $font-regular;
             transition: all .2s ease-in-out;
+            @include clearfix;
 
             img {
+              display: block;
+              float: left;
               height: 20px;
               margin-right: 10px;
               vertical-align: middle;
               width: auto;
+            }
+
+            span {
+              display: block;
+              overflow: hidden;
             }
 
             &:hover {
@@ -166,7 +175,7 @@
               color: white;
               text-decoration: none;
               }
-            
+
             &.active {
               background-color: rgba($blue, .1);
               border-color: $blue;
@@ -180,7 +189,7 @@
         }
 
     }
-  
+
   }
 
 }

@@ -1,125 +1,185 @@
-<div class="container-fluid" id="sales_month">
-  <div class="pantalla-seccion d-flex flex-wrap justify-content-between mb-2">
-    <div class="align-self-end">
-      <div class="titulo-pantalla">Estadísticas de ventas</div>
+<div class="container-fluid dashboard">
+
+  <div class="row">
+
+    <%= render 'shared/sidebar' %>
+
+    <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
+
+      <div class="row">
+
+        <%= react_component("DashboardHeader", { title: "Estadísticas de ventas" }) %>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__filter">
+            <form action="">
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Tienda 5</option>
+                  <option selected>Alto Las Condes</option>
+                  <option>Departamental</option>
+                  <option>Plaza Egaña</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Juvenil mujer</option>
+                  <option selected>Moda mujer</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Enero</option>
+                  <option>Febrero</option>
+                  <option>Marzo</option>
+                  <option>Abril</option>
+                  <option selected>Mayo</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>2017</option>
+                  <option selected>2018</option>
+                </select>
+              </div>
+
+              <button>Buscar</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__chart">
+            <button type="button" class="btn btn-sm btn-primary btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i class="fa fa-exchange"></i> Comparar </button>
+          </div>
+        </div>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__chart">
+            <h5 class="card-title">Comparativo de ventas</h5>
+
+            <div class="dashboard__chart__canvas">
+              <%= react_component('LineChartMonth') %>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="card dashboard__table">
+            <h5 class="card-title"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></h5>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                  	<th> <!--<%= link_to "#{@year}", year_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year) %> --></th>
+                    <% week = 0 %>
+                    <% @sale_plan.each do |k,v| %>
+                    <% week += 1 %>
+                    <th><%= "Semana #{week}" %></th>
+                    <!--<th> <%= link_to "Semana #{week}", week_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year, week: k) %> </th> -->
+                    <% end %>
+                    <th> Total </th>
+                  </tr>
+                </thead>
+                <tbody class="">
+                  <tr>
+                    <td>PLAN</td>
+                    <%
+                    @sale_plan.each do |v|
+                      %>
+                      <td><%= number_to_currency v %></td>
+                      <% end %>
+                      <td>
+                        <%= number_to_currency @sale_plan.sum %>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>REAL</td>
+                    <%
+                    @real_sale.each do |v|
+                      %>
+                      <td><%= number_to_currency v %></td>
+                      <% end %>
+                      <td>
+                        <%= number_to_currency @real_sale.sum %>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>HISTORICO</td>
+                    <%
+                    @historic_sale.each do |v|
+                      %>
+                      <td><%= number_to_currency v %></td>
+                      <% end %>
+                      <td>
+                        <%= number_to_currency @historic_sale.sum %>
+                      </td>
+                  </tr>
+
+                </tbody>
+                <tfoot>
+                  <tr class="table-warning">
+                    <td><b>Real vs Plan  </b></td>
+                    <% @dif1.each do |v|%>
+                    <td class="text-centerx"><%= v.round(2) %>%
+                    <% if v > 0  %>
+                      <i class="text-success fa fa-caret-up"></i>
+                    <% else %>
+                      <i class="text-danger fa fa-caret-down"></i>
+                    <% end -%>
+                    </td>
+                    <% end %>
+                    <td class="text-centerx">
+                    <% if @sum_dif != nil %>
+                      <%= @sum_dif.round(2) %>%
+                      <i class="text-success fa fa-caret-up"></i>
+                    <% else %>
+                      <i class="text-danger fa fa-caret-down"></i>
+                    <% end -%>
+                   </td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><b>Real vs Histórico</b> </td>
+                    <% @dif2.each do |v|%>
+                    <td class="text-centerx"><%= v.round(2) %>%
+                    <% if v > 0  %>
+                      <i class="text-success fa fa-caret-up"></i>
+                    <% else %>
+                      <i class="text-danger fa fa-caret-down"></i>
+                    <% end -%>
+                    </td>
+                    <% end %>
+                    <td class="text-centerx">
+                    <% if @sum_dif2 != nil %>
+                      <%= @sum_dif2.round(2) %>%
+                      <i class="text-success fa fa-caret-up"></i>
+                    <% else %>
+                      <i class="text-danger fa fa-caret-down"></i>
+                    <% end -%>
+                   </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <%= render 'shared/footer' %>
+
+      </div>
+
     </div>
-    <div class="align-self-end boton-comparar">
-        <button type="button" class="btn btn-sm btn-primary btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i class="fa fa-exchange"></i> Comparar </button>
-    </div>
+
   </div>
 
-  <div class="row mb-2 dashboard__filter">
-    <%= render 'search_form', locals: { status: 'show', path: month_sales_path} %>
-  </div>
-
-
-  <div class="grafico-1">
-    <div class="grafico-principal">
-      <canvas id="canvas"></canvas>
-    </div>
-  </div>
-
-  <div id="compare_stores"></div>
-
-  <div class="formulario-comparacion grafico-1">
-    <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-          	<th> <!--<%= link_to "#{@year}", year_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year) %> --></th>
-            <% week = 0 %>
-            <% @sale_plan.each do |k,v| %>
-            <% week += 1 %>
-            <th><%= "Semana #{week}" %></th>
-            <!--<th> <%= link_to "Semana #{week}", week_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year, week: k) %> </th> -->
-            <% end %>
-            <th> Total </th>
-          </tr>
-        </thead>
-        <tbody class="">
-          <tr>
-            <td>PLAN</td>
-            <%
-            @sale_plan.each do |v|
-              %>
-              <td><%= number_to_currency v %></td>
-              <% end %>
-              <td>
-                <%= number_to_currency @sale_plan.sum %>
-              </td>
-          </tr>
-
-          <tr>
-            <td>REAL</td>
-            <%
-            @real_sale.each do |v|
-              %>
-              <td><%= number_to_currency v %></td>
-              <% end %>
-              <td>
-                <%= number_to_currency @real_sale.sum %>
-              </td>
-          </tr>
-
-          <tr>
-            <td>HISTORICO</td>
-            <%
-            @historic_sale.each do |v|
-              %>
-              <td><%= number_to_currency v %></td>
-              <% end %>
-              <td>
-                <%= number_to_currency @historic_sale.sum %>
-              </td>
-          </tr>
-
-        </tbody>
-        <tfoot>
-          <tr class="table-warning">
-            <td><b>Real vs Plan  </b></td>
-            <% @dif1.each do |v|%>
-            <td class="text-centerx"><%= v.round(2) %>%
-            <% if v > 0  %>
-              <i class="text-success fa fa-caret-up"></i>
-            <% else %>
-              <i class="text-danger fa fa-caret-down"></i>
-            <% end -%>
-            </td>
-            <% end %>
-            <td class="text-centerx">
-            <% if @sum_dif != nil %>
-              <%= @sum_dif.round(2) %>%
-              <i class="text-success fa fa-caret-up"></i>
-            <% else %>
-              <i class="text-danger fa fa-caret-down"></i>
-            <% end -%>
-           </td>
-          </tr>
-          <tr class="table-warning">
-            <td><b>Real vs Histórico</b> </td>
-            <% @dif2.each do |v|%>
-            <td class="text-centerx"><%= v.round(2) %>%
-            <% if v > 0  %>
-              <i class="text-success fa fa-caret-up"></i>
-            <% else %>
-              <i class="text-danger fa fa-caret-down"></i>
-            <% end -%>
-            </td>
-            <% end %>
-            <td class="text-centerx">
-            <% if @sum_dif2 != nil %>
-              <%= @sum_dif2.round(2) %>%
-              <i class="text-success fa fa-caret-up"></i>
-            <% else %>
-              <i class="text-danger fa fa-caret-down"></i>
-            <% end -%>
-           </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </div>
 </div>
 
 <div class="modal fade slide-right" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true">
@@ -132,34 +192,19 @@
         <h5 class="text-left p-b-5"><span class="semi-bold">Seleccione Tienda para Comparación</span></h5>
       </div>
       <div class="modal-body">
-        <%= simple_form_for @compare, :url => '#', :method => :post, :remote => true, html: { id: 'compare'} do |f| %>
         <div class="row">
-          <div class="col-lg-9 ">
-            <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store], class: 'store_search', label: false %>
-          </div>
-          <div class="col-lg-3 no-padding sm-m-t-10 sm-text-center">
-            <button type="button" class="btn btn-primary btn-lg btn-large fs-15 btn-compare">Comparar</button>
-          </div>
-        </div>
-
-        <div class="row dnx">
-          <div class="col-lg-9">
-
-            <div class="dn">
-            <%= f.input :month, input_html: {value: params[:month]} %>
-            <%= f.input :year, input_html: {value: params[:year]} %>
-            <%= f.input :week, input_html: {value: params[:week]} %>
-
-            <%= f.input :store_source, input_html: {value: params[:store]} %>
-            <%= f.input :department_source, input_html: {value: params[:department]} %>
-            </div>
-
+          <div class="col-12 ">
+            <%= simple_form_for @compare, :url => '#', :method => :post, :remote => true, html: { id: 'compare'} do |f| %>
+              <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store], class: 'custom-select', label: false %>
+              <%= f.input :month, input_html: {value: params[:month]} %>
+              <%= f.input :year, input_html: {value: params[:year]} %>
+              <%= f.input :week, input_html: {value: params[:week]} %>
+              <%= f.input :store_source, input_html: {value: params[:store]} %>
+              <%= f.input :department_source, input_html: {value: params[:department]} %>
+              <button type="button" class="btn btn-primary btn-lg btn-large fs-15 btn-compare">Comparar</button>
+            <% end -%>
           </div>
         </div>
-
-        <% end -%>
-      </div>
-      <div class="modal-footer">
       </div>
     </div>
     <!-- /.modal-content -->

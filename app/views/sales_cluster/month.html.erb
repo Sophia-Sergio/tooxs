@@ -1,65 +1,108 @@
-<div class="container-fluid" id="sales_cluster">
-  <div class="pantalla-seccion d-flex justify-content-between mb-2">
-    <div class="align-self-end">
-      <div class="titulo-pantalla">Comparativo de ventas</div>
-    </div>
-  </div>
+<div class="container-fluid dashboard" id="sales_cluster">
 
-  <div class="row mb-2 dashboard__filter">
-    <%= render 'search_form', locals: { status: 'show', path: month_sales_cluster_index_path} %>
-  </div>
+  <div class="row">
+    <%= render 'shared/sidebar' %>
+    <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
+      <div class="row">
+        <%= react_component('DashboardHeader', { title: 'Comparativo de ventas' }) %>
 
+        <% render 'search_form', locals: { status: 'show', path: month_sales_cluster_index_path} %>
 
+        <div class="col-12 mb-2">
+          <div class="card dashboard__filter">
+            <form action="">
 
- <div class="row" id="compare_stores"></div>
-  <div class="grafico-principal">
-    <div>
-      <div class="grafico-1">Venta Real por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></div>
-      <p class="m-t-20 grafico-1">
-        Tiendas:
-        <% count = 0 %>
-        <% @stores.each do |s| %>
-          <% if count == 0 %>
-            <span><%= s.name %></span>
-            <% count = 1 %>
-          <% else %>
-            <span> - <%= s.name %></span>
-          <% end %>
-        <% end %>
-      </p>
-    </div>
-    <canvas id="canvas"></canvas>
-  </div>
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Tienda 5</option>
+                  <option>Alto Las Condes</option>
+                  <option>Departamental</option>
+                  <option>Plaza Egaña</option>
+                </select>
+              </div>
 
-  <div class="formulario-comparacion">
-  <!-- tabla -->
-    <div class="sub-titulo-pantalla"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></div>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <% week = 0 %>
-            <% if @resultStore.length > 0  %>
-              <% (@resultStore.first[:saleWeek].length).times do |i| %>
-              <th> <%= "Semana #{week += 1 }" %> </th>
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Departamento 3</option>
+                  <option>Juvenil Mujer</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Abril</option>
+                  <option selected>Mayo</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option selected>2018</option>
+                  <option>2017</option>
+                </select>
+              </div>
+
+              <button>Buscar</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__chart">
+            <h5 class="card-title">Venta Real por Segmento - <%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> -  <%= @year %></h5>
+            <p class="card-text">
+              Tiendas:
+              <% count = 0 %>
+              <% @stores.each do |s| %>
+                <% if count == 0 %>
+                  <span><%= s.name %></span>
+                  <% count = 1 %>
+                <% else %>
+                  <span> - <%= s.name %></span>
+                <% end %>
               <% end %>
-            <% end %>
-          </tr>
-        </thead>
-        <tbody>
-          <% @resultStore.each do |store| %>
-          <tr>
-            <td><%= store[:label] %></td>
-            <% store[:saleWeek].each do |v| %>
-              <td><%= number_to_currency v %></td>
-            <% end %>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+            </p>
+
+            <div class="dashboard__chart__canvas">
+              <%= react_component('LineChart') %>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__table">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Tienda</th>
+                    <% week = 0 %>
+                    <% if @resultStore.length > 0  %>
+                      <% (@resultStore.first[:saleWeek].length).times do |i| %>
+                      <th> <%= "Semana #{week += 1 }" %> </th>
+                      <% end %>
+                    <% end %>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @resultStore.each do |store| %>
+                  <tr>
+                    <td><%= store[:label] %></td>
+                    <% store[:saleWeek].each do |v| %>
+                      <td>$<%= number_to_currency(v, precision: 0, unit: '', delimiter: '.') %></td>
+                    <% end %>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <%= render 'shared/footer' %>
+
+      </div>
     </div>
   </div>
-
 </div>
-

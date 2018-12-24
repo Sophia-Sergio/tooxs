@@ -1,0 +1,109 @@
+.table-responsive {
+  overflow-x: auto;
+
+  table {
+
+    thead {
+      tr {
+        th {
+          font-size: 14px !important;
+          padding: 8px 10px;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    tr {
+
+      th[scope=col] {
+        font-size: 12px;
+        }
+
+      td {
+        color: $mid-blue;
+        font-size: 12px !important;
+        padding: 8px 10px;
+        vertical-align: middle;
+
+        &.shifts {
+          background-color: rgba(34, 42, 66, 0.1);
+          color: black;
+          font-weight: bold;
+        }
+
+        &.progress-container {
+          position: relative;
+          }
+
+        .progress {
+          background-color: rgba(34,42,66,.1);
+          border: 1px solid rgba(34,42,66,.1);
+          height: 10px;
+          margin: 0 0 0 30%;
+
+          .progress-value {
+            color: black;
+            font-size: 9px;
+            left: 10px;
+            position: absolute;
+            transform: translateY(-2px);
+          }
+
+          .progress-bar {
+            background-color: #46c4fd;
+            height: auto;
+          }
+
+        }
+
+        .link {
+          background-color: $light-gray;
+          color: $light-blue;
+          display: block;
+          line-height: 20px;
+          text-align: center;
+          transition: all .2s ease-in-out;
+          width: 20px;
+
+          &:focus, &:hover {
+            background-color: $light-blue;
+            color: white;
+          }
+
+        }
+
+
+        .thumbnail {
+          border-radius: 50%;
+          height: 30px;
+          overflow: hidden;
+          width: 30px;
+
+          img {
+            display: block;
+            height: auto;
+            width: 100%;
+          }
+
+        }
+
+        .input-group {
+
+          input {
+            font-size: 12px;
+
+            &:focus {
+              background-color: white;
+              border-color: #46c4fd;
+            }
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
