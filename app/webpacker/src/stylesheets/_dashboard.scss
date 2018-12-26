@@ -15,6 +15,15 @@
 
     }
 
+    .row-eq-height {
+      display: table;
+      width: 100%;
+
+      .col, .col-5, .col-6, .col-7, .col-8 {
+        display: table-cell;
+      }
+    }
+
   }
 
   .item {

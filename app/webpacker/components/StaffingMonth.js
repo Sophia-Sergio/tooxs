@@ -95,12 +95,4 @@ class Staffing extends Component {
   }
 }
 
-Staffing.defaultProps = {
-  title: 'Dashboard title'
-};
-
-Staffing.propTypes = {
-  title: PropTypes.string.isRequired
-};
-
 export default Staffing

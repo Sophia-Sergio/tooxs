@@ -103,14 +103,14 @@ class SidebarItem extends Component {
             active: false,
             name: 'Planificación dotación',
             icon: DotationPlanIcon,
-            link: '/sales/month/'
+            link: '/sellers/staff/'
           },
           {
             id: 2,
             active: false,
             name: 'Dotación produccción',
             icon: DotationProdIcon,
-            link: '/sales_cluster/month/'
+            link: '/tottus/dashboard/production/'
           },
           {
             id: 3,
