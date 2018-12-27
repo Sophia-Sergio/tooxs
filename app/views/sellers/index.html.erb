@@ -1,92 +1,48 @@
-<style type="text/css">
-.dataTables_wrapper .row > div {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    flex-direction: column;
-}
-
-.dataTables_length, #seller-table_filter
-{
-  display: none;
-}
-
-.table.dataTable.no-footer {
-    display: inline-table;
-    border: none;
-    overflow: auto;
-}
-
-table.dataTable thead .sorting,.table thead tr th[class*='sorting_']:not([class='sorting_disabled']) {
-    border-top: 1px solid #eceeef;
-}
-</style>
-
-<div class="container-fluid sellers">
-  <div class="row sellers__title">
-    <div class="col">
-      <h1>Colaboradores Mayo - 2018</h1>
-    </div>
-  </div>
+<div class="container-fluid dashboard" id="sales_cluster">
 
   <div class="row">
-    <div class="col">
-      <div class="sellers__filter">
-        <%= simple_form_for @search, :class => '', :method => :get do |f| %>
-          <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store], label: false  %>
-          <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department], label: false %>
-          <%= button_tag type: 'submit',class: "btn btn-success" do %>
-            <i class="fa fa-search" aria-hidden="true"></i> Buscar
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  </div>
+    <%= render 'shared/sidebar' %>
+    <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
+      <div class="row">
+        <%= react_component('DashboardHeader', { title: 'Colaboradores' }) %>
 
-  <div class="row">
-    <div class="col sellers__productivity-charts">
-      <div class="sellers__productivity-charts__item">
-        <h3 class="sellers__productivity-charts__item__title">Resultado de búsqueda</h3>
-        <div class="sellers__productivity-charts__item__table">
-          <div class="table-responsive">
-            <table id="seller-table" class="table" style="width: 100%">
-              <thead>
-                <tr>
-                  <th>&nbsp;</th>
-                  <th>Nombre</th>
-                  <th class="hidden-md-down">Rut</th>
-                  <th class="hidden-xl-down">Email</th>
-                  <th class="hidden-xl-down">Teléfono</th>
-                  <th>Tienda</th>
-                  <th class="hidden-xs-down">Departamento</th>
-                  <th class="hidden-xs-down">Turno</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @sellers.each do |seller| %>
-                  <tr>
-                    <td>
-                      <div class="thumbnail">
-                        <img src="<%= image_url('table-thumbnail-default.jpg') %>" alt="<%= seller.fullname %>">
-                      </div>
-                    </td>
-                    <td><%= seller.fullname %></td>
-                    <td class="hidden-md-down"><%= seller.rut %></td>
-                    <td class="hidden-xl-down"><%= seller.email %></td>
-                    <td class="hidden-xl-down"><%= seller.phone %></td>
-                    <td><%= seller.store %></td>
-                    <td class="hidden-xs-down"><%= seller.department %></td>
-                    <td class="hidden-xs-down"><%= seller.available_shift.first.name %></td>
-                    <td><%= link_to 'Detalle', seller, class: '' %>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
+        <% render 'search_form', locals: { status: 'show', path: month_sales_cluster_index_path} %>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__filter">
+            <form action="">
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Tienda 5</option>
+                  <option>Alto Las Condes</option>
+                  <option>Departamental</option>
+                  <option>Plaza Egaña</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Departamento 3</option>
+                  <option>Juvenil Mujer</option>
+                </select>
+              </div>
+
+              <button>Buscar</button>
+            </form>
           </div>
         </div>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__table">
+            <h5 class="card-title">Resultado de búsqueda</h5>
+            <%= react_component('SellersTable', { sellers: @sellers }) %>
+          </div>
+        </div>
+
+        <%= render 'shared/footer' %>
+
       </div>
     </div>
   </div>
-
 </div>

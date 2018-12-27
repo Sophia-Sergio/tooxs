@@ -1,51 +1,85 @@
-<div class="container-fluid">
-  <div class="pantalla-seccion d-flex flex-wrap justify-content-between mb-2">
-    <div class="align-self-end">
-      <div class="titulo-pantalla">Ventas reales por colaborador</div>
-    </div>
-    <div class="align-self-end text-right boton-comparar">
-      <%= form_with url: import_sale_by_sellers_path, multipart: true, local: true do %>
-        <br>
-        <%= link_to 'Resetear datos', delete_sale_by_sellers_path, class: "btn" %>
-        <%= link_to 'Descargar datos de prueba', downloads_sale_by_sellers_path, class: "btn" %>
-      <% end %>
-    </div>
-  </div>
+<div class="container-fluid dashboard" id="sales_cluster">
 
-  <div class="formulario-comparacion">
-    <div class="table-responsive">
-      <table class="table" style="width: 100%" id="table-sale_by_seller">
-        <thead>
-          <tr>
-            <th>Colaborador</th>
-            <th>Mes</th>
-            <th>Semana</th>
-            <th>Día</th>
-            <th>Hora</th>
-            <th>Tienda</th>
-            <th>Venta</th>
-            <th>Turno</th>
-            <th>Año</th>
-            <th colspan="1"></th>
-          </tr>
-        </thead>
+  <div class="row">
+    <%= render 'shared/sidebar' %>
+    <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
+      <div class="row">
+        <%= react_component('DashboardHeader', { title: 'Ventas reales por colaborador' }) %>
 
-        <tbody>
-          <% @sale_by_sellers.each do |sale_by_seller| %>
-            <tr>
-              <td><%= sale_by_seller.seller %></td>
-              <td><%= sale_by_seller.month %></td>
-              <td><%= sale_by_seller.week %></td>
-              <td><%= sale_by_seller.day %></td>
-              <td><%= sale_by_seller.hour %></td>
-              <td><%= sale_by_seller.department %></td>
-              <td><%= sale_by_seller.sale %></td>
-              <td><%= sale_by_seller.turn %></td>
-              <td><%= sale_by_seller.year %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+        <div class="col-12 mb-2">
+          <div class="card dashboard__filter">
+            <form action="">
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Tienda 5</option>
+                  <option>Alto Las Condes</option>
+                  <option>Departamental</option>
+                  <option>Plaza Egaña</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="" id="">
+                  <option>Departamento 3</option>
+                  <option>Juvenil Mujer</option>
+                </select>
+              </div>
+
+              <button>Buscar</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__table">
+            <div class="align-self-end text-right mb-3 boton-comparar">
+              <%= form_with url: import_sale_by_sellers_path, multipart: true, local: true do %>
+                <%= link_to 'Resetear datos', delete_sale_by_sellers_path, class: "btn btn-primary" %>
+                <%= link_to 'Descargar datos de prueba', downloads_sale_by_sellers_path, class: "btn btn-primary" %>
+              <% end %>
+            </div>
+            <div class="table-responsive">
+              <%= @sale_by_sellers.inspect %>
+              <table class="table" style="width: 100%" id="table-sale_by_seller">
+                <thead>
+                  <tr>
+                    <th>Colaborador</th>
+                    <th>Mes</th>
+                    <th>Semana</th>
+                    <th>Día</th>
+                    <th>Hora</th>
+                    <th>Tienda</th>
+                    <th>Venta</th>
+                    <th>Turno</th>
+                    <th>Año</th>
+                    <th colspan="1"></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @sale_by_sellers.each do |sale_by_seller| %>
+                    <tr>
+                      <td><%= sale_by_seller.seller %></td>
+                      <td><%= sale_by_seller.month %></td>
+                      <td><%= sale_by_seller.week %></td>
+                      <td><%= sale_by_seller.day %></td>
+                      <td><%= sale_by_seller.hour %></td>
+                      <td><%= sale_by_seller.department %></td>
+                      <td><%= sale_by_seller.sale %></td>
+                      <td><%= sale_by_seller.turn %></td>
+                      <td><%= sale_by_seller.year %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <%= render 'shared/footer' %>
+
+      </div>
     </div>
   </div>
 </div>

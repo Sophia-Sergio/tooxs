@@ -1,0 +1,97 @@
+<div class="container-fluid dashboard">
+
+  <div class="row">
+
+    <%= render 'shared/sidebar' %>
+
+    <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
+
+      <div class="row">
+
+        <%= react_component("DashboardHeader", { title: "Cambio de plan" }) %>
+
+        <div class="col-12 mb-2">
+          <div class="card dashboard__filter">
+            <form action="">
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="store" id="">
+                  <option>Tienda 5</option>
+                  <option>Alto Las Condes</option>
+                  <option>Departamental</option>
+                  <option>Plaza Egaña</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="department" id="">
+                  <option>Departamento 3</option>
+                  <option>Juvenil Mujer</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="month" id="">
+                  <option>Junio</option>
+                  <option>Mayo</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="dashboard__filter-select" data-filter="select" name="year" id="">
+                  <option>2018</option>
+                </select>
+              </div>
+
+              <button>Buscar</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12 mb-2">
+          <%= react_component("ChangePlan", { monthname: "Junio"}) %>
+          <%= react_component("ChangePlan", { monthname: "Julio"}) %>
+          <%= react_component("ChangePlan", { monthname: "Agosto"}) %>
+          <%= react_component("ChangePlan", { monthname: "Septiembre"}) %>
+          <%= react_component("ChangePlan", { monthname: "Octubre"}) %>
+          <%= react_component("ChangePlan", { monthname: "Noviembre"}) %>
+        </div>
+
+        <%= render 'shared/footer' %>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ingresa tus datos para guardar los cambios</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <div class="form-group">
+            <label>Usuario</label>
+            <input class="form-control" type="text" placeholder="Usuario">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input class="form-control" type="password" placeholder="Password">
+          </div>
+          <button class="btn btn-secondary" data-dismiss="modal" type="button">Cerrar</button>
+          <button class="btn btn-primary" type="button">Guardar cambios</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

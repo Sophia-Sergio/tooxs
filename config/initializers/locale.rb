@@ -1,1 +1,1 @@
-I18n.default_locale = 'es-CL'
+I18n.default_locale = :es

@@ -1,0 +1,27 @@
+<nav class="col-lg-3 col-xl-2 sidebar">
+
+  <div class="sidebar__brand">
+    <a class="sidebar__brand__logo" href="<%= root_path %>">
+      <img src="<%= asset_pack_path('images/tooxs-logo-color.svg') %>" alt="Tooxs">
+    </a>
+    <div class="sidebar__brand__user">
+      <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img src="<%= asset_pack_path('images/user_default.jpg') %>" alt="Usuario">
+      </button>
+      <div class="dropdown-menu sidebar__brand__user__menu" aria-labelledby="dropdownMenuButton">
+        <h5 class="name">Carlos Arancibia Pérez</h5>
+        <h6 class="position">Sales manager</h6>
+        <%= Date.today.to_formatted_s(:long) %>
+        <ul>
+          <li><a href="#"><i class="fa fa-edit"></i>Editar perfil</a></li>
+          <li><a href="#"><i class="fa fa-sign-out"></i>Salir</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar__menu">
+    <%= react_component('SidebarItem', { controller: controller_name }) %>
+  </div>
+
+</nav>

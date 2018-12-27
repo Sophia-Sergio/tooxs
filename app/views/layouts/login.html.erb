@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <meta charset="utf-8" />
-  <title>tooxs - workforce management optimizer - login </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
-  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-touch-fullscreen" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta content="" name="description" />
-  <meta content="" name="author" />
-  <%= csrf_meta_tags %>
-  <%= stylesheet_link_tag  'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-</head>
-<body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="icon" href="<%= asset_pack_path('images/favicon.png') %>" type="image/png">
+    <%= csrf_meta_tags %>
+    <%= csrf_meta_tag %>
+    <%= stylesheet_pack_tag 'stylesheets', media: 'all' %>
+    <%= javascript_pack_tag 'application' %>
+  </head>
+  <body>
   <div class="container-fluid h-100 login">
     <div class="row h-100 justify-content-center align-items-center">
 
@@ -23,7 +20,7 @@
 
           <div class="col-md-5 login__brand">
             <div class="login__brand__logo">
-              <%= image_tag 'logo-tooxs.png' %>
+              <img src="<%= asset_pack_path('images/tooxs-logo-color.svg') %>" alt="Tooxs">
             </div>
 
             <div class="login__brand__copyright">
@@ -38,13 +35,13 @@
 
             <div class="login__form__brands">
               <div class="login__form__brands__item">
-                <%= image_tag 'falabella_logo.jpg' %>
+                <img src="<%= asset_pack_path('images/falabella_logo.jpg') %>" alt="Tooxs">
               </div>
               <div class="login__form__brands__item">
-                <%= image_tag 'sodimac_logo.jpg' %>
+                <img src="<%= asset_pack_path('images/sodimac_logo.jpg') %>" alt="Tooxs">
               </div>
               <div class="login__form__brands__item">
-                <%= image_tag 'tottus_logo.jpg' %>
+                <img src="<%= asset_pack_path('images/tottus_logo.jpg') %>" alt="Tooxs">
               </div>
             </div>
 
@@ -69,6 +66,5 @@
     </div>
   </div>
 
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </body>
 </html>
