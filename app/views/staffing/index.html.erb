@@ -58,16 +58,10 @@
         </div>
 
         <div class="col-12 mb-2">
-          <%= @staffing_w4.inspect %>
           <%= react_component('Staffing', {data: @staffing_w4}) %>
           <script type="text/javascript">
-            console.log(JSON.parse(<%= @staffing_w4 %>));
+            console.log(JSON.parse<%= @staffing_w4 %>));
           </script>
-          <div class="card" style="height: 500px; padding: 15px;">
-            <div class="dashboard__chart__canvas">
-              <%= react_component('LineChart') %>
-            </div>
-          </div>
         </div>
 
         <%= render 'shared/footer' %>
