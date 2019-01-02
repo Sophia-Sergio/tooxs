@@ -61,7 +61,12 @@
 
         @include large {
           display: block;
-        }
+          }
+
+        @include medium {
+          height: 30px;
+          width: 30px;
+          }
 
         &:hover {
           background-color: $dark-blue;
@@ -72,9 +77,14 @@
 
       h2 {
         color: black;
-        float: right;
         font-size: 3em;
         margin: 0;
+        overflow: hidden;
+
+        @include medium {
+          font-size: 2em;
+          }
+
         }
 
       }

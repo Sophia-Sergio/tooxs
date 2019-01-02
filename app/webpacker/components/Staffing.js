@@ -4,90 +4,86 @@ import Employee from './Employee'
 import DefaultAvatar from '../images/user_default.jpg'
 
 class Staffing extends Component {
-  state = {
-    tableTitle: 'Semana 1',
-    dates: ['03', '04', '05', '06', '07', '08', '09'],
-    employees: [
-      {
-        id: 1,
-        avatar: '',
-        name: 'Ricardo Gonzalez',
-        sell: 16875507,
-        goal: 36672521,
-        shift: '1',
-        objective: 46.02,
-        link: '/sellers/1'
-      },
-      {
-        id: 2,
-        avatar: '',
-        name: 'Claudia Bravo Lopez',
-        sell: 17873735,
-        goal: 31619145,
-        shift: '2',
-        objective: 56.53,
-        link: '/sellers/2'
-      },
-      {
-        id: 3,
-        avatar: '',
-        name: 'Juan Herrera',
-        sell: 17854275,
-        goal: 31619145,
-        shift: '2',
-        objective: 56.47,
-        link: '/sellers/3'
-      },
-      {
-        id: 4,
-        avatar: '',
-        name: 'Ulises Medina',
-        sell: 16459648,
-        goal: 32187806,
-        shift: '3',
-        objective: 51.14,
-        link: '/sellers/4'
-      },
-      {
-        id: 5,
-        avatar: '',
-        name: 'Rodrigo Sanz',
-        sell: 16436461,
-        goal: 17140530,
-        shift: '3',
-        objective: 51.06,
-        link: '/sellers/4'
-      },
-    ]
+  constructor(props) {
+    super(props);
+    this.state = {
+      weeks: [
+        {
+          days: [
+            {
+              number: '03',
+              sellers: ['Ulises Medina', 'Rodrigo Sanz']
+            },
+            {
+              number: '04',
+              sellers: ['Ulises Medina', 'Rodrigo Sanz']
+            },
+            {
+              number: '05',
+              sellers: ['Ulises Medina', 'Rodrigo Sanz']
+            },
+            {
+              number: '06',
+              sellers: ['Ulises Medina', 'Rodrigo Sanz']
+            },
+            {
+              number: '07',
+              sellers: ['Ulises Medina', 'Rodrigo Sanz']
+            },
+            {
+              number: '08',
+              sellers: ['Ulises Medina', 'Rodrigo Sanz']
+            },
+            {
+              number: '09',
+              sellers: ['Ulises Medina', 'Rodrigo Sanz']
+            }
+          ]
+        },
+      ],
+    };
   }
+
+  tooltipTemplate(sellers) {
+    return (
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title={sellers}>
+        {sellers}
+      </button>
+    );
+  }
+
   render () {
-    const { tableTitle, dates, employees } = this.state;
+    console.log(this.props.data);
+    const { tableTitle, weeks, dates, employees } = this.state;
 
     return (
-      <div className="col-md-6">
-        <div className="card dashboard__table">
-          <div className="dashboard__table__title">{tableTitle}</div>
-          <div className="table-responsive">
-            <table className="table-shift table table-striped">
-              <thead>
-                <tr>
-                  <th className="text-center">Hora</th>
-                  <th className="text-center">L</th>
-                  <th className="text-center">M</th>
-                  <th className="text-center">M</th>
-                  <th className="text-center">J</th>
-                  <th className="text-center">V</th>
-                  <th className="text-center">S</th>
-                  <th className="text-center">D</th>
-                </tr>
-                <tr>
-                  <th className="text-center"></th>
-                  {dates.map(date => <th className="text-center">{date}</th>)}
-                </tr>
-              </thead>
-              <tbody className="t-p-3">
-              </tbody>
-            </table>
+      <div className="row">
+        <div className="col-md-6">
+          <div className="card dashboard__table">
+          <h5 className="card-title">Semana 1</h5>
+            <div className="table-responsive">
+              <table className="table-shift table table-striped">
+                <thead>
+                  <tr>
+                    <th className="text-center">Hora</th>
+                    <th className="text-center">L</th>
+                    <th className="text-center">M</th>
+                    <th className="text-center">M</th>
+                    <th className="text-center">J</th>
+                    <th className="text-center">V</th>
+                    <th className="text-center">S</th>
+                    <th className="text-center">D</th>
+                  </tr>
+                  <tr>
+                    <th className="text-center"></th>
+                    {dates.map(date => <th className="text-center">{date}</th>)}
+                  </tr>
+                </thead>
+                <tbody className="t-p-3">
+                  {weeks[0].days.map(day => <th className="text-center">{day}</th>)}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

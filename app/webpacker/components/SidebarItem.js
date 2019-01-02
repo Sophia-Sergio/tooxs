@@ -124,21 +124,21 @@ class SidebarItem extends Component {
             active: false,
             name: 'Comparativo',
             icon: ComparativeReportIcon,
-            link: '/sellers/'
+            link: '/productivity_cluster/month?utf8=✓&cluster=1&department=1&year=2018&month=5'
           },
           {
             id: 5,
             active: false,
             name: 'Eficiencia',
             icon: EfficiencyIcon,
-            link: '/staffing/index/'
+            link: '/efficiency/index/'
           },
           {
             id: 6,
             active: false,
             name: 'Cobertura',
             icon: CoverageIcon,
-            link: '/staffing/index/'
+            link: '/sellers/staffing_store/'
           }
         ]
       },
