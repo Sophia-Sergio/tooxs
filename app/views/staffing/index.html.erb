@@ -58,10 +58,8 @@
         </div>
 
         <div class="col-12 mb-2">
-          <%= react_component('Staffing', {data: @staffing_w4}) %>
-          <script type="text/javascript">
-            console.log(JSON.parse<%= @staffing_w4 %>));
-          </script>
+          <%=  @staffing_w4.inspect %>
+          <%= react_component('Staffing', { data: @staffing_w4 }) %>
         </div>
 
         <%= render 'shared/footer' %>

@@ -75,7 +75,6 @@ class SalesClusterController < ApplicationController
       elementSet << { label: element[:label], fill: element[:fill], data: element[:realMonth],  backgroundColor: element[:backgroundColor], borderColor: element[:borderColor]}
     end
 
-
     @data = { :labels => elements.first[:dates], :datasets => elementSet }
     render json: @data
   end
