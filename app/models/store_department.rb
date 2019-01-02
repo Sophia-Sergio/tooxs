@@ -12,7 +12,7 @@ class StoreDepartment < ApplicationRecord
   has_many :sellers
   has_many :users
   has_many :cashiers
-  has_many :target_producitivities
+  has_many :target_productivities
   has_many :target_sales
 
   def optimized_shifts(opt)

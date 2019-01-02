@@ -24,6 +24,26 @@ class Achievement < ApplicationRecord
     Settings.periods_keys.zip(array).to_h
   end
 
+  def self.productivity_by_hour(start_date, end_date)
+    (start_date.to_date..end_date.to_date).each_with_object({}) do |date, hash|
+      workers = User.working_on_date(date).workers_by_hour
+      achievements = Achievement.by_date(date).sum_by_hour
+      productivity = achievements.keys.map { |hour| (achievements[hour] / workers[hour].to_f).round(2) }
+      hash[date] = achievements.keys.zip(productivity).to_h
+    end
+  end
+
+  def self.productivity_rate(start_date, end_date)
+    productivities = productivity_by_hour(start_date, end_date)
+    productivities.each_with_object({}) do |productivity, hash|
+      target_productivity = TargetProductivity.by_date(productivity[0])
+      productivity_rates = productivity[1].values.map do |amount|
+        (amount / target_productivity.to_f).round(2)
+      end
+      hash[productivity[0]] = productivity[1].keys.zip(productivity_rates).to_h
+    end
+  end
+
   # scope :by_year, ->(year) { where(year: year) }
 
   # def self.number_of_sales_by_hour

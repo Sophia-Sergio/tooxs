@@ -5,9 +5,17 @@ class Settings < Settingslogic
   STORES_ALLOWED = ['Alto Las Condes'].freeze
   DEPARTMENTS_ALLOWED = ['Rincón Juvenil Hombre', 'Moda Mujer', 'Accesorios Mujer']
   DEMO_DEPARTMENTS = YAML.load_file("#{Rails.root}/config/demo_departments.yml")
+  YEARS = [2017, 2018, 2019]
 
   def month_end(year, month)
-    month_start(year, month) + (weeks_by_month[month] * 7 - 1)
+    month_start(year.to_i, month.to_i) + (weeks_by_month[month.to_i] * 7 - 1)
+  end
+
+  def year_period(year)
+    {
+      start: month_period(year, 1)[:start],
+      end: month_period(year, 12)[:end],
+    }
   end
 
   def month_period(year, month)
@@ -22,18 +30,48 @@ class Settings < Settingslogic
     Date.new(date[0], date[1], date[2])
   end
 
+  def week_by_date(year, month, date)
+    weeks_by_month[month].times do |week|
+      period = week_period(year, month, week)
+      return week if (period[:start]..period[:end]).cover? date.to_date
+    end
+  end
+
+  def config_date(date)
+    year = year_by_date(date)
+    month = month_by_date(year, date)
+    {
+      year: year,
+      month: month,
+      week: week_by_date(year, month, date)
+    }
+  end
+
+  def year_by_date(date)
+    YEARS.each do |year|
+      return year if (year_period(year)[:start]..year_period(year)[:end]).cover? date.to_date
+    end
+  end
+
+  def month_by_date(year, date)
+    (1..12).each do |month|
+      period = month_period(year, month)
+      return month if (period[:start]..period[:end]).cover? date.to_date
+    end
+  end
+
   def periods_keys
     [
-      '11:00:00 - 12:00:00',
-      '12:00:00 - 13:00:00',
-      '13:00:00 - 14:00:00',
-      '14:00:00 - 15:00:00',
-      '15:00:00 - 16:00:00',
-      '16:00:00 - 17:00:00',
-      '17:00:00 - 18:00:00',
-      '18:00:00 - 19:00:00',
-      '19:00:00 - 20:00:00',
-      '20:00:00 - 21:00:00'
+      '11 - 12',
+      '12 - 13',
+      '13 - 14',
+      '14 - 15',
+      '15 - 16',
+      '16 - 17',
+      '17 - 18',
+      '18 - 19',
+      '19 - 20',
+      '20 - 21'
     ]
   end
 
@@ -86,7 +124,13 @@ class Settings < Settingslogic
     month_start(year, month) + (week - 1) * 7
   end
 
-  def day_rate(week_sales, day)
+  def period_labels(period)
+    (period[:start]..period[:end]).map { |date| "#{date.day}-#{date.strftime('%m')}" }
+  end
+
+  ## demo data
+
+  def day_rate(week_sales, day, sellers)
     random_rates = (1..10).map do |hour|
       random_rate = rand(0.42..0.48) if (1..5).cover? day
       random_rate = rand(0.93..1.74) if (6..7).cover? day
@@ -95,7 +139,8 @@ class Settings < Settingslogic
       random_rate *= rand(1.15..1.38) if hour == 10
       random_rate.round(2)
     end
-    periods_keys.zip(random_rates.map { |rate| (week_sales * (rate / 100)).round }).to_h
+    sellers = 1 if sellers.zero?
+    periods_keys.zip(random_rates.map { |rate| ((week_sales * (rate / 100)) / sellers ).round }).to_h
   end
 
   def achievements_department_base

@@ -15,6 +15,15 @@ class User < ApplicationRecord
 
   scope :working_on_date, ->(date) { joins(:worked_shifts).where('date = ?', date) }
 
+  def self.workers_by_hour
+    dates = joins(", generate_series(
+            worked_shifts.check_in,
+            worked_shifts.check_out - interval '1' hour,
+            interval '1 hour') custom_interval")
+            .group('custom_interval').order('custom_interval').count
+    dates.keys.map { |date| "#{date.hour} - #{(date.hour + 1)}" }.zip(dates.values).to_h
+  end
+
   def set_role
     add_role self.class.to_s.downcase.to_sym
   end
@@ -26,13 +35,6 @@ class User < ApplicationRecord
   def plan_check_out(opts)
     shifts.find_case(opts).work_shift.plan_shifts.find_case(opts).check_out
   end
-
-
-  def self.working_by_date(date)
-
-  end
-
-
 
   def can_wiew_sale_planification?
     can_view %w[admin gcc gcp gz gt gv jd]
