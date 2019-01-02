@@ -18,8 +18,10 @@ class ApplicationController < ActionController::Base
     # busco los vendedores y veo sus turnos
     sellers = Seller.where(store: 1, department: 1)
 
+
     sellers.each do |s|
       s.my_shift.each do |my_shift|
+
         day = my_shift[0].to_sym
         hours = (my_shift[1].to_i..my_shift[2].to_i).to_a
         days[day][:hours] << hours
@@ -30,14 +32,13 @@ class ApplicationController < ActionController::Base
     days.each { |k, v| days[k][:hours] = v[:hours].inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }}
   end
 
-	def staffing_draw(start_date)
+  def staffing_draw(start_date)
+    @staffing = staffing
+    hours = []
+    dates = []
 
-		@staffing = staffing
-		hours = []
-		dates = []
-
-		start_date 	= start_date.to_s.to_date
-		end_date	= start_date + 6.days
+    start_date = start_date.to_s.to_date
+    end_date = start_date + 6.days
 
     day_hours = [
       :nine,
@@ -57,50 +58,35 @@ class ApplicationController < ActionController::Base
       :twenty_three
     ]
 
-		(9..24).each {|h| hours << h }
+    (9..24).each {|h| hours << h }
 
-    #day_hours.each {|h| hours << h.second }
-
-		(start_date..end_date).each do |d|
-			dates << d.strftime("%Y%m%d")
-		end
-
-		result = {}
-
-		hours.each_with_index do |h,i|
+    (start_date..end_date).each do |d|
+      dates << d.strftime("%Y%m%d")
+    end
+    result = {}
+    hours.each_with_index do |h,i|
       result[h.to_s.to_sym] = []
-			#result[h] = []
-			days = []
-
-			dates.each do |d|
-				days << @staffing[d.to_sym][:hours][h]
-			end
-
+      #result[h] = []
+      days = []
+      dates.each do |d|
+        days << @staffing[d.to_sym][:hours][h]
+      end
       #result[h.to_s.to_sym] << days
-			result[h.to_s.to_sym] << days
-		end
-
-
+      result[h.to_s.to_sym] << days
+    end
     spd = []
 
     result.values.each{ |v| spd << v.first }
     sellers_per_day = spd.transpose.map {|x| x.reduce(:+)}
 
-		week = { :dates => dates, :draw => result, :sellers_per_day => sellers_per_day}
-	end
+    week = { :dates => dates, :draw => result, :sellers_per_day => sellers_per_day}
+  end
 
-  def seller_staffing(seller, month, year)
+  def seller_staffing(store, seller, opts = {})
+    year  = opts[:year]
+    month = opts[:year]
 
-    @store = seller.store.id
-    @dep   = seller.department.id
-    @year  = year
-    @month = month
-
-    @sellers = Seller.where( department_id: @dep, store_id: @store)
-
-    @depInf = Department.find(@dep)
-
-    @depInf.productivity_obj
+    @sellers = store.sellers.by_department(seller.department)
 
     result = []
     (1..4).each do |w|
@@ -109,6 +95,7 @@ class ApplicationController < ActionController::Base
       dayResult = Array.new(7)
       planTotalResult = Array.new(7)
       planResult = Array.new(7)
+
       (1..7).each do |d|
           #recorrer todos los turnos
           countAll = 0
@@ -149,6 +136,8 @@ class ApplicationController < ActionController::Base
               countAll += 1 if s.thirteen
 
               countAllfourteen += 1 if s.fourteen
+              print s.id if s.fourteen
+              puts '-'*500
               countAll += 1 if s.fourteen
 
               countAllfifteen += 1 if s.fifteen
@@ -208,7 +197,7 @@ class ApplicationController < ActionController::Base
           @day = AvailableShift.where( num: seller.assigned_shift, week: @week, day: d, month: @month)
           saleMonth = 0
 
-          @sp_day = SalePlan.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d)
+          @sp_day = PlanSale.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d)
 
           saleMonthnine = 0
           saleMonthten = 0
@@ -268,7 +257,7 @@ class ApplicationController < ActionController::Base
           totalDaySeller += saleMonthtwenty_three / countAlltwenty_three if countAlltwenty_three != 0
           totalDaySeller += saleMonthtwenty_four / countAlltwenty_four if countAlltwenty_four != 0
 
-          @sp_m1 = SalePlan.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
+          @sp_m1 = PlanSale.where(year: @year).where(month: @month, store_id: @store, department_id: @dep, week: @week, day_number: d).map{|x| x.nine + x.ten + x.eleven + x.twelve + x.thirteen + x.fourteen + x.fifteen + x.sixteen + x.seventeen + x.eighteen + x.nineteen + x.twenty + x.twenty_one + x.twenty_two + x.twenty_three + x.twenty_four}
           dayResult[d-1] = count
           planTotalResult[d-1] = totalDaySeller
       end
@@ -285,74 +274,63 @@ class ApplicationController < ActionController::Base
   end
 
   def brain_json(month, year, store, department)
-      month = month.to_i
-      year = year.to_i
-      store = store.to_i
-      department = department.to_i
+    month = month.to_i
+    year = year.to_i
+    store = store.to_i
+    department = department.to_i
 
-      #[1,10,28,1] 1010672 # [numero, hora, dia, numero] valor
-      # inicio crear plan_venta, tengo que crear el formato del plan de venta para 4 semanas
+    #[1,10,28,1] 1010672 # [numero, hora, dia, numero] valor
+    # inicio crear plan_venta, tengo que crear el formato del plan de venta para 4 semanas
 
-      spm1 = SalePlan.where(year: year, month: month, store_id: store, department_id: department).where("week IN(1, 2, 3, 4)").order(:id).map{|x, j|
+    spm1 = PlanSale.where(year: year, month: month, store_id: store, department_id: department).order(:id).map{|x, j|
+      "[1,1,countRow,1] #{x.eleven}, " + "[1,2,countRow,1] #{x.twelve}, " + "[1,3,countRow,1] #{x.thirteen}, " +
+      "[1,4,countRow,1] #{x.fourteen}, " + "[1,5,countRow,1] #{x.fifteen}, " + "[1,6,countRow,1] #{x.sixteen}, " +
+      "[1,7,countRow,1] #{x.seventeen}, " +
+      "[1,8,countRow,1] #{x.eighteen}, " + "[1,9,countRow,1] #{x.nineteen}, " + "[1,10,countRow,1] #{x.twenty}"
+    }
+    countRow = 1
+    plan_venta_string = ''
 
-        "[1,1,countRow,1] #{x.eleven}, " + "[1,2,countRow,1] #{x.twelve}, " + "[1,3,countRow,1] #{x.thirteen}, " +
-        "[1,4,countRow,1] #{x.fourteen}, " + "[1,5,countRow,1] #{x.fifteen}, " + "[1,6,countRow,1] #{x.sixteen}, " +
-        "[1,7,countRow,1] #{x.seventeen}, " +
-        "[1,8,countRow,1] #{x.eighteen}, " + "[1,9,countRow,1] #{x.nineteen}, " + "[1,10,countRow,1] #{x.twenty}"
+    spm1.each { |day|
+      plan_venta_string += " " + day.gsub('countRow', countRow.to_s)
+      countRow += 1
+    }
+    plan_venta_string = plan_venta_string.slice 1 .. plan_venta_string.length
+    # fin crear plan_venta
 
-      }
-      countRow = 1
-      plan_venta_string = ''
+    data_case = DataCase.find_by(month: month, year: year, department: department)
+    staffingCase = data_case.staffing_case
 
-      spm1.each do |day|
-        plan_venta_string += " " + day.gsub('countRow', countRow.to_s)
-        countRow += 1
-      end
-      plan_venta_string = plan_venta_string.slice 1 .. plan_venta_string.length
-      #asd
-      # fin crear plan_venta
-
-      dataCase = DataCase.where(month: month, year: year, dep_num: department)
-
-      if dataCase.blank? == true
-          # debería crear un caso automático en este caso cargaremos uno predefinido
-          case_api = 33
-      else
-          case_api = dataCase.first[:id_case]
-      end
-          staffingCase = StaffingCase.where(id_case: case_api.to_i).first
-          dataCase = DataCase.where(id_case: case_api.to_i).first
-
-      if staffingCase
-        @data =
+    if staffingCase
+      @data =
+      {
+        'accion': 'ejecutar',
+        'id_caso': data_case.id,
+        'tolerancia': (3).round(1),
+        'evaluar_dotacion_real': staffingCase.actual_staffing_eval.to_i,
+        'tiempo_maximo': staffingCase.max_time.to_i,
+        'usuario': staffingCase.user.to_s,
+        'datos':
         {
-          'accion': 'ejecutar',
-          'id_caso': staffingCase.id_case.to_i,
-          'tolerancia': (3).round(1),
-          'evaluar_dotacion_real': staffingCase.actual_staffing_eval.to_i,
-          'tiempo_maximo': staffingCase.max_time.to_i,
-          'usuario': staffingCase.user.to_s,
-          'datos':
-          {
-            'num_turnos': dataCase.turn_num,
-            'num_departamentos': dataCase.dep_num,
-            'num_ventanas': 1,
-            'num_dias_ventana': dataCase.day_num,
-            'num_horas_dia': dataCase.hour_day,
-            'valor_hp': dataCase.hp_val.round(1),
-            'prod_obj': dataCase.prod_obj.round(1),
-            'VHP': '',
-            'POV': dataCase.pov,
-            'Entrada_Almuerzo': dataCase.lunch_in,
-            'Horas_Almuerzo': dataCase.lunch_hours,
-            'min_horas': dataCase.hour_min,
-            'matriz_turnos': dataCase.turns_matrix.to_s,
-            'dotacion_real': dataCase.real_dot.to_s,
-            'plan_venta': plan_venta_string
-          }
+          'num_turnos': data_case.turn_num,
+          'num_departamentos': data_case.department.id,
+          'num_ventanas': 1,
+          'num_dias_ventana': data_case.day_num,
+          'num_horas_dia': data_case.hour_day,
+          'valor_hp': data_case.hp_val.round(1),
+          'prod_obj': data_case.target_productivity.round(1),
+          'VHP': '',
+          'POV': data_case.pov,
+          'Entrada_Almuerzo': data_case.lunch_in,
+          'Horas_Almuerzo': data_case.lunch_hours,
+          'min_horas': data_case.hour_min,
+          'matriz_turnos': data_case.turns_matrix.to_s,
+          'dotacion_real': data_case.real_dot.to_s,
+          'plan_venta': plan_venta_string
         }
-      end
-      @data.to_json
+      }
+    end
+    @data.to_json
   end
 
   def calculo_semanal(datos, dias)
@@ -496,6 +474,8 @@ class ApplicationController < ActionController::Base
   end
 
   def cerebro_sumatoria_turnos_optimizado(plan, id_case)
+
+
     if plan.length != 0
       plan = JSON.parse(plan)
       num_dias_ventana = plan["datos"]["num_dias_ventana"].to_i
@@ -503,7 +483,7 @@ class ApplicationController < ActionController::Base
 
 
       # calcular turnos cubiertos
-      summaryCase = SummaryCase.where(id_case: id_case, type_io: "out").first
+      summaryCase = SummaryCase.where(data_case: id_case, type_io: "out").first
       if summaryCase
         opt_turn = summaryCase.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
       else
@@ -564,7 +544,7 @@ class ApplicationController < ActionController::Base
 
 
       # calcular turnos cubiertos
-      summaryCase = SummaryCase.where(id_case: id_case, type_io: "in").first
+      summaryCase = SummaryCase.where(data_case: id_case, type_io: "in").first
 
 
       if summaryCase
@@ -574,17 +554,15 @@ class ApplicationController < ActionController::Base
       end
       turnosOptimizados = Array.new(12, 0)
 
-      opt_turn.each do |turn|
-        turn = turn.split(":")
-        turnosOptimizados[turn[0].to_i-1] = turn[1].to_i
-      end
+      turnosOptimizados = opt_turn.map { |turno_dotacion| turno_dotacion.split(':')[1] }.map(&:to_i)
+
 
       count = 1
       dotacion = []
-      turnosOptimizados.each do |turno|
+      turnosOptimizados.each { |turno|
         dotacion << "#{count},1,1] #{turno}"
         count += 1
-      end
+      }
 
       totalTurnosReales = total_turnos(plan, dotacion)
 
@@ -678,7 +656,7 @@ class ApplicationController < ActionController::Base
   end
 
   def day_now_charged
-    last_sale = SaleBySeller.last
+    last_sale = SellerSale.last
     { day: last_sale.day, week: last_sale.week }
   end
 
@@ -694,7 +672,7 @@ class ApplicationController < ActionController::Base
       turnosEntrada[turn.to_i-1] += 1
     end
     #turnos de salida
-    summaryCaseOut = SummaryCase.where( id_case: id_case, type_io: 'out').first
+    summaryCaseOut = DataCase.find(id_case).summary_case_output
     if summaryCaseOut
       opt_turn = summaryCaseOut.real_dot.tr('{', '').tr(' ','').tr('}', '').split(%r{,\s*})
     else
@@ -727,14 +705,14 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  def matrix_calc (prod_obj, matrix, staff)
+  def matrix_calc(prod_obj, prod_real, staff)
     exceso = 0
     faltante = 0
     matrixSet = []
 
-    (matrix.length).times do |i|
+    (prod_real.length).times do |i|
 
-      if matrix[i] == 0
+      if prod_real[i] == 0
 
         calculo = 0
 
@@ -744,7 +722,7 @@ class ApplicationController < ActionController::Base
         if calculo >= 0
           exceso += calculo
         else
-          faltante += calculo
+          faltante += desvio
         end
 
       end

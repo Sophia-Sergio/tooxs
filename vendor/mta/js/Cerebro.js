@@ -807,15 +807,13 @@ Cerebro.obtenerResumen = function()
 Cerebro.save = function()
 {
 	data = $.ajax({
-      type: "post",
-      url: "/productivity/save_case",
-      data: { result: Cerebro.brainJson, salida: Cerebro.salida, resumen: Cerebro.resumen, turnos: Cerebro.turnos, plan: plan_enviado},
-      dataType: 'json',
-      success: function(data)
-      {
-      	location.reload();
-      }
-  	});
-
-
+    type: "post",
+    url: "/productivity/save_case",
+    data: { result: Cerebro.brainJson, salida: Cerebro.salida, resumen: Cerebro.resumen, turnos: Cerebro.turnos, plan: plan_enviado},
+    dataType: 'json',
+    success: function(data)
+    {
+      location.reload();
+    }
+  });
 }

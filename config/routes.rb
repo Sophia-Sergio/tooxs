@@ -40,7 +40,11 @@ Rails.application.routes.draw do
   get 'dashboard/productividad'
   get 'data_master/index'
 
-  resources :sales_statistics
+  namespace :api do
+    namespace :v1 do
+      get 'statistics/graph'
+    end
+  end
 
   get 'productivity_cluster/month'
   get 'productivity_cluster/json_month'
@@ -58,7 +62,7 @@ Rails.application.routes.draw do
   get 'staffing/show'
 
   # get 'assigned_shift/show'
-  resources :sale_reals, only: [:index] do
+  resources :real_sales, only: [:index] do
     collection do
       post 'import'
       get 'delete'
@@ -160,10 +164,6 @@ Rails.application.routes.draw do
 
   resources :stores do
     collection { post 'import' }
-  end
-
-  authenticated :user, ->(u) { u.role == 'colaborador' } do
-    root to: 'sellers#show', as: :colaborador_root
   end
 
   root 'dashboard#index'

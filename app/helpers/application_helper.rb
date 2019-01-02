@@ -21,7 +21,9 @@ module ApplicationHelper
       stores: Store.first(2).pluck(:name, :id),
       departments: MasterDepartment.all.pluck(:name, :id),
       years: (2016..2018),
-      months: months_until(7)
+      months: months_until(7),
+      cluster: Cluster.where(id: 1),
+      cluster_object: Cluster.find(1)
     }
   end
 

@@ -1,47 +1,18 @@
 class StaffingController < ApplicationController
+  include FilterParameters
+  skip_before_action :verify_authenticity_token
+  before_action :set_params, only: %i[index]
+  before_action :set_store, only: %i[index]
+  before_action :set_department, only: %i[index]
+
   def index
-
-    if params[:department] == nil
-      params[:department] = 1
-      params[:store] = 1
-      params[:month] = 6
-    end
-
-    @month = params[:month]
-    @year  = Date.today.strftime("%Y")
-    @store = params[:store].to_i
-    @dep   = params[:department].to_i
-
-    #days of the week for this query dias de la semana según comienzo
-    @w1_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 1, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}.reverse
-    @w2_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 2, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}.reverse
-    @w3_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 3, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}.reverse
-    @w4_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => 4, store_id: @store, department_id: 1).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d-%m-%Y').to_sym}.reverse
-
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Dotación personal", :staffing_index_path
-  	@search       = ''
-    @stores       = Store.where(id: 1)
-    @departments  = Department.where(:id => [1,5]).order(:id)
-    #staffing
-    if @w1_days.length > 0
-      fecha1 = DateTime.parse(@w1_days[0].to_s)
-      fecha1 = fecha1.strftime("%Y%m%d")
-      fecha2 = DateTime.parse(@w2_days[0].to_s)
-      fecha2 = fecha2.strftime("%Y%m%d")
-
-      fecha3 = DateTime.parse(@w3_days[0].to_s)
-      fecha3 = fecha3.strftime("%Y%m%d")
-
-      fecha4 = DateTime.parse(@w4_days[0].to_s)
-      fecha4 = fecha4.strftime("%Y%m%d")
-
-      @staffing_w1  = staffing_draw_real(fecha1, @store, @dep)
-      @staffing_w2  = staffing_draw_real(fecha2, @store, @dep)
-      @staffing_w3  = staffing_draw_real(fecha3, @store, @dep)
-      @staffing_w4  = staffing_draw_real(fecha4, @store, @dep)
-    end
-
+    sale_plans = @store.sale_plans.by_year_and_month(@year, @month)
+                       .by_department(@department)
+    dates_by_week = sale_plans.dates_by_week(day_number = 1)
+    @staffing_w1  = staffing_draw_real(dates_by_week[1], @store, @department)
+    @staffing_w2  = staffing_draw_real(dates_by_week[2], @store, @department)
+    @staffing_w3  = staffing_draw_real(dates_by_week[3], @store, @department)
+    @staffing_w4  = staffing_draw_real(dates_by_week[4], @store, @department)
   end
 
   def staffing_real(store, department)

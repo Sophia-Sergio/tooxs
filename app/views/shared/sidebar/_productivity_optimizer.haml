@@ -1,0 +1,12 @@
+%li
+  .sub-menu-title
+    %span.title OPTIMIZADOR DE PRODUCTIVIDAD
+  %ul.sub-menu
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'historico.jpg', class: 'icon-min-menu'
+      = link_to('Optimizar turnos', productivity_show_path)
+    %li.sub-title
+      %span.icon-thumbnail
+        = image_tag 'optimizador.jpg', class: 'icon-min-menu'
+      = link_to('Análisis de horas', hour_analysis_index_path)

@@ -1,14 +1,14 @@
-%div.card-block
-  = simple_form_for '', url: config_filter_parameters_path, method: :post do |f|
-    %div.row.row--right
-      %div.col-12.col-sm-6.col-md-6.col-lg-3
-        = f.input :store, collection: filter[:stores], label: false, wrapper: :select2, selected: 1
-      %div.col-12.col-sm-6.col-md-6.col-lg-3
-        = f.input :department, collection: filter[:departments], label: false, wrapper: :select2, selected: 1
-      %div.col-12.col-sm-3.col-md-6.col-lg-2
-        = f.input :year, collection: filter[:years], label: false, wrapper: :select2, selected: 2018
-      %div.col-12.col-sm-3.col-md-6.col-lg-2
-        = f.input :month, collection: filter[:months], label: false, wrapper: :select2, selected: 1
+.card-block
+  = simple_form_for '', url: route, method: :get do |f|
+    .row.row--right
+      .col-12.col-sm-6.col-md-6.col-lg-3
+        = f.input :store, collection: filter[:stores], label: false, wrapper: :select2, selected: params[:store] || 1
+      .col-12.col-sm-6.col-md-6.col-lg-3
+        = f.input :department, collection: filter[:departments], label: false, wrapper: :select2, selected: params[:department] || 1
+      .col-12.col-sm-3.col-md-6.col-lg-2
+        = f.input :year, collection: filter[:years], label: false, wrapper: :select2, selected: params[:year] || 2018
+      .col-12.col-sm-3.col-md-6.col-lg-2
+        = f.input :month, collection: filter[:months], label: false, wrapper: :select2, selected: params[:month] || 6
       = button_tag 'submit', class: 'btn btn-success' do
         %i.fa.fa-search{aria: { hidden: 'true'} }
         Buscar

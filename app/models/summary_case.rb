@@ -1,2 +1,0 @@
-class SummaryCase < ApplicationRecord
-end

@@ -13,8 +13,11 @@
 !/log/.keep
 !/tmp/.keep
 
+/lib/tasks/data
+
 /node_modules
 /yarn-error.log
+/public/packs
 
 .byebug_history
 .DS_Store/public/packs

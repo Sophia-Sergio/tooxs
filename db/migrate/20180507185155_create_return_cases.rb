@@ -1,7 +1,7 @@
 class CreateReturnCases < ActiveRecord::Migration[5.1]
   def change
     create_table :return_cases do |t|
-      t.integer :id_case
+      t.references :data_case, foreign_key: true
       t.string :eff_margin
       t.integer :total_surplus
       t.string :compensation_cost

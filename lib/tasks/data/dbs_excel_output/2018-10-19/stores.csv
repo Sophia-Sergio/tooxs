@@ -1,0 +1,7 @@
+id,name,street,number,city,district,country,created_at,updated_at,origin_id,county,size,economic_segment,cluster_id
+1,Alto Las Condes,Av. Pdte. Kennedy Lateral ,9001,Santiago,-,CL,2018-11-19 14:08:05.013635,2018-11-19 14:08:05.013635,1,Las Condes,Grande,ABC1,1
+2,Parque Arauco,Av Presidente Kennedy,5413,Santiago,-,CL,2018-11-19 14:08:05.035226,2018-11-19 14:08:05.035226,2,Las Condes,Grande,ABC1,1
+3,Plaza Oeste,Av. Américo Vespucio,1501,Santiago,-,CL,2018-11-19 14:08:05.054148,2018-11-19 14:08:05.054148,3,Cerrillos,Grande,C3,3
+4,Santiago Centro,Ahumada,112,Santiago,-,CL,2018-11-19 14:08:05.066563,2018-11-19 14:08:05.066563,4,Santiago,Grande,C3,3
+5,Plaza Egaña,Av. Larrain,5,Santiago,-,CL,2018-11-19 14:08:05.086976,2018-11-19 14:08:05.086976,5,La Reina,Grande,C2,2
+6,Portal La Dehesa,Av. La Dehesa,1445,Santiago,-,CL,2018-11-19 14:08:05.101484,2018-11-19 14:08:05.101484,6,Lo Barnechea,Grande,C2,2

@@ -1,0 +1,369 @@
+'Accesorios Mujer':
+  sales_rate: 2.42
+  staff_type:
+  employees:
+    sellers: 10
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Accesorios y Ropa Interior':
+  sales_rate: 1.59
+  staff_type:
+  employees:
+    sellers: 10
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Alfombras, Cortinas y Tapices':
+  sales_rate: 0.52
+  staff_type:
+  employees:
+    sellers: 4
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Bebes':
+  sales_rate: 2.03
+  staff_type:
+  employees:
+    sellers: 12
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Calzado  Infantil':
+  sales_rate: 0.42
+  staff_type:
+  employees:
+    sellers: 3
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Calzado Hombre':
+  sales_rate: 1.39
+  staff_type:
+  employees:
+    sellers: 10
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Calzado Mujer':
+  sales_rate: 3.02
+  staff_type:
+  employees:
+    sellers: 20
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Camisería ':
+  sales_rate: 0.82
+  staff_type:
+  employees:
+    sellers: 5
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Carteras':
+  sales_rate: 0.79
+  staff_type:
+  employees:
+    sellers: 5
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Colchones':
+  sales_rate: 2.49
+  staff_type:
+  employees:
+    sellers: 16
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Computación y Hogar':
+  sales_rate: 9.44
+  staff_type:
+  employees:
+    sellers: 56
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Confección ':
+  sales_rate: 0.97
+  staff_type:
+  employees:
+    sellers: 7
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Cortinas y Tapices':
+  sales_rate: 0.24
+  staff_type:
+  employees:
+    sellers: 2
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Deportes':
+  sales_rate: 2.98
+  staff_type:
+  employees:
+    sellers: 21
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Electrodomésticos':
+  sales_rate: 3.75
+  staff_type:
+  employees:
+    sellers: 27
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Electrónica':
+  sales_rate: 13.44
+  staff_type:
+  employees:
+    sellers: 103
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Gourmet':
+  sales_rate: 0.74
+  staff_type:
+  employees:
+    sellers: 5
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Gym':
+  sales_rate: 0.75
+  staff_type:
+  employees:
+    sellers: 5
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Jeaneria Hombre':
+  sales_rate: 1.1
+  staff_type:
+  employees:
+    sellers: 6
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Jeaneria Mujer':
+  sales_rate: 1.24
+  staff_type:
+  employees:
+    sellers: 8
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Juguetería':
+  sales_rate: 2.22
+  staff_type:
+  employees:
+    sellers: 15
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Lencería':
+  sales_rate: 2.16
+  staff_type:
+  employees:
+    sellers: 15
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Línea Blanca':
+  sales_rate: 4.52
+  staff_type:
+  employees:
+    sellers: 31
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Maleteria':
+  sales_rate: 0.33
+  staff_type:
+  employees:
+    sellers: 2
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Menaje':
+  sales_rate: 1.33
+  staff_type:
+  employees:
+    sellers: 8
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Moda Mujer':
+  sales_rate: 7.1
+  staff_type:
+  employees:
+    sellers: 10
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Muebles':
+  sales_rate: 2.55
+  staff_type:
+  employees:
+    sellers: 15
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Niñas':
+  sales_rate: 0.96
+  staff_type:
+  employees:
+    sellers: 6
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Niños':
+  sales_rate: 0.95
+  staff_type:
+  employees:
+    sellers: 7
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Perfumería':
+  sales_rate: 5.06
+  staff_type:
+  employees:
+    sellers: 36
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Regalos':
+  sales_rate: 1.14
+  staff_type:
+  employees:
+    sellers: 8
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Rincón 14 Niñas':
+  sales_rate: 0.81
+  staff_type:
+  employees:
+    sellers: 5
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Rincón 14 Niños':
+  sales_rate: 0.75
+  staff_type:
+  employees:
+    sellers: 5
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Rincón Juvenil Hombre':
+  sales_rate: 3.65
+  staff_type:
+  employees:
+    sellers: 12
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Rincón Juvenil Mujeres':
+  sales_rate: 3.41
+  staff_type:
+  employees:
+    sellers: 23
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Rodados':
+  sales_rate: 0.49
+  staff_type:
+  employees:
+    sellers: 4
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Ropa Interior y Pijamas Niños':
+  sales_rate: 0.5
+  staff_type:
+  employees:
+    sellers: 3
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Sport Dama':
+  sales_rate: 4.16
+  staff_type:
+  employees:
+    sellers: 32
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Sport Hombre':
+  sales_rate: 3.65
+  staff_type:
+  employees:
+    sellers: 27
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Textil':
+  sales_rate: 2.42
+  staff_type:
+  employees:
+    sellers: 14
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:
+'Zapatillas':
+  sales_rate: 2.42
+  staff_type:
+  employees:
+    sellers: 13
+    cashiers:
+    sales_assistant:
+    store_assistant:
+    fitting_room_assitant:

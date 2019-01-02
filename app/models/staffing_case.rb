@@ -1,2 +1,0 @@
-class StaffingCase < ApplicationRecord
-end

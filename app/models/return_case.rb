@@ -1,2 +1,0 @@
-class ReturnCase < ApplicationRecord
-end

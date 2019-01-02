@@ -1,28 +1,12 @@
 class ProductivityClusterController < ApplicationController
-
+  include FilterParameters
+  before_action :set_params, only: %i[month json_month]
+  before_action :set_department, only: %i[month json_month]
+  before_action :set_store, only: %i[month json_month]
   before_action :set_stores, only: %i[month json_month]
 
-  def index
-    @search       = ''
-    @clusters     = Cluster.all.order(:id)
-    @departments  = Department.distinct.pluck(:name)
-    @masterDepartments = MasterDepartment.all.order(:id)
-    @month = Date.today.strftime("%m").to_i
-  end
-
   def month
-    @search       = ''
-    @clusters     = Cluster.all.order(:id)
-    @departments  = Department.distinct.pluck(:name)
-    @masterDepartments = MasterDepartment.all.order(:id)
-    @masterDeparment   = MasterDepartment.find(params[:department])
-
-    @cluster_name =  Cluster.find(params[:cluster]).name
-    @year  = params[:year].to_i
-    @month = params[:month].to_i
-
-
-    @elements = element(@month, @week, @year, @stores, @dep)
+    @elements = element(@month, @week, @year, @stores, @department)
     #calcular ventas reales por semana
 
     @resultStore = []
@@ -68,26 +52,15 @@ class ProductivityClusterController < ApplicationController
   end
 
   def json_month
-    @month = params[:month].to_i
-    @week  = params[:week].to_i   #replace params later
-    @year  = params[:year].to_i
-
-    @dep    = Department.find(params[:department])
-
-
     beginning_of_month = "#{@year}-#{@month}-01".to_date
     end_of_month = beginning_of_month.end_of_month
-
     month_start = beginning_of_month.strftime("%d").to_i
     month_end   = end_of_month.strftime("%d").to_i
-
     #generar element
-    element = element(@month, @week, @year, @stores, @dep)
-
+    element = element(@month, @week, @year, @stores, @department)
     labels = []
-
-    countWeek = SalePlan.select(:week).distinct.where(year: @year).where(month: @month).where(store_id: @stores.first, department_id: @dep).pluck(:week).length
-    @m_days = SalePlan.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store_id: @stores.first, department_id: @dep).where(:year => @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
+    countWeek = PlanSale.select(:week).distinct.where(year: @year, month: @month, store: @store, department_id: 1).pluck(:week).length
+    @m_days = PlanSale.where(:month => @month).where(:day_number => [1..7]).where(:week => [1..countWeek], store: @store, department: @department, year: @year).select(:sale_date).pluck(:sale_date).map{|x| x.strftime('%d').to_sym}
 
     @data = { :labels => @m_days.reverse, :datasets => element }
     render json: @data
@@ -111,21 +84,21 @@ class ProductivityClusterController < ApplicationController
 
     #obtener departamentos
     @stores.each do |store|
-      departments << Department.where(store: store[:id], master_id: params[:department])
+      departments << StoreDepartment.where(store: store, department: @department)
     end
 
     #obtener valores
     departments.each do |department|
       if department.length > 0
-        sale_reals = SaleReal.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month)
+        real_sales = RealSale.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month)
         totalMonth = []
         realMonth = []
         dotMonth = []
 
-        dotReal = dotacion_real(department, @month, @year)
+        dotReal = RealStaff.staff_by_day(filter_params)
 
         countReal = 0
-        sale_reals.each do |sale|
+        real_sales.each do |sale|
           totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
           totalDotDay = dotReal[countReal]
           realMonth  << totalRealDay
@@ -179,12 +152,6 @@ class ProductivityClusterController < ApplicationController
         colorCount += 1
       end
     end
-    return element
-  end
-
-  private
-
-  def set_stores
-    @stores = Store.by_cluster(params[:cluster])
+    element
   end
 end

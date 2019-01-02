@@ -1,9 +1,9 @@
-class StaffingRealsController < ApplicationController
+class StaffRealsController < ApplicationController
 
   # GET /staffing_reals
   # GET /staffing_reals.json
   def index
-    @staffing_reals = StaffingReal.all
+    @staffing_reals = RealStaff.all
   end
 
   # GET /staffing_reals/1
@@ -13,7 +13,7 @@ class StaffingRealsController < ApplicationController
 
   # GET /staffing_reals/new
   def new
-    @staffing_real = StaffingReal.new
+    @staffing_real = RealStaff.new
   end
 
   # GET /staffing_reals/1/edit
@@ -23,7 +23,7 @@ class StaffingRealsController < ApplicationController
   # POST /staffing_reals
   # POST /staffing_reals.json
   def create
-    @staffing_real = StaffingReal.new(staffing_real_params)
+    @staffing_real = RealStaff.new(staffing_real_params)
 
     respond_to do |format|
       if @staffing_real.save
@@ -52,7 +52,7 @@ class StaffingRealsController < ApplicationController
 
   def import
     if params[:file] != nil
-      if StaffingReal.from_xlsx(params[:file].tempfile)
+      if RealStaff.from_xlsx(params[:file].tempfile)
         flash[:notice] = 'Importado con éxito'
       else
         flash[:error] = 'Algo ha salido mal, intentalo de nuevo'
@@ -71,8 +71,8 @@ class StaffingRealsController < ApplicationController
 
 
   def delete
-    StaffingReal.delete_all
-    redirect_to staffing_reals_url    
+    RealStaff.delete_all
+    redirect_to staffing_reals_url
   end
 
   # DELETE /staffing_reals/1
@@ -87,12 +87,12 @@ class StaffingRealsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_staffing_real
-      @staffing_real = StaffingReal.find(params[:id])
+    def set_staff_real
+      @staffing_real = RealStaff.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def staffing_real_params
-      params.require(:staffing_real).permit(:store_id, :department_id, :year, :month, :day, :hour, :count)
+      params.require(:staffing_real).permit(:store_id, :department_id, :year, :month, :day, :staff_number)
     end
 end

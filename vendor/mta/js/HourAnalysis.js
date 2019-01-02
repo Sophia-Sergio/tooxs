@@ -51,12 +51,12 @@ if ($('#hour_analysis').length > 0)
   }
 
   console.log('init productivity_demo');
-  var month = getQueryVariable('month');
-  var year = getQueryVariable('year');
-  var store = getQueryVariable('store');
-  var department = getQueryVariable('department');
+  var month = getQueryVariable('month') || 6;
+  var year = getQueryVariable('year') || 2018;
+  var store = getQueryVariable('store') || 1;
+  var department = getQueryVariable('department') || 1;
   var week = getQueryVariable('week');
-  var val = getQueryVariable('value');
+  var val = getQueryVariable('value') || 3000;
   var grafico = getQueryVariable('grafico');
   var data_month = "";
 

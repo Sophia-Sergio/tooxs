@@ -1,13 +1,13 @@
-class SalePlansController < ApplicationController
+class PlanSalesController < ApplicationController
   def index
-    @sale_plans = SalePlan.all
+    @sale_plans = PlanSale.all
     add_breadcrumb 'Dashboard', :root_path
     add_breadcrumb 'Planes de venta', :sale_plans_path
   end
 
   def import
     if params[:file] != nil
-      if SalePlan.from_xlsx(params[:file].tempfile)
+      if PlanSale.from_xlsx(params[:file].tempfile)
         flash[:notice] = 'Importado con éxito'
       else
         flash[:error] = 'Algo ha salido mal, intentalo de nuevo'
@@ -32,7 +32,7 @@ class SalePlansController < ApplicationController
       @dates_week << Date.commercial(year,week,i).strftime('%d-%m-%Y')
     end
 
-    sp_week = SalePlan.where(week:44,store:1, department:1)
+    sp_week = PlanSale.where(week:44,store:1, department:1)
 
     nine         = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
     ten          = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
@@ -105,13 +105,13 @@ class SalePlansController < ApplicationController
 
     #month view
 
-    @sp_month = SalePlan.where(:month => 11, :store => 1, :department => 1).group(:week).order(:week).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+    @sp_month = PlanSale.where(:month => 11, :store => 1, :department => 1).group(:week).order(:week).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
   end
 
 
   def json_day
     d = params[:d]
-    sp_day = SalePlan.find_by(sale_date: d)
+    sp_day = PlanSale.find_by(sale_date: d)
 
 
     @day = []
@@ -163,10 +163,10 @@ class SalePlansController < ApplicationController
 
 
     #incluye toda la semana, independiente si pertenece a otro mes
-    sp_week   = SalePlan.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep)
+    sp_week   = PlanSale.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep)
 
     historic  = HistoricSale.where(week: week , store: @store , department: @dep, year: year-1)
-    real      = SaleReal.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep, year: year)
+    real      = RealSale.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep, year: year)
 
 
     @total_week = { 1 => nil, 2 => nil, 3 => nil, 4 => nil, 5 => nil, 6 => nil, 7 => nil }
@@ -231,9 +231,9 @@ class SalePlansController < ApplicationController
     #week fix if is last week of the year on first month
     week_start = '01' if week_start.to_i == 53
 
-    sp_month     = SalePlan.where(week: week_start..week_end, :store => @store, :department => @dep).group(:week).order(:week).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+    sp_month     = PlanSale.where(week: week_start..week_end, :store => @store, :department => @dep).group(:week).order(:week).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
     historic     = HistoricSale.where(week: week_start..week_end, :store => @store, :department => @dep, :year => year-1).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
-    real         = SaleReal.where(week: week_start..week_end, :store => @store, :department => @dep).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    real         = RealSale.where(week: week_start..week_end, :store => @store, :department => @dep).group(:week).order(:week).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
 
     sp_month_last_year = {}
     sp_month_real = {}
@@ -260,9 +260,9 @@ class SalePlansController < ApplicationController
     y = params[:y].to_i
     months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
-    sp_month            = SalePlan.where(:year => y, :store => 1, :department => 1).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+    sp_month            = PlanSale.where(:year => y, :store => 1, :department => 1).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
     historic            = HistoricSale.where(:year => y-1, :store => 1, :department => 1).group(:month).order(:month).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
-    real                = SaleReal.where(:year => y, :store => 1, :department => 1).group(:month).order(:month).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
+    real                = RealSale.where(:year => y, :store => 1, :department => 1).group(:month).order(:month).sum("(nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four)")
 
     sp_month_last_year = {}
     sp_month_real = {}
@@ -285,7 +285,7 @@ class SalePlansController < ApplicationController
   end
 
   def delete
-    SalePlan.delete_all
+    PlanSale.delete_all
     redirect_to sale_plans_url
   end
 

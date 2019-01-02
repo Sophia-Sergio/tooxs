@@ -1,28 +1,28 @@
-class SaleRealsController < ApplicationController
+class RealSalesController < ApplicationController
 
   def index
-    @sale_reals = SaleReal.all
+    @real_sales = RealSale.all
   end
 
-  
+
  def index
-    @sale_reals = SaleReal.all
+    @real_sales = RealSale.all
   end
 
   def import
     if params[:file] != nil
-      if SaleReal.from_xlsx(params[:file].tempfile)
+      if RealSale.from_xlsx(params[:file].tempfile)
         flash[:notice] = 'Importado con éxito'
       else
         flash[:error] = 'Algo ha salido mal, intentalo de nuevo'
       end
     end
-    redirect_to sale_reals_url
+    redirect_to real_sales_url
   end
 
   def delete
-    SaleReal.delete_all
-    redirect_to sale_reals_url    
+    RealSale.delete_all
+    redirect_to real_sales_url
   end
 
   def downloads

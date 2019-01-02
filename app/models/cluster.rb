@@ -1,3 +1,3 @@
 class Cluster < ApplicationRecord
-    has_many :store
+    has_many :stores
 end
