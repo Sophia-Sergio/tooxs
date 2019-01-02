@@ -6,8 +6,13 @@ class HourAnalysisController < ApplicationController
 
   def index
     #obtener ventas reales del mes
-    real_sales = RealSale.where(department: @department, store: @store, year: @year, month: @month)
-    sale_real_month = real_sales.each_with_object([]) { |sale, array| array << sale.total_day}
+    sale_reals = SaleReal.where(department_id: @dep, store_id: @store.id, year: year, month: month)
+    @realMonth = []
+
+    sale_reals.each do |sale|
+      totalRealDay = sale[:nine]+sale[:ten]+sale[:eleven]+sale[:twelve]+sale[:thirteen]+sale[:fourteen]+sale[:fifteen]+sale[:sixteen]+sale[:seventeen]+sale[:eighteen]+sale[:nineteen]+sale[:twenty]+sale[:twenty_one]+sale[:twenty_two]+sale[:twenty_three]+sale[:twenty_four]
+      @realMonth << totalRealDay
+    end
 
     @data = data
     @brain_json = brain_json(@month, @year, @store.id, @department.id)

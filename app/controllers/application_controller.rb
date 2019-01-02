@@ -717,23 +717,17 @@ class ApplicationController < ActionController::Base
         calculo = 0
 
       else
-        # cálculo eficiencia
-        # en prod_real debería venir horas y no días
-        # 3 vendedores porque estamos en una sola hora
-        # eficiencia = -((((  100000 - 85000  ) * 3 ) / 85000)).round
-        # eficiencia = -(( 45000 / 85000)).round
-        # eficiencia = - 0.5294
-        # eficiencia = - 1
-        desvio = -((((prod_real[i] - prod_obj) * staff[i]) / prod_obj))
-        if desvio >= 0
-          exceso += desvio
+        calculo = -((((matrix[i] - prod_obj) * staff[i]) / prod_obj)).round
+
+        if calculo >= 0
+          exceso += calculo
         else
           faltante += desvio
         end
 
       end
 
-      matrixSet << desvio
+      matrixSet << calculo
 
     end
 

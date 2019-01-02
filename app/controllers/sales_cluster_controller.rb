@@ -108,7 +108,7 @@ class SalesClusterController < ApplicationController
     #obtener valores
     if departments.first.length > 0
       departments.each do |department|
-        real_sales = RealSale.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month)
+        sale_reals = SaleReal.where(department_id: department.first[:master_id], store_id: department.first[:store_id], year: @year, month: @month).order(:sale_date)
         totalMonth = []
         realMonth = []
         dotMonth = []

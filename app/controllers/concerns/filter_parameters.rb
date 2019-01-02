@@ -24,9 +24,11 @@ module FilterParameters
     params[:store] ||= demo_data[:store]
   end
 
-
-
   def set_stores
     @stores = Store.by_cluster(params[:cluster])
+  end
+
+  def set_store_department
+    @store_dep = StoreDepartment.find_by(store: Store.find(params[:store], department: Department.find(params[:department])))
   end
 end

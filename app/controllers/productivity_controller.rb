@@ -18,8 +18,11 @@ class ProductivityController < ApplicationController
   end
 
   def json_current
-    sale_plans = @store.sale_plans.by_year_and_month(@year, @month)
-                       .by_department(@department)
+    month  = params[:month]
+    month = "4" if month == "6"
+    year   = params[:year]
+    department = params[:department]
+    sale_plans = @store.sale_plans.by_year_and_month(year, month).by_department(department)
     days_by_week = sale_plans.days_by_week
     first_day_of_weeks = sale_plans.dates_by_week(1)
     total_sales_of_week = sale_plans.sales_by_week
@@ -47,14 +50,14 @@ class ProductivityController < ApplicationController
     @prd_w3_day = total_sales_of_week[3].zip(@sd_w3_daily).map { |a, b| a / b }
     @prd_w4_day = total_sales_of_week[4].zip(@sd_w4_daily).map { |a, b| a / b }
 
-    nombreTurnos = AvailableShift.all.distinct.order(:num).pluck(:num, :name)
-    @brain_json = brain_json(@month, @year, @store.id, @department.id)
+    nombreTurnos = AvailableShift.all.where(month: month, store_id: 1).distinct.order(:num).pluck(:num, :name)
+    @brain_json = brain_json(month, year, @store.id, department)
     @plan = JSON.parse(@brain_json)
-    dataCase = DataCase.find_case(filter_params)
 
-    @prod_obj = dataCase.target_productivity
-    @dotacion_actual = cerebro_sumatoria_turnos_entrada(@brain_json, dataCase.id)
-    @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.id)
+    dataCase = DataCase.where(month: month, year: year, dep_num: department)
+    @prod_obj = dataCase.first.prod_obj.to_i
+    @dotacion_actual = cerebro_sumatoria_turnos_entrada(@brain_json, dataCase.first[:id_case])
+    @dotacion_op = cerebro_sumatoria_turnos_optimizado(@brain_json, dataCase.first[:id_case])
     @prod_w_op = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, @dotacion_op)
     @prod_w_real = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, staff)
     @prod_w_actual = cerebro_calculo_productividades_month(total_sales_of_week.values.sum, @dotacion_actual)
@@ -188,11 +191,12 @@ class ProductivityController < ApplicationController
 
   def report_data
     # dummy demo data
-    month  = params[:month] ||= demo_data[:month]
-    year   = params[:year] ||= demo_data[:year]
-    department = params[:department] ||= demo_data[:department]
-    store = params[:store] ||= demo_data[:store]
-    @store = Store.find(store)
+    month = params[:month].to_i
+
+    month = 4 if month == 6
+    year = params[:year].to_i
+    department = params[:department]
+    @store = Store.find(params[:store])
 
     # days of the week for this query
     days_by_week = @store.sale_plans.by_year_and_month(year, month).by_department(department).days_by_week
