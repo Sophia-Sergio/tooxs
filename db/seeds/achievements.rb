@@ -1,3 +1,5 @@
+Achievement.delete_all
+
 department_base = 'Moda Mujer'
 store_department_base = StoreDepartment.find_by(store: Store.find_by(name: 'Alto Las Condes'), department: Department.find_by(name: department_base))
 month = 6
@@ -26,6 +28,12 @@ achievements.each do |achievement|
     date += 1
   end
 end
+
+
+
+
+
+
 
 STORE_DEPARTMENT_SALES = store_department_base.achievements.between(period[:start], period[:end]).total
 STORE_TOTAL = (STORE_DEPARTMENT_SALES / (Settings::DEMO_DEPARTMENTS[department_base]['sales_rate'] / 100)).round
@@ -103,12 +111,11 @@ departments << 'Moda Mujer'
       (1..months).each do |week|
         week_sales = store_department_sales / months
         week_sales *= rand(0.89...1.12)
-        binding.pry if Date.new(2017,10,17) == date && store_department.id == 2488
-
         (1..7).each do |day|
           sellers = store_department.sellers.working_on_date(date)
           sellers_count = sellers.size
-          achievement_by_hour = Settings.day_rate(week_sales, day)
+          achievement_by_hour = Settings.day_rate(week_sales, day, sellers_count)
+
           sellers.each do |seller|
             Achievement.create!(user_id: seller.id, date: date,
               store_department_id: store_department.id,
