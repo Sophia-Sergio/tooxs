@@ -3,8 +3,6 @@ WEEKS_BY_MONTH = { 1 => 4, 2 => 4, 3 => 4, 4 => 5, 5 => 4, 6 => 4, 7 => 5, 8 => 
 STORES = Store.where(name: Settings::STORES_ALLOWED)
 DEPARTMENTS = Department.where(name: Settings::DEPARTMENTS_ALLOWED)
 
-
-
 seeds = [
   'delete_all',
   'clusters',
