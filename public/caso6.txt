@@ -1,0 +1,279 @@
+-------------------------------------------------
+MOT: MODELO DE OPTIMIZACIÓN DE TURNOS
+Versión: v1.2, 18 de marzo de 2018
+Autor: Felipe Tapia, Scipion SpA, Santiago
+-------------------------------------------------
+
+MODELO: mot.mod
+USUARIO: fatapia@scipion.cl
+ID_CASO: 43
+DATOS: caso43.dat
+DOT_REAL: 1
+SOLVER: Glpk v4.65
+TOL_MILP: 2.0%
+T_MAX: 5.0 min
+
+Reading model section from mot.mod...
+473 lines were read
+Reading data section from caso43.dat...
+33 lines were read
+Checking (line 81)...
+Generating costo...
+Generating nivel_servicio...
+Generating almuerzo...
+Model has been successfully generated
+MOT: Modelo cargado correctamente. OK
+MOT: 616 restricciones
+MOT: 963 variables
+PROBLEMA: mot
+FLAG_OBJ: 1 (0:no existe fojb, 1:min, 2:max)
+
+
+MOT: Evaluando situación real...
+
+MOT: Iniciando optimización
+SOLVER: Glpk v4.65
+METODO: branch-and-cut
+PRESOLVE: si
+GLPK Integer Optimizer, v4.65
+616 rows, 963 columns, 4423 non-zeros
+291 integer variables, none of which are binary
+Preprocessing...
+325 rows, 363 columns, 1034 non-zeros
+279 integer variables, none of which are binary
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  8.500e+04  ratio =  8.500e+04
+GM: min|aij| =  9.890e-01  max|aij| =  1.011e+00  ratio =  1.022e+00
+EQ: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+2N: min|aij| =  5.000e-01  max|aij| =  1.000e+00  ratio =  2.000e+00
+Constructing initial basis...
+Size of triangular part is 325
+Solving LP relaxation...
+GLPK Simplex Optimizer, v4.65
+325 rows, 363 columns, 1034 non-zeros
+      0: obj =   7.760070000e+07 inf =   4.185e+04 (323)
+    171: obj =   1.524045640e+08 inf =   4.619e-14 (0)
+*   233: obj =   1.244376320e+08 inf =   4.619e-14 (0)
+OPTIMAL LP SOLUTION FOUND
+Integer optimization begins...
+Long-step dual simplex will be used
++   233: mip =     not found yet >=              -inf        (1; 0)
++  1250: >>>>>   1.262342700e+08 >=   1.245077140e+08   1.4% (939; 0)
++  1250: mip =   1.262342700e+08 >=   1.245077140e+08   1.4% (876; 72)
+RELATIVE MIP GAP TOLERANCE REACHED; SEARCH TERMINATED
+ADVERTENCIA: Tolerancia alcanzada, mip_gap = 2.00%
+
+MOT: Solución factible encontrada. OK
+STATUS: OK
+
+-------------------------------------------
+         DOTACION DE VENDEDORES
+-------------------------------------------
+
+RESUMEN
+
+Plan de venta          :  209531626
+Deficit de cobertura   :   60272948
+Excedente de cobertura :   65961322
+Desviación total       :  126234270
+Costo remuneraciones   :          0
+Margen de ajuste       :       60.2%
+
+Ventanas         Vendedores         Costo       Plan_venta    Deficit       Excedente     Desviacion    Margen_ajuste
+Ventana 1                20             0     209531626      60272948      65961322     126234270          60.2%
+    TOTAL                20             0     209531626      60272948      65961322     126234270          60.2%
+
+Departamentos    Vendedores         Costo       Plan_venta    Deficit       Excedente     Desviacion    Margen_ajuste
+Departamento 1           20             0     209531626      60272948      65961322     126234270          60.2%
+         TOTAL           20             0     209531626      60272948      65961322     126234270          60.2%
+------------------------------------------------------------------------------
+
+VENTANA DE TIEMPO 1
+
+Plan de venta          :    209531626
+Deficit de cobertura   :     60272948
+Excedente de cobertura :     65961322
+Desviación total       :    126234270
+Costo remuneraciones   :            0
+Margen de ajuste       :         60.2%
+
+Turnos    Vendedores         Costo
+Turno 1            3             0
+Turno 2            3             0
+Turno 3            3             0
+Turno 4            2             0
+Turno 5            2             0
+Turno 6            2             0
+Turno 7            0             0
+Turno 8            0             0
+Turno 9            1             0
+Turno 10           2             0
+Turno 11           1             0
+Turno 12           1             0
+   TOTAL          20             0
+-----------------------------------------------------
+
+
+
+
+MOT: Determinando dotación óptima...
+
+MOT: Iniciando optimización
+SOLVER: Glpk v4.65
+METODO: branch-and-cut
+PRESOLVE: si
+GLPK Integer Optimizer, v4.65
+616 rows, 963 columns, 4423 non-zeros
+291 integer variables, none of which are binary
+Preprocessing...
+559 rows, 571 columns, 3359 non-zeros
+291 integer variables, none of which are binary
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  8.500e+04  ratio =  8.500e+04
+GM: min|aij| =  8.767e-01  max|aij| =  1.141e+00  ratio =  1.301e+00
+EQ: min|aij| =  7.696e-01  max|aij| =  1.000e+00  ratio =  1.299e+00
+2N: min|aij| =  6.485e-01  max|aij| =  1.297e+00  ratio =  2.000e+00
+Constructing initial basis...
+Size of triangular part is 559
+Solving LP relaxation...
+GLPK Simplex Optimizer, v4.65
+559 rows, 571 columns, 3359 non-zeros
+*  1250: obj =   2.095316260e+08 inf =   0.000e+00 (12)
+*  1607: obj =   9.078060652e+07 inf =   3.411e-13 (0) 3
+OPTIMAL LP SOLUTION FOUND
+Integer optimization begins...
+Long-step dual simplex will be used
++  1607: mip =     not found yet >=              -inf        (1; 0)
++  2233: >>>>>   9.661073400e+07 >=   9.088501700e+07   5.9% (342; 0)
++  2792: >>>>>   9.468388400e+07 >=   9.089563783e+07   4.0% (688; 1)
++  3762: >>>>>   9.391880600e+07 >=   9.099364617e+07   3.1% (1143; 125)
++  6189: mip =   9.391880600e+07 >=   9.104439400e+07   3.1% (2006; 612)
++  6765: >>>>>   9.386995000e+07 >=   9.104501000e+07   3.0% (2369; 613)
++  7231: >>>>>   9.380069400e+07 >=   9.105038233e+07   2.9% (2584; 783)
++  9492: mip =   9.380069400e+07 >=   9.106291700e+07   2.9% (3473; 930)
++ 11286: mip =   9.380069400e+07 >=   9.107425100e+07   2.9% (4496; 935)
++ 13137: mip =   9.380069400e+07 >=   9.108647500e+07   2.9% (5412; 941)
++ 14938: mip =   9.380069400e+07 >=   9.109157700e+07   2.9% (6270; 947)
++ 15966: >>>>>   9.358788800e+07 >=   9.109285800e+07   2.7% (6897; 949)
++ 17085: >>>>>   9.358109400e+07 >=   9.109645700e+07   2.7% (6394; 3007)
++ 17583: >>>>>   9.350922000e+07 >=   9.109645700e+07   2.6% (6646; 3127)
++ 19427: mip =   9.350922000e+07 >=   9.110619500e+07   2.6% (7040; 3935)
++ 21012: mip =   9.350922000e+07 >=   9.111242689e+07   2.6% (7892; 3940)
++ 22486: mip =   9.350922000e+07 >=   9.111348700e+07   2.6% (8768; 3944)
++ 23880: mip =   9.350922000e+07 >=   9.111626333e+07   2.6% (9495; 3948)
+Time used: 60.0 secs.  Memory used: 11.1 Mb.
++ 25180: mip =   9.350922000e+07 >=   9.111626333e+07   2.6% (10186; 3953)
++ 26425: mip =   9.350922000e+07 >=   9.111642400e+07   2.6% (10875; 3957)
++ 27735: mip =   9.350922000e+07 >=   9.111755533e+07   2.6% (11582; 3961)
++ 29091: mip =   9.350922000e+07 >=   9.111775400e+07   2.6% (12253; 3966)
++ 30392: mip =   9.350922000e+07 >=   9.111879700e+07   2.6% (12938; 3971)
++ 31687: >>>>>   9.349895000e+07 >=   9.111940100e+07   2.5% (13586; 3974)
++ 32956: mip =   9.349895000e+07 >=   9.111940100e+07   2.5% (14068; 4375)
++ 33921: >>>>>   9.348971800e+07 >=   9.111940100e+07   2.5% (14681; 4377)
++ 35098: mip =   9.348971800e+07 >=   9.112242780e+07   2.5% (15148; 4666)
++ 35262: >>>>>   9.347612200e+07 >=   9.112242780e+07   2.5% (15266; 4666)
++ 35745: >>>>>   9.340344600e+07 >=   9.112448000e+07   2.4% (15429; 4931)
++ 36858: mip =   9.340344600e+07 >=   9.112538950e+07   2.4% (15119; 6709)
++ 38302: mip =   9.340344600e+07 >=   9.112841900e+07   2.4% (15622; 6716)
+Time used: 120.0 secs.  Memory used: 14.8 Mb.
++ 39319: mip =   9.340344600e+07 >=   9.112934700e+07   2.4% (16163; 6720)
++ 40314: mip =   9.340344600e+07 >=   9.113050600e+07   2.4% (16699; 6724)
++ 41324: mip =   9.340344600e+07 >=   9.113094400e+07   2.4% (17252; 6727)
++ 42272: mip =   9.340344600e+07 >=   9.113269700e+07   2.4% (17839; 6729)
++ 43747: mip =   9.340344600e+07 >=   9.113440500e+07   2.4% (18357; 6739)
++ 44567: mip =   9.340344600e+07 >=   9.113440500e+07   2.4% (18863; 6741)
++ 45628: mip =   9.340344600e+07 >=   9.113742300e+07   2.4% (19331; 6745)
++ 46577: mip =   9.340344600e+07 >=   9.113876800e+07   2.4% (19838; 6749)
++ 47507: mip =   9.340344600e+07 >=   9.113912500e+07   2.4% (20349; 6751)
++ 48516: mip =   9.340344600e+07 >=   9.114022500e+07   2.4% (20817; 6755)
++ 49501: mip =   9.340344600e+07 >=   9.114146700e+07   2.4% (21343; 6758)
++ 50491: mip =   9.340344600e+07 >=   9.114228700e+07   2.4% (21832; 6761)
+Time used: 180.0 secs.  Memory used: 19.2 Mb.
++ 51428: mip =   9.340344600e+07 >=   9.114297400e+07   2.4% (22280; 6765)
++ 52244: mip =   9.340344600e+07 >=   9.114394600e+07   2.4% (22716; 6768)
++ 53122: mip =   9.340344600e+07 >=   9.114395700e+07   2.4% (23159; 6771)
++ 54037: mip =   9.340344600e+07 >=   9.114486989e+07   2.4% (23609; 6775)
++ 54936: mip =   9.340344600e+07 >=   9.114515900e+07   2.4% (24055; 6778)
++ 55847: mip =   9.340344600e+07 >=   9.114518200e+07   2.4% (24509; 6780)
++ 56541: mip =   9.340344600e+07 >=   9.114562167e+07   2.4% (24931; 6782)
++ 57517: mip =   9.340344600e+07 >=   9.114741267e+07   2.4% (25341; 6786)
++ 58389: mip =   9.340344600e+07 >=   9.114845400e+07   2.4% (25760; 6790)
++ 59162: mip =   9.340344600e+07 >=   9.114968400e+07   2.4% (26162; 6793)
++ 59907: mip =   9.340344600e+07 >=   9.114968400e+07   2.4% (26555; 6795)
++ 60655: mip =   9.340344600e+07 >=   9.114968400e+07   2.4% (26973; 6797)
+Time used: 240.0 secs.  Memory used: 22.5 Mb.
++ 61293: mip =   9.340344600e+07 >=   9.114968400e+07   2.4% (27375; 6798)
++ 62076: mip =   9.340344600e+07 >=   9.115123500e+07   2.4% (27776; 6801)
++ 62842: mip =   9.340344600e+07 >=   9.115159700e+07   2.4% (28163; 6803)
++ 63506: mip =   9.340344600e+07 >=   9.115175800e+07   2.4% (28545; 6805)
++ 64248: mip =   9.340344600e+07 >=   9.115311700e+07   2.4% (28940; 6807)
++ 65156: mip =   9.340344600e+07 >=   9.115404300e+07   2.4% (29303; 6811)
++ 66379: mip =   9.340344600e+07 >=   9.115404300e+07   2.4% (29651; 6818)
++ 68317: mip =   9.340344600e+07 >=   9.115629100e+07   2.4% (30369; 6826)
++ 70288: mip =   9.340344600e+07 >=   9.115741100e+07   2.4% (31314; 6833)
++ 71761: mip =   9.340344600e+07 >=   9.115817300e+07   2.4% (32087; 6838)
++ 73666: mip =   9.340344600e+07 >=   9.115997700e+07   2.4% (32932; 6846)
++ 75390: mip =   9.340344600e+07 >=   9.115998900e+07   2.4% (33755; 6851)
++ 76434: mip =   9.340344600e+07 >=   9.115998900e+07   2.4% (34253; 6855)
+TIME LIMIT EXCEEDED; SEARCH TERMINATED
+ADVERTENCIA: Tiempo límite superado, tm_lim = 5.0 min
+
+MOT: Solución factible encontrada. OK
+STATUS: OK
+
+-------------------------------------------
+         DOTACION DE VENDEDORES
+-------------------------------------------
+
+RESUMEN
+
+Plan de venta          :  209531626
+Deficit de cobertura   :   69612536
+Excedente de cobertura :   23790910
+Desviación total       :   93403446
+Costo remuneraciones   :          0
+Margen de ajuste       :       44.6%
+
+Ventanas         Vendedores         Costo       Plan_venta    Deficit       Excedente     Desviacion    Margen_ajuste
+Ventana 1                16             0     209531626      69612536      23790910      93403446          44.6%
+    TOTAL                16             0     209531626      69612536      23790910      93403446          44.6%
+
+Departamentos    Vendedores         Costo       Plan_venta    Deficit       Excedente     Desviacion    Margen_ajuste
+Departamento 1           16             0     209531626      69612536      23790910      93403446          44.6%
+         TOTAL           16             0     209531626      69612536      23790910      93403446          44.6%
+------------------------------------------------------------------------------
+
+VENTANA DE TIEMPO 1
+
+Plan de venta          :    209531626
+Deficit de cobertura   :     69612536
+Excedente de cobertura :     23790910
+Desviación total       :     93403446
+Costo remuneraciones   :            0
+Margen de ajuste       :         44.6%
+
+Turnos    Vendedores         Costo
+Turno 1            1             0
+Turno 2            1             0
+Turno 3            1             0
+Turno 4            1             0
+Turno 5            2             0
+Turno 6            0             0
+Turno 7            1             0
+Turno 8            0             0
+Turno 9            0             0
+Turno 10           5             0
+Turno 11           2             0
+Turno 12           2             0
+   TOTAL          16             0
+-----------------------------------------------------
+
+
+MOT: Archivo JSON generado con éxito en s43.json
+
+MOT: Función objetivo dotación real   : 126234270
+MOT: Función objetivo óptima          : 93403446
+MOT: Margen de eficiencia             : 35.1%
+
+MOT: Duración 5.2 minutos
+MOT: Fin de ejecución
