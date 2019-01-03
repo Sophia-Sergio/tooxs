@@ -81,17 +81,10 @@
   "images/tooxs-logo-color.svg": "/packs/images/tooxs-logo-color-83b34ae5705c1038899d4f345f790945.svg",
   "images/tottus_logo.jpg": "/packs/images/tottus_logo-98a313060375936eb0f69554054fc016.jpg",
   "images/user_default.jpg": "/packs/images/user_default-98d32264f43ba3e7486b83a3b0cbb61e.jpg",
-<<<<<<< HEAD
   "react_app.js": "/packs/react_app-b6541cc17c44808dbddf.js",
   "react_app.js.map": "/packs/react_app-b6541cc17c44808dbddf.js.map",
   "server_rendering.js": "/packs/server_rendering-fc74d8aabe54b3790db8.js",
   "server_rendering.js.map": "/packs/server_rendering-fc74d8aabe54b3790db8.js.map",
-=======
-  "react_app.js": "/packs/react_app-1c46c06b745f13aeb7e9.js",
-  "react_app.js.map": "/packs/react_app-1c46c06b745f13aeb7e9.js.map",
-  "server_rendering.js": "/packs/server_rendering-abf18c621287171da3b8.js",
-  "server_rendering.js.map": "/packs/server_rendering-abf18c621287171da3b8.js.map",
->>>>>>> bb3fd715b819624e258e2be4ba2e122e0039f9ca
   "stylesheets.css": "/packs/stylesheets-4559cc91acab305c0062101276a3f270.css",
   "stylesheets.css.map": "/packs/stylesheets-4559cc91acab305c0062101276a3f270.css.map",
   "stylesheets.js": "/packs/stylesheets-1e132505d92e1b1f4f3e.js",
