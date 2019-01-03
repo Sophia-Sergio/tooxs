@@ -2,14 +2,10 @@ class DashboardController < ApplicationController
   include FilterParameters
   include Statistics
   before_action :set_params, only: %i[index report]
-  before_action :set_store_department, only: %i[index]
-  before_action :index_data, :index
+  # before_action :set_store_department, only: %i[index]
+  # before_action :index_data, :index
 
   def index
-
-
-
-
     # @month = params[:month] || demo_data[:date].month
     # @store = demo_data[:store]
     # @department  = demo_data[:department]
