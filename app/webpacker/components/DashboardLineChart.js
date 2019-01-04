@@ -1,27 +1,51 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import { currencyFormat } from "./helpers";
+import Select from 'react-select';
 import {Line} from 'react-chartjs-2';
 
-class LineChart extends Component {
-  constructor(){
-    super();
+class MainDashboard extends Component {
+  constructor(props){
+    super(props);
     this.state = {
-      chartData: {}
+      departmentDefault: { value: '1', label: 'Alto Las Condes' },
+      department: { value: '1', label: 'Alto Las Condes' },
+      departmentOptions: [
+        { value: '1', label: 'Alto Las Condes' },
+        { value: '2', label: 'Parque Arauco' },
+        { value: '3', label: 'Costanera Center' }
+      ],
+      year: { value: '2018', label: '2018' },
+      yearOptions: [
+        { value: '2018', label: '2018' },
+        { value: '2017', label: '2017' },
+        { value: '2016', label: '2016' }
+      ],
+      month: { value: '7', label: 'Julio' },
+      monthOptions: [
+        { value: '7', label: 'Julio' },
+        { value: '6', label: 'Junio' },
+        { value: '5', label: 'Mayo' }
+      ],
+      chartData: {
+        labels: [],
+        datasets:[]
+      },
+      chartOptions: {
+        maintainAspectRatio: false,
+        responsive: true,
+      },
     }
   }
 
   componentWillMount(){
   }
 
-  componentDidMount(){
-    /*this.props.fetchMetaData(this.props.url);*/
-    axios.get(`http://localhost:3000/api/v1/statistics/graph?type=efficiency&year_start=2018&month_start=7&year_end=2018&month_end=10`)
+  componentDidMount = () => {
+    axios.get(`http://localhost:3000/api/v1/statistics/graph?type=efficiency&year_start=2018&month_start=7`)
       .then(res => {
-        console.log(res);
         this.setState({chartData: res.data})
     })
-
   }
 
   getChartData(){
@@ -112,22 +136,78 @@ class LineChart extends Component {
           },
         ]
       },
-      chartOptions: {
-        maintainAspectRatio: false,
-        responsive: true,
-      }
     });
   }
 
+  departmentChange = (department) => {
+    this.setState({ department });
+    console.log(`Option selected:`, department);
+  }
+
+  yearChange = (year) => {
+    this.setState({ year });
+    console.log(this.state.year);
+  }
+
+  monthChange = (month) => {
+    this.setState({ month });
+    console.log(this.state.month);
+  }
+
+  handleSubmit = (e, month) => {
+    e.preventDefault();
+    console.log(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&year_start=2018&month_start=${this.state.month.value}`);
+  }
+
+  // Departamento, Año, Mes
+
   render() {
+    const { department, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
+
     return (
-      <Line
-        data={this.state.chartData}
-        height={400}
-        options={this.state.chartOptions}
-      />
+      <React.Fragment>
+        <div className="col-12 mb-2">
+          <div className="card dashboard__filter">
+            <form onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <Select
+                  options={departmentOptions}
+                  placeholder={`Departamento`}
+                  onChange={this.departmentChange}
+                  value={department}
+                />
+              </div>
+              <div className="form-group">
+                <Select
+                  options={yearOptions}
+                  placeholder={`Año`}
+                  onChange={this.yearChange}
+                  value={year}
+                />
+              </div>
+              <div className="form-group">
+                <Select
+                  options={monthOptions}
+                  placeholder={`Mes`}
+                  onChange={this.monthChange}
+                  value={month}
+                />
+              </div>
+              <button className="btn btn-primary" type="submit">Buscar</button>
+            </form>
+          </div>
+        </div>
+        <div className="col-12 mb-2">
+          <div className="card dashboard__chart">
+            <Line
+              data={this.state.chartData}
+              options={this.state.chartOptions}
+            />
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }
 
-export default LineChart
+export default MainDashboard;
