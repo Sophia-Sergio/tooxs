@@ -4,8 +4,12 @@ module Api
   module V1
     # only statistics
     class StatisticsController < ApplicationController
+      include FilterParameters
+      before_action :set_store_department, only: %i[graph]
+      before_action :set_dates, only: %i[graph]
+
       def efficiency(params)
-        rates = Achievement.productivity_rate(dates(params)[:start], dates(params)[:end])
+        rates = @store_dep.achievements.productivity_rate(@start, @end)
         data = rates.values.each_with_object([]) do |rate, array|
           array << rate.values.sum / Settings.periods_keys.count
         end
@@ -15,13 +19,6 @@ module Api
             { label: 'Eficiencia Real', data: data },
             { label: 'Eficiencia Óptima', data: data }
           ]
-        }
-      end
-
-      def dates(params)
-        {
-          start: Settings.month_start(params[:year_start], params[:month_start]),
-          end: Settings.month_end(params[:year_end], params[:month_end])
         }
       end
 
