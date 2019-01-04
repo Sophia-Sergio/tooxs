@@ -1,7 +1,7 @@
 class DashboardController < ApplicationController
   include FilterParameters
   include Statistics
-  before_action :set_params, only: %i[index report]
+  # before_action :set_params, only: %i[index report]
   # before_action :set_store_department, only: %i[index]
   # before_action :index_data, :index
 
