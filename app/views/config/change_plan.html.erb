@@ -2,65 +2,17 @@
 
   <div class="row">
 
-    <%= render 'shared/sidebar' %>
+    <%= render 'shared/sidebar', { active: request.original_fullpath } %>
 
     <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
 
       <div class="row">
-
-        <%= react_component("DashboardHeader", { title: "Cambio de plan" }) %>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__filter">
-            <form action="">
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="store" id="">
-                  <option>Tienda 5</option>
-                  <option>Alto Las Condes</option>
-                  <option>Departamental</option>
-                  <option>Plaza Egaña</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="department" id="">
-                  <option>Departamento 3</option>
-                  <option>Juvenil Mujer</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="month" id="">
-                  <option>Junio</option>
-                  <option>Mayo</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="year" id="">
-                  <option>2018</option>
-                </select>
-              </div>
-
-              <button>Buscar</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="col-12 mb-2">
-          <%= react_component("ChangePlan", { monthname: "Junio"}) %>
-          <%= react_component("ChangePlan", { monthname: "Julio"}) %>
-          <%= react_component("ChangePlan", { monthname: "Agosto"}) %>
-          <%= react_component("ChangePlan", { monthname: "Septiembre"}) %>
-          <%= react_component("ChangePlan", { monthname: "Octubre"}) %>
-          <%= react_component("ChangePlan", { monthname: "Noviembre"}) %>
-        </div>
-
-        <%= render 'shared/footer' %>
-
+        <%= react_component('DashboardHeader', { title: 'Cambio de plan' }) %>
       </div>
-
+      <%= react_component('ChangePlan', { root_url: request.base_url, user: current_user }, class: 'row') %>
+      <div class="row">
+        <%= render 'shared/footer' %>
+      </div>
     </div>
 
   </div>
