@@ -1,5 +1,5 @@
 class Achievement < ApplicationRecord
-  extend Hours
+  before_create :set_total_day
   belongs_to :store_department
   belongs_to :store
   belongs_to :user
@@ -7,12 +7,8 @@ class Achievement < ApplicationRecord
   scope :between, ->(start_date, end_date) { where('date between ? AND ?', start_date, end_date) }
   scope :by_date, ->(date) { where(date: date) }
 
-  def total_day
-    achievement.values.map(&:to_f).sum.round(2)
-  end
-
-  def self.total
-    select(:achievement).inject(0) { |result, achievement| result + achievement.total_day }.round
+  def set_total_day
+    self.total_day = achievement.values.map(&:to_f).sum.round(2)
   end
 
   def self.sum_by_hour
@@ -26,9 +22,9 @@ class Achievement < ApplicationRecord
 
   def self.productivity_by_hour(start_date, end_date)
     (start_date.to_date..end_date.to_date).each_with_object({}) do |date, hash|
-      workers = User.working_on_date(date).workers_by_hour
+      employees = User.working_on_date(date).employees_by_hour
       achievements = Achievement.by_date(date).sum_by_hour
-      productivity = achievements.keys.map { |hour| (achievements[hour] / workers[hour].to_f).round(2) }
+      productivity = achievements.keys.map { |hour| (achievements[hour] / employees[hour].to_f).round(2) }
       hash[date] = achievements.keys.zip(productivity).to_h
     end
   end
@@ -42,6 +38,10 @@ class Achievement < ApplicationRecord
       end
       hash[productivity[0]] = productivity[1].keys.zip(productivity_rates).to_h
     end
+  end
+
+  def self.total_by_user_id
+    group('users.id').sum('achievements.total_day')
   end
 
   # scope :by_year, ->(year) { where(year: year) }
