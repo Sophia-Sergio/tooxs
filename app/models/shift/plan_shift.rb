@@ -1,7 +1,7 @@
 class PlanShift < ApplicationRecord
   belongs_to :work_shift
 
-  scope :find_case, ->(opts) { find_by(opts.slice(:week, :day)) }
+  scope :find_case, ->(opts) { find_by(opts.slice(:week, :day)) if %i[week day].all? { |s| opts.key? s } }
   # extend Hours
   # validates_presence_of :week, :day
 
