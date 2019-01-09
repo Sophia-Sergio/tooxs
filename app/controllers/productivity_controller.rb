@@ -3,18 +3,16 @@
 class ProductivityController < ApplicationController
   include FilterParameters
   skip_before_action :verify_authenticity_token
-  before_action :set_params, only: %i[show json_current]
-  before_action :set_store, only: %i[show json_current]
-  before_action :set_department, only: %i[show json_current]
+  # before_action :set_params, only: %i[show json_current]
 
   def show
-    first_day_of_weeks = @store.sale_plans.by_year_and_month(@year, @month)
-                               .by_department(@department).dates_by_week(1)
-    @staffing_w1  = staffing_draw(first_day_of_weeks[1])
-    @staffing_w2  = staffing_draw(first_day_of_weeks[2])
-    @staffing_w3  = staffing_draw(first_day_of_weeks[3])
-    @staffing_w4  = staffing_draw(first_day_of_weeks[4])
-    @brain_json   = brain_json(@month, @year, @store.id, @department.id)
+    # first_day_of_weeks = @store.sale_plans.by_year_and_month(@year, @month)
+    #                            .by_department(@department).dates_by_week(1)
+    # @staffing_w1  = staffing_draw(first_day_of_weeks[1])
+    # @staffing_w2  = staffing_draw(first_day_of_weeks[2])
+    # @staffing_w3  = staffing_draw(first_day_of_weeks[3])
+    # @staffing_w4  = staffing_draw(first_day_of_weeks[4])
+    # @brain_json   = brain_json(@month, @year, @store.id, @department.id)
   end
 
   def json_current

@@ -71,99 +71,40 @@
 
         <div class="col-12">
           <div class="card dashboard__table">
-            <h5 class="card-title"><%= I18n.l(Date.parse("#{'%02d' % @month }/01"), format: "%B", locale: :es).capitalize %> <%= @year %></h5>
+            <h5 class="card-title"></h5>
 
             <div class="table-responsive">
               <table class="table">
                 <thead>
                   <tr>
-                  	<th> <!--<%= link_to "#{@year}", year_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year) %> --></th>
-                    <% week = 0 %>
-                    <% @sale_plan.each do |k,v| %>
-                    <% week += 1 %>
-                    <th><%= "Semana #{week}" %></th>
-                    <!--<th> <%= link_to "Semana #{week}", week_sales_path(store: @store.id, department: @dep.id, month:@month, year: @year, week: k) %> </th> -->
-                    <% end %>
+                  	<th></th>
                     <th> Total </th>
                   </tr>
                 </thead>
                 <tbody class="">
                   <tr>
                     <td>PLAN</td>
-                    <%
-                    @sale_plan.each do |v|
-                      %>
-                      <td><%= number_to_currency v %></td>
-                      <% end %>
-                      <td>
-                        <%= number_to_currency @sale_plan.sum %>
-                      </td>
+
                   </tr>
 
                   <tr>
                     <td>REAL</td>
-                    <%
-                    @real_sale.each do |v|
-                      %>
-                      <td><%= number_to_currency v %></td>
-                      <% end %>
-                      <td>
-                        <%= number_to_currency @real_sale.sum %>
-                      </td>
                   </tr>
 
                   <tr>
                     <td>HISTORICO</td>
-                    <%
-                    @historic_sale.each do |v|
-                      %>
-                      <td><%= number_to_currency v %></td>
-                      <% end %>
-                      <td>
-                        <%= number_to_currency @historic_sale.sum %>
-                      </td>
                   </tr>
 
                 </tbody>
                 <tfoot>
                   <tr class="table-warning">
                     <td><b>Real vs Plan  </b></td>
-                    <% @dif1.each do |v|%>
-                    <td class="text-centerx"><%= v.round(2) %>%
-                    <% if v > 0  %>
-                      <i class="text-success fa fa-caret-up"></i>
-                    <% else %>
-                      <i class="text-danger fa fa-caret-down"></i>
-                    <% end -%>
-                    </td>
-                    <% end %>
-                    <td class="text-centerx">
-                    <% if @sum_dif != nil %>
-                      <%= @sum_dif.round(2) %>%
-                      <i class="text-success fa fa-caret-up"></i>
-                    <% else %>
-                      <i class="text-danger fa fa-caret-down"></i>
-                    <% end -%>
+
                    </td>
                   </tr>
                   <tr class="table-warning">
                     <td><b>Real vs Histórico</b> </td>
-                    <% @dif2.each do |v|%>
-                    <td class="text-centerx"><%= v.round(2) %>%
-                    <% if v > 0  %>
-                      <i class="text-success fa fa-caret-up"></i>
-                    <% else %>
-                      <i class="text-danger fa fa-caret-down"></i>
-                    <% end -%>
-                    </td>
-                    <% end %>
-                    <td class="text-centerx">
-                    <% if @sum_dif2 != nil %>
-                      <%= @sum_dif2.round(2) %>%
-                      <i class="text-success fa fa-caret-up"></i>
-                    <% else %>
-                      <i class="text-danger fa fa-caret-down"></i>
-                    <% end -%>
+
                    </td>
                   </tr>
                 </tfoot>
@@ -194,15 +135,6 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-12 ">
-            <%= simple_form_for @compare, :url => '#', :method => :post, :remote => true, html: { id: 'compare'} do |f| %>
-              <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store], class: 'custom-select', label: false %>
-              <%= f.input :month, input_html: {value: params[:month]} %>
-              <%= f.input :year, input_html: {value: params[:year]} %>
-              <%= f.input :week, input_html: {value: params[:week]} %>
-              <%= f.input :store_source, input_html: {value: params[:store]} %>
-              <%= f.input :department_source, input_html: {value: params[:department]} %>
-              <button type="button" class="btn btn-primary btn-lg btn-large fs-15 btn-compare">Comparar</button>
-            <% end -%>
           </div>
         </div>
       </div>

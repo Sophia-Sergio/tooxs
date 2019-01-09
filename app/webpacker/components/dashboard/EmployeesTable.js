@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import Employee from './Employee'
-import DefaultAvatar from '../images/user_default.jpg'
+import Employee from '../Employee'
+import DefaultAvatar from '../../images/user_default.jpg'
 
 class EmployeesTable extends Component {
   state = {
@@ -11,7 +11,7 @@ class EmployeesTable extends Component {
       name: 'Colaborador',
       sell: 'Ventas',
       goal: 'Meta',
-      shift: 'Turno',
+      shifts: 'Turno',
       objective: 'Cumplimiento',
       link: ''
     },
@@ -22,7 +22,7 @@ class EmployeesTable extends Component {
         name: 'Ricardo Gonzalez',
         sell: 16875507,
         goal: 36672521,
-        shift: '1',
+        shifts: '1',
         objective: 46.02,
         link: '/sellers/1'
       },
@@ -32,7 +32,7 @@ class EmployeesTable extends Component {
         name: 'Claudia Bravo Lopez',
         sell: 17873735,
         goal: 31619145,
-        shift: '2',
+        shifts: '2',
         objective: 56.53,
         link: '/sellers/2'
       },
@@ -42,7 +42,7 @@ class EmployeesTable extends Component {
         name: 'Juan Herrera',
         sell: 17854275,
         goal: 31619145,
-        shift: '2',
+        shifts: '2',
         objective: 56.47,
         link: '/sellers/3'
       },
@@ -52,7 +52,7 @@ class EmployeesTable extends Component {
         name: 'Ulises Medina',
         sell: 16459648,
         goal: 32187806,
-        shift: '3',
+        shifts: '3',
         objective: 51.14,
         link: '/sellers/4'
       },
@@ -62,7 +62,7 @@ class EmployeesTable extends Component {
         name: 'Rodrigo Sanz',
         sell: 16436461,
         goal: 17140530,
-        shift: '3',
+        shifts: '3',
         objective: 51.06,
         link: '/sellers/4'
       },

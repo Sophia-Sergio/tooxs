@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import NumberFormat from 'react-number-format';
 import { currencyFormat } from "../helpers";
 
 class MonthPlan extends Component {
+  constructor(props) {
+    super(props);
+  }
   render () {
-    const { monthIndex, monthname, weeks, total } = this.props;
+    const { monthIndex, monthname, weeks, total, total_adjusted } = this.props;
     return (
       <div className="card mb-4" style={{padding: '15px'}}>
         <h3 className="change-plans__cont__title" style={{fontSize: '18px'}}>
@@ -40,7 +44,7 @@ class MonthPlan extends Component {
                         <input
                           className="form-control"
                           data-target={'#week-' + item.id}
-                          name={'percentage'}
+                          name="percentage"
                           onChange={this.props.changePercetage(monthIndex, index)}
                           type="number"
                           max="200"
@@ -62,7 +66,14 @@ class MonthPlan extends Component {
                         <div className="input-group-prepend">
                           <span className="input-group-text">$</span>
                         </div>
-                        <input className="form-control form-control-sm" data-target={'#week-' + item.id} name={'percentage-' + item.id} type="number" max="200" />
+                        <input
+                          className="form-control form-control-sm"
+                          name="amount"
+                          onChange={this.props.changeAmount(monthIndex, index)}
+                          step="1"
+                          type="number"
+                          value={item.amount}
+                        />
                       </div>
                     </td>
                   ))}
@@ -78,7 +89,7 @@ class MonthPlan extends Component {
                     </th>
                   ))}
                   <th>
-                    ${currencyFormat(total)}
+                    ${currencyFormat(total_adjusted)}
                   </th>
                 </tr>
               </tfoot>
