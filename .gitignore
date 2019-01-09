@@ -7,6 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
+# Ignore erd (db schema diagram)
+erd.pdf
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*

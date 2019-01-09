@@ -29,17 +29,11 @@ achievements.each do |achievement|
   end
 end
 
-
-
-
-
-
-
-STORE_DEPARTMENT_SALES = store_department_base.achievements.between(period[:start], period[:end]).total
+STORE_DEPARTMENT_SALES = store_department_base.achievements.between(period[:start], period[:end]).sum(:total_day)
 STORE_TOTAL = (STORE_DEPARTMENT_SALES / (Settings::DEMO_DEPARTMENTS[department_base]['sales_rate'] / 100)).round
 
 def week_data(period, store_department_base, store_department_sales)
-  base_total = store_department_base.achievements.between(period[:start], period[:end]).total
+  base_total = store_department_base.achievements.between(period[:start], period[:end]).sum(:total_day)
   {
     base_total: base_total,
     total: store_department_sales * (base_total / STORE_DEPARTMENT_SALES.to_f)
