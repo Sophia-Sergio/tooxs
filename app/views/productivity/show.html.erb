@@ -33,13 +33,7 @@
   </div>
 
   <div class="row mb-2 dashboard__filter">
-    <%= simple_form_for @search, :url => productivity_show_path, :class => '', :method => :get do |f| %>
-      <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store]  , label: false %>
-      <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false %>
-      <%= f.input :year, collection: (2018..2018), label: 'Año', wrapper: :select2, selected: params[:year] , label: false %>
-      <%= f.input :month, collection: months_until(8), label: 'Mes', wrapper: :select2, selected: params[:month] , label: false  %>
       <button class="btn btn-primary" type="submit" name="button"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
-    <% end %>
   </div>
 
   <div class="row dashboard__charts">
@@ -48,7 +42,7 @@
       <h3 class="dashboard__charts__info__title">
         Resultado de búsqueda<br>
         <small>
-          Alto Las Condes - Juvenil mujer - <%= I18n.l(Date.parse("#{'%02d' % params[:month] }/01"), format: "%B", locale: :es).capitalize %> <%= params[:year] %>
+          Alto Las Condes - Juvenil mujer - 2018
         </small>
         <hr>
         <small>
@@ -59,11 +53,8 @@
       <div class="row mb-2">
         <div class="col-md-4">
           <div class="dashboard__charts__info__item">
-            <% if params[:month]==6 %>
               <h4 class="dashboard__charts__info__item__title">Productividad real</h4>
-            <% else %>
               <h4 class="dashboard__charts__info__item__title">Productividad sin optimizar</h4>
-            <% end %>
             <h5 id="real_productivity" class="dashboard__charts__info__item__value"></h5>
           </div>
         </div>

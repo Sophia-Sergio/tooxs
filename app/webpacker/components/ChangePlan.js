@@ -7,79 +7,72 @@ import Select from 'react-select';
 import MonthPlan from './change_plan/MonthPlan'
 
 class ChangePlan extends Component {
-
-  handleClick(e) {
-    e.preventDefault();
-    consol.log('clicked');
-  }
-
-  handleChange(e) {
-
-  }
-
-  state = {
-    departmentDefault: { value: '1', label: 'Alto Las Condes' },
-    department: { value: '1', label: 'Alto Las Condes' },
-    departmentOptions: [
-      { value: '1', label: 'Alto Las Condes' },
-      { value: '2', label: 'Parque Arauco' },
-      { value: '3', label: 'Costanera Center' }
-    ],
-    year: { value: '2018', label: '2018' },
-    yearOptions: [
-      { value: '2018', label: '2018' },
-      { value: '2017', label: '2017' },
-      { value: '2016', label: '2016' }
-    ],
-    month: { value: '7', label: 'Julio' },
-    monthOptions: [
-      { value: '7', label: 'Julio' },
-      { value: '6', label: 'Junio' },
-      { value: '5', label: 'Mayo' }
-    ],
-    year: 2018,
-    months: [
-      {
-        id: 1,
-        name: 'Junio',
-        weeks: [
-          {
-            id: 1,
-            name: 'Semana 1',
-            plan: 47770108,
-            percentage: 0,
-            amount: 0,
-            adjusted: 47770108
-          },
-          {
-            id: 2,
-            name: 'Semana 2',
-            plan: 47770108,
-            percentage: 0,
-            amount: 0,
-            adjusted: 47770108
-          },
-          {
-            id: 3,
-            name: 'Semana 3',
-            plan: 47770108,
-            percentage: 0,
-            amount: 0,
-            adjusted: 47770108
-          },
-          {
-            id: 4,
-            name: 'Semana 4',
-            plan: 47770108,
-            percentage: 0,
-            amount: 0,
-            adjusted: 47770108
-          },
-        ],
-        total: 191080432,
-        total_adjusted: 191080432,
-      },
-    ],
+  constructor(props) {
+    super(props);
+    this.state = {
+      departmentDefault: { value: '1', label: 'Alto Las Condes' },
+      department: { value: '1', label: 'Alto Las Condes' },
+      departmentOptions: [
+        { value: '1', label: 'Alto Las Condes' },
+        { value: '2', label: 'Parque Arauco' },
+        { value: '3', label: 'Costanera Center' }
+      ],
+      year: { value: '2018', label: '2018' },
+      yearOptions: [
+        { value: '2018', label: '2018' },
+        { value: '2017', label: '2017' },
+        { value: '2016', label: '2016' }
+      ],
+      month: { value: '7', label: 'Julio' },
+      monthOptions: [
+        { value: '7', label: 'Julio' },
+        { value: '6', label: 'Junio' },
+        { value: '5', label: 'Mayo' }
+      ],
+      year: 2018,
+      months: [
+        {
+          id: 1,
+          name: 'Junio',
+          weeks: [
+            {
+              id: 1,
+              name: 'Semana 1',
+              plan: 47770108,
+              percentage: 0,
+              amount: 0,
+              adjusted: 47770108
+            },
+            {
+              id: 2,
+              name: 'Semana 2',
+              plan: 47770108,
+              percentage: 0,
+              amount: 0,
+              adjusted: 47770108
+            },
+            {
+              id: 3,
+              name: 'Semana 3',
+              plan: 47770108,
+              percentage: 0,
+              amount: 0,
+              adjusted: 47770108
+            },
+            {
+              id: 4,
+              name: 'Semana 4',
+              plan: 47770108,
+              percentage: 0,
+              amount: 0,
+              adjusted: 47770108
+            },
+          ],
+          total: 191080432,
+          total_adjusted: 191080432,
+        },
+      ],
+    }
   }
 
   changePercetage = (monthIndex, weekIndex) => (e) => {
@@ -88,7 +81,7 @@ class ChangePlan extends Component {
         [monthIndex]: {
           weeks: {
             [weekIndex]: {
-              [e.target.name]: {$set: e.target.value},
+              [e.target.name]: {$set: isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value)},
               amount: {$set: 0},
               adjusted: {$set: parseInt(( ( e.target.value / 100 ) * 47770108 + 47770108 ).toFixed(0))}
             }
@@ -99,7 +92,24 @@ class ChangePlan extends Component {
     });
   };
 
-  changeAmount = e => this.setState({ [e.target.name]: e.target.value });
+  changeAmount = (monthIndex, weekIndex) => (e) => {
+    const key = e.target.name;
+    const value = parseInt(e.target.value);
+    this.setState({
+      months: update(this.state.months, {
+        [monthIndex]: {
+          weeks: {
+            [weekIndex]: {
+              [e.target.name]: {$set: isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value)},
+              percentage: {$set: 0},
+              adjusted: {$set: 47770108 + parseInt(e.target.value) }
+            }
+          },
+          total_adjusted: {$set: this.state.months[monthIndex].weeks.reduce((prev, cur) => { return prev + cur.adjusted; }, 0)}
+        }
+      })
+    });
+  };
 
   handleSubmit = (e, month) => {
     e.preventDefault();
@@ -153,6 +163,7 @@ class ChangePlan extends Component {
               monthname={month.name}
               weeks={month.weeks}
               total={month.total}
+              total_adjusted={month.total_adjusted}
               changePercetage={this.changePercetage}
               changeAmount={this.changeAmount}
             />

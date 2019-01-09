@@ -3,11 +3,13 @@ import axios from 'axios';
 import { currencyFormat } from "./helpers";
 import Select from 'react-select';
 import {Line} from 'react-chartjs-2';
+import { merge } from 'lodash';
 
 class MainDashboard extends Component {
   constructor(props){
     super(props);
     this.state = {
+      loading: true,
       departmentDefault: { value: '1', label: 'Alto Las Condes' },
       department: { value: '1', label: 'Alto Las Condes' },
       departmentOptions: [
@@ -32,6 +34,9 @@ class MainDashboard extends Component {
         datasets:[]
       },
       chartOptions: {
+        tooltips: {
+          mode: 'point'
+        },
         maintainAspectRatio: false,
         responsive: true,
       },
@@ -42,101 +47,47 @@ class MainDashboard extends Component {
   }
 
   componentDidMount = () => {
-    axios.get(`http://localhost:3000/api/v1/statistics/graph?type=efficiency&year_start=2018&month_start=7`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=${this.props.user.store_id}&department=${this.props.user.store_department_id}&year_start=2018&month_start=7`)
       .then(res => {
-        this.setState({chartData: res.data})
-    })
+        this.setState({chartData: res.data, loading: false});
+
+        // this.setState(prevState => ({
+        //   chartData: {...prevState.chartData, kakita: 'something'}
+        // }));
+
+        // this.setState({
+        //   chartData : {
+        //     ...this.state.chartData,
+        //     [datasets]: {
+        //       ...this.state.chartData[datasets],
+        //       bio: 'peo'
+        //     }
+        //   }
+        // });
+
+        this.setState(state => {
+          state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
+          state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
+          state.chartData.datasets[0].borderWidth = 2;
+          state.chartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[0].pointBorderWidth = 2;
+          state.chartData.datasets[0].pointRadius = 5;
+          state.chartData.datasets[1].backgroundColor = 'rgba(137, 218, 89, .2)';
+          state.chartData.datasets[1].borderColor = 'rgba(137, 218, 89, 1)';
+          state.chartData.datasets[1].borderWidth = 2;
+          state.chartData.datasets[1].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[1].pointBorderWidth = 2;
+          state.chartData.datasets[1].pointRadius = 5;
+          return state
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   getChartData(){
     // Ajax calls here
-    // http://tooxs-demo.herokuapp.com/sales_cluster/json_month?utf8=%E2%9C%93&cluster=1&department=1&year=2018&month=5&week=
-
-    this.setState({
-      chartData:{
-        labels: ['30', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27'],
-        datasets:[
-          {
-            label:'Alto Las Condes',
-            data: [
-              5359500,
-              5413095,
-              5627475,
-              5681070,
-              6431400,
-              7074540,
-              6945912,
-              5198715,
-              5685896,
-              5740025,
-              5879908,
-              6437832,
-              7003794,
-              6952858,
-              5250704,
-              5231022,
-              5797425,
-              5821107,
-              6759724,
-              7283946,
-              7217421,
-              5520170,
-              5584699,
-              5833964,
-              5875326,
-              6659346,
-              7335278,
-              7201243
-            ],
-            backgroundColor: 'rgba(71, 196, 254, .2)',
-            borderColor: 'rgba(71, 196, 254, 1)',
-            borderWidth: 2,
-            pointBackgroundColor: 'rgba(255, 255, 255, 1)',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-          },
-          {
-            label:'Parque Arauco',
-            data: [
-              9240896,
-              9606873,
-              9698367,
-              10979284,
-              12077210,
-              11857625,
-              8874921,
-              9706600,
-              9799010,
-              10037810,
-              10990263,
-              11956438,
-              11869483,
-              8963669,
-              8930073,
-              9897000,
-              9937431,
-              11539774,
-              12434696,
-              11750788,
-              10263439,
-              7796288,
-              7765439,
-              8647414,
-              8650569,
-              10070602,
-              10858338,
-              10252468
-            ],
-            backgroundColor: 'rgba(137, 218, 89, .2)',
-            borderColor: 'rgba(137, 218, 89, 1)',
-            borderWidth: 2,
-            pointBackgroundColor: 'rgba(255, 255, 255, 1)',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-          },
-        ]
-      },
-    });
   }
 
   departmentChange = (department) => {
@@ -156,7 +107,13 @@ class MainDashboard extends Component {
 
   handleSubmit = (e, month) => {
     e.preventDefault();
-    console.log(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&year_start=2018&month_start=${this.state.month.value}`);
+    this.setState(state => ({
+      loading: !state.loading
+    }));
+    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=13&department=${this.state.department.value}&year_start=2018&month_start=${this.state.month.value}`)
+      .then(res => {
+        this.setState({chartData: res.data, loading: false})
+    })
   }
 
   // Departamento, Año, Mes
@@ -166,6 +123,7 @@ class MainDashboard extends Component {
 
     return (
       <React.Fragment>
+        {this.state.loading && <p>Loading...</p>}
         <div className="col-12 mb-2">
           <div className="card dashboard__filter">
             <form onSubmit={this.handleSubmit}>
@@ -199,10 +157,18 @@ class MainDashboard extends Component {
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            <Line
-              data={this.state.chartData}
-              options={this.state.chartOptions}
-            />
+            <h5 className="card-title">Resultado de búsqueda</h5>
+            <p className="card-text">`Datos desde el 30 de abril al 27 de mayo de $year`</p>
+          </div>
+        </div>
+        <div className="col-12 mb-2">
+          <div className="card dashboard__chart">
+            <div className="dashboard__chart__canvas">
+              <Line
+                data={this.state.chartData}
+                options={this.state.chartOptions}
+              />
+            </div>
           </div>
         </div>
       </React.Fragment>

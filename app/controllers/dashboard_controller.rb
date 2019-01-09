@@ -6,6 +6,7 @@ class DashboardController < ApplicationController
   # before_action :index_data, :index
 
   def index
+    @store = current_user.store
     # @month = params[:month] || demo_data[:date].month
     # @store = demo_data[:store]
     # @department  = demo_data[:department]
