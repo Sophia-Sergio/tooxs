@@ -39,35 +39,30 @@ class SidebarItem extends Component {
         menu: [
           {
             id: 1,
-            active: true,
             name: 'Estadísticas',
             icon: StatisticsIcon,
             link: '/sales/month/'
           },
           {
             id: 2,
-            active: false,
-            name: 'Comparativo',
+            name: 'Comparativo de ventas',
             icon: ComparativeIcon,
             link: '/sales_cluster/month/'
           },
           {
             id: 3,
-            active: false,
             name: 'Cambiar plan',
             icon: ChangePlanIcon,
             link: '/config/change_plan/'
           },
           {
             id: 4,
-            active: false,
             name: 'Colaboradores',
             icon: EmployeesIcon,
             link: '/sellers/'
           },
           {
             id: 5,
-            active: false,
             name: 'Dotación',
             icon: DotationIcon,
             link: '/staffing/index/'
@@ -80,14 +75,12 @@ class SidebarItem extends Component {
         menu: [
           {
             id: 1,
-            active: false,
             name: 'Optimizar turnos',
             icon: OptimizeIcon,
-            link: '/sales/month/'
+            link: '/productivity/show/'
           },
           {
             id: 2,
-            active: false,
             name: 'Análisis de horas',
             icon: AnalysisIcon,
             link: '/sales_cluster/month/'
@@ -100,42 +93,36 @@ class SidebarItem extends Component {
         menu: [
           {
             id: 1,
-            active: false,
             name: 'Planificación dotación',
             icon: DotationPlanIcon,
             link: '/sellers/staff/'
           },
           {
             id: 2,
-            active: false,
             name: 'Dotación produccción',
             icon: DotationProdIcon,
             link: '/tottus/dashboard/production/'
           },
           {
             id: 3,
-            active: false,
             name: 'Productividad',
-            icon: ChangePlanIcon,
-            link: '/config/change_plan/'
+            icon: ProductivityIcon,
+            link: '/productivity/report?utf8=✓&store=1&department=1&year=2018&month=5'
           },
           {
             id: 4,
-            active: false,
             name: 'Comparativo',
             icon: ComparativeReportIcon,
             link: '/productivity_cluster/month?utf8=✓&cluster=1&department=1&year=2018&month=5'
           },
           {
             id: 5,
-            active: false,
             name: 'Eficiencia',
             icon: EfficiencyIcon,
             link: '/efficiency/index/'
           },
           {
             id: 6,
-            active: false,
             name: 'Cobertura',
             icon: CoverageIcon,
             link: '/sellers/staffing_store/'
@@ -148,14 +135,12 @@ class SidebarItem extends Component {
         menu: [
           {
             id: 1,
-            active: false,
             name: 'Disponibilizador de turnos',
             icon: MakeAvailableIcon,
             link: '/staff_request/index?departments%5B%5D=1&month=6&store=1&year=2018'
           },
           {
             id: 2,
-            active: false,
             name: 'Solicitudes realizadas',
             icon: RequestIcon,
             link: '/staff_request/show/'
@@ -168,56 +153,48 @@ class SidebarItem extends Component {
         menu: [
           {
             id: 1,
-            active: false,
             name: 'Tiendas',
             icon: StoresIcon,
             link: '/stores/'
           },
           {
             id: 2,
-            active: false,
             name: 'Departamentos',
             icon: DepartmentsIcon,
             link: '/departments/'
           },
           {
             id: 3,
-            active: false,
             name: 'Turnos',
             icon: ShiftsIcon,
             link: '/available_shifts/'
           },
           {
             id: 4,
-            active: false,
             name: 'Usuarios',
             icon: UsersIcon,
             link: '/users/'
           },
           {
             id: 5,
-            active: false,
             name: 'Plan de ventas',
             icon: SalesPlanIcon,
             link: '/sale_plans/'
           },
           {
             id: 6,
-            active: false,
             name: 'Ventas reales',
             icon: RealSalesIcon,
             link: '/sale_reals/'
           },
           {
             id: 7,
-            active: false,
             name: 'Ventas por Colaborador',
             icon: EmployeesSalesIcon,
             link: '/sale_by_sellers/'
           },
           {
             id: 8,
-            active: false,
             name: 'Dotación real',
             icon: StaffingIcon,
             link: '/staffing_reals/index'
@@ -237,7 +214,7 @@ class SidebarItem extends Component {
             <ul className="sidebar__menu__item__list">
               {item.menu.map(li => (
                 <li key={li.id}>
-                  <a className={li.active ? 'active' : ''} href={li.link}>
+                  <a className={this.props.active == li.link ? 'active' : ''} href={li.link}>
                     <img src={li.icon} alt={li.name} />
                     <span>{li.name}</span>
                   </a>
