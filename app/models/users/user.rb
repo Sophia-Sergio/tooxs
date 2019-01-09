@@ -79,13 +79,13 @@ class User < ApplicationRecord
     add_role self.class.to_s.downcase.to_sym
   end
 
-  # def plan_check_in(opts)
-  #   shifts.find_case(opts).work_shift.plan_shifts.find_case(opts).check_in
-  # end
+  def plan_check_in(opts)
+    shifts.find_case(opts).work_shift.plan_shifts.find_case(opts).check_in
+  end
 
-  # def plan_check_out(opts)
-  #   shifts.find_case(opts).work_shift.plan_shifts.find_case(opts).check_out
-  # end
+  def plan_check_out(opts)
+    shifts.find_case(opts).work_shift.plan_shifts.find_case(opts).check_out
+  end
 
   # def can_wiew_sale_planification?
   #   can_view %w[admin gcc gcp gz gt gv jd]

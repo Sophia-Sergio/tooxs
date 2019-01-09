@@ -12,7 +12,7 @@ STORES.each do |store|
       seller = Seller.new(name: name, surname_1: surname_1, email: email,
                     password: 123456, phone: phone, address: Faker::Address.full_address,
                     commune: communes.sample, store_department: store_department, store: store_department.store)
-      seller.save
+      seller.save!
     end
   end
 end
