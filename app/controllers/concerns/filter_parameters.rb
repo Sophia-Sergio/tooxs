@@ -9,7 +9,8 @@ module FilterParameters
   end
 
   def set_store_department
-    @store_dep = StoreDepartment.find_by(store: params[:store], department: params[:department])
+    @store_dep = StoreDepartment.find_by(
+      store: params[:store], department: params[:department])
   end
 
   def set_dates
