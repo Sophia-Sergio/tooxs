@@ -17,6 +17,7 @@ module SalesforceReporter
       #{Rails.root}/app/models/achievement
     ]
 
+    I18n.config.enforce_available_locales = true
     config.i18n.available_locales = [
       :es,
       :en,
