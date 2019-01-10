@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   rolify # management of roles with gem
   before_create :set_role
-  belongs_to :store
+  # belongs_to :store
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
