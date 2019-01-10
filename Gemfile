@@ -40,7 +40,6 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-db-tasks', require: false
-  gem 'faker'
 end
 
 gem 'rubyXL'
@@ -48,6 +47,7 @@ platforms :ruby do
   gem 'unicorn'
 end
 
+gem 'faker'
 gem 'breadcrumbs_on_rails'
 gem 'chronic'
 gem 'devise'
