@@ -10,19 +10,7 @@
       <%= react_component('MainDashboard', { root_url: request.base_url, user: current_user }, class: 'row') %>
 
       <div class="row">
-
-        <div class="col-12">
-          <%= react_component('Stats') %>
-
-          <div class="row">
-            <%= react_component('dashboard/ShiftPlan', {}, class: 'col-md-4') %>
-            <%= react_component('dashboard/EmployeesTable', {}, class: 'col-md-8' ) %>
-          </div>
-
-        </div>
-
         <%= render 'shared/footer' %>
-
       </div>
 
     </div>

@@ -123,7 +123,6 @@ class Statistics extends Component {
 
     return (
       <React.Fragment>
-        {this.state.loading && <p>Loading...</p>}
         <div className="col-12 mb-2">
           <div className="card dashboard__filter">
             <form onSubmit={this.handleSubmit}>

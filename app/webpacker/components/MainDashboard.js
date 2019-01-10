@@ -4,12 +4,16 @@ import { currencyFormat } from "./helpers";
 import Select from 'react-select';
 import {Line} from 'react-chartjs-2';
 import { merge } from 'lodash';
+import Stats from './Stats';
+import ShiftPlan from './dashboard/ShiftPlan';
+import EmployeesTable from './dashboard/EmployeesTable';
 
 class MainDashboard extends Component {
   constructor(props){
     super(props);
     this.state = {
       loading: true,
+      result: '',
       departmentDefault: { value: '1', label: 'Alto Las Condes' },
       department: { value: '1', label: 'Alto Las Condes' },
       departmentOptions: [
@@ -40,6 +44,7 @@ class MainDashboard extends Component {
         maintainAspectRatio: false,
         responsive: true,
       },
+      employees: [],
     }
   }
 
@@ -47,6 +52,14 @@ class MainDashboard extends Component {
   }
 
   componentDidMount = () => {
+    this.getChartData();
+    this.getEmployeesData();
+  }
+
+
+
+  getChartData(){
+    // Ajax calls here
     axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=${this.props.user.store_id}&department=${this.props.user.store_department_id}&year_start=2018&month_start=7`)
       .then(res => {
         this.setState({chartData: res.data, loading: false});
@@ -83,11 +96,24 @@ class MainDashboard extends Component {
       })
       .catch(error => {
         console.log(error);
+        this.setState({
+          loading: false,
+          errors: {
+            result: 'No se econtraron coincidencias.'
+          }
+        })
       });
   }
 
-  getChartData(){
+  getEmployeesData(){
     // Ajax calls here
+    axios.get(`http://localhost:3000/api/v1/employees/sellers_table?store=13&department=1&year_start=2018&month_start=7`)
+      .then(res => {
+        this.setState({employees: res.data});
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   departmentChange = (department) => {
@@ -119,7 +145,7 @@ class MainDashboard extends Component {
   // Departamento, Año, Mes
 
   render() {
-    const { department, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
+    const { department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
 
     return (
       <React.Fragment>
@@ -158,11 +184,12 @@ class MainDashboard extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">Resultado de búsqueda</h5>
-            <p className="card-text">`Datos desde el 30 de abril al 27 de mayo de $year`</p>
+            <p className="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
           </div>
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
+            <Stats/>
             <div className="dashboard__chart__canvas">
               <Line
                 data={this.state.chartData}
@@ -171,6 +198,8 @@ class MainDashboard extends Component {
             </div>
           </div>
         </div>
+        <ShiftPlan/>
+        <EmployeesTable employees={employees}/>
       </React.Fragment>
     );
   }

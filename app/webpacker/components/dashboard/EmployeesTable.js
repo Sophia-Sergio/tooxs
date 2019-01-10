@@ -1,113 +1,66 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import Employee from '../Employee'
-import DefaultAvatar from '../../images/user_default.jpg'
+import React, { Component } from "react";
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import userDefault from '../../images/user_default';
 
 class EmployeesTable extends Component {
-  state = {
-    tableHead: {
-      id: 1,
-      avatar: '',
-      name: 'Colaborador',
-      sell: 'Ventas',
-      goal: 'Meta',
-      shifts: 'Turno',
-      objective: 'Cumplimiento',
-      link: ''
-    },
-    employees: [
-      {
-        id: 1,
-        avatar: '',
-        name: 'Ricardo Gonzalez',
-        sell: 16875507,
-        goal: 36672521,
-        shifts: '1',
-        objective: 46.02,
-        link: '/sellers/1'
-      },
-      {
-        id: 2,
-        avatar: '',
-        name: 'Claudia Bravo Lopez',
-        sell: 17873735,
-        goal: 31619145,
-        shifts: '2',
-        objective: 56.53,
-        link: '/sellers/2'
-      },
-      {
-        id: 3,
-        avatar: '',
-        name: 'Juan Herrera',
-        sell: 17854275,
-        goal: 31619145,
-        shifts: '2',
-        objective: 56.47,
-        link: '/sellers/3'
-      },
-      {
-        id: 4,
-        avatar: '',
-        name: 'Ulises Medina',
-        sell: 16459648,
-        goal: 32187806,
-        shifts: '3',
-        objective: 51.14,
-        link: '/sellers/4'
-      },
-      {
-        id: 5,
-        avatar: '',
-        name: 'Rodrigo Sanz',
-        sell: 16436461,
-        goal: 17140530,
-        shifts: '3',
-        objective: 51.06,
-        link: '/sellers/4'
-      },
-    ]
-  }
   render () {
-    const { tableHead, employees } = this.state;
-
+    const columns = [
+      {
+        dataField: 'avatar',
+        editCellStyle: {
+          backgroundColor: '#20B2AA'
+        },
+        text: 'Foto',
+        formatter: (cellContent, row) => (
+          <div className="avatar border border-primary rounded-circle" style={{overflow: 'hidden', width: '40px'}}>
+            <img src={row.avatar != '' ? row.avatar : userDefault} style={{display: 'block', height: 'auto', width: '100%'}} />
+          </div>
+        ),
+        style: {
+          width: '40px'
+        }
+      },
+      {
+        dataField: 'name',
+        text: 'Nombre',
+        sort: true
+      },
+      {
+        dataField: 'sell',
+        text: 'Ventas',
+        sort: true
+      },
+      {
+        dataField: 'goal',
+        text: 'Meta',
+        sort: true
+      },
+      {
+        dataField: 'shifts',
+        text: 'Turnos',
+      },
+    ];
     return (
-      <div className="card dashboard__table">
-        <div className="table-responsive">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>{tableHead.avatar}</th>
-                <th>{tableHead.name}</th>
-                <th>{tableHead.sell}</th>
-                <th>{tableHead.goal}</th>
-                <th>{tableHead.shift}</th>
-                <th>{tableHead.objective}</th>
-                <th>{tableHead.link}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {employees.map(employee => (
-                <Employee
-                  key={employee.id}
-                  avatar={(employee.avatar != '') ? employee.avatar : DefaultAvatar}
-                  employee={employee}
-                />
-              ))}
-            </tbody>
-          </table>
+      <div className="col-md-7">
+        <div className="card dashboard__table">
+          <div className="table-responsive">
+            <BootstrapTable
+              bootstrap4
+              bordered={ false }
+              columns={ columns }
+              data={ this.props.employees }
+              headerClasses='bg-primary text-white'
+              keyField='id'
+              pagination={ paginationFactory() }
+            />
+          </div>
         </div>
       </div>
     );
   }
 }
 
-EmployeesTable.defaultProps = {
-  title: 'Dashboard title'
-};
-
-EmployeesTable.propTypes = {
-  title: PropTypes.string.isRequired
-};
-
-export default EmployeesTable
+export default EmployeesTable;
