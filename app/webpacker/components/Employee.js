@@ -21,7 +21,7 @@ class Employee extends Component {
         <td>{name}</td>
         <td>{formatter.format(sell)}</td>
         <td>{formatter.format(goal)}</td>
-        <td>{shift}</td>
+        <td>{shifts}</td>
         <td className="progress-container">
           <div className="progress">
             <span className="progress-value">{objective}%</span>

@@ -1,160 +1,178 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import axios from 'axios';
+import update from 'immutability-helper'; // ES6
 import { currencyFormat } from "./helpers";
+import Select from 'react-select';
+import MonthPlan from './change_plan/MonthPlan'
 
 class ChangePlan extends Component {
-
-  handleClick(e) {
-    e.preventDefault();
-    consol.log('clicked');
-  }
-
-  handleChange(e) {
-
-  }
-
-  state = {
-    year: 2018,
-    month: {
-      id: 1,
-      name: 'Junio',
-      weeks: [
+  constructor(props) {
+    super(props);
+    this.state = {
+      departmentDefault: { value: '1', label: 'Alto Las Condes' },
+      department: { value: '1', label: 'Alto Las Condes' },
+      departmentOptions: [
+        { value: '1', label: 'Alto Las Condes' },
+        { value: '2', label: 'Parque Arauco' },
+        { value: '3', label: 'Costanera Center' }
+      ],
+      year: { value: '2018', label: '2018' },
+      yearOptions: [
+        { value: '2018', label: '2018' },
+        { value: '2017', label: '2017' },
+        { value: '2016', label: '2016' }
+      ],
+      month: { value: '7', label: 'Julio' },
+      monthOptions: [
+        { value: '7', label: 'Julio' },
+        { value: '6', label: 'Junio' },
+        { value: '5', label: 'Mayo' }
+      ],
+      year: 2018,
+      months: [
         {
           id: 1,
-          name: 'Semana 1',
-          plan: 47770108
+          name: 'Junio',
+          weeks: [
+            {
+              id: 1,
+              name: 'Semana 1',
+              plan: 47770108,
+              percentage: 0,
+              amount: 0,
+              adjusted: 47770108
+            },
+            {
+              id: 2,
+              name: 'Semana 2',
+              plan: 47770108,
+              percentage: 0,
+              amount: 0,
+              adjusted: 47770108
+            },
+            {
+              id: 3,
+              name: 'Semana 3',
+              plan: 47770108,
+              percentage: 0,
+              amount: 0,
+              adjusted: 47770108
+            },
+            {
+              id: 4,
+              name: 'Semana 4',
+              plan: 47770108,
+              percentage: 0,
+              amount: 0,
+              adjusted: 47770108
+            },
+          ],
+          total: 191080432,
+          total_adjusted: 191080432,
         },
-        {
-          id: 2,
-          name: 'Semana 2',
-          plan: 47770108
-        },
-        {
-          id: 3,
-          name: 'Semana 3',
-          plan: 47770108
-        },
-        {
-          id: 4,
-          name: 'Semana 4',
-          plan: 47770108
-        },
-      ]
-    },
-    percentage_1: 0,
-    percentage_2: 0,
-    percentage_3: 0,
-    percentage_4: 0,
-    amount_1: 0,
-    amount_2: 0,
-    amount_3: 0,
-    amount_4: 0,
-    total: 191080432
+      ],
+    }
   }
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  changePercetage = (monthIndex, weekIndex) => (e) => {
+    this.setState({
+      months: update(this.state.months, {
+        [monthIndex]: {
+          weeks: {
+            [weekIndex]: {
+              [e.target.name]: {$set: isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value)},
+              amount: {$set: 0},
+              adjusted: {$set: parseInt(( ( e.target.value / 100 ) * 47770108 + 47770108 ).toFixed(0))}
+            }
+          },
+          total_adjusted: {$set: this.state.months[monthIndex].weeks.reduce((prev, cur) => { return prev + cur.adjusted; }, 0)}
+        }
+      })
+    });
+  };
+
+  changeAmount = (monthIndex, weekIndex) => (e) => {
+    const key = e.target.name;
+    const value = parseInt(e.target.value);
+    this.setState({
+      months: update(this.state.months, {
+        [monthIndex]: {
+          weeks: {
+            [weekIndex]: {
+              [e.target.name]: {$set: isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value)},
+              percentage: {$set: 0},
+              adjusted: {$set: 47770108 + parseInt(e.target.value) }
+            }
+          },
+          total_adjusted: {$set: this.state.months[monthIndex].weeks.reduce((prev, cur) => { return prev + cur.adjusted; }, 0)}
+        }
+      })
+    });
+  };
+
+  handleSubmit = (e, month) => {
+    e.preventDefault();
+    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=13&department=${this.state.department.value}&year_start=2018&month_start=${this.state.month.value}`)
+      .then(res => {
+        //this.setState({chartData: res.data, loading: false})
+        console.log(res);
+    })
+  }
 
   render () {
-    const { month, total } = this.state;
-    const formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    });
-
+    const { departmentOptions, department, yearOptions, year, months, monthOptions, month } = this.state;
     return (
-      <div className="card mb-4" style={{padding: '15px'}}>
-        <h3 className="change-plans__cont__title" style={{fontSize: '18px'}}>
-          {this.props.monthname} <span style={{color: '#6c757d', fontWeight: 400}}>de 2018</span>
-        </h3>
-        <form className="change-plans__form">
-          <div className="table-responsive">
-            <table className="table mb-2">
-              <thead className="thead bg-primary text-white">
-                <tr>
-                  <th></th>
-                  {month.weeks.map(item => (
-                    <th>{item.name}</th>
-                  ))}
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Plan</td>
-                  {month.weeks.map(item => (
-                    <td id={'week-' + item.id} key={item.id}>${currencyFormat(item.plan)}</td>
-                  ))}
-                  <td>
-                    ${currencyFormat( month.weeks.reduce((prev, cur) => { return prev + cur.plan;}, 0) )}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Ajuste en %</td>
-                  {month.weeks.map((item, index) => (
-                    <td key={item.id}>
-                      <div className="input-group input-group-sm">
-                        <input
-                          className="form-control"
-                          data-target={'#week-' + item.id}
-                          name={'percentage_' + item.id}
-                          onChange={this.onChange}
-                          type="number"max="200"
-                          value={this.state.percentage_1}
-                        />
-                        <div className="input-group-append">
-                          <span className="input-group-text">%</span>
-                        </div>
-                      </div>
-                    </td>
-                  ))}
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>Ajuste monto</td>
-                  {month.weeks.map(item => (
-                    <td key={item.id}>
-                      <div className="input-group input-group-sm">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">$</span>
-                        </div>
-                        <input className="form-control form-control-sm" data-target={'#week-' + item.id} name={'percentage-' + item.id} type="number" max="200" />
-                      </div>
-                    </td>
-                  ))}
-                  <td></td>
-                </tr>
-              </tbody>
-              <tfoot className="thead">
-                <tr>
-                  <th>Plan ajustado</th>
-                  {month.weeks.map(item => (
-                    <th>
-                      ${currencyFormat(item.plan)}
-                    </th>
-                  ))}
-                  <th>
-                    ${currencyFormat(total)}
-                  </th>
-                </tr>
-              </tfoot>
-            </table>
+      <React.Fragment>
+        <div className="col-12 mb-2">
+          <div className="card dashboard__filter">
+            <form onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <Select
+                  options={departmentOptions}
+                  placeholder={`Departamento`}
+                  onChange={this.departmentChange}
+                  value={department}
+                />
+              </div>
+              <div className="form-group">
+                <Select
+                  options={yearOptions}
+                  placeholder={`Año`}
+                  onChange={this.yearChange}
+                  value={year}
+                />
+              </div>
+              <div className="form-group">
+                <Select
+                  options={monthOptions}
+                  placeholder={`Mes`}
+                  onChange={this.monthChange}
+                  value={month}
+                />
+              </div>
+              <button className="btn btn-primary" type="submit">Buscar</button>
+            </form>
           </div>
-          <button className="btn btn-primary" data-target="#exampleModal" data-toggle="modal" type="button">Cambiar plan</button>
-        </form>
-      </div>
+        </div>
+        <div className="col-12 mb-2">
+          {months.map((month, index) => (
+            <MonthPlan
+              key={index}
+              monthIndex={index}
+              monthname={month.name}
+              weeks={month.weeks}
+              total={month.total}
+              total_adjusted={month.total_adjusted}
+              changePercetage={this.changePercetage}
+              changeAmount={this.changeAmount}
+            />
+          ))}
+        </div>
+      </React.Fragment>
     );
   }
 
 }
-
-ChangePlan.defaultProps = {
-  title: 'Dashboard title'
-};
-
-ChangePlan.propTypes = {
-  title: PropTypes.string.isRequired
-};
 
 export default ChangePlan
