@@ -6,7 +6,7 @@ class ShiftPlan extends Component {
   }
   render () {
     return (
-      <React.Fragment>
+      <div className="col-md-5">
         <div className="card dashboard__progress mb-2">
           <h5 className="card-title">Planificación turnos mes siguiente</h5>
           <div className="progress">
@@ -115,7 +115,7 @@ class ShiftPlan extends Component {
             </table>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
