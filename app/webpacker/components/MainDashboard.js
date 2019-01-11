@@ -50,7 +50,8 @@ class MainDashboard extends Component {
     this.createFiltersData();
   }
 
-  componentDidMount(){
+  componentDidMount = () => {
+    this.createFiltersData();
     this.getChartData();
     this.getEmployeesData();
   }
@@ -129,8 +130,8 @@ class MainDashboard extends Component {
 
   handleSubmit = (e, month) => {
     e.preventDefault();
-    this.getChartData();
-    this.getEmployeesData();
+    getChartData();
+    getEmployeesData();
   }
 
   // Departamento, Año, Mes
