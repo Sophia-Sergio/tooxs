@@ -42,17 +42,34 @@ class EmployeesTable extends Component {
         dataField: 'shifts',
         text: 'Turnos',
       },
+      {
+        dataField: 'objective',
+        text: 'Cumplimiento',
+        formatter: (cellContent, row) => (
+          <div className="progress">
+            <span className="progress-value">{cellContent * 100 + '%'}</span>
+            <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: cellContent * 100 + '%'}}>
+            </div>
+          </div>
+        ),
+        headerStyle: {
+          width: '120px'
+        },
+        style: {
+          position: 'relative'
+        }
+      },
     ];
     return (
       <div className="col-md-7">
         <div className="card dashboard__table">
+          <h5 className="card-title">Mis colaboradores</h5>
           <div className="table-responsive">
             <BootstrapTable
               bootstrap4
               bordered={ false }
               columns={ columns }
               data={ this.props.employees }
-              headerClasses='bg-primary text-white'
               keyField='id'
               pagination={ paginationFactory() }
             />
