@@ -10,7 +10,6 @@ gem 'rails', '~> 5.1.3'
 
 gem 'bcrypt', '~> 3.1.12'
 gem 'coffee-rails', '~> 4.2'
-gem 'jbuilder', '~> 2.5'
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 gem 'turbolinks', '~> 5'
@@ -41,7 +40,6 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-db-tasks', require: false
-  gem 'faker'
 end
 
 gem 'rubyXL'
@@ -49,6 +47,7 @@ platforms :ruby do
   gem 'unicorn'
 end
 
+gem 'faker'
 gem 'breadcrumbs_on_rails'
 gem 'chronic'
 gem 'devise'
@@ -59,3 +58,6 @@ gem 'rails-i18n'
 gem 'rolify'
 gem 'settingslogic'
 gem 'simple_form'
+gem 'sass-rails', '~> 5.0'
+gem 'ejs'
+

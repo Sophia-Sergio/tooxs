@@ -22,6 +22,9 @@ erd.pdf
 /yarn-error.log
 /public/packs
 
+/public/packs/manifest.json
+/public/assets
+
 .byebug_history
 .DS_Store/public/packs
 /public/packs-test
