@@ -23,6 +23,7 @@ erd.pdf
 /public/packs
 
 /public/packs/manifest.json
+/public/assets
 
 .byebug_history
 .DS_Store/public/packs
