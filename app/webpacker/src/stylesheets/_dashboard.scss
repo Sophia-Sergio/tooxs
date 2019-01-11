@@ -326,8 +326,7 @@
     .card-title {
       color: $dark-blue;
       border-bottom: 1px solid $mid-gray;
-      font-family: $font-title;
-      font-size: 1.5em;
+      font-size: 1em;
       padding-bottom: 5px;
       text-transform: uppercase;
       }
@@ -357,6 +356,8 @@
 
       table {
         font-size: 1em;
+        min-width: 100%;
+        table-layout: inherit;
 
         thead {
           background-color: $light-gray;
