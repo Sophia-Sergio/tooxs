@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import { currencyFormat } from "./helpers";
+import Loader from "./layout/Loader";
 import Select from 'react-select';
 import {Line} from 'react-chartjs-2';
 import { merge } from 'lodash';
@@ -139,7 +140,7 @@ class MainDashboard extends Component {
 
     return (
       <React.Fragment>
-        {this.state.loading && <p>Loading...</p>}
+        {this.state.loading && <Loader/>}
         <div className="col-12 mb-2">
           <div className="card dashboard__filter">
             <form onSubmit={this.handleSubmit}>
