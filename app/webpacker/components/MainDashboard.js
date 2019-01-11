@@ -14,13 +14,10 @@ class MainDashboard extends Component {
     this.state = {
       loading: true,
       result: '',
-      departmentDefault: { value: '1', label: 'Alto Las Condes' },
-      department: { value: '1', label: 'Alto Las Condes' },
-      departmentOptions: [
-        { value: '1', label: 'Alto Las Condes' },
-        { value: '2', label: 'Parque Arauco' },
-        { value: '3', label: 'Costanera Center' }
-      ],
+      store: {},
+      storeOptions: [],
+      department: {},
+      departmentOptions: [],
       year: { value: '2018', label: '2018' },
       yearOptions: [
         { value: '2018', label: '2018' },
@@ -52,32 +49,25 @@ class MainDashboard extends Component {
   }
 
   componentDidMount = () => {
+    this.createFiltersData();
     this.getChartData();
     this.getEmployeesData();
   }
 
-
+  createFiltersData(){
+    this.setState({
+      store: this.props.stores.map( (store, index) => ({ value: store.id, label: store.name }) )[0],
+      storeOptions: this.props.stores.map( store => ({ value: store.id, label: store.name }) ),
+      department: this.props.departments.map( department => ({ value: department.id, label: department.name }) )[0],
+      departmentOptions: this.props.departments.map( department => ({ value: department.id, label: department.name }) )
+    })
+  }
 
   getChartData(){
-    // Ajax calls here
-    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=${this.props.user.store_id}&department=${this.props.user.store_department_id}&year_start=2018&month_start=7`)
+    this.setState({loading: true});
+    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2018&month_start=7`)
       .then(res => {
         this.setState({chartData: res.data, loading: false});
-
-        // this.setState(prevState => ({
-        //   chartData: {...prevState.chartData, kakita: 'something'}
-        // }));
-
-        // this.setState({
-        //   chartData : {
-        //     ...this.state.chartData,
-        //     [datasets]: {
-        //       ...this.state.chartData[datasets],
-        //       bio: 'peo'
-        //     }
-        //   }
-        // });
-
         this.setState(state => {
           state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
           state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
@@ -107,7 +97,7 @@ class MainDashboard extends Component {
 
   getEmployeesData(){
     // Ajax calls here
-    axios.get(`http://localhost:3000/api/v1/employees/sellers_table?store=13&department=1&year_start=2018&month_start=7`)
+    axios.get(`${this.props.root_url}/api/v1/employees/sellers_table?store=${this.state.store.value}&department=${this.state.department.value}&year_start=2018&month_start=7`)
       .then(res => {
         this.setState({employees: res.data});
       })
@@ -116,9 +106,14 @@ class MainDashboard extends Component {
       });
   }
 
+  storeChange = (department) => {
+    this.setState({ store });
+    console.log(this.state.store);
+  }
+
   departmentChange = (department) => {
     this.setState({ department });
-    console.log(`Option selected:`, department);
+    console.log(this.state.department);
   }
 
   yearChange = (year) => {
@@ -133,19 +128,14 @@ class MainDashboard extends Component {
 
   handleSubmit = (e, month) => {
     e.preventDefault();
-    this.setState(state => ({
-      loading: !state.loading
-    }));
-    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=13&department=${this.state.department.value}&year_start=2018&month_start=${this.state.month.value}`)
-      .then(res => {
-        this.setState({chartData: res.data, loading: false})
-    })
+    getChartData();
+    getEmployeesData();
   }
 
   // Departamento, Año, Mes
 
   render() {
-    const { department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
+    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
 
     return (
       <React.Fragment>
@@ -153,6 +143,14 @@ class MainDashboard extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__filter">
             <form onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <Select
+                  options={storesOptions}
+                  placeholder={`Tienda`}
+                  onChange={this.storeChange}
+                  value={store}
+                />
+              </div>
               <div className="form-group">
                 <Select
                   options={departmentOptions}
