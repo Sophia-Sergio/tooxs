@@ -16,10 +16,11 @@ module Api
         goals = goals(plan_hours, params[:year_start], params[:month_start])
         shifts = Seller.where(id: sellers.ids).shifts_ids(params[:year_start], params[:month_start])
 
-        sellers_table = sellers.each_with_object([]) do |seller, array|
+        data_table = sellers.each_with_object([]) do |seller, array|
           array << {
             id: seller.id,
             name: seller.name,
+            last_name: seller.surname_1,
             avatar: '',
             shifts: shifts[seller.id].join(','),
             sell: achievements[seller.id],
@@ -28,7 +29,7 @@ module Api
             link: seller_path(seller)
           }
         end
-        render json: sellers_table
+        render json: data_table
       end
 
       def goals(plan_hours, year, month)
