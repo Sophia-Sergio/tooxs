@@ -50,8 +50,7 @@ class MainDashboard extends Component {
     this.createFiltersData();
   }
 
-  componentDidMount = () => {
-    this.createFiltersData();
+  componentDidMount(){
     this.getChartData();
     this.getEmployeesData();
   }
