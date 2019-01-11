@@ -13,8 +13,6 @@ class ShiftPlan extends Component {
             <div className="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{ width: '53%' }}></div>
           </div>
           <p className="card-text">8 de 15</p>
-        </div>
-        <div className="card dashboard__table">
           <div className="table-responsive">
             <table className="table">
               <thead>
