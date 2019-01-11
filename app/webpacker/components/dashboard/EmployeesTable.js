@@ -3,6 +3,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { currencyFormat } from "../helpers";
 import userDefault from '../../images/user_default';
 
 class EmployeesTable extends Component {
@@ -31,12 +32,18 @@ class EmployeesTable extends Component {
       {
         dataField: 'sell',
         text: 'Ventas',
-        sort: true
+        sort: true,
+        formatter: (cellContent) => (
+          '$' + currencyFormat(cellContent)
+        ),
       },
       {
         dataField: 'goal',
         text: 'Meta',
-        sort: true
+        sort: true,
+        formatter: (cellContent) => (
+          '$' + currencyFormat(cellContent)
+        ),
       },
       {
         dataField: 'shifts',
