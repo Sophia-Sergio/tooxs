@@ -35,6 +35,11 @@ class EmployeesTable extends Component {
         sort: true
       },
       {
+        dataField: 'last_name',
+        text: 'Apellido',
+        sort: true
+      },
+      {
         dataField: 'sell',
         text: 'Ventas',
         sort: true,
