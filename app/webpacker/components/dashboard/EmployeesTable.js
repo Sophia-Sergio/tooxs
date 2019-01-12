@@ -30,6 +30,11 @@ class EmployeesTable extends Component {
         sort: true
       },
       {
+        dataField: 'last_name',
+        text: 'Apellido',
+        sort: true
+      },
+      {
         dataField: 'sell',
         text: 'Ventas',
         sort: true,
@@ -54,11 +59,7 @@ class EmployeesTable extends Component {
         text: 'Cumplimiento',
         formatter: (cellContent, row) => (
           <div className="progress">
-<<<<<<< HEAD
             <span className="progress-value">{(cellContent * 100).toFixed(0) + '%'}</span>
-=======
-            <span className="progress-value">{cellContent * 100 + '%'}</span>
->>>>>>> f7da7236e967b68b50fee505025ab2473be2092a
             <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: cellContent * 100 + '%'}}>
             </div>
           </div>
