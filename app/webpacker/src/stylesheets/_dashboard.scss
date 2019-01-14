@@ -32,6 +32,22 @@
     border-radius: 5px;
     }
 
+  &__loader {
+    background-color: rgba(white, .75);
+    height: 100%;
+    left: 15px;
+    position: absolute;
+    right: 15px;
+    z-index: 2;
+
+    i {
+      color: $light-blue;
+      display: block;
+      margin: 50px auto 0 auto;
+    }
+
+  }
+
   &__navbar {
     background-color: $dark-blue;
     width: 100%;
@@ -326,8 +342,7 @@
     .card-title {
       color: $dark-blue;
       border-bottom: 1px solid $mid-gray;
-      font-family: $font-title;
-      font-size: 1.5em;
+      font-size: 1em;
       padding-bottom: 5px;
       text-transform: uppercase;
       }
@@ -357,6 +372,8 @@
 
       table {
         font-size: 1em;
+        min-width: 100%;
+        table-layout: inherit;
 
         thead {
           background-color: $light-gray;
@@ -364,7 +381,7 @@
           tr {
 
             th {
-              padding: 8px 10px;
+              padding: 20px 10px;
               vertical-align: middle;
               }
 

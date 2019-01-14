@@ -3,6 +3,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { currencyFormat } from "../helpers";
 import userDefault from '../../images/user_default';
 
 class EmployeesTable extends Component {
@@ -29,30 +30,58 @@ class EmployeesTable extends Component {
         sort: true
       },
       {
+        dataField: 'last_name',
+        text: 'Apellido',
+        sort: true
+      },
+      {
         dataField: 'sell',
         text: 'Ventas',
-        sort: true
+        sort: true,
+        formatter: (cellContent) => (
+          '$' + currencyFormat(cellContent)
+        ),
       },
       {
         dataField: 'goal',
         text: 'Meta',
-        sort: true
+        sort: true,
+        formatter: (cellContent) => (
+          '$' + currencyFormat(cellContent)
+        ),
       },
       {
         dataField: 'shifts',
         text: 'Turnos',
       },
+      {
+        dataField: 'objective',
+        text: 'Cumplimiento',
+        formatter: (cellContent, row) => (
+          <div className="progress">
+            <span className="progress-value">{(cellContent * 100).toFixed(0) + '%'}</span>
+            <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: cellContent * 100 + '%'}}>
+            </div>
+          </div>
+        ),
+        headerStyle: {
+          width: '120px'
+        },
+        style: {
+          position: 'relative'
+        }
+      },
     ];
     return (
       <div className="col-md-7">
         <div className="card dashboard__table">
+          <h5 className="card-title">Mis colaboradores</h5>
           <div className="table-responsive">
             <BootstrapTable
               bootstrap4
               bordered={ false }
               columns={ columns }
               data={ this.props.employees }
-              headerClasses='bg-primary text-white'
               keyField='id'
               pagination={ paginationFactory() }
             />

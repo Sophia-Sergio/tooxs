@@ -5,63 +5,7 @@
     <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
       <div class="row">
         <%= react_component('DashboardHeader', { title: 'Turnos' }) %>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__filter">
-            <form action="">
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="" id="">
-                  <option>Tienda 5</option>
-                  <option>Alto Las Condes</option>
-                  <option>Departamental</option>
-                  <option>Plaza Egaña</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="" id="">
-                  <option>Departamento 3</option>
-                  <option>Juvenil Mujer</option>
-                </select>
-              </div>
-
-              <button>Buscar</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__table">
-            <h5 class="card-title">Listado de turnos</h5>
-            <div class="align-self-end text-right mb-3 boton-comparar">
-              <%= form_with url: import_available_shifts_path, multipart: true, local: true do %>
-                <%= submit_tag '+ Importar', class: "btn btn-primary btn-compare-sales" %>
-              <% end %>
-            </div>
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Numero Turno</th>
-                    <th>Nombre</th>
-                    <th>Detalle</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @available_shifts.each do |available_shift| %>
-                    <tr>
-                      <td><%= available_shift.num %></td>
-                      <td><%= available_shift.name %></td>
-                      <td><%= link_to 'Ver más', available_shift_path(:num => available_shift.num)%></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
+        <%= react_component('AvailableShifts', {}, class: 'col-md-12') %>
         <%= render 'shared/footer' %>
 
       </div>

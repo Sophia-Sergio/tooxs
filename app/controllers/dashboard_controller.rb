@@ -6,6 +6,8 @@ class DashboardController < ApplicationController
   # before_action :index_data, :index
 
   def index
+    @stores = Store.where(name: Settings::STORES_ALLOWED)
+    @departments = @stores.first.departments
     # @store = current_user.store
     # @month = params[:month] || demo_data[:date].month
     # @store = demo_data[:store]

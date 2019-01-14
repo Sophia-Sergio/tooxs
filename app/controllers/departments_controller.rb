@@ -4,9 +4,10 @@ class DepartmentsController < ApplicationController
   # GET /departments
   # GET /departments.json
   def index
-    @departments = Department.all
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Departamentos", :departments_path
+    @departments = StoreDepartment.all.each_with_object({}) do |element, hash|
+      hash[element.id] = {store_name: element.store.name, department_name: element.department.name}
+    end
+    binding.pry
   end
 
   def import

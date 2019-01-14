@@ -182,18 +182,6 @@ class SidebarItem extends Component {
             link: '/sale_plans/'
           },
           {
-            id: 6,
-            name: 'Ventas reales',
-            icon: RealSalesIcon,
-            link: '/sale_reals/'
-          },
-          {
-            id: 7,
-            name: 'Ventas por Colaborador',
-            icon: EmployeesSalesIcon,
-            link: '/sale_by_sellers/'
-          },
-          {
             id: 8,
             name: 'Dotación real',
             icon: StaffingIcon,
