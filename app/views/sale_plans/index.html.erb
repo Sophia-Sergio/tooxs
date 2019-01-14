@@ -5,70 +5,7 @@
     <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
       <div class="row">
         <%= react_component('DashboardHeader', { title: 'Plan de ventas' }) %>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__filter">
-            <form action="">
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="" id="">
-                  <option>Tienda 5</option>
-                  <option>Alto Las Condes</option>
-                  <option>Departamental</option>
-                  <option>Plaza Egaña</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="" id="">
-                  <option>Departamento 3</option>
-                  <option>Juvenil Mujer</option>
-                </select>
-              </div>
-
-              <button>Buscar</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__table">
-            <div class="align-self-end text-right mb-3 boton-comparar">
-              <%= form_with url: import_sale_plans_path, multipart: true, local: true do %>
-                <%= link_to 'Resetear datos', delete_sale_plans_path, class: "btn btn-primary" %>
-                <%= link_to 'Descargar datos de prueba', downloads_sale_plans_path, class: "btn btn-primary" %>
-              <% end %>
-            </div>
-            <div class="table-responsive">
-              <table id="sale_plans" class="table" style="width: 100%">
-                <thead>
-                  <tr>
-                    <th>Tienda</th>
-                    <th>Departamento</th>
-                    <th>Fecha</th>
-                    <th>Semana</th>
-                    <th>Mes</th>
-                    <th>Dia</th>
-                    <th>Total Dia</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                      <td>Alto las condes</td>
-                      <td>Mujer MOda %></td>
-                      <td>2018-10-10 %></td>
-                      <td 1 %></td>
-                      <td>123231312231</td>
-                      <td>213561273312 %></td>
-                      <td>adsdsaadsasd</td>
-                    </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
+        <%= react_component('SalePlans', {}, class: 'col-md-12') %>
         <%= render 'shared/footer' %>
 
       </div>
