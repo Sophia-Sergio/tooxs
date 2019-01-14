@@ -18,14 +18,7 @@ module SalesforceReporter
     ]
 
     config.i18n.available_locales = [
-      :es,
-      :en,
-      'es-CL',
-      'es-MX',
-      'es-CO',
-      'pt-BR',
-      'es-PE',
-      'zh-CN',
+      :en
     ]
 
     config.i18n.fallbacks = {
