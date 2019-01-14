@@ -5,73 +5,8 @@
     <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
       <div class="row">
         <%= react_component('DashboardHeader', { title: 'Turnos reales por día' }) %>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__filter">
-            <form action="">
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="" id="">
-                  <option>Tienda 5</option>
-                  <option>Alto Las Condes</option>
-                  <option>Departamental</option>
-                  <option>Plaza Egaña</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="" id="">
-                  <option>Departamento 3</option>
-                  <option>Juvenil Mujer</option>
-                </select>
-              </div>
-
-              <button>Buscar</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__table">
-            <div class="align-self-end text-right mb-3 boton-comparar">
-              <%= form_with url: import_staffing_reals_path, multipart: true, local: true do %>
-                <%= link_to 'Resetear datos', delete_staffing_reals_path, class: "btn btn-primary" %>
-                <%= link_to 'Descargar datos de prueba', downloads_staffing_reals_path, class: "btn btn-primary" %>
-              <% end %>
-            </div>
-            <div class="table-responsive">
-              <table class="table" id="table-staffing_real">
-                <thead>
-                  <tr>
-                    <th>Tienda</th>
-                    <th>Departmento</th>
-                    <th>Año</th>
-                    <th>Mes</th>
-                    <th>Día</th>
-                    <th>Hora</th>
-                    <th>Cantidad</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @staffing_reals.each do |staffing_real| %>
-                    <tr>
-                      <td><%= staffing_real.store %></td>
-                      <td><%= staffing_real.department %></td>
-                      <td><%= staffing_real.year %></td>
-                      <td><%= staffing_real.month %></td>
-                      <td><%= staffing_real.day %></td>
-                      <td><%= staffing_real.hour %></td>
-                      <td><%= staffing_real.count %></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
+        <%= react_component('StaffingReals', {}, class: 'col-md-12') %>
         <%= render 'shared/footer' %>
-
       </div>
     </div>
   </div>

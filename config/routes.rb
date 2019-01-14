@@ -139,6 +139,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :sale_reals, only: [:index]
+
   resources :historic_sales, only: [:index] do
     collection { post 'import' }
   end
