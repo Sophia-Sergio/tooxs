@@ -1,12 +1,7 @@
-class RealSalesController < ApplicationController
+class SaleRealsController < ApplicationController
 
   def index
-    @real_sales = RealSale.all
-  end
-
-
- def index
-    @real_sales = RealSale.all
+    # @real_sales = RealSale.all
   end
 
   def import

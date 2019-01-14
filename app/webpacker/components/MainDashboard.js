@@ -146,33 +146,37 @@ class MainDashboard extends Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.storeChange}
                   options={storesOptions}
                   placeholder={`Tienda`}
-                  onChange={this.storeChange}
                   value={store}
                 />
               </div>
               <div className="form-group">
                 <Select
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.departmentChange}
                   options={departmentOptions}
                   placeholder={`Departamento`}
-                  onChange={this.departmentChange}
                   value={department}
                 />
               </div>
               <div className="form-group">
                 <Select
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.yearChange}
                   options={yearOptions}
                   placeholder={`Año`}
-                  onChange={this.yearChange}
                   value={year}
                 />
               </div>
               <div className="form-group">
                 <Select
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.monthChange}
                   options={monthOptions}
                   placeholder={`Mes`}
-                  onChange={this.monthChange}
                   value={month}
                 />
               </div>

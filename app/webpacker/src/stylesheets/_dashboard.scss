@@ -38,7 +38,7 @@
     left: 15px;
     position: absolute;
     right: 15px;
-    z-index: 1;
+    z-index: 2;
 
     i {
       color: $light-blue;
@@ -381,7 +381,7 @@
           tr {
 
             th {
-              padding: 8px 10px;
+              padding: 20px 10px;
               vertical-align: middle;
               }
 
