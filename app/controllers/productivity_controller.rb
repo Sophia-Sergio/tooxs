@@ -6,6 +6,8 @@ class ProductivityController < ApplicationController
   # before_action :set_params, only: %i[show json_current]
 
   def show
+    @stores = Store.where(name: Settings::STORES_ALLOWED)
+    @departments = @stores.first.departments
     # first_day_of_weeks = @store.sale_plans.by_year_and_month(@year, @month)
     #                            .by_department(@department).dates_by_week(1)
     # @staffing_w1  = staffing_draw(first_day_of_weeks[1])
