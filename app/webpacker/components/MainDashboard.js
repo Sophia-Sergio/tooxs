@@ -186,7 +186,7 @@ class MainDashboard extends Component {
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            <h5 className="card-title">Resultado de búsqueda</h5>
+            <h5 className="card-title">Gráfico de eficiencia</h5>
             <p className="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
           </div>
         </div>
