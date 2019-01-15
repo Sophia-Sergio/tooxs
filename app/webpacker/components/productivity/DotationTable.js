@@ -105,6 +105,23 @@ class DotationTable extends Component {
                   </tr>
                 ))}
               </tbody>
+              <tfoot>
+                <tr style={{backgroundColor: '#f1f1f1'}}>
+                  <td colSpan="2">Total</td>
+                  <td style={{textAlign: 'center'}}>21</td>
+                  <td style={{textAlign: 'center'}}>15</td>
+                </tr>
+                <tr style={{backgroundColor: '#f1f1f1'}}>
+                  <td colSpan="2">Eficiencia</td>
+                  <td style={{textAlign: 'center'}}>42,2%</td>
+                  <td style={{textAlign: 'center'}}>71,3%</td>
+                </tr>
+                <tr style={{backgroundColor: '#f1f1f1'}}>
+                  <td colSpan="2">HH Totales</td>
+                  <td style={{textAlign: 'center'}}>3.160</td>
+                  <td style={{textAlign: 'center'}}>2.109</td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>
