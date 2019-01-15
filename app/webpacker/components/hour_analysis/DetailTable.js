@@ -16,7 +16,7 @@ class DetailTable extends Component {
             <table className="table">
               <thead>
                 <tr>
-                  <th style={{textAlign: 'center'}}>Item</th>
+                  <th>Item</th>
                   <th style={{textAlign: 'center'}}>Total</th>
                   <th style={{textAlign: 'center'}}>En pesos</th>
                 </tr>
