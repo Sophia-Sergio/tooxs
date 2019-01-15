@@ -1,129 +1,129 @@
 class SellersController < ApplicationController
-  include DemoParameters
-  before_action :set_seller, only: [:show, :edit, :update, :destroy]
+  # include DemoParameters
+  # before_action :set_seller, only: [:show, :edit, :update, :destroy]
 
   # GET /sellers
   # GET /sellers.json
   def staff
-    @staff_planifitacion = staff_planification
-    @shift_available = shift_available
-    @shift_optimized = shift_optimized
+    # @staff_planifitacion = staff_planification
+    # @shift_available = shift_available
+    # @shift_optimized = shift_optimized
   end
 
   def staffing_store
-    params[:type] ||= 'falabella'
+    # params[:type] ||= 'falabella'
   end
 
   def calendar_shift
-    params[:id] = current_user.id if params[:id] == nil
-    @seller    = Seller.find(params[:id])
-    year_shift = @seller.my_shift
-    @shifts = year_shift.map do |s|
-      if s[1] != "0:00"
-        c = 'bg-success-lighter'
-        title = "#{s[1]}-#{s[2]}"
-      else
-        c = 'bg-danger'
-        title = "Libre"
-      end
-      { :id => @seller.id, :title => title , :class => c , :start => "#{s[0]} #{s[1]}".to_datetime.strftime("%FT%R"), :end => "#{s[0]} #{s[2]}".to_datetime.strftime("%FT%R")  }
-    end
-    sb = ShiftBreak.where(seller_id: @seller)
-    @br = sb.map do |s|
-      { :id => @seller.id, :title => "#{s.time.strftime('%H:%M')}-#{(s.time+1.hour).strftime('%H:%M')}", :class => 'bg-warning-light' , :start => "#{s.date} #{s.time}".to_datetime.strftime("%FT%R"), :end => "#{s.date} #{s.time+1.hour}".to_datetime.strftime("%FT%R")  }
-    end
-    json = (@shifts + @br).to_json
-    render json: json
+    # params[:id] = current_user.id if params[:id] == nil
+    # @seller    = Seller.find(params[:id])
+    # year_shift = @seller.my_shift
+    # @shifts = year_shift.map do |s|
+    #   if s[1] != "0:00"
+    #     c = 'bg-success-lighter'
+    #     title = "#{s[1]}-#{s[2]}"
+    #   else
+    #     c = 'bg-danger'
+    #     title = "Libre"
+    #   end
+    #   { :id => @seller.id, :title => title , :class => c , :start => "#{s[0]} #{s[1]}".to_datetime.strftime("%FT%R"), :end => "#{s[0]} #{s[2]}".to_datetime.strftime("%FT%R")  }
+    # end
+    # sb = ShiftBreak.where(seller_id: @seller)
+    # @br = sb.map do |s|
+    #   { :id => @seller.id, :title => "#{s.time.strftime('%H:%M')}-#{(s.time+1.hour).strftime('%H:%M')}", :class => 'bg-warning-light' , :start => "#{s.date} #{s.time}".to_datetime.strftime("%FT%R"), :end => "#{s.date} #{s.time+1.hour}".to_datetime.strftime("%FT%R")  }
+    # end
+    # json = (@shifts + @br).to_json
+    # render json: json
   end
 
   def assigned_shift
-    @shift = AvailableShift.num(:params[:num])
+    # @shift = AvailableShift.num(:params[:num])
   end
 
   def index
-    @search       = ''
-    @stores       = Store.all.order(:id)
-    @departments  = Department.all.order(:id)
-    @available_shifts = AvailableShift.select("num as id, name").distinct
-    store           = params[:store]
-    department      = params[:department]
-    available_shift = params[:available_shift]
-    if department != nil
-      @sellers = Seller.where(store: store, department: department)
-    else
-      @sellers = Seller.all
-    end
+    # @search       = ''
+    # @stores       = Store.all.order(:id)
+    # @departments  = Department.all.order(:id)
+    # @available_shifts = AvailableShift.select("num as id, name").distinct
+    # store           = params[:store]
+    # department      = params[:department]
+    # available_shift = params[:available_shift]
+    # if department != nil
+    #   @sellers = Seller.where(store: store, department: department)
+    # else
+    #   @sellers = Seller.all
+    # end
   end
 
   def import
-    if Seller.from_xlsx(params[:file].tempfile)
-      flash[:notice] = 'Importado con éxito'
-    else
-      flash[:error] = 'Algo ha salido mal, intentalo de nuevo'
-    end
-    redirect_to sellers_url
+    # if Seller.from_xlsx(params[:file].tempfile)
+    #   flash[:notice] = 'Importado con éxito'
+    # else
+    #   flash[:error] = 'Algo ha salido mal, intentalo de nuevo'
+    # end
+    # redirect_to sellers_url
   end
 
   # GET /sellers/1
   # GET /sellers/1.json
   def show
-    params[:id] = current_user.id if params[:id] == nil
-    @seller_id = params[:id]
-    seller = Seller.find(@seller_id)
-    today  = Date.today.strftime("%Y%m%d")
-    @month = 6#Date.today.strftime("%m").to_i
-    @year  = Date.today.strftime("%Y").to_i
-    @dayNow = day_now_charged
-    #@dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
-    @productivity = productivity_seller(seller, @month, 2018)
-    @ventas_colaborador = Array.new(15)
-    for i in 0..@ventas_colaborador.length-1
-      @ventas_colaborador[i] = Array.new(7)
-    end
-    dia = 0
-    @productivity[:one].each do |p, k|
-      hora = 0
-      k.each do |element|
-        next if hora > 14
-        @ventas_colaborador[hora][dia] = element
-        hora += 1
-      end
-      dia += 1
-    end
-    @x           = seller.my_shift.index{|x| x[0]== today.to_s}
-    @sp          = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
-    @real_week   = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
-    @sp_staffing = seller_staffing_per_week(seller, 06.to_s, Date.today.strftime("%Y").to_s)
-
-    #calcula el plan mensual
-    seller_plan = seller_staffing(seller, @month, @year)
-    @totalNow = 0
-    (1..@dayNow[:week]).each do |week|
-      @totalNow += seller_plan[week - 1].first.values.first[:seller_plan_per_day].inject(:+)
-    end
-
-    #cacula las ventas totales
-    j = 0
-    @totalRealMonth = 0
-
-    @sp.each do |k,v|
-      if @real_week[j] != nil
-        @real_week[j].first.values.first[:sale_per_day].each do |d|
-          @totalRealMonth +=  d.to_i
-        end
-      end
-      j += 1 #permite cargar la primera semana para los meses de 5 semanas
-    end
-    #calcula cumplimiento
-    @cumplimiento = (@totalRealMonth.to_f / @totalNow.to_f) * 100
+    # params[:id] = current_user.id if params[:id] == nil
+    # @seller_id = params[:id]
+    # seller = Seller.find(@seller_id)
+    # today  = Date.today.strftime("%Y%m%d")
+    # @month = 6#Date.today.strftime("%m").to_i
+    # @year  = Date.today.strftime("%Y").to_i
+    # @dayNow = day_now_charged
+    # #@dayNow = day_now(Date.today.strftime("%Y").to_s, Date.today.strftime("%m").to_s)
+    # @productivity = productivity_seller(seller, @month, 2018)
+    # @ventas_colaborador = Array.new(15)
+    # for i in 0..@ventas_colaborador.length-1
+    #   @ventas_colaborador[i] = Array.new(7)
+    # end
+    # dia = 0
+    # @productivity[:one].each do |p, k|
+    #   hora = 0
+    #   k.each do |element|
+    #     next if hora > 14
+    #     @ventas_colaborador[hora][dia] = element
+    #     hora += 1
+    #   end
+    #   dia += 1
+    # end
+    # @x           = seller.my_shift.index{|x| x[0]== today.to_s}
+    # @sp          = sale_plan_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
+    # @real_week   = sale_real_per_week(seller, Date.today.strftime("%Y").to_s, 06.to_s)
+    # @sp_staffing = seller_staffing_per_week(seller, 06.to_s, Date.today.strftime("%Y").to_s)
+    #
+    # #calcula el plan mensual
+    # seller_plan = seller_staffing(seller, @month, @year)
+    # @totalNow = 0
+    # (1..@dayNow[:week]).each do |week|
+    #   @totalNow += seller_plan[week - 1].first.values.first[:seller_plan_per_day].inject(:+)
+    # end
+    #
+    # #cacula las ventas totales
+    # j = 0
+    # @totalRealMonth = 0
+    #
+    # @sp.each do |k,v|
+    #   if @real_week[j] != nil
+    #     @real_week[j].first.values.first[:sale_per_day].each do |d|
+    #       @totalRealMonth +=  d.to_i
+    #     end
+    #   end
+    #   j += 1 #permite cargar la primera semana para los meses de 5 semanas
+    # end
+    # #calcula cumplimiento
+    # @cumplimiento = (@totalRealMonth.to_f / @totalNow.to_f) * 100
   end
 
   # GET /sellers/new
   def new
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Colaboradores", :sellers_path
-    add_breadcrumb "Crear", :new_seller_path
-    @seller = Seller.new
+    # add_breadcrumb "Dashboard", :root_path
+    # add_breadcrumb "Colaboradores", :sellers_path
+    # add_breadcrumb "Crear", :new_seller_path
+    # @seller = Seller.new
   end
 
   # GET /sellers/1/edit
@@ -133,196 +133,196 @@ class SellersController < ApplicationController
   # POST /sellers
   # POST /sellers.json
   def create
-    @seller = Seller.new(seller_params)
-    respond_to do |format|
-      if @seller.save
-        format.html { redirect_to @seller, notice: 'Seller was successfully created.' }
-        format.json { render :show, status: :created, location: @seller }
-      else
-        format.html { render :new }
-        format.json { render json: @seller.errors, status: :unprocessable_entity }
-      end
-    end
+    # @seller = Seller.new(seller_params)
+    # respond_to do |format|
+    #   if @seller.save
+    #     format.html { redirect_to @seller, notice: 'Seller was successfully created.' }
+    #     format.json { render :show, status: :created, location: @seller }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @seller.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /sellers/1
   # PATCH/PUT /sellers/1.json
   def update
-    respond_to do |format|
-      if @seller.update(seller_params)
-        format.html { redirect_to @seller, notice: 'Seller was successfully updated.' }
-        format.json { render :show, status: :ok, location: @seller }
-      else
-        format.html { render :edit }
-        format.json { render json: @seller.errors, status: :unprocessable_entity }
-      end
-    end
+    # respond_to do |format|
+    #   if @seller.update(seller_params)
+    #     format.html { redirect_to @seller, notice: 'Seller was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @seller }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @seller.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /sellers/1
   # DELETE /sellers/1.json
   def destroy
-    @seller.destroy
-    respond_to do |format|
-      format.html { redirect_to sellers_url, notice: 'Seller was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    # @seller.destroy
+    # respond_to do |format|
+    #   format.html { redirect_to sellers_url, notice: 'Seller was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
   def set_seller
-    if params[:id] == nil
-      params[:id] = current_user.id
-    end
-    @seller = Seller.find(params[:id])
+    # if params[:id] == nil
+    #   params[:id] = current_user.id
+    # end
+    # @seller = Seller.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def seller_params
-    params.require(:seller).permit(:rut, :name, :lastname, :email, :phone, :street, :number, :city, :district, :county, :country, :department_id)
+    # params.require(:seller).permit(:rut, :name, :lastname, :email, :phone, :street, :number, :city, :district, :county, :country, :department_id)
   end
 
 
   #script generador de breaks por id de usuario
   def generate_breaks
-    @s = Seller.find(25)
-      @s.my_shift.each do |d|
-        ShiftBreak.create(seller_id:25, date: d[0].to_date, time: d[1].to_time+rand(1..2).hour) if d[1] != '0:00'
-      end
+    # @s = Seller.find(25)
+    #   @s.my_shift.each do |d|
+    #     ShiftBreak.create(seller_id:25, date: d[0].to_date, time: d[1].to_time+rand(1..2).hour) if d[1] != '0:00'
+    #   end
   end
 
   # old
   def sale_plan(seller,year,month)
-    @staffing     = staffing
-    @store        = seller.store.id
-    @dep          = seller.department.id
-    @year         = year #params[:year]
-    @month        = month #params[:month]
-    beginning_of_month = "#{@year}-#{@month}-01".to_date
-    end_of_month = beginning_of_month.end_of_month
-    week_start = beginning_of_month.strftime("%V")
-    week_end   = end_of_month.strftime("%V")
-    #week fix if is last week of the year on first month
-    week_start = '01' if week_start.to_i == 53
-    result = []
-    #loop por cada semana del mes en cuestion
-    (week_start..week_end).each do |w|
-      @week = w
-      #@sp_week     = PlanSale.where(week: @week, :store => @store, :department => @dep)
-      #totales week/month
-      #sp_week_total         = PlanSale.where(week: @week, :store => @store, :department => @dep).group(:week).order(:week).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
-      sp_month_total = PlanSale.where(month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
-      #sp_total_week = sp_week_total.first[1].to_i
-      sp_total_month = sp_month_total.first[1].to_i
-      #data de venta real año anterior de la semana en cuestion
-      @historic_week = HistoricSale.where(week: @week , :store => @store, :department => @dep, year: @year)
-      #data total de la venta del mes en base al año anterior
-      @historic_total_month = HistoricSale.where(year: @year, month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
-      historic_total_month_amount   = @historic_total_month.first[1].to_i
-
-      @dates_week = []
-      @dates_week_2 = []
-      @year_plus_one = @year.to_i + 1
-      (1..7).each do |i|
-        #@dates_week << Date.commercial(@year.to_i,@week.to_i,i).strftime('%d-%m-%Y')
-        @dates_week << Date.commercial(@year.to_i,@week.to_i,i).strftime('%Y%m%d')
-        @dates_week_2 << ( Date.commercial(@year_plus_one,@week.to_i,i)).strftime('%Y%m%d')
-      end
-
-      nine = []
-      ten = []
-      eleven = []
-      twelve = []
-      thirteen = []
-      fourteen = []
-      fifteen = []
-      sixteen = []
-      seventeen = []
-      eighteen = []
-      nineteen = []
-      twenty = []
-      twenty_one = []
-      twenty_two = []
-      twenty_three = []
-      twenty_four = []
-
-      @historic_week.each do |s|
-        nine << (s.nine.to_i).to_f
-        ten << (s.ten.to_i).to_f
-        eleven << (s.eleven.to_i).to_f
-        twelve << (s.twelve.to_i).to_f
-        thirteen << (s.thirteen.to_i).to_f
-        fourteen << (s.fourteen.to_i).to_f
-        fifteen << (s.fifteen.to_i).to_f
-        sixteen << (s.sixteen.to_i).to_f
-        seventeen << (s.seventeen.to_i).to_f
-        eighteen << (s.eighteen.to_i).to_f
-        nineteen << (s.nineteen.to_i).to_f
-        twenty << (s.twenty.to_i).to_f
-        twenty_one << (s.twenty_one.to_i).to_f
-        twenty_two << (s.twenty_two.to_i).to_f
-        twenty_three << (s.twenty_three.to_i).to_f
-        twenty_four << (s.twenty_four.to_i).to_f
-      end
-
-      week = {
-
-        '09:00' => nine,
-        '10:00' => ten,
-        '11:00' => eleven,
-        '12:00' => twelve,
-        '13:00' => thirteen,
-        '14:00' => fourteen,
-        '15:00' => fifteen,
-        '16:00' => sixteen,
-        '17:00' => seventeen,
-        '18:00' => eighteen,
-        '19:00' => nineteen,
-        '20:00' => twenty,
-        '21:00' => twenty_one,
-        '22:00' => twenty_two,
-        '23:00' => twenty_three,
-        '00:00' => twenty_four
-      }
-      # aplicar divisor
-      sellers_store_department = Seller.where(store: seller.store, department: seller.department)
-      weeks_in_month = (week_end.to_i - week_start.to_i)+1
-      staffing_week = staffing_draw(@dates_week_2[0].to_i)
-      porc = week.inject({}) do |carry, (key, array)|
-        carry[key] = array.map.with_index do |value,i|
-          if value == 0
-            0
-          else
-            hour  = key.to_i.to_s.to_sym
-            n     = staffing_week[:draw][hour][0][i]
-            if n == 0
-                -1
-            else
-              ((( (value/ historic_total_month_amount ).round(4) ) * sp_total_month ) / n ).round(0)
-            end
-          end
-        end
-        carry
-      end
-      sale_per_day    = porc.values.transpose.map {|x| x.reduce(:+)}
-      spd = []
-      staffing_week[:draw].values.each{ |v| spd << v.first }
-      sellers_per_day = spd.transpose.map {|x| x.reduce(:+)}
-      data = {
-        :total_month_historic => historic_total_month_amount,
-        :week => week,
-        :porc => porc,
-        :staffing_week => staffing_week,
-        :weeks_in_month => [weeks_in_month,week_start,week_end],
-        :sale_per_day=> sale_per_day,
-        :sellers => sellers_store_department.count,
-        :sellers_per_day => sellers_per_day,
-        :dates => @dates_week
-      }
-      result << [ w => data ]
-    end
-    return result
+    # @staffing     = staffing
+    # @store        = seller.store.id
+    # @dep          = seller.department.id
+    # @year         = year #params[:year]
+    # @month        = month #params[:month]
+    # beginning_of_month = "#{@year}-#{@month}-01".to_date
+    # end_of_month = beginning_of_month.end_of_month
+    # week_start = beginning_of_month.strftime("%V")
+    # week_end   = end_of_month.strftime("%V")
+    # #week fix if is last week of the year on first month
+    # week_start = '01' if week_start.to_i == 53
+    # result = []
+    # #loop por cada semana del mes en cuestion
+    # (week_start..week_end).each do |w|
+    #   @week = w
+    #   #@sp_week     = PlanSale.where(week: @week, :store => @store, :department => @dep)
+    #   #totales week/month
+    #   #sp_week_total         = PlanSale.where(week: @week, :store => @store, :department => @dep).group(:week).order(:week).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+    #   sp_month_total = PlanSale.where(month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+    #   #sp_total_week = sp_week_total.first[1].to_i
+    #   sp_total_month = sp_month_total.first[1].to_i
+    #   #data de venta real año anterior de la semana en cuestion
+    #   @historic_week = HistoricSale.where(week: @week , :store => @store, :department => @dep, year: @year)
+    #   #data total de la venta del mes en base al año anterior
+    #   @historic_total_month = HistoricSale.where(year: @year, month: @month, :store => @store, :department => @dep).group(:month).order(:month).sum("nine+ten+eleven+twelve+thirteen+fourteen+fifteen+sixteen+seventeen+eighteen+nineteen+twenty+twenty_one+twenty_two+twenty_three+twenty_four")
+    #   historic_total_month_amount   = @historic_total_month.first[1].to_i
+    #
+    #   @dates_week = []
+    #   @dates_week_2 = []
+    #   @year_plus_one = @year.to_i + 1
+    #   (1..7).each do |i|
+    #     #@dates_week << Date.commercial(@year.to_i,@week.to_i,i).strftime('%d-%m-%Y')
+    #     @dates_week << Date.commercial(@year.to_i,@week.to_i,i).strftime('%Y%m%d')
+    #     @dates_week_2 << ( Date.commercial(@year_plus_one,@week.to_i,i)).strftime('%Y%m%d')
+    #   end
+    #
+    #   nine = []
+    #   ten = []
+    #   eleven = []
+    #   twelve = []
+    #   thirteen = []
+    #   fourteen = []
+    #   fifteen = []
+    #   sixteen = []
+    #   seventeen = []
+    #   eighteen = []
+    #   nineteen = []
+    #   twenty = []
+    #   twenty_one = []
+    #   twenty_two = []
+    #   twenty_three = []
+    #   twenty_four = []
+    #
+    #   @historic_week.each do |s|
+    #     nine << (s.nine.to_i).to_f
+    #     ten << (s.ten.to_i).to_f
+    #     eleven << (s.eleven.to_i).to_f
+    #     twelve << (s.twelve.to_i).to_f
+    #     thirteen << (s.thirteen.to_i).to_f
+    #     fourteen << (s.fourteen.to_i).to_f
+    #     fifteen << (s.fifteen.to_i).to_f
+    #     sixteen << (s.sixteen.to_i).to_f
+    #     seventeen << (s.seventeen.to_i).to_f
+    #     eighteen << (s.eighteen.to_i).to_f
+    #     nineteen << (s.nineteen.to_i).to_f
+    #     twenty << (s.twenty.to_i).to_f
+    #     twenty_one << (s.twenty_one.to_i).to_f
+    #     twenty_two << (s.twenty_two.to_i).to_f
+    #     twenty_three << (s.twenty_three.to_i).to_f
+    #     twenty_four << (s.twenty_four.to_i).to_f
+    #   end
+    #
+    #   week = {
+    #
+    #     '09:00' => nine,
+    #     '10:00' => ten,
+    #     '11:00' => eleven,
+    #     '12:00' => twelve,
+    #     '13:00' => thirteen,
+    #     '14:00' => fourteen,
+    #     '15:00' => fifteen,
+    #     '16:00' => sixteen,
+    #     '17:00' => seventeen,
+    #     '18:00' => eighteen,
+    #     '19:00' => nineteen,
+    #     '20:00' => twenty,
+    #     '21:00' => twenty_one,
+    #     '22:00' => twenty_two,
+    #     '23:00' => twenty_three,
+    #     '00:00' => twenty_four
+    #   }
+    #   # aplicar divisor
+    #   sellers_store_department = Seller.where(store: seller.store, department: seller.department)
+    #   weeks_in_month = (week_end.to_i - week_start.to_i)+1
+    #   staffing_week = staffing_draw(@dates_week_2[0].to_i)
+    #   porc = week.inject({}) do |carry, (key, array)|
+    #     carry[key] = array.map.with_index do |value,i|
+    #       if value == 0
+    #         0
+    #       else
+    #         hour  = key.to_i.to_s.to_sym
+    #         n     = staffing_week[:draw][hour][0][i]
+    #         if n == 0
+    #             -1
+    #         else
+    #           ((( (value/ historic_total_month_amount ).round(4) ) * sp_total_month ) / n ).round(0)
+    #         end
+    #       end
+    #     end
+    #     carry
+    #   end
+    #   sale_per_day    = porc.values.transpose.map {|x| x.reduce(:+)}
+    #   spd = []
+    #   staffing_week[:draw].values.each{ |v| spd << v.first }
+    #   sellers_per_day = spd.transpose.map {|x| x.reduce(:+)}
+    #   data = {
+    #     :total_month_historic => historic_total_month_amount,
+    #     :week => week,
+    #     :porc => porc,
+    #     :staffing_week => staffing_week,
+    #     :weeks_in_month => [weeks_in_month,week_start,week_end],
+    #     :sale_per_day=> sale_per_day,
+    #     :sellers => sellers_store_department.count,
+    #     :sellers_per_day => sellers_per_day,
+    #     :dates => @dates_week
+    #   }
+    #   result << [ w => data ]
+    # end
+    # return result
     #incluye toda la semana, independiente si pertenece a otro mes
     #sp_week   = PlanSale.where(sale_date: @dates_week[0].to_date..@dates_week[6].to_date, store: @store , department: @dep)
   end
