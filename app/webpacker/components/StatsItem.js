@@ -10,7 +10,7 @@ class StatsItem extends Component {
         <div className="card dashboard__chart__info__item">
           <h5 className="dashboard__chart__info__item__title">{ name }</h5>
           <h6 className="dashboard__chart__info__item__value">{ value }</h6>
-          { description != '' && `<p className="dashboard__chart__info__item__text">${ description }</p>` }
+          { description != '' && <p className="dashboard__chart__info__item__text">{ description }</p> }
         </div>
       </div>
     );
