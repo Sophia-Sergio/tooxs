@@ -72,6 +72,15 @@
 
         }
 
+        .badge {
+          font-size: 12px;
+          font-weight: $font-regular;
+
+          + .badge {
+            margin-left: 5px;
+          }
+
+        }
 
         .thumbnail {
           border-radius: 50%;
