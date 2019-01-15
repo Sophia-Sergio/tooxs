@@ -41,7 +41,6 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-db-tasks', require: false
-  gem 'faker'
 end
 
 gem 'rubyXL'
@@ -52,6 +51,7 @@ end
 gem 'breadcrumbs_on_rails'
 gem 'chronic'
 gem 'devise'
+gem 'faker'
 gem 'haml-rails'
 gem 'newrelic_rpm'
 gem 'numbers_in_words'
@@ -59,3 +59,4 @@ gem 'rails-i18n'
 gem 'rolify'
 gem 'settingslogic'
 gem 'simple_form'
+gem 'sass-rails', '~> 5.0'

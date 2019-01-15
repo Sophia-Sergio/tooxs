@@ -89,13 +89,6 @@ config.webpacker.check_yarn_integrity = false
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins 'http://localhost:3000'
-      resource '*', :headers => :any, :methods => [:get, :post, :options]
-    end
-  end
-
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
