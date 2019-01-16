@@ -6,64 +6,11 @@
 
     <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
 
+      <%= react_component('DashboardHeader', { title: 'Planificación de dotación' }, class: 'row') %>
+      <%= react_component('StaffingIndex', { root_url: request.base_url, user: current_user }, class: 'row') %>
+
       <div class="row">
-
-        <%= react_component("DashboardHeader", { title: "Dotación de personal" }) %>
-
-        <div class="col-12 mb-2">
-          <div class="dashboard__filter">
-            <%= simple_form_for @search, :url => staffing_index_path, :method => :get do |f| %>
-              <%= f.input :store, collection: @stores, label: 'Tienda', wrapper: :select2, selected: params[:store] , label: false%>
-              <%= f.input :department, collection: @departments, label: 'Departamento', wrapper: :select2,selected: params[:department] , label: false %>
-              <%= f.input :month, collection: (1..9).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B").capitalize, m]}, label: 'Mes', wrapper: :select2, selected: 5, label: false %>
-              <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
-            <% end %>
-          </div>
-
-          <div class="card dashboard__filter">
-            <form action="">
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="store" id="">
-                  <option>Tienda 5</option>
-                  <option>Alto Las Condes</option>
-                  <option>Departamental</option>
-                  <option>Plaza Egaña</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="department" id="">
-                  <option>Departamento 3</option>
-                  <option>Juvenil Mujer</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="month" id="">
-                  <option>Junio</option>
-                  <option>Mayo</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="year" id="">
-                  <option>2018</option>
-                </select>
-              </div>
-
-              <button>Buscar</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="col-12 mb-2">
-          <%=  @staffing_w4.inspect %>
-          <%= react_component('Staffing', { data: @staffing_w4 }) %>
-        </div>
-
         <%= render 'shared/footer' %>
-
       </div>
 
     </div>
@@ -71,6 +18,3 @@
   </div>
 
 </div>
-
-
-

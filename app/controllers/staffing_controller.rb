@@ -1,18 +1,18 @@
 class StaffingController < ApplicationController
-  include FilterParameters
-  skip_before_action :verify_authenticity_token
-  before_action :set_params, only: %i[index]
-  before_action :set_store, only: %i[index]
-  before_action :set_department, only: %i[index]
+  # include FilterParameters
+  # skip_before_action :verify_authenticity_token
+  # before_action :set_params, only: %i[index]
+  # before_action :set_store, only: %i[index]
+  # before_action :set_department, only: %i[index]
 
   def index
-    sale_plans = @store.sale_plans.by_year_and_month(@year, @month)
-                       .by_department(@department)
-    dates_by_week = sale_plans.dates_by_week(day_number = 1)
-    @staffing_w1  = staffing_draw_real(dates_by_week[1], @store, @department)
-    @staffing_w2  = staffing_draw_real(dates_by_week[2], @store, @department)
-    @staffing_w3  = staffing_draw_real(dates_by_week[3], @store, @department)
-    @staffing_w4  = staffing_draw_real(dates_by_week[4], @store, @department)
+    # sale_plans = @store.sale_plans.by_year_and_month(@year, @month)
+    #                    .by_department(@department)
+    # dates_by_week = sale_plans.dates_by_week(day_number = 1)
+    # @staffing_w1  = staffing_draw_real(dates_by_week[1], @store, @department)
+    # @staffing_w2  = staffing_draw_real(dates_by_week[2], @store, @department)
+    # @staffing_w3  = staffing_draw_real(dates_by_week[3], @store, @department)
+    # @staffing_w4  = staffing_draw_real(dates_by_week[4], @store, @department)
   end
 
   def staffing_real(store, department)

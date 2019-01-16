@@ -99,4 +99,4 @@ Staffing.propTypes = {
   title: PropTypes.string.isRequired
 };
 
-export default Staffing
+export default Staffing;
