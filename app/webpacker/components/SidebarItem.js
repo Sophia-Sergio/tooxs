@@ -83,7 +83,7 @@ class SidebarItem extends Component {
             id: 2,
             name: 'Análisis de horas',
             icon: AnalysisIcon,
-            link: '/sales_cluster/month/'
+            link: '/hour_analysis/'
           },
         ]
       },

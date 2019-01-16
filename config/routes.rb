@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :return_cases
   resources :data_cases
   resources :staffing_cases
+  resources :hour_analysis
   resources :sale_by_sellers, only: [:index] do
     collection do
       post 'import'

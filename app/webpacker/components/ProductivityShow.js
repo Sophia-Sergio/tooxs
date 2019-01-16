@@ -5,11 +5,12 @@ import Loader from "./layout/Loader";
 import Select from 'react-select';
 import {Line} from 'react-chartjs-2';
 import { merge } from 'lodash';
-import Stats from './Stats';
-import ShiftPlan from './dashboard/ShiftPlan';
-import EmployeesTable from './dashboard/EmployeesTable';
+import Stats from './productivity/Stats';
+import ProductivityTable from './productivity/ProductivityTable';
+import DotationTable from './productivity/DotationTable';
+import DotationPlan from './productivity/DotationPlan';
 
-class MainDashboard extends Component {
+class ProductivityShow extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -186,7 +187,7 @@ class MainDashboard extends Component {
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            <h5 className="card-title">Gráfico de eficiencia</h5>
+            <h5 className="card-title">Resultado de búsqueda</h5>
             <p className="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
           </div>
         </div>
@@ -201,11 +202,12 @@ class MainDashboard extends Component {
             </div>
           </div>
         </div>
-        <ShiftPlan/>
-        <EmployeesTable employees={employees}/>
+        <ProductivityTable/>
+        <DotationTable/>
+        <DotationPlan/>
       </React.Fragment>
     );
   }
 }
 
-export default MainDashboard;
+export default ProductivityShow;
