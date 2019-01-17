@@ -124,6 +124,27 @@
     overflow: auto;
     -webkit-overflow-scrolling: touch;
 
+    /* width */
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: $mid-blue;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: rgba($light-blue, .5);
+      transition: all .3s ease-in-out;
+
+      &:hover {
+        background: $light-blue;
+      }
+
+    }
+
     &__item {
 
       + div {
