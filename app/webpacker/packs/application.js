@@ -8,22 +8,14 @@
 // layout file, like app/views/layouts/application.html.erb
 
 import Rails from 'rails-ujs';
-import Chart from 'chart.js';
-import 'bootstrap/dist/js/bootstrap';
-import 'select2';
+import $ from 'jquery';
+import 'bootstrap';
 import Hello from '../src/javascript/hello';
-import Select from '../src/javascript/filter';
-
-console.log('Hello World from Tooxs App');
 
 const components = [
   {
     class: Hello,
     selector: '.main-dashboard-chart'
-  },
-  {
-    class: Select,
-    selector: '.dashboard__filter-select'
   },
 ]
 
@@ -34,6 +26,10 @@ components.forEach(component => {
     )
   }
 })
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+});
 
 // Support component names relative to this directory:
 Rails.start();

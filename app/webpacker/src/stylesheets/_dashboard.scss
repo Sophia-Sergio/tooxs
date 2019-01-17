@@ -453,6 +453,22 @@
               width: 20px;
             }
 
+            .dotation-tooltip {
+              background-color: $light-blue;
+              border: 0;
+              border-radius: 5px;
+              color: white;
+              font-size: 12px;
+              font-weight: $font-medium;
+              padding: 0 10px;
+              transition: all .3s ease-in-out;
+
+              &:hover {
+                background-color: $mid-blue;
+              }
+
+            }
+
           }
 
         }
