@@ -7,7 +7,7 @@ class DepartmentsController < ApplicationController
     @departments = StoreDepartment.all.each_with_object({}) do |element, hash|
       hash[element.id] = {store_name: element.store.name, department_name: element.department.name}
     end
-    binding.pry
+    # binding.pry
   end
 
   def import
