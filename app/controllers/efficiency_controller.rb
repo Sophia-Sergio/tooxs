@@ -4,6 +4,8 @@ class EfficiencyController < ApplicationController
 
 
 	def index
+    @stores = Store.where(name: Settings::STORES_ALLOWED)
+    @departments = @stores.first.departments
 		# @stores       = Store.all.order(:id)
 		# @departments  = Department.all.order(:id)
 		# @search = ""
