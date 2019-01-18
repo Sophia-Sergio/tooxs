@@ -1,115 +1,20 @@
-<div class="container-fluid dashboard" id="sales_cluster">
+<div class="container-fluid dashboard">
 
   <div class="row">
+
     <%= render 'shared/sidebar' %>
+
     <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
+
+      <%= react_component("DashboardHeader", { title: 'Disponibilizador de turnos' }) %>
+      <%= react_component('StaffRequest', { root_url: request.base_url, user: current_user }, class: 'row') %>
+
       <div class="row">
-        <%= react_component('DashboardHeader', { title: 'Disponibilizador de turnos' }) %>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__filter">
-            <form action="">
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="store" id="">
-                  <option>Todos</option>
-                  <option>Alto Las Condes</option>
-                  <option>Parque Arauco</option>
-                  <option>Santiago Centro</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="custom-select dashboard__filter-select" size="1" data-filter="select" name="" id="" multiple>
-                  <option>Departamento 3</option>
-                  <option>Juvenil Mujer</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="year" id="">
-                  <option>2018</option>
-                  <option>2017</option>
-                  <option>2016</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="month" id="">
-                  <option>Junio</option>
-                </select>
-              </div>
-
-              <button>Buscar</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__table">
-            <h5 class="card-title">Resultado de búsqueda</h5>
-            <div class="table-responsive">
-
-              <% if @resultadoBusqueda.length > 0 %>
-                  <%= simple_form_for @search, :url => staff_request_request_send_path, :method => :post do |f| %>
-                    <table class="table">
-                      <thead>
-                        <tr>
-                            <th>Tienda</th>
-                            <th>Departamento</th>
-                            <th>Turno</th>
-                            <th>Descripción de turno</th>
-                            <th>Cantidad necesaria</th>
-                            <th>Cantidad a solicitar</th>
-                            <th>Fecha inicial</th>
-                            <th>Seleccionar</th>
-                        </tr>
-                      </thead>
-                      <tbody class="t-p-3">
-                        <% count_row = 1 %>
-                        <% @resultadoBusqueda.each do |resultado| %>
-                        <tr>
-                          <td>
-                            <%= resultado[:tienda].name %>
-                            <input type="hidden" name="store_<%= count_row %>" value="<%= resultado[:tienda].id %>" >
-                          </td>
-                          <td>
-                            <%= resultado[:dep].name %>
-                            <input type="hidden" name="dep_id_<%= count_row %>" value="<%= resultado[:dep].id %>" >
-                          </td>
-                          <td>
-                            <%= resultado[:turno] %>
-                            <input type="hidden" name="turno_id_<%= count_row %>" value="<%= resultado[:turno] %>" >
-                          </td>
-                          <td><%= resultado[:descrip] %></td>
-                          <td><%= resultado[:cantidad] %></td>
-                          <td><input class="form-control" type="text" name="cantidad_<%= count_row %>"></td>
-                          <td>
-                            <%= resultado[:fecha] %>
-                            <input type="hidden" name="fecha_<%= count_row %>" value="<%= resultado[:fecha] %>" >
-                            <input type="hidden" name="count_row" value="<%= count_row %>" >
-                          </td>
-                          <td><input type="checkbox" name="cargar_<%= count_row %>"></td>
-                        </tr>
-                        <% count_row += 1 %>
-                        <% end %>
-                      </tbody>
-                    </table>
-                  <div class="d-flex justify-content-end mt-2">
-                    <button class="btn btn-primary" type="submit">Resumir</button>
-                  </div>
-                  <% end %>
-              </div>
-              <% end %>
-
-            </div>
-            <% link_to 'New Request Detail', new_request_detail_path, class: 'btn btn-primary' %>
-          </div>
-
         <%= render 'shared/footer' %>
-
       </div>
-    </div>
-  </div>
-</div>
 
+    </div>
+
+  </div>
+
+</div>
