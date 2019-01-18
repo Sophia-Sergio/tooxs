@@ -107,13 +107,13 @@ class SidebarItem extends Component {
             id: 3,
             name: 'Productividad',
             icon: ProductivityIcon,
-            link: '/productivity/report?utf8=✓&store=1&department=1&year=2018&month=5'
+            link: '/productivity/report/'
           },
           {
             id: 4,
             name: 'Comparativo',
             icon: ComparativeReportIcon,
-            link: '/productivity_cluster/month?utf8=✓&cluster=1&department=1&year=2018&month=5'
+            link: '/productivity_cluster/month/'
           },
           {
             id: 5,
