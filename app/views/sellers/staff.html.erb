@@ -1,185 +1,20 @@
-<div class="container-fluid dashboard" id="sales_cluster">
+<div class="container-fluid dashboard">
 
   <div class="row">
+
     <%= render 'shared/sidebar' %>
+
     <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
-      <div class="row">
-        <%= react_component('DashboardHeader', { title: 'Planificación de dotación' }) %>
 
-        <div class="col-12 mb-2">
-          <div class="card dashboard__filter">
-            <form action="">
+      <%= react_component('DashboardHeader', { title: 'Planificación de dotación' }, class: 'row') %>
+      <%= react_component('SellersStaff', { root_url: request.base_url, user: current_user }, class: 'row') %>
 
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="store" id="">
-                  <option>Tienda</option>
-                  <option selected>Alto Las Condes</option>
-                  <option>Parque Arauco</option>
-                  <option>Santiago Centro</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="custom-select dashboard__filter-select" size="1" data-filter="select" name="" id="">
-                  <option>Departamento 3</option>
-                  <option selected>Juvenil Mujer</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="year" id="">
-                  <option selected>2018</option>
-                  <option>2017</option>
-                  <option>2016</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="dashboard__filter-select" data-filter="select" name="month" id="">
-                  <option>Abril</option>
-                  <option>Mayo</option>
-                  <option selected>Junio</option>
-                </select>
-              </div>
-
-              <button>Buscar</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__table">
-            <h5 class="card-title">Colaboradores</h5>
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>&nbsp;</th>
-                    <th>Nombre</th>
-                    <th>RUT</th>
-                    <th>Tienda</th>
-                    <th>Departamento</th>
-                    <th>Turno actual</th>
-                    <th>Descripción</th>
-                    <th>Junio 2018</th>
-                    <th>Descripción</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @staff_planifitacion.each do |shift| %>
-                    <tr>
-                      <td>
-                        <div class="thumbnail">
-                          <img src="<%= asset_pack_path('images/user_default.jpg') %>" alt="<%= shift[:name] %>">
-                        </div>
-                      </td>
-                      <td><%= shift[:name] %></td>
-                      <td><%= shift[:rut] %></td>
-                      <td><%= shift[:store] %></td>
-                      <td><%= shift[:department] %></td>
-                      <td><%= shift[:shift] %></td>
-                      <td><%= shift[:shift_desc] %></td>
-                      <td><%= shift[:new_shift] %></td>
-                      <td style="background-color: <%= shift[:new_shift] == '' && shift[:new_shift_desc] == '' ? '#ff8a80' : '#81c784' %>; color: white;" >
-                        <%= shift[:new_shift_desc] %>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-5 mb-2">
-          <div class="card dashboard__table">
-            <h5 class="card-title">Planificación turnos mes siguiente</h5>
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="text-align: center;">Turno</th>
-                    <th style="text-align: center;">Actual</th>
-                    <th style="text-align: center;">Optimizado</th>
-                    <th style="text-align: center;">Comprometido</th>
-                    <th style="text-align: center;">Por cubrir</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @shift_optimized.each do |shift| %>
-                    <tr>
-                      <td style="background-color: rgba(34, 42, 66, 0.1); text-align: center;"><%= shift[:shift] %></td>
-                      <td style="text-align: center;"><%= shift[:actual] %></td>
-                      <td style="text-align: center;"><%= shift[:optimized] %></td>
-                      <td style="text-align: center;"><%= shift[:committed] %></td>
-                      <td style="text-align: center;"><%= shift[:to_cover] %></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td style="background-color: rgba(34, 42, 66, .05); font-weight: bold; text-align: center;">Totales</td>
-                    <td style="background-color: rgba(34, 42, 66, .05); font-weight: bold; text-align: center;">20</td>
-                    <td style="background-color: rgba(34, 42, 66, .05); font-weight: bold; text-align: center;">16</td>
-                    <td style="background-color: rgba(34, 42, 66, .05); font-weight: bold; text-align: center;">10</td>
-                    <td style="background-color: rgba(34, 42, 66, .05); font-weight: bold; text-align: center;">6</td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-7 mb-2">
-          <div class="card dashboard__table">
-            <h5 class="card-title">Turnos disponibles</h5>
-
-            <div class="table-responsive">
-              <form action="">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th class="text-center">Turno disponible</th>
-                      <th class="text-center">Descripción</th>
-                      <th class="text-center">Cantidad</th>
-                      <th class="text-center">Seleccionar</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% @shift_available.each do |shift| %>
-                      <tr>
-                        <td class="text-center"><%= shift[:shift] %></td>
-                        <td class="text-center"><%= shift[:desc] %></td>
-                        <td class="text-center"><%= shift[:quantity] %></td>
-                        <td class="text-center">
-                          <label>
-                            <input type="checkbox">
-                          </label>
-                        </td>
-                      </tr>
-                    <% end %>
-                    <tr>
-                      <td class="p-0 pt-2" colspan="4">
-                        <button class="btn btn-primary">Publicar</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </form>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- .col-eq-height -->
       <div class="row">
         <%= render 'shared/footer' %>
       </div>
+
     </div>
+
   </div>
 
-
-
-
+</div>
