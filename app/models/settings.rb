@@ -3,7 +3,7 @@ class Settings < Settingslogic
   namespace Rails.env
 
   STORES_ALLOWED = ['Alto Las Condes'].freeze
-  DEPARTMENTS_ALLOWED = ['Rincón Juvenil Hombre', 'Moda Mujer', 'Accesorios Mujer']
+  DEPARTMENTS_ALLOWED = ['Electrodomésticos', 'Audio y Video']
   DEMO_DEPARTMENTS = YAML.load_file("#{Rails.root}/config/demo_departments.yml")
   YEARS = [2017, 2018, 2019]
 
@@ -73,6 +73,15 @@ class Settings < Settingslogic
       '19 - 20',
       '20 - 21'
     ]
+  end
+
+  def week_periods_keys
+    {
+      'monday_friday_am': ['11-12','12-13'],
+      'monday_friday_pm': ['13-14','14-15','15-16','16-17','17-18','18-19','19-20','20-21'],
+      'saturday_sunday_am': ['11-12','12-13'],
+      'saturday_sunday_pm': ['13-14','14-15','15-16','16-17','17-18','18-19','19-20','20-21']
+    }.with_indifferent_access
   end
 
   def weeks_by_month

@@ -7,6 +7,7 @@ class Store < ApplicationRecord
   has_many :cashiers
   has_many :achievements
   has_many :store_departments
+  has_many :worlds, through: :store_departments
   has_many :departments, through: :store_departments
   has_many :staff_reals
   belongs_to :cluster

@@ -1,6 +1,6 @@
 Achievement.delete_all
 
-department_base = 'Moda Mujer'
+department_base = 'Mujer'
 store_department_base = StoreDepartment.find_by(store: Store.find_by(name: 'Alto Las Condes'), department: Department.find_by(name: department_base))
 month = 6
 year = 2017
@@ -83,7 +83,7 @@ end
 # load months for all departments allowed except month 7, year 2017
 
 store_year_total = STORE_TOTAL / (Settings.sale_rates_by_month[month] / 100)
-departments << 'Moda Mujer'
+departments << 'Mujer'
 
 (2017..2018).each do |year|
 
