@@ -1,13 +1,8 @@
-staff_type = {
-  1 => 'asisted',
-  2 => 'selfasisted',
-  3 => 'personalized'
-}
 
-departments = Settings::DEPARTMENTS_ALLOWED
+departments = Settings::DEMO_DEPARTMENTS
 
-departments.each do |department|
-  Department.create!(name: department)
+departments.keys.each do |name|
+  Department.create!(name: name)
 end
 
 puts 'departments loaded'

@@ -1,8 +1,9 @@
 communes = ["Providencia", "Maipu", "Cerro Navia", "Temuco", "Vitacura", "Puente Alto", "Macul", "San Pedro de la Paz", "La Reina", "La Florida"]
-
+departments = Department.where(name: Settings::DEPARTMENTS_ALLOWED)
 
 STORES.each do |store|
-  store.store_departments.where(department: DEPARTMENTS).each do |store_department|
+  store.store_departments.where(department: departments).each do |store_department|
+    puts store_department.department.name
     Settings::DEMO_DEPARTMENTS[store_department.department.name]['employees']['sellers'].times do
       name = Faker::Name.first_name
       surname_1 = Faker::Name.last_name
