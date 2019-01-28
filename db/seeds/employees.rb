@@ -3,15 +3,10 @@ COMMUNES = ["Providencia", "Maipu", "Cerro Navia", "Temuco", "Vitacura", "Puente
 require "i18n"
 
 def create_employees(store_department, role)
-  mails_used = User.all.pluck(:email)
+  count = User.all.size
   name = Faker::Name.first_name.gsub(' ', '.')
   surname_1 = Faker::Name.last_name.gsub(' ', '.')
-  email = "#{I18n.transliterate(name)}.#{I18n.transliterate(surname_1)}@falabella.com"
-  while mails_used.include? email
-    name = Faker::Name.first_name.gsub(' ', '.')
-    surname_1 = Faker::Name.last_name.gsub(' ', '.')
-    email = "#{I18n.transliterate(name)}.#{I18n.transliterate(surname_1)}@falabella.com"
-  end
+  email = "#{I18n.transliterate(name)}.#{I18n.transliterate(surname_1)}.#{count}@falabella.com"
   phone = "+56 9 #{rand(10000000..99999999)}"
   seller = User.create!(name: name, surname_1: surname_1, email: email,
                 password: 123456, phone: phone, address: Faker::Address.full_address,
