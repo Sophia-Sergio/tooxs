@@ -6,7 +6,6 @@ module Api
     class StatisticsController < ApplicationController
       include FilterParameters
       before_action :set_store_department, only: %i[graph]
-      before_action :set_dates, only: %i[graph]
 
       def efficiency(params)
         real = @store_dep.efficiency
