@@ -27,29 +27,29 @@ STORE_TOTAL_BY_MONTH = sales_2017_by_month.each_with_object({}) do |(k,v), hash|
 end
 
 
-# categories.each do |category|
-#   date = Date.new(2017, 1, 2)
-#   department = category.store_departments.find_by(store:store).department.name
-#   sales_rate = Settings::DEMO_DEPARTMENTS[department]['sales_rate'] / 100
-#   categories_count = Settings::DEMO_DEPARTMENTS[department]['categories'].count
-#   (2017..2019).each do |year|
-#     (1..12).each do |month|
-#       department_sale = sales_rate * STORE_TOTAL_BY_MONTH[month]
-#       weeks = Settings.weeks_by_month[month]
-#       sale_day = department_sale / categories_count / (weeks * 7)
-#       sale_day += sale_day * rand(-0.07..0.03) if year != 2017
-#       (1..weeks).each do
-#         (1..7).each do
-#           hourly = Settings.periods_keys.each_with_object({}) do |key, hash|
-#             hash[key] = (sale_day / Settings.periods_keys.count).round.to_i
-#           end
-#           CategorySale.create!(date:date, store: store, category: category, amount: sale_day, hourly: hourly)
-#           date += 1
-#         end
-#       end
-#     end
-#   end
-# end
+categories.each do |category|
+  date = Date.new(2017, 1, 2)
+  department = category.store_departments.find_by(store:store).department.name
+  sales_rate = Settings::DEMO_DEPARTMENTS[department]['sales_rate'] / 100
+  categories_count = Settings::DEMO_DEPARTMENTS[department]['categories'].count
+  (2017..2019).each do |year|
+    (1..12).each do |month|
+      department_sale = sales_rate * STORE_TOTAL_BY_MONTH[month]
+      weeks = Settings.weeks_by_month[month]
+      sale_day = department_sale / categories_count / (weeks * 7)
+      sale_day += sale_day * rand(-0.07..0.03) if year != 2017
+      (1..weeks).each do
+        (1..7).each do
+          hourly = Settings.periods_keys.each_with_object({}) do |key, hash|
+            hash[key] = (sale_day / Settings.periods_keys.count).round.to_i
+          end
+          CategorySale.create!(date:date, store: store, category: category, amount: sale_day, hourly: hourly)
+          date += 1
+        end
+      end
+    end
+  end
+end
 
 puts 'category_sales loaded'
 
