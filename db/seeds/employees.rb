@@ -7,7 +7,7 @@ def create_employees(store_department, role)
   name = Faker::Name.first_name.gsub(' ', '.')
   surname_1 = Faker::Name.last_name.gsub(' ', '.')
   email = "#{I18n.transliterate(name)}.#{I18n.transliterate(surname_1)}@falabella.com"
-  while (mails_used.include? email)
+  while mails_used.include? email
     name = Faker::Name.first_name.gsub(' ', '.')
     surname_1 = Faker::Name.last_name.gsub(' ', '.')
     email = "#{I18n.transliterate(name)}.#{I18n.transliterate(surname_1)}@falabella.com"
