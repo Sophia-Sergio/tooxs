@@ -9,15 +9,13 @@ module Api
       before_action :set_dates, only: %i[graph]
 
       def efficiency(params)
-        rates = @store_dep.achievements.productivity_rate(@start, @end)
-        data = rates.values.each_with_object([]) do |rate, array|
-          array << rate.values.sum / Settings.periods_keys.count
-        end
+        real = @store_dep.efficiency
+        optimized = real.values.map { |value| value * rand(1.2..1.4)  }
         render json: {
-          labels: rates.keys.map { |date| "#{date.strftime('%d')}-#{date.strftime('%m')}" },
+          labels: real.keys.map { |date| "#{date.strftime('%d')}-#{date.strftime('%m')}" },
           datasets: [
-            { label: 'Eficiencia Real', data: data },
-            { label: 'Eficiencia Óptima', data: data }
+            { label: 'Eficiencia Real', data: real.values },
+            { label: 'Eficiencia Óptima', data: optimized }
           ]
         }
       end
