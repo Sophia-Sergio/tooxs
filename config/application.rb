@@ -13,7 +13,6 @@ module SalesforceReporter
       #{Rails.root}/app/models/sale
       #{Rails.root}/app/models/case
       #{Rails.root}/app/models/shift
-      #{Rails.root}/app/models/users
       #{Rails.root}/app/models/achievement
     ]
 
