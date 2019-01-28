@@ -3,495 +3,565 @@
   sales_rate: 2.42
   staff_type: 2
   world: 'Mujer'
+  sales_june_2017: 71149112
+  categories: ['j070101','j070102','j070103','j070104','j070105','j070201','j070202','j070203','j070204',
+               'j070205','j070301','j070302','j070303','j070304','j070306','j070307','j070308','j070309',
+               'j070310','j070311','j070312','j070401','j070402','j070403','j070404','j070405','j070406',
+               'j100807','j100808','j100809','j100811','j100907','j070501','j070502','j070601','j070602',
+               'j070603','j070604','j070605','j070607']
   employees:
     sellers: 0
     cashiers: 13
-    sales_assistant: 12
-    store_assistant: 0
-    backstore_assistant: 0
-    fitting_room_assistant: 0
-'Administración':
-  cod: 389
-  sales_rate:
-  staff_type:
-  world: 'Administración'
-  employees:
-    sellers: 0
-    cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
-    backstore_assistant: 0
+    sales_assistants: 12
+    store_assistants: 0
+    backstore_assistants: 0
     fitting_room_assistant: 0
 'Alfombras y Maletas':
   cod: 338
   sales_rate: 0.33
   staff_type: 3
   world: 'DecoHogar'
+  sales_june_2017: 15240081
+  categories: ['j160101','j160102','j160103','j160104','j160105','j160106','j160107','j160201','j160202',
+               'j160203','j160204','j160205']
   employees:
     sellers: 8
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
-    backstore_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
+    backstore_assistants: 0
     fitting_room_assistant: 0
 'Audio y Video':
   cod: 364
   sales_rate: 13.44
   staff_type: 3
   world: 'ElectroHogar'
+  sales_june_2017: 395849239
+  categories: ['j110101','j110102','j110103','j110104','j110106','j110201','j110202','j110203','j110204',
+               'j110206','j110207','j110208','j110209','j110210','j111401']
   employees:
     sellers: 20
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
-    backstore_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
+    backstore_assistants: 0
     fitting_room_assistant: 0
 'Benefit':
   cod: 320
   sales_rate:
   staff_type:
   world: 'Mujer'
+  sales_june_2017: 0
+  categories: ['j080501','j080502','j080503','j080504','j080506']
   employees:
     sellers: 0
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
-    backstore_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
+    backstore_assistants: 0
     fitting_room_assistant: 0
 'Benetton':
   cod: 311
   sales_rate:
-  staff_type:
+  staff_type: 3
   world: 'Mujer'
+  sales_june_2017: 0
+  categories: ['j041401','j041402','j041403','j041404','j041405','j041407','j041408']
   employees:
-    sellers: 0
+    sellers: 10
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
-    backstore_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
+    backstore_assistants: 0
     fitting_room_assistant: 0
 'Blanco':
   cod: 337
   sales_rate: 2.42
   staff_type: 1
   world: 'DecoHogar'
+  sales_june_2017: 71403438
+  categories: ['j120101','j120102','j120103','j120104','j120105','j120106','j120107','j120108','j120111',
+               'j120201','j120202','j120203','j120204','j120301','j120302','j120303','j120304','j120305',
+               'j120306','j120307','j120401','j120402','j120403','j120601','j120602','j120603','j120604',
+               'j120701','j120702','j120703']
   employees:
     sellers: 0
     cashiers: 12
-    sales_assistant: 10
-    store_assistant: 0
-    backstore_assistant: 0
-    fitting_room_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
+    backstore_assistants: 0
+    fitting_room_assistants: 0
 'Calzado Hombre':
   cod: 329
   sales_rate: 1.39
   staff_type: 3
   world: 'Hombre'
+  sales_june_2017: 40861675
+  categories: ['j100101','j100102','j100103','j100104','j100105','j100106','j100107','j100108','j100110',
+               'j100804','j100805','j100806','j100810','j100904','j100905','j100906','j100908','j100109']
   employees:
     sellers: 10
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
-    backstore_assistant: 10
+    sales_assistants: 0
+    store_assistants: 0
+    backstore_assistants: 10
     fitting_room_assistant: 0
 'Calzado  Infantil':
   cod: 331
   sales_rate: 0.42
   staff_type: 3
   world: 'Niños'
+  sales_june_2017: 12300603
+  categories: ['j100501','j100502','j100503','j100601','j100602','j100603','j100604','j100605','j100606',
+               'j100607','j100608','j100609','j100610','j100611','j100612','j100613','j100614','j100704',
+               'j100706']
   employees:
     sellers: 15
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
-    backstore_assistant: 10
+    sales_assistants: 0
+    store_assistants: 0
+    backstore_assistants: 10
     fitting_room_assistant: 0
 'Calzado Mujer':
   cod: 330
   sales_rate: 3.02
   staff_type: 3
   world: 'Mujer'
+  sales_june_2017: 88897917
+  categories: ['j100201','j100202','j100203','j100204','j100205','j100206','j100207','j100208','j100210',
+               'j100702','j100801','j100802','j100803','j100901','j100902','j100903','j100909','j100910',
+               'j100911']
   employees:
     sellers: 10
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
-    backstore_assistant: 10
-    fitting_room_assistant: 0
-'CMR puntos':
-  cod: 389
-  sales_rate:
-  staff_type:
-  world: 'Administración'
-  employees:
-    sellers: 0
-    cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
+    backstore_assistants: 10
     fitting_room_assistant: 0
 'Colegial':
   cod: 339
   sales_rate:
-  staff_type:
+  staff_type: 3
   world: 'Niños'
+  sales_june_2017: 0
+  categories: ['j091001','j091002','j091003','j091004','j091005','j091006']
   employees:
-    sellers: 0
+    sellers: 10
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
     fitting_room_assistant: 0
 'Computación y Hogar':
   cod: 335
   sales_rate: 9.44
-  staff_type:
+  staff_type: 3
   world: 'ElectroHogar'
+  sales_june_2017: 277978332
+  categories: ['j110401','j110402','j110403','j110405','j110406','j110408','j110409','j111403','j111406','j111409']
   employees:
-    sellers: 56
+    sellers: 20
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
     fitting_room_assistant: 0
 'Confección, Camisería y Ropa Interior':
   cod: 303
   sales_rate: 1.79
   staff_type: 1
   world: 'Hombre'
+  sales_june_2017: 67331144
+  categories: ['j010101','j010102','j010201','j010202','j010301','j010302','j010303','j010801','j010802',
+               'j010803','j010901','j010902','j010903','j010904','j011001','j011002','j011003','j011004',
+               'j011005','j011006','j011007','j011008']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 10
-    store_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
     fitting_room_assistant: 10
 'Cortinas':
   cod: 339
   sales_rate: 0.24
   staff_type: 3
   world: 'DecoHogar'
+  sales_june_2017: 7003642
+  categories: ['j160301','j160302','j160303','j160304','j160306']
   employees:
     sellers: 10
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
     fitting_room_assistant: 0
 'Cuidado Personal':
   cod: 358
   sales_rate: 0.24
   staff_type: 3
   world: 'ElectroHogar'
+  sales_june_2017: 0
+  categories: ['j110902']
   employees:
     sellers: 10
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
     fitting_room_assistant: 0
 'Deportes':
   cod: 307
   sales_rate: 3.73
   staff_type: 1
   world: 'Hombre'
+  sales_june_2017: 110057877
+  categories: ['j030101','j030102','j030103','j030104','j030105','j030106','j030199','j030201','j030202',
+               'j030203','j030204','j030205','j030206','j030301','j030302','j030303','j030304','j030305',
+               'j030401','j030402','j030403','j030404','j030501','j030601','j030602','j030603','j030604',
+               'j030605','j030609','j030701','j030702','j030703','j030704','j030705','j030706','j030801',
+               'j030803','j030901','j030902','j030903','j031001','j031002']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 10
-    store_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
     fitting_room_assistant: 10
 'Dormitorio':
   cod: 308
   sales_rate: 2.49
   staff_type: 3
   world: 'DecoHogar'
+  sales_june_2017: 73299974
+  categories: ['j140101','j140102','j140103','j140104','j140105','j140106','j140107','j140108','j140201',
+               'j140202','j140203','j140205','j140206','j140207','j140301','j140302','j140303','j140401',
+               'j140402','j140403','j140501','j140601']
   employees:
     sellers: 16
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
     fitting_room_assistant: 0
 'Electrodomésticos':
   cod: 334
   sales_rate: 3.75
   staff_type: 3
   world: 'ElectroHogar'
+  sales_june_2017: 110453173
+  categories: ['j110901','j110903','j110904','j110905','j110906','j111001','j111002','j111003','j111004',
+               'j111005','j111006','j111007','j111008','j111009','j111101','j111102','j111103','j111104',
+               'j111105','j111106','j111107','j111108','j111109','j111110']
   employees:
     sellers: 27
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
     fitting_room_assistant: 0
 'Fotografía':
   cod: 355
   sales_rate: 0.75
   staff_type: 3
   world: 'ElectroHogar'
+  sales_june_2017: 0
+  categories: ['j110301','j110302','j110305','j110306','j111402','j111404']
   employees:
     sellers: 10
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
-    backstore_assistant: 10
+    sales_assistants: 0
+    store_assistants: 0
+    backstore_assistants: 10
     fitting_room_assistant: 0
 'Gourmet':
   cod: 343
   sales_rate: 0.74
   staff_type: 2
   world: 'DecoHogar'
+  sales_june_2017: 21853548
+  categories: ['j180101','j180102','j180103','j180104','j180105','j180106','j180107','j180108','j180201',
+               'j180202','j180301','j180302','j180401','j180402','j180403','j180404']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 0
-    store_assistant: 10
-    backstore_assistant: 0
+    sales_assistants: 0
+    store_assistants: 10
+    backstore_assistants: 0
     fitting_room_assistant: 0
 'Juguetería':
   cod: 328
   sales_rate: 2.22
   staff_type: 2
   world: 'Niños'
+  sales_june_2017: 65245902
+  categories: ['j090901','j090902','j090903','j090904','j090905','j090906','j090907','j090908','j090909','j090910']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 0
-    store_assistant: 10
-    backstore_assistant: 0
+    sales_assistants: 0
+    store_assistants: 10
+    backstore_assistants: 0
     fitting_room_assistant: 0
 'Juvenil Hombre':
   cod: 305
   sales_rate: 3.65
   staff_type: 1
   world: 'Hombre'
+  sales_june_2017: 10762860
+  categories: ['j020102','j020201','j020202','j020203','j020301','j020302','j020303','j020304','j020305','j020401',
+               'j020402','j020403','j020501','j020502','j020503','j020504','j020505','j020601','j020602','j020603',
+               'j020604','j020701']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 10
-    store_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
     fitting_room_assistant: 10
 'Juvenil Mujer':
   cod: 312
   sales_rate: 3.41
   staff_type: 1
   world: 'Mujer'
+  sales_june_2017: 100440564
+  categories: ['j050101','j050102','j050103','j050104','j050201','j050202','j050203','j050301','j050302','j050303',
+               'j050304','j050401','j050402','j050403','j050501','j050502','j050601','j050602','j050603','j050604',
+               'j050605','j050701']
   employees:
     sellers: 23
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
+    cashiers: 0
+    sales_assistants: 0
+    store_assistants: 0
+    fitting_room_assistant: 0
 'Lencería y Corsetería':
   cod: 313
   sales_rate: 3.75
   staff_type: 3
   world: 'Mujer'
+  sales_june_2017: 110242056
+  categories: ['j060101','j060102','j060103','j060104','j060106','j060201','j060202','j060203','j060204','j060205',
+               'j060206','j060207','j060208','j060401','j060402']
   employees:
     sellers: 23
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
     fitting_room_assistant: 0
 'Línea Blanca':
   cod: 332
   sales_rate: 4.52
-  staff_type:
+  staff_type: 3
   world: 'ElectroHogar'
+  sales_june_2017: 133188803
+  categories: ['j110601','j110602','j110603','j110604','j110605','j110606','j110607','j110608','j110609',
+               'j110610','j110701','j110702','j110703','j110704','j110705','j110706','j110707','j110801',
+               'j110802','j110804','j110805']
   employees:
     sellers: 31
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
+    cashiers: 0
+    sales_assistants: 0
+    store_assistants: 0
+    fitting_room_assistant: 0
 'Menaje':
   cod: 346
   sales_rate: 1.33
   staff_type: 1
   world: 'DecoHogar'
+  sales_june_2017: 39244093
+  categories: ['j150101','j150102','j150103','j150104','j150105','j150106','j150107','j150108','j150109',
+               'j150110','j150111','j150112','j150113','j150114','j150201','j150202','j150203','j150204',
+               'j150205','j150206','j150207','j150208','j150301','j150302','j150303','j150401']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 10
-    store_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
     fitting_room_assistant: 0
-'MNG':
-  cod: 310
-  sales_rate:
-  staff_type:
-  world: 'Mujer'
-  employees:
-    sellers:
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
 'Muebles':
   cod: 340
   sales_rate: 2.55
   staff_type:
   world: 'DecoHogar'
+  sales_june_2017: 75162117
+  categories: ['j130101','j130102','j130103','j130104','j130105','j130106','j130107','j130201','j130202',
+               'j130203','j130204','j130205','j130206','j130207','j130301','j130302','j130304','j130401',
+               'j130402','j130403','j130404','j130405','j130501','j130502','j130503','j130504','j130601',
+               'j130602','j130701','j130702','j130703','j130704','j130705','j130801']
   employees:
     sellers: 15
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
+    cashiers: 0
+    sales_assistants: 0
+    store_assistants: 0
+    fitting_room_assistant: 0
 'Mujer':
   cod: 309
   sales_rate: 9.14
   staff_type: 1
   world: 'Mujer'
+  sales_june_2017: 269128958
+  categories: ['j040101','j040102','j040103','j040104','j040201','j040202','j040203','j040204','j040205',
+               'j040301','j040302','j040401','j040402','j040403','j040501','j040502','j040503','j040504',
+               'j040505','j040506','j040507','j040601','j040602','j040603','j040604','j040701','j040702',
+               'j040703','j040704','j040705','j040801','j040802','j040901','j040902','j040903','j041001',
+               'j041002','j041003','j041004','j041005','j041006','j041007','j041201','j041501']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 10
-    store_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
     fitting_room_assistant: 10
 'Niñas (2-8)':
   cod: 323
   sales_rate: 0.81
   staff_type: 1
   world: 'Niños'
+  sales_june_2017: 0
+  categories: ['j090301','j090302','j090303','j090304','j090305','j090306','j090307','j090308','j090309']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 10
-    store_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
     fitting_room_assistant: 10
 'Niños (2-8)':
   cod: 322
   sales_rate: 0.81
   staff_type: 1
   world: 'Niños'
+  sales_june_2017: 0
+  categories: ['j090101','j090102','j090103','j090104','j090105','j090106','j090107','j090108']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 10
-    store_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
     fitting_room_assistant: 10
 'Niñas (8-16)':
   cod: 325
   sales_rate: 0.81
   staff_type: 1
   world: 'Niños'
+  sales_june_2017: 23813645
+  categories: ['j090401','j090402','j090403','j090404','j090405','j090406','j090407','j090408','j090409']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 10
-    store_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
     fitting_room_assistant: 10
 'Niños (8-16)':
   cod: 324
   sales_rate: 0.75
   staff_type: 1
   world: 'Niños'
+  sales_june_2017: 22062004
+  categories: ['j090703','j090201','j090202','j090203','j090204','j090205','j090206','j090207','j090208','j091101']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 10
-    store_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
     fitting_room_assistant: 10
 'Perfumería':
   cod: 320
   sales_rate: 5.06
   staff_type: 3
   world: 'Mujer'
+  sales_june_2017: 148902803
+  categories: ['j080101','j080102','j080103','j080104','j080105','j080106','j080107','j080108','j080201','j080202',
+               'j080203','j080204','j080205','j080206','j080301','j080302','j080307','j080401']
   employees:
     sellers: 20
     cashiers: 0
-    sales_assistant: 0
-    store_assistant: 0
+    sales_assistants: 0
+    store_assistants: 0
     fitting_room_assistant: 0
 'Regalería':
   cod: 342
   sales_rate: 1.14
   staff_type: 2
   world: 'DecoHogar'
+  sales_june_2017: 33505199
+  categories: ['j170101','j170102','j170103','j170104','j170105','j170106','j170107','j170108','j170109',
+               'j170110','j170111','j170112','j170113','j170201','j170202','j170203','j170204','j170205',
+               'j170206','j170207','j170208','j170209','j170301','j170303','j170305']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 0
-    store_assistant: 10
+    sales_assistants: 0
+    store_assistants: 10
     fitting_room_assistant: 0
-'Relojes':
-  cod: 313
-  sales_rate:
-  staff_type:
-  world: 'Mujer'
-  employees:
-    sellers:
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
-'Servicios':
-  cod: 389
-  sales_rate:
-  staff_type:
-  world: 'Administración'
-  employees:
-    sellers:
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
 'Sport Hombre':
   cod: 302
   sales_rate: 3.65
   staff_type: 1
   world: 'Hombre'
+  sales_june_2017: 107428009
+  categories: ['j010401','j010402','j010403','j010501','j010502','j010503','j010601','j010602','j010603',
+               'j010604','j010701','j010702','j010703','j010704','j011101']
   employees:
     sellers: 0
     cashiers: 10
-    sales_assistant: 10
-    store_assistant: 0
+    sales_assistants: 10
+    store_assistants: 0
     fitting_room_assistant: 10
 'Telefonía':
   cod: 387
   sales_rate: 3.65
   staff_type:
   world: 'ElectroHogar'
+  sales_june_2017: 0
+  categories: ['j110501','j110502','j110503','j110504','j110505','j110506','j110507','j110508','j111408']
   employees:
-    sellers:
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
+    sellers: 10
+    cashiers: 0
+    sales_assistants: 0
+    store_assistants: 0
+    fitting_room_assistant: 0
 'Trajes de Baño':
   cod: 390
   sales_rate:
-  staff_type:
+  staff_type: 3
   world: 'Mujer'
+  sales_june_2017: 0
+  categories: ['j041101','j041102','j041103','j041104']
   employees:
-    sellers:
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
+    sellers: 10
+    cashiers: 0
+    sales_assistants: 0
+    store_assistants: 0
+    fitting_room_assistant: 0
 'Vestuario Bebe, Recién Nacidos':
   cod: 326
   sales_rate: 2.52
   staff_type:
   world: 'Niños'
+  sales_june_2017: 74381186
+  categories: ['j090501','j090502','j090503','j090504','j090505','j090506','j090507','j090508','j090509',
+               'j090510','j090511','j090513','j090514','j090601','j090602','j090603','j090604','j090605',
+               'j090801','j090802','j090803','j090804']
   employees:
     sellers: 15
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
+    cashiers: 0
+    sales_assistants: 0
+    store_assistants: 0
+    fitting_room_assistant: 0
 'Video Juegos':
   cod: 304
   sales_rate:
-  staff_type:
+  staff_type: 3
   world: 'ElectroHogar'
+  sales_june_2017: 0
+  categories: ['j111301','j111302','j111303','j111407']
   employees:
-    sellers:
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
+    sellers: 10
+    cashiers: 0
+    sales_assistants: 0
+    store_assistants: 0
+    fitting_room_assistant: 0
 'Zapatillas':
   cod: 306
   sales_rate: 2.42
-  staff_type:
+  staff_type: 3
   world: 'Hombre'
+  sales_june_2017: 50089900
+  categories: ['j100301','j100302','j100303','j100304','j100305','j100306','j100307','j100308','j100309',
+               'j100311','j100401','j100402','j100403','j100404','j100406','j100407']
   employees:
     sellers: 13
-    cashiers:
-    sales_assistant:
-    store_assistant:
-    fitting_room_assistant:
+    cashiers: 0
+    sales_assistants: 0
+    store_assistants: 0
+    fitting_room_assistant: 0
