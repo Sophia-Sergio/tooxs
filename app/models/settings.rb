@@ -2,8 +2,16 @@ class Settings < Settingslogic
   source "#{Rails.root}/config/application.yml"
   namespace Rails.env
 
+  STORE_ALLOWED = 'Alto Las Condes'
   STORES_ALLOWED = ['Alto Las Condes'].freeze
-  DEPARTMENTS_ALLOWED = ['Electrodomésticos', 'Audio y Video']
+  DEPARTMENTS_ALLOWED = [
+    'Accesorios Mujer',
+    'Electrodomésticos',
+    'Audio y Video',
+    'Alfombras y Maletas',
+    'Gourmet',
+    'Blanco',
+    'Juguetería']
   DEMO_DEPARTMENTS = YAML.load_file("#{Rails.root}/config/demo_departments.yml")
   YEARS = [2017, 2018, 2019]
 
@@ -53,15 +61,17 @@ class Settings < Settingslogic
     end
   end
 
-  def month_by_date(year, date)
+  def month_by_date(date)
     (1..12).each do |month|
-      period = month_period(year, month)
-      return month if (period[:start]..period[:end]).cover? date.to_date
+      period = month_period(date.year, month)
+      return month if (period[:start]..period[:end]).cover? date
     end
+    1
   end
 
   def periods_keys
     [
+      '10 - 11',
       '11 - 12',
       '12 - 13',
       '13 - 14',
@@ -77,9 +87,9 @@ class Settings < Settingslogic
 
   def week_periods_keys
     {
-      'monday_friday_am': ['11-12','12-13'],
+      'monday_friday_am': ['10-11', '11-12','12-13'],
       'monday_friday_pm': ['13-14','14-15','15-16','16-17','17-18','18-19','19-20','20-21'],
-      'saturday_sunday_am': ['11-12','12-13'],
+      'saturday_sunday_am': ['10-11', '11-12','12-13'],
       'saturday_sunday_pm': ['13-14','14-15','15-16','16-17','17-18','18-19','19-20','20-21']
     }.with_indifferent_access
   end
@@ -98,6 +108,41 @@ class Settings < Settingslogic
       10 => 5,
       11 => 4,
       12 => 5
+    }
+  end
+
+  def month_name
+    {
+      1 => 'Enero',
+      2 => 'Febrero',
+      3 => 'Marzo',
+      4 => 'Abril',
+      5 => 'Mayo',
+      6 => 'Junio',
+      7 => 'Julio',
+      8 => 'Agosto',
+      9 => 'Septiembre',
+      10 => 'Ocutbre',
+      11 => 'Noviembre',
+      12 => 'Diciembre'
+    }
+  end
+
+  def days_by_month(year)
+    february = year % 4 == 0 ? 29 : 28
+    {
+      1 => 31,
+      2 => february,
+      3 => 31,
+      4 => 30,
+      5 => 31,
+      6 => 30,
+      7 => 31,
+      8 => 31,
+      9 => 30,
+      10 => 31,
+      11 => 30,
+      12 => 31
     }
   end
 
