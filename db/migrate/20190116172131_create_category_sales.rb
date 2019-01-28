@@ -3,7 +3,7 @@ class CreateCategorySales < ActiveRecord::Migration[5.1]
     create_table :category_sales do |t|
       t.date :date
       t.string :category_cod, index: true
-      t.integer :amount
+      t.bigint :amount
       t.references :store, foreign_key: true
       t.timestamps
     end

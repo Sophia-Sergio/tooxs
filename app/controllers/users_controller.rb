@@ -5,8 +5,6 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
-    add_breadcrumb "Dashboard", :root_path
-    add_breadcrumb "Usuarios", :users_path
   end
 
   # GET /users/1
@@ -63,13 +61,13 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:name, :lastname, :surname, :role, :picture, :status, :position, :password, :email, :rut, :store_id, :department_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:name, :lastname, :surname, :role, :picture, :status, :position, :password, :email, :rut, :store_id, :department_id)
+  end
 end

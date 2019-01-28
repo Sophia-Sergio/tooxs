@@ -1,15 +1,10 @@
 # 2017
-users = User.with_role(:seller)
-(2017..2018).each do |year|
+users = User.employees
+(2017..2019).each do |year|
   users.each do |user|
-    if user.has_role?(:seller)
-      user = Seller.new(user.attributes)
-    elsif user.has_role?(:cashier)
-      user = Cashier.new(user.attributes)
-    end
-
     date = Date.new(year, 1, 2) if year == 2017
     date = Date.new(year, 1, 1) if year == 2018
+    date = Date.new(2018, 12, 31) if year == 2019
 
     (1..12).each do |month|
       work_shift = WorkShift.all.sample
@@ -22,8 +17,7 @@ users = User.with_role(:seller)
           unless user.plan_check_in(opts).nil?
             WorkedShift.create!(user: user, date: date,
                                 check_in: user.plan_check_in(opts),
-                                check_out: user.plan_check_out(opts),
-                                month: month, day: day, week: week)
+                                check_out: user.plan_check_out(opts))
           end
           date += 1
         end

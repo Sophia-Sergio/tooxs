@@ -66,25 +66,21 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% @staff_planifitacion.each do |shift| %>
-                    <tr>
-                      <td>
-                        <div class="thumbnail">
-                          <img src="<%= asset_pack_path('images/user_default.jpg') %>" alt="<%= shift[:name] %>">
-                        </div>
-                      </td>
-                      <td><%= shift[:name] %></td>
-                      <td><%= shift[:rut] %></td>
-                      <td><%= shift[:store] %></td>
-                      <td><%= shift[:department] %></td>
-                      <td><%= shift[:shift] %></td>
-                      <td><%= shift[:shift_desc] %></td>
-                      <td><%= shift[:new_shift] %></td>
-                      <td style="background-color: <%= shift[:new_shift] == '' && shift[:new_shift_desc] == '' ? '#ff8a80' : '#81c784' %>; color: white;" >
-                        <%= shift[:new_shift_desc] %>
-                      </td>
-                    </tr>
-                  <% end %>
+                  <tr>
+                    <td>
+                      <div class="thumbnail">
+                        <img src="<%= asset_pack_path('images/user_default.jpg') %>" alt="">
+                      </div>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="background-color: '#ff8a80', color: white;" > </td>
+                  </tr>
                 </tbody>
               </table>
 
@@ -109,15 +105,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% @shift_optimized.each do |shift| %>
-                    <tr>
-                      <td style="background-color: rgba(34, 42, 66, 0.1); text-align: center;"><%= shift[:shift] %></td>
-                      <td style="text-align: center;"><%= shift[:actual] %></td>
-                      <td style="text-align: center;"><%= shift[:optimized] %></td>
-                      <td style="text-align: center;"><%= shift[:committed] %></td>
-                      <td style="text-align: center;"><%= shift[:to_cover] %></td>
-                    </tr>
-                  <% end %>
+                  <tr>
+                    <td style="background-color: rgba(34, 42, 66, 0.1); text-align: center;"></td>
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;"></td>
+                  </tr>
                 </tbody>
                 <tfoot>
                   <tr>
@@ -149,18 +143,16 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% @shift_available.each do |shift| %>
-                      <tr>
-                        <td class="text-center"><%= shift[:shift] %></td>
-                        <td class="text-center"><%= shift[:desc] %></td>
-                        <td class="text-center"><%= shift[:quantity] %></td>
-                        <td class="text-center">
-                          <label>
-                            <input type="checkbox">
-                          </label>
-                        </td>
-                      </tr>
-                    <% end %>
+                    <tr>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center">
+                        <label>
+                          <input type="checkbox">
+                        </label>
+                      </td>
+                    </tr>
                     <tr>
                       <td class="p-0 pt-2" colspan="4">
                         <button class="btn btn-primary">Publicar</button>

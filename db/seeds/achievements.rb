@@ -21,9 +21,7 @@ achievements.each do |achievement|
       Achievement.create!(user_id: seller.id, date: date,
                           store_department_id: store_department_base.id,
                           store: store_department_base.store,
-                          achievement: custom.to_h,
-                          year: year, month: month,
-                          week: week, day: day)
+                          achievement: custom.to_h)
     end
     date += 1
   end
@@ -71,9 +69,7 @@ departments.each do |department|
         Achievement.create!(user_id: seller.id, date: date,
                             store_department_id: store_department.id,
                             store: store_department.store,
-                            achievement: achievement_by_hour,
-                            year: year, month: month,
-                            week: week, day: day)
+                            achievement: achievement_by_hour)
       end
       date += 1
     end
@@ -101,8 +97,8 @@ departments << 'Mujer'
 
       date = period[:start]
 
-      months = Settings.weeks_by_month[month]
-      (1..months).each do |week|
+      weeks = Settings.weeks_by_month[month]
+      (1..weeks).each do |week|
         week_sales = store_department_sales / months
         week_sales *= rand(0.89...1.12)
         (1..7).each do |day|
@@ -114,9 +110,7 @@ departments << 'Mujer'
             Achievement.create!(user_id: seller.id, date: date,
               store_department_id: store_department.id,
               store: store_department.store,
-              achievement: achievement_by_hour,
-              year: year, month: month,
-              week: week, day: day)
+              achievement: achievement_by_hour)
           end
           date += 1
         end

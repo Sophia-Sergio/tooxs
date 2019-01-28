@@ -16,21 +16,11 @@ class MainDashboard extends Component {
       loading: true,
       result: '',
       store: {},
-      storeOptions: [],
       department: {},
-      departmentOptions: [],
-      year: { value: '2018', label: '2018' },
-      yearOptions: [
-        { value: '2018', label: '2018' },
-        { value: '2017', label: '2017' },
-        { value: '2016', label: '2016' }
-      ],
-      month: { value: '7', label: 'Julio' },
-      monthOptions: [
-        { value: '7', label: 'Julio' },
-        { value: '6', label: 'Junio' },
-        { value: '5', label: 'Mayo' }
-      ],
+      year: {},
+      yearOptions: [],
+      month: {},
+      monthOptions: [],
       chartData: {
         labels: [],
         datasets:[]
@@ -53,20 +43,32 @@ class MainDashboard extends Component {
   componentDidMount(){
     this.getChartData();
     this.getEmployeesData();
+    console.log(this.state)
   }
 
   createFiltersData(){
+    var filters = this.props.filters;
+    var world = { value: filters.world_selected.id, label: filters.world_selected.name };
+    var departments = this.getDepartments(filters.worlds_departments, world);
+    var department = this.getBiggerDepartment(filters.worlds_departments, world);
+    var monthOptions = this.getMonths(filters.years, filters.year)
     this.setState({
-      store: this.props.stores.map( (store, index) => ({ value: store.id, label: store.name }) )[0],
-      storeOptions: this.props.stores.map( store => ({ value: store.id, label: store.name }) ),
-      department: this.props.departments.map( department => ({ value: department.id, label: department.name }) )[0],
-      departmentOptions: this.props.departments.map( department => ({ value: department.id, label: department.name }) )
+      year: { value: filters.year.value, label: filters.year.label},
+      month: { value: filters.month.value, label: filters.month.label},
+      store: { value: filters.store.id, label: filters.store.name },
+      world: world,
+      yearOptions: filters.years.map( year => ({ value: year.value, label: year.label })),
+      monthOptions: monthOptions.map( month => ({ value: month.value, label: month.label })),
+      worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
+      department: { value: department.id, label: department.name },
+      departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) )
     })
   }
 
   getChartData(){
     this.setState({loading: true});
-    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2018&month_start=7`)
+    var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
+    axios.get(`${this.props.root_url}/api/v1/statistics/graph?${parameters}`)
       .then(res => {
         this.setState({chartData: res.data, loading: false});
         this.setState(state => {
@@ -107,24 +109,56 @@ class MainDashboard extends Component {
       });
   }
 
-  storeChange = (department) => {
+  getDepartments(worlds, world){
+    for (var w of worlds) {
+      if (w['id']==world['value']){
+        return w['departments']
+      }
+    }
+  }
+  getMonths(years, year){
+    for (var y of years) {
+      if (y['label']==year['value']){
+        return y['months']
+      }
+    }
+  }
+  getBiggerDepartment(worlds, world){
+    for (var w of worlds) {
+      if (w['id']==world['value']){
+        return w['bigger_department']
+      }
+    }
+  }
+
+  worldChange = (world) => {
+    var departmentOptions = this.getDepartments(this.props.filters.worlds_departments, world)
+    var department = this.getBiggerDepartment(this.props.filters.worlds_departments, world)
+    this.setState({
+      world: world,
+      departmentOptions: departmentOptions.map( store => ({ value: store.id, label: store.name }) ),
+      department: {value: department.id, label: department.name}
+    });
+  }
+
+  storeChange = (store) => {
     this.setState({ store });
-    console.log(this.state.store);
   }
 
   departmentChange = (department) => {
     this.setState({ department });
-    console.log(this.state.department);
   }
 
   yearChange = (year) => {
-    this.setState({ year });
-    console.log(this.state.year);
+    var monthOptions = this.getMonths(this.props.filters.years, year)
+    this.setState({
+      year: year,
+      monthOptions: monthOptions
+    });
   }
 
   monthChange = (month) => {
     this.setState({ month });
-    console.log(this.state.month);
   }
 
   handleSubmit = (e, month) => {
@@ -132,11 +166,19 @@ class MainDashboard extends Component {
     this.getChartData();
     this.getEmployeesData();
   }
-
   // Departamento, Año, Mes
 
   render() {
-    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
+    const {
+      world,
+      store,
+      storesOptions,
+      department,
+      departmentOptions,
+      worldOptions,
+      year,
+      yearOptions,
+      month, monthOptions, employees } = this.state;
 
     return (
       <React.Fragment>
@@ -147,10 +189,10 @@ class MainDashboard extends Component {
               <div className="form-group">
                 <Select
                   noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.storeChange}
-                  options={storesOptions}
-                  placeholder={`Tienda`}
-                  value={store}
+                  onChange={this.worldChange}
+                  options={worldOptions}
+                  placeholder={`World`}
+                  value={world}
                 />
               </div>
               <div className="form-group">

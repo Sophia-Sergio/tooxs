@@ -1,12 +1,11 @@
 class User < ApplicationRecord
+  include Statistics::Filters
   rolify # management of roles with gem
-  before_create :set_role
-  # belongs_to :store
-
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  belongs_to :store, optional: true
+  belongs_to :store_department, optional: true
   has_many :request
   has_many :shifts, class_name: 'UserShift'
   has_many :worked_shifts
@@ -14,10 +13,10 @@ class User < ApplicationRecord
 
   enum status: { active: 1, inactive: 0 }
 
+  scope :employees, -> { joins(:roles).where.not(roles: { name: ['admin'] }) }
   scope :working_on_date, ->(date) { joins(:worked_shifts).where('date = ?', date) }
   scope :working_on_period, ->(start_date, end_date) {
-    joins(:worked_shifts).
-    where('worked_shifts.date between ? AND ?', start_date, end_date).distinct
+    joins(:worked_shifts).where(worked_shifts: {date: start_date..end_date }).distinct
   }
 
   def self.employees_by_hour
@@ -30,7 +29,7 @@ class User < ApplicationRecord
   end
 
   def self.total_achievements(start_date, end_date)
-    joins(:achievements).where('achievements.date between ? AND ?', start_date, end_date).
+    joins(:achievements).where(achievements: { date: start_date..end_date }).
       group('users.id').sum('achievements.total_day')
   end
 
@@ -67,8 +66,7 @@ class User < ApplicationRecord
   end
 
   def self.shifts_ids(year, month)
-    joins(:shifts).
-      where(user_shifts: { year: year, month: month }).
+    joins(:shifts).where(user_shifts: { year: year, month: month }).
       joins('INNER JOIN work_shifts ON user_shifts.work_shift_id = work_shifts.id').
       select('ARRAY_AGG(work_shifts.id) as work_shifts').
       select('users.id').group('users.id').map do |seller|
@@ -76,8 +74,18 @@ class User < ApplicationRecord
       end.to_h
   end
 
-  def set_role
-    add_role self.class.to_s.downcase.to_sym
+  def filters
+    {
+      years: self.years_filter,
+      year: { value: Settings.year_by_date(Date.today), label: Settings.year_by_date(Date.today)},
+      month: {
+        value: Settings.month_by_date(Date.today),
+        label: Settings.month_name[Settings.month_by_date(Date.today)]
+      },
+      store: store.as_json(only: [:id, :name]),
+      worlds_departments: store.worlds.distinct.as_json,
+      world_selected: store.bigger_plan_sale_world.as_json
+    }
   end
 
   def plan_check_in(opts)
@@ -87,20 +95,4 @@ class User < ApplicationRecord
   def plan_check_out(opts)
     shifts.find_case(opts).work_shift.plan_shifts.find_case(opts).check_out
   end
-
-  # def can_wiew_sale_planification?
-  #   can_view %w[admin gcc gcp gz gt gv jd]
-  # end
-
-  # def can_view_colaborators?
-  #   can_view %w[admin gv jd]
-  # end
-
-  # def can_view_change_plan?
-  #   can_view %w[admin gcc gcp gz gt gv]
-  # end
-
-  # def can_view(roles_admitted)
-  #   role.in?(roles_admitted)
-  # end
 end
