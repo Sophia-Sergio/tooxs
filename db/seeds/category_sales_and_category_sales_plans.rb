@@ -1,5 +1,5 @@
-# CategorySale.delete_all
-# CategorySalesPlan.delete_all
+CategorySale.delete_all
+CategorySalesPlan.delete_all
 store = Store.find_by(name: Settings::STORE_ALLOWED)
 categories = Category.where(cod: StoreDepartment.where(store: store).joins(:categories).pluck(:category_cod).uniq)
 
