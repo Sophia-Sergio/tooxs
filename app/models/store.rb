@@ -20,6 +20,17 @@ class Store < ApplicationRecord
     name
   end
 
+  def bigger_plan_sale_world(opts = {})
+    opts = opts.present? ? opts : {
+      year:  Settings.year_by_date(Date.today),
+      month: Settings.month_by_date(Date.today)
+    }
+    world_id = worlds.joins(store_departments: { categories: :sales_plans}).
+      merge(CategorySalesPlan.by_store_month(id, opts)).
+      group('worlds.id').sum('category_sales_plans.monthly').max_by { |k,v| v }.first
+    World.find(world_id)
+  end
+
   def self.available_shifts
     includes(:available_shifts).all
   end
