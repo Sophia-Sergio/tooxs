@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190116172131) do
+ActiveRecord::Schema.define(version: 20190122171402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,12 +20,7 @@ ActiveRecord::Schema.define(version: 20190116172131) do
     t.bigint "user_id"
     t.bigint "store_department_id"
     t.bigint "store_id"
-    t.integer "total_day"
     t.date "date"
-    t.integer "year"
-    t.integer "month"
-    t.integer "week"
-    t.integer "day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.hstore "achievement", default: {}, null: false
@@ -62,17 +57,31 @@ ActiveRecord::Schema.define(version: 20190116172131) do
   create_table "category_sales", force: :cascade do |t|
     t.date "date"
     t.string "category_cod"
-    t.integer "amount"
+    t.bigint "amount"
     t.bigint "store_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.hstore "hourly", default: {}, null: false
     t.index ["category_cod"], name: "index_category_sales_on_category_cod"
     t.index ["store_id"], name: "index_category_sales_on_store_id"
   end
 
+  create_table "category_sales_plans", force: :cascade do |t|
+    t.bigint "store_id"
+    t.string "category_cod"
+    t.integer "year"
+    t.integer "month"
+    t.bigint "monthly"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.hstore "weekly", default: {}, null: false
+    t.hstore "daily", default: {}, null: false
+    t.index ["store_id"], name: "index_category_sales_plans_on_store_id"
+  end
+
   create_table "clusters", force: :cascade do |t|
     t.string "name"
-    t.text "description"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -166,10 +175,7 @@ ActiveRecord::Schema.define(version: 20190116172131) do
 
   create_table "staffs", force: :cascade do |t|
     t.bigint "store_department_id"
-    t.integer "year"
-    t.integer "month"
-    t.integer "week"
-    t.integer "day"
+    t.date "date"
     t.integer "staff_number"
     t.string "type"
     t.datetime "created_at", null: false
@@ -180,7 +186,7 @@ ActiveRecord::Schema.define(version: 20190116172131) do
   create_table "store_departments", force: :cascade do |t|
     t.bigint "store_id"
     t.bigint "department_id"
-    t.integer "staff_type"
+    t.integer "staff"
     t.integer "department_cod"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -194,7 +200,6 @@ ActiveRecord::Schema.define(version: 20190116172131) do
     t.string "name"
     t.string "address"
     t.string "commune"
-    t.string "economic_segment"
     t.bigint "cluster_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -231,7 +236,6 @@ ActiveRecord::Schema.define(version: 20190116172131) do
     t.integer "year"
     t.integer "month"
     t.integer "week"
-    t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["store_id"], name: "index_user_shifts_on_store_id"
@@ -250,23 +254,22 @@ ActiveRecord::Schema.define(version: 20190116172131) do
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
-    t.string "name"
-    t.string "surname_1"
-    t.string "string"
+    t.string "name", null: false
+    t.string "surname_1", null: false
     t.string "surname_2"
-    t.string "picture"
-    t.string "status", default: "1"
-    t.string "integer", default: "1"
-    t.string "rut"
     t.string "phone"
     t.string "address"
     t.string "commune"
-    t.bigint "store_department_id"
+    t.string "picture"
+    t.string "rut"
+    t.integer "status", default: 1, null: false
     t.bigint "store_id"
+    t.bigint "store_department_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["rut"], name: "index_users_on_rut", unique: true
     t.index ["store_department_id"], name: "index_users_on_store_department_id"
     t.index ["store_id"], name: "index_users_on_store_id"
   end
@@ -289,9 +292,6 @@ ActiveRecord::Schema.define(version: 20190116172131) do
   create_table "worked_shifts", force: :cascade do |t|
     t.bigint "user_id"
     t.date "date"
-    t.integer "month"
-    t.integer "week"
-    t.integer "day"
     t.datetime "check_in"
     t.datetime "check_out"
     t.datetime "created_at", null: false
@@ -311,6 +311,8 @@ ActiveRecord::Schema.define(version: 20190116172131) do
   add_foreign_key "categories_store_departments", "categories", column: "category_cod", primary_key: "cod", name: "categories_store_departments_category_cod_fkey"
   add_foreign_key "category_sales", "categories", column: "category_cod", primary_key: "cod", name: "category_sales_category_cod_fkey"
   add_foreign_key "category_sales", "stores"
+  add_foreign_key "category_sales_plans", "categories", column: "category_cod", primary_key: "cod", name: "category_sales_plans_category_cod_fkey"
+  add_foreign_key "category_sales_plans", "stores"
   add_foreign_key "general_plans", "store_departments"
   add_foreign_key "plan_shifts", "work_shifts"
   add_foreign_key "products", "brands"

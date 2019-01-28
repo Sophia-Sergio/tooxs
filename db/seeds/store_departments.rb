@@ -10,7 +10,7 @@ STORES.each do |store|
     StoreDepartment.create!(store: store,
       department: department,
       department_cod: departments[department.name]['cod'] ,
-      staff_type: departments[department.name]['staff_type'] ,
+      staff: departments[department.name]['staff_type'] ,
       world: World.find_by(name: departments[department.name]['world']))
   end
 end

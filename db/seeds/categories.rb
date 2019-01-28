@@ -921,6 +921,7 @@ Category.create!(name: 'materiales de marca', cod:'j991433', parent_cod:'j9914',
 Category.create!(name: 'dtl empresas relacionadas', cod:'j991501', parent_cod:'j9915', level: 3, parents: ['j9915', 'j99'])
 Category.create!(name: 'dtl empresas relacionadas 2', cod:'j991502', parent_cod:'j9915', level: 3, parents: ['j9915', 'j99'])
 
+# finishes very
 Category.create!(name: 'ambo basico', cod:'j01010101', parent_cod:'j010101', level: 4, parents: ['j010101', 'j0101', 'j01'])
 Category.create!(name: 'ambo temporada poly', cod:'j01010201', parent_cod:'j010102', level: 4, parents: ['j010102', 'j0101', 'j01'])
 Category.create!(name: 'ambo temporada poly/lana', cod:'j01010202', parent_cod:'j010102', level: 4, parents: ['j010102', 'j0101', 'j01'])

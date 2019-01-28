@@ -19,6 +19,17 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
       t.inet     :current_sign_in_ip
       t.inet     :last_sign_in_ip
 
+      t.string   :name, null: false
+      t.string   :surname_1, null: false
+      t.string   :surname_2
+      t.string   :phone
+      t.string   :address
+      t.string   :commune
+      t.string   :picture
+      t.string   :rut
+      t.integer  :status, default: 1, null: false
+      t.references :store, foreign_key: true
+      t.references :store_department, foreign_key: true
       ## Confirmable
       # t.string   :confirmation_token
       # t.datetime :confirmed_at
@@ -35,6 +46,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
     end
 
     add_index :users, :email,                unique: true
+    add_index :users, :rut,                unique: true
     add_index :users, :reset_password_token, unique: true
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
