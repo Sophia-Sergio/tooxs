@@ -2,10 +2,7 @@ class CreateStaffs < ActiveRecord::Migration[5.1]
   def change
     create_table :staffs do |t|
       t.references :store_department, foreign_key: true
-      t.integer :year
-      t.integer :month
-      t.integer :week
-      t.integer :day
+      t.date :date
       t.integer :staff_number
       t.string :type
       t.timestamps

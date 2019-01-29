@@ -7,6 +7,7 @@ class Store < ApplicationRecord
   has_many :cashiers
   has_many :achievements
   has_many :store_departments
+  has_many :worlds, through: :store_departments
   has_many :departments, through: :store_departments
   has_many :staff_reals
   belongs_to :cluster
@@ -17,6 +18,17 @@ class Store < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def bigger_plan_sale_world(opts = {})
+    opts = opts.present? ? opts : {
+      year:  Settings.year_by_date(Date.today),
+      month: Settings.month_by_date(Date.today)
+    }
+    world_id = worlds.joins(store_departments: { categories: :sales_plans}).
+      merge(CategorySalesPlan.by_store_month(id, opts)).
+      group('worlds.id').sum('category_sales_plans.monthly').max_by { |k,v| v }.first
+    World.find(world_id)
   end
 
   def self.available_shifts

@@ -5,9 +5,13 @@
     <%= render 'shared/sidebar' %>
 
     <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
-
       <%= react_component("DashboardHeader", { title: 'Dashboard' }) %>
-      <%= react_component('MainDashboard', { root_url: request.base_url, user: current_user, stores: @stores, departments: @departments }, class: 'row') %>
+      <%= react_component('MainDashboard', {
+          root_url: request.base_url,
+          user: current_user,
+          filters: @filters,
+          },
+        class: 'row') %>
 
       <div class="row">
         <%= render 'shared/footer' %>

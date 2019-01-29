@@ -1,6 +1,6 @@
 Achievement.delete_all
 
-department_base = 'Moda Mujer'
+department_base = 'Mujer'
 store_department_base = StoreDepartment.find_by(store: Store.find_by(name: 'Alto Las Condes'), department: Department.find_by(name: department_base))
 month = 6
 year = 2017
@@ -21,9 +21,7 @@ achievements.each do |achievement|
       Achievement.create!(user_id: seller.id, date: date,
                           store_department_id: store_department_base.id,
                           store: store_department_base.store,
-                          achievement: custom.to_h,
-                          year: year, month: month,
-                          week: week, day: day)
+                          achievement: custom.to_h)
     end
     date += 1
   end
@@ -71,9 +69,7 @@ departments.each do |department|
         Achievement.create!(user_id: seller.id, date: date,
                             store_department_id: store_department.id,
                             store: store_department.store,
-                            achievement: achievement_by_hour,
-                            year: year, month: month,
-                            week: week, day: day)
+                            achievement: achievement_by_hour)
       end
       date += 1
     end
@@ -83,7 +79,7 @@ end
 # load months for all departments allowed except month 7, year 2017
 
 store_year_total = STORE_TOTAL / (Settings.sale_rates_by_month[month] / 100)
-departments << 'Moda Mujer'
+departments << 'Mujer'
 
 (2017..2018).each do |year|
 
@@ -101,8 +97,8 @@ departments << 'Moda Mujer'
 
       date = period[:start]
 
-      months = Settings.weeks_by_month[month]
-      (1..months).each do |week|
+      weeks = Settings.weeks_by_month[month]
+      (1..weeks).each do |week|
         week_sales = store_department_sales / months
         week_sales *= rand(0.89...1.12)
         (1..7).each do |day|
@@ -114,9 +110,7 @@ departments << 'Moda Mujer'
             Achievement.create!(user_id: seller.id, date: date,
               store_department_id: store_department.id,
               store: store_department.store,
-              achievement: achievement_by_hour,
-              year: year, month: month,
-              week: week, day: day)
+              achievement: achievement_by_hour)
           end
           date += 1
         end
