@@ -30,6 +30,9 @@ end
 categories.each do |category|
   date = Date.new(2017, 1, 2)
   department = category.store_departments.find_by(store:store).department.name
+  puts '-'*300
+  puts department
+  puts '-'*300
   sales_rate = Settings::DEMO_DEPARTMENTS[department]['sales_rate'] / 100
   categories_count = Settings::DEMO_DEPARTMENTS[department]['categories'].count
   (2017..2019).each do |year|

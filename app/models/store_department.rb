@@ -2,29 +2,24 @@
 class StoreDepartment < ApplicationRecord
   include Statistics::Efficiency
 
-  belongs_to :store
-  belongs_to :department
-  belongs_to :world
+  belongs_to :store, dependent: :destroy
+  belongs_to :department, dependent: :destroy
+  belongs_to :world, dependent: :destroy
   has_many :achievements
   has_many :real_staffs
   has_many :plan_staffs
   has_many :real_sales
-  has_many :plan_sales
   has_many :user_shifts
   has_many :users
-
-  # has_many :employees, -> {
-  #   joins('INNER JOIN users_roles ON users.id = users_roles.user_id')
-  # }, class_name: 'User'
 
   has_many :employees, -> { joins(:roles).where('roles.name != ?', ['admin']) }, class_name: 'User'
   has_many :cashiers, -> { joins(:roles).where('roles.name = ?', 'cashier') }, class_name: 'User'
   has_many :sales_asisstants, -> { joins(:roles).where('roles.name = ?', 'sales_assistant') }, class_name: 'User'
   has_many :sellers, -> { joins(:roles).where('roles.name = ?', 'seller') }, class_name: 'User'
 
-  has_many :target_productivities
-  has_many :target_sales
-  has_and_belongs_to_many :categories, association_foreign_key: 'category_cod'
+  has_many :target_productivities, dependent: :destroy
+  has_many :target_sales, dependent: :destroy
+  has_and_belongs_to_many :categories, association_foreign_key: 'category_cod', dependent: :destroy
 
   enum staff: {
     asisted: 1,
@@ -40,10 +35,18 @@ class StoreDepartment < ApplicationRecord
     seller_shifts.by_year(opt[:year]).by_month(opt[:month]).shifts_staff
   end
 
-  def categories_sales(start_date, end_date)
+  def categories_sales(opts = {})
+    opts ||= default_period
     categories.joins(:sales).
-    where('category_sales.date between ? AND ?', start_date, end_date).
+    where('category_sales.date between ? AND ?', opts[:start], opts[:end]).
     where('category_sales.store_id = ?', store_id).sum('category_sales.amount')
+  end
+
+  def categories_plan_sales(opts = {})
+    opts ||= default_year_month
+    categories.joins(:sales_plans).
+    where('year = ? AND month = ?', opts[:year], opts[:month]).
+    where('category_sales_plans.store_id = ?', store_id).sum('category_sales_plans.monthly')
   end
 
   def hour_sales_by_date(date)
@@ -57,6 +60,23 @@ class StoreDepartment < ApplicationRecord
   end
 
   def efficiency(period = {})
+    period = period.present? ? period : default_period
+    efficiencies = efficiency_by_date(period)
+    efficiencies.values.sum / efficiencies.size
+  end
+
+  def goal_success(period = {})
+    period = period.present? ? period : default_period
+    categories_sales(period) / categories_plan_sales(period)
+  end
+
+  def productivity(period = {})
+    period = period.present? ? period : default_period
+    productivities = productivity_by_date_hour(period)
+    productivities.values.sum / productivities.size
+  end
+
+  def efficiency_by_date(period = {})
     period = period.present? ? period : default_period
     prods = self.productivity_by_date_hour(period)
     targets = target_productivities.by_date_hour(period)
@@ -76,9 +96,6 @@ class StoreDepartment < ApplicationRecord
       hash[date] = employees.keys.zip(productivity).to_h
     end
   end
-  # employees
-  # {"11 - 12"=>2, "12 - 13"=>5, "13 - 14"=>7, "14 - 15"=>7, "15 - 16"=>9, "16 - 17"=>9, "17 - 18"=>9, "18 - 19"=>7, "19 - 20"=>7, "20 - 21"=>4}
-  # {"10 - 11"=>1081577, "11 - 12"=>1081577, "12 - 13"=>1081577, "13 - 14"=>1081577, "14 - 15"=>1081577, "15 - 16"=>1081577, "16 - 17"=>1081577, "17 - 18"=>1081577, "18 - 19"=>1081577, "19 - 20"=>1081577, "20 - 21"=>1081577}
 
   private
 
@@ -86,5 +103,12 @@ class StoreDepartment < ApplicationRecord
     year = Settings.year_by_date(Date.today)
     month = Settings.month_by_date(Date.today)
     Settings.month_period(year, month)
+  end
+
+  def default_year_month
+    {
+      year: Settings.year_by_date(Date.today),
+      month: Settings.month_by_date(Date.today)
+    }
   end
 end

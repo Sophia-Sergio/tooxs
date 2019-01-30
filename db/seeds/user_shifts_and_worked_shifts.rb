@@ -1,6 +1,8 @@
-# 2017
+UserShift.where.not(year: 2017).delete_all
+WorkedShift.where('date >= ?', Date.today.beginning_of_year - 1.year).delete_all
+
 users = User.employees
-(2017..2019).each do |year|
+(2018..2019).each do |year|
   users.each do |user|
     date = Date.new(year, 1, 2) if year == 2017
     date = Date.new(year, 1, 1) if year == 2018

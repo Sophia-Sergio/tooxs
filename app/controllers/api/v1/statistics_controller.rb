@@ -8,7 +8,7 @@ module Api
       before_action :set_store_department, only: %i[graph]
 
       def efficiency(params)
-        real = @store_dep.efficiency
+        real = @store_dep.efficiency_by_date
         optimized = real.values.map { |value| value * rand(1.2..1.4)  }
         render json: {
           labels: real.keys.map { |date| "#{date.strftime('%d')}-#{date.strftime('%m')}" },
