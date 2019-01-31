@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   include Statistics::Filters
-  include Statistics::Periods
+  include Statistics::Defaults
   rolify # management of roles with gem
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable

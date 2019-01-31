@@ -5,7 +5,7 @@ module Api
     # only statistics
     class StatisticsController < ApplicationController
       include FilterParameters
-      before_action :set_store_department, only: %i[graph]
+      before_action :set_store_department, :set_period
 
       def efficiency(params)
         real = @store_dep.efficiency_by_date
@@ -19,9 +19,19 @@ module Api
         }
       end
 
+      def efficiency_summary(params)
+        render json: StatsSummaryPresenter.new(@store_dep, @period).efficiency_statistics
+      end
+
       def graph
         send(params[:type].to_sym, params)
       end
+
+      def summary
+        send("#{params[:type]}_summary".to_sym, params)
+      end
+
+
     end
   end
 end

@@ -18,22 +18,9 @@ module Statistics
         prod_target[1] < prod_target[0]? (prod_target[0] - prod_target[1]) / prod_target[1] : 0
       end.sum
     end
-
-    def default_period
-      year = Settings.year_by_date(Date.today)
-      month = Settings.month_by_date(Date.today)
-      Settings.month_period(year, month)
-    end
-
-    def default_year_month
-      {
-        year: Settings.year_by_date(Date.today),
-        month: Settings.month_by_date(Date.today)
-      }
-    end
   end
 
-  module Periods
+  module Defaults
     extend ActiveSupport::Concern
     def default_period
       year = Settings.year_by_date(Date.today)
@@ -42,10 +29,11 @@ module Statistics
     end
 
     def default_year_month
-      {
-        year: Settings.year_by_date(Date.today),
-        month: Settings.month_by_date(Date.today)
-      }
+      { year: Settings.year_by_date(Date.today), month: Settings.month_by_date(Date.today) }
+    end
+
+    def default_month
+      Settings.month_by_date(Date.today)
     end
   end
 

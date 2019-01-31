@@ -1,7 +1,7 @@
 # class for table departments
 class StoreDepartment < ApplicationRecord
   include Statistics::Efficiency
-  include Statistics::Periods
+  include Statistics::Defaults
 
   belongs_to :store, dependent: :destroy
   belongs_to :department, dependent: :destroy
@@ -15,7 +15,7 @@ class StoreDepartment < ApplicationRecord
 
   has_many :employees, -> { joins(:roles).where('roles.name != ?', ['admin']) }, class_name: 'User'
   has_many :cashiers, -> { joins(:roles).where('roles.name = ?', 'cashier') }, class_name: 'User'
-  has_many :sales_asisstants, -> { joins(:roles).where('roles.name = ?', 'sales_assistant') }, class_name: 'User'
+  has_many :sales_assistants, -> { joins(:roles).where('roles.name = ?', 'sales_assistant') }, class_name: 'User'
   has_many :sellers, -> { joins(:roles).where('roles.name = ?', 'seller') }, class_name: 'User'
 
   has_many :target_productivities, dependent: :destroy
@@ -28,27 +28,30 @@ class StoreDepartment < ApplicationRecord
     personalized: 3,
   }
 
+  def month_target_productivity(month = default_month)
+    target_productivities = self.target_productivities.where(month: month).pluck(:amount)
+    target_productivities.sum / target_productivities.size
+  end
+
   def employees_types
     employees.joins(:roles).select('roles.name').map.uniq
   end
 
-  def optimized_shifts(opt)
+  def optimized_shifts(opt = {})
     data_cases.find_case(opt[:month], opt[:year]).summary_cases.output.real_dot
   end
 
-  def actual_shifts(opt)
+  def actual_shifts(opt = {})
     seller_shifts.by_year(opt[:year]).by_month(opt[:month]).shifts_staff
   end
 
-  def categories_sales(opts = {})
-    opts = opts.present? ? opts : default_period
+  def categories_sales(opts = default_period)
     categories.joins(:sales).
     where('category_sales.date between ? AND ?', opts[:start], opts[:end]).
     where('category_sales.store_id = ?', store.id).sum('category_sales.amount')
   end
 
-  def categories_plan_sales(opts = {})
-    opts = opts.present? ? opts : default_year_month
+  def categories_plan_sales(opts = default_year_month)
     categories.joins(:sales_plans).
     where('year = ? AND month = ?', opts[:year], opts[:month]).
     where('category_sales_plans.store_id = ?', store_id).sum('category_sales_plans.monthly')
@@ -64,21 +67,19 @@ class StoreDepartment < ApplicationRecord
     end
   end
 
-  def efficiency(period = {})
-    period = period.present? ? period : default_period
+  def efficiency(period = default_period)
     efficiencies = efficiency_by_date(period)
     efficiencies.values.sum / efficiencies.size
   end
 
-  def goal_success(period = {})
-    period = period.present? ? period : default_period
-    categories_sales(period) / categories_plan_sales(period)
+  def goal_success(opts, period = default_period)
+    categories_sales(period) / categories_plan_sales(opts)
   end
 
   def productivity(period = {})
     period = period.present? ? period : default_period
-    productivities = productivity_by_date_hour(period)
-    productivities.values.sum / productivities.size
+    productivities = productivity_by_date_hour(period).values.flat_map {|k,v| k.values}
+    productivities.sum / productivities.size
   end
 
   def efficiency_by_date(period = {})
