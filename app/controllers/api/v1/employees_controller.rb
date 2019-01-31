@@ -23,7 +23,7 @@ module Api
           array << {
             id: seller.id,
             name: seller.name,
-            last_name: seller.surname_1,
+            surname_1: seller.surname_1,
             avatar: '',
             shifts: shifts[seller.id].uniq,
             sell: achievements[seller.id],
