@@ -1,6 +1,3 @@
-UserShift.delete_all
-WorkedShift.delete_all
-
 users = User.employees
 (2018..2019).each do |year|
   users.each do |user|
