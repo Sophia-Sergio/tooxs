@@ -79,11 +79,11 @@ class StoreDepartment < ApplicationRecord
 
   def efficiency_by_date(period = {})
     period = period.present? ? period : default_period
-    prods = self.productivity_by_date_hour(period)
+    prods = productivity_by_date_hour(period)
     targets = target_productivities.by_date_hour(period)
 
     hash = (period[:start]..period[:end]).each_with_object({}) do |date, hash|
-      abs_desviation = self.abs_desviation(prods[date].values, targets[date].values)
+      abs_desviation = abs_desviation(prods[date].values, targets[date].values)
       hash[date] = ((1-(abs_desviation / targets[date].values.sum)) * 100).round(2)
     end
   end
@@ -92,7 +92,7 @@ class StoreDepartment < ApplicationRecord
     period = period.present? ? period : default_period
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
       employees = self.employees.employees_by_hour(date)
-      sales = self.hour_sales_by_date(date)
+      sales = hour_sales_by_date(date)
       productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
     end
