@@ -35,6 +35,8 @@ categories.each do |category|
   categories_count = Settings::DEMO_DEPARTMENTS[department]['categories'].count
   (2017..2019).each do |year|
     (1..12).each do |month|
+      next if date > Date.new(2019, 3, 1)
+
       department_sale = sales_rate * STORE_TOTAL_BY_MONTH[month]
       weeks = Settings.weeks_by_month[month]
       sale_day = department_sale / categories_count / (weeks * 7)
@@ -57,6 +59,8 @@ puts 'category_sales loaded'
 categories.each do |category|
   (2017..2019).each do |year|
     (1..12).each do |month|
+      next if date > Date.new(2019, 3, 1)
+
       month_period = Settings.month_period(year, month)
       weeks = Settings.weeks_by_month[month]
       total_category_sales = CategorySale.where(category: category).

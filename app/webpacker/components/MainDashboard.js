@@ -100,7 +100,7 @@ class MainDashboard extends Component {
 
   getEmployeesData(){
     // Ajax calls here
-    axios.get(`${this.props.root_url}/api/v1/employees/sellers_table?store=${this.state.store.value}&department=${this.state.department.value}&year_start=2018&month_start=7`)
+    axios.get(`${this.props.root_url}/api/v1/employees/table?store=${this.state.store.value}&department=${this.state.department.value}&year_start=2018&month_start=7`)
       .then(res => {
         this.setState({employees: res.data});
       })

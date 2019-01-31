@@ -29,9 +29,12 @@ User.sellers.each do |seller|
   sales_rate = Settings::DEMO_DEPARTMENTS[department]['sales_rate'] / 100
 
   (2017..2019).each do |year|
+
     (1..12).each do |month|
       department_sale = sales_rate * STORE_TOTAL_BY_MONTH[month]
       weeks = Settings.weeks_by_month[month]
+      next if date > Date.new(2019, 3, 1)
+
       (1..weeks).each do
         proportions_by_hour= Settings.sales_proportions_week
         week_sale = department_sale / weeks

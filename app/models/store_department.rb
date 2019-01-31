@@ -28,6 +28,10 @@ class StoreDepartment < ApplicationRecord
     personalized: 3,
   }
 
+  def employees_types
+    employees.joins(:roles).select('roles.name').map.uniq
+  end
+
   def optimized_shifts(opt)
     data_cases.find_case(opt[:month], opt[:year]).summary_cases.output.real_dot
   end
