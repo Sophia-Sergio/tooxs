@@ -33,7 +33,7 @@ class StatsSummaryPresenter < SimpleDelegator
     sales = @model.categories_sales(period)
     {
       name: 'CUMPLIMIENTO PLAN DE VENTA',
-      value: "#{(sales / plan_sales.to_f).round(2)}%",
+      value: "#{((sales / plan_sales.to_f) *100 ).round(2)}%",
       description: "Plan $#{number_with_delimiter(plan_sales.round)}. Real $#{number_with_delimiter(sales.round)}"
     }
   end
