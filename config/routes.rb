@@ -43,8 +43,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      get 'statistics/graph'
-      get 'employees/table'
+      namespace :statistics do
+        get 'graph'
+        get 'summary'
+      end
+      namespace :employees do
+        get 'table'
+      end
     end
   end
 
