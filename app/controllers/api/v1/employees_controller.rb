@@ -38,22 +38,6 @@ module Api
         end
       end
 
-      "hola":{
-        "first":
-          {
-            "name":"CUMPLIMIENTO DE EFICIENCIA",
-            "value":32.08857142857143,
-            "description":"Eficiencia Objetivo 75%"},
-        "second":
-          {
-            "name":"CUMPLIMIENTO PLAN DE VENTA",
-            "value":null,
-            "description":"Plan $9725163280.0. Real $347327260.0"
-          },
-        "third":
-          144603.29719858157}
-
-
       def goals(plan_hours, year, month)
         periods = TargetProductivity.periods.keys
         productivities = @store_dep.target_productivities.
