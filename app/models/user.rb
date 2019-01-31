@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include Statistics::Filters
+  include Statistics::Periods
   rolify # management of roles with gem
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -14,22 +15,27 @@ class User < ApplicationRecord
   enum status: { active: 1, inactive: 0 }
 
   scope :employees, -> { joins(:roles).where.not(roles: { name: ['admin'] }) }
+  scope :sellers, -> { joins(:roles).where(roles: { name: 'seller' }) }
   scope :working_on_date, ->(date) { joins(:worked_shifts).where('date = ?', date) }
-  scope :working_on_period, ->(start_date, end_date) {
-    joins(:worked_shifts).where(worked_shifts: {date: start_date..end_date }).distinct
+  scope :working_on_period, ->(period) {
+    period = period.present? ? period : default_period
+    joins(:worked_shifts).where(worked_shifts: {date: period[:start]..period[:end] }).distinct
   }
 
-  def self.employees_by_hour
-    dates = joins(", generate_series(
+  def self.employees_by_hour(date)
+    dates = working_on_date(date).joins(", generate_series(
       worked_shifts.check_in,
       worked_shifts.check_out - interval '1' hour,
       interval '1 hour') custom_interval").
       group('custom_interval').order('custom_interval').count
     dates.keys.map { |date| "#{date.hour} - #{(date.hour + 1)}" }.zip(dates.values).to_h
+  rescue
+    binding.pry
   end
 
-  def self.total_achievements(start_date, end_date)
-    joins(:achievements).where(achievements: { date: start_date..end_date }).
+  def self.total_achievements(period = {})
+    period = period.present? ? period : default_period
+    joins(:achievements).where(achievements: { date: period[:start]..period[:end] }).
       group('users.id').sum('achievements.total_day')
   end
 

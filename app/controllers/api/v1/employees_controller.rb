@@ -5,17 +5,15 @@ module Api
     # only employees endpoints
     class EmployeesController < ApplicationController
       include FilterParameters
-      before_action :set_store_department, only: %i[sellers_table]
-      before_action :set_dates, only: %i[sellers_table]
+      before_action :set_store_department, :set_period, only: %i[sellers_table]
       skip_before_action :verify_authenticity_token
 
       def sellers_table
-        sellers = @store_dep.sellers.working_on_period(@start, @end)
-        achievements = sellers.total_achievements(@start, @end)
+        sellers = @store_dep.sellers.working_on_period(@period)
+        achievements = sellers.total_achievements(@period)
         plan_hours = sellers.plan_hours(params[:year_start], params[:month_start])
         goals = goals(plan_hours, params[:year_start], params[:month_start])
         shifts = Seller.where(id: sellers.ids).shifts_ids(params[:year_start], params[:month_start])
-
         data_table = sellers.each_with_object([]) do |seller, array|
           array << {
             id: seller.id,

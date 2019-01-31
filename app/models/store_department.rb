@@ -1,6 +1,7 @@
 # class for table departments
 class StoreDepartment < ApplicationRecord
   include Statistics::Efficiency
+  include Statistics::Periods
 
   belongs_to :store, dependent: :destroy
   belongs_to :department, dependent: :destroy
@@ -36,14 +37,14 @@ class StoreDepartment < ApplicationRecord
   end
 
   def categories_sales(opts = {})
-    opts ||= default_period
+    opts = opts.present? ? opts : default_period
     categories.joins(:sales).
     where('category_sales.date between ? AND ?', opts[:start], opts[:end]).
-    where('category_sales.store_id = ?', store_id).sum('category_sales.amount')
+    where('category_sales.store_id = ?', store.id).sum('category_sales.amount')
   end
 
   def categories_plan_sales(opts = {})
-    opts ||= default_year_month
+    opts = opts.present? ? opts : default_year_month
     categories.joins(:sales_plans).
     where('year = ? AND month = ?', opts[:year], opts[:month]).
     where('category_sales_plans.store_id = ?', store_id).sum('category_sales_plans.monthly')
@@ -90,25 +91,11 @@ class StoreDepartment < ApplicationRecord
   def productivity_by_date_hour(period = {})
     period ||= default_period
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
-      employees = self.employees.working_on_date(date).employees_by_hour
+      employees = self.employees.employees_by_hour(date)
       sales = self.hour_sales_by_date(date)
       productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
     end
   end
 
-  private
-
-  def default_period
-    year = Settings.year_by_date(Date.today)
-    month = Settings.month_by_date(Date.today)
-    Settings.month_period(year, month)
-  end
-
-  def default_year_month
-    {
-      year: Settings.year_by_date(Date.today),
-      month: Settings.month_by_date(Date.today)
-    }
-  end
 end
