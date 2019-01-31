@@ -3,7 +3,7 @@ CategorySalesPlan.delete_all
 store = Store.find_by(name: Settings::STORE_ALLOWED)
 categories = Category.where(cod: StoreDepartment.where(store: store).joins(:categories).pluck(:category_cod).uniq)
 
-sales_2017_by_month = {
+SALES_2017_BY_MONTH = {
   1 => 7.13,
   2 => 7.52,
   3 => 6.89,
@@ -21,8 +21,8 @@ sales_2017_by_month = {
 SALES_JUNE = Settings::DEMO_DEPARTMENTS['Accesorios Mujer']['sales_june_2017']
 SALES_RATE_JUNE = Settings::DEMO_DEPARTMENTS['Accesorios Mujer']['sales_rate']
 STORE_TOTAL_JUNE = SALES_JUNE / (SALES_RATE_JUNE / 100)
-STORE_TOTAL_YEAR = STORE_TOTAL_JUNE / (sales_2017_by_month[7] / 100)
-STORE_TOTAL_BY_MONTH = sales_2017_by_month.each_with_object({}) do |(k,v), hash|
+STORE_TOTAL_YEAR = STORE_TOTAL_JUNE / (SALES_2017_BY_MONTH[7] / 100)
+STORE_TOTAL_BY_MONTH = SALES_2017_BY_MONTH.each_with_object({}) do |(k,v), hash|
   hash[k] = STORE_TOTAL_YEAR * ( v / 100)
 end
 
@@ -30,9 +30,7 @@ end
 categories.each do |category|
   date = Date.new(2017, 1, 2)
   department = category.store_departments.find_by(store:store).department.name
-  puts '-'*300
-  puts department
-  puts '-'*300
+  next if department == "Benefit" || department == "Benetton"
   sales_rate = Settings::DEMO_DEPARTMENTS[department]['sales_rate'] / 100
   categories_count = Settings::DEMO_DEPARTMENTS[department]['categories'].count
   (2017..2019).each do |year|
