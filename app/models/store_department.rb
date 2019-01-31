@@ -89,7 +89,7 @@ class StoreDepartment < ApplicationRecord
   end
 
   def productivity_by_date_hour(period = {})
-    period ||= default_period
+    period = period.present? ? period : default_period
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
       employees = self.employees.employees_by_hour(date)
       sales = self.hour_sales_by_date(date)
@@ -97,5 +97,4 @@ class StoreDepartment < ApplicationRecord
       hash[date] = employees.keys.zip(productivity).to_h
     end
   end
-
 end
