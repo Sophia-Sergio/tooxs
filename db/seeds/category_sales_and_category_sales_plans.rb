@@ -66,7 +66,7 @@ categories.each do |category|
       total_category_sales = CategorySale.where(category: category).
         between(month_period[:start], month_period[:end]).total
 
-      sales_plan = CategorySalesPlan.new(store: store, category: category, year: year, month: month, monthly: total_category_sales * weeks * 7  )
+      sales_plan = CategorySalesPlan.new(store: store, category: category, year: year, month: month, monthly: total_category_sales * rand(1.01..1.33)  )
       sales_plan.weekly = (1..weeks).each_with_object({}) do |week, hash|
         hash[week] = (sales_plan.monthly / weeks).round
       end
