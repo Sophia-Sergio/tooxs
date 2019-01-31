@@ -11,7 +11,7 @@ module Api
       def sales_assistants_table
         return nil unless @store_dep.sellers.any?
 
-        @store_dep.sales_asisstants.as_json(only: [:id, :name, :surname_1])
+        @store_dep.sales_assistants.as_json(only: [:id, :name, :surname_1])
       end
 
       def sellers_table
