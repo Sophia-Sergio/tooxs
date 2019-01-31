@@ -26,7 +26,6 @@ STORE_TOTAL_BY_MONTH = SALES_2017_BY_MONTH.each_with_object({}) do |(k,v), hash|
   hash[k] = STORE_TOTAL_YEAR * ( v / 100)
 end
 
-
 categories.each do |category|
   date = Date.new(2017, 1, 2)
   department = category.store_departments.find_by(store:store).department.name
@@ -59,7 +58,6 @@ puts 'category_sales loaded'
 categories.each do |category|
   (2017..2019).each do |year|
     (1..12).each do |month|
-      next if date > Date.new(2019, 3, 1)
 
       month_period = Settings.month_period(year, month)
       weeks = Settings.weeks_by_month[month]
