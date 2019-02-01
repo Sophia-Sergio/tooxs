@@ -50,6 +50,9 @@ Rails.application.routes.draw do
       namespace :employees do
         get 'table'
       end
+      namespace :periods do
+        get 'month_period'
+      end
     end
   end
 
