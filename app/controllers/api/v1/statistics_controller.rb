@@ -30,8 +30,6 @@ module Api
       def summary
         send("#{params[:type]}_summary".to_sym, params)
       end
-
-
     end
   end
 end
