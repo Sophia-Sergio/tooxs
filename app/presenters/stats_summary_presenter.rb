@@ -44,8 +44,8 @@ class StatsSummaryPresenter < SimpleDelegator
     avg_target_productivity = @model.month_target_productivity(Settings.month_by_date(period[:start]))
     {
       name: 'CUMPLIMIENTO REAL',
-      value: "$#{@model.productivity(period).round}",
-      description: "Productividad Objetivo $#{avg_target_productivity}"
+      value: "$#{number_with_delimiter(@model.productivity(period).round)}",
+      description: "Productividad Objetivo $#{number_with_delimiter(avg_target_productivity)}"
     }
   end
 end
