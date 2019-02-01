@@ -10,6 +10,8 @@ module FilterParameters
   end
 
   def set_period
+    return unless params[:year_start].present? && params[:month_start].present?
+
     @period = Settings.month_period(params[:year_start], params[:month_start])
   end
 end

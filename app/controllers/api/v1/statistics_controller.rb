@@ -23,8 +23,16 @@ module Api
         render json: StatsSummaryPresenter.new(@store_dep, @period).efficiency_statistics
       end
 
-      def graph
+      def chart
         send(params[:type].to_sym, params)
+      end
+
+      def chart_period
+
+      end
+
+      def productivity(params)
+        periodicity = graph_period(params)
       end
 
       def summary
