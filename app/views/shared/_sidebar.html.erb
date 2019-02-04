@@ -6,11 +6,12 @@
     </a>
     <div class="sidebar__brand__user">
       <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <img src="<%= asset_pack_path('images/user_default.jpg') %>" alt="Usuario">
+        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Usuario">
+
       </button>
       <div class="dropdown-menu sidebar__brand__user__menu" aria-labelledby="dropdownMenuButton">
-        <h5 class="name">Carlos Arancibia Pérez</h5>
-        <h6 class="position">Sales manager</h6>
+        <h5 class="name"><%= current_user.name %> <%= current_user.surname_1 %></h5>
+        <h6 class="position">Gerente de tienda</h6>
         <%= Date.today.to_formatted_s(:long) %>
         <ul>
           <li><a href="#"><i class="fa fa-edit"></i>Editar perfil</a></li>
