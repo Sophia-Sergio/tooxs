@@ -21,6 +21,7 @@ class MainDashboard extends Component {
       yearOptions: [],
       month: {},
       monthOptions: [],
+      stats: {},
       chartData: {
         labels: [],
         datasets:[]
@@ -32,7 +33,8 @@ class MainDashboard extends Component {
         maintainAspectRatio: false,
         responsive: true,
       },
-      employees: [],
+      sellers: [],
+      sales_assistants: [],
     }
   }
 
@@ -41,9 +43,9 @@ class MainDashboard extends Component {
   }
 
   componentDidMount(){
+    this.getStatsData();
     this.getChartData();
     this.getEmployeesData();
-    console.log(this.state)
   }
 
   createFiltersData(){
@@ -63,6 +65,18 @@ class MainDashboard extends Component {
       department: { value: department.id, label: department.name },
       departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) )
     })
+  }
+  
+  getStatsData(){
+    this.setState({loading: true});
+    var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
+    axios.get(`${this.props.root_url}/api/v1/statistics/summary?${parameters}`)
+      .then(res => {
+        this.setState({ stats: res.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   getChartData(){
@@ -100,9 +114,11 @@ class MainDashboard extends Component {
 
   getEmployeesData(){
     // Ajax calls here
-    axios.get(`${this.props.root_url}/api/v1/employees/table?store=${this.state.store.value}&department=${this.state.department.value}&year_start=2018&month_start=7`)
+    var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
+    axios.get(`${this.props.root_url}/api/v1/employees/table?${parameters}`)
       .then(res => {
-        this.setState({employees: res.data});
+        res.data.sales_assistants ? this.setState({ sales_assistants: res.data.sales_assistants}) : this.setState({ sales_assistants: []});
+        res.data.sellers ? this.setState({ sellers: res.data.sellers}) : this.setState({ sellers: []});
       })
       .catch(error => {
         console.log(error);
@@ -116,6 +132,7 @@ class MainDashboard extends Component {
       }
     }
   }
+
   getMonths(years, year){
     for (var y of years) {
       if (y['label']==year['value']){
@@ -123,6 +140,7 @@ class MainDashboard extends Component {
       }
     }
   }
+
   getBiggerDepartment(worlds, world){
     for (var w of worlds) {
       if (w['id']==world['value']){
@@ -163,6 +181,7 @@ class MainDashboard extends Component {
 
   handleSubmit = (e, month) => {
     e.preventDefault();
+    this.getStatsData();
     this.getChartData();
     this.getEmployeesData();
   }
@@ -178,7 +197,13 @@ class MainDashboard extends Component {
       worldOptions,
       year,
       yearOptions,
-      month, monthOptions, employees } = this.state;
+      month,
+      monthOptions,
+      stats,
+      sales_assistants,
+      sellers,
+
+     } = this.state;
 
     return (
       <React.Fragment>
@@ -234,7 +259,7 @@ class MainDashboard extends Component {
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            <Stats/>
+            {/* <Stats {...stats} /> */}
             <div className="dashboard__chart__canvas">
               <Line
                 data={this.state.chartData}
@@ -244,7 +269,10 @@ class MainDashboard extends Component {
           </div>
         </div>
         <ShiftPlan/>
-        <EmployeesTable employees={employees}/>
+        <EmployeesTable
+          sales_assistants={sales_assistants}
+          sellers={sellers}
+        />
       </React.Fragment>
     );
   }

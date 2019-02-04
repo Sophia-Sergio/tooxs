@@ -27,23 +27,21 @@ class Stats extends Component {
   }
 
   render () {
-    const { statistics } = this.state;
-
+    const { efficiency, goal_success, productivity } = this.props;
     return (
       <div className="row dashboard__chart__info">
-        {statistics.map(statistic => (
-          <StatsItem
-            key={statistic.id}
-            statistic={statistic}
-          />
-        ))}
+        <StatsItem statistic={goal_success} />
+        <StatsItem statistic={goal_success} />
+        <StatsItem statistic={goal_success} />
       </div>
     );
   }
 }
 
 Stats.propTypes = {
-  statistics: PropTypes.object.isRequired
+  efficiency: PropTypes.object.isRequired,
+  goal_success: PropTypes.object.isRequired,
+  productivity: PropTypes.object.isRequired
 };
 
 export default Stats
