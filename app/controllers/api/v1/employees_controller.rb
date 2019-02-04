@@ -9,32 +9,31 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def sales_assistants_table
-        return nil unless @store_dep.sales_assistants.any?
+        sales_assistants = @store_dep.sales_assistants.working_on_period(@period)
+        return unless sales_assistants.any?
 
-        @store_dep.sales_assistants.as_json(only: [:id, :name, :surname_1])
+        shifts = User.sales_assistants.
+          where(id: sales_assistants.ids).shifts_ids(params[:year_start], params[:month_start])
+        sales_assistants.as_json.each do |sale_assistant|
+          sale_assistant[:shifts] = shifts[sale_assistant["id"]].uniq
+        end
       end
 
       def sellers_table
-        return nil unless @store_dep.sellers.any?
-
         sellers = @store_dep.sellers.working_on_period(@period)
+        return unless sellers.any?
+
         achievements = sellers.total_achievements(@period)
         plan_hours = sellers.plan_hours(params[:year_start], params[:month_start])
         goals = goals(plan_hours, params[:year_start], params[:month_start])
-        shifts = User.sellers.where(id: sellers.ids).shifts_ids(params[:year_start], params[:month_start])
-
-        data_table = sellers.each_with_object([]) do |seller, array|
-          array << {
-            id: seller.id,
-            name: seller.name,
-            surname_1: seller.surname_1,
-            avatar: '',
-            shifts: shifts[seller.id].uniq,
-            sell: achievements[seller.id],
-            goal: goals[seller.id],
-            objective: (achievements[seller.id] / goals[seller.id]).round(2),
-            link: seller_path(seller)
-          }
+        shifts = User.sellers.where(id: sellers.ids).
+          shifts_ids(params[:year_start], params[:month_start])
+        sellers.as_json.each do |seller|
+          seller[:shifts] = shifts[seller["id"]].uniq
+          seller[:sell] = achievements[seller["id"]].round
+          seller[:goal] = goals[seller["id"]]
+          seller[:objective] = (achievements[seller["id"]] / goals[seller["id"]]).round(2)
+          seller[:link] = seller_path(seller["id"])
         end
       end
 
