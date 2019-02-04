@@ -14,7 +14,7 @@ module Api
 
         shifts = User.sales_assistants.
           where(id: sales_assistants.ids).shifts_ids(params[:year_start], params[:month_start])
-        sales_assistants.as_json(only: [:id, :name, :surname_1]).each do |sale_assistant|
+        sales_assistants.as_json.each do |sale_assistant|
           sale_assistant[:shifts] = shifts[sale_assistant["id"]].uniq
         end
       end
@@ -28,18 +28,12 @@ module Api
         goals = goals(plan_hours, params[:year_start], params[:month_start])
         shifts = User.sellers.where(id: sellers.ids).
           shifts_ids(params[:year_start], params[:month_start])
-        sellers.each_with_object([]) do |seller, array|
-          array << {
-            id: seller.id,
-            name: seller.name,
-            surname_1: seller.surname_1,
-            avatar: '',
-            shifts: shifts[seller.id].uniq,
-            sell: achievements[seller.id],
-            goal: goals[seller.id],
-            objective: (achievements[seller.id] / goals[seller.id]).round(2),
-            link: seller_path(seller)
-          }
+        sellers.as_json.each do |seller|
+          seller[:shifts] = shifts[seller["id"]].uniq
+          seller[:sell] = achievements[seller["id"]].round
+          seller[:goal] = goals[seller["id"]]
+          seller[:objective] = (achievements[seller["id"]] / goals[seller["id"]]).round(2)
+          seller[:link] = seller_path(seller["id"])
         end
       end
 
