@@ -69,6 +69,12 @@ class Settings < Settingslogic
     1
   end
 
+  def year_month_by_date(date)
+    month = month_by_date(date)
+    month = month > 9 ? month : '0' + month.to_s
+    "#{year_by_date(date)}-#{month}"
+  end
+
   def periods_keys
     [
       '10 - 11',
