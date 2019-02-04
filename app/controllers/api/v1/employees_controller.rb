@@ -12,7 +12,8 @@ module Api
         sales_assistants = @store_dep.sales_assistants.working_on_period(@period)
         return unless sales_assistants.any?
 
-        shifts = User.sales_assistants.where(id: sales_assistants.ids).shifts_ids(params[:year_start], params[:month_start])
+        shifts = User.sales_assistants.
+          where(id: sales_assistants.ids).shifts_ids(params[:year_start], params[:month_start])
         sales_assistants.as_json(only: [:id, :name, :surname_1]).each do |sale_assistant|
           sale_assistant[:shifts] = shifts[sale_assistant["id"]].uniq
         end
@@ -25,8 +26,8 @@ module Api
         achievements = sellers.total_achievements(@period)
         plan_hours = sellers.plan_hours(params[:year_start], params[:month_start])
         goals = goals(plan_hours, params[:year_start], params[:month_start])
-        shifts = User.sellers.where(id: sellers.ids).shifts_ids(params[:year_start], params[:month_start])
-
+        shifts = User.sellers.where(id: sellers.ids).
+          shifts_ids(params[:year_start], params[:month_start])
         sellers.each_with_object([]) do |seller, array|
           array << {
             id: seller.id,
