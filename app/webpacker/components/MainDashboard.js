@@ -66,7 +66,7 @@ class MainDashboard extends Component {
       departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) )
     })
   }
-  
+
   getStatsData(){
     this.setState({loading: true});
     var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
@@ -259,7 +259,7 @@ class MainDashboard extends Component {
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            {/* <Stats {...stats} /> */}
+            <Stats {...stats} />
             <div className="dashboard__chart__canvas">
               <Line
                 data={this.state.chartData}
