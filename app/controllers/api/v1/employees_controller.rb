@@ -9,7 +9,7 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def sales_assistants_table
-        return nil unless @store_dep.sellers.any?
+        return nil unless @store_dep.sales_assistants.any?
 
         @store_dep.sales_assistants.as_json(only: [:id, :name, :surname_1])
       end
