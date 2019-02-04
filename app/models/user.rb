@@ -15,6 +15,7 @@ class User < ApplicationRecord
   enum status: { active: 1, inactive: 0 }
 
   scope :employees, -> { joins(:roles).where.not(roles: { name: ['admin'] }) }
+  scope :sales_assistants, -> { joins(:roles).where(roles: { name: 'sales_assistant' }) }
   scope :sellers, -> { joins(:roles).where(roles: { name: 'seller' }) }
   scope :working_on_date, ->(date) { joins(:worked_shifts).where('date = ?', date) }
   scope :working_on_period, ->(period) {

@@ -9,21 +9,25 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def sales_assistants_table
-        return nil unless @store_dep.sales_assistants.any?
+        sales_assistants = @store_dep.sales_assistants.working_on_period(@period)
+        return unless sales_assistants.any?
 
-        @store_dep.sales_assistants.as_json(only: [:id, :name, :surname_1])
+        shifts = User.sales_assistants.where(id: sales_assistants.ids).shifts_ids(params[:year_start], params[:month_start])
+        sales_assistants.as_json(only: [:id, :name, :surname_1]).each do |sale_assistant|
+          sale_assistant[:shifts] = shifts[sale_assistant["id"]].uniq
+        end
       end
 
       def sellers_table
-        return nil unless @store_dep.sellers.any?
-
         sellers = @store_dep.sellers.working_on_period(@period)
+        return unless sellers.any?
+
         achievements = sellers.total_achievements(@period)
         plan_hours = sellers.plan_hours(params[:year_start], params[:month_start])
         goals = goals(plan_hours, params[:year_start], params[:month_start])
         shifts = User.sellers.where(id: sellers.ids).shifts_ids(params[:year_start], params[:month_start])
 
-        data_table = sellers.each_with_object([]) do |seller, array|
+        sellers.each_with_object([]) do |seller, array|
           array << {
             id: seller.id,
             name: seller.name,
