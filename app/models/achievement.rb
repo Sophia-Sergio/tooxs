@@ -1,5 +1,5 @@
 class Achievement < ApplicationRecord
-  before_create :set_total_day
+  before_save :set_total_day
   belongs_to :store_department
   belongs_to :store
   belongs_to :user

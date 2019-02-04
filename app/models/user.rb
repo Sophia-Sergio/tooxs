@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include Statistics::Filters
+  include Statistics::Defaults
   rolify # management of roles with gem
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -14,13 +15,26 @@ class User < ApplicationRecord
   enum status: { active: 1, inactive: 0 }
 
   scope :employees, -> { joins(:roles).where.not(roles: { name: ['admin'] }) }
+  scope :sales_assistants, -> { joins(:roles).where(roles: { name: 'sales_assistant' }) }
+  scope :sellers, -> { joins(:roles).where(roles: { name: 'seller' }) }
   scope :working_on_date, ->(date) { joins(:worked_shifts).where('date = ?', date) }
-  scope :working_on_period, ->(start_date, end_date) {
-    joins(:worked_shifts).where(worked_shifts: {date: start_date..end_date }).distinct
+  scope :working_on_period, ->(period) {
+    period = period.present? ? period : default_period
+    joins(:worked_shifts).where(worked_shifts: { date: period[:start]..period[:end] }).distinct
   }
 
-  def self.employees_by_hour
-    dates = joins(", generate_series(
+  def as_json(opts = {})
+    super(only: [:id, :name, :surname_1, :avatar])
+  end
+
+  def avatar
+    type = ['women', 'men'].sample
+    photo = (1..99).to_a.sample
+    "https://randomuser.me/api/portraits/#{type}/#{photo}.jpg"
+  end
+
+  def self.employees_by_hour(date)
+    dates = working_on_date(date).joins(", generate_series(
       worked_shifts.check_in,
       worked_shifts.check_out - interval '1' hour,
       interval '1 hour') custom_interval").
@@ -28,8 +42,9 @@ class User < ApplicationRecord
     dates.keys.map { |date| "#{date.hour} - #{(date.hour + 1)}" }.zip(dates.values).to_h
   end
 
-  def self.total_achievements(start_date, end_date)
-    joins(:achievements).where(achievements: { date: start_date..end_date }).
+  def self.total_achievements(period = {})
+    period = period.present? ? period : default_period
+    joins(:achievements).where(achievements: { date: period[:start]..period[:end] }).
       group('users.id').sum('achievements.total_day')
   end
 

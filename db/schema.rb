@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190122171402) do
+ActiveRecord::Schema.define(version: 20190204161433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20190122171402) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.hstore "achievement", default: {}, null: false
+    t.bigint "total_day"
     t.index ["store_department_id"], name: "index_achievements_on_store_department_id"
     t.index ["store_id"], name: "index_achievements_on_store_id"
     t.index ["user_id"], name: "index_achievements_on_user_id"
@@ -238,6 +239,7 @@ ActiveRecord::Schema.define(version: 20190122171402) do
     t.integer "week"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 1
     t.index ["store_id"], name: "index_user_shifts_on_store_id"
     t.index ["user_id"], name: "index_user_shifts_on_user_id"
     t.index ["work_shift_id"], name: "index_user_shifts_on_work_shift_id"
@@ -260,7 +262,7 @@ ActiveRecord::Schema.define(version: 20190122171402) do
     t.string "phone"
     t.string "address"
     t.string "commune"
-    t.string "picture"
+    t.string "avatar"
     t.string "rut"
     t.integer "status", default: 1, null: false
     t.bigint "store_id"

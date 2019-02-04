@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 class StatsItem extends Component {
   render () {
-    const { name, value, description } = this.props.statistic;
+    const { name, value, description } = this.props;
 
     return (
       <div className="col-md-4">

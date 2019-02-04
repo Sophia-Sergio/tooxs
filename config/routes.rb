@@ -43,8 +43,16 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      get 'statistics/graph'
-      get 'employees/sellers_table'
+      namespace :statistics do
+        get 'chart'
+        get 'summary'
+      end
+      namespace :employees do
+        get 'table'
+      end
+      namespace :periods do
+        get 'month_period'
+      end
     end
   end
 

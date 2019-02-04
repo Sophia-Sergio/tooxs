@@ -46,34 +46,6 @@
     store_assistants: 0
     backstore_assistants: 0
     fitting_room_assistant: 0
-'Benefit':
-  cod: 320
-  sales_rate:
-  staff_type:
-  world: 'Mujer'
-  sales_june_2017: 0
-  categories: ['j080501','j080502','j080503','j080504','j080506']
-  employees:
-    sellers: 0
-    cashiers: 0
-    sales_assistants: 0
-    store_assistants: 0
-    backstore_assistants: 0
-    fitting_room_assistant: 0
-'Benetton':
-  cod: 311
-  sales_rate:
-  staff_type: 3
-  world: 'Mujer'
-  sales_june_2017: 0
-  categories: ['j041401','j041402','j041403','j041404','j041405','j041407','j041408']
-  employees:
-    sellers: 10
-    cashiers: 0
-    sales_assistants: 0
-    store_assistants: 0
-    backstore_assistants: 0
-    fitting_room_assistant: 0
 'Blanco':
   cod: 337
   sales_rate: 2.42
@@ -140,7 +112,7 @@
     fitting_room_assistant: 0
 'Colegial':
   cod: 339
-  sales_rate:
+  sales_rate: 3.02
   staff_type: 3
   world: 'Niños'
   sales_june_2017: 0
@@ -500,9 +472,9 @@
 'Telefonía':
   cod: 387
   sales_rate: 3.65
-  staff_type:
+  staff_type: 3
   world: 'ElectroHogar'
-  sales_june_2017: 0
+  sales_june_2017: 107428009
   categories: ['j110501','j110502','j110503','j110504','j110505','j110506','j110507','j110508','j111408']
   employees:
     sellers: 10
@@ -512,10 +484,10 @@
     fitting_room_assistant: 0
 'Trajes de Baño':
   cod: 390
-  sales_rate:
+  sales_rate: 3.65
   staff_type: 3
   world: 'Mujer'
-  sales_june_2017: 0
+  sales_june_2017: 107428009
   categories: ['j041101','j041102','j041103','j041104']
   employees:
     sellers: 10
@@ -540,10 +512,10 @@
     fitting_room_assistant: 0
 'Video Juegos':
   cod: 304
-  sales_rate:
+  sales_rate: 2.52
   staff_type: 3
   world: 'ElectroHogar'
-  sales_june_2017: 0
+  sales_june_2017: 74381186
   categories: ['j111301','j111302','j111303','j111407']
   employees:
     sellers: 10

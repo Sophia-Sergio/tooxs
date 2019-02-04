@@ -27,6 +27,7 @@ erd.pdf
 
 .byebug_history
 .DS_Store/public/packs
+.dump
 /public/packs-test
 /node_modules
 yarn-debug.log*

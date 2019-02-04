@@ -1,10 +1,14 @@
-# 2017
+UserShift.delete_all
+WorkedShift.delete_all
+
 users = User.employees
 (2017..2019).each do |year|
   users.each do |user|
     date = Date.new(year, 1, 2) if year == 2017
     date = Date.new(year, 1, 1) if year == 2018
     date = Date.new(2018, 12, 31) if year == 2019
+
+    break if date > Date.new(2019, 3, 1)
 
     (1..12).each do |month|
       work_shift = WorkShift.all.sample
@@ -26,4 +30,3 @@ users = User.employees
   end
   puts "user_shifts_and_worked_shifts #{year} added"
 end
-

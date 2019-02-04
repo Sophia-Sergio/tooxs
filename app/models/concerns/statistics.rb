@@ -19,6 +19,24 @@ module Statistics
       end.sum
     end
   end
+
+  module Defaults
+    extend ActiveSupport::Concern
+    def default_period
+      year = Settings.year_by_date(Date.today)
+      month = Settings.month_by_date(Date.today)
+      Settings.month_period(year, month)
+    end
+
+    def default_year_month
+      { year: Settings.year_by_date(Date.today), month: Settings.month_by_date(Date.today) }
+    end
+
+    def default_month
+      Settings.month_by_date(Date.today)
+    end
+  end
+
   module Filters
     def years_filter
       actual_year = Settings.year_by_date(Date.today)
