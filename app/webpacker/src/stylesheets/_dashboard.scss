@@ -286,6 +286,15 @@
       text-transform: uppercase;
       }
 
+    .secondary-title {
+      color: $dark-blue;
+      border-bottom: 1px solid $mid-gray;
+      font-size: 1em;
+      margin: 30px 0 0 0;
+      padding-bottom: 5px;
+      text-transform: uppercase;
+      }
+
     &__info {
       margin-bottom: 20px;
 
@@ -331,7 +340,7 @@
 
     &__canvas {
       height: 400px;
-    }
+      }
 
     }
 

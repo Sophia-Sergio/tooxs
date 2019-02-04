@@ -114,7 +114,7 @@ class MainDashboard extends Component {
 
   getEmployeesData(){
     // Ajax calls here
-    var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
+    var parameters = `store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
     axios.get(`${this.props.root_url}/api/v1/employees/table?${parameters}`)
       .then(res => {
         res.data.sales_assistants ? this.setState({ sales_assistants: res.data.sales_assistants}) : this.setState({ sales_assistants: []});
@@ -253,13 +253,13 @@ class MainDashboard extends Component {
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            <h5 className="card-title">Gráfico de eficiencia</h5>
             <p className="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
           </div>
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <Stats {...stats} />
+            <h5 className="secondary-title">Gráfico de eficiencia</h5>
             <div className="dashboard__chart__canvas">
               <Line
                 data={this.state.chartData}

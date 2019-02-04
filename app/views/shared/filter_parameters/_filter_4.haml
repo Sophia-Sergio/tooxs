@@ -1,8 +1,0 @@
-.dashboard__filter
-  = simple_form_for '', url: config_filter_parameters_path, method: :post do |f|
-    = f.input :store, collection: filter[:stores], label: false, wrapper: :select2, selected: 1
-    = f.input :department, collection: filter[:departments], label: false, wrapper: :select2, selected: 1
-    = f.input :year, collection: filter[:years], label: false, wrapper: :select2, selected: 2018
-    %button{class: 'btn btn-primary', type: 'submit'}
-      %i.fa.fa-search{aria: { hidden: 'true'} }
-      Buscar
