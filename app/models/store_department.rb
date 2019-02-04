@@ -45,16 +45,29 @@ class StoreDepartment < ApplicationRecord
     seller_shifts.by_year(opt[:year]).by_month(opt[:month]).shifts_staff
   end
 
-  def categories_sales(opts = default_period)
+  def categories_sales(period = default_period)
     categories.joins(:sales).
-    where('category_sales.date between ? AND ?', opts[:start], opts[:end]).
+    where('category_sales.date between ? AND ?', period[:start], period[:end]).
     where('category_sales.store_id = ?', store.id).sum('category_sales.amount')
   end
 
+  def categories_sales_by_date(period = default_period)
+    categories.joins(:sales).order('category_sales.date').
+    where('category_sales.date between ? AND ?', period[:start], period[:end]).
+    where('category_sales.store_id = ?', store.id).
+    group(:date).sum('category_sales.amount')
+  end
+
   def categories_plan_sales(opts = default_year_month)
-    categories.joins(:sales_plans).
+    categories.joins(:sales_plans)
     where('year = ? AND month = ?', opts[:year], opts[:month]).
     where('category_sales_plans.store_id = ?', store_id).sum('category_sales_plans.monthly')
+  end
+
+  def categories_plan_sales_by_date(opts = default_year_month)
+    categories.joins(:sales_plans).order('category_sales_plans.date').
+    where('year = ? AND month = ?', opts[:year], opts[:month]).
+    where('category_sales_plans.store_id = ?', store_id).sum('category_sales_plans.amount')
   end
 
   def hour_sales_by_date(date)
@@ -76,14 +89,12 @@ class StoreDepartment < ApplicationRecord
     categories_sales(period) / categories_plan_sales(opts)
   end
 
-  def productivity(period = {})
-    period = period.present? ? period : default_period
+  def productivity(period = default_period)
     productivities = productivity_by_date_hour(period).values.flat_map {|k,v| k.values}
     productivities.sum / productivities.size
   end
 
-  def efficiency_by_date(period = {})
-    period = period.present? ? period : default_period
+  def efficiency_by_date(period = default_period)
     prods = productivity_by_date_hour(period)
     targets = target_productivities.by_date_hour(period)
 
@@ -93,13 +104,19 @@ class StoreDepartment < ApplicationRecord
     end
   end
 
-  def productivity_by_date_hour(period = {})
-    period = period.present? ? period : default_period
+  def productivity_by_date_hour(period = default_period)
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
       employees = self.employees.employees_by_hour(date)
       sales = hour_sales_by_date(date)
       productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
+    end
+  end
+
+  def productivity_by_date(period = default_period)
+    by_date_hour = productivity_by_date_hour(period)
+    by_date_hour.keys.each_with_object({}) do |key, hash|
+      hash[key] = by_date_hour[key].values.sum / by_date_hour[key].values.size
     end
   end
 end
