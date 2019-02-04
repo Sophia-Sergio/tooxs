@@ -26,6 +26,7 @@ end
 User.sellers.each do |seller|
   date = Date.new(2017, 1, 2)
   department = seller.store_department.department.name
+  next if department == "Benefit" || department == "Benetton"
   sales_rate = Settings::DEMO_DEPARTMENTS[department]['sales_rate'] / 100
 
   (2017..2019).each do |year|
