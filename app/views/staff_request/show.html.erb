@@ -1,69 +1,20 @@
-<div class="container-fluid dashboard" id="sales_cluster">
+<div class="container-fluid dashboard">
 
   <div class="row">
+
     <%= render 'shared/sidebar' %>
+
     <div class="col-lg-9 col-xl-10 offset-lg-3 offset-xl-2 dashboard__container">
+
+      <%= react_component("DashboardHeader", { title: 'Solicitudes realizadas' }) %>
+      <%= react_component('StaffRequested', { root_url: request.base_url, user: current_user }, class: 'row') %>
+
       <div class="row">
-        <%= react_component('DashboardHeader', { title: 'Detalle de solicitud' }) %>
-
-        <div class="col-12 mb-2">
-          <div class="card dashboard__table">
-            <h5 class="card-title">Resultado de búsqueda</h5>
-            <div class="table-responsive">
-              <table class="table" id="table-request_detail">
-                <thead>
-                  <tr>
-                    <th>Solicitud</th>
-                    <th>Tienda</th>
-                    <th>Departamento</th>
-                    <th>Turno</th>
-                    <th>Cantidad</th>
-                    <th>Recursos Humanos</th>
-                    <th>Interno</th>
-                    <th>Laborum</th>
-                    <th>Trabajando</th>
-                    <th>Fecha solicitud</th>
-                    <th colspan="1"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @request_details.each do |request_detail| %>
-                    <tr>
-                      <td><%= request_detail.request_id %></td>
-                      <td><%= request_detail.department.store %></td>
-                      <td><%= request_detail.department %></td>
-                      <td><%= request_detail.turn %></td>
-                      <td><%= request_detail.quantity %></td>
-                      <td><%= request_detail.rrhh == 1 ? 'Sí' : 'No' %></td>
-                      <td><%= request_detail.internal == 1 ? 'Sí' : 'No' %></td>
-                      <td><%= request_detail.laborum == 1 ? 'Sí' : 'No' %></td>
-                      <td><%= request_detail.trabajando == 1 ? 'Sí' : 'No' %></td>
-                      <td><%= request_detail.created_at %></td>
-                      <td>
-                        <%= link_to request_detail_path(request_detail), :class => 'btn btn-default' do %>
-                        <i class="fa fa-eye"></i>
-                        <% end %>
-
-                        <%= link_to edit_request_detail_path(request_detail), :class => 'btn btn-default' do %>
-                        <i class="fa fa-edit"></i>
-                        <% end %>
-
-                        <%= link_to request_detail_path(request_detail), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default' do %>
-                        <i class="fa fa-trash-o"></i>
-                        <% end %>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
-            <% link_to 'New Request Detail', new_request_detail_path, class: 'btn btn-primary' %>
-          </div>
-        </div>
-
         <%= render 'shared/footer' %>
-
       </div>
+
     </div>
+
   </div>
+
 </div>

@@ -122,6 +122,8 @@
   &__menu {
     height: calc(100vh - 112px);
     overflow: auto;
+    scrollbar-color: $light-blue;
+    scrollbar-width: 5px;
     -webkit-overflow-scrolling: touch;
 
     /* width */
