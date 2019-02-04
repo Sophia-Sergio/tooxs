@@ -107,19 +107,19 @@ class EmployeesTable extends Component {
         <div className="card dashboard__table">
           <h5 className="card-title">Mis colaboradores</h5>
           <ul className="nav nav-tabs" id="myTab" role="tablist">
-            { this.props.sellers.length > 0 && 
+            { this.props.sellers.length > 0 &&
               <li className="nav-item">
                 <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Vendedores</a>
               </li>
             }
-            { this.props.sales_assistants.length > 0 && 
-              <li className="nav-item">
-                <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Asistentes de tienda</a>
+            { this.props.sales_assistants.length > 0 &&
+              <li className="nav-item" >
+                <a className={"nav-link " + ( this.props.sellers == 0 ? 'active' : '' )} id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Asistentes de tienda</a>
               </li>
             }
           </ul>
           <div className="tab-content" id="myTabContent">
-          { this.props.sellers.length > 0 && 
+          { this.props.sellers.length > 0 &&
             <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
               <div className="table-responsive">
                 <BootstrapTable
@@ -133,8 +133,8 @@ class EmployeesTable extends Component {
               </div>
             </div>
           }
-          { this.props.sales_assistants.length > 0 && 
-            <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          { this.props.sales_assistants.length > 0 &&
+            <div className={"tab-pane fade "  + ( this.props.sellers == 0 ? 'show active' : '' )} id="profile" role="tabpanel" aria-labelledby="profile-tab">
               <div className="table-responsive">
                 <BootstrapTable
                   bootstrap4
