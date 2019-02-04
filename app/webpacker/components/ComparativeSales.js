@@ -117,7 +117,7 @@ class ComparativeSales extends Component {
     this.setState(state => ({
       loading: !state.loading
     }));
-    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=13&department=${this.state.department.value}&year_start=2018&month_start=${this.state.month.value}`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=13&department=${this.state.department.value}&year_start=2018&month_start=${this.state.month.value}`)
       .then(res => {
         this.setState({chartData: res.data, loading: false})
     })

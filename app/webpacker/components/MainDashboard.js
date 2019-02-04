@@ -82,7 +82,7 @@ class MainDashboard extends Component {
   getChartData(){
     this.setState({loading: true});
     var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
-    axios.get(`${this.props.root_url}/api/v1/statistics/graph?${parameters}`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`)
       .then(res => {
         this.setState({chartData: res.data, loading: false});
         this.setState(state => {

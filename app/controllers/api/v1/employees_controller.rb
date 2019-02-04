@@ -41,7 +41,7 @@ module Api
       def goals(plan_hours, year, month)
         periods = TargetProductivity.periods.keys
         productivities = @store_dep.target_productivities.
-          where(year: 2018, month: 7).by_week_period
+          where(year: year, month: month).by_week_period
         productivities.each_with_object({}) do |(week, value), goals|
           plan_hours[week].each do |seller|
             goals[seller.id] ||= 0
