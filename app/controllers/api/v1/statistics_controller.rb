@@ -9,12 +9,12 @@ module Api
       before_action :set_old_period, only: [:chart]
 
       def months_difference(date_start, date_end)
-        year_start = Settings.year_by_date(date_start)
+        year_start  = Settings.year_by_date(date_start)
         month_start =  Settings.month_by_date(date_start)
-        year_end = Settings.year_by_date(date_end)
-        month_end =  Settings.month_by_date(date_end)
-        month_count = (year_start == year_end) ? (month_end - month_start) : (12 - month_start + month_end)
-        month_count = (year_start == year_end) ? (month_count + 1) : (((year_end - year_start - 1 ) * 12) + (month_count + 1))
+        year_end    = Settings.year_by_date(date_end)
+        month_end   =  Settings.month_by_date(date_end)
+        month_count = year_start == year_end ? month_end - month_start : 12 - month_start + month_end
+        year_start == year_end ? month_count + 1 : (year_end - year_start - 1 ) * 12 + month_count + 1
       end
 
       def efficiency(params)
