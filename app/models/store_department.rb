@@ -59,6 +59,7 @@ class StoreDepartment < ApplicationRecord
   end
 
   def categories_plan_sales(opts = default_year_month)
+    categories.joins(:sales_plans).
     where('year = ? AND month = ?', opts[:year], opts[:month]).
     where('category_sales_plans.store_id = ?', store_id).sum('category_sales_plans.monthly')
   end
