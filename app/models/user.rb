@@ -20,8 +20,18 @@ class User < ApplicationRecord
   scope :working_on_date, ->(date) { joins(:worked_shifts).where('date = ?', date) }
   scope :working_on_period, ->(period) {
     period = period.present? ? period : default_period
-    joins(:worked_shifts).where(worked_shifts: {date: period[:start]..period[:end] }).distinct
+    joins(:worked_shifts).where(worked_shifts: { date: period[:start]..period[:end] }).distinct
   }
+
+  def as_json(opts = {})
+    super(only: [:id, :name, :surname_1, :avatar])
+  end
+
+  def avatar
+    type = ['women', 'men'].sample
+    photo = (1..99).to_a.sample
+    "https://randomuser.me/api/portraits/#{type}/#{photo}.jpg"
+  end
 
   def self.employees_by_hour(date)
     dates = working_on_date(date).joins(", generate_series(
@@ -30,8 +40,6 @@ class User < ApplicationRecord
       interval '1 hour') custom_interval").
       group('custom_interval').order('custom_interval').count
     dates.keys.map { |date| "#{date.hour} - #{(date.hour + 1)}" }.zip(dates.values).to_h
-  rescue
-    binding.pry
   end
 
   def self.total_achievements(period = {})

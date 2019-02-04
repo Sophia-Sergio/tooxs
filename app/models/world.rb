@@ -7,7 +7,7 @@ class World < ApplicationRecord
     json = super(
       include: { departments: { only: [:name, :id] } },
       only: [:name, :id])
-      json['bigger_department'] = World.find(id).
+    json['bigger_department'] = World.find(id).
       bigger_plan_sale_department.as_json(only: [:name, :id])
     json
   end
@@ -22,8 +22,6 @@ class World < ApplicationRecord
       group('store_departments.department_id').
       sum('category_sales_plans.monthly').max_by { |k,v| v }.first
     Department.find(department_id)
-  rescue
-    binding.pry
   end
 
   def store
