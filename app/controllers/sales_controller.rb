@@ -9,6 +9,7 @@ class SalesController < ApplicationController
   end
 
   def month
+    @filters = current_user.filters
     # @controller = 'Venta Mensual'
     # department = params[:department] || demo_data[:department]
     # store = params[:store] || demo_data[:store]
