@@ -3,7 +3,6 @@ import axios from 'axios';
 import { currencyFormat } from './helpers';
 import Loader from "./layout/Loader";
 import Select from 'react-select';
-import DatePicker from 'react-date-picker';
 import MonthPickerInput from 'react-month-picker-input';
 import {Line} from 'react-chartjs-2';
 import MonthTable from './sales/MonthTable';
@@ -175,12 +174,6 @@ class SalesMonth extends Component {
     console.log(this.state.month);
   }
 
-  dateFromChange = () => {
-  }
-
-  dateToChange = () => {
-  }
-
   handleSubmit = (e, month) => {
     e.preventDefault();
     this.getChartData();
@@ -228,20 +221,28 @@ class SalesMonth extends Component {
               <div className="form-group">
                 <MonthPickerInput
                   inputProps={{id: 'MonthPickerInput'}}
-                  // lang={'es'}
                   year={yearFrom}
                   month={monthFrom}
                   placeholder={'Fecha desde'}
-                  onChange={this.dateFromChange}
+                  onChange={(maskedValue, selectedYear, selectedMonth) => {
+                    console.log(selectedYear, selectedMonth);
+                    this.setState({yearFrom: selectedYear, monthFrom: selectedMonth});
+                  }}
+                  closeOnSelect={true}
+                  lang={'es'}
                 />
               </div>
               <div className="form-group">
                 <MonthPickerInput
                   inputProps={{id: 'MonthPickerInput'}}
-                  // lang={'es'}
                   year={yearTo}
                   month={monthTo}
-                  onChange={this.dateToChange}
+                  onChange={(maskedValue, selectedYear, selectedMonth) => {
+                    console.log(selectedYear, selectedMonth);
+                    this.setState({yearTo: selectedYear, monthTo: selectedMonth});
+                  }}
+                  closeOnSelect={true}
+                  lang={'es'}
                 />
               </div>
               <button className="btn btn-primary" type="submit">Buscar</button>
