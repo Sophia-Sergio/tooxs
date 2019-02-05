@@ -1,9 +1,9 @@
 categories = CategorySale.all.pluck(:category_cod)
-CategorySale.where(category_code:"j090206").delete_all
-CategorySalesPlan.where(category_code:"j090206").delete_all
+CategorySale.where(category_cod:"j090206").delete_all
+CategorySalesPlan.where(category_cod:"j090206").delete_all
 
-CategorySale.where(category_code:categories).delete_all
-CategorySalesPlan.where(category_code:categories).delete_all
+CategorySale.where(category_cod:categories).delete_all
+CategorySalesPlan.where(category_cod:categories).delete_all
 store = Store.find_by(name: Settings::STORE_ALLOWED)
 categories = Category.where(cod: StoreDepartment.where(store: store).joins(:categories).pluck(:category_cod).uniq)
 
