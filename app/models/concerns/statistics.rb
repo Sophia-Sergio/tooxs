@@ -2,21 +2,29 @@ module Statistics
   module Efficiency
     extend ActiveSupport::Concern
     def abs_desviation(productivities, targets)
-      productivities.zip(targets).map do |prod_target|
-        (prod_target[1] - prod_target[0]).abs
-      end.sum
+      Settings.periods_keys.map do |period|
+        (productivities[period] - targets[period]).abs if productivities[period] && targets[period]
+      end.compact.sum
+    end
+
+    def day_efficiency(abs_desviation, target_day)
+      ((1 - (abs_desviation / target_day.values.sum)) * 100).round(2)
     end
 
     def hours_excess(productivities, targets)
-      productivities.zip(targets).map do |prod_target|
-        prod_target[1] > prod_target[0]? (prod_target[0] - prod_target[1]) / prod_target[1] : 0
-      end.sum
+      Settings.periods_keys.map do |period|
+        if productivities[period] && targets[period]
+          targets[period] < productivities[period] ? productivities[period] - targets[period]: 0
+        end
+      end.compact.sum
     end
 
     def hours_deficit(productivities, targets)
-      productivities.zip(targets).map do |prod_target|
-        prod_target[1] < prod_target[0]? (prod_target[0] - prod_target[1]) / prod_target[1] : 0
-      end.sum
+      Settings.periods_keys.map do |period|
+        if productivities[period] && targets[period]
+          targets[period] > productivities[period] ? targets[period] - productivities[period] : 0
+        end
+      end.compact.sum
     end
   end
 

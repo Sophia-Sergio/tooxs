@@ -28,8 +28,25 @@ class StoreDepartment < ApplicationRecord
     personalized: 3,
   }
 
-  def month_target_productivity(month = default_month)
-    target_productivities = self.target_productivities.where(month: month).pluck(:amount)
+  def categories_plan_sales_between_dates(start_date, end_date)
+    start_month = Settings.month_by_date(start_date)
+    end_month   = Settings.month_by_date(end_date)
+    start_year  = Settings.year_by_date(start_date)
+    end_year    = Settings.year_by_date(end_date)
+    if start_year == end_year
+      categories.joins(:sales_plans).where('year = ? AND month >= ? AND month <= ? AND category_sales_plans.store_id = ?',
+        start_year, start_month, end_month, store_id).order('category_sales_plans.year, category_sales_plans.month')
+    else
+      categories.joins(:sales_plans).where('year = ? AND month >= ? AND category_sales_plans.store_id = ?',
+        start_year, start_month, store_id).or(categories.joins(:sales_plans).
+        where('year = ? AND month <= ? AND category_sales_plans.store_id = ?',
+        end_year, end_month, store_id)).order('category_sales_plans.year, category_sales_plans.month')
+    end
+  end
+
+
+  def month_target_productivity(year, month)
+    target_productivities = self.target_productivities.where(year: year, month: month).pluck(:amount)
     target_productivities.sum / target_productivities.size
   end
 
@@ -47,43 +64,44 @@ class StoreDepartment < ApplicationRecord
 
   def categories_sales(period = default_period)
     categories.joins(:sales).
-    where('category_sales.date between ? AND ?', period[:start], period[:end]).
-    where('category_sales.store_id = ?', store.id).sum('category_sales.amount')
+      where('category_sales.date between ? AND ?', period[:start], period[:end]).
+      where('category_sales.store_id = ?', store.id).sum('category_sales.amount')
   end
 
-  def categories_rate_sales(opts = default_year_month)
-    old_period = Settings.month_period(opts[:year] - 1, opts[:month])
-    total_sales_last_period = categories_sales(old_period)
-    categories_sales_by_date(old_period).each_with_object({}) do |(date, value), hash|
-      hash[date] = value / total_sales_last_period
+  def categories_rate_sales(period = default_period)
+    old_period = Settings.old_period(period)
+    sales= categories_sales_by_dates(old_period)
+    sales.each_with_object({}) do |(date, value), hash|
+      month_period = Settings.month_period(Settings.year_by_date(date),Settings.month_by_date(date))
+      date = Settings.equivalent_date_next_year(date)
+      month_sales = sales.select do |key, _|
+        (month_period[:start]..month_period[:end]).to_a.include? key
+      end.values.sum
+      hash[date] = value / month_sales
     end
   end
 
-  def categories_sales_by_date(period = default_period)
+  def categories_sales_by_dates(period = default_period)
     categories.joins(:sales).order('category_sales.date').
-    where('category_sales.date between ? AND ?', period[:start], period[:end]).
-    where('category_sales.store_id = ?', store.id).
-    group(:date).sum('category_sales.amount')
+      where('category_sales.date between ? AND ?', period[:start], period[:end]).
+      where('category_sales.store_id = ?', store.id).
+      group(:date).sum('category_sales.amount')
   end
 
-  def categories_plan_sales(opts = default_year_month)
-    categories.joins(:sales_plans).
-    where('year = ? AND month = ?', opts[:year], opts[:month]).
-    where('category_sales_plans.store_id = ?', store_id).sum('category_sales_plans.monthly')
+  def categories_plan_sales(period = default_period)
+    categories_plan_sales_between_dates(period[:start], period[:end]).
+      group(:year, :month).sum('category_sales_plans.monthly')
   end
 
-  def categories_plan_sales_by_date(opts = default_year_month)
-    sales = categories_plan_sales(opts)
-    period = Settings.month_period(opts[:year], opts[:month])
-    sales = categories_rate_sales(opts).each_with_object({}) do |(date, value), hash|
-      hash[date] = value * sales
+  def categories_plan_sales_by_dates(period = default_period)
+    sales = categories_plan_sales(period)
+    sales = categories_rate_sales(period).each_with_object({}) do |(date, value), hash|
+      hash[date] = (value * sales[[Settings.year_by_date(date), Settings.month_by_date(date)]]).round(2)
     end
-    (period[:start]..period[:end]).zip(sales.values).to_h
   end
 
-  def hour_sales_by_date(date)
-    hourly_sales = categories.joins(:sales).
-      where(category_sales: {store_id: store, date: date}).
+  def categories_sales_by_date_hour(date)
+    hourly_sales = categories.joins(:sales).where(category_sales: {store_id: store, date: date}).
       pluck('category_sales.hourly')
 
     Settings.periods_keys.each_with_object({}) do |key, hash|
@@ -108,17 +126,16 @@ class StoreDepartment < ApplicationRecord
   def efficiency_by_date(period = default_period)
     prods = productivity_by_date_hour(period)
     targets = target_productivities.by_date_hour(period)
-
-    hash = (period[:start]..period[:end]).each_with_object({}) do |date, hash|
-      abs_desviation = abs_desviation(prods[date].values, targets[date].values)
-      hash[date] = ((1-(abs_desviation / targets[date].values.sum)) * 100).round(2)
+    (period[:start]..period[:end]).each_with_object({}) do |date, hash|
+      abs_desviation = abs_desviation(prods[date], targets[date])
+      hash[date] = day_efficiency(abs_desviation, targets[date])
     end
   end
 
   def productivity_by_date_hour(period = default_period)
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
       employees = self.employees.employees_by_hour(date)
-      sales = hour_sales_by_date(date)
+      sales = categories_sales_by_date_hour(date)
       productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
     end

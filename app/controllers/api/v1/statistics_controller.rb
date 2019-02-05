@@ -53,15 +53,15 @@ module Api
       end
 
       def sales(params)
-        sales = @store_dep.categories_sales_by_date(@period)
-        sales_last_year = @store_dep.categories_sales_by_date(@old_period)
-        categories_plan_sales_by_date =  @store_dep.categories_plan_sales_by_date(@period)
+        sales = @store_dep.categories_sales_by_dates(@period)
+        sales_last_year = @store_dep.categories_sales_by_dates(@old_period)
+        categories_plan_sales_by_dates =  @store_dep.categories_plan_sales_by_dates(@period)
         render json: {
           labels: dates_peridiocity(sales.keys, chart_period),
           datasets: [
             { label: 'Real', data: values_peridiocity(sales, chart_period) },
             { label: 'Histórico', data: values_peridiocity(sales_last_year, chart_period) },
-            { label: 'Plan', data: values_peridiocity(categories_plan_sales_by_date, chart_period) }
+            { label: 'Plan', data: values_peridiocity(categories_plan_sales_by_dates, chart_period) }
           ]
         }
       end
