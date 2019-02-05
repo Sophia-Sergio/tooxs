@@ -3,6 +3,8 @@ import axios from 'axios';
 import { currencyFormat } from './helpers';
 import Loader from "./layout/Loader";
 import Select from 'react-select';
+import DatePicker from 'react-date-picker';
+import MonthPickerInput from 'react-month-picker-input';
 import {Line} from 'react-chartjs-2';
 import MonthTable from './sales/MonthTable';
 
@@ -12,26 +14,14 @@ class SalesMonth extends Component {
     this.state = {
       loading: false,
       result: '',
-      store: { value: '12', label: 'Alto Las Condes' },
-      storeOptions: [
-        { value: '12', label: 'Alto Las Condes' }
-      ],
-      department: { value: '12', label: 'Juvenil mujer' },
-      departmentOptions: [
-        { value: '12', label: 'Juvenil mujer' }
-      ],
-      year: { value: '2018', label: '2018' },
-      yearOptions: [
-        { value: '2018', label: '2018' },
-        { value: '2017', label: '2017' },
-        { value: '2016', label: '2016' }
-      ],
-      month: { value: '7', label: 'Julio' },
-      monthOptions: [
-        { value: '7', label: 'Julio' },
-        { value: '6', label: 'Junio' },
-        { value: '5', label: 'Mayo' }
-      ],
+      store: {},
+      storeOptions: [],
+      department: {},
+      departmentOptions: [],
+      yearFrom: null,
+      monthFrom: null,
+      yearTo: null,
+      monthTo: null,
       chartData: {
         labels: ['30','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27'],
         datasets:[
@@ -89,9 +79,80 @@ class SalesMonth extends Component {
   }
 
   createFiltersData(){
+    var filters = this.props.filters;
+    var world = { value: filters.world_selected.id, label: filters.world_selected.name };
+    var departments = this.getDepartments(filters.worlds_departments, world);
+    var department = this.getBiggerDepartment(filters.worlds_departments, world);
+    var year = new Date().getFullYear();
+    var month = new Date().getMonth();
+    this.setState({
+      world: world,
+      worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
+      store: { value: filters.store.id, label: filters.store.name },
+      department: { value: department.id, label: department.name },
+      departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) ),
+      yearFrom: year,
+      monthFrom: month,
+      yearTo: year,
+      monthTo: month > 2 ? month - 2 : month + 10,
+    })
   }
 
   getChartData(){
+    this.setState({loading: true});
+    var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.yearFrom}&month_start=${this.state.monthFrom}`;
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`)
+      .then(res => {
+        this.setState({chartData: res.data, loading: false});
+        this.setState(state => {
+          state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
+          state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
+          state.chartData.datasets[0].borderWidth = 2;
+          state.chartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[0].pointBorderWidth = 2;
+          state.chartData.datasets[0].pointRadius = 5;
+          state.chartData.datasets[1].backgroundColor = 'rgba(137, 218, 89, .2)';
+          state.chartData.datasets[1].borderColor = 'rgba(137, 218, 89, 1)';
+          state.chartData.datasets[1].borderWidth = 2;
+          state.chartData.datasets[1].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[1].pointBorderWidth = 2;
+          state.chartData.datasets[1].pointRadius = 5;
+          return state
+        })
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({
+          loading: false,
+          errors: {
+            result: 'No se econtraron coincidencias.'
+          }
+        })
+      });
+  }
+
+  getDepartments(worlds, world){
+    for (var w of worlds) {
+      if (w['id']==world['value']){
+        return w['departments']
+      }
+    }
+  }
+
+  getMonths(years, year){
+    for (var y of years) {
+      if (y['label']==year['value']){
+        return y['months']
+      }
+    }
+  }
+
+  getBiggerDepartment(worlds, world){
+    for (var w of worlds) {
+      if (w['id']==world['value']){
+        return w['bigger_department']
+      }
+    }
   }
 
   storeChange = (department) => {
@@ -114,6 +175,12 @@ class SalesMonth extends Component {
     console.log(this.state.month);
   }
 
+  dateFromChange = () => {
+  }
+
+  dateToChange = () => {
+  }
+
   handleSubmit = (e, month) => {
     e.preventDefault();
     this.getChartData();
@@ -123,7 +190,16 @@ class SalesMonth extends Component {
   // Departamento, Año, Mes
 
   render() {
-    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
+    const {
+      store,
+      storesOptions,
+      department,
+      departmentOptions,
+      yearFrom,
+      monthFrom,
+      monthTo,
+      yearTo,
+      employees } = this.state;
 
     return (
       <React.Fragment>
@@ -150,44 +226,45 @@ class SalesMonth extends Component {
                 />
               </div>
               <div className="form-group">
-                <Select
-                  noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.yearChange}
-                  options={yearOptions}
-                  placeholder={`Año`}
-                  value={year}
+                <MonthPickerInput
+                  inputProps={{id: 'MonthPickerInput'}}
+                  // lang={'es'}
+                  year={yearFrom}
+                  month={monthFrom}
+                  placeholder={'Fecha desde'}
+                  onChange={this.dateFromChange}
                 />
               </div>
               <div className="form-group">
-                <Select
-                  noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.monthChange}
-                  options={monthOptions}
-                  placeholder={`Mes`}
-                  value={month}
+                <MonthPickerInput
+                  inputProps={{id: 'MonthPickerInput'}}
+                  // lang={'es'}
+                  year={yearTo}
+                  month={monthTo}
+                  onChange={this.dateToChange}
                 />
               </div>
               <button className="btn btn-primary" type="submit">Buscar</button>
             </form>
           </div>
         </div>
-        <div class="col-12 mb-2">
-          <div class="card dashboard__chart">
-            <button type="button" class="btn btn-sm btn-primary btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i class="fa fa-exchange"></i> Comparar </button>
+        <div className="col-12 mb-2">
+          <div className="card dashboard__chart">
+            <button type="button" className="btn btn-sm btn-primary btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i className="fa fa-exchange"></i> Comparar </button>
           </div>
         </div>
-        <div class="modal fade slide-right" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-            <i class="pg-close"></i>
+        <div className="modal fade slide-right" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true">
+          <button type="button" className="close" data-dismiss="modal" aria-hidden="true">
+            <i className="pg-close"></i>
           </button>
-          <div class="modal-dialog ">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="text-left p-b-5"><span class="semi-bold">Seleccione Tienda para Comparación</span></h5>
+          <div className="modal-dialog ">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="text-left p-b-5"><span className="semi-bold">Seleccione Tienda para Comparación</span></h5>
               </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12 ">
+              <div className="modal-body">
+                <div className="row">
+                  <div className="col-12 ">
                     <div className="form-group">
                       <Select
                         noOptionsMessage={() => 'No se econtraron más opciones'}
