@@ -51,6 +51,14 @@ class StoreDepartment < ApplicationRecord
     where('category_sales.store_id = ?', store.id).sum('category_sales.amount')
   end
 
+  def categories_rate_sales(opts = default_year_month)
+    old_period = Settings.month_period(opts[:year] - 1, opts[:month])
+    total_sales_last_period = categories_sales(old_period)
+    categories_sales_by_date(old_period).each_with_object({}) do |(date, value), hash|
+      hash[date] = value / total_sales_last_period
+    end
+  end
+
   def categories_sales_by_date(period = default_period)
     categories.joins(:sales).order('category_sales.date').
     where('category_sales.date between ? AND ?', period[:start], period[:end]).
@@ -65,9 +73,12 @@ class StoreDepartment < ApplicationRecord
   end
 
   def categories_plan_sales_by_date(opts = default_year_month)
-    categories.joins(:sales_plans).order('category_sales_plans.date').
-    where('year = ? AND month = ?', opts[:year], opts[:month]).
-    where('category_sales_plans.store_id = ?', store_id).sum('category_sales_plans.amount')
+    sales = categories_plan_sales(opts)
+    period = Settings.month_period(opts[:year], opts[:month])
+    sales = categories_rate_sales(opts).each_with_object({}) do |(date, value), hash|
+      hash[date] = value * sales
+    end
+    (period[:start]..period[:end]).zip(sales.values).to_h
   end
 
   def hour_sales_by_date(date)
