@@ -18,7 +18,7 @@ class TargetProductivity < ApplicationRecord
   }
 
   def self.by_date(date)
-    find_by(Settings.config_date(date)).amount
+    find_by(Settings.config_date(date).except(:day)).amount
   end
 
   # recieves target_productivities by year nd month

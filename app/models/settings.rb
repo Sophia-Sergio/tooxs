@@ -15,6 +15,20 @@ class Settings < Settingslogic
   DEMO_DEPARTMENTS = YAML.load_file("#{Rails.root}/config/demo_departments.yml")
   YEARS = [2017, 2018, 2019]
 
+  def old_period(period)
+    {
+      start: month_period(year_by_date(period[:start]) - 1, month_by_date(period[:start]))[:start],
+      end: month_period(year_by_date(period[:end]) - 1, month_by_date(period[:end]))[:end]
+    }
+  end
+
+  def equivalent_date_next_year(date)
+    config_date = config_date(date)
+    period = month_period(config_date[:year] + 1, config_date[:month])
+    day = config_date[:week] == 1 ? config_date[:day] : (config_date[:week] - 1) * 7 + config_date[:day]
+    (period[:start]..period[:end]).to_a[day - 1]
+  end
+
   def month_end(year, month)
     month_start(year.to_i, month.to_i) + (weeks_by_month[month.to_i] * 7 - 1)
   end
@@ -47,11 +61,12 @@ class Settings < Settingslogic
 
   def config_date(date)
     year = year_by_date(date)
-    month = month_by_date(year, date)
+    month = month_by_date(date)
     {
       year: year,
       month: month,
-      week: week_by_date(year, month, date)
+      week: week_by_date(year, month, date),
+      day: date.wday == 0 ? 7 : date.wday
     }
   end
 
@@ -93,10 +108,10 @@ class Settings < Settingslogic
 
   def week_periods_keys
     {
-      'monday_friday_am': ['10-11', '11-12','12-13'],
-      'monday_friday_pm': ['13-14','14-15','15-16','16-17','17-18','18-19','19-20','20-21'],
-      'saturday_sunday_am': ['10-11', '11-12','12-13'],
-      'saturday_sunday_pm': ['13-14','14-15','15-16','16-17','17-18','18-19','19-20','20-21']
+      'monday_friday_am': ['10 - 11', '11 - 12','12 - 13'],
+      'monday_friday_pm': ['13 - 14','14 - 15','15 - 16','16 - 17','17 - 18','18 - 19','19 - 20','20 - 21'],
+      'saturday_sunday_am': ['10 - 11', '11 - 12','12 - 13'],
+      'saturday_sunday_pm': ['13 - 14','14 - 15','15 - 16','16 - 17','17 - 18','18 - 19','19 - 20','20 - 21']
     }.with_indifferent_access
   end
 
