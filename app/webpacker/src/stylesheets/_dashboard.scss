@@ -249,6 +249,25 @@
               border-color: #2684FF;
               box-shadow: 0 0 0 1px #2684FF;
               }
+
+            }
+
+          }
+
+        #MonthPickerInput {
+          border-radius: 5px;
+          border-width: 2px;
+          border: none; /* <-- This thing here */
+          border:solid 1px #ccc;
+          display: block;
+          height: 38px;
+          outline: none;
+          text-align: center;
+          width: 100%;
+
+          &:focus {
+            border-color: #2684FF;
+            box-shadow: 0 0 0 1px #2684FF;
             }
 
           }
@@ -690,7 +709,7 @@
                   color: black;
                   font-weight: $font-medium;
                   }
-                
+
                 }
 
               }
