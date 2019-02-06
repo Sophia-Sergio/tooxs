@@ -16,6 +16,10 @@ class Store < ApplicationRecord
 
   scope :by_cluster, ->(cluster = nil) { where(cluster_id: cluster).order(:name) }
 
+  def stores_same_department(department)
+    Store.where(cluster: cluster).where.not(id: id).joins(:departments).merge(departments.where(id: department))
+  end
+
   def to_s
     name
   end

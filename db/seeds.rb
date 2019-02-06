@@ -20,7 +20,8 @@ seeds = [
   'plan_shifts',
   'user_shifts_and_worked_shifts',
   'category_sales_and_category_sales_plans',
-  'achievements'
+  'achievements',
+  'new_stores'
 ]
 
 seeds.each do |seed|
