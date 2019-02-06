@@ -45,16 +45,18 @@ class SalesMonth extends Component {
     var world = { value: filters.world_selected.id, label: filters.world_selected.name };
     var departments = this.getDepartments(filters.worlds_departments, world);
     var department = this.getBiggerDepartment(filters.worlds_departments, world);
+    var currentDate = new Date();
     var year = new Date().getFullYear();
-    var month = 2;
+    var month = new Date().getMonth();
+    var monthAgo = currentDate.setMonth(month - 1);
     this.setState({
       world: world,
       worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
       store: { value: filters.store.id, label: filters.store.name },
       department: { value: department.id, label: department.name },
       departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) ),
-      yearFrom: year,
-      monthFrom: 1,
+      yearFrom: year - 1,
+      monthFrom: monthAgo,
       yearTo: year,
       monthTo: month,
     })
@@ -107,20 +109,22 @@ class SalesMonth extends Component {
     }
   }
 
-  getMonths(years, year){
-    for (var y of years) {
-      if (y['label']==year['value']){
-        return y['months']
-      }
-    }
-  }
-
   getBiggerDepartment(worlds, world){
     for (var w of worlds) {
       if (w['id']==world['value']){
         return w['bigger_department']
       }
     }
+  }
+
+  worldChange = (world) => {
+    var departmentOptions = this.getDepartments(this.props.filters.worlds_departments, world)
+    var department = this.getBiggerDepartment(this.props.filters.worlds_departments, world)
+    this.setState({
+      world: world,
+      departmentOptions: departmentOptions.map( store => ({ value: store.id, label: store.name }) ),
+      department: {value: department.id, label: department.name}
+    });
   }
 
   storeChange = (department) => {
@@ -133,16 +137,6 @@ class SalesMonth extends Component {
     console.log(this.state.department);
   }
 
-  yearChange = (year) => {
-    this.setState({ year });
-    console.log(this.state.year);
-  }
-
-  monthChange = (month) => {
-    this.setState({ month });
-    console.log(this.state.month);
-  }
-
   handleSubmit = (e, month) => {
     e.preventDefault();
     this.getChartData();
@@ -153,6 +147,8 @@ class SalesMonth extends Component {
 
   render() {
     const {
+      world,
+      worldOptions,
       store,
       storesOptions,
       department,
@@ -172,10 +168,10 @@ class SalesMonth extends Component {
               <div className="form-group">
                 <Select
                   noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.storeChange}
-                  options={storesOptions}
-                  placeholder={`Tienda`}
-                  value={store}
+                  onChange={this.worldChange}
+                  options={worldOptions}
+                  placeholder={`World`}
+                  value={world}
                 />
               </div>
               <div className="form-group">
