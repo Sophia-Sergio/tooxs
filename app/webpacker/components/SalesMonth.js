@@ -48,17 +48,18 @@ class SalesMonth extends Component {
     var currentDate = new Date();
     var year = new Date().getFullYear();
     var month = new Date().getMonth();
-    var monthAgo = currentDate.setMonth(month - 1);
+    var monthAgo = currentDate.setMonth(currentDate.getMonth() - 1);
+    console.log(monthAgo);
     this.setState({
       world: world,
       worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
       store: { value: filters.store.id, label: filters.store.name },
       department: { value: department.id, label: department.name },
       departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) ),
-      yearFrom: year - 1,
-      monthFrom: monthAgo,
+      yearFrom: year,
+      monthFrom: 1,
       yearTo: year,
-      monthTo: month,
+      monthTo: 2,
     })
   }
 
@@ -185,29 +186,30 @@ class SalesMonth extends Component {
               </div>
               <div className="form-group">
                 <MonthPickerInput
+                  lang="es"
                   inputProps={{id: 'MonthPickerInput'}}
                   year={yearFrom}
                   month={monthFrom - 1}
-                  placeholder={'Fecha desde'}
-                  onChange={(maskedValue, selectedYear, selectedMonth) => {
-                    console.log(selectedYear, selectedMonth);
-                    this.setState({yearFrom: selectedYear, monthFrom: selectedMonth});
+                  onChange={(value, selYear, selMonth) => {
+                    let valYear = parseInt(selYear);
+                    let valMonth = parseInt(selMonth) + 1;
+                    console.log({valYear, valMonth});
+                    this.setState({yearFrom: valYear, monthFrom: valMonth});
                   }}
-                  closeOnSelect={true}
-                  lang={'es'}
                 />
               </div>
               <div className="form-group">
                 <MonthPickerInput
+                  lang="es"
                   inputProps={{id: 'MonthPickerInput'}}
                   year={yearTo}
                   month={monthTo - 1}
-                  onChange={(maskedValue, selectedYear, selectedMonth) => {
-                    console.log(selectedYear, selectedMonth);
-                    this.setState({yearTo: selectedYear, monthTo: selectedMonth});
+                  onChange={(value, selYear, selMonth) => {
+                    let valYear = parseInt(selYear);
+                    let valMonth = parseInt(selMonth) + 1;
+                    console.log({valYear, valMonth});
+                    this.setState({yearTo: valYear, monthTo: valMonth});
                   }}
-                  closeOnSelect={true}
-                  lang={'es'}
                 />
               </div>
               <button className="btn btn-primary" type="submit">Buscar</button>
