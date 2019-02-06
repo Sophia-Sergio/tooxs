@@ -54,29 +54,20 @@ class SalesMonth extends Component {
     var world = { value: filters.world_selected.id, label: filters.world_selected.name };
     var departments = this.getDepartments(filters.worlds_departments, world);
     var department = this.getBiggerDepartment(filters.worlds_departments, world);
-    var lastYear = filters.years.slice(-1)[0];
-    var firstYear = filters.years.slice(0)[0];
-    var lastYearValue = lastYear.value;
-    var firstYearValue = firstYear.value;
-    var lastMonth = lastYear.months.slice(-1)[0];
-    var firstMonth = lastYear.months.slice(0)[0];
-    var lastMonthValue = lastMonth.value;
-    var firstMonthValue = firstMonth.value;
-    console.log({lastYearValue, firstYearValue, lastMonthValue, firstMonthValue});
+    var currentDate = new Date();
+    var year = new Date().getFullYear();
+    var month = new Date().getMonth();
+    var monthAgo = currentDate.setMonth(month - 1);
     this.setState({
       world: world,
       worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
       store: { value: filters.store.id, label: filters.store.name },
       department: { value: department.id, label: department.name },
       departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) ),
-      yearFrom: firstYearValue,
-      monthFrom: firstMonthValue,
-      yearTo: lastYearValue,
-      monthTo: lastMonthValue,
-      selectedYearFrom: firstYearValue,
-      selectedMonthFrom: firstMonthValue,
-      selectedYearTo: lastYearValue,
-      selectedMonthTo: lastMonthValue,
+      yearFrom: year - 1,
+      monthFrom: monthAgo,
+      yearTo: year,
+      monthTo: month,
     })
   }
 
@@ -250,16 +241,6 @@ class SalesMonth extends Component {
     console.log(this.state.department);
   }
 
-  onDateFromChange = (year, month) => {
-    let newMonth = month + 1;
-    this.setState({selectedYearFrom: year, selectedMonthFrom: newMonth});
-  }
-
-  onDateToChange = (year, month) => {
-    let newMonth = month + 1;
-    this.setState({selectedYearTo: year, selectedMonthTo: newMonth});
-  }
-
   handleSubmit = (e, month) => {
     e.preventDefault();
     this.setState({ comparedStoreFilter: false });
@@ -277,8 +258,6 @@ class SalesMonth extends Component {
 
   render() {
     const {
-      chartTitle,
-      datesBetween,
       world,
       worldOptions,
       store,
