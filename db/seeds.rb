@@ -24,5 +24,5 @@ seeds = [
 ]
 
 seeds.each do |seed|
-  load "#{Rails.root}/db/seeds/category_sales_and_category_sales_plan.rb"
+  load "#{Rails.root}/db/seeds/#{seed}.rb"
 end
