@@ -46,12 +46,16 @@ Rails.application.routes.draw do
       namespace :statistics do
         get 'chart'
         get 'summary'
+        get 'compared_stores'
       end
       namespace :employees do
         get 'table'
       end
       namespace :periods do
         get 'month_period'
+      end
+      namespace :filters do
+        get 'compared_stores'
       end
     end
   end

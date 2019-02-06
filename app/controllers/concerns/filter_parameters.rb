@@ -9,6 +9,10 @@ module FilterParameters
       store: params[:store], department: params[:department])
   end
 
+  def set_store
+    @store = Store.find(params[:store])
+  end
+
   def set_period
     return unless params[:year_start].present? && params[:month_start].present?
 

@@ -29,7 +29,7 @@ module Api
         }
       end
 
-      def efficiency_summary(params)
+      def efficiency_summary
         render json: StatsSummaryPresenter.new(@store_dep, @period).efficiency_statistics
       end
 
@@ -62,6 +62,19 @@ module Api
             { label: 'Real', data: values_peridiocity(sales, chart_period) },
             { label: 'Histórico', data: values_peridiocity(sales_last_year, chart_period) },
             { label: 'Plan', data: values_peridiocity(categories_plan_sales_by_dates, chart_period) }
+          ]
+        }
+      end
+
+      def compared_stores
+        sales = @store_dep.categories_sales_by_dates(@period)
+        store_compared = StoreDepartment.find_by(store_id: params[:store_compared], department_id: params[:department])
+        comparative_sales = store_compared.categories_sales_by_dates(@period)
+        render json: {
+          labels: dates_peridiocity(sales.keys, chart_period),
+          datasets: [
+            { label: @store_dep.store.name, data: values_peridiocity(sales, chart_period)},
+            { label: store_compared.store.name, data: values_peridiocity(comparative_sales, chart_period)},
           ]
         }
       end

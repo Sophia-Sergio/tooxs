@@ -98,8 +98,8 @@ class User < ApplicationRecord
         label: Settings.month_name[Settings.month_by_date(Date.today)]
       },
       store: store.as_json(only: [:id, :name]),
-      worlds_departments: store.worlds.distinct.as_json,
-      world_selected: store.bigger_plan_sale_world.as_json
+      worlds_departments: store.worlds.distinct.as_json(store.id),
+      world_selected: store.bigger_plan_sale_world.as_json(store.id)
     }
   end
 
