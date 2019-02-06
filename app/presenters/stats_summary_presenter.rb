@@ -5,7 +5,6 @@ class StatsSummaryPresenter < SimpleDelegator
   def initialize(model, period)
     @model = model
     @period = period
-    super(@model)
   end
 
   def efficiency
