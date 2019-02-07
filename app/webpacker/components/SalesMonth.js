@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { currencyFormat } from './helpers';
+import { currencyFormat, monthFormat } from './helpers';
 import Loader from "./layout/Loader";
 import Select from 'react-select';
 import MonthPickerInput from 'react-month-picker-input';
@@ -212,13 +212,17 @@ class SalesMonth extends Component {
                   }}
                 />
               </div>
+              <button
+                className="btn btn-light"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Comparar con otra tienda"
+                type="submit"
+              >
+                <i className="fa fa-exchange"></i>
+              </button>
               <button className="btn btn-primary" type="submit">Buscar</button>
             </form>
-          </div>
-        </div>
-        <div className="col-12 mb-2">
-          <div className="card dashboard__chart">
-            <button type="button" className="btn btn-sm btn-primary btn-compare-sales" data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2"><i className="fa fa-exchange"></i> Comparar </button>
           </div>
         </div>
         <div className="modal fade slide-right" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true">
@@ -251,7 +255,7 @@ class SalesMonth extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">Gráfico de ventas</h5>
-            <p className="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
+            <p className="card-text">{`Datos desde el 30 de ${monthFormat(monthFrom)} al 27 de ${monthFormat(monthTo)} de 2018`}</p>
           </div>
         </div>
         <div className="col-12 mb-2">
