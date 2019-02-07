@@ -126,60 +126,14 @@ class SalesMonth extends Component {
       });
   }
 
-  getComparedStores(e){
-    e.preventDefault();
-    this.setState({
-      comparedStoreFilter: false,
-      comparedStore: {},
-      comparedStoreOptions: [],
-      alert: false
-    });
-    var parameters = `store=${this.state.store.value}&department=${this.state.department.value}`;
-    axios.get(`${this.props.root_url}/api/v1/filters/compared_stores?${parameters}`)
-      .then(res => {
-        let stores = res.data.stores;
-        if(stores.length > 0){
-          this.setState({
-            comparedStoreOptions: stores.map( store => ({ value: store.id, label: store.name }) ),
-            comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ).slice(0)[0],
-            comparedStoreFilter: true
-          });
-        } else {
-          this.setState({
-            comparedStoreFilter: false,
-            comparedStore: {},
-            comparedStoreOptions: [],
-            alert: true,
-          });
-        }
-      })
-      .catch(error => {
-        this.setState({
-          comparedStoreFilter: false,
-          alert: true
-        });
-        console.log(error);
-      });
-  }
-
   getComparativeChartData(){
     this.setState({loading: true});
-    var parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}&store_compared=${this.state.comparedStore.value}`;
+    var parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.yearFrom}&month_start=${this.state.monthFrom}&year_end=${this.state.yearTo}&month_end=${this.state.monthTo}&store_compared=20`;
     axios.get(`${this.props.root_url}/api/v1/statistics/compared_stores?${parameters}`)
       .then(res => {
-        this.setState({
-          chartData: res.data,
-          chartTitle: 'Gráfico comparativo de ventas',
-          loading: false
-        });
-        this.setState({
-          chartData: {
-            ...this.state.chartData,
-            labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) )
-          }
-        });
+        this.setState({chartData: res.data, loading: false});
         this.setState(state => {
-          state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, 0)';
+          state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
           state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
           state.chartData.datasets[0].borderWidth = 2;
           state.chartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
@@ -257,9 +211,12 @@ class SalesMonth extends Component {
     this.getChartData();
   }
 
-  comparedStoreChange = (comparedStore) => {
-    this.setState({ comparedStore });
+  handleCompareSubmit = (e, month) => {
+    e.preventDefault();
+    this.getComparativeChartData()
   }
+
+  // Departamento, Año, Mes
 
   handleCompareSubmit = (e, month) => {
     e.preventDefault();
@@ -361,7 +318,7 @@ class SalesMonth extends Component {
           </div>
           <div className="collapse" id="collapseExample">
             <div className="card dashboard__filter mt-2">
-              <form>
+              <form onSubmit={this.handleCompareSubmit}>
                 <div className="form-group">
                   <Select
                     noOptionsMessage={() => 'No se econtraron más opciones'}
