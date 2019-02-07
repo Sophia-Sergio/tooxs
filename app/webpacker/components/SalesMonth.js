@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { currencyFormat, monthFormat, dayMonthFormat } from './helpers';
+import { currencyFormat, monthFormat } from './helpers';
 import Loader from "./layout/Loader";
 import Select from 'react-select';
 import MonthPicker from './shared/MonthPicker';
@@ -331,34 +331,39 @@ class SalesMonth extends Component {
               </div>
               <button
                 className="btn btn-light"
-                type="button"
-                style={{padding: 0}}
-                onClick={this.getComparedStores.bind(this)}
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Comparar con otra tienda"
+                type="submit"
               >
-                <span
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Comparar con otra tienda"
-                >
-                  <i className="fa fa-exchange"></i>
-                </span>
+                <i className="fa fa-exchange"></i>
               </button>
-              <button className="btn btn-primary" type="submit">
-                Buscar
-              </button>
+              <button className="btn btn-primary" type="submit">Buscar</button>
             </form>
           </div>
-          { this.state.comparedStoreFilter &&
-            <div className="card dashboard__filter mt-2">
-              <form onSubmit={this.handleCompareSubmit}>
-                <div className="form-group">
-                  <Select
-                    noOptionsMessage={() => 'No se econtraron más opciones'}
-                    onChange={this.comparedStoreChange}
-                    options={comparedStoreOptions}
-                    placeholder={`Compared Store`}
-                    value={comparedStore}
-                  />
+        </div>
+        <div className="modal fade slide-right" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true">
+          <button type="button" className="close" data-dismiss="modal" aria-hidden="true">
+            <i className="pg-close"></i>
+          </button>
+          <div className="modal-dialog ">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="text-left p-b-5"><span className="semi-bold">Seleccione Tienda para Comparación</span></h5>
+              </div>
+              <div className="modal-body">
+                <div className="row">
+                  <div className="col-12 ">
+                    <div className="form-group">
+                      <Select
+                        noOptionsMessage={() => 'No se econtraron más opciones'}
+                        onChange={this.departmentChange}
+                        options={departmentOptions}
+                        placeholder={`Departamento`}
+                        value={department}
+                      />
+                    </div>
+                  </div>
                 </div>
                 <button className="btn btn-primary" type="submit">
                   Comparar tiendas
@@ -379,8 +384,8 @@ class SalesMonth extends Component {
         }
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            <h5 className="card-title">{ chartTitle }</h5>
-            <p className="card-text">{ datesBetween }</p>
+            <h5 className="card-title">Gráfico de ventas</h5>
+            <p className="card-text">{`Datos desde el 30 de ${monthFormat(monthFrom)} al 27 de ${monthFormat(monthTo)} de 2018`}</p>
           </div>
         </div>
         <div className="col-12 mb-2">
