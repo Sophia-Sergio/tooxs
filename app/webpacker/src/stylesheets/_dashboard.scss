@@ -275,13 +275,16 @@
         }
 
       button {
-        background-color: $light-blue;
         border: none;
         border-radius: 3px;
-        color: white;
         margin-left: 10px;
         line-height: 35px;
         padding: 0 15px;
+
+        &.btn-primary {
+          background-color: $light-blue;
+          color: white;
+          }
 
         @include medium {
           margin: 10px 0 0 0;
