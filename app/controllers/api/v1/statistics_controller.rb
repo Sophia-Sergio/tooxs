@@ -17,7 +17,7 @@ module Api
         year_start == year_end ? month_count + 1 : (year_end - year_start - 1 ) * 12 + month_count + 1
       end
 
-      def efficiency(params)
+      def efficiency
         real = @store_dep.efficiency_by_date
         optimized = real.values.map { |value| value * rand(1.2..1.4)  }
         render json: {
@@ -34,7 +34,7 @@ module Api
       end
 
       def chart
-        send(params[:type].to_sym, params)
+        send(params[:type].to_sym)
       end
 
       def chart_period
@@ -45,14 +45,14 @@ module Api
         'monthly'
       end
 
-      def productivity(params)
+      def productivity
         productivity = @store_dep.productivity_by_date(@period)
         render json: {
           labels: dates_peridiocity(productivity.keys, chart_period),
         }
       end
 
-      def sales(params)
+      def sales
         sales = @store_dep.categories_sales_by_dates(@period)
         sales_last_year = @store_dep.categories_sales_by_dates(@old_period)
         categories_plan_sales_by_dates =  @store_dep.categories_plan_sales_by_dates(@period)
@@ -108,7 +108,7 @@ module Api
       end
 
       def summary
-        send("#{params[:type]}_summary".to_sym, params)
+        send("#{params[:type]}_summary".to_sym)
       end
     end
   end
