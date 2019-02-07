@@ -102,6 +102,39 @@ class SalesMonth extends Component {
       });
   }
 
+  getComparativeChartData(){
+    this.setState({loading: true});
+    var parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.yearFrom}&month_start=${this.state.monthFrom}&year_end=${this.state.yearTo}&month_end=${this.state.monthTo}&store_compared=20`;
+    axios.get(`${this.props.root_url}/api/v1/statistics/compared_stores?${parameters}`)
+      .then(res => {
+        this.setState({chartData: res.data, loading: false});
+        this.setState(state => {
+          state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
+          state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
+          state.chartData.datasets[0].borderWidth = 2;
+          state.chartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[0].pointBorderWidth = 2;
+          state.chartData.datasets[0].pointRadius = 5;
+          state.chartData.datasets[1].backgroundColor = 'rgba(255, 255, 255, 0)';
+          state.chartData.datasets[1].borderColor = 'rgba(137, 218, 89, 1)';
+          state.chartData.datasets[1].borderWidth = 2;
+          state.chartData.datasets[1].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[1].pointBorderWidth = 2;
+          state.chartData.datasets[1].pointRadius = 5;
+          return state
+        })
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({
+          loading: false,
+          errors: {
+            result: 'No se econtraron coincidencias.'
+          }
+        })
+      });
+  }
+
   getDepartments(worlds, world){
     for (var w of worlds) {
       if (w['id']==world['value']){
@@ -141,7 +174,11 @@ class SalesMonth extends Component {
   handleSubmit = (e, month) => {
     e.preventDefault();
     this.getChartData();
-    this.getEmployeesData();
+  }
+
+  handleCompareSubmit = (e, month) => {
+    e.preventDefault();
+    this.getComparativeChartData()
   }
 
   // Departamento, Año, Mes
@@ -236,7 +273,7 @@ class SalesMonth extends Component {
           </div>
           <div className="collapse" id="collapseExample">
             <div className="card dashboard__filter mt-2">
-              <form>
+              <form onSubmit={this.handleCompareSubmit}>
                 <div className="form-group">
                   <Select
                     noOptionsMessage={() => 'No se econtraron más opciones'}
