@@ -5,8 +5,12 @@ module FilterParameters
   extend ActiveSupport::Concern
 
   def set_store_department
-    @store_dep = StoreDepartment.find_by(
-      store: params[:store], department: params[:department])
+    if params.key?(:store) && params.key?(:department)
+      @store_dep = StoreDepartment.find_by(
+        store: params[:store], department: params[:department])
+    else
+      @store_dep = current_user.store_department
+    end
   end
 
   def set_store
