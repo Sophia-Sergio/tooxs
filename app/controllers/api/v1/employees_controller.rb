@@ -33,7 +33,7 @@ module Api
           seller[:sell] = achievements[seller["id"]].round
           seller[:goal] = goals[seller["id"]]
           seller[:objective] = (achievements[seller["id"]] / goals[seller["id"]]).round(2)
-          seller[:link] = seller_path(seller["id"])
+          seller[:link] = employee_path(seller["id"])
         end
       end
 
