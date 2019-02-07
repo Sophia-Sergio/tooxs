@@ -18,11 +18,11 @@ class MonthTable extends Component {
   render() {
     const { plan, real, historic, real_vs_plan, real_vs_historic } = this.state;
     return (
-      <div class="col-12">
-        <div class="card dashboard__table">
-          <h5 class="card-title">Mayo 2018</h5>
-          <div class="table-responsive">
-            <table class="table">
+      <div className="col-12">
+        <div className="card dashboard__table">
+          <h5 className="card-title">Mayo 2018</h5>
+          <div className="table-responsive">
+            <table className="table">
               <thead>
                 <tr>
                   <th></th>
@@ -33,7 +33,7 @@ class MonthTable extends Component {
                   <th>Total</th>
                 </tr>
               </thead>
-              <tbody class="">
+              <tbody className="">
                 <tr>
                   <td className="shifts">Plan</td>
                   {plan.map(item => (
