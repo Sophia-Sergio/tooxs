@@ -64,7 +64,7 @@ class EfficiencyIndex extends Component {
 
   getChartData(){
     this.setState({loading: true});
-    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2018&month_start=7`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2018&month_start=7`)
       .then(res => {
         this.setState({chartData: res.data, loading: false});
         this.setState(state => {

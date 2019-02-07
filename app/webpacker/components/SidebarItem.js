@@ -41,31 +41,25 @@ class SidebarItem extends Component {
             id: 1,
             name: 'Estadísticas',
             icon: StatisticsIcon,
-            link: '/sales/month/'
+            link: '/statistics/sales'
           },
           {
             id: 2,
-            name: 'Comparativo de ventas',
-            icon: ComparativeIcon,
-            link: '/sales_cluster/month/'
+            name: 'Cambiar plan',
+            icon: ChangePlanIcon,
+            link: '/config/plan_change'
           },
           {
             id: 3,
-            name: 'Cambiar plan',
-            icon: ChangePlanIcon,
-            link: '/config/change_plan/'
+            name: 'Colaboradores',
+            icon: EmployeesIcon,
+            link: '/employees'
           },
           {
             id: 4,
-            name: 'Colaboradores',
-            icon: EmployeesIcon,
-            link: '/sellers/'
-          },
-          {
-            id: 5,
             name: 'Dotación',
             icon: DotationIcon,
-            link: '/staffing/index/'
+            link: '/employees/staff'
           }
         ]
       },
@@ -77,13 +71,13 @@ class SidebarItem extends Component {
             id: 1,
             name: 'Optimizar turnos',
             icon: OptimizeIcon,
-            link: '/productivity/show/'
+            link: '/optimizer/show/'
           },
           {
             id: 2,
             name: 'Análisis de horas',
             icon: AnalysisIcon,
-            link: '/hour_analysis/'
+            link: '/statistics/hours/'
           },
         ]
       },
@@ -95,37 +89,25 @@ class SidebarItem extends Component {
             id: 1,
             name: 'Planificación dotación',
             icon: DotationPlanIcon,
-            link: '/sellers/staff/'
+            link: '/employees/staff_planning/'
           },
           {
             id: 2,
-            name: 'Dotación produccción',
-            icon: DotationProdIcon,
-            link: '/tottus/dashboard/production/'
+            name: 'Productividad',
+            icon: ProductivityIcon,
+            link: '/statistics/productivity/'
           },
           {
             id: 3,
-            name: 'Productividad',
-            icon: ProductivityIcon,
-            link: '/productivity/report/'
+            name: 'Eficiencia',
+            icon: EfficiencyIcon,
+            link: '/statistics/efficiency'
           },
           {
             id: 4,
-            name: 'Comparativo',
-            icon: ComparativeReportIcon,
-            link: '/productivity_cluster/month/'
-          },
-          {
-            id: 5,
-            name: 'Eficiencia',
-            icon: EfficiencyIcon,
-            link: '/efficiency/index/'
-          },
-          {
-            id: 6,
             name: 'Cobertura',
             icon: CoverageIcon,
-            link: '/sellers/staffing_store/'
+            link: '/employees/departments_staff'
           }
         ]
       },
@@ -137,13 +119,13 @@ class SidebarItem extends Component {
             id: 1,
             name: 'Disponibilizador de turnos',
             icon: MakeAvailableIcon,
-            link: '/staff_request/index?departments%5B%5D=1&month=6&store=1&year=2018'
+            link: '/staff_requests'
           },
           {
             id: 2,
             name: 'Solicitudes realizadas',
             icon: RequestIcon,
-            link: '/staff_request/show/'
+            link: '/staff_requests/new'
           },
         ]
       },
