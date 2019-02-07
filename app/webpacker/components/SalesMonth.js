@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { currencyFormat, monthFormat } from './helpers';
+import { currencyFormat, monthFormat, dayMonthFormat } from './helpers';
 import Loader from "./layout/Loader";
 import Select from 'react-select';
 import MonthPickerInput from 'react-month-picker-input';
@@ -91,6 +91,12 @@ class SalesMonth extends Component {
           chartTitle: 'Gráfico de ventas',
           loading: false
         });
+        this.setState({
+          chartData: {
+            ...this.state.chartData,
+            labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) )
+          }
+        });
         this.setState(state => {
           state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, 0)';
           state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
@@ -133,6 +139,12 @@ class SalesMonth extends Component {
           chartData: res.data,
           chartTitle: 'Gráfico comparativo de ventas',
           loading: false
+        });
+        this.setState({
+          chartData: {
+            ...this.state.chartData,
+            labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) )
+          }
         });
         this.setState(state => {
           state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, 0)';
