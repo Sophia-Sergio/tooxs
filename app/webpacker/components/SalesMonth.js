@@ -214,7 +214,8 @@ class SalesMonth extends Component {
 
   handleSubmit = (e, month) => {
     e.preventDefault();
-    this.setState({ comparedStoreFilter: false });
+    const subFilter = document.querySelector('.collapse');
+    subFilter.classList.remove('show');
     this.getChartData();
   }
 
