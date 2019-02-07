@@ -339,15 +339,52 @@ class SalesMonth extends Component {
               </div>
               <button
                 className="btn btn-light"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Comparar con otra tienda"
-                type="submit"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                style={{padding: 0}}
               >
-                <i className="fa fa-exchange"></i>
+                <span
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Comparar con otra tienda"
+                >
+                  <i className="fa fa-exchange"></i>
+                </span>
               </button>
-              <button className="btn btn-primary" type="submit">Buscar</button>
+              <button className="btn btn-primary" type="submit">
+                Buscar
+              </button>
             </form>
+          </div>
+          <div className="collapse" id="collapseExample">
+            <div className="card dashboard__filter mt-2">
+              <form>
+                <div className="form-group">
+                  <Select
+                    noOptionsMessage={() => 'No se econtraron más opciones'}
+                    onChange={this.worldChange}
+                    options={worldOptions}
+                    placeholder={`World`}
+                    value={world}
+                  />
+                </div>
+                <div className="form-group">
+                  <Select
+                    noOptionsMessage={() => 'No se econtraron más opciones'}
+                    onChange={this.departmentChange}
+                    options={departmentOptions}
+                    placeholder={`Departamento`}
+                    value={department}
+                  />
+                </div>
+                <button className="btn btn-primary" type="submit">
+                  Comparar tiendas
+                </button>
+              </form>
+            </div>
           </div>
         </div>
         <div className="modal fade slide-right" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true">
