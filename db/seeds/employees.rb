@@ -8,7 +8,7 @@ def create_employees(store_department, role)
   surname_1 = Faker::Name.last_name.gsub(' ', '.')
   email = "#{I18n.transliterate(name)}.#{I18n.transliterate(surname_1)}.#{count}@falabella.com"
   phone = "+56 9 #{rand(10000000..99999999)}"
-  seller = User.create!(name: name, surname_1: surname_1, email: email,
+  seller = Employee.create!(name: name, surname_1: surname_1, email: email,
                 password: 123456, phone: phone, address: Faker::Address.full_address,
                 commune: COMMUNES.sample, store_department: store_department, store: store_department.store)
   seller.save!

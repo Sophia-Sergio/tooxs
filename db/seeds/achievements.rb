@@ -23,7 +23,7 @@ STORE_TOTAL_BY_MONTH = SALES_2017_BY_MONTH.each_with_object({}) do |(k,v), hash|
   hash[k] = STORE_TOTAL_YEAR * ( v / 100)
 end
 
-User.sellers.each do |seller|
+Employee.sellers.each do |seller|
   date = Date.new(2017, 1, 2)
   department = seller.store_department.department.name
   next if department == "Benefit" || department == "Benetton"
@@ -43,7 +43,7 @@ User.sellers.each do |seller|
         (0..6).each do |day|
           sellers = seller.store_department.sellers.employees_by_hour(date)
           achievement = Settings.periods_keys.each_with_object({}) do |key, hash|
-            hash[key] = (week_sale * (proportions_by_hour[day][key] / 100) / (sellers[key] || 1) ).round.to_i
+            hash[key] = (week_sale * (proportions_by_hour[day][key] / 100) / (sellers[key][:count] || 1) ).round.to_i
           end
 
           Achievement.create!(user_id: seller.id, date: date,
