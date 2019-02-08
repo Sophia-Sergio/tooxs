@@ -13,10 +13,10 @@ class StoreDepartment < ApplicationRecord
   has_many :user_shifts
   has_many :users
 
-  has_many :employees, -> { joins(:roles).where('roles.name != ?', ['admin']) }, class_name: 'User'
-  has_many :cashiers, -> { joins(:roles).where('roles.name = ?', 'cashier') }, class_name: 'User'
-  has_many :sales_assistants, -> { joins(:roles).where('roles.name = ?', 'sales_assistant') }, class_name: 'User'
-  has_many :sellers, -> { joins(:roles).where('roles.name = ?', 'seller') }, class_name: 'User'
+  has_many :employees, class_name: 'Employee'
+  has_many :cashiers, -> { joins(:roles).where('roles.name = ?', 'cashier') }, class_name: 'Employee'
+  has_many :sales_assistants, -> { joins(:roles).where('roles.name = ?', 'sales_assistant') }, class_name: 'Employee'
+  has_many :sellers, -> { joins(:roles).where('roles.name = ?', 'seller') }, class_name: 'Employee'
 
   has_many :target_productivities, dependent: :destroy
   has_many :target_sales, dependent: :destroy
@@ -43,7 +43,6 @@ class StoreDepartment < ApplicationRecord
         end_year, end_month, store_id)).order('category_sales_plans.year, category_sales_plans.month')
     end
   end
-
 
   def year_month_target_productivity(year, month)
     target_productivities = self.target_productivities.where(year: year, month: month).pluck(:amount)
@@ -136,7 +135,7 @@ class StoreDepartment < ApplicationRecord
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
       employees = self.employees.employees_by_hour(date)
       sales = categories_sales_by_date_hour(date)
-      productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
+      productivity = employees.keys.map { |hour| (sales[hour] / employees[hour][:count].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
     end
   end

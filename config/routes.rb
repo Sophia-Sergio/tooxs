@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       end
       namespace :employees do
         get :table
+        get :index
+        get :staff
       end
       namespace :periods do
         get :month_period

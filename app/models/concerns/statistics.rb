@@ -1,6 +1,7 @@
 module Statistics
   module Efficiency
     extend ActiveSupport::Concern
+
     def abs_desviation(productivities, targets)
       Settings.periods_keys.map do |period|
         (productivities[period] - targets[period]).abs if productivities[period] && targets[period]
@@ -30,6 +31,7 @@ module Statistics
 
   module Defaults
     extend ActiveSupport::Concern
+
     def default_period
       year = Settings.year_by_date(Date.today)
       month = Settings.month_by_date(Date.today)

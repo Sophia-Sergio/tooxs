@@ -1,7 +1,7 @@
 UserShift.delete_all
 WorkedShift.delete_all
 
-users = User.employees
+users = Employee.all
 (2017..2019).each do |year|
   users.each do |user|
     date = Date.new(year, 1, 2) if year == 2017
