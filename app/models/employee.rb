@@ -14,13 +14,10 @@ class Employee < User
   }
 
   def self.employees_by_hour(date)
-    employees = working_on_date(date)
-    DateStaffQuery.new(employees).call.each_with_object({}) do |employee, hash|
+    DateStaffQuery.new.call(date).each_with_object({}) do |employee, hash|
       period = "#{employee.custom_interval.hour} - #{(employee.custom_interval.hour + 1)}"
       hash[period] = { count: employee.ids.count, names: employee.names, ids: employee.ids }
     end
-  rescue
-    binding.pry
   end
 
   def self.total_achievements(period)
@@ -31,9 +28,7 @@ class Employee < User
   # st-check horus
   def self.plan_hours(year, month)
     (1..Settings.weeks_by_month[month.to_i]).each_with_object({}) do |week, hash|
-      employees = joins(:shifts).where(user_shifts:
-          { year: year, month: month, week: week, status: UserShift.statuses[:active] })
-      hash[week] = PlanHoursQuery.new(employees).call
+      hash[week] = PlanHoursQuery.new.call({ year: year, month: month, week: week })
     end
   end
 

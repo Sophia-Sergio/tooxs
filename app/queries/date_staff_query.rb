@@ -1,10 +1,10 @@
 class DateStaffQuery
-  def initialize(employees)
+  def initialize(employees = Employee.all)
     @employees = employees
   end
 
-  def call
-    @employees.joins(", generate_series(
+  def call(date)
+    @employees.working_on_date(date).joins(", generate_series(
       worked_shifts.check_in, worked_shifts.check_out - interval '1' hour,
       interval '1 hour') AS custom_interval").
       group('custom_interval').
