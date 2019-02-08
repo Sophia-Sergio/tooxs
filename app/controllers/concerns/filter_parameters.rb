@@ -14,7 +14,7 @@ module FilterParameters
   end
 
   def set_store
-    @store = Store.find(params[:store])
+    @store ||= Store.find(params[:store])
   end
 
   def set_period
