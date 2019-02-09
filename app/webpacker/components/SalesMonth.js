@@ -12,10 +12,12 @@ class SalesMonth extends Component {
     super(props);
     this.state = {
       loading: false,
+      alert: false,
       chartTitle: 'Gráfico de ventas',
       result: '',
       store: {},
       storeOptions: [],
+      comparedStoreFilter: false,
       comparedStore: {},
       comparedStoreOptions: [],
       department: {},
@@ -41,26 +43,10 @@ class SalesMonth extends Component {
 
   componentWillMount(){
     this.createFiltersData();
-    this.getComparedStores();
   }
 
   componentDidMount(){
     this.getChartData();
-  }
-
-  getComparedStores(){
-    this.setState({loading: true});
-    axios.get(`${this.props.root_url}/api/v1/filters/compared_stores?store=13&department=3`)
-      .then(res => {
-        let stores = res.data.stores;
-        this.setState({
-          comparedStoreOptions: stores.map( store => ({ value: store.id, label: store.name }) ),
-          comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ).slice(0)[0],
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 
   createFiltersData(){
@@ -131,6 +117,42 @@ class SalesMonth extends Component {
             result: 'No se econtraron coincidencias.'
           }
         })
+      });
+  }
+
+  getComparedStores(e){
+    e.preventDefault();
+    this.setState({
+      comparedStoreFilter: false,
+      comparedStore: {},
+      comparedStoreOptions: [],
+      alert: false
+    });
+    var parameters = `store=${this.state.store.value}&department=${this.state.department.value}`;
+    axios.get(`${this.props.root_url}/api/v1/filters/compared_stores?${parameters}`)
+      .then(res => {
+        let stores = res.data.stores;
+        if(stores.length > 0){
+          this.setState({
+            comparedStoreOptions: stores.map( store => ({ value: store.id, label: store.name }) ),
+            comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ).slice(0)[0],
+            comparedStoreFilter: true
+          });
+        } else {
+          this.setState({
+            comparedStoreFilter: false,
+            comparedStore: {},
+            comparedStoreOptions: [],
+            alert: true,
+          });
+        }
+      })
+      .catch(error => {
+        this.setState({
+          comparedStoreFilter: false,
+          alert: true
+        });
+        console.log(error);
       });
   }
 
@@ -322,11 +344,8 @@ class SalesMonth extends Component {
               <button
                 className="btn btn-light"
                 type="button"
-                data-toggle="collapse"
-                data-target="#collapseExample"
-                aria-expanded="false"
-                aria-controls="collapseExample"
                 style={{padding: 0}}
+                onClick={this.getComparedStores.bind(this)}
               >
                 <span
                   data-toggle="tooltip"
@@ -341,7 +360,7 @@ class SalesMonth extends Component {
               </button>
             </form>
           </div>
-          <div className="collapse" id="collapseExample">
+          { this.state.comparedStoreFilter &&
             <div className="card dashboard__filter mt-2">
               <form onSubmit={this.handleCompareSubmit}>
                 <div className="form-group">
@@ -358,8 +377,18 @@ class SalesMonth extends Component {
                 </button>
               </form>
             </div>
-          </div>
+          }
         </div>
+        { this.state.alert &&
+          <div className="col-12 mb-2">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <strong>Lo sentimos!</strong> No se encontraron tiendas con los mismos departamentos.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        }
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">{ chartTitle }</h5>
