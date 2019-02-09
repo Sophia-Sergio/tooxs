@@ -9,8 +9,6 @@ import './login_bg.jpg'
 import './login__brand_bg.png'
 // Defaults
 import './user_default.jpg'
-// MonthPicker
-import './icons/calendar-input.svg'
 // Icons
 import './icons/atm.svg'
 import './icons/ballpoint-pen.svg'
