@@ -1,6 +1,6 @@
 .login {
     background-color: white;
-    background-image: url(/assets/login_bg-df4fae31ae3b5c50f6920b56b2c0e4f2006bcb77f5a13cbf620671b793db7333.jpg);
+    background-image: url(../images/login_bg.jpg);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -8,6 +8,10 @@
     margin: 0;
     padding: 0 15px;
 
+    @include medium {
+      height: auto;
+      padding: 30px;
+    }
 
     > .row {
       height: 100vh;
@@ -15,7 +19,7 @@
 
     &__brand {
       background-color: #353e4f;
-      background-image: url(/assets/login__brand_bg-648e40866537e16ae01bbf8f6da30a9dad3c251848743a5f1e7d51feeb4b7501.png);
+      background-image: url(../images/login__brand_bg.png);
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 100%;
