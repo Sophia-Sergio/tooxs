@@ -1,11 +1,13 @@
 class Employee < User
+  include CommercialCalendar::Period
+
   belongs_to :store_department
   delegate :department, to: :store_department, allow_nil: true
   delegate :store, to: :store_department, allow_nil: true
 
   default_scope { active.joins(:roles).where.not(roles: { name: ['admin'] }) }
 
-  scope :include_store_department, -> { includes(store_department: [:department, :store]) }
+  scope :include_store_department, -> { includes(store_department: %i[department store]) }
   scope :sales_assistants, -> { active.includes(:roles).where(roles: { name: 'sales_assistant' }) }
   scope :sellers, -> { active.includes(:roles).where(roles: { name: 'seller' }) }
   scope :working_on_date, ->(date) { joins(:worked_shifts).where('date = ?', date) }
@@ -28,7 +30,7 @@ class Employee < User
   # st-check horus
   def self.plan_hours(year, month)
     (1..Settings.weeks_by_month[month.to_i]).each_with_object({}) do |week, hash|
-      hash[week] = PlanHoursQuery.new.call({ year: year, month: month, week: week })
+      hash[week] = PlanHoursQuery.new.call(year: year, month: month, week: week)
     end
   end
 

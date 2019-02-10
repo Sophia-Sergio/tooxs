@@ -1,7 +1,9 @@
 class User < ApplicationRecord
+  include CommercialCalendar::Period
   include Statistics::Filters
-  include Statistics::Defaults
-  rolify # management of roles with gem
+  include Defaults
+
+  rolify
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -25,15 +27,12 @@ class User < ApplicationRecord
     '12.345.678-9'
   end
 
-  def filters
+  def filters(date = Date.today)
     {
-      years: self.years_filter,
-      year: { value: Settings.year_by_date(Date.today), label: Settings.year_by_date(Date.today)},
-      month: {
-        value: Settings.month_by_date(Date.today),
-        label: Settings.month_name[Settings.month_by_date(Date.today)]
-      },
-      store: store.as_json(only: [:id, :name]),
+      years: years_filter,
+      year: { value: default_year, label: default_year },
+      month: { value: month_by_date(date), label: Settings.month_name[month_by_date(date)] },
+      store: store.as_json(only: %i[id name]),
       worlds_departments: store.worlds.distinct.as_json(store.id),
       world_selected: store.bigger_plan_sale_world.as_json(store.id)
     }

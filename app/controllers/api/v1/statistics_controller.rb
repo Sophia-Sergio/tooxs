@@ -5,14 +5,16 @@ module Api
     # only statistics
     class StatisticsController < ApplicationController
       include FilterParameters
+      extend CommercialCalendar::Period
+
       before_action :set_store_department, :set_period
       before_action :set_old_period, only: [:chart]
 
       def months_difference(date_start, date_end)
-        year_start  = Settings.year_by_date(date_start)
-        month_start = Settings.month_by_date(date_start)
-        year_end    = Settings.year_by_date(date_end)
-        month_end   = Settings.month_by_date(date_end)
+        year_start  = year_by_date(date_start)
+        month_start = month_by_date(date_start)
+        year_end    = year_by_date(date_end)
+        month_end   = month_by_date(date_end)
         month_count = year_start == year_end ? month_end - month_start : 12 - month_start + month_end
         year_start == year_end ? month_count + 1 : (year_end - year_start - 1 ) * 12 + month_count + 1
       end
@@ -84,9 +86,9 @@ module Api
         when 'daily'
           dates
         when 'weekly'
-          dates.each_with_index.map { |x,i| x if ((i + 1) % 7 == 0) }.compact
+          dates.each_with_index.map { |_, i| x if ((i + 1) % 7).zero? }.compact
         when 'monthly'
-          dates.map { |date|  Settings.year_month_by_date(date) }.uniq
+          dates.map { |date| year_month_by_date(date) }.uniq
         end
       end
 
@@ -101,8 +103,7 @@ module Api
           date_start = data.keys.first
           date_end = data.keys.last
           (date_start..date_end).each_with_object({}) do |date, hash|
-            year_month = Settings.year_month_by_date(date)
-            (hash[year_month] ||= []) << data[date]
+            (hash[year_month_by_date(date)] ||= []) << data[date]
           end.values.map(&:sum)
         end
       end

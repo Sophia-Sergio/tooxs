@@ -1,6 +1,7 @@
 class StatsSummaryPresenter < SimpleDelegator
   include ActionView::Helpers::NumberHelper
-  include Statistics::Defaults
+  include CommercialCalendar::Period
+  include Defaults
 
   def initialize(model, period)
     @model = model
@@ -11,7 +12,7 @@ class StatsSummaryPresenter < SimpleDelegator
     {
       name: 'CUMPLIMIENTO DE EFICIENCIA',
       value: "#{@model.efficiency(@period).round(2)}%",
-      description: "Eficiencia Objetivo 75%"
+      description: 'Eficiencia Objetivo 75%'
     }
   end
 
@@ -28,16 +29,14 @@ class StatsSummaryPresenter < SimpleDelegator
     sales = @model.categories_sales(@period)
     {
       name: 'CUMPLIMIENTO PLAN DE VENTA',
-      value: "#{((sales / plan_sales.to_f) *100 ).round(2)}%",
+      value: "#{((sales / plan_sales.to_f) * 100).round(2)}%",
       description: "Plan $#{number_with_delimiter(plan_sales)}. Real $#{number_with_delimiter(sales.round)}"
     }
   end
 
   def productivity
-    plan_sales = @model.categories_plan_sales(@period)
-    sales = @model.categories_sales(@period)
     avg_target_productivity = @model.year_month_target_productivity(
-      Settings.year_by_date(@period[:start]), Settings.month_by_date(@period[:start]))
+      year_by_date(@period[:start]), month_by_date(@period[:start]))
     {
       name: 'CUMPLIMIENTO REAL',
       value: "$#{number_with_delimiter(@model.productivity(@period).round)}",
