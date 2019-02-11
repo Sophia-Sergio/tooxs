@@ -9,22 +9,6 @@ class StatsPresenter < SimpleDelegator
     @period = period
   end
 
-  def chart_period
-    return 'daily' if months_difference == 1
-    return 'weekly' if months_difference >= 2 && months_difference <= 7
-
-    'monthly'
-  end
-
-  def months_difference
-    year_start  = year_by_date(@period[:start])
-    month_start = month_by_date(@period[:start])
-    year_end    = year_by_date(@period[:end])
-    month_end   = month_by_date(@period[:end])
-    month_count = year_start == year_end ? month_end - month_start : 12 - month_start + month_end
-    year_start == year_end ? month_count + 1 : (year_end - year_start - 1) * 12 + month_count + 1
-  end
-
   def efficiency
     {
       name: 'CUMPLIMIENTO DE EFICIENCIA',
@@ -83,6 +67,55 @@ class StatsPresenter < SimpleDelegator
     }.merge(summary_table_titles_json(sales[:sales].keys))
   end
 
+  def goal_success
+    plan_sales = @model.categories_plan_sales(@period).values.sum.round
+    sales = @model.categories_sales(@period)
+    {
+      name: 'CUMPLIMIENTO PLAN DE VENTA',
+      value: "#{((sales / plan_sales.to_f) * 100).round(2)}%",
+      description: "Plan $#{number_with_delimiter(plan_sales)}. Real $#{number_with_delimiter(sales.round)}"
+    }
+  end
+
+  def productivity
+    avg_target_productivity = @model.year_month_target_productivity(
+      year_by_date(@period[:start]), month_by_date(@period[:start]))
+    {
+      name: 'CUMPLIMIENTO REAL',
+      value: "$#{number_with_delimiter(@model.productivity(@period).round)}",
+      description: "Productividad Objetivo $#{number_with_delimiter(avg_target_productivity)}"
+    }
+  end
+
+  private
+
+  def chart_period
+    return 'daily' if months_difference == 1
+    return 'weekly' if months_difference >= 2 && months_difference <= 7
+
+    'monthly'
+  end
+
+  def dates_peridiocity(dates, periodicity)
+    case periodicity
+    when 'daily'
+      dates
+    when 'weekly'
+      dates.each_with_index.map { |x, i| x if ((i + 1) % 7).zero? }.compact
+    when 'monthly'
+      dates.map { |date| year_month_by_date(date) }.uniq
+    end
+  end
+
+  def months_difference
+    year_start  = year_by_date(@period[:start])
+    month_start = month_by_date(@period[:start])
+    year_end    = year_by_date(@period[:end])
+    month_end   = month_by_date(@period[:end])
+    month_count = year_start == year_end ? month_end - month_start : 12 - month_start + month_end
+    year_start == year_end ? month_count + 1 : (year_end - year_start - 1) * 12 + month_count + 1
+  end
+
   def summary_table_values(sales_data)
     if months_difference == 1
       values_peridiocity(sales_data, 'weekly')
@@ -109,45 +142,8 @@ class StatsPresenter < SimpleDelegator
   end
 
   def summary_table_titles_json(sales)
-    {
-      title: {
-        labels: summary_table_titles(sales).keys,
-        tooltips: summary_table_titles(sales).values
-      }
-    }
-  end
-
-  def goal_success
-    plan_sales = @model.categories_plan_sales(@period).values.sum.round
-    sales = @model.categories_sales(@period)
-    {
-      name: 'CUMPLIMIENTO PLAN DE VENTA',
-      value: "#{((sales / plan_sales.to_f) * 100).round(2)}%",
-      description: "Plan $#{number_with_delimiter(plan_sales)}. Real $#{number_with_delimiter(sales.round)}"
-    }
-  end
-
-  def productivity
-    avg_target_productivity = @model.year_month_target_productivity(
-      year_by_date(@period[:start]), month_by_date(@period[:start]))
-    {
-      name: 'CUMPLIMIENTO REAL',
-      value: "$#{number_with_delimiter(@model.productivity(@period).round)}",
-      description: "Productividad Objetivo $#{number_with_delimiter(avg_target_productivity)}"
-    }
-  end
-
-  private
-
-  def dates_peridiocity(dates, periodicity)
-    case periodicity
-    when 'daily'
-      dates
-    when 'weekly'
-      dates.each_with_index.map { |x, i| x if ((i + 1) % 7).zero? }.compact
-    when 'monthly'
-      dates.map { |date| year_month_by_date(date) }.uniq
-    end
+    titles = summary_table_titles(sales)
+    { title: titles.keys.map { |date| { label: date, tootlip: titles[date] } } }
   end
 
   def values_peridiocity(data, periodicity)
