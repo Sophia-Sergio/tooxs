@@ -37,7 +37,7 @@ class StatsPresenter < SimpleDelegator
   end
 
   def compared_sales_chart(sales)
-    actual_store_sales = values_peridiocity(sales[:actual_store_sales], chart_period)
+    actual_store_sales   = values_peridiocity(sales[:actual_store_sales], chart_period)
     compared_store_sales = values_peridiocity(sales[:compared_store_sales], chart_period)
     {
       labels: dates_peridiocity(sales[:actual_store_sales].keys, chart_period),
@@ -69,7 +69,7 @@ class StatsPresenter < SimpleDelegator
 
   def goal_success
     plan_sales = @model.categories_plan_sales(@period).values.sum.round
-    sales = @model.categories_sales(@period)
+    sales      = @model.categories_sales(@period)
     {
       name: 'CUMPLIMIENTO PLAN DE VENTA',
       value: "#{((sales / plan_sales.to_f) * 100).round(2)}%",
@@ -117,25 +117,21 @@ class StatsPresenter < SimpleDelegator
   end
 
   def summary_table_values(sales_data)
-    if months_difference == 1
-      values_peridiocity(sales_data, 'weekly')
-    else
-      values_peridiocity(sales_data, 'monthly')
-    end
+    periodicity = months_difference == 1 ? 'weekly' : 'monthly'
+    values_peridiocity(sales_data, periodicity)
   end
 
   def summary_table_titles(sales)
     if months_difference == 1
-      dates_peridiocity(sales, 'weekly').
-        each_with_object({}).with_index do |(date, hash), i|
-          hash["Semana #{i + 1}"] = "#{day_month_format(date)} - #{day_month_format(date + 6)}"
-        end
+      dates_peridiocity(sales, 'weekly').each_with_object({}).with_index do |(date, hash), i|
+        hash["Semana #{i + 1}"] = "#{day_month_format(date)} - #{day_month_format(date + 6)}"
+      end
     else
       dates_peridiocity(sales, 'monthly').each_with_object({}) do |date, hash|
-        month = date.split('-')[1].to_i
-        year = date.split('-')[0].to_i
+        month      = date.split('-')[1].to_i
+        year       = date.split('-')[0].to_i
         month_name = month_name(month)
-        period = month_period(year, month)
+        period     = month_period(year, month)
         hash[month_name] = "#{day_month_format(period[:start])} - #{day_month_format(period[:end])}"
       end
     end
