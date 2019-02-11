@@ -14,7 +14,7 @@ class SalesMonth extends Component {
       loading: false,
       alert: false,
       chartTitle: 'Gráfico de ventas',
-      result: '',
+      datesBetween: '',
       store: {},
       storeOptions: [],
       comparedStoreFilter: false,
@@ -54,20 +54,29 @@ class SalesMonth extends Component {
     var world = { value: filters.world_selected.id, label: filters.world_selected.name };
     var departments = this.getDepartments(filters.worlds_departments, world);
     var department = this.getBiggerDepartment(filters.worlds_departments, world);
-    var currYear = filters.years.slice(-1)[0];
-    var yearValue = currYear.value;
-    var currMonth = currYear.months.slice(-1)[0];
-    var monthValue = currMonth.value;
+    var lastYear = filters.years.slice(-1)[0];
+    var firstYear = filters.years.slice(0)[0];
+    var lastYearValue = lastYear.value;
+    var firstYearValue = firstYear.value;
+    var lastMonth = lastYear.months.slice(-1)[0];
+    var firstMonth = lastYear.months.slice(0)[0];
+    var lastMonthValue = lastMonth.value;
+    var firstMonthValue = firstMonth.value;
+    console.log({lastYearValue, firstYearValue, lastMonthValue, firstMonthValue});
     this.setState({
       world: world,
       worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
       store: { value: filters.store.id, label: filters.store.name },
       department: { value: department.id, label: department.name },
       departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) ),
-      yearFrom: yearValue,
-      monthFrom: monthValue,
-      yearTo: yearValue,
-      monthTo: monthValue,
+      yearFrom: firstYearValue,
+      monthFrom: firstMonthValue,
+      yearTo: lastYearValue,
+      monthTo: lastMonthValue,
+      selectedYearFrom: firstYearValue,
+      selectedMonthFrom: firstMonthValue,
+      selectedYearTo: lastYearValue,
+      selectedMonthTo: lastMonthValue,
     })
   }
 
@@ -76,9 +85,15 @@ class SalesMonth extends Component {
     let parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}`;
     axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`)
       .then(res => {
+        const { selectedMonthFrom, selectedYearFrom, selectedMonthTo, selectedYearTo } = this.state;
+        let resultText = selectedYearFrom === selectedYearTo &&  selectedMonthFrom === selectedMonthTo ?
+            `Datos correspondientes al mes de ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom}` :
+            `Datos desde ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom} hasta ${monthFormat(selectedMonthTo)} de ${selectedYearTo}`;
+        console.log(resultText);
         this.setState({
           chartData: res.data,
           chartTitle: 'Gráfico de ventas',
+          datesBetween: resultText,
           loading: false
         });
         this.setState({
@@ -158,7 +173,7 @@ class SalesMonth extends Component {
 
   getComparativeChartData(){
     this.setState({loading: true});
-    var parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.yearFrom}&month_start=${this.state.monthFrom}&year_end=${this.state.yearTo}&month_end=${this.state.monthTo}&store_compared=20`;
+    var parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}&store_compared=${this.state.comparedStore.value}`;
     axios.get(`${this.props.root_url}/api/v1/statistics/compared_stores?${parameters}`)
       .then(res => {
         this.setState({
@@ -236,31 +251,24 @@ class SalesMonth extends Component {
   }
 
   onDateFromChange = (year, month) => {
-    this.setState({yearFrom: year, monthFrom: month});
+    let newMonth = month + 1;
+    this.setState({selectedYearFrom: year, selectedMonthFrom: newMonth});
   }
 
   onDateToChange = (year, month) => {
-    this.setState({yearFrom: year, monthFrom: month});
+    let newMonth = month + 1;
+    this.setState({selectedYearTo: year, selectedMonthTo: newMonth});
   }
 
   handleSubmit = (e, month) => {
     e.preventDefault();
-    const subFilter = document.querySelector('.collapse');
-    subFilter.classList.remove('show');
+    this.setState({ comparedStoreFilter: false });
     this.getChartData();
   }
 
   comparedStoreChange = (comparedStore) => {
     this.setState({ comparedStore });
-    console.log(this.state.comparedStore);
   }
-
-  handleCompareSubmit = (e, month) => {
-    e.preventDefault();
-    this.getComparativeChartData()
-  }
-
-  // Departamento, Año, Mes
 
   handleCompareSubmit = (e, month) => {
     e.preventDefault();
@@ -270,6 +278,7 @@ class SalesMonth extends Component {
   render() {
     const {
       chartTitle,
+      datesBetween,
       world,
       worldOptions,
       store,
@@ -314,13 +323,19 @@ class SalesMonth extends Component {
               </div>
               <div className="form-group">
                 <MonthPicker
-                  minMonth={2}
+                  minYear={selectedYearFrom}
+                  minMonth={selectedMonthFrom}
+                  maxYear={selectedYearTo}
+                  maxMonth={selectedMonthTo}
                   onChange={this.onDateFromChange.bind(this)}
                 />
               </div>
               <div className="form-group">
                 <MonthPicker
-                  minMonth={2}
+                  minYear={selectedYearFrom}
+                  minMonth={selectedMonthFrom}
+                  maxYear={selectedYearTo}
+                  maxMonth={selectedMonthTo}
                   onChange={this.onDateToChange.bind(this)}
                 />
               </div>
@@ -375,7 +390,7 @@ class SalesMonth extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">{ chartTitle }</h5>
-            <p className="card-text">{`Datos desde el 30 de ${monthFormat(monthFrom)} al 27 de ${monthFormat(monthTo)} de 2018`}</p>
+            <p className="card-text">{ datesBetween }</p>
           </div>
         </div>
         <div className="col-12 mb-2">
