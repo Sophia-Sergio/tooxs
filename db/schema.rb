@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190204161433) do
+ActiveRecord::Schema.define(version: 20190207171326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,21 @@ ActiveRecord::Schema.define(version: 20190204161433) do
     t.index ["user_id"], name: "index_shift_breaks_on_user_id"
   end
 
+  create_table "staff_requests", force: :cascade do |t|
+    t.bigint "store_department_id"
+    t.bigint "store_id"
+    t.bigint "plan_shift_id"
+    t.integer "cuantity"
+    t.date "date_start"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_shift_id"], name: "index_staff_requests_on_plan_shift_id"
+    t.index ["store_department_id"], name: "index_staff_requests_on_store_department_id"
+    t.index ["store_id"], name: "index_staff_requests_on_store_id"
+    t.index ["user_id"], name: "index_staff_requests_on_user_id"
+  end
+
   create_table "staffs", force: :cascade do |t|
     t.bigint "store_department_id"
     t.date "date"
@@ -323,6 +338,10 @@ ActiveRecord::Schema.define(version: 20190204161433) do
   add_foreign_key "sales", "store_departments"
   add_foreign_key "sales", "users"
   add_foreign_key "shift_breaks", "users"
+  add_foreign_key "staff_requests", "plan_shifts"
+  add_foreign_key "staff_requests", "store_departments"
+  add_foreign_key "staff_requests", "stores"
+  add_foreign_key "staff_requests", "users"
   add_foreign_key "staffs", "store_departments"
   add_foreign_key "store_departments", "departments"
   add_foreign_key "store_departments", "stores"

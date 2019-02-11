@@ -1,7 +1,8 @@
 # class for table departments
 class StoreDepartment < ApplicationRecord
   include Statistics::Efficiency
-  include Statistics::Defaults
+  include Defaults
+  include CommercialCalendar::Period
 
   belongs_to :store, dependent: :destroy
   belongs_to :department, dependent: :destroy
@@ -13,10 +14,11 @@ class StoreDepartment < ApplicationRecord
   has_many :user_shifts
   has_many :users
 
-  has_many :employees, -> { joins(:roles).where('roles.name != ?', ['admin']) }, class_name: 'User'
-  has_many :cashiers, -> { joins(:roles).where('roles.name = ?', 'cashier') }, class_name: 'User'
-  has_many :sales_assistants, -> { joins(:roles).where('roles.name = ?', 'sales_assistant') }, class_name: 'User'
-  has_many :sellers, -> { joins(:roles).where('roles.name = ?', 'seller') }, class_name: 'User'
+  has_many :employees, class_name: 'Employee'
+  has_many :cashiers, -> { joins(:roles).where(roles: { name: 'cashier' }) }, class_name: 'Employee'
+  has_many :sales_assistants, -> { joins(:roles).where(roles: { name: 'sales_assistant' }) },
+    class_name: 'Employee'
+  has_many :sellers, -> { joins(:roles).where(roles: { name: 'seller' }) }, class_name: 'Employee'
 
   has_many :target_productivities, dependent: :destroy
   has_many :target_sales, dependent: :destroy
@@ -25,14 +27,14 @@ class StoreDepartment < ApplicationRecord
   enum staff: {
     asisted: 1,
     selfasisted: 2,
-    personalized: 3,
+    personalized: 3
   }
 
   def categories_plan_sales_between_dates(start_date, end_date)
-    start_month = Settings.month_by_date(start_date)
-    end_month   = Settings.month_by_date(end_date)
-    start_year  = Settings.year_by_date(start_date)
-    end_year    = Settings.year_by_date(end_date)
+    start_month = month_by_date(start_date)
+    end_month   = month_by_date(end_date)
+    start_year  = year_by_date(start_date)
+    end_year    = year_by_date(end_date)
     if start_year == end_year
       categories.joins(:sales_plans).where('year = ? AND month >= ? AND month <= ? AND category_sales_plans.store_id = ?',
         start_year, start_month, end_month, store_id).order('category_sales_plans.year, category_sales_plans.month')
@@ -44,9 +46,9 @@ class StoreDepartment < ApplicationRecord
     end
   end
 
-
   def year_month_target_productivity(year, month)
-    target_productivities = self.target_productivities.where(year: year, month: month).pluck(:amount)
+    target_productivities = self.target_productivities.
+      where(year: year, month: month).pluck(:amount)
     target_productivities.sum / target_productivities.size
   end
 
@@ -69,11 +71,11 @@ class StoreDepartment < ApplicationRecord
   end
 
   def categories_rate_sales(period = default_period)
-    old_period = Settings.old_period(period)
-    sales= categories_sales_by_dates(old_period)
+    old_period = old_period(period)
+    sales = categories_sales_by_dates(old_period)
     sales.each_with_object({}) do |(date, value), hash|
-      month_period = Settings.month_period(Settings.year_by_date(date),Settings.month_by_date(date))
-      date = Settings.equivalent_date_next_year(date)
+      month_period = month_period(year_by_date(date), month_by_date(date))
+      date = equivalent_date_next_year(date)
       month_sales = sales.select do |key, _|
         (month_period[:start]..month_period[:end]).to_a.include? key
       end.values.sum
@@ -96,7 +98,7 @@ class StoreDepartment < ApplicationRecord
   def categories_plan_sales_by_dates(period = default_period)
     sales = categories_plan_sales(period)
     sales = categories_rate_sales(period).each_with_object({}) do |(date, value), hash|
-      hash[date] = (value * sales[[Settings.year_by_date(date), Settings.month_by_date(date)]]).round(2)
+      hash[date] = (value * sales[[year_by_date(date), month_by_date(date)]]).round(2)
     end
   end
 
@@ -119,7 +121,7 @@ class StoreDepartment < ApplicationRecord
   end
 
   def productivity(period = default_period)
-    productivities = productivity_by_date_hour(period).values.flat_map {|k,v| k.values}
+    productivities = productivity_by_date_hour(period).values.flat_map { |k, _| k.values }
     productivities.sum / productivities.size
   end
 
@@ -136,7 +138,7 @@ class StoreDepartment < ApplicationRecord
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
       employees = self.employees.employees_by_hour(date)
       sales = categories_sales_by_date_hour(date)
-      productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
+      productivity = employees.keys.map { |hour| (sales[hour] / employees[hour][:count].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
     end
   end

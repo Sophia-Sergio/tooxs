@@ -23,10 +23,11 @@ STORE_TOTAL_BY_MONTH = SALES_2017_BY_MONTH.each_with_object({}) do |(k,v), hash|
   hash[k] = STORE_TOTAL_YEAR * ( v / 100)
 end
 
-User.sellers.each do |seller|
+Employee.sellers.each do |seller|
   date = Date.new(2017, 1, 2)
   department = seller.store_department.department.name
-  next if department == "Benefit" || department == "Benetton"
+  next if ['Benefit', 'Benetton'].include? department
+
   sales_rate = Settings::DEMO_DEPARTMENTS[department]['sales_rate'] / 100
 
   (2017..2019).each do |year|
@@ -37,13 +38,13 @@ User.sellers.each do |seller|
       next if date > Date.new(2019, 3, 1)
 
       (1..weeks).each do
-        proportions_by_hour= Settings.sales_proportions_week
+        proportions_by_hour = Settings.sales_proportions_week
         week_sale = department_sale / weeks
         week_sale += week_sale * rand(-0.07..0.03) if year != 2017
         (0..6).each do |day|
           sellers = seller.store_department.sellers.employees_by_hour(date)
           achievement = Settings.periods_keys.each_with_object({}) do |key, hash|
-            hash[key] = (week_sale * (proportions_by_hour[day][key] / 100) / (sellers[key] || 1) ).round.to_i
+            hash[key] = (week_sale * (proportions_by_hour[day][key] / 100) / (sellers[key][:count] || 1) ).round.to_i
           end
 
           Achievement.create!(user_id: seller.id, date: date,

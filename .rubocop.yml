@@ -27,7 +27,7 @@ Style/AsciiComments:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#english-comments'
   Enabled: false
 
-Style/AsciiIdentifiers:
+Naming/AsciiIdentifiers:
   Description: 'Use only ascii symbols in identifiers.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#english-identifiers'
   Enabled: false
@@ -115,7 +115,7 @@ Style/Documentation:
   Description: 'Document classes and non-namespace modules.'
   Enabled: false
 
-Style/DotPosition:
+Layout/DotPosition:
   Description: 'Checks the position of the dot in multi-line method calls.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#consistent-multi-line-chains'
   EnforcedStyle: trailing
@@ -241,7 +241,7 @@ Style/MultilineBlockChain:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#single-line-blocks'
   Enabled: false
 
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   Description: >-
                  Checks indentation of method calls with the dot operator
                  that span more than one line.
@@ -304,7 +304,7 @@ Style/PerlBackrefs:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-perl-regexp-last-matchers'
   Enabled: false
 
-Style/PredicateName:
+Naming/PredicateName:
   Description: 'Check the names of predicate methods.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#bool-methods-qmark'
   NamePrefixBlacklist:
@@ -353,12 +353,6 @@ Style/SpecialGlobalVars:
   Description: 'Avoid Perl-style global variables.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-cryptic-perlisms'
   Enabled: false
-
-Style/StringLiterals:
-  Description: 'Checks if uses of quotes match the configured preference.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#consistent-string-literals'
-  enforcedStyle: single_quotes
-  Enabled: true
 
 Style/TrivialAccessors:
   Description: 'Prefer attr_* methods to trivial readers/writers.'
@@ -413,7 +407,7 @@ Lint/CircularArgumentReference:
   Description: "Don't refer to the keyword argument in the default value."
   Enabled: false
 
-Lint/ConditionPosition:
+Layout/ConditionPosition:
   Description: >-
                  Checks for condition placed in a confusing position relative to
                  the keyword.
@@ -445,13 +439,9 @@ Lint/HandleExceptions:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#dont-hide-exceptions'
   Enabled: false
 
-Style/InitialIndentation:
+Layout/InitialIndentation:
   Description: >-
     Checks the indentation of the first non-blank non-comment line in a file.
-  Enabled: false
-
-Lint/LiteralInCondition:
-  Description: 'Checks of literals used in conditions.'
   Enabled: false
 
 Lint/LiteralInInterpolation:
@@ -489,13 +479,6 @@ Lint/RequireParentheses:
 
 Lint/UnderscorePrefixedVariableName:
   Description: 'Do not use prefix `_` for a variable that is used.'
-  Enabled: false
-
-Lint/UnneededDisable:
-  Description: >-
-                 Checks for rubocop:disable comments that can be removed.
-                 Note: this cop is not disabled when disabling all cops.
-                 It must be explicitly disabled.
   Enabled: false
 
 Lint/Void:

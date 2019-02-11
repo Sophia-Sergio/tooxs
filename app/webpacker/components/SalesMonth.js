@@ -82,6 +82,7 @@ class SalesMonth extends Component {
 
   getChartData(){
     this.setState({loading: true});
+    http://localhost:3000/api/v1/statistics/chart?type=sales&store=13&department=3&year_start=2019&month_start=1&year_end=2019&month_end=3
     let parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}`;
     axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`)
       .then(res => {
