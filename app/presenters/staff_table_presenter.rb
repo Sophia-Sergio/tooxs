@@ -6,5 +6,4 @@ class EmployeesTablePresenter < SimpleDelegator
     @params = params
     @shifts = shifts
   end
-
 end

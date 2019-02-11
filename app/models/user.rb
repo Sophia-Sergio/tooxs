@@ -2,6 +2,7 @@ class User < ApplicationRecord
   include CommercialCalendar::Period
   include Statistics::Filters
   include Defaults
+  include ApplicationHelper
 
   rolify
   devise :database_authenticatable, :registerable,
@@ -31,7 +32,7 @@ class User < ApplicationRecord
     {
       years: years_filter,
       year: { value: default_year, label: default_year },
-      month: { value: month_by_date(date), label: Settings.month_name[month_by_date(date)] },
+      month: { value: month_by_date(date), label: month_name(month_by_date(date)) },
       store: store.as_json(only: %i[id name]),
       worlds_departments: store.worlds.distinct.as_json(store.id),
       world_selected: store.bigger_plan_sale_world.as_json(store.id)

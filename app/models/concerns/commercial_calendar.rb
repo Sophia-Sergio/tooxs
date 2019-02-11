@@ -81,11 +81,8 @@ class CommercialCalendar
       week_start(year, month, week) + 6
     end
 
-
-
     def week_start(year, month, week)
       month_start(year, month) + (week - 1) * 7
     end
   end
-
 end
