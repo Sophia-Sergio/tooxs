@@ -68,12 +68,15 @@ class MonthPicker extends Component {
       });
       return;
     }
-    this.props.onChange(changedYear, this.state.currentMonth);
+    if ( changedYear === this.props.minYear && this.state.currentMonth < this.props.minMonth ){
+      this.setState({ currentMonth: this.state.minMonth });
+    }
     this.setState({
       currentYear: changedYear,
       displayAlert: false,
       alertText: '',
     });
+    this.props.onChange(changedYear, this.state.currentMonth);
   };
 
   changeYearNext = e => {
@@ -171,15 +174,18 @@ class MonthPicker extends Component {
               }
               <div className="month-picker__calendar__months">
                 {months.map( (month, index) => (
-                  <button
-                    key={index}
-                    className={"month-picker__calendar__months__button " + (currentMonth === index ? 'selected' : '')}
-                    onClick={this.changeMonth.bind(this, index)}
-                    disabled={(maxMonth < index && maxYear === currentYear) || (minMonth > index && minYear === currentYear)}
-                  >
-                    {month}
-                    { index < minMonth && currentYear === minYear ? 'true 2'  : ''}
-                  </button>
+                  <React.Fragment>
+                    { (((maxYear === currentYear) && (index <= maxMonth)) || ((minYear === currentYear) && (index >= minMonth))) &&
+                      <button
+                        key={index}
+                        className={"month-picker__calendar__months__button " + (currentMonth === index ? 'selected' : '')}
+                        onClick={this.changeMonth.bind(this, index)}
+                        disabled={((maxMonth < index) && (maxYear === currentYear)) || ((index < currentMonth) && (minYear === currentYear))}
+                      >
+                        {month}
+                      </button>
+                    }
+                  </React.Fragment>
                 ))}
               </div>
             </div>
