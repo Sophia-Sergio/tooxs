@@ -31,6 +31,7 @@ module Statistics
   end
 
   module Filters
+    include ApplicationHelper
     def years_filter(date = Date.today)
       actual_year = year_by_date(date)
       actual_month = month_by_date(date)
@@ -38,7 +39,7 @@ module Statistics
         months = year < actual_year ? (actual_month..12) : (1..actual_month)
         array << {
           value: year, label: year,
-          months: months.map { |m| { value: m, label: Settings.month_name[m] } }
+          months: months.map { |m| { value: m, label: month_name(m) } }
         }
       end
     end
