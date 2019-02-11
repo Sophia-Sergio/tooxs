@@ -13,32 +13,26 @@ class MonthPicker extends Component {
     displayAlert: false,
     alertText: '',
     displayCalendar: false,
-  }
+    currentMonth: this.props.maxMonth - 1,
+    currentYear: this.props.maxYear,
+    minYear: this.props.minYear,
+    minMonth: this.props.minMonth - 1,
+    maxYear: this.props.maxYear,
+    maxMonth: this.props.maxMonth - 1,
+  };
 
   componentWillMount() {
-    this.getCurrentDates();
     this.createYears();
     document.addEventListener('mousedown', this.handleClickOutside, false);
-  }
+  };
 
   componentWillUnmount() {
     document.addEventListener('mousedown', this.handleClickOutside, false);
-  }
+  };
 
   componentDidMount() {
     this.props.onChange(this.state.currentYear, this.state.currentMonth);
-  }
-
-  getCurrentDates() {
-    let currentDate = new Date(),
-        currentMonth = currentDate.getMonth(),
-        currentYear = currentDate.getFullYear();
-    this.setState({
-      currentDate: currentDate,
-      currentMonth: currentMonth,
-      currentYear: currentYear,
-    });
-  }
+  };
 
   range = (start, end) => {
     const length = end - start;
@@ -51,7 +45,7 @@ class MonthPicker extends Component {
     });
   };
 
-  onClickInput = (e) => {
+  onClickInput = e => {
     e.preventDefault();
     this.setState(prevState => ({
       inputFocus: !prevState.inputFocus, displayCalendar: !prevState.displayCalendar
@@ -64,13 +58,13 @@ class MonthPicker extends Component {
     }
   }
 
-  changeYearPrev = (e) => {
+  changeYearPrev = e => {
     e.preventDefault();
     let changedYear = this.state.currentYear - 1;
     if (changedYear < this.props.minYear){
       this.setState({
         displayAlert: true,
-        alertText: 'Este el año mínimo para comparar',
+        alertText: 'Año mínimo para comparar',
       });
       return;
     }
@@ -82,30 +76,34 @@ class MonthPicker extends Component {
     });
   };
 
-  changeYearNext = (e) => {
+  changeYearNext = e => {
     e.preventDefault();
     let changedYear = this.state.currentYear + 1;
     if (changedYear > this.props.maxYear){
       this.setState({
         displayAlert: true,
-        alertText: 'Este el año máximo para comparar',
+        alertText: 'Año máximo para comparar',
       });
       return;
     }
-    this.props.onChange(changedYear, this.state.currentMonth);
+    if ( changedYear === this.props.maxYear && this.state.currentMonth > this.props.maxMonth ){
+      this.setState({ currentMonth: this.state.maxMonth });
+    }
     this.setState({
       currentYear: changedYear,
       displayAlert: false,
       alertText: '',
     });
+    this.props.onChange(changedYear, this.state.currentMonth);
   };
 
   changeMonth = (month, e) => {
     e.preventDefault();
-    this.props.onChange(this.state.currentYear, month);
+    let year = this.state.currentYear;
+    this.props.onChange(year, month);
     this.setState({ currentMonth: month });
     this.hideCalendar();
-  }
+  };
 
   hideCalendar = () => {
     this.setState({
@@ -114,7 +112,7 @@ class MonthPicker extends Component {
       displayAlert: false,
       alertText: '',
     });
-  }
+  };
 
   render() {
     const {
@@ -124,15 +122,15 @@ class MonthPicker extends Component {
       inputFocus,
       displayAlert,
       displayCalendar,
-      alertText
-    } = this.state;
-    const {
+      alertText,
       minYear,
       minMonth,
       maxYear,
       maxMonth,
-    } = this.props;
+    } = this.state;
+
     let formattedMonth = currentMonth + 1;
+
     return (
       <div className="month-picker">
         <div
@@ -180,6 +178,7 @@ class MonthPicker extends Component {
                     disabled={(maxMonth < index && maxYear === currentYear) || (minMonth > index && minYear === currentYear)}
                   >
                     {month}
+                    { index < minMonth && currentYear === minYear ? 'true 2'  : ''}
                   </button>
                 ))}
               </div>
@@ -191,12 +190,11 @@ class MonthPicker extends Component {
   }
 }
 
-
 MonthPicker.defaultProps = {
   minYear: new Date(2009, 0, 1).getFullYear(),
-  minMonth: 0,
+  minMonth: new Date(2009, 0, 1).getMonth() + 1,
   maxYear: new Date().getFullYear(),
-  maxMonth: new Date().getMonth(),
+  maxMonth: new Date().getMonth() + 1,
   onChange: (y, m) => { console.log({ year: y, month: m + 1 }); },
 };
 
