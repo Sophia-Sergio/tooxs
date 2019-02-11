@@ -235,14 +235,12 @@ class SalesMonth extends Component {
     console.log(this.state.department);
   }
 
-  yearChange = (year) => {
-    this.setState({ year });
-    console.log(this.state.year);
+  onDateFromChange = (year, month) => {
+    this.setState({yearFrom: year, monthFrom: month});
   }
 
-  monthChange = (month) => {
-    this.setState({ month });
-    console.log(this.state.month);
+  onDateToChange = (year, month) => {
+    this.setState({yearFrom: year, monthFrom: month});
   }
 
   handleSubmit = (e, month) => {
@@ -315,30 +313,15 @@ class SalesMonth extends Component {
                 />
               </div>
               <div className="form-group">
-                <MonthPickerInput
-                  inputProps={{id: 'MonthPickerInput'}}
-                  year={yearFrom}
-                  month={monthFrom - 1}
-                  placeholder={'Fecha desde'}
-                  onChange={(maskedValue, selectedYear, selectedMonth) => {
-                    console.log(selectedYear, selectedMonth);
-                    this.setState({yearFrom: selectedYear, monthFrom: selectedMonth});
-                  }}
-                  closeOnSelect={true}
-                  lang={'es'}
+                <MonthPicker
+                  minMonth={2}
+                  onChange={this.onDateFromChange.bind(this)}
                 />
               </div>
               <div className="form-group">
-                <MonthPickerInput
-                  inputProps={{id: 'MonthPickerInput'}}
-                  year={yearTo}
-                  month={monthTo - 1}
-                  onChange={(maskedValue, selectedYear, selectedMonth) => {
-                    console.log(selectedYear, selectedMonth);
-                    this.setState({yearTo: selectedYear, monthTo: selectedMonth});
-                  }}
-                  closeOnSelect={true}
-                  lang={'es'}
+                <MonthPicker
+                  minMonth={2}
+                  onChange={this.onDateToChange.bind(this)}
                 />
               </div>
               <button
