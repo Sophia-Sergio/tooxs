@@ -95,6 +95,7 @@ class SalesMonth extends Component {
           chartData: res.data.chart,
           chartTitle: 'Gráfico de ventas',
           datesBetween: resultText,
+          summary: res.data.summary,
           loading: false
         });
         this.setState({
