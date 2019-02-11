@@ -21,6 +21,10 @@
     </div>
   </div>
 
+  <div class="sidebar__store">
+    <h6 class="name"><%= current_user.store %></h6>
+  </div>
+
   <%= react_component('SidebarItem', { active: request.original_fullpath, user: current_user, logout_url: destroy_user_session_path }, class: 'sidebar__menu') %>
 
 </nav>

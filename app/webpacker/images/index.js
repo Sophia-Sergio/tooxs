@@ -1,9 +1,17 @@
+// Logos
 import './favicon.png'
 import './tooxs-logo-color.svg'
 import './falabella_logo.jpg'
 import './sodimac_logo.jpg'
 import './tottus_logo.jpg'
+// Backgrounds
+import './login_bg.jpg'
+import './login__brand_bg.png'
+// Defaults
 import './user_default.jpg'
+// MonthPicker
+import './icons/calendar-input.svg'
+// Icons
 import './icons/atm.svg'
 import './icons/ballpoint-pen.svg'
 import './icons/bank.svg'
@@ -58,6 +66,7 @@ import './icons/shifts.svg'
 import './icons/shopping-bag.svg'
 import './icons/statistics.svg'
 import './icons/stock.svg'
+import './icons/store-shop.svg'
 import './icons/suitcase.svg'
 import './icons/tag.svg'
 import './icons/team.svg'

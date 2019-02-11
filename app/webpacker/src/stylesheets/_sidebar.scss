@@ -19,8 +19,6 @@
   }
 
   &__brand {
-    border-bottom: 1px solid $mid-gray;
-    margin-bottom: 15px;
     padding-bottom: 15px;
     @include clearfix;
 
@@ -119,8 +117,45 @@
 
     }
 
+  &__store {
+    background-color: rgba($blue,.25);
+    border-bottom: 1px solid rgba($green, .25);
+    border-top: 1px solid rgba($green, .25);
+    margin: 0 -25px 15px -25px;
+    padding: 0 25px;
+    @include clearfix;
+
+    .icon {
+      float: left;
+      height: 25px;
+      margin-right: 3px;
+      padding: 2.5px 0;
+
+      img {
+        display: block;
+        height: 20px;
+        margin: 0 auto;
+        width: auto;
+        }
+
+      }
+
+    .name {
+      color: white;
+      font-size: 12px;
+      font-weight: $font-light;
+      letter-spacing: .5px;
+      line-height: 30px;
+      margin: 0;
+      text-align: center;
+      text-transform: uppercase;
+      overflow: hidden;
+      }
+
+    }
+
   &__menu {
-    height: calc(100vh - 112px);
+    height: calc(100vh - 150px);
     overflow: auto;
     scrollbar-color: $light-blue;
     scrollbar-width: 5px;
