@@ -10,6 +10,28 @@ module Api
       before_action :set_store_department, :set_period
       before_action :set_old_period, only: [:chart]
 
+      def chart
+        send(params[:type].to_sym)
+      end
+
+      def compared_stores_data
+        compared_store = StoreDepartment.find_by(
+          store_id: params[:store_compared], department_id: params[:department]
+        )
+        {
+          actual_store_sales: @store_dep.categories_sales_by_dates(@period),
+          compared_store_sales: compared_store.categories_sales_by_dates(@period),
+          compared_store: compared_store
+        }
+      end
+
+      def compared_sales
+        render json: {
+          chart: StatsPresenter.new(@store_dep, @period).compared_sales_chart(compared_stores_data),
+          summary: StatsPresenter.new(@store_dep, @period).compared_sales_summary(compared_stores_data)
+        }
+      end
+
       def efficiency
         real = @store_dep.efficiency_by_date
         optimized = real.values.map { |value| value * rand(1.2..1.4)  }
@@ -25,11 +47,6 @@ module Api
       def efficiency_summary
         render json: StatsPresenter.new(@store_dep, @period).efficiency_chart
       end
-
-      def chart
-        send(params[:type].to_sym)
-      end
-
 
       def productivity
         productivity = @store_dep.productivity_by_date(@period)
@@ -50,19 +67,6 @@ module Api
           sales: @store_dep.categories_sales_by_dates(@period),
           last_year_sales: @store_dep.categories_sales_by_dates(@old_period),
           categories_plan_sales_by_dates: @store_dep.categories_plan_sales_by_dates(@period)
-        }
-      end
-
-      def compared_stores
-        sales = @store_dep.categories_sales_by_dates(@period)
-        store_compared = StoreDepartment.find_by(store_id: params[:store_compared], department_id: params[:department])
-        comparative_sales = store_compared.categories_sales_by_dates(@period)
-        render json: {
-          labels: dates_peridiocity(sales.keys, chart_period),
-          datasets: [
-            { label: @store_dep.store.name, data: values_peridiocity(sales, chart_period)},
-            { label: store_compared.store.name, data: values_peridiocity(comparative_sales, chart_period)},
-          ]
         }
       end
 
