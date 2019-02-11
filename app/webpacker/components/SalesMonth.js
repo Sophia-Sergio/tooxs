@@ -38,14 +38,15 @@ class SalesMonth extends Component {
         maintainAspectRatio: false,
         responsive: true,
       },
+      summary: null,
     }
   }
 
-  componentWillMount(){
+  componentWillMount = () => {
     this.createFiltersData();
   }
 
-  componentDidMount(){
+  componentDidMount = () => {
     this.getChartData();
   }
 
@@ -82,7 +83,6 @@ class SalesMonth extends Component {
 
   getChartData(){
     this.setState({loading: true});
-    http://localhost:3000/api/v1/statistics/chart?type=sales&store=13&department=3&year_start=2019&month_start=1&year_end=2019&month_end=3
     let parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}`;
     axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`)
       .then(res => {
@@ -92,9 +92,10 @@ class SalesMonth extends Component {
             `Datos desde ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom} hasta ${monthFormat(selectedMonthTo)} de ${selectedYearTo}`;
         console.log(resultText);
         this.setState({
-          chartData: res.data,
+          chartData: res.data.chart,
           chartTitle: 'Gráfico de ventas',
           datesBetween: resultText,
+          summary: res.data.summary,
           loading: false
         });
         this.setState({
@@ -130,7 +131,7 @@ class SalesMonth extends Component {
         this.setState({
           loading: false,
           errors: {
-            result: 'No se econtraron coincidencias.'
+            datesBetween: 'No se econtraron coincidencias.'
           }
         })
       });
@@ -296,7 +297,7 @@ class SalesMonth extends Component {
       yearTo,
       selectedYearTo,
       selectedMonthTo,
-      employees } = this.state;
+      summary } = this.state;
 
     return (
       <React.Fragment>
@@ -404,7 +405,9 @@ class SalesMonth extends Component {
             </div>
           </div>
         </div>
-        <MonthTable/>
+        { this.state.summary &&
+          <MonthTable {...summary} />
+        }
       </React.Fragment>
     );
   }
