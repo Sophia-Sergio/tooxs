@@ -151,7 +151,7 @@ class StatsPresenter < SimpleDelegator
       (1..times).each_with_object([]) { |_, array| array << data.values.shift(7).sum }
     when 'monthly'
       date_start = data.keys.first
-      date_end = data.keys.last
+      date_end   = data.keys.last
       (date_start..date_end).each_with_object({}) do |date, hash|
         (hash[year_month_by_date(date)] ||= []) << data[date]
       end.values.map(&:sum)
