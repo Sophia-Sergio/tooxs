@@ -3,7 +3,7 @@ import axios from 'axios';
 import { currencyFormat, monthFormat, dayMonthFormat } from './helpers';
 import Loader from "./layout/Loader";
 import Select from 'react-select';
-import MonthPickerInput from 'react-month-picker-input';
+import MonthPicker from './shared/MonthPicker';
 import {Line} from 'react-chartjs-2';
 import MonthTable from './sales/MonthTable';
 
@@ -231,6 +231,14 @@ class SalesMonth extends Component {
     console.log(this.state.department);
   }
 
+  onDateFromChange = (year, month) => {
+    this.setState({yearFrom: year, monthFrom: month});
+  }
+
+  onDateToChange = (year, month) => {
+    this.setState({yearFrom: year, monthFrom: month});
+  }
+
   handleSubmit = (e, month) => {
     e.preventDefault();
     const subFilter = document.querySelector('.collapse');
@@ -292,31 +300,15 @@ class SalesMonth extends Component {
                 />
               </div>
               <div className="form-group">
-                <MonthPickerInput
-                  lang="es"
-                  inputProps={{id: 'MonthPickerInput'}}
-                  year={yearFrom}
-                  month={monthFrom - 1}
-                  onChange={(value, selYear, selMonth) => {
-                    let valYear = parseInt(selYear);
-                    let valMonth = parseInt(selMonth) + 1;
-                    console.log({valYear, valMonth});
-                    this.setState({yearFrom: valYear, monthFrom: valMonth});
-                  }}
+                <MonthPicker
+                  minMonth={2}
+                  onChange={this.onDateFromChange.bind(this)}
                 />
               </div>
               <div className="form-group">
-                <MonthPickerInput
-                  lang="es"
-                  inputProps={{id: 'MonthPickerInput'}}
-                  year={yearTo}
-                  month={monthTo - 1}
-                  onChange={(value, selYear, selMonth) => {
-                    let valYear = parseInt(selYear);
-                    let valMonth = parseInt(selMonth) + 1;
-                    console.log({valYear, valMonth});
-                    this.setState({yearTo: valYear, monthTo: valMonth});
-                  }}
+                <MonthPicker
+                  minMonth={2}
+                  onChange={this.onDateToChange.bind(this)}
                 />
               </div>
               <button
