@@ -12,9 +12,12 @@ class MonthTable extends Component {
       real: [42532992, 42899028, 43361349, 44010026, 172803395],
       historic: [41556681, 41818439, 42178324, 41784991, 167338435],
       real_vs_plan: ['-5.23%', '-5,01%', '-4,81%', '-2,48%', '-4,38%'],
-      real_vs_historic: ['2,35%', '2,58%', '2,8%', '5,32%', '3,27%']
+      real_vs_historic: ['2,35%', '2,58%', '2,8%', '5,32%', '3,27%'],
+      title: this.props.title,
+      datasets: this.props.datasets,
     }
   }
+
   render() {
     const { plan, real, historic, real_vs_plan, real_vs_historic } = this.state;
     return (
@@ -26,10 +29,10 @@ class MonthTable extends Component {
               <thead>
                 <tr>
                   <th></th>
-                  <th>Semana 1</th>
-                  <th>Semana 2</th>
-                  <th>Semana 3</th>
-                  <th>Semana 4</th>
+                  { this.props.title.labels.map( label => (
+                      <th class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">{ label }</th>
+                    ))
+                  }
                   <th>Total</th>
                 </tr>
               </thead>

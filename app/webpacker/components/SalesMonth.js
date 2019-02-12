@@ -38,14 +38,15 @@ class SalesMonth extends Component {
         maintainAspectRatio: false,
         responsive: true,
       },
+      summary: null,
     }
   }
 
-  componentWillMount(){
+  componentWillMount = () => {
     this.createFiltersData();
   }
 
-  componentDidMount(){
+  componentDidMount = () => {
     this.getChartData();
   }
 
@@ -91,9 +92,10 @@ class SalesMonth extends Component {
             `Datos desde ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom} hasta ${monthFormat(selectedMonthTo)} de ${selectedYearTo}`;
         console.log(resultText);
         this.setState({
-          chartData: res.data,
+          chartData: res.data.chart,
           chartTitle: 'Gráfico de ventas',
           datesBetween: resultText,
+          summary: res.data.summary,
           loading: false
         });
         this.setState({
@@ -129,7 +131,7 @@ class SalesMonth extends Component {
         this.setState({
           loading: false,
           errors: {
-            result: 'No se econtraron coincidencias.'
+            datesBetween: 'No se econtraron coincidencias.'
           }
         })
       });
@@ -295,7 +297,7 @@ class SalesMonth extends Component {
       yearTo,
       selectedYearTo,
       selectedMonthTo,
-      employees } = this.state;
+      summary } = this.state;
 
     return (
       <React.Fragment>
@@ -403,7 +405,9 @@ class SalesMonth extends Component {
             </div>
           </div>
         </div>
-        <MonthTable/>
+        { this.state.summary &&
+          <MonthTable {...summary} />
+        }
       </React.Fragment>
     );
   }
