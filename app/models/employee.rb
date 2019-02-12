@@ -68,9 +68,9 @@ class Employee < User
   def self.shifts_ids(year, month)
     joins(:shifts).where(user_shifts: { year: year, month: month }).
       joins('INNER JOIN work_shifts ON user_shifts.work_shift_id = work_shifts.id').
-      select('ARRAY_AGG(work_shifts.id) as work_shifts').
+      select('ARRAY_AGG(work_shifts.id) as array_work_shifts').
       select('users.id').group('users.id').map do |employee|
-        [employee.id, employee.work_shifts]
+        [employee.id, employee.array_work_shifts]
       end.to_h
   end
 
