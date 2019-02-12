@@ -57,6 +57,11 @@ class CommercialCalendar
       }
     end
 
+    def date_by_params(opts)
+      week = opts[:week] == 1 ? 0 : opts[:week] - 1
+      month_period(opts[:year], opts[:month])[:start] + (week * 7) + opts[:day] - 1
+    end
+
     def year_by_date(date)
       YEARS.each do |year|
         return year if (year_period(year)[:start]..year_period(year)[:end]).cover? date.to_date

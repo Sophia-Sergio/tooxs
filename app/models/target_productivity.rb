@@ -10,15 +10,7 @@ class TargetProductivity < ApplicationRecord
     saturday_sunday_pm: 4
   }
 
-  scope :between_dates, ->(start_date, end_date) {
-    if start_date.year == end_date.year
-      where('year = ? AND month >= ? AND month <= ?',
-        start_date.year, start_date.month, end_date.month)
-    else
-      where('year = ? AND month >= ?', start_date.year, start_date.month).
-        or(where('year = ? AND month <= ?', end_date.year, end_date.month))
-    end
-  }
+  scope :between_dates, ->(period) { BetweenDatesWithoutDateAttributeQuery.new(self, period).call }
 
   def self.by_date(date)
     find_by(config_date(date).except(:day)).amount
@@ -33,15 +25,14 @@ class TargetProductivity < ApplicationRecord
   end
 
   def self.by_date_hour(period)
-    hash = between_dates(period[:start], period[:end]).
-      order(:year, :month, :week).uniq.each_with_object({}) do |prod, h|
-        week_period = week_period(prod.year, prod.month, prod.week)
-        (week_period[:start]..week_period[:end]).each do |date|
-          next unless date_period(date, prod.period)
+    hash = between_dates(period).order(:year, :month, :week).uniq.each_with_object({}) do |prod, h|
+      week_period = week_period(prod.year, prod.month, prod.week)
+      (week_period[:start]..week_period[:end]).each do |date|
+        next unless date_period(date, prod.period)
 
-          (h[date] ||= []) << Settings.week_periods_keys[prod.period].map { |k| [k => prod.amount] }
-        end
+        (h[date] ||= []) << Settings.week_periods_keys[prod.period].map { |k| [k => prod.amount] }
       end
+    end
     hash = hash.extract!(*(period[:start]..period[:end]))
     hash.keys.each_with_object({}) { |k, h| h[k] = hash[k].flatten.reduce(:merge) }
   end

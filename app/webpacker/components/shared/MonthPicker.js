@@ -174,18 +174,14 @@ class MonthPicker extends Component {
               }
               <div className="month-picker__calendar__months">
                 {months.map( (month, index) => (
-                  <React.Fragment>
-                    { (((maxYear === currentYear) && (index <= maxMonth)) || ((minYear === currentYear) && (index >= minMonth))) &&
-                      <button
-                        key={index}
-                        className={"month-picker__calendar__months__button " + (currentMonth === index ? 'selected' : '')}
-                        onClick={this.changeMonth.bind(this, index)}
-                        disabled={((maxMonth < index) && (maxYear === currentYear)) || ((index < currentMonth) && (minYear === currentYear))}
-                      >
-                        {month}
-                      </button>
-                    }
-                  </React.Fragment>
+                  <button
+                    key={index}
+                    className={"month-picker__calendar__months__button " + (currentMonth === index ? 'selected' : '')}
+                    onClick={this.changeMonth.bind(this, index)}
+                    disabled={((maxMonth < index) && (maxYear === currentYear)) || ((index < currentMonth) && (minYear === currentYear))}
+                  >
+                    {month}
+                  </button>
                 ))}
               </div>
             </div>
