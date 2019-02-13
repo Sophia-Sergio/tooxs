@@ -1,4 +1,4 @@
-ruby '2.4.1'
+ruby '2.6.0'
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 5.1.3'
+gem 'rails', '~> 5.2'
 
 gem 'bcrypt', '~> 3.1.12'
 gem 'coffee-rails', '~> 4.2'
