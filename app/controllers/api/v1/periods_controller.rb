@@ -4,10 +4,11 @@ module Api
   module V1
     # only statistics
     class PeriodsController < ApplicationController
-      extend CommercialCalendar::Period
+      include FilterParameters
+      before_action :set_period, only: %i[filter_period]
 
-      def month_period
-        render json: month_period(params[:year], params[:month])
+      def filter_period
+        render json: @period
       end
     end
   end

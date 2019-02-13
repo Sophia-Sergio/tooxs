@@ -17,7 +17,7 @@ Rails.application.routes.draw do
         get :staff
       end
       namespace :periods do
-        get :month_period
+        get :filter_period
       end
       namespace :filters do
         get :compared_stores
