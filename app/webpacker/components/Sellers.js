@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import BootstrapTable from 'react-bootstrap-table-next';
+import Loader from "./layout/Loader";
 import Select from 'react-select';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import styled from 'styled-components';
@@ -8,42 +10,142 @@ import { currencyFormat } from "./helpers";
 import userDefault from '../images/user_default';
 
 class StaffingIndex extends Component {
-  state = {
-    loading: true,
-    result: '',
-    store: { value: '12', label: 'Alto Las Condes' },
-    storeOptions: [],
-    department: { value: '12', label: 'Juvenil mujer' },
-    departmentOptions: [],
-    year: { value: '2018', label: '2018' },
-    yearOptions: [
-      { value: '2018', label: '2018' },
-      { value: '2017', label: '2017' },
-      { value: '2016', label: '2016' }
-    ],
-    month: { value: '7', label: 'Julio' },
-    monthOptions: [
-      { value: '7', label: 'Julio' },
-      { value: '6', label: 'Junio' },
-      { value: '5', label: 'Mayo' }
-    ],
-    employees: [
-      {id:5, name:"Jorge",last_name: "Marroquín", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 55503480, goal: 153000000.0, objective: 0.36, link: "/sellers/5"},
-      {id:6, name:"Patricio",last_name: "Corona", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 97038214, goal: 497250000.0, objective: 0.2, link: "/sellers/6"},
-      {id:7, name:"José",last_name: "Castro", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 100168950, goal: 382500000.0, objective: 0.26, link: "/sellers/7"},
-      {id:8, name:"Ana Luisa",last_name: "Fierro", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 114111025, goal: 382500000.0, objective: 0.3, link: "/sellers/8"},
-      {id:9, name:"Ignacio",last_name: "León", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 49763360, goal: 306000000.0, objective: 0.16, link: "/sellers/9"},
-      {id:10, name:"Ricardo",last_name: "Rojo", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 97038214, goal: 497250000.0, objective: 0.2, link: "/sellers/10"},
-      {id:11, name:"Roberto",last_name: "Bétancourt", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 96561550, goal: 382500000.0, objective: 0.25, link: "/sellers/11"},
-      {id:12, name:"José",last_name: "Acuña", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 90971900, goal: 478125000.0, objective: 0.19, link: "/sellers/12"},
-      {id:13, name:"Jesús",last_name: "Márquez", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 49763360, goal: 306000000.0, objective: 0.16, link: "/sellers/13"},
-      {id:14, name:"Sergio",last_name: "Montero", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 90887030, goal: 351900000.0, objective: 0.26, link: "/sellers/14"},
-      {id:15, name:"Diego",last_name: "Montemayor", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 114111025, goal: 382500000.0, objective: 0.3, link: "/sellers/15"},
-      {id:16, name:"Gregorio",last_name: "Alonso", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'Turno 1 de 45 horas', sell: 96561550, goal: 382500000.0, objective: 0.25, link: "/sellers/16"}
-    ]
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      store: {},
+      department: {},
+      year: {},
+      yearOptions: [],
+      month: {},
+      monthOptions: [],
+      employees: [],
+      resultText: '',
+    }
   }
+
+  componentWillMount(){
+    this.createFiltersData();
+  }
+
+  componentDidMount(){
+    this.getEmployeesData();
+  }
+
+  createFiltersData(){
+    var filters = this.props.filters;
+    var world = { value: filters.world_selected.id, label: filters.world_selected.name };
+    var departments = this.getDepartments(filters.worlds_departments, world);
+    var department = this.getBiggerDepartment(filters.worlds_departments, world);
+    var monthOptions = this.getMonths(filters.years, filters.year);
+    this.setState({
+      year: { value: filters.year.value, label: filters.year.label},
+      month: { value: filters.month.value, label: filters.month.label},
+      store: { value: filters.store.id, label: filters.store.name },
+      world: world,
+      yearOptions: filters.years.map( year => ({ value: year.value, label: year.label })),
+      monthOptions: monthOptions.map( month => ({ value: month.value, label: month.label })),
+      worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
+      department: { value: department.id, label: department.name },
+      departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) ),
+      resultText: `Datos correspondientes al mes de ${this.state.month.label} de ${this.state.year.label}`,
+    })
+  }
+
+  getEmployeesData = () => {
+    this.setState({loading: true});
+    var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
+    axios.get(`${this.props.root_url}/api/v1/employees/index?${parameters}`)
+      .then(res => {
+        this.setState({
+          employees: res.data,
+        });
+        this.setState({
+          resultText: `Datos correspondientes al mes de ${this.state.month.label} de ${this.state.year.label}`,
+          loading: false
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  getDepartments = (worlds, world) => {
+    for (var w of worlds) {
+      if (w['id']==world['value']){
+        return w['departments']
+      }
+    }
+  }
+
+  getMonths = (years, year) => {
+    for (var y of years) {
+      if (y['label']==year['value']){
+        return y['months']
+      }
+    }
+  }
+
+  getBiggerDepartment = (worlds, world) => {
+    for (var w of worlds) {
+      if (w['id']==world['value']){
+        return w['bigger_department']
+      }
+    }
+  }
+
+  worldChange = (world) => {
+    var departmentOptions = this.getDepartments(this.props.filters.worlds_departments, world)
+    var department = this.getBiggerDepartment(this.props.filters.worlds_departments, world)
+    this.setState({
+      world: world,
+      departmentOptions: departmentOptions.map( store => ({ value: store.id, label: store.name }) ),
+      department: {value: department.id, label: department.name}
+    });
+  }
+
+  storeChange = (store) => {
+    this.setState({ store });
+  }
+
+  departmentChange = (department) => {
+    this.setState({ department });
+  }
+
+  yearChange = (year) => {
+    var monthOptions = this.getMonths(this.props.filters.years, year)
+    this.setState({
+      year: year,
+      monthOptions: monthOptions
+    });
+  }
+
+  monthChange = (month) => {
+    this.setState({ month });
+  }
+
+  handleSubmit = (e, month) => {
+    e.preventDefault();
+    this.getEmployeesData();
+  }
+
   render () {
-    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
+    const {
+      world,
+      store,
+      storesOptions,
+      department,
+      departmentOptions,
+      worldOptions,
+      year,
+      yearOptions,
+      month,
+      monthOptions,
+      employees,
+      resultText,
+    } = this.state;
+
     const columns = [
       {
         dataField: 'avatar',
@@ -66,46 +168,60 @@ class StaffingIndex extends Component {
         sort: true
       },
       {
-        dataField: 'last_name',
+        dataField: 'surname_1',
         text: 'Apellido',
         sort: true
       },
       {
         dataField: 'rut',
         text: 'Rut',
+        sort: true
       },
       {
-        dataField: 'store',
+        dataField: 'store.name',
         text: 'Tienda',
       },
       {
-        dataField: 'department',
+        dataField: 'department.name',
         text: 'Departamento',
       },
       {
-        dataField: 'shift',
+        dataField: 'email',
+        text: 'E-mail',
+        formatter: (cellContent, row) => (
+          <a href={'mailto:' + cellContent}>
+            {cellContent}
+          </a>
+        ),
+      },
+      {
+        dataField: 'shifts',
         text: 'Turno',
       },
       {
         dataField: 'link',
-        text: 'Cumplimiento',
-        formatter: (cellContent) => (
-          <a href={ cellContent } alt="">Detalle</a>
+        text: 'Detalle',
+        formatter: (cellContent, row) => (
+          <a class="btn btn-light btn-sm btn-block" href={cellContent}>
+            Ver detalle
+          </a>
         ),
       },
     ];
     return (
       <React.Fragment>
+        {this.state.loading && <Loader/>}
+        {this.state.loading && <Loader/>}
         <div className="col-12 mb-2">
           <div className="card dashboard__filter">
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
                   noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.storeChange}
-                  options={storesOptions}
-                  placeholder={`Tienda`}
-                  value={store}
+                  onChange={this.worldChange}
+                  options={worldOptions}
+                  placeholder={`World`}
+                  value={world}
                 />
               </div>
               <div className="form-group">
@@ -142,7 +258,7 @@ class StaffingIndex extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">Resultado de búsqueda</h5>
-            <p className="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
+            <p className="card-text">{ resultText }</p>
           </div>
         </div>
         <div className="col-md-12">
