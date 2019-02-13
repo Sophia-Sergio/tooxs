@@ -1,2 +1,5 @@
 = react_component('DashboardHeader', { title: 'Colaboradores' }, class: 'row')
-= react_component('Sellers', { root_url: request.base_url, user: current_user }, class: 'row')
+= react_component('Sellers', { root_url: request.base_url,
+                               user: current_user,
+                               filters: @filters,
+                             }, class: 'row')
