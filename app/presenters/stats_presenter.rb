@@ -139,7 +139,7 @@ class StatsPresenter < SimpleDelegator
 
   def summary_table_titles_json(sales)
     titles = summary_table_titles(sales)
-    { title: titles.keys.map { |date| { label: date, tootlip: titles[date] } } }
+    { title: titles.keys.map { |date| { label: date, tooltip: titles[date] } } }
   end
 
   def values_peridiocity(data, periodicity)
