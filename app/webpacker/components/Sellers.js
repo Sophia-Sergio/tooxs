@@ -95,6 +95,16 @@ class StaffingIndex extends Component {
     }
   }
 
+  worldChange = (world) => {
+    var departmentOptions = this.getDepartments(this.props.filters.worlds_departments, world)
+    var department = this.getBiggerDepartment(this.props.filters.worlds_departments, world)
+    this.setState({
+      world: world,
+      departmentOptions: departmentOptions.map( store => ({ value: store.id, label: store.name }) ),
+      department: {value: department.id, label: department.name}
+    });
+  }
+
   storeChange = (store) => {
     this.setState({ store });
   }
