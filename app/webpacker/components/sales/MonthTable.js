@@ -1,25 +1,51 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import { currencyFormat } from '../helpers';
-import Select from 'react-select';
-import {Line} from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 class MonthTable extends Component {
   constructor(props){
     super(props);
     this.state = {
-      plan: [44881213, 45163912, 45552588, 45127781, 180725494],
-      real: [42532992, 42899028, 43361349, 44010026, 172803395],
-      historic: [41556681, 41818439, 42178324, 41784991, 167338435],
-      real_vs_plan: ['-5.23%', '-5,01%', '-4,81%', '-2,48%', '-4,38%'],
-      real_vs_historic: ['2,35%', '2,58%', '2,8%', '5,32%', '3,27%'],
+      real_vs_plan: [],
+      real_vs_historic: [],
       title: this.props.title,
       datasets: this.props.datasets,
     }
   }
 
+  componentWillMount = () => {
+    this.createComparedData();
+  }
+
+  getPercentageChange = (oldNumber, newNumber) => {
+    var decreaseValue = oldNumber - newNumber;
+    return ((decreaseValue / oldNumber) * 100).toFixed(2);
+  }
+
+  createComparedData = () => {
+    let real = this.props.datasets[0].data;
+    let hist = this.props.datasets[1].data;
+    let plan = this.props.datasets[2].data;
+    var real_vs_plan = real.map((num, i) => {
+      let oldNum = parseInt(num);
+      let newNum = parseInt(plan[i]);
+      return this.getPercentageChange(oldNum, newNum);
+    });
+    var real_vs_historic = real.map((num, i) => {
+      let oldNum = parseInt(num);
+      let newNum = parseInt(hist[i]);
+      return this.getPercentageChange(oldNum, newNum);
+    });
+    this.setState({
+      real_vs_plan: real_vs_plan,
+      real_vs_historic: real_vs_historic,
+    });
+    console.log({real, hist, real_vs_historic});
+  }
+
   render() {
-    const { plan, real, historic, real_vs_plan, real_vs_historic } = this.state;
+    const { real_vs_plan, real_vs_historic } = this.state;
     return (
       <div className="col-12">
         <div className="card dashboard__table">
@@ -29,44 +55,44 @@ class MonthTable extends Component {
               <thead>
                 <tr>
                   <th></th>
-                  { this.props.title.labels.map( label => (
-                      <th class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">{ label }</th>
+                  { this.props.title.map( (item, i) => (
+                      <th>
+                        <span
+                          key={i}
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title={ item.tooltip }
+                        >
+                          { item.label }
+                        </span>
+                      </th>
                     ))
                   }
                   <th>Total</th>
                 </tr>
               </thead>
-              <tbody className="">
-                <tr>
-                  <td className="shifts">Plan</td>
-                  {plan.map(item => (
-                    <td>${ currencyFormat(item) }</td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="shifts">Real</td>
-                  {real.map(item => (
-                    <td>${ currencyFormat(item) }</td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="shifts">Historico</td>
-                  {historic.map(item => (
-                    <td>${ currencyFormat(item) }</td>
-                  ))}
-                </tr>
+              <tbody>
+                { this.props.datasets.map( dataset => (
+                  <tr>
+                    <td className="shifts">{ dataset.label }</td>
+                    { dataset.data.map( d => (
+                      <td>${ currencyFormat(parseInt(d)) }</td>
+                    )) }
+                    <td className="total">${ currencyFormat( dataset.data.reduce((total, amount) => total + parseInt(amount), 0) ) }</td>
+                  </tr>
+                )) }
               </tbody>
               <tfoot>
                 <tr className="bg-secondary">
                   <td className="text-white">Real vs Plan</td>
                   {real_vs_plan.map(item => (
-                    <td className="text-white">{ item }</td>
+                    <td className="text-white">{ item }%</td>
                   ))}
                 </tr>
                 <tr className="bg-secondary">
                   <td className="text-white">Real vs Histórico</td>
                   {real_vs_historic.map(item => (
-                    <td className="text-white">{ item }</td>
+                    <td className="text-white">{ item }%</td>
                   ))}
                 </tr>
               </tfoot>
