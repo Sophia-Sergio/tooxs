@@ -1,5 +1,7 @@
 class EmployeesController < ApplicationController
-  def index() end
+  def index
+    @filters = current_user.filters
+  end
 
   def staff()end
 
