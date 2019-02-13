@@ -18,62 +18,90 @@ class MonthTable extends Component {
     }
   }
 
+  componentWillMount = () => {
+    let title = this.state.title;
+    let datasets = this.state.datasets;
+    console.log(this.props.title, this.props.datasets);
+  }
+
   render() {
-    const { plan, real, historic, real_vs_plan, real_vs_historic } = this.state;
+    const { plan, real, historic, real_vs_plan, real_vs_historic, title, datasets } = this.state;
     return (
       <div className="col-12">
         <div className="card dashboard__table">
-          <h5 className="card-title">Mayo 2018</h5>
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th></th>
-                  { this.props.title.labels.map( label => (
-                      <th class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">{ label }</th>
-                    ))
-                  }
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody className="">
-                <tr>
-                  <td className="shifts">Plan</td>
-                  {plan.map(item => (
-                    <td>${ currencyFormat(item) }</td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="shifts">Real</td>
-                  {real.map(item => (
-                    <td>${ currencyFormat(item) }</td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="shifts">Historico</td>
-                  {historic.map(item => (
-                    <td>${ currencyFormat(item) }</td>
-                  ))}
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr className="bg-secondary">
-                  <td className="text-white">Real vs Plan</td>
-                  {real_vs_plan.map(item => (
-                    <td className="text-white">{ item }</td>
-                  ))}
-                </tr>
-                <tr className="bg-secondary">
-                  <td className="text-white">Real vs Histórico</td>
-                  {real_vs_historic.map(item => (
-                    <td className="text-white">{ item }</td>
-                  ))}
-                </tr>
-              </tfoot>
-            </table>
-          </div>
+          <h5 className="card-title">Tabla comparativa de ventas</h5>
+        </div>
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th></th>
+                { this.props.title.map( title => (
+                    <th
+                      className="btn btn-secondary"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Tooltip on top"
+                    >
+                      { title.label }
+                    </th>
+                )) }
+                <th>Total</th>
+              </tr>
+            </thead>
+          </table>
         </div>
       </div>
+      //
+      //
+      //         <thead>
+      //           <tr>
+      //             <th></th>
+      //             { this.props.title.labels.map( label => (
+      //                 <th class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">{ label }</th>
+      //               ))
+      //             }
+      //             <th>Total</th>
+      //           </tr>
+      //         </thead>
+      //         <tbody className="">
+      //           <tr>
+      //             <td className="shifts">Plan</td>
+      //             {plan.map(item => (
+      //               <td>${ currencyFormat(item) }</td>
+      //             ))}
+      //           </tr>
+      //           <tr>
+      //             <td className="shifts">Real</td>
+      //             {real.map(item => (
+      //               <td>${ currencyFormat(item) }</td>
+      //             ))}
+      //           </tr>
+      //           <tr>
+      //             <td className="shifts">Historico</td>
+      //             {historic.map(item => (
+      //               <td>${ currencyFormat(item) }</td>
+      //             ))}
+      //           </tr>
+      //         </tbody>
+      //         <tfoot>
+      //           <tr className="bg-secondary">
+      //             <td className="text-white">Real vs Plan</td>
+      //             {real_vs_plan.map(item => (
+      //               <td className="text-white">{ item }</td>
+      //             ))}
+      //           </tr>
+      //           <tr className="bg-secondary">
+      //             <td className="text-white">Real vs Histórico</td>
+      //             {real_vs_historic.map(item => (
+      //               <td className="text-white">{ item }</td>
+      //             ))}
+      //           </tr>
+      //         </tfoot>
+      //       </table>
+      //     </div>
+      //   </div>
+      // </div>
     );
   }
 }
