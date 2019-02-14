@@ -66,7 +66,6 @@ class SalesMonth extends Component {
     var firstMonth = lastYear.months.slice(0)[0];
     var lastMonthValue = lastMonth.value;
     var firstMonthValue = firstMonth.value;
-    console.log({lastYearValue, firstYearValue, lastMonthValue, firstMonthValue});
     this.setState({
       world: world,
       worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
@@ -77,10 +76,10 @@ class SalesMonth extends Component {
       monthFrom: firstMonthValue,
       yearTo: lastYearValue,
       monthTo: lastMonthValue,
-      selectedYearFrom: firstYearValue,
-      selectedMonthFrom: firstMonthValue,
-      selectedYearTo: lastYearValue,
-      selectedMonthTo: lastMonthValue,
+      selectedYearFrom: filters.year.value,
+      selectedMonthFrom: filters.month.value,
+      selectedYearTo: filters.year.value,
+      selectedMonthTo: filters.month.value
     })
   }
 
@@ -194,8 +193,9 @@ class SalesMonth extends Component {
     axios.get(`${this.props.root_url}/api/v1/statistics/compared_stores?${parameters}`)
       .then(res => {
         this.setState({
-          chartData: res.data,
+          chartData: res.data.chart,
           chartTitle: 'Gráfico comparativo de ventas',
+          summary: res.data.summary,
           loading: false
         });
         this.setState({
