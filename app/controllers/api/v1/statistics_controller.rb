@@ -5,8 +5,6 @@ module Api
     # only statistics
     class StatisticsController < ApplicationController
       include FilterParameters
-      extend CommercialCalendar::Period
-
       before_action :set_store_department, :set_period
       before_action :set_old_period, only: [:chart]
 

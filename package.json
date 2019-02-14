@@ -48,6 +48,8 @@
     "yarn-upgrade-all": "^0.5.0"
   },
   "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-plugin-react": "^7.12.4",
     "webpack-dev-server": "2.11.2"
   }
 }

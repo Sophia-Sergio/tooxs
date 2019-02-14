@@ -130,10 +130,9 @@ class StatsPresenter < SimpleDelegator
       dates_peridiocity(sales, 'monthly').each_with_object({}) do |date, hash|
         month      = date.split('-')[1].to_i
         year       = date.split('-')[0].to_i
-        month_name = month_name(month)
         period     = month_period(year, month)
-        hash[month_name] = "#{day_month_format(period[:start])} - #{day_month_format(period[:end])}"
-      end
+        hash["#{year}-#{month}"] = "#{day_month_format(period[:start])} - #{day_month_format(period[:end])}"
+      end.transform_keys{ |key| month_name(key.split('-')[1].to_i) }
     end
   end
 
