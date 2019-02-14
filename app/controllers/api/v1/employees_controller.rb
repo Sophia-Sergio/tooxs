@@ -31,10 +31,10 @@ module Api
 
       def staff
         sellers = @store_dep.sales_assistants.working_on_period(@period)
-        hash = (@period[:start]..@period[:end]).each_with_object({}) do |date, hash|
-          hash[date] = sellers.employees_by_hour(date)
+        array = (@period[:start]..@period[:end]).each_with_object([]) do |date, array|
+          array << { date => sellers.employees_by_hour(date) }
         end
-        render json: hash
+        render json: array
       end
 
       def table
