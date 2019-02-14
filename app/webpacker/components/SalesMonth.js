@@ -3,6 +3,7 @@ import axios from 'axios';
 import { currencyFormat, monthFormat, dayMonthFormat } from './helpers';
 import Loader from "./layout/Loader";
 import Select from 'react-select';
+import Period from './shared/Period';
 import MonthPicker from './shared/MonthPicker';
 import {Line} from 'react-chartjs-2';
 import MonthTable from './sales/MonthTable';
@@ -30,6 +31,7 @@ class SalesMonth extends Component {
       monthTo: null,
       selectedYearTo: null,
       selectedMonthTo: null,
+      period: {},
       chartData: {},
       chartOptions: {
         tooltips: {
@@ -48,6 +50,7 @@ class SalesMonth extends Component {
 
   componentDidMount = () => {
     this.getChartData();
+    this.getPeriod();
   }
 
   createFiltersData(){
@@ -79,6 +82,18 @@ class SalesMonth extends Component {
       selectedYearTo: lastYearValue,
       selectedMonthTo: lastMonthValue,
     })
+  }
+
+  getPeriod = () => {
+    var parameters = `year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}`;
+    axios.get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
+      .then(res => {
+        console.log(res.data);
+        this.setState({ period: res.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   getChartData(){
@@ -389,12 +404,9 @@ class SalesMonth extends Component {
             </div>
           </div>
         }
-        <div className="col-12 mb-2">
-          <div className="card dashboard__chart">
-            <h5 className="card-title">{ chartTitle }</h5>
-            <p className="card-text">{ datesBetween }</p>
-          </div>
-        </div>
+        { false &&
+          <Period { ...period } />
+        }
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <div className="dashboard__chart__canvas">
