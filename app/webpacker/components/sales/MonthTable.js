@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import { currencyFormat } from '../helpers';
-import Select from 'react-select';
-import {Line} from 'react-chartjs-2';
 
 class MonthTable extends Component {
   constructor(props){
@@ -13,15 +11,10 @@ class MonthTable extends Component {
       real: {},
       real_vs_plan: [],
       real_vs_historic: [],
-      title: this.props.title,
-      datasets: this.props.datasets,
     }
   }
 
   componentWillMount = () => {
-    let title = this.state.title;
-    let datasets = this.state.datasets;
-    console.log(this.props.title, this.props.datasets);
     this.setState({
       plan: this.props.datasets[0].data.map(item => ( parseInt(item) )),
       historic: this.props.datasets[1].data.map(item => ( parseInt(item) )),
@@ -40,8 +33,9 @@ class MonthTable extends Component {
   }
 
   render() {
-    const { real_vs_plan, real_vs_historic, title } = this.state;
-    const { datasets } = this.state;
+    const { real_vs_plan, real_vs_historic } = this.state;
+    const { title, datasets } = this.props;
+    console.log( title, datasets );
     return (
       <div className="col-12">
         <div className="card dashboard__table">

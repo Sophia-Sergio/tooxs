@@ -5,6 +5,8 @@ import Loader from "./layout/Loader";
 import Select from 'react-select';
 import Period from './shared/Period';
 import MonthPicker from './shared/MonthPicker';
+import MonthRangePicker from 'react-monthrange-picker';
+import moment from 'moment';
 import {Line} from 'react-chartjs-2';
 import MonthTable from './sales/MonthTable';
 
@@ -35,7 +37,28 @@ class SalesMonth extends Component {
       chartData: {},
       chartOptions: {
         tooltips: {
-          mode: 'point'
+          mode: 'point',
+          callbacks: {
+            label: function(tooltipItem, data) {
+              var label = data.datasets[tooltipItem.datasetIndex].label || '';
+              if (label) {
+                label += ': ';
+              }
+              label += Math.round(tooltipItem.yLabel * 100) / 100;
+              return label;
+            },
+          },
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: false,
+              // stepSize: 500000,
+             	userCallback: function(value, index, values) {
+                return '$' + currencyFormat(value).toString();
+              }
+            }
+          }]
         },
         maintainAspectRatio: false,
         responsive: true,
@@ -115,7 +138,7 @@ class SalesMonth extends Component {
         this.setState({
           chartData: {
             ...this.state.chartData,
-            labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) )
+            labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) ),
           }
         });
         this.setState(state => {
@@ -190,7 +213,7 @@ class SalesMonth extends Component {
   getComparativeChartData(){
     this.setState({loading: true});
     var parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}&store_compared=${this.state.comparedStore.value}`;
-    axios.get(`${this.props.root_url}/api/v1/statistics/compared_stores?${parameters}`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/compared_sales?${parameters}`)
       .then(res => {
         this.setState({
           chartData: res.data.chart,
@@ -417,7 +440,7 @@ class SalesMonth extends Component {
             </div>
           </div>
         </div>
-        { this.state.summary &&
+        { summary &&
           <MonthTable {...summary} />
         }
       </React.Fragment>
