@@ -37,12 +37,12 @@ class StaffingIndex extends Component {
   }
 
   getDates = () => {
-    var parameters = `year_start=${'2018'}&month_start=${'11'}`;
+    var parameters = `store=${'13'}&department=${'1'}&year_start=${'2018'}&month_start=${'11'}`;
     axios.get(`${this.props.root_url}/api/v1/employees/staff?${parameters}`)
       .then(res => {
         const data = res.data;
         const weeks = [];
-        const size = 6;
+        const size = 7;
         let index = 0;
         while (index < data.length) {
           weeks.push(data.slice(index, size + index));
@@ -110,6 +110,13 @@ class StaffingIndex extends Component {
             <h5 className="card-title">Resultado de búsqueda</h5>
           </div>
         </div>
+        {weeks.map( (week, index) => (
+          <StaffingMonth
+            key={index}
+            week_name={`Semama ${ index + 1 }`}
+            week={week}
+          />
+        ))}
       </React.Fragment>
     );
   }
