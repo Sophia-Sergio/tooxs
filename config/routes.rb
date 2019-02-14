@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       namespace :statistics do
         get :chart
         get :summary
-        get :compared_stores
+        get :compared_sales
       end
       namespace :employees do
         get :table

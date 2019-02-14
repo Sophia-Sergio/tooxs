@@ -132,13 +132,17 @@ class StatsPresenter < SimpleDelegator
         year       = date.split('-')[0].to_i
         period     = month_period(year, month)
         hash["#{year}-#{month}"] = "#{day_month_format(period[:start])} - #{day_month_format(period[:end])}"
-      end.transform_keys{ |key| month_name(key.split('-')[1].to_i) }
+      end
     end
   end
 
   def summary_table_titles_json(sales)
     titles = summary_table_titles(sales)
-    { title: titles.keys.map { |date| { label: date, tootlip: titles[date] } } }
+    if chart_period == 'daily'
+      { title: titles.keys.map { |date| { label: date, tootlip: titles[date] } } }
+    else
+      { title: titles.keys.map { |date| { label: month_name(date.split('-')[1].to_i), tootlip: titles[date] } } }
+    end
   end
 
   def values_peridiocity(data, periodicity)

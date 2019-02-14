@@ -55,20 +55,28 @@ class SalesMonth extends Component {
     var world = { value: filters.world_selected.id, label: filters.world_selected.name };
     var departments = this.getDepartments(filters.worlds_departments, world);
     var department = this.getBiggerDepartment(filters.worlds_departments, world);
+    var lastYear = filters.years.slice(-1)[0];
+    var firstYear = filters.years.slice(0)[0];
+    var lastYearValue = lastYear.value;
+    var firstYearValue = firstYear.value;
+    var lastMonth = lastYear.months.slice(-1)[0];
+    var firstMonth = lastYear.months.slice(0)[0];
+    var lastMonthValue = lastMonth.value;
+    var firstMonthValue = firstMonth.value;
     this.setState({
       world: world,
       worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
       store: { value: filters.store.id, label: filters.store.name },
       department: { value: department.id, label: department.name },
       departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) ),
-      yearFrom: filters.year.value,
-      monthFrom: filters.month.value,
-      yearTo: filters.year.value,
-      monthTo: filters.month.value,
+      yearFrom: firstYearValue,
+      monthFrom: firstMonthValue,
+      yearTo: lastYearValue,
+      monthTo: lastMonthValue,
       selectedYearFrom: filters.year.value,
       selectedMonthFrom: filters.month.value,
       selectedYearTo: filters.year.value,
-      selectedMonthTo: filters.month.value,
+      selectedMonthTo: filters.month.value
     })
   }
 
@@ -81,6 +89,7 @@ class SalesMonth extends Component {
         let resultText = selectedYearFrom === selectedYearTo &&  selectedMonthFrom === selectedMonthTo ?
             `Datos correspondientes al mes de ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom}` :
             `Datos desde ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom} hasta ${monthFormat(selectedMonthTo)} de ${selectedYearTo}`;
+        console.log(resultText);
         this.setState({
           chartData: res.data.chart,
           chartTitle: 'Gráfico de ventas',
@@ -169,8 +178,9 @@ class SalesMonth extends Component {
     axios.get(`${this.props.root_url}/api/v1/statistics/compared_stores?${parameters}`)
       .then(res => {
         this.setState({
-          chartData: res.data,
+          chartData: res.data.chart,
           chartTitle: 'Gráfico comparativo de ventas',
+          summary: res.data.summary,
           loading: false
         });
         this.setState({
