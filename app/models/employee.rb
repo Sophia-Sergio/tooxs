@@ -49,7 +49,7 @@ class Employee < User
   def self.employees_by_hour(date)
     DateStaffQuery.new.call(date).each_with_object([]) do |employee, array|
       period = "#{employee.custom_interval.hour} - #{(employee.custom_interval.hour + 1)}"
-      array << { name: period, names: employee.names, ids: employee.ids }
+      array << { name: period, employees: employee.names, ids: employee.ids }
     end
   end
 
