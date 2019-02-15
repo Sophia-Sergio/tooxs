@@ -30,18 +30,19 @@ module Api
       end
 
       def staff
-        sellers = @store_dep.sales_assistants.working_on_period(@period)
-        array = (@period[:start]..@period[:end]).each_with_object([]) do |date, array|
-          array << { date => sellers.employees_by_hour(date) }
+        employees = @store_dep.employees.working_on_period(@period)
+        employees = (@period[:start]..@period[:end]).each_with_object([]) do |date, array|
+          shifts = { shifts: employees.employees_by_hour(date) }
+          array << { date: date }.merge(shifts)
         end
-        render json: array
+        render json: employees
       end
 
       def table
         render json: {
           sellers: sellers || {},
           sales_assistants: sales_assistants || {}
-        }.reject { |k,v| v.empty? }
+        }.reject { |_, v| v.empty? }
       end
     end
   end
