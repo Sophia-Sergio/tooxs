@@ -34,6 +34,7 @@
     "react-dom": "^16.6.3",
     "react-month-picker": "^1.3.8",
     "react-month-picker-input": "^1.2.0",
+    "react-monthrange-picker": "^1.9.0",
     "react-number-format": "^4.0.6",
     "react-redux": "^6.0.0",
     "react-select": "^2.2.0",

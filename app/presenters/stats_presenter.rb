@@ -138,7 +138,11 @@ class StatsPresenter < SimpleDelegator
 
   def summary_table_titles_json(sales)
     titles = summary_table_titles(sales)
-    { title: titles.keys.map { |date| { label: month_name(date.split('-')[1].to_i), tootlip: titles[date] } } }
+    if chart_period == 'daily'
+      { title: titles.keys.map { |date| { label: date, tootlip: titles[date] } } }
+    else
+      { title: titles.keys.map { |date| { label: month_name(date.split('-')[1].to_i), tootlip: titles[date] } } }
+    end
   end
 
   def values_peridiocity(data, periodicity)

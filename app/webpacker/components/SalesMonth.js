@@ -3,7 +3,10 @@ import axios from 'axios';
 import { currencyFormat, monthFormat, dayMonthFormat } from './helpers';
 import Loader from "./layout/Loader";
 import Select from 'react-select';
+import Period from './shared/Period';
 import MonthPicker from './shared/MonthPicker';
+import MonthRangePicker from 'react-monthrange-picker';
+import moment from 'moment';
 import {Line} from 'react-chartjs-2';
 import MonthTable from './sales/MonthTable';
 
@@ -30,10 +33,32 @@ class SalesMonth extends Component {
       monthTo: null,
       selectedYearTo: null,
       selectedMonthTo: null,
+      period: {},
       chartData: {},
       chartOptions: {
         tooltips: {
-          mode: 'point'
+          mode: 'point',
+          callbacks: {
+            label: function(tooltipItem, data) {
+              var label = data.datasets[tooltipItem.datasetIndex].label || '';
+              if (label) {
+                label += ': ';
+              }
+              label += Math.round(tooltipItem.yLabel * 100) / 100;
+              return label;
+            },
+          },
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: false,
+              // stepSize: 500000,
+             	userCallback: function(value, index, values) {
+                return '$' + currencyFormat(value).toString();
+              }
+            }
+          }]
         },
         maintainAspectRatio: false,
         responsive: true,
@@ -48,6 +73,7 @@ class SalesMonth extends Component {
 
   componentDidMount = () => {
     this.getChartData();
+    this.getPeriod();
   }
 
   createFiltersData(){
@@ -63,7 +89,6 @@ class SalesMonth extends Component {
     var firstMonth = lastYear.months.slice(0)[0];
     var lastMonthValue = lastMonth.value;
     var firstMonthValue = firstMonth.value;
-    console.log({lastYearValue, firstYearValue, lastMonthValue, firstMonthValue});
     this.setState({
       world: world,
       worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
@@ -74,11 +99,22 @@ class SalesMonth extends Component {
       monthFrom: firstMonthValue,
       yearTo: lastYearValue,
       monthTo: lastMonthValue,
-      selectedYearFrom: firstYearValue,
-      selectedMonthFrom: firstMonthValue,
-      selectedYearTo: lastYearValue,
-      selectedMonthTo: lastMonthValue,
+      selectedYearFrom: filters.year.value,
+      selectedMonthFrom: filters.month.value,
+      selectedYearTo: filters.year.value,
+      selectedMonthTo: filters.month.value
     })
+  }
+
+  getPeriod = () => {
+    var parameters = `year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}`;
+    axios.get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
+      .then(res => {
+        this.setState({ period: res.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   getChartData(){
@@ -90,7 +126,6 @@ class SalesMonth extends Component {
         let resultText = selectedYearFrom === selectedYearTo &&  selectedMonthFrom === selectedMonthTo ?
             `Datos correspondientes al mes de ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom}` :
             `Datos desde ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom} hasta ${monthFormat(selectedMonthTo)} de ${selectedYearTo}`;
-        console.log(resultText);
         this.setState({
           chartData: res.data.chart,
           chartTitle: 'Gráfico de ventas',
@@ -101,7 +136,7 @@ class SalesMonth extends Component {
         this.setState({
           chartData: {
             ...this.state.chartData,
-            labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) )
+            labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) ),
           }
         });
         this.setState(state => {
@@ -176,11 +211,12 @@ class SalesMonth extends Component {
   getComparativeChartData(){
     this.setState({loading: true});
     var parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}&store_compared=${this.state.comparedStore.value}`;
-    axios.get(`${this.props.root_url}/api/v1/statistics/compared_stores?${parameters}`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/compared_sales?${parameters}`)
       .then(res => {
         this.setState({
-          chartData: res.data,
+          chartData: res.data.chart,
           chartTitle: 'Gráfico comparativo de ventas',
+          summary: res.data.summary,
           loading: false
         });
         this.setState({
@@ -244,12 +280,10 @@ class SalesMonth extends Component {
 
   storeChange = (department) => {
     this.setState({ store });
-    console.log(this.state.store);
   }
 
   departmentChange = (department) => {
     this.setState({ department });
-    console.log(this.state.department);
   }
 
   onDateFromChange = (year, month) => {
@@ -389,12 +423,9 @@ class SalesMonth extends Component {
             </div>
           </div>
         }
-        <div className="col-12 mb-2">
-          <div className="card dashboard__chart">
-            <h5 className="card-title">{ chartTitle }</h5>
-            <p className="card-text">{ datesBetween }</p>
-          </div>
-        </div>
+        { false &&
+          <Period { ...period } />
+        }
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <div className="dashboard__chart__canvas">
@@ -405,7 +436,7 @@ class SalesMonth extends Component {
             </div>
           </div>
         </div>
-        { this.state.summary &&
+        { summary &&
           <MonthTable {...summary} />
         }
       </React.Fragment>
