@@ -14,7 +14,12 @@ class MonthTable extends Component {
     }
   }
 
-  componentWillMount = () => {
+  componentWillReceiveProps = (newProps) => {
+    console.log(newProps);
+    this.createDatasets();
+  }
+
+  createDatasets = () => {
     this.setState({
       plan: this.props.datasets[0].data.map(item => ( parseInt(item) )),
       historic: this.props.datasets[1].data.map(item => ( parseInt(item) )),
@@ -28,14 +33,9 @@ class MonthTable extends Component {
     });
   }
 
-  getDifferencePercentage = (oldVal, newVal) => {
-    ( ( newVal - oldVal ) / oldVal ) * 100
-  }
-
   render() {
     const { real_vs_plan, real_vs_historic } = this.state;
     const { title, datasets } = this.props;
-    console.log( title, datasets );
     return (
       <div className="col-12">
         <div className="card dashboard__table">
@@ -46,13 +46,12 @@ class MonthTable extends Component {
               <thead>
                 <tr>
                   <th></th>
-                  { title.map( title => (
-                      <th
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title={ title.tooltip }
-                      >
-                        { title.label }
+                  { title.map( (title, index) => (
+                      <th key={ index }>
+                        <span className="table-tooltip">
+                          { title.label }
+                          <div className="table-tooltip__text">{ title.tootlip }</div>
+                        </span>
                       </th>
                   )) }
                   <th>Total</th>

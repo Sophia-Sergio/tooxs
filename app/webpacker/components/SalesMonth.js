@@ -110,7 +110,6 @@ class SalesMonth extends Component {
     var parameters = `year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}`;
     axios.get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
       .then(res => {
-        console.log(res.data);
         this.setState({ period: res.data });
       })
       .catch(error => {
@@ -127,7 +126,6 @@ class SalesMonth extends Component {
         let resultText = selectedYearFrom === selectedYearTo &&  selectedMonthFrom === selectedMonthTo ?
             `Datos correspondientes al mes de ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom}` :
             `Datos desde ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom} hasta ${monthFormat(selectedMonthTo)} de ${selectedYearTo}`;
-        console.log(resultText);
         this.setState({
           chartData: res.data.chart,
           chartTitle: 'Gráfico de ventas',
@@ -282,12 +280,10 @@ class SalesMonth extends Component {
 
   storeChange = (department) => {
     this.setState({ store });
-    console.log(this.state.store);
   }
 
   departmentChange = (department) => {
     this.setState({ department });
-    console.log(this.state.department);
   }
 
   onDateFromChange = (year, month) => {
