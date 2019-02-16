@@ -136,9 +136,9 @@ class StoreDepartment < ApplicationRecord
 
   def productivity_by_date_hour(period = default_period)
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
-      employees = self.employees.employees_by_hour(date)
+      employees = self.employees.count_employees_by_hour(date)
       sales = categories_sales_by_date_hour(date)
-      productivity = employees.keys.map { |hour| (sales[hour] / employees[hour][:count].to_f).round(2) }
+      productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
     end
   end

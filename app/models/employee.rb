@@ -46,6 +46,11 @@ class Employee < User
     (period[:start]..period[:end]).each_with_object({}) { |d, h| h[d] = nil }.merge(hash)
   end
 
+  def self.count_employees_by_hour(date)
+    dates = DateCountStaffQuery.new.call(date)
+    dates.keys.map { |day| "#{day.hour} - #{(day.hour + 1)}" }.zip(dates.values).to_h
+  end
+
   def self.employees_by_hour(date)
     DateStaffQuery.new.call(date).each_with_object([]) do |employee, array|
       period = "#{employee.custom_interval.hour} - #{(employee.custom_interval.hour + 1)}"
