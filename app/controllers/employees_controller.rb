@@ -3,7 +3,9 @@ class EmployeesController < ApplicationController
     @filters = current_user.filters
   end
 
-  def staff()end
+  def staff
+    @filters = current_user.filters
+  end
 
   def staff_planning() end
 

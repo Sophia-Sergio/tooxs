@@ -1,1011 +1,177 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import Loader from "./layout/Loader";
 import Select from 'react-select';
+import { monthFormat } from './helpers.js';
+import Filter from './staffing/Filter';
 import StaffingMonth from './staffing/StaffingMonth';
 
 class StaffingIndex extends Component {
-  state = {
-    loading: true,
-    result: '',
-    store: { value: '12', label: 'Alto Las Condes' },
-    storeOptions: [
-      { value: '12', label: 'Alto Las Condes' }
-    ],
-    department: { value: '12', label: 'Juvenil mujer' },
-    departmentOptions: [
-      { value: '12', label: 'Juvenil mujer' }
-    ],
-    year: { value: '2018', label: '2018' },
-    yearOptions: [
-      { value: '2018', label: '2018' },
-      { value: '2017', label: '2017' },
-      { value: '2016', label: '2016' }
-    ],
-    month: { value: '7', label: 'Julio' },
-    monthOptions: [
-      { value: '7', label: 'Julio' },
-      { value: '6', label: 'Junio' },
-      { value: '5', label: 'Mayo' }
-    ],
-    weeks: [
-      {
-        dates: ['03', '04', '05', '06', '07', '08', '09'],
-        days:[
-          {
-            day_name: 'L',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'M',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Claudia Bravo Lopez']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'M',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'J',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'V',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'S',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'D',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz', 'Claudia Gutierrez']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          }
-        ]
-      },
-      {
-        dates: ['10', '11', '12', '13', '14', '15', '16'],
-        days:[
-          {
-            day_name: 'L',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'M',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Claudia Bravo Lopez']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'M',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'J',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'V',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'S',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'D',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz', 'Claudia Gutierrez']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          }
-        ]
-      },
-      {
-        dates: ['17', '18', '19', '20', '21', '22', '23'],
-        days:[
-          {
-            day_name: 'L',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'M',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Claudia Bravo Lopez']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'M',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'J',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'V',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'S',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          },
-          {
-            day_name: 'D',
-            shifts: [
-              {
-                shift_name: '11:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '12:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '13:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '14:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '15:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '16:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '17:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz', 'Claudia Gutierrez']
-              },
-              {
-                shift_name: '18:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina']
-              },
-              {
-                shift_name: '19:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Claudia Bravo Lopez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-              {
-                shift_name: '20:00',
-                shift_dotation: ['Ricardo Gonzalez', 'Juan Herrera', 'Ulises Medina', 'Rodrigo Sanz']
-              },
-            ]
-          }
-        ]
-      },
-    ],
+  constructor(props){
+    super(props);
+    this.state = {
+      loading: false,
+      store: {},
+      department: {},
+      year: {},
+      yearOptions: [],
+      month: {},
+      monthOptions: [],
+      period: '',
+      weeks: [],
+    }
   }
+
+  componentWillMount = () => {
+    this.createFiltersData();
+  }
+
+  componentDidMount = () => {
+    this.getDates();
+  }
+
+  createFiltersData = () => {
+    var filters = this.props.filters;
+    var world = { value: filters.world_selected.id, label: filters.world_selected.name };
+    var departments = this.getDepartments(filters.worlds_departments, world);
+    var department = this.getBiggerDepartment(filters.worlds_departments, world);
+    var monthOptions = this.getMonths(filters.years, filters.year)
+    this.setState({
+      year: { value: filters.year.value, label: filters.year.label},
+      month: { value: filters.month.value, label: filters.month.label},
+      store: { value: filters.store.id, label: filters.store.name },
+      world: world,
+      yearOptions: filters.years.map( year => ({ value: year.value, label: year.label })),
+      monthOptions: monthOptions.map( month => ({ value: month.value, label: month.label })),
+      worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
+      department: { value: department.id, label: department.name },
+      departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) )
+    })
+  }
+
+  getDepartments(worlds, world){
+    for (var w of worlds) {
+      if (w['id']==world['value']){
+        return w['departments']
+      }
+    }
+  }
+
+  getMonths(years, year){
+    for (var y of years) {
+      if (y['label']==year['value']){
+        return y['months']
+      }
+    }
+  }
+
+  getBiggerDepartment(worlds, world){
+    for (var w of worlds) {
+      if (w['id']==world['value']){
+        return w['bigger_department']
+      }
+    }
+  }
+
+  worldChange = (world) => {
+    var departmentOptions = this.getDepartments(this.props.filters.worlds_departments, world)
+    var department = this.getBiggerDepartment(this.props.filters.worlds_departments, world)
+    this.setState({
+      world: world,
+      departmentOptions: departmentOptions.map( store => ({ value: store.id, label: store.name }) ),
+      department: {value: department.id, label: department.name}
+    });
+  }
+
+  storeChange = (store) => {
+    this.setState({ store });
+  }
+
+  departmentChange = (department) => {
+    this.setState({ department });
+  }
+
+  yearChange = (year) => {
+    var monthOptions = this.getMonths(this.props.filters.years, year)
+    this.setState({
+      year: year,
+      monthOptions: monthOptions
+    });
+  }
+
+  monthChange = (month) => {
+    this.setState({ month });
+  }
+
+  handleSubmit = (e, month) => {
+    e.preventDefault();
+    this.getDates();
+  }
+
+  getDates = () => {
+    var parameters = `store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
+    this.setState({ loading: true });
+    axios.get(`${this.props.root_url}/api/v1/employees/staff?${parameters}`)
+      .then(res => {
+        const data = res.data;
+        const weeks = [];
+        const size = 7;
+        let index = 0;
+        while (index < data.length) {
+          weeks.push(data.slice(index, size + index));
+          index += size;
+        }
+        this.setState({
+          loading: false,
+          weeks: weeks,
+        });
+        this.getPeriod();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  getPeriod = () => {
+    var parameters = `year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
+    axios.get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
+      .then(res => {
+        const start = new Date(res.data.start);
+        const startYear = start.getFullYear();
+        const startMonth = start.getMonth();
+        const startDay = start.getDate();
+        const end = new Date(res.data.end);
+        const endYear = end.getFullYear();
+        const endMonth = end.getMonth();
+        const endDay = end.getDate();
+        this.setState({
+          period: `Datos desde el ${ startDay } de ${ monthFormat(startMonth + 1) } de ${ startYear } al ${ endDay } de ${ monthFormat(endMonth + 1) } de ${ endYear }`,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   render () {
-    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions, weeks } = this.state;
-    console.log(weeks[0].days[0].shifts);
+    const { store, storesOptions, world, worldOptions, department, departmentOptions,
+      year, yearOptions, month, monthOptions, period, week_days, weeks
+    } = this.state;
 
     return (
       <React.Fragment>
+        {this.state.loading && <Loader/>}
         <div className="col-12 mb-2">
           <div className="card dashboard__filter">
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
                   noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.storeChange}
-                  options={storesOptions}
-                  placeholder={`Tienda`}
-                  value={store}
+                  onChange={this.worldChange}
+                  options={worldOptions}
+                  placeholder={`World`}
+                  value={world}
                 />
               </div>
               <div className="form-group">
@@ -1042,10 +208,12 @@ class StaffingIndex extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">Resultado de búsqueda</h5>
+            <p className="card-text">{ period }</p>
           </div>
         </div>
-        {weeks.map((week, index) => (
+        {weeks.map( (week, index) => (
           <StaffingMonth
+            key={index}
             week_name={`Semama ${ index + 1 }`}
             week={week}
           />
