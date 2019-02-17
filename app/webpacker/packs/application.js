@@ -29,6 +29,7 @@ components.forEach(component => {
 
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+  $('body').tooltip({ selector: '[data-toggle="tooltip"]'});
 });
 
 // Support component names relative to this directory:
