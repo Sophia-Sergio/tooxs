@@ -13,13 +13,18 @@ module Api
       end
 
       def compared_stores_data
-        compared_store = StoreDepartment.find_by(
-          store_id: params[:store_compared], department_id: params[:department]
+        compared_stores = StoreDepartment.where(
+          store_id: params[:compared_stores],
+          department_id: params[:department]
         )
         {
           actual_store_sales: @store_dep.categories_sales_by_dates(@period),
-          compared_store_sales: compared_store.categories_sales_by_dates(@period),
-          compared_store: compared_store
+          compared_stores: compared_stores.each_with_object([]) do |store_dep, array|
+            array << {
+              name: store_dep.store.name,
+              sales: store_dep.categories_sales_by_dates(@period)
+            }
+          end
         }
       end
 
@@ -32,7 +37,7 @@ module Api
 
       def efficiency
         real = @store_dep.efficiency_by_date
-        optimized = real.values.map { |value| value * rand(1.2..1.4)  }
+        optimized = real.values.map { |value| value * rand(1.2..1.4) }
         render json: {
           labels: real.keys.map { |date| "#{date.strftime('%d')}-#{date.strftime('%m')}" },
           datasets: [
