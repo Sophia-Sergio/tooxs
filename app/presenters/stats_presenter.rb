@@ -37,14 +37,12 @@ class StatsPresenter < SimpleDelegator
   end
 
   def compared_sales_chart(sales)
-    actual_store_sales   = values_peridiocity(sales[:actual_store_sales], chart_period)
-    compared_store_sales = values_peridiocity(sales[:compared_store_sales], chart_period)
+    actual_store_sales = values_peridiocity(sales[:actual_store_sales], chart_period)
     {
       labels: dates_peridiocity(sales[:actual_store_sales].keys, chart_period),
       datasets: [
-        { label: @model.store.name, data: actual_store_sales },
-        { label: sales[:compared_store].store.name, data: compared_store_sales }
-      ]
+        { label: @model.store.name, data: actual_store_sales }
+      ] + compared_sales_common(sales[:compared_stores], 'periodicity')
     }
   end
 
@@ -52,9 +50,19 @@ class StatsPresenter < SimpleDelegator
     {
       datasets: [
         { label: @model.store.name, data: summary_table_values(sales[:actual_store_sales]) },
-        { label: sales[:compared_store].store.name, data: summary_table_values(sales[:compared_store_sales]) }
-      ]
+      ] + compared_sales_common(sales[:compared_stores], 'summary')
     }.merge(summary_table_titles_json(sales[:actual_store_sales].keys))
+  end
+
+  def compared_sales_common(sales, type)
+    sales.each_with_object([]) do |store_department, array|
+      if type == 'summary'
+        store_dep_sales = summary_table_values(store_department[:sales])
+      elsif type == 'periodicity'
+        store_dep_sales = values_peridiocity(store_department[:sales], chart_period)
+      end
+      array << { label: store_department[:name], data: store_dep_sales }
+    end
   end
 
   def sales_summary(sales)
