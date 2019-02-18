@@ -18,6 +18,7 @@ class SalesMonth extends Component {
       alert: false,
       chartTitle: 'Gráfico de ventas',
       datesBetween: '',
+      isCompared: false,
       store: {},
       storeOptions: [],
       comparedStoreFilter: false,
@@ -127,6 +128,7 @@ class SalesMonth extends Component {
             `Datos correspondientes al mes de ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom}` :
             `Datos desde ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom} hasta ${monthFormat(selectedMonthTo)} de ${selectedYearTo}`;
         this.setState({
+          isCompared: false,
           chartData: res.data.chart,
           chartTitle: 'Gráfico de ventas',
           datesBetween: resultText,
@@ -210,7 +212,9 @@ class SalesMonth extends Component {
 
   getComparativeChartData(){
     this.setState({loading: true});
-    var parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}&store_compared=${this.state.comparedStore.value}`;
+    var comparedStores = this.state.comparedStore.map( store => ( '&compared_stores[]=' + store.value )).join('');
+    console.log(comparedStores);
+    const parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}${comparedStores}`;
     axios.get(`${this.props.root_url}/api/v1/statistics/compared_sales?${parameters}`)
       .then(res => {
         this.setState({
@@ -220,6 +224,7 @@ class SalesMonth extends Component {
           loading: false
         });
         this.setState({
+          isCompared: true,
           chartData: {
             ...this.state.chartData,
             labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) )
@@ -238,6 +243,18 @@ class SalesMonth extends Component {
           state.chartData.datasets[1].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
           state.chartData.datasets[1].pointBorderWidth = 2;
           state.chartData.datasets[1].pointRadius = 5;
+          state.chartData.datasets[2].backgroundColor = 'rgba(255, 255, 255, 0)';
+          state.chartData.datasets[2].borderColor = 'rgba(227, 58, 62, 1)';
+          state.chartData.datasets[2].borderWidth = 2;
+          state.chartData.datasets[2].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[2].pointBorderWidth = 2;
+          state.chartData.datasets[2].pointRadius = 5;
+          state.chartData.datasets[3].backgroundColor = 'rgba(255, 255, 255, 0)';
+          state.chartData.datasets[3].borderColor = 'rgba(241, 165, 0, 1)';
+          state.chartData.datasets[3].borderWidth = 2;
+          state.chartData.datasets[3].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[3].pointBorderWidth = 2;
+          state.chartData.datasets[3].pointRadius = 5;
           return state
         })
       })
@@ -303,6 +320,7 @@ class SalesMonth extends Component {
   }
 
   comparedStoreChange = (comparedStore) => {
+    console.log(comparedStore);
     this.setState({ comparedStore });
   }
 
@@ -402,6 +420,7 @@ class SalesMonth extends Component {
                     noOptionsMessage={() => 'No se econtraron más opciones'}
                     onChange={this.comparedStoreChange}
                     options={comparedStoreOptions}
+                    isMulti
                     placeholder={`Compared Store`}
                     value={comparedStore}
                   />
