@@ -36,7 +36,7 @@ module Api
       end
 
       def efficiency
-        real = @store_dep.efficiency_by_date
+        real = @store_dep.efficiency_by_date(@period)
         optimized = real.values.map { |value| value * rand(1.2..1.4) }
         render json: {
           labels: real.keys.map { |date| "#{date.strftime('%d')}-#{date.strftime('%m')}" },
@@ -54,7 +54,7 @@ module Api
       def productivity
         productivity = @store_dep.productivity_by_date(@period)
         render json: {
-          labels: dates_peridiocity(productivity.keys, chart_period),
+          labels: dates_peridiocity(productivity.keys, chart_period)
         }
       end
 
