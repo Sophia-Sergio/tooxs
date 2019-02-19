@@ -1,7 +1,10 @@
 class CommercialCalendar
   YEARS = [2017, 2018, 2019].freeze
   WEEKS_BY_MONTH = Settings.weeks_by_month
+  PRODUCTIVITY_PERIODS = Settings.productivity_week_periods_keys
+
   extend ActiveSupport::Concern
+
 
   module Period
     def old_period(period)
@@ -44,6 +47,13 @@ class CommercialCalendar
         period = week_period(year, month, week)
         return week if (period[:start]..period[:end]).cover? date.to_date
       end
+    end
+
+    def date_included_on_productivity_period?(period, date)
+      day = date.wday.zero? ? 7 : date.wday
+      periods = PRODUCTIVITY_PERIODS.keys.select { |p| p.include? period[0..-4] }
+      week_days = period[0..-4] == 'monday_friday' ? (1..5).to_a : (6..7).to_a
+      periods.include?(period) && week_days.include?(day)
     end
 
     def config_date(date)

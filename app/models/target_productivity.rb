@@ -1,6 +1,8 @@
 class TargetProductivity < ApplicationRecord
   extend CommercialCalendar::Period
 
+  WEEK_PERIODS = Settings.productivity_week_periods_keys
+
   belongs_to :store_department
 
   enum period: {
@@ -30,7 +32,7 @@ class TargetProductivity < ApplicationRecord
       (week_period[:start]..week_period[:end]).each do |date|
         next unless date_period(date, prod.period)
 
-        (h[date] ||= []) << Settings.week_periods_keys[prod.period].map { |k| [k => prod.amount] }
+        (h[date] ||= []) << WEEK_PERIODS[prod.period].map { |k| [k => prod.amount] }
       end
     end
     hash = hash.extract!(*(period[:start]..period[:end]))

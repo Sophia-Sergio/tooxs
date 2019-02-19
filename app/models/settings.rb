@@ -15,7 +15,7 @@ class Settings < Settingslogic
   DEMO_DEPARTMENTS = YAML.load_file("#{Rails.root}/config/demo_departments.yml")
   YEARS = [2017, 2018, 2019].freeze
 
-  def periods_keys
+  def productivity_periods_keys
     [
       '10 - 11',
       '11 - 12',
@@ -31,12 +31,14 @@ class Settings < Settingslogic
     ]
   end
 
-  def week_periods_keys
+  def productivity_week_periods_keys
     {
-      'monday_friday_am': ['10 - 11', '11 - 12','12 - 13'],
-      'monday_friday_pm': ['13 - 14','14 - 15','15 - 16','16 - 17','17 - 18','18 - 19','19 - 20','20 - 21'],
-      'saturday_sunday_am': ['10 - 11', '11 - 12','12 - 13'],
-      'saturday_sunday_pm': ['13 - 14','14 - 15','15 - 16','16 - 17','17 - 18','18 - 19','19 - 20','20 - 21']
+      'monday_friday_am': ['10 - 11', '11 - 12', '12 - 13'],
+      'monday_friday_pm': ['13 - 14', '14 - 15', '15 - 16', '16 - 17','17 - 18',
+                           '18 - 19', '19 - 20', '20 - 21'],
+      'saturday_sunday_am': ['10 - 11', '11 - 12', '12 - 13'],
+      'saturday_sunday_pm': ['13 - 14', '14 - 15', '15 - 16', '16 - 17', '17 - 18', '18 - 19',
+                             '19 - 20', '20 - 21']
     }.with_indifferent_access
   end
 
@@ -58,7 +60,7 @@ class Settings < Settingslogic
   end
 
   def days_by_month(year)
-    february = year % 4 == 0 ? 29 : 28
+    february = (year % 4).zero? ? 29 : 28
     {
       1 => 31,
       2 => february,
