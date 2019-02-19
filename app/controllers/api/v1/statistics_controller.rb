@@ -6,7 +6,7 @@ module Api
     class StatisticsController < ApplicationController
       include FilterParameters
       before_action :set_store_department, :set_period
-      before_action :set_old_period, only: [:chart]
+      before_action :set_old_period, only: %i[chart]
 
       def chart
         send(params[:type].to_sym)
@@ -52,9 +52,14 @@ module Api
       end
 
       def productivity
-        productivity = @store_dep.productivity_by_date(@period)
+        real = @store_dep.productivity_by_date(@period)
+        ideal = @store_dep.target_productivity_by_date(@period)
         render json: {
-          labels: dates_peridiocity(productivity.keys, chart_period)
+          labels: dates_peridiocity(productivity.keys, chart_period),
+          datasets: [
+            { label: 'Real', data: real.values },
+            { label: 'Real', data: ideal.values }
+          ]
         }
       end
 
