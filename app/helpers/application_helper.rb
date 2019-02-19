@@ -14,7 +14,7 @@ module ApplicationHelper
       7 => 'Julio',
       8 => 'Agosto',
       9 => 'Septiembre',
-      10 => 'Ocutbre',
+      10 => 'Octubre',
       11 => 'Noviembre',
       12 => 'Diciembre'
     }.slice(month).values.join

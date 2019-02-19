@@ -55,18 +55,6 @@ class StoreDepartment < ApplicationRecord
     target_productivities.sum / target_productivities.size
   end
 
-  def employees_types
-    employees.joins(:roles).select('roles.name').map.uniq
-  end
-
-  def optimized_shifts(opt = {})
-    data_cases.find_case(opt[:month], opt[:year]).summary_cases.output.real_dot
-  end
-
-  def actual_shifts(opt = {})
-    seller_shifts.by_year(opt[:year]).by_month(opt[:month]).shifts_staff
-  end
-
   def categories_sales(period = default_period)
     categories.joins(:sales).
       where('category_sales.date between ? AND ?', period[:start], period[:end]).
@@ -106,7 +94,7 @@ class StoreDepartment < ApplicationRecord
   end
 
   def categories_sales_by_date_hour(date)
-    hourly_sales = categories.joins(:sales).where(category_sales: {store_id: store, date: date}).
+    hourly_sales = categories.joins(:sales).where(category_sales: { store_id: store, date: date }).
       pluck('category_sales.hourly')
 
     PERIODS.each_with_object({}) do |key, hash|
@@ -117,10 +105,6 @@ class StoreDepartment < ApplicationRecord
   def efficiency(period = default_period)
     efficiencies = efficiency_by_date(period)
     efficiencies.values.sum / efficiencies.size
-  end
-
-  def goal_success(opts, period = default_period)
-    categories_sales(period) / categories_plan_sales(opts)
   end
 
   def productivity(period = default_period)
@@ -163,10 +147,10 @@ class StoreDepartment < ApplicationRecord
       WEEK_PERIODS.keys.each do |p|
         hash[p] ||= {}
         hash[p][date] = if date_included_on_productivity_period?(p, date)
-                          0
+                          period_selected = productivity[date].slice(*WEEK_PERIODS[p]).values
+                          period_selected.present? ? period_selected.sum / period_selected.size : 0
                         else
-                          period_selected = productivity[date].slice(*WEEK_PERIODS[p])
-                          period_selected.values.sum / period_selected.values.size
+                          0
                         end
       end
     end
