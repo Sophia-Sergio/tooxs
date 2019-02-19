@@ -227,10 +227,10 @@ class SalesMonth extends Component {
         const mainBorder = {
           borderColor: 'rgba(71, 196, 254, 1)',
         }
-        const defaultBorder = {
-          borderColor: 'rgba(137, 218, 89, 1)',
+        const defaultBorder = () => {
+          return {borderColor: 'rgba(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ', 1)',};
         }
-        const chart = res.data.chart.datasets.map( (data, index) => ( Object.assign({}, data, defaultStyles, index === 0 ? mainBorder : defaultBorder) ));
+        const chart = res.data.chart.datasets.map( (data, index) => ( Object.assign({}, data, defaultStyles, index === 0 ? mainBorder : defaultBorder()) ));
         this.setState({
           isCompared: true,
           chartTitle: 'Gráfico comparativo de ventas',
