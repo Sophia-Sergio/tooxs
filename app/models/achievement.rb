@@ -4,6 +4,8 @@ class Achievement < ApplicationRecord
   belongs_to :store
   belongs_to :user
 
+  PERIODS = Settings.productivity_periods_keys
+
   scope :between, ->(start_date, end_date) { where('date between ? AND ?', start_date, end_date) }
   scope :by_date, ->(date) { where(date: date) }
 
@@ -17,7 +19,7 @@ class Achievement < ApplicationRecord
       values = achievement.achievement.values.map(&:to_i)
       array = array.any? ? array.zip(values).map { |a| a.inject(:+) } : values
     end
-    Settings.periods_keys.zip(array).to_h
+    PERIODS.zip(array).to_h
   end
 
   def self.total_by_user_id

@@ -28,8 +28,8 @@ categories.each do |category|
       (1..weeks).each do
         (1..7).each do
           sale_day = CategorySale.find_by(date: date, category: category, store: store_main).amount * rand(0.7..0.95)
-          hourly = Settings.periods_keys.each_with_object({}) do |key, hash|
-            hash[key] = (sale_day / Settings.periods_keys.count).round.to_i
+          hourly = Settings.productivity_periods_keys.each_with_object({}) do |key, hash|
+            hash[key] = (sale_day / Settings.productivity_periods_keys.count).round.to_i
           end
           CategorySale.create!(date:date, store: store, category: category, amount: sale_day, hourly: hourly)
           date += 1
