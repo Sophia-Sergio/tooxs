@@ -231,7 +231,6 @@ class SalesMonth extends Component {
           borderColor: 'rgba(137, 218, 89, 1)',
         }
         const chart = res.data.chart.datasets.map( (data, index) => ( Object.assign({}, data, defaultStyles, index === 0 ? mainBorder : defaultBorder) ));
-        console.log(chart);
         this.setState({
           isCompared: true,
           chartTitle: 'Gráfico comparativo de ventas',
