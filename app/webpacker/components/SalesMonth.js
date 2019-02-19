@@ -22,7 +22,7 @@ class SalesMonth extends Component {
       store: {},
       storeOptions: [],
       comparedStoreFilter: false,
-      comparedStore: {},
+      comparedStore: [],
       comparedStoreOptions: [],
       department: {},
       departmentOptions: [],
@@ -189,7 +189,7 @@ class SalesMonth extends Component {
         if(stores.length > 0){
           this.setState({
             comparedStoreOptions: stores.map( store => ({ value: store.id, label: store.name }) ),
-            comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ).slice(0)[0],
+            comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ).slice(0,1),
             comparedStoreFilter: true
           });
         } else {
@@ -217,46 +217,32 @@ class SalesMonth extends Component {
     const parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}${comparedStores}`;
     axios.get(`${this.props.root_url}/api/v1/statistics/compared_sales?${parameters}`)
       .then(res => {
+        const defaultStyles = {
+          backgroundColor : 'rgba(71, 196, 254, 0)',
+          borderWidth : 2,
+          pointBackgroundColor : 'rgba(255, 255, 255, 1)',
+          pointBorderWidth : 2,
+          pointRadius : 5,
+        }
+        const mainBorder = {
+          borderColor: 'rgba(71, 196, 254, 1)',
+        }
+        const defaultBorder = {
+          borderColor: 'rgba(137, 218, 89, 1)',
+        }
+        const chart = res.data.chart.datasets.map( (data, index) => ( Object.assign({}, data, defaultStyles, index === 0 ? mainBorder : defaultBorder) ));
+        console.log(chart);
         this.setState({
-          chartData: res.data.chart,
+          isCompared: true,
           chartTitle: 'Gráfico comparativo de ventas',
+          chartData: res.data.chart,
+          chartData: {
+            datasets: chart,
+            labels: res.data.chart.labels.map( label => ( dayMonthFormat(label) ) )
+          },
           summary: res.data.summary,
           loading: false
         });
-        this.setState({
-          isCompared: true,
-          chartData: {
-            ...this.state.chartData,
-            labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) )
-          }
-        });
-        this.setState(state => {
-          state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, 0)';
-          state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
-          state.chartData.datasets[0].borderWidth = 2;
-          state.chartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
-          state.chartData.datasets[0].pointBorderWidth = 2;
-          state.chartData.datasets[0].pointRadius = 5;
-          state.chartData.datasets[1].backgroundColor = 'rgba(255, 255, 255, 0)';
-          state.chartData.datasets[1].borderColor = 'rgba(137, 218, 89, 1)';
-          state.chartData.datasets[1].borderWidth = 2;
-          state.chartData.datasets[1].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
-          state.chartData.datasets[1].pointBorderWidth = 2;
-          state.chartData.datasets[1].pointRadius = 5;
-          state.chartData.datasets[2].backgroundColor = 'rgba(255, 255, 255, 0)';
-          state.chartData.datasets[2].borderColor = 'rgba(227, 58, 62, 1)';
-          state.chartData.datasets[2].borderWidth = 2;
-          state.chartData.datasets[2].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
-          state.chartData.datasets[2].pointBorderWidth = 2;
-          state.chartData.datasets[2].pointRadius = 5;
-          state.chartData.datasets[3].backgroundColor = 'rgba(255, 255, 255, 0)';
-          state.chartData.datasets[3].borderColor = 'rgba(241, 165, 0, 1)';
-          state.chartData.datasets[3].borderWidth = 2;
-          state.chartData.datasets[3].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
-          state.chartData.datasets[3].pointBorderWidth = 2;
-          state.chartData.datasets[3].pointRadius = 5;
-          return state
-        })
       })
       .catch(error => {
         console.log(error);
@@ -320,7 +306,6 @@ class SalesMonth extends Component {
   }
 
   comparedStoreChange = (comparedStore) => {
-    console.log(comparedStore);
     this.setState({ comparedStore });
   }
 
@@ -333,6 +318,7 @@ class SalesMonth extends Component {
     const {
       chartTitle,
       datesBetween,
+      isCompared,
       world,
       worldOptions,
       store,
@@ -456,7 +442,7 @@ class SalesMonth extends Component {
           </div>
         </div>
         { summary &&
-          <MonthTable {...summary} />
+          <MonthTable {...summary} isCompared={isCompared} />
         }
       </React.Fragment>
     );
