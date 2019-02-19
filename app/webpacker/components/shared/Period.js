@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 
 class Period extends Component {
-  state = {
-    title: null,
-    period: null,
-  };
-
-  componentWillMount() {
-  };
-
   render() {
-    const {} = this.state;
+    const { title, period } = this.props;
 
     return (
       <div className="col-12 mb-2">

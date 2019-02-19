@@ -43,7 +43,7 @@ export function monthFormat(num) {
       month = 'Octubre';
       break;
     case 11:
-      month = 'Nomviembre';
+      month = 'Noviembre';
       break;
     case 12:
       month = 'Diciembre';

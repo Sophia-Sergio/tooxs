@@ -17,7 +17,7 @@ class SalesMonth extends Component {
       loading: false,
       alert: false,
       chartTitle: 'Gráfico de ventas',
-      datesBetween: '',
+      period: '',
       isCompared: false,
       store: {},
       storeOptions: [],
@@ -40,12 +40,12 @@ class SalesMonth extends Component {
         tooltips: {
           mode: 'point',
           callbacks: {
-            label: function(tooltipItem, data) {
+            label: (tooltipItem, data) => {
               var label = data.datasets[tooltipItem.datasetIndex].label || '';
               if (label) {
                 label += ': ';
               }
-              label += Math.round(tooltipItem.yLabel * 100) / 100;
+              label += '$' + currencyFormat(tooltipItem.yLabel).toString();
               return label;
             },
           },
@@ -77,7 +77,7 @@ class SalesMonth extends Component {
     this.getPeriod();
   }
 
-  createFiltersData(){
+  createFiltersData = () => {
     var filters = this.props.filters;
     var world = { value: filters.world_selected.id, label: filters.world_selected.name };
     var departments = this.getDepartments(filters.worlds_departments, world);
@@ -108,30 +108,37 @@ class SalesMonth extends Component {
   }
 
   getPeriod = () => {
-    var parameters = `year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}`;
+    var parameters = `year_start=${this.state.yearFrom}&month_start=${this.state.monthFrom}&year_end=${this.state.yearTo}&month_end=${this.state.monthTo}`;
     axios.get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
       .then(res => {
-        this.setState({ period: res.data });
+        const start = new Date(res.data.start);
+        const startYear = start.getFullYear();
+        const startMonth = start.getMonth();
+        const startDay = start.getDate();
+        const end = new Date(res.data.end);
+        const endYear = end.getFullYear();
+        const endMonth = end.getMonth();
+        const endDay = end.getDate();
+        this.setState({
+          period: `Datos desde el ${ startDay } de ${ monthFormat(startMonth + 1) } de ${ startYear } al ${ endDay } de ${ monthFormat(endMonth + 1) } de ${ endYear }`,
+        });
+        console.log(this.state.period);
       })
       .catch(error => {
+        this.setState({ period: `No se encontraron datos, intente nuevamente.` });
         console.log(error);
       });
   }
 
-  getChartData(){
+  getChartData = () => {
     this.setState({loading: true});
     let parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}`;
     axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`)
       .then(res => {
-        const { selectedMonthFrom, selectedYearFrom, selectedMonthTo, selectedYearTo } = this.state;
-        let resultText = selectedYearFrom === selectedYearTo &&  selectedMonthFrom === selectedMonthTo ?
-            `Datos correspondientes al mes de ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom}` :
-            `Datos desde ${monthFormat(selectedMonthFrom)} de ${selectedYearFrom} hasta ${monthFormat(selectedMonthTo)} de ${selectedYearTo}`;
         this.setState({
           isCompared: false,
           chartData: res.data.chart,
           chartTitle: 'Gráfico de ventas',
-          datesBetween: resultText,
           summary: res.data.summary,
           loading: false
         });
@@ -161,22 +168,21 @@ class SalesMonth extends Component {
           state.chartData.datasets[2].pointBorderWidth = 2;
           state.chartData.datasets[2].pointRadius = 5;
           return state
-        })
+        });
+        this.getPeriod();
       })
       .catch(error => {
         console.log(error);
         this.setState({
           loading: false,
-          errors: {
-            datesBetween: 'No se econtraron coincidencias.'
-          }
         })
       });
   }
 
-  getComparedStores(e){
+  getComparedStores = e => {
     e.preventDefault();
     this.setState({
+      loading: true,
       comparedStoreFilter: false,
       comparedStore: {},
       comparedStoreOptions: [],
@@ -189,8 +195,9 @@ class SalesMonth extends Component {
         if(stores.length > 0){
           this.setState({
             comparedStoreOptions: stores.map( store => ({ value: store.id, label: store.name }) ),
-            comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ).slice(0,1),
-            comparedStoreFilter: true
+            comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ),
+            comparedStoreFilter: true,
+            loading: false,
           });
         } else {
           this.setState({
@@ -198,13 +205,15 @@ class SalesMonth extends Component {
             comparedStore: {},
             comparedStoreOptions: [],
             alert: true,
+            loading: false,
           });
         }
       })
       .catch(error => {
         this.setState({
           comparedStoreFilter: false,
-          alert: true
+          alert: true,
+          loading: false,
         });
         console.log(error);
       });
@@ -230,18 +239,29 @@ class SalesMonth extends Component {
         const defaultBorder = () => {
           return {borderColor: 'rgba(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ', 1)',};
         }
-        const chart = res.data.chart.datasets.map( (data, index) => ( Object.assign({}, data, defaultStyles, index === 0 ? mainBorder : defaultBorder()) ));
+        const mainStore = res.data.chart.datasets.slice(0, 1);
+        const compStores = res.data.chart.datasets.slice(1).sort((a, b) => { return a.label < b.label ? -1 : 1; return 0; });
+        const mergedStores = mainStore.concat(compStores);
+        const chart = mergedStores.map( (data, index) => ( Object.assign({}, data, defaultStyles, index === 0 ? mainBorder : defaultBorder()) ));
+        const tableMainStore = res.data.summary.datasets.slice(0, 1);
+        const tableCompStores = res.data.summary.datasets.slice(1).sort((a, b) => { return a.label < b.label ? -1 : 1; return 0; });
+        const tableMergedStores = tableMainStore.concat(tableCompStores);
         this.setState({
           isCompared: true,
           chartTitle: 'Gráfico comparativo de ventas',
-          chartData: res.data.chart,
           chartData: {
             datasets: chart,
             labels: res.data.chart.labels.map( label => ( dayMonthFormat(label) ) )
           },
-          summary: res.data.summary,
+          summary: {
+            datasets: tableMergedStores,
+            title: res.data.summary.title
+          },
           loading: false
         });
+        const table = document.querySelector('.table-responsive');
+        const tableWidth = table.offsetWidth;
+        table.scrollLeft += tableWidth;
       })
       .catch(error => {
         console.log(error);
@@ -310,19 +330,14 @@ class SalesMonth extends Component {
 
   handleCompareSubmit = (e, month) => {
     e.preventDefault();
-    this.getComparativeChartData()
+    this.getComparativeChartData();
   }
 
   render() {
     const {
-      chartTitle,
-      datesBetween,
-      isCompared,
-      world,
-      worldOptions,
-      store,
-      storesOptions,
-      comparedStore,
+      chartTitle, period, isCompared,
+      world, worldOptions,
+      store, storesOptions, comparedStore,
       comparedStoreOptions,
       department,
       departmentOptions,
@@ -428,7 +443,10 @@ class SalesMonth extends Component {
           </div>
         }
         { false &&
-          <Period { ...period } />
+          <Period
+            title='Resultado de búsqueda'
+            period={period}
+          />
         }
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
