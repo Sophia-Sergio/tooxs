@@ -42,7 +42,7 @@ class MonthTable extends Component {
 
   render() {
     const { real_vs_plan, real_vs_historic, compared_stores, compared_stores_title, store_1_vs_store_2 } = this.state;
-    const { title, datasets } = this.props;
+    const { isCompared, title, datasets } = this.props;
     return (
       <div className="col-12">
         <div className="card dashboard__table">
@@ -68,13 +68,13 @@ class MonthTable extends Component {
                 { datasets.map( (dataset, index) => (
                     <tr>
                       <td
-                        className="shifts"
+                        className={ (isCompared && index === 0) ? 'bg-primary text-white' : 'shifts' }
                         style={{whiteSpace: 'nowrap'}}
                       >
                         { dataset.label }
                       </td>
                       {dataset.data.map( (item, i) => (
-                        <td>
+                        <td className={ ( isCompared && index === 0) && 'shifts' }>
                           ${ currencyFormat(parseInt(item)) }
                           { (index != 0 && this.props.isCompared) &&
                             <span className={'difference ' + (this.getPercentageDifference(item, i) > 0 ? 'positive' : 'negative') }>
@@ -83,7 +83,11 @@ class MonthTable extends Component {
                           }
                         </td>
                       ))}
-                      <td>${ currencyFormat(dataset.data.reduce((total, num) => total + parseInt(num), 0)) }</td>
+                      <td
+                        className={ (isCompared && index === 0) && 'shifts' }
+                      >
+                        ${ currencyFormat(dataset.data.reduce((total, num) => total + parseInt(num), 0)) }
+                      </td>
                     </tr>
                   )
                 ) }
