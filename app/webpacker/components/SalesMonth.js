@@ -177,6 +177,7 @@ class SalesMonth extends Component {
   getComparedStores(e){
     e.preventDefault();
     this.setState({
+      loading: true,
       comparedStoreFilter: false,
       comparedStore: {},
       comparedStoreOptions: [],
@@ -190,7 +191,8 @@ class SalesMonth extends Component {
           this.setState({
             comparedStoreOptions: stores.map( store => ({ value: store.id, label: store.name }) ),
             comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ).slice(0,1),
-            comparedStoreFilter: true
+            comparedStoreFilter: true,
+            loading: false,
           });
         } else {
           this.setState({
@@ -198,13 +200,15 @@ class SalesMonth extends Component {
             comparedStore: {},
             comparedStoreOptions: [],
             alert: true,
+            loading: false,
           });
         }
       })
       .catch(error => {
         this.setState({
           comparedStoreFilter: false,
-          alert: true
+          alert: true,
+          loading: false,
         });
         console.log(error);
       });
@@ -227,19 +231,27 @@ class SalesMonth extends Component {
         const mainBorder = {
           borderColor: 'rgba(71, 196, 254, 1)',
         }
-        const defaultBorder = {
-          borderColor: 'rgba(137, 218, 89, 1)',
+        const defaultBorder = () => {
+          return {borderColor: 'rgba(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ', 1)',};
         }
-        const chart = res.data.chart.datasets.map( (data, index) => ( Object.assign({}, data, defaultStyles, index === 0 ? mainBorder : defaultBorder) ));
+        const mainStore = res.data.chart.datasets.slice(0, 1);
+        const compStores = res.data.chart.datasets.slice(1).sort((a, b) => { return a.label < b.label ? -1 : 1; return 0; });
+        const mergedStores = mainStore.concat(compStores);
+        const chart = mergedStores.map( (data, index) => ( Object.assign({}, data, defaultStyles, index === 0 ? mainBorder : defaultBorder()) ));
+        const tableMainStore = res.data.summary.datasets.slice(0, 1);
+        const tableCompStores = res.data.summary.datasets.slice(1).sort((a, b) => { return a.label < b.label ? -1 : 1; return 0; });
+        const tableMergedStores = tableMainStore.concat(tableCompStores);
         this.setState({
           isCompared: true,
           chartTitle: 'Gráfico comparativo de ventas',
-          chartData: res.data.chart,
           chartData: {
             datasets: chart,
             labels: res.data.chart.labels.map( label => ( dayMonthFormat(label) ) )
           },
-          summary: res.data.summary,
+          summary: {
+            datasets: tableMergedStores,
+            title: res.data.summary.title
+          },
           loading: false
         });
       })
