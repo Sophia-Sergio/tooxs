@@ -67,7 +67,12 @@ class MonthTable extends Component {
               <tbody>
                 { datasets.map( (dataset, index) => (
                     <tr>
-                      <td className="shifts">{ dataset.label }</td>
+                      <td
+                        className="shifts"
+                        style={{whiteSpace: 'nowrap'}}
+                      >
+                        { dataset.label }
+                      </td>
                       {dataset.data.map( (item, i) => (
                         <td>
                           ${ currencyFormat(parseInt(item)) }
