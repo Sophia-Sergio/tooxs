@@ -91,14 +91,14 @@ class MonthTable extends Component {
               { !this.props.isCompared &&
                 <tfoot>
                   <tr>
-                    <td className="bg-dark text-white">Real vs Plan</td>
+                    <td className="bg-dark text-white" style={{whiteSpace: 'nowrap'}}>Real vs Plan</td>
                     {real_vs_plan.map(item => (
                       <td className="bg-secondary text-white">{ item }%</td>
                     ))}
                     <td className="bg-dark text-white">{ ( real_vs_plan.reduce((total, num) => total + parseInt(num), 0) / real_vs_plan.length ).toFixed(2) }%</td>
                   </tr>
                   <tr>
-                    <td className="bg-dark text-white">Real vs Histórico</td>
+                    <td className="bg-dark text-white" style={{whiteSpace: 'nowrap'}}>Real vs Histórico</td>
                     {real_vs_historic.map(item => (
                       <td className="bg-secondary text-white">{ item }%</td>
                     ))}

@@ -174,7 +174,7 @@ class SalesMonth extends Component {
       });
   }
 
-  getComparedStores(e){
+  getComparedStores = e => {
     e.preventDefault();
     this.setState({
       loading: true,
@@ -190,7 +190,7 @@ class SalesMonth extends Component {
         if(stores.length > 0){
           this.setState({
             comparedStoreOptions: stores.map( store => ({ value: store.id, label: store.name }) ),
-            comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ).slice(0,1),
+            comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ),
             comparedStoreFilter: true,
             loading: false,
           });
@@ -254,6 +254,9 @@ class SalesMonth extends Component {
           },
           loading: false
         });
+        const table = document.querySelector('.table-responsive');
+        const tableWidth = table.offsetWidth;
+        table.scrollLeft += tableWidth;
       })
       .catch(error => {
         console.log(error);
@@ -322,7 +325,7 @@ class SalesMonth extends Component {
 
   handleCompareSubmit = (e, month) => {
     e.preventDefault();
-    this.getComparativeChartData()
+    this.getComparativeChartData();
   }
 
   render() {
