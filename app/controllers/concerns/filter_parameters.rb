@@ -5,6 +5,10 @@ module FilterParameters
   extend ActiveSupport::Concern
   include CommercialCalendar::Period
 
+  def set_employee
+    @employee = Employee.find(params[:id])
+  end
+
   def set_store_department
     if params.key?(:store) && params.key?(:department)
       return @store_dep = StoreDepartment.find_by(

@@ -6,7 +6,12 @@ module Api
     class EmployeesController < ApplicationController
       include FilterParameters
       before_action :set_store_department, :set_period
+      before_action :set_employee, only: %i[calendar_shift]
       skip_before_action :verify_authenticity_token
+
+      def calendar_shift
+        render json: @employee.calendar_shift(@period)
+      end
 
       def index
         employees = @store_dep.employees.working_on_period(@period)
