@@ -745,6 +745,25 @@
           &__content {
             padding-top: 30px;
 
+            &.schedule {
+
+              .fc-left {
+
+                h2 {
+                  text-transform: capitalize;
+                }
+
+              }
+
+              .schedule__item {
+                border: 0;
+                font-size: 1em;
+                padding: 5px 10px;
+                text-transform: uppercase;
+                }
+
+              }
+
             &__head {
               @include clearfix;
 
@@ -778,25 +797,6 @@
                   font-weight: $font-medium;
                   }
 
-                }
-
-              }
-
-            .schedule {
-
-              .fc-left {
-
-                h2 {
-                  text-transform: capitalize;
-                }
-
-              }
-
-              &__item {
-                border: 0;
-                font-size: 1em;
-                padding: 5px 10px;
-                text-transform: uppercase;
                 }
 
               }
