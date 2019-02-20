@@ -19,6 +19,9 @@ Rails.application.routes.draw do
       get 'employees/:id/calendar_shift',
         to: 'employees#calendar_shift',
         as: 'employee_calendar_shift'
+      get 'employees/:id/achievements_chart',
+        to: 'employees#achievements_chart',
+        as: 'employee_achievements_chart'
       namespace :periods do
         get :filter_period
       end

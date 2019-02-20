@@ -16,7 +16,7 @@ class Employee < User
     joins(:worked_shifts).where(worked_shifts: { date: period[:start]..period[:end] }).distinct
   }
 
-  def calendar_shift(period = default_period)
+  def calendar_shift(period)
     worked_shift_period = { start: period[:start], end: Date.today - 1 }
     plan_shift_period   = { start: Date.today, end: period[:end] }
     worked_shift(worked_shift_period).merge(plan_shift(plan_shift_period))
