@@ -11,7 +11,7 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def calendar_shift
-        render json: @employee.calendar_shift(@calendar_period).map { |(k, v)| [k, *v] }
+        render json: @employee.calendar_shift(@calendar_period).to_a
       end
 
       def index
