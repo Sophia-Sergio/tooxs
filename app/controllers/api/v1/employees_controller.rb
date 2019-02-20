@@ -11,7 +11,7 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def calendar_shift
-        render json: @employee.calendar_shift(@calendar_period).to_a
+        render json: @employee.calendar_shift(@calendar_period).map { |(k, v)| [k, *v] }
       end
 
       def index
@@ -45,7 +45,7 @@ module Api
       end
 
       def achievements_chart
-        achievements = @employee.achievements.between(@period)
+        achievements = @employee.achievements.between(@calendar_period)
         render json: {
           labels: achievements.pluck(:date),
           datasets: [
