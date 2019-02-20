@@ -5,7 +5,7 @@ import MonthSales from './sellers/MonthSales';
 import MyAvailableShifts from './sellers/MyAvailableShifts';
 import userDefault from '../images/user_default';
 
-class SellersShow extends Component {
+class EmployeesShow extends Component {
   state = {
     loading: true,
     result: '',
@@ -66,7 +66,7 @@ class SellersShow extends Component {
         url: 'http://google.com/',
         start: '2017-05-28'
       }
-    ],		
+    ],
     days_off: [
       {
         title: 'Feriado legal',
@@ -102,7 +102,7 @@ class SellersShow extends Component {
         week_plan: [0,0,0,0,0,0,0],
         week_real: [0,0,0,0,0,0,0],
       },
-    ]		
+    ]
   }
   render () {
     const { employee, shifts, days_off, month_sales } = this.state;
@@ -127,7 +127,7 @@ class SellersShow extends Component {
               <div className="col-md-6">
                 <div className="dashboard__user__item">
                   <div className="dashboard__user__item__icon">
-                    <i class="fa fa-building-o"></i>
+                    <i className="fa fa-building-o"></i>
                   </div>
                   <p>
                     Turno asignado: <strong>{employee.shift}</strong><br/>
@@ -141,7 +141,7 @@ class SellersShow extends Component {
               <div className="col-md-6">
                 <div className="dashboard__user__item">
                   <div className="dashboard__user__item__icon">
-                    <i class="fa fa-id-card-o"></i>
+                    <i className="fa fa-id-card-o"></i>
                   </div>
                   <p>
                     Dirección: <strong>{employee.address}</strong><br/>
@@ -198,4 +198,4 @@ class SellersShow extends Component {
   }
 }
 
-export default SellersShow;
+export default EmployeesShow;
