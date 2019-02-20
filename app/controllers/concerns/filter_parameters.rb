@@ -22,6 +22,13 @@ module FilterParameters
     @store ||= Store.find(params[:store])
   end
 
+  def set_calendar_period
+    @calendar_period = {
+      start: Date.new(params[:year_start].to_i, params[:month_start].to_i, 1),
+      end: Date.new(params[:year_end].to_i, params[:month_end].to_i, -1)
+    }
+  end
+
   def set_period
     return unless params[:year_start].present? && params[:month_start].present?
 

@@ -6,7 +6,7 @@ class Achievement < ApplicationRecord
 
   PERIODS = Settings.productivity_periods_keys
 
-  scope :between, ->(start_date, end_date) { where('date between ? AND ?', start_date, end_date) }
+  scope :between, ->(period) { where('date between ? AND ?', period[:start], period[:end]) }
   scope :by_date, ->(date) { where(date: date) }
 
   def set_total_day

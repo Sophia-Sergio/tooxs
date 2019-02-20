@@ -6,11 +6,12 @@ module Api
     class EmployeesController < ApplicationController
       include FilterParameters
       before_action :set_store_department, :set_period
-      before_action :set_employee, only: %i[calendar_shift]
+      before_action :set_employee, only: %i[calendar_shift achievements_chart]
+      before_action :set_calendar_period, only: %i[calendar_shift]
       skip_before_action :verify_authenticity_token
 
       def calendar_shift
-        render json: @employee.calendar_shift(@period)
+        render json: @employee.calendar_shift(@calendar_period).to_a
       end
 
       def index
@@ -41,6 +42,16 @@ module Api
           array << { date: date }.merge(shifts)
         end
         render json: employees
+      end
+
+      def achievements_chart
+        achievements = @employee.achievements.between(@period)
+        render json: {
+          labels: achievements.pluck(:date),
+          datasets: [
+            { label: 'Ventas', data: achievements.pluck(:total_day) }
+          ]
+        }
       end
 
       def table
