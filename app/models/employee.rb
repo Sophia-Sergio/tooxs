@@ -24,9 +24,10 @@ class Employee < User
 
   def worked_shift(period)
     hash = worked_shifts.between_dates(period).each_with_object({}) do |worked_shift, h|
-      h[worked_shift.date] = "#{worked_shift.check_in.strftime('%H:%M')}-#{worked_shift.check_out.strftime('%H:%M')}"
+      shift = [worked_shift.check_in.strftime('%H:%M'), worked_shift.check_out.strftime('%H:%M')]
+      h[worked_shift.date] = shift
     end
-    (period[:start]..period[:end]).each_with_object({}) { |d, h| h[d] = nil }.merge(hash)
+    (period[:start]..period[:end]).each_with_object({}) { |d, h| h[d] = [nil, nil] }.merge(hash)
   end
 
   def plan_shift(period)
@@ -39,11 +40,11 @@ class Employee < User
 
           check_in   = plan_shift[:check_in]&.strftime('%H:%M')
           check_out  = plan_shift[:check_out]&.strftime('%H:%M')
-          h[date] = "#{check_in}-#{check_out}" if check_in.present? && check_out.present?
+          h[date] = [check_in, check_out] if check_in.present? && check_out.present?
           date += 1
         end
     end
-    (period[:start]..period[:end]).each_with_object({}) { |d, h| h[d] = nil }.merge(hash)
+    (period[:start]..period[:end]).each_with_object({}) { |d, h| h[d] =  [nil, nil] }.merge(hash)
   end
 
   def self.count_employees_by_hour(date)
