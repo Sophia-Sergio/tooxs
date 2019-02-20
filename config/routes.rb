@@ -16,6 +16,9 @@ Rails.application.routes.draw do
         get :index
         get :staff
       end
+      get 'employees/:id/calendar_shift',
+        to: 'employees#calendar_shift',
+        as: 'employee_calendar_shift'
       namespace :periods do
         get :filter_period
       end
