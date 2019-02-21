@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import MyShift from './sellers/MyShift';
+import Schedule from './sellers/Schedule';
 import DaysOff from './sellers/DaysOff';
 import MonthSales from './sellers/MonthSales';
 import MyAvailableShifts from './sellers/MyAvailableShifts';
 import userDefault from '../images/user_default';
 
-class SellersShow extends Component {
+class EmployeesShow extends Component {
   state = {
     loading: true,
     result: '',
@@ -66,7 +66,7 @@ class SellersShow extends Component {
         url: 'http://google.com/',
         start: '2017-05-28'
       }
-    ],		
+    ],
     days_off: [
       {
         title: 'Feriado legal',
@@ -102,7 +102,7 @@ class SellersShow extends Component {
         week_plan: [0,0,0,0,0,0,0],
         week_real: [0,0,0,0,0,0,0],
       },
-    ]		
+    ]
   }
   render () {
     const { employee, shifts, days_off, month_sales } = this.state;
@@ -127,7 +127,7 @@ class SellersShow extends Component {
               <div className="col-md-6">
                 <div className="dashboard__user__item">
                   <div className="dashboard__user__item__icon">
-                    <i class="fa fa-building-o"></i>
+                    <i className="fa fa-building-o"></i>
                   </div>
                   <p>
                     Turno asignado: <strong>{employee.shift}</strong><br/>
@@ -141,7 +141,7 @@ class SellersShow extends Component {
               <div className="col-md-6">
                 <div className="dashboard__user__item">
                   <div className="dashboard__user__item__icon">
-                    <i class="fa fa-id-card-o"></i>
+                    <i className="fa fa-id-card-o"></i>
                   </div>
                   <p>
                     Dirección: <strong>{employee.address}</strong><br/>
@@ -158,9 +158,6 @@ class SellersShow extends Component {
                     <a className="nav-link active" id="home-tab" data-toggle="tab" href="#shifts" role="tab" aria-controls="shifts" aria-selected="true">Mis turnos</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" id="profile-tab" data-toggle="tab" href="#days-off" role="tab" aria-controls="days-off" aria-selected="false">Mis días libres</a>
-                  </li>
-                  <li className="nav-item">
                     <a className="nav-link" id="contact-tab" data-toggle="tab" href="#sells" role="tab" aria-controls="sells" aria-selected="false">Ventas por mes</a>
                   </li>
                   <li className="nav-item">
@@ -168,16 +165,7 @@ class SellersShow extends Component {
                   </li>
                 </ul>
                 <div className="tab-content">
-                  <div className="tab-pane fade show active" id="shifts" role="tabpanel" aria-labelledby="shifts-tab">
-                    <div className="tab-pane__content">
-                      <MyShift shifts={shifts} />
-                    </div>
-                  </div>
-                  <div className="tab-pane fade" id="days-off" role="tabpanel" aria-labelledby="days-off-tab">
-                    <div className="tab-pane__content">
-                      <DaysOff days_off={days_off} />
-                    </div>
-                  </div>
+                  <Schedule root_url={this.props.root_url} shifts={shifts} employee={this.props.employee} />
                   <div className="tab-pane fade" id="sells" role="tabpanel" aria-labelledby="sells-tab">
                     <div className="tab-pane__content">
                       <MonthSales month_sales={month_sales} />
@@ -198,4 +186,4 @@ class SellersShow extends Component {
   }
 }
 
-export default SellersShow;
+export default EmployeesShow;

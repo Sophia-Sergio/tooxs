@@ -444,6 +444,34 @@
             th {
               padding: 10px;
               vertical-align: middle;
+
+              .table-tooltip {
+                display: block;
+                margin: -10px;
+                padding: 10px;
+                position: relative;
+
+                &__text {
+                  background-color: black;
+                  border-radius: 6px;
+                  color: #fff;
+                  padding: 5px 0;
+                  position: absolute;
+                  text-align: center;
+                  top: 100%;
+                  visibility: hidden;
+                  width: 120px;
+                  z-index: 1;
+                  }
+
+                &:hover {
+                  .table-tooltip__text {
+                    visibility: visible;
+                    }
+                  }
+
+                }
+
               }
 
             }
@@ -473,9 +501,9 @@
               .progress-bar {
                 background-color: #46c4fd;
                 height: auto;
-              }
+                }
 
-            }
+              }
 
             .thumbnail {
               border-radius: 50%;
@@ -487,6 +515,33 @@
                 display: block;
                 height: auto;
                 width: 100%;
+                }
+
+              }
+
+            .difference {
+              border-radius: 4px;
+              border: 1px solid #EAEDF3;
+              color: #9EA0A5;
+              font-size: 0.75rem;
+              font-weight: 500;
+              height: 24px;
+              line-height: 18px;
+              margin-left: 10px;
+              padding: 0 7px;
+              text-align: center;
+              text-transform: uppercase;
+
+              &.positive {
+                background: #38B249;
+                border: 1px solid #38B249;
+                color: white;
+                }
+
+              &.negative {
+                background: #E6492D;
+                border: 1px solid #E6492D;
+                color: white;
                 }
 
               }
@@ -512,7 +567,7 @@
               line-height: 20px;
               text-align: center;
               width: 20px;
-            }
+              }
 
             .dotation-tooltip {
               background-color: $light-blue;
@@ -522,13 +577,14 @@
               font-size: 12px;
               font-weight: $font-medium;
               padding: 0 10px;
+              position: relative;
               transition: all .3s ease-in-out;
 
               &:hover {
                 background-color: $mid-blue;
-              }
+                }
 
-            }
+              }
 
           }
 
@@ -685,8 +741,28 @@
       .tab-content {
 
         .tab-pane {
+
           &__content {
             padding-top: 30px;
+
+            &.schedule {
+
+              .fc-left {
+
+                h2 {
+                  text-transform: capitalize;
+                }
+
+              }
+
+              .schedule__item {
+                border: 0;
+                font-size: 1em;
+                padding: 5px 10px;
+                text-transform: uppercase;
+                }
+
+              }
 
             &__head {
               @include clearfix;

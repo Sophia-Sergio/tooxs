@@ -3,7 +3,7 @@ class CategorySale < ApplicationRecord
   belongs_to :store
 
   scope :by_cluster, ->(cluster = nil) { where(cluster_id: cluster).order(:name) }
-  scope :between, ->(start_date, end_date) { where('date between ? AND ?', start_date, end_date) }
+  scope :between, ->(period) { where('date between ? AND ?', period[:start], period[:end]) }
 
   def self.total
     sum(:amount)

@@ -16,6 +16,8 @@ class MainDashboard extends Component {
       loading: true,
       result: '',
       store: {},
+      world: {},
+      worldOptions: [],
       department: {},
       year: {},
       yearOptions: [],

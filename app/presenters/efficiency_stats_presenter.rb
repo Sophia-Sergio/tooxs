@@ -1,0 +1,2 @@
+class EfficiencyStatsPresenter < StatsPresenter
+end

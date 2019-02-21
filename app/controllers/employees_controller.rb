@@ -3,7 +3,13 @@ class EmployeesController < ApplicationController
     @filters = current_user.filters
   end
 
-  def staff()end
+  def show
+    @employee = Employee.find(params[:id])
+  end
+
+  def staff
+    @filters = current_user.filters
+  end
 
   def staff_planning() end
 

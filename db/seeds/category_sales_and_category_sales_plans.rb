@@ -46,8 +46,8 @@ categories.each do |category|
       sale_day += sale_day * rand(-0.07..0.03) if year != 2017
       (1..weeks).each do
         (1..7).each do
-          hourly = Settings.periods_keys.each_with_object({}) do |key, hash|
-            hash[key] = (sale_day / Settings.periods_keys.count).round.to_i
+          hourly = Settings.productivity_periods_keys.each_with_object({}) do |key, hash|
+            hash[key] = (sale_day / Settings.productivity_periods_keys.count).round.to_i
           end
           CategorySale.create!(date:date, store: store, category: category, amount: sale_day, hourly: hourly)
           date += 1
@@ -66,7 +66,7 @@ categories.each do |category|
       month_period = Settings.month_period(year, month)
       weeks = Settings.weeks_by_month[month]
       total_category_sales = CategorySale.where(category: category).
-        between(month_period[:start], month_period[:end]).total
+        between(month_period).total
 
       sales_plan = CategorySalesPlan.new(store: store, category: category, year: year, month: month, monthly: total_category_sales * rand(1.01..1.33)  )
       sales_plan.weekly = (1..weeks).each_with_object({}) do |week, hash|

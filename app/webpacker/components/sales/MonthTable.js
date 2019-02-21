@@ -1,101 +1,115 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { currencyFormat } from '../helpers';
-import { Line } from 'react-chartjs-2';
 
 class MonthTable extends Component {
   constructor(props){
     super(props);
     this.state = {
+      plan: {},
+      historic: {},
+      real: {},
       real_vs_plan: [],
       real_vs_historic: [],
-      title: this.props.title,
-      datasets: this.props.datasets,
+      store_1: {},
+      store_2: {},
+      store_1_vs_store_2: []
     }
   }
 
-  componentWillMount = () => {
-    this.createComparedData();
+  componentWillReceiveProps = (newProps) => {
+    !this.props.isCompared && this.createDatasets();
   }
 
-  getPercentageChange = (oldNumber, newNumber) => {
-    var decreaseValue = oldNumber - newNumber;
-    return ((decreaseValue / oldNumber) * 100).toFixed(2);
-  }
-
-  createComparedData = () => {
-    let real = this.props.datasets[0].data;
-    let hist = this.props.datasets[1].data;
-    let plan = this.props.datasets[2].data;
-    var real_vs_plan = real.map((num, i) => {
-      let oldNum = parseInt(num);
-      let newNum = parseInt(plan[i]);
-      return this.getPercentageChange(oldNum, newNum);
-    });
-    var real_vs_historic = real.map((num, i) => {
-      let oldNum = parseInt(num);
-      let newNum = parseInt(hist[i]);
-      return this.getPercentageChange(oldNum, newNum);
-    });
+  createDatasets = () => {
+    const { title, datasets } = this.props;
     this.setState({
-      real_vs_plan: real_vs_plan,
-      real_vs_historic: real_vs_historic,
+      plan: this.props.datasets[0].data.map(item => ( parseInt(item) )),
+      historic: this.props.datasets[1].data.map(item => ( parseInt(item) )),
+      real: this.props.datasets[2].data.map(item => ( parseInt(item) )),
+      real_vs_plan: this.props.datasets[2].data.map( (real, index) => (
+        (( ( parseInt(this.props.datasets[0].data[index]) - parseInt(real) ) / parseInt(real) ) * 100).toFixed(2)
+      )),
+      real_vs_historic: this.props.datasets[2].data.map( (real, index) => (
+        (( ( parseInt(this.props.datasets[1].data[index]) - parseInt(real) ) / parseInt(real) ) * 100).toFixed(2)
+      )),
     });
-    console.log({real, hist, real_vs_historic});
+  }
+
+  getPercentageDifference = (val, index) => {
+    return (( ( this.props.datasets[0].data[index] - parseInt(val) ) / parseInt(val) ) * 100).toFixed(2);
   }
 
   render() {
-    const { real_vs_plan, real_vs_historic } = this.state;
+    const { real_vs_plan, real_vs_historic, compared_stores, compared_stores_title, store_1_vs_store_2 } = this.state;
+    const { isCompared, title, datasets } = this.props;
     return (
       <div className="col-12">
         <div className="card dashboard__table">
-          <h5 className="card-title">Mayo 2018</h5>
+          <h5 className="card-title">Tabla comparativa de ventas</h5>
+
           <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
                   <th></th>
-                  { this.props.title.map( (item, i) => (
-                      <th>
-                        <span
-                          key={i}
-                          data-toggle="tooltip"
-                          data-placement="top"
-                          title={ item.tooltip }
-                        >
-                          { item.label }
+                  { title.map( (title, index) => (
+                      <th key={ index }>
+                        <span className="table-tooltip">
+                          { title.label }
+                          <div className="table-tooltip__text">{ title.tootlip }</div>
                         </span>
                       </th>
-                    ))
-                  }
+                  )) }
                   <th>Total</th>
                 </tr>
               </thead>
               <tbody>
-                { this.props.datasets.map( dataset => (
-                  <tr>
-                    <td className="shifts">{ dataset.label }</td>
-                    { dataset.data.map( d => (
-                      <td>${ currencyFormat(parseInt(d)) }</td>
-                    )) }
-                    <td className="total">${ currencyFormat( dataset.data.reduce((total, amount) => total + parseInt(amount), 0) ) }</td>
-                  </tr>
-                )) }
+                { datasets.map( (dataset, index) => (
+                    <tr>
+                      <td
+                        className={ (isCompared && index === 0) ? 'bg-primary text-white' : 'shifts' }
+                        style={{whiteSpace: 'nowrap'}}
+                      >
+                        { dataset.label }
+                      </td>
+                      {dataset.data.map( (item, i) => (
+                        <td className={ ( isCompared && index === 0) && 'shifts' }>
+                          ${ currencyFormat(parseInt(item)) }
+                          { (index != 0 && this.props.isCompared) &&
+                            <span className={'difference ' + (this.getPercentageDifference(item, i) > 0 ? 'positive' : 'negative') }>
+                              { this.getPercentageDifference(item, i) }%
+                            </span>
+                          }
+                        </td>
+                      ))}
+                      <td
+                        className={ (isCompared && index === 0) && 'shifts' }
+                      >
+                        ${ currencyFormat(dataset.data.reduce((total, num) => total + parseInt(num), 0)) }
+                      </td>
+                    </tr>
+                  )
+                ) }
               </tbody>
-              <tfoot>
-                <tr className="bg-secondary">
-                  <td className="text-white">Real vs Plan</td>
-                  {real_vs_plan.map(item => (
-                    <td className="text-white">{ item }%</td>
-                  ))}
-                </tr>
-                <tr className="bg-secondary">
-                  <td className="text-white">Real vs Histórico</td>
-                  {real_vs_historic.map(item => (
-                    <td className="text-white">{ item }%</td>
-                  ))}
-                </tr>
-              </tfoot>
+              { !this.props.isCompared &&
+                <tfoot>
+                  <tr>
+                    <td className="bg-dark text-white" style={{whiteSpace: 'nowrap'}}>Real vs Plan</td>
+                    {real_vs_plan.map(item => (
+                      <td className="bg-secondary text-white">{ item }%</td>
+                    ))}
+                    <td className="bg-dark text-white">{ ( real_vs_plan.reduce((total, num) => total + parseInt(num), 0) / real_vs_plan.length ).toFixed(2) }%</td>
+                  </tr>
+                  <tr>
+                    <td className="bg-dark text-white" style={{whiteSpace: 'nowrap'}}>Real vs Histórico</td>
+                    {real_vs_historic.map(item => (
+                      <td className="bg-secondary text-white">{ item }%</td>
+                    ))}
+                    <td className="bg-dark text-white">{ ( real_vs_historic.reduce((total, num) => total + parseInt(num), 0) / real_vs_historic.length ).toFixed(2) }%</td>
+                  </tr>
+                </tfoot>
+              }
             </table>
           </div>
         </div>

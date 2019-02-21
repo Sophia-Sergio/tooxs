@@ -1,6 +1,6 @@
 module Statistics
   module Efficiency
-    PERIODS_KEYS = Settings.periods_keys
+    PERIODS_KEYS = Settings.productivity_periods_keys
     extend ActiveSupport::Concern
 
     def abs_desviation(productivities, targets)

@@ -4,6 +4,9 @@ class StoreDepartment < ApplicationRecord
   include Defaults
   include CommercialCalendar::Period
 
+  PERIODS = Settings.productivity_periods_keys
+  WEEK_PERIODS = Settings.productivity_week_periods_keys
+
   belongs_to :store, dependent: :destroy
   belongs_to :department, dependent: :destroy
   belongs_to :world, dependent: :destroy
@@ -52,18 +55,6 @@ class StoreDepartment < ApplicationRecord
     target_productivities.sum / target_productivities.size
   end
 
-  def employees_types
-    employees.joins(:roles).select('roles.name').map.uniq
-  end
-
-  def optimized_shifts(opt = {})
-    data_cases.find_case(opt[:month], opt[:year]).summary_cases.output.real_dot
-  end
-
-  def actual_shifts(opt = {})
-    seller_shifts.by_year(opt[:year]).by_month(opt[:month]).shifts_staff
-  end
-
   def categories_sales(period = default_period)
     categories.joins(:sales).
       where('category_sales.date between ? AND ?', period[:start], period[:end]).
@@ -103,10 +94,10 @@ class StoreDepartment < ApplicationRecord
   end
 
   def categories_sales_by_date_hour(date)
-    hourly_sales = categories.joins(:sales).where(category_sales: {store_id: store, date: date}).
+    hourly_sales = categories.joins(:sales).where(category_sales: { store_id: store, date: date }).
       pluck('category_sales.hourly')
 
-    Settings.periods_keys.each_with_object({}) do |key, hash|
+    PERIODS.each_with_object({}) do |key, hash|
       hash[key] = hourly_sales.map { |sale| sale[key].to_i }.sum
     end
   end
@@ -114,10 +105,6 @@ class StoreDepartment < ApplicationRecord
   def efficiency(period = default_period)
     efficiencies = efficiency_by_date(period)
     efficiencies.values.sum / efficiencies.size
-  end
-
-  def goal_success(opts, period = default_period)
-    categories_sales(period) / categories_plan_sales(opts)
   end
 
   def productivity(period = default_period)
@@ -136,17 +123,36 @@ class StoreDepartment < ApplicationRecord
 
   def productivity_by_date_hour(period = default_period)
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
-      employees = self.employees.employees_by_hour(date)
+      employees = self.employees.count_employees_by_hour(date)
       sales = categories_sales_by_date_hour(date)
-      productivity = employees.keys.map { |hour| (sales[hour] / employees[hour][:count].to_f).round(2) }
+      productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
     end
   end
 
   def productivity_by_date(period = default_period)
-    by_date_hour = productivity_by_date_hour(period)
-    by_date_hour.keys.each_with_object({}) do |key, hash|
-      hash[key] = by_date_hour[key].values.sum / by_date_hour[key].values.size
+    productivities = productivity_by_date_hour(period)
+    productivity_filter_week_periods(productivities)
+  end
+
+  def target_productivity_by_date(period = default_period)
+    productivities = target_productivities.by_date_hour(period)
+    productivity_filter_week_periods(productivities)
+  end
+
+  private
+
+  def productivity_filter_week_periods(productivity)
+    productivity.keys.each_with_object({}) do |date, hash|
+      WEEK_PERIODS.keys.each do |p|
+        hash[p] ||= {}
+        hash[p][date] = if date_included_on_productivity_period?(p, date)
+                          period_selected = productivity[date].slice(*WEEK_PERIODS[p]).values
+                          period_selected.present? ? period_selected.sum / period_selected.size : 0
+                        else
+                          0
+                        end
+      end
     end
   end
 end

@@ -42,8 +42,8 @@ Employee.sellers.each do |seller|
         week_sale = department_sale / weeks
         week_sale += week_sale * rand(-0.07..0.03) if year != 2017
         (0..6).each do |day|
-          sellers = seller.store_department.sellers.employees_by_hour(date)
-          achievement = Settings.periods_keys.each_with_object({}) do |key, hash|
+          sellers = seller.store_department.sellers.count_employees_by_hour(date)
+          achievement = Settings.productivity_periods_keys.each_with_object({}) do |key, hash|
             hash[key] = (week_sale * (proportions_by_hour[day][key] / 100) / (sellers[key][:count] || 1) ).round.to_i
           end
 

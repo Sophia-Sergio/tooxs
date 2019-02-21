@@ -9,15 +9,21 @@ Rails.application.routes.draw do
       namespace :statistics do
         get :chart
         get :summary
-        get :compared_stores
+        get :compared_sales
       end
       namespace :employees do
         get :table
         get :index
         get :staff
       end
+      get 'employees/:id/calendar_shift',
+        to: 'employees#calendar_shift',
+        as: 'employee_calendar_shift'
+      get 'employees/:id/achievements_chart',
+        to: 'employees#achievements_chart',
+        as: 'employee_achievements_chart'
       namespace :periods do
-        get :month_period
+        get :filter_period
       end
       namespace :filters do
         get :compared_stores
