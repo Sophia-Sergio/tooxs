@@ -94,6 +94,11 @@ class Employee < User
     users_role.role
   end
 
+  def achievements_month_until_today
+    dates = { start: Date.today.beginning_of_month, end: Date.today }
+    achievements.between(dates).sum(:total_day)
+  end
+
   def work_shift(opts = {})
     opts = opts.present? ? opts : default_year_month_week
     shifts.find_by(user_shifts: opts).work_shift
