@@ -10,26 +10,6 @@ class EmployeesShow extends Component {
   state = {
     loading: true,
     result: '',
-    employee: {
-      id: 5,
-      name: 'Jorge',
-      last_name: 'Marroquín Suarez',
-      avatar: '',
-      rut: '12.222.008-7',
-      store: 'Alto Las Condes',
-      department: 'Juvenil mujer',
-      position: 'Vendedor tienda',
-      shift: 'Turno 1 de 45 horas',
-      sell: 55503480,
-      goal: 153000000.0,
-      objective: 0.36,
-      link: '/sellers/5',
-      phone: '+56 9 9999 9999',
-      address: 'El Vergel 323',
-      municipe: 'Providencia',
-      city: 'Santiago de Chile',
-      email: 'demo@tooxs.com'
-    },
     month_sales: [
       {
         week_name: 'Semana 1',
@@ -130,11 +110,11 @@ class EmployeesShow extends Component {
                     shifts={shifts}
                     employee={this.props.employee}
                   />
-                  <div className="tab-pane fade" id="sells" role="tabpanel" aria-labelledby="sells-tab">
-                    <div className="tab-pane__content">
-                      <MonthSales month_sales={month_sales} />
-                    </div>
-                  </div>
+                  <MonthSales
+                    root_url={this.props.root_url}
+                    month_sales={month_sales}
+                    employee={this.props.employee}
+                  />
                   <div className="tab-pane fade" id="available-shifts" role="tabpanel" aria-labelledby="available-shifts-tab">
                     <div className="tab-pane__content">
                       <MyAvailableShifts />
