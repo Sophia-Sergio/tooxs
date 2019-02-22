@@ -6,7 +6,7 @@ class EmployeesController < ApplicationController
   end
 
   def show
-    render json: EmployeePresenter.new(@employee).show
+    @employee = EmployeePresenter.new(@employee).show
   end
 
   def staff
