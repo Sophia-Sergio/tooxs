@@ -25,8 +25,8 @@ class WeekSells extends Component {
           </tr>
           <tr>
             <th> - </th>
-            {month.week_dates.map(day => (
-              <th>{day}</th>
+            {month.week_dates.map( (day, index) => (
+              <th key={index}>{day}</th>
             ))}
             <th></th>
           </tr>
