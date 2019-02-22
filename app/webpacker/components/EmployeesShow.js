@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { currencyFormat } from './helpers';
 import Schedule from './sellers/Schedule';
 import DaysOff from './sellers/DaysOff';
 import MonthSales from './sellers/MonthSales';
@@ -29,54 +30,6 @@ class EmployeesShow extends Component {
       city: 'Santiago de Chile',
       email: 'demo@tooxs.com'
     },
-    shifts: [
-      {
-        title: 'Turno 1 de 45 horas',
-        start: '2018-12-31',
-        textColor: 'white'
-      },
-      {
-        title: 'Turno 1 de 45 horas',
-        start: '2019-01-02'
-      },
-      {
-        title: 'Turno 1 de 45 horas',
-        start: '2019-01-03'
-      },
-      {
-        title: 'Turno 1 de 45 horas',
-        start: '2019-01-04'
-      },
-      {
-        title: 'Conference',
-        start: '2017-05-11',
-        end: '2017-05-13'
-      },
-      {
-        title: 'Meeting',
-        start: '2017-05-12T10:30:00',
-        end: '2017-05-12T12:30:00'
-      },
-      {
-        title: 'Birthday Party',
-        start: '2017-05-13T07:00:00'
-      },
-      {
-        title: 'Click for Google',
-        url: 'http://google.com/',
-        start: '2017-05-28'
-      }
-    ],
-    days_off: [
-      {
-        title: 'Feriado legal',
-        start: '2019-01-01'
-      },
-      {
-        title: 'Día libre',
-        start: '2019-01-05'
-      },
-    ],
     month_sales: [
       {
         week_name: 'Semana 1',
@@ -105,7 +58,8 @@ class EmployeesShow extends Component {
     ]
   }
   render () {
-    const { employee, shifts, days_off, month_sales } = this.state;
+    const { shifts, days_off, month_sales } = this.state;
+    const { employee } = this.props;
     return (
       <React.Fragment>
         <div className="col-md-12">
@@ -115,12 +69,18 @@ class EmployeesShow extends Component {
                 <div className="dashboard__user__avatar">
                   <div className="dashboard__user__avatar__image">
                     <figure>
-                      <img src={userDefault} alt={`${employee.name} ${employee.last_name}`} />
+                      <img
+                        src={ employee.avatar != '' ? employee.avatar : userDefault}
+                        alt={`${employee.name} ${employee.surename_1}`}
+                        />
                     </figure>
                   </div>
                   <div className="dashboard__user__avatar__name">
-                    <h3>{`${employee.name} ${employee.last_name}`} <span>Activo</span></h3>
-                    <h4>{employee.position}</h4>
+                    <h3>
+                      {`${employee.name} ${employee.surname_1}`}
+                      { employee.working_today && <span>En turno</span> }
+                    </h3>
+                    <h4>Sales assistant</h4>
                   </div>
                 </div>
               </div>
@@ -130,11 +90,11 @@ class EmployeesShow extends Component {
                     <i className="fa fa-building-o"></i>
                   </div>
                   <p>
-                    Turno asignado: <strong>{employee.shift}</strong><br/>
+                    Turno asignado: <strong>{employee.work_shift}</strong><br/>
                     Tienda: <strong>{employee.store}</strong><br/>
                     Departamento: <strong>{employee.department}</strong><br/>
                     Activo desde: <strong>Domingo 01 de Octubre 2017</strong><br/>
-                    Cumplimiento: <strong>$800.000</strong>
+                    Cumplimiento: <strong>${ currencyFormat(parseInt(employee.achievements)) }</strong>
                   </p>
                 </div>
               </div>
@@ -145,7 +105,7 @@ class EmployeesShow extends Component {
                   </div>
                   <p>
                     Dirección: <strong>{employee.address}</strong><br/>
-                    Comuna: <strong>{employee.municipe}</strong><br/>
+                    Comuna: <strong>{employee.commune}</strong><br/>
                     Ciudad: <strong>{employee.city}</strong><br/>
                     Teléfono: <strong>{employee.phone}</strong><br/>
                     E-mail: <strong>{employee.email}</strong>
@@ -165,7 +125,11 @@ class EmployeesShow extends Component {
                   </li>
                 </ul>
                 <div className="tab-content">
-                  <Schedule root_url={this.props.root_url} shifts={shifts} employee={this.props.employee} />
+                  <Schedule
+                    root_url={this.props.root_url}
+                    shifts={shifts}
+                    employee={this.props.employee}
+                  />
                   <div className="tab-pane fade" id="sells" role="tabpanel" aria-labelledby="sells-tab">
                     <div className="tab-pane__content">
                       <MonthSales month_sales={month_sales} />
