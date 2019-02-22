@@ -5,13 +5,16 @@ class CommercialCalendar
 
   extend ActiveSupport::Concern
 
-
   module Period
     def old_period(period)
       {
         start: month_period(year_by_date(period[:start]) - 1, month_by_date(period[:start]))[:start],
         end: month_period(year_by_date(period[:end]) - 1, month_by_date(period[:end]))[:end]
       }
+    end
+
+    def day_number(date)
+      date.wday.zero? ? 7 : date.wday
     end
 
     def equivalent_date_next_year(date)
@@ -42,7 +45,9 @@ class CommercialCalendar
       Date.new(date[0], date[1], date[2])
     end
 
-    def week_by_date(year, month, date)
+    def week_by_date(date)
+      month = month_by_date(date)
+      year = year_by_date(date)
       WEEKS_BY_MONTH[month].times do |week|
         period = week_period(year, month, week)
         return week if (period[:start]..period[:end]).cover? date.to_date
@@ -62,8 +67,8 @@ class CommercialCalendar
       {
         year: year,
         month: month,
-        week: week_by_date(year, month, date),
-        day: date.wday.zero? ? 7 : date.wday
+        week: week_by_date(date),
+        day: day_number(date)
       }
     end
 

@@ -7,7 +7,7 @@ module Api
       include FilterParameters
       before_action :set_store_department, :set_period
       before_action :set_employee, only: %i[calendar_shift achievements_chart]
-      before_action :set_calendar_period, only: %i[calendar_shift]
+      before_action :set_calendar_period, only: %i[calendar_shift achievements_chart]
       skip_before_action :verify_authenticity_token
 
       def calendar_shift
