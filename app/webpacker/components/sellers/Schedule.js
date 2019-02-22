@@ -66,8 +66,14 @@ class Schedule extends Component {
             }}
             defaultDate={new Date()}
             navLinks={false} // can click day/week names to navigate views
-            editable={false}
+            editable={true}
             eventLimit={true} // allow "more" link when too many events
+            eventRender={(eObj, el) => {
+              el.attr('data-toggle', 'tooltip');
+              el.attr('data-placement', 'top');
+              el.attr('data-trigger', 'hover click');
+              el.attr('title', eObj.title);
+            }}
             events={events}
             firstDay="1"
           />

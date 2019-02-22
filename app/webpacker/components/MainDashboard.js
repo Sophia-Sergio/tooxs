@@ -35,8 +35,9 @@ class MainDashboard extends Component {
         maintainAspectRatio: false,
         responsive: true,
       },
-      sellers: [],
       sales_assistants: [],
+      sellers: [],
+      employeesData: {},
     }
   }
 
@@ -45,9 +46,53 @@ class MainDashboard extends Component {
   }
 
   componentDidMount(){
-    this.getStatsData();
-    this.getChartData();
-    this.getEmployeesData();
+    this.getComponentData();
+  }
+
+  getComponentData = () => {
+    let parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
+    const getChartData = username => {
+      return axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`);
+    }
+    const getStatsData = () => {
+      return axios.get(`${this.props.root_url}/api/v1/statistics/summary?${parameters}`);
+    }
+    const getEmployeesData = () => {
+      return axios.get(`${this.props.root_url}/api/v1/employees/table?${parameters}`);
+    }
+    this.setState({loading: true});
+    axios.all
+      ([getChartData(), getStatsData(), getEmployeesData()])
+      .then(axios.spread((chartData, statsData, employeesData) => {
+        console.log(chartData.data, statsData.data, employeesData.data);
+        this.setState({
+          chartData: chartData.data,
+          stats: statsData.data,
+          sales_assistants: employeesData.data.sales_assistants ? employeesData.data.sales_assistants : [],
+          sellers: employeesData.data.sellers ? employeesData.data.sellers : [],
+          loading: false,
+        });
+        this.setState(state => {
+          state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
+          state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
+          state.chartData.datasets[0].borderWidth = 2;
+          state.chartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[0].pointBorderWidth = 2;
+          state.chartData.datasets[0].pointRadius = 5;
+          state.chartData.datasets[1].backgroundColor = 'rgba(137, 218, 89, .2)';
+          state.chartData.datasets[1].borderColor = 'rgba(137, 218, 89, 1)';
+          state.chartData.datasets[1].borderWidth = 2;
+          state.chartData.datasets[1].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[1].pointBorderWidth = 2;
+          state.chartData.datasets[1].pointRadius = 5;
+          return state;
+        });
+        console.log({chartData, statsData});
+      }))
+      .catch(error => {
+        this.setState({loading: false});
+        console.log(error);
+      });
   }
 
   createFiltersData(){
@@ -67,64 +112,6 @@ class MainDashboard extends Component {
       department: { value: department.id, label: department.name },
       departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) )
     })
-  }
-
-  getStatsData(){
-    this.setState({loading: true});
-    var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
-    axios.get(`${this.props.root_url}/api/v1/statistics/summary?${parameters}`)
-      .then(res => {
-        this.setState({ stats: res.data });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  getChartData(){
-    this.setState({loading: true});
-    var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
-    axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`)
-      .then(res => {
-        this.setState({chartData: res.data, loading: false});
-        this.setState(state => {
-          state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
-          state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
-          state.chartData.datasets[0].borderWidth = 2;
-          state.chartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
-          state.chartData.datasets[0].pointBorderWidth = 2;
-          state.chartData.datasets[0].pointRadius = 5;
-          state.chartData.datasets[1].backgroundColor = 'rgba(137, 218, 89, .2)';
-          state.chartData.datasets[1].borderColor = 'rgba(137, 218, 89, 1)';
-          state.chartData.datasets[1].borderWidth = 2;
-          state.chartData.datasets[1].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
-          state.chartData.datasets[1].pointBorderWidth = 2;
-          state.chartData.datasets[1].pointRadius = 5;
-          return state
-        })
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({
-          loading: false,
-          errors: {
-            result: 'No se econtraron coincidencias.'
-          }
-        })
-      });
-  }
-
-  getEmployeesData(){
-    // Ajax calls here
-    var parameters = `store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
-    axios.get(`${this.props.root_url}/api/v1/employees/table?${parameters}`)
-      .then(res => {
-        res.data.sales_assistants ? this.setState({ sales_assistants: res.data.sales_assistants}) : this.setState({ sales_assistants: []});
-        res.data.sellers ? this.setState({ sellers: res.data.sellers}) : this.setState({ sellers: []});
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 
   getDepartments(worlds, world){
@@ -183,11 +170,8 @@ class MainDashboard extends Component {
 
   handleSubmit = (e, month) => {
     e.preventDefault();
-    this.getStatsData();
-    this.getChartData();
-    this.getEmployeesData();
+    this.getComponentData();
   }
-  // Departamento, Año, Mes
 
   render() {
     const {
