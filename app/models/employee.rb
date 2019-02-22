@@ -1,10 +1,12 @@
 class Employee < User
   include CommercialCalendar::Period
+  include Defaults
 
   belongs_to :store_department
   delegate :department, to: :store_department, allow_nil: true
   delegate :store, to: :store_department, allow_nil: true
   has_many :work_shifts, through: :shifts
+  has_one :users_role, foreign_key: 'user_id'
 
   default_scope { active.joins(:roles).where.not(roles: { name: ['admin'] }) }
 
@@ -86,5 +88,23 @@ class Employee < User
 
   def plan_check_out(opts)
     shifts.find_case(opts).work_shift.plan_shifts.find_case(opts).check_out
+  end
+
+  def role
+    users_role.role
+  end
+
+  def work_shift(opts = {})
+    opts = opts.present? ? opts : default_year_month_week
+    shifts.find_by(user_shifts: opts).work_shift
+  end
+
+  def working_today?
+    worked_shifts.find_by(date: Date.today).present?
+  end
+
+  def should_work_today?
+    opts = { week: week_by_date(Date.today), day: day_number(Date.today) }
+    work_shift.plan_shifts.find_case(opts).check_in?
   end
 end
