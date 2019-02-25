@@ -69,7 +69,8 @@ class Employee < User
   # st-check horus
   def self.plan_hours(year, month)
     (1..Settings.weeks_by_month[month.to_i]).each_with_object({}) do |week, hash|
-      hash[week] = PlanHoursQuery.new(year: year, month: month, week: week).employees
+      opts = {year: year, month: month, week: week}
+      hash[week] = PlanHoursQuery.new(opts).employees
     end
   end
 

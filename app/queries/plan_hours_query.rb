@@ -6,7 +6,7 @@ class PlanHoursQuery
 
   def employees
     @employees.joins(:shifts).where(user_shifts:
-      { year: opts[:year], month: opts[:month], week: opts[:month], status: UserShift.statuses[:active] }).
+      { year: @opts[:year], month: @opts[:month], week: @opts[:month], status: UserShift.statuses[:active] }).
       joins('INNER JOIN work_shifts ON user_shifts.work_shift_id = work_shifts.id').
       joins('INNER JOIN plan_shifts ON plan_shifts.work_shift_id = work_shifts.id
         AND user_shifts.week = plan_shifts.week').
@@ -34,7 +34,7 @@ class PlanHoursQuery
   end
 
   def employee(employee)
-    call(opts).where('user_shifts.user_id = ?', employee)
+    call(@opts).where('user_shifts.user_id = ?', employee)
   end
 end
 
