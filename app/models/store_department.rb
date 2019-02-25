@@ -1,6 +1,6 @@
 # class for table departments
 class StoreDepartment < ApplicationRecord
-  include Statistics::Efficiency
+  include Stats::Efficiency
   include Defaults
   include CommercialCalendar::Period
 

@@ -46,10 +46,12 @@ module Api
 
       def achievements_chart
         achievements = @employee.achievements.between(@calendar_period)
+        target_achievements = @employee.target_achievements
         render json: {
-          labels: achievements.pluck(:date),
+          labels: target_achievements.keys,
           datasets: [
-            { label: 'Ventas', data: achievements.pluck(:total_day) }
+            { label: 'Real', data: achievements.pluck(:total_day) },
+            { label: 'Plan', data: target_achievements.values }
           ]
         }
       end

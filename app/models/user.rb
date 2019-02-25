@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   include CommercialCalendar::Period
-  include Statistics::Filters
+
+  include Stats::Filter
   include Defaults
   include ApplicationHelper
 

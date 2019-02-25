@@ -10,7 +10,7 @@ class EmployeePresenter < SimpleDelegator
     methods.each { |method| json[method.to_s] = json[method.to_s].name }
     json[:working_today] = @model.working_today?
     json[:should_work_today] = @model.should_work_today?
-    json[:achievements] = @model.achievements_month_until_today
+    json[:achievements] = @model.achievements_labor_month_until_today.sum(:total_day)
     json
   end
 end

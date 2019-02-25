@@ -69,7 +69,7 @@ class Employee < User
   # st-check horus
   def self.plan_hours(year, month)
     (1..Settings.weeks_by_month[month.to_i]).each_with_object({}) do |week, hash|
-      hash[week] = PlanHoursQuery.new.call(year: year, month: month, week: week)
+      hash[week] = PlanHoursQuery.new(year: year, month: month, week: week).employees
     end
   end
 
@@ -80,6 +80,15 @@ class Employee < User
       select('users.id').group('users.id').map do |employee|
         [employee.id, employee.array_work_shifts]
       end.to_h
+  end
+
+  def target_achievements(period = default_period)
+    achievements = store_department.target_productivities.by_date_hour(period)
+    (period[:start]..period[:end]).each_with_object({}) do |date, hash|
+      opts = { week: week_by_date(date), day: day_number(date) }
+      plan_shift_hours = work_shift.plan_shifts.find_case(opts).hours
+      hash[date] = achievements[date].slice(*plan_shift_hours).values.sum
+    end
   end
 
   def plan_check_in(opts)
@@ -94,9 +103,9 @@ class Employee < User
     users_role.role
   end
 
-  def achievements_month_until_today
+  def achievements_labor_month_until_today
     dates = { start: Date.today.beginning_of_month, end: Date.today }
-    achievements.between(dates).sum(:total_day)
+    achievements.between(dates)
   end
 
   def work_shift(opts = {})

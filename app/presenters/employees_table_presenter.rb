@@ -10,7 +10,8 @@ class EmployeesTablePresenter < SimpleDelegator
   def index
     json = @employees.include_store_department.includes(:roles).as_json(
       include: { store: { only: [:name] }, department: { only: [:name] }, roles: { only: [:name] } },
-      only: %i[id email name surname_1 rut avatar])
+      only: %i[id email name surname_1 rut avatar]
+    )
     json.each do |employee|
       employee[:shifts] = @shifts[employee['id']].uniq
       employee[:link] = employee_path(employee['id'])
