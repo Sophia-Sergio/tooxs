@@ -1,5 +1,6 @@
 class Employee < User
   include CommercialCalendar::Period
+  extend CommercialCalendar::Period
   include Defaults
 
   belongs_to :store_department
@@ -62,16 +63,8 @@ class Employee < User
   end
 
   def self.total_achievements(period)
-    joins(:achievements).where(achievements: { date: period[:start]..period[:end] }).
-      group('users.id').sum('achievements.total_day')
-  end
-
-  # st-check horus
-  def self.plan_hours(year, month)
-    (1..Settings.weeks_by_month[month.to_i]).each_with_object({}) do |week, hash|
-      opts = {year: year, month: month, week: week}
-      hash[week] = PlanHoursQuery.new(opts).employees
-    end
+    joins(:achievements).where(achievements: { date: period[:start]..period[:end]}).
+      group('achievements.user_id').sum('DISTINCT(achievements.total_day)')
   end
 
   def self.shifts_ids(year, month)
@@ -105,7 +98,8 @@ class Employee < User
   end
 
   def achievements_labor_month_until_today
-    dates = { start: Date.today.beginning_of_month, end: Date.today }
+    month_period = month_period(year_by_date(Date.today), month_by_date(Date.today))
+    dates = { start: month_period[:start], end: Date.today }
     achievements.between(dates)
   end
 

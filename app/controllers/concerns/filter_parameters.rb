@@ -25,6 +25,12 @@ module FilterParameters
   def set_calendar_period
     @calendar_period = {
       start: Date.new(params[:year_start].to_i, params[:month_start].to_i, 1),
+      end: Date.new(params[:year_start].to_i, params[:month_start].to_i, -1)
+    }
+    return unless params[:year_end].present? && params[:month_end].present?
+
+    @calendar_period = {
+      start: @calendar_period[:start],
       end: Date.new(params[:year_end].to_i, params[:month_end].to_i, -1)
     }
   end

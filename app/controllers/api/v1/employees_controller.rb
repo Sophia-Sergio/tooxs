@@ -7,7 +7,7 @@ module Api
       include FilterParameters
       before_action :set_store_department, :set_period
       before_action :set_employee, only: %i[calendar_shift achievements_chart]
-      before_action :set_calendar_period, only: %i[calendar_shift achievements_chart]
+      before_action :set_calendar_period, only: %i[calendar_shift achievements_chart table]
       skip_before_action :verify_authenticity_token
 
       def calendar_shift
@@ -32,7 +32,7 @@ module Api
         sellers = @store_dep.sellers.working_on_period(@period)
         return unless sellers.any?
 
-        EmployeesTablePresenter.new(sellers, params).sellers(@store_dep, @period)
+        EmployeesTablePresenter.new(sellers, params).sellers(@period)
       end
 
       def staff
@@ -45,8 +45,8 @@ module Api
       end
 
       def achievements_chart
-        achievements = @employee.achievements.between(@calendar_period)
-        target_achievements = @employee.target_achievements
+        achievements = @employee.achievements.between(@period)
+        target_achievements = @employee.target_achievements(@period)
         render json: {
           labels: target_achievements.keys,
           datasets: [
