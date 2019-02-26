@@ -1,11 +1,13 @@
 class Employee < User
   include CommercialCalendar::Period
+  extend CommercialCalendar::Period
   include Defaults
 
   belongs_to :store_department
   delegate :department, to: :store_department, allow_nil: true
   delegate :store, to: :store_department, allow_nil: true
   has_many :work_shifts, through: :shifts
+  has_many :shift_breaks, foreign_key: 'user_id'
   has_one :users_role, foreign_key: 'user_id'
 
   default_scope { active.joins(:roles).where.not(roles: { name: ['admin'] }) }
@@ -21,10 +23,10 @@ class Employee < User
   def calendar_shift(period)
     worked_shift_period = { start: period[:start], end: Date.today - 1 }
     plan_shift_period   = { start: Date.today, end: period[:end] }
-    worked_shift(worked_shift_period).merge(plan_shift(plan_shift_period))
+    worked_shifts_dates(worked_shift_period).merge(plan_shifts_dates(plan_shift_period))
   end
 
-  def worked_shift(period)
+  def worked_shifts_dates(period)
     hash = worked_shifts.between_dates(period).each_with_object({}) do |worked_shift, h|
       shift = "#{worked_shift.check_in.strftime('%H:%M')} - #{worked_shift.check_out.strftime('%H:%M')}"
       h[worked_shift.date] = shift
@@ -32,7 +34,7 @@ class Employee < User
     (period[:start]..period[:end]).each_with_object({}) { |d, h| h[d] = nil }.merge(hash)
   end
 
-  def plan_shift(period)
+  def plan_shifts_dates(period)
     date = period[:start]
     hash = shifts.between_dates(period).each_with_object({}) do |shift, h|
       opts = { year: shift.year, month: shift.month, week: shift.week, shift: shift.work_shift_id }
@@ -62,15 +64,8 @@ class Employee < User
   end
 
   def self.total_achievements(period)
-    joins(:achievements).where(achievements: { date: period[:start]..period[:end] }).
-      group('users.id').sum('achievements.total_day')
-  end
-
-  # st-check horus
-  def self.plan_hours(year, month)
-    (1..Settings.weeks_by_month[month.to_i]).each_with_object({}) do |week, hash|
-      hash[week] = PlanHoursQuery.new.call(year: year, month: month, week: week)
-    end
+    joins(:achievements).where(achievements: { date: period[:start]..period[:end]}).
+      group('achievements.user_id').sum('DISTINCT(achievements.total_day)')
   end
 
   def self.shifts_ids(year, month)
@@ -80,6 +75,20 @@ class Employee < User
       select('users.id').group('users.id').map do |employee|
         [employee.id, employee.array_work_shifts]
       end.to_h
+  end
+
+  def target_achievements(period = default_period)
+    achievements = store_department.target_productivities.by_date_hour(period)
+    (period[:start]..period[:end]).each_with_object({}) do |date, hash|
+      shifts_breaks = shift_breaks.date(date).break_times
+      shifts_breaks.keys.each { |hour| achievements[date][hour] *= shifts_breaks[hour] }
+      hash[date] = achievements[date].slice(*hours_period_should_work(date)).values.sum
+    end
+  end
+
+  def hours_period_should_work(date = Date.today)
+    opts = { week: week_by_date(date), day: day_number(date) }
+    work_shift.plan_shifts.find_case(opts).hours_should_work
   end
 
   def plan_check_in(opts)
@@ -94,9 +103,10 @@ class Employee < User
     users_role.role
   end
 
-  def achievements_month_until_today
-    dates = { start: Date.today.beginning_of_month, end: Date.today }
-    achievements.between(dates).sum(:total_day)
+  def achievements_labor_month_until_today
+    month_period = month_period(year_by_date(Date.today), month_by_date(Date.today))
+    period = { start: month_period[:start], end: Date.today }
+    achievements.between(period)
   end
 
   def work_shift(opts = {})
@@ -110,6 +120,6 @@ class Employee < User
 
   def should_work_today?
     opts = { week: week_by_date(Date.today), day: day_number(Date.today) }
-    work_shift.plan_shifts.find_case(opts).check_in?
+    work_shift.plan_shifts.find_case(opts).check_in.present?
   end
 end

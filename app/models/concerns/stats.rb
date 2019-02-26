@@ -1,7 +1,8 @@
-module Statistics
+module Stats
+  extend ActiveSupport::Concern
+
   module Efficiency
     PERIODS_KEYS = Settings.productivity_periods_keys
-    extend ActiveSupport::Concern
 
     def abs_desviation(productivities, targets)
       PERIODS_KEYS.map do |period|
@@ -30,7 +31,7 @@ module Statistics
     end
   end
 
-  module Filters
+  module Filter
     include ApplicationHelper
     def years_filter(date = Date.today)
       actual_year = year_by_date(date)

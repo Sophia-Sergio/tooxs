@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_22_155742) do
+ActiveRecord::Schema.define(version: 2019_02_26_141411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -168,9 +168,12 @@ ActiveRecord::Schema.define(version: 2019_02_22_155742) do
   create_table "shift_breaks", force: :cascade do |t|
     t.bigint "user_id"
     t.date "date"
-    t.time "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.time "check_in"
+    t.time "check_out"
+    t.integer "reason"
+    t.text "reason_desc"
     t.index ["user_id"], name: "index_shift_breaks_on_user_id"
   end
 
