@@ -23,7 +23,8 @@ seeds = [
   'achievements',
   'new_stores',
   'new_stores2',
-  'update_first_day_users'
+  'update_first_day_users',
+  'shift_breaks'
 ]
 
 seeds.each do |seed|
