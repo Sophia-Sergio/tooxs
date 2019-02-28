@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
   get 'dashboard/index'
-  resources :departments
-  resources :stores
   resources :staff_requests
 
   namespace :api do
@@ -46,12 +44,16 @@ Rails.application.routes.draw do
     get :show
   end
 
-  resources :employees, only: [:index, :show] do
+  resources :employees, only: %i[index show] do
     collection do
       get :staff
       get :staff_planning
       get :departments_staff
     end
+  end
+
+  resources :stores, only: %i[index show] do
+    resources :departments, only: %i[index show]
   end
 
   devise_for :users, controllers: {
