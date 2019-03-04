@@ -50,7 +50,10 @@ module Api
       end
 
       def efficiency_summary
-        render json: ChartSummaryPresenter.new(@store_dep, @period).chart
+        json = Rails.cache.fetch("/efficiency/#{@store_dep.id}/#{@period}") do
+          ChartSummaryPresenter.new(@store_dep, @period).chart
+        end
+        render json: json
       end
 
       def productivity

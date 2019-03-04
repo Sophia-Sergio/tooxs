@@ -1,5 +1,3 @@
-require 'rubyXL'
-
 # Store class for stores table
 class Store < ApplicationRecord
   include CommercialCalendar::Period
