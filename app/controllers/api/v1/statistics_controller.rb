@@ -38,8 +38,11 @@ module Api
       end
 
       def efficiency
-        real = @store_dep.efficiency_by_date(@period)
+        real = Rails.cache.fetch("/efficiency/chart/#{@store_dep.id}/#{@period}") do
+          @store_dep.efficiency_by_date(@period)
+        end
         optimized = real.values.map { |value| value * rand(1.2..1.4) }
+
         render json: {
           labels: real.keys.map { |date| "#{date.strftime('%d')}-#{date.strftime('%m')}" },
           datasets: [
@@ -50,16 +53,17 @@ module Api
       end
 
       def efficiency_summary
-        json = Rails.cache.fetch("/efficiency/#{@store_dep.id}/#{@period}") do
+        json = Rails.cache.fetch("/efficiency/summary/#{@store_dep.id}/#{@period}") do
           ChartSummaryPresenter.new(@store_dep, @period).chart
         end
         render json: json
       end
 
       def productivity
-        render json: {
-          chart: ProductivityStatsPresenter.new(@store_dep, @period).chart(productivity_data)
-        }
+        json = Rails.cache.fetch("/productivity/#{@store_dep.id}/#{@period}") do
+          ProductivityStatsPresenter.new(@store_dep, @period).chart(productivity_data)
+        end
+        render json: { chart: json }
       end
 
       def productivity_data
