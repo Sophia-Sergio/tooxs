@@ -72,8 +72,8 @@ class StatsPresenter < SimpleDelegator
     when 'daily'
       data.values
     when 'weekly'
-      times = data.values.length / 7
-      (1..times).each_with_object([]) { |_, array| array << data.values.shift(7).sum }
+      times = (data.values.length / 7) - 1
+      (0..times).each_with_object([]) { |i, a| a << data.values[(7 * i)..((i + 1) * 7 - 1)].sum }
     when 'monthly'
       date_start = data.keys.first
       date_end   = data.keys.last

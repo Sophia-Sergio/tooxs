@@ -49,7 +49,9 @@ class StoreDepartment < ApplicationRecord
     end
   end
 
-  def year_month_target_productivity(year, month)
+  def year_month_target_productivity(period = default_period)
+    year  = year_by_date(period[:start])
+    month = month_by_date(period[:start])
     target_productivities = self.target_productivities.
       where(year: year, month: month).pluck(:amount)
     target_productivities.sum / target_productivities.size

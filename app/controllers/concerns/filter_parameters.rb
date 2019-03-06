@@ -11,8 +11,11 @@ module FilterParameters
 
   def set_store_department
     if params.key?(:store) && params.key?(:department)
+      return @store_dep = Store.find(params[:store]) if params[:department].to_i == 999
+
       return @store_dep = StoreDepartment.find_by(
-        store: params[:store], department: params[:department])
+        store: params[:store], department: params[:department]
+      )
     end
 
     @store_dep = current_user.store_department

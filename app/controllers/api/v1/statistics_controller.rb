@@ -38,7 +38,7 @@ module Api
       end
 
       def efficiency
-        real = Rails.cache.fetch("/efficiency/chart/#{@store_dep.id}/#{@period}") do
+        real = Rails.cache.fetch("/efficiency/chart/#{params[:store]}/#{params[:department]}/#{@period}") do
           @store_dep.efficiency_by_date(@period)
         end
         optimized = real.values.map { |value| value * rand(1.2..1.4) }

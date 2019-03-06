@@ -26,8 +26,7 @@ class ChartSummaryPresenter < StatsPresenter
   end
 
   def productivity
-    avg_target_productivity = @model.year_month_target_productivity(
-      year_by_date(@period[:start]), month_by_date(@period[:start]))
+    avg_target_productivity = @model.year_month_target_productivity(@period)
     {
       name: 'CUMPLIMIENTO REAL',
       value: "$#{number_with_delimiter(@model.productivity(@period).round)}",
