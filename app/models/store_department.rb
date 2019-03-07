@@ -80,7 +80,7 @@ class StoreDepartment < ApplicationRecord
   end
 
   def categories_plan_sales(period = default_period)
-    categories_plan_sales_between_dates(period[:start], period[:end]).
+    categories_plan_sales_between_dates(period).
       group(:year, :month).sum('category_sales_plans.monthly')
   end
 

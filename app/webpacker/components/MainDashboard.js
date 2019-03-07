@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { currencyFormat } from "./helpers";
+import { currencyFormat, monthFormat, dayMonthFormat } from './helpers';
 import Loader from "./layout/Loader";
 import Select from 'react-select';
 import {Line} from 'react-chartjs-2';
@@ -8,6 +8,7 @@ import { merge } from 'lodash';
 import Stats from './Stats';
 import ShiftPlan from './dashboard/ShiftPlan';
 import EmployeesTable from './dashboard/EmployeesTable';
+
 
 class MainDashboard extends Component {
   constructor(props){
@@ -38,6 +39,7 @@ class MainDashboard extends Component {
       sales_assistants: [],
       sellers: [],
       employeesData: {},
+      period: ''
     }
   }
 
@@ -47,52 +49,83 @@ class MainDashboard extends Component {
 
   componentDidMount(){
     this.getComponentData();
+
+  }
+
+  getPeriod(){
+    var parameters = `year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
+    axios.get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
+      .then(res => {
+        const start = new Date(res.data.start);
+        const startYear = start.getFullYear();
+        const startMonth = start.getMonth();
+        const startDay = start.getDate();
+        const end = new Date(res.data.end);
+        const endYear = end.getFullYear();
+        const endMonth = end.getMonth();
+        const endDay = end.getDate();
+        this.setState({
+          period: `Datos desde el ${ startDay } de ${ monthFormat(startMonth + 1) } de ${ startYear } al ${ endDay } de ${ monthFormat(endMonth + 1) } de ${ endYear }`,
+        });
+        this.setState({loading: false});
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  getChartData(parameters){
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`).then(response => {
+      this.setState({
+        chartData: response.data,
+      });
+      this.setState(state => {
+        state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
+        state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
+        state.chartData.datasets[0].borderWidth = 2;
+        state.chartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+        state.chartData.datasets[0].pointBorderWidth = 2;
+        state.chartData.datasets[0].pointRadius = 5;
+        state.chartData.datasets[1].backgroundColor = 'rgba(137, 218, 89, .2)';
+        state.chartData.datasets[1].borderColor = 'rgba(137, 218, 89, 1)';
+        state.chartData.datasets[1].borderWidth = 2;
+        state.chartData.datasets[1].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+        state.chartData.datasets[1].pointBorderWidth = 2;
+        state.chartData.datasets[1].pointRadius = 5;
+      });
+      this.getEmployeesData(parameters);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  getStatsData(parameters){
+    axios.get(`${this.props.root_url}/api/v1/statistics/summary?${parameters}`).then(response => {
+      this.setState({
+        stats: response.data,
+      });
+      this.getChartData(parameters)
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  getEmployeesData(parameters){
+    axios.get(`${this.props.root_url}/api/v1/employees/table?${parameters}`).then(response => {
+      this.setState({
+        sales_assistants: response.data.sales_assistants ? response.data.sales_assistants : [],
+        sellers: response.data.sellers ? response.data.sellers : [],
+      });
+      this.getPeriod();
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   getComponentData = () => {
-    let parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
-    const getChartData = username => {
-      return axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`);
-    }
-    const getStatsData = () => {
-      return axios.get(`${this.props.root_url}/api/v1/statistics/summary?${parameters}`);
-    }
-    const getEmployeesData = () => {
-      return axios.get(`${this.props.root_url}/api/v1/employees/table?${parameters}`);
-    }
     this.setState({loading: true});
-    axios.all
-      ([getChartData(), getStatsData(), getEmployeesData()])
-      .then(axios.spread((chartData, statsData, employeesData) => {
-        console.log(chartData.data, statsData.data, employeesData.data);
-        this.setState({
-          chartData: chartData.data,
-          stats: statsData.data,
-          sales_assistants: employeesData.data.sales_assistants ? employeesData.data.sales_assistants : [],
-          sellers: employeesData.data.sellers ? employeesData.data.sellers : [],
-          loading: false,
-        });
-        this.setState(state => {
-          state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
-          state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
-          state.chartData.datasets[0].borderWidth = 2;
-          state.chartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
-          state.chartData.datasets[0].pointBorderWidth = 2;
-          state.chartData.datasets[0].pointRadius = 5;
-          state.chartData.datasets[1].backgroundColor = 'rgba(137, 218, 89, .2)';
-          state.chartData.datasets[1].borderColor = 'rgba(137, 218, 89, 1)';
-          state.chartData.datasets[1].borderWidth = 2;
-          state.chartData.datasets[1].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
-          state.chartData.datasets[1].pointBorderWidth = 2;
-          state.chartData.datasets[1].pointRadius = 5;
-          return state;
-        });
-        console.log({chartData, statsData});
-      }))
-      .catch(error => {
-        this.setState({loading: false});
-        console.log(error);
-      });
+    let parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
+    this.getStatsData(parameters);
   }
 
   createFiltersData(){
@@ -188,6 +221,7 @@ class MainDashboard extends Component {
       stats,
       sales_assistants,
       sellers,
+      period
 
      } = this.state;
 
@@ -239,7 +273,7 @@ class MainDashboard extends Component {
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            <p className="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
+            <p className="card-text">{period}</p>
           </div>
         </div>
         <div className="col-12 mb-2">
