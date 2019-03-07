@@ -60,9 +60,8 @@ module Api
       end
 
       def productivity
-        json = Rails.cache.fetch("/productivity/#{@store_dep.id}/#{@period}") do
-          ProductivityStatsPresenter.new(@store_dep, @period).chart(productivity_data)
-        end
+        json = ProductivityStatsPresenter.new(@store_dep, @period).chart(productivity_data)
+
         render json: { chart: json }
       end
 
@@ -84,7 +83,7 @@ module Api
         {
           sales: @store_dep.categories_sales_by_dates(@period),
           last_year_sales: @store_dep.categories_sales_by_dates(@old_period),
-          categories_plan_sales_by_dates: @store_dep.categories_plan_sales_by_dates(@period)
+          categories_plan_sales_by_dates: @store_dep.categories_sales_plan_by_dates(@period)
         }
       end
 

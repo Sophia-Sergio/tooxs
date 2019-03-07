@@ -19,17 +19,23 @@ class ComparativeSales extends Component {
         { value: '2', label: 'Parque Arauco' },
         { value: '3', label: 'Costanera Center' }
       ],
-      year: { value: '2018', label: '2018' },
+      year: { value: '2019', label: '2019' },
       yearOptions: [
-        { value: '2018', label: '2018' },
-        { value: '2017', label: '2017' },
-        { value: '2016', label: '2016' }
+        { value: '2019', label: '2019' },
+        { value: '2018', label: '2018' }
       ],
-      month: { value: '7', label: 'Julio' },
+      month: { value: '3', label: 'Marzo' },
       monthOptions: [
-        { value: '7', label: 'Julio' },
+        { value: '3', label: 'Marzo' },
+        { value: '4', label: 'Abril' },
+        { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
-        { value: '5', label: 'Mayo' }
+        { value: '7', label: 'Julio' },
+        { value: '8', label: 'Agosto' },
+        { value: '9', label: 'Septiembre' },
+        { value: '10', label: 'Octubre' },
+        { value: '11', label: 'Noviembre' },
+        { value: '12', label: 'Diciembre' }
       ],
       chartData: {
         labels: ["30","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27"],
