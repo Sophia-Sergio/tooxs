@@ -12,7 +12,7 @@ class ShiftPlan extends Component {
           <div className="progress">
             <div className="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{ width: '53%' }}></div>
           </div>
-          <p className="card-text">8 de los 15 colaboradores óptimos se han comprometido</p>
+          <p className="card-text">12 de los 15 colaboradores óptimos se han comprometido</p>
           <div className="table-responsive">
             <h5 className="card-title">Colaboradores por turno</h5>
             <table className="table">
