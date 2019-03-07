@@ -10,28 +10,32 @@ class SalesStatsPresenter < StatsPresenter
     }
   end
 
-  def compared_stores_chart(sales)
+  def compared_stores_chart(sales, label_period)
     actual_store_sales = values_peridiocity(sales[:actual_store_sales], chart_period)
     {
-      labels: dates_peridiocity(sales[:actual_store_sales].keys, chart_period),
+      labels: dates_peridiocity(label_period, chart_period),
       datasets: [
         { label: @model.store.name, data: actual_store_sales }
       ] + compared_stores_common(sales[:compared_stores], 'periodicity')
     }
   end
 
-  def compared_stores_summary(sales)
+  def compared_stores_summary(sales, full_period)
+    period = (full_period[:start]..full_period[:end]).to_a
+    titles = summary_table_titles_json(period)
+    actual_store = fill_with_zeros(titles[:title], summary_table_values(sales[:actual_store_sales]))
     {
       datasets: [
-        { label: @model.store.name, data: summary_table_values(sales[:actual_store_sales]) },
-      ] + compared_stores_common(sales[:compared_stores], 'summary')
-    }.merge(summary_table_titles_json(sales[:actual_store_sales].keys))
+        { label: @model.store.name, data: actual_store }
+      ] + compared_stores_common(sales[:compared_stores], 'summary', titles[:title])
+    }.merge(titles)
   end
 
-  def compared_stores_common(sales, type)
+  def compared_stores_common(sales, type, titles = [])
     sales.each_with_object([]) do |store_department, array|
       if type == 'summary'
         store_dep_sales = summary_table_values(store_department[:sales])
+        fill_with_zeros(titles, store_dep_sales)
       elsif type == 'periodicity'
         store_dep_sales = values_peridiocity(store_department[:sales], chart_period)
       end
@@ -39,12 +43,17 @@ class SalesStatsPresenter < StatsPresenter
     end
   end
 
+  def fill_with_zeros(supposed_bigger, supposed_minor)
+    if supposed_bigger.length > supposed_minor.length
+      (supposed_bigger.length - supposed_minor.length).times { supposed_minor << 0 }
+    end
+    supposed_minor
+  end
+
   def summary(sales)
     plan_summary = summary_table_values(sales[:categories_plan_sales_by_dates])
     real_summary = summary_table_values(sales[:sales])
-    if plan_summary.length > real_summary.length
-      (plan_summary.length - real_summary.length).times { real_summary << 0 }
-    end
+    fill_with_zeros(plan_summary, real_summary)
     {
       datasets: [
         { label: 'Real', data: real_summary },

@@ -37,7 +37,11 @@ class MonthTable extends Component {
   }
 
   getPercentageDifference = (val, index) => {
-    return (( ( this.props.datasets[0].data[index] - parseInt(val) ) / parseInt(val) ) * 100).toFixed(2);
+    let percentage = (( ( this.props.datasets[0].data[index] - parseInt(val) ) / parseInt(val) ) * 100).toFixed(2);
+    if (isNaN(percentage)){
+      percentage = 0;
+    }
+    return percentage;
   }
 
   render() {
@@ -77,7 +81,7 @@ class MonthTable extends Component {
                         <td className={ ( isCompared && index === 0) && 'shifts' }>
                           ${ currencyFormat(parseInt(item)) }
                           { (index != 0 && this.props.isCompared) &&
-                            <span className={'difference ' + (this.getPercentageDifference(item, i) > 0 ? 'positive' : 'negative') }>
+                            <span className={'difference ' + (this.getPercentageDifference(item, i) >= 0 ? 'positive' : 'negative') }>
                               { this.getPercentageDifference(item, i) }%
                             </span>
                           }

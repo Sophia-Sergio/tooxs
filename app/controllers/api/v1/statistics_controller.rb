@@ -31,9 +31,9 @@ module Api
       def compared_sales
         render json: {
           chart: SalesStatsPresenter.new(@store_dep, @period).
-            compared_stores_chart(compared_stores_data),
+            compared_stores_chart(compared_stores_data, @label_period),
           summary: SalesStatsPresenter.new(@store_dep, @period).
-            compared_stores_summary(compared_stores_data)
+            compared_stores_summary(compared_stores_data, @full_period)
         }
       end
 
