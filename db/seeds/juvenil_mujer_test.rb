@@ -106,24 +106,24 @@
 #   end
 # end
 
-# include CommercialCalendar::Period
-# categories = StoreDepartment.find_by(store_id: 13, department_id: 3).categories
-# weeks_factors = [
-#   [0.1260080645, 0.1272681452, 0.1323084677, 0.1335685484, 0.1512096774, 0.1663306452, 0.1633064516],
-#   [0.1211849136, 0.1325413713, 0.1338031482, 0.137063898, 0.1500694142, 0.1632623005, 0.1620749542],
-#   [0.1210918046, 0.1206378981, 0.1337002915, 0.1342464461, 0.1558928436, 0.1679824583, 0.1664482579],
-#   [0.1254298282, 0.1268960623, 0.1325598853, 0.1334997166, 0.1513142937, 0.1666728849, 0.1636273289]
-# ]
-# categories.each do |category|
-#   (2018..2019).each do |year|
-#     (1..12).each do |month|
-#       category.sales_plans.where(year: year, month: month).each do |sales_plan|
-#         daily = sales_plan.daily.each_with_object({}) do |(day, value), hash|
-#           hash[day] = value.to_i * 1.1
-#         end
-#         sales_plan.daily = daily
-#         sales_plan.save!
-#       end
-#     end
-#   end
-# end
+include CommercialCalendar::Period
+categories = StoreDepartment.find_by(store_id: 13, department_id: 3).categories
+weeks_factors = [
+  [0.1260080645, 0.1272681452, 0.1323084677, 0.1335685484, 0.1512096774, 0.1663306452, 0.1633064516],
+  [0.1211849136, 0.1325413713, 0.1338031482, 0.137063898, 0.1500694142, 0.1632623005, 0.1620749542],
+  [0.1210918046, 0.1206378981, 0.1337002915, 0.1342464461, 0.1558928436, 0.1679824583, 0.1664482579],
+  [0.1254298282, 0.1268960623, 0.1325598853, 0.1334997166, 0.1513142937, 0.1666728849, 0.1636273289]
+]
+categories.each do |category|
+  (2018..2019).each do |year|
+    (1..12).each do |month|
+      category.sales_plans.where(year: year, month: month).each do |sales_plan|
+        daily = sales_plan.daily.each_with_object({}) do |(day, value), hash|
+          hash[day] = value.to_i / 3.2
+        end
+        sales_plan.daily = daily
+        sales_plan.save!
+      end
+    end
+  end
+end
