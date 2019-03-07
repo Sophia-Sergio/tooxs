@@ -145,7 +145,7 @@ class SalesMonth extends Component {
         this.setState({
           chartData: {
             ...this.state.chartData,
-            labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) ),
+            labels: this.state.chartData.labels,
           }
         });
         this.setState(state => {

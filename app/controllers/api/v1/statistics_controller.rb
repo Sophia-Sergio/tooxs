@@ -5,7 +5,7 @@ module Api
     # only statistics
     class StatisticsController < ApplicationController
       include FilterParameters
-      before_action :set_store_department, :set_period
+      before_action :set_store_department, :set_period, :set_label_period, :set_demo_efficiency_optimized
       before_action :set_old_period, only: %i[chart]
 
       def chart
@@ -38,13 +38,11 @@ module Api
       end
 
       def efficiency
-        real = Rails.cache.fetch("/efficiency/chart/#{params[:store]}/#{params[:department]}/#{@period}") do
-          @store_dep.efficiency_by_date(@period)
-        end
-        optimized = real.values.map { |value| value * rand(1.2..1.4) }
+        real = @store_dep.efficiency_by_date(@period)
+        optimized = @efficiency_optimized
 
         render json: {
-          labels: real.keys.map { |date| "#{date.strftime('%d')}-#{date.strftime('%m')}" },
+          labels: @label_period,
           datasets: [
             { label: 'Eficiencia Real', data: real.values },
             { label: 'Eficiencia Óptima', data: optimized }
@@ -56,7 +54,7 @@ module Api
         json = Rails.cache.fetch("/efficiency/summary/#{@store_dep.id}/#{@period}") do
           ChartSummaryPresenter.new(@store_dep, @period).chart
         end
-        render json: ChartSummaryPresenter.new(@store_dep, @period).chart
+        render json: json
       end
 
       def productivity
@@ -75,8 +73,8 @@ module Api
 
       def sales
         render json: {
-          chart: SalesStatsPresenter.new(@store_dep, @period).chart(sales_data),
-          summary: SalesStatsPresenter.new(@store_dep, @period).summary(sales_data)
+          chart: SalesStatsPresenter.new(@store_dep, @full_period).chart(sales_data, @label_period),
+          summary: SalesStatsPresenter.new(@store_dep, @full_period).summary(sales_data)
         }
       end
 
@@ -84,7 +82,7 @@ module Api
         {
           sales: @store_dep.categories_sales_by_dates(@period),
           last_year_sales: @store_dep.categories_sales_by_dates(@old_period),
-          categories_plan_sales_by_dates: @store_dep.categories_sales_plan_by_dates(@period)
+          categories_plan_sales_by_dates: @store_dep.categories_sales_plan_by_dates(@full_period)
         }
       end
 

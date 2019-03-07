@@ -47,7 +47,7 @@ class SidebarItem extends Component {
             id: 2,
             name: 'Cambiar plan',
             icon: ChangePlanIcon,
-            link: '/config/plan_change'
+            link: 'https://tooxs-demo.herokuapp.com/config/change_plan'
           },
           {
             id: 3,

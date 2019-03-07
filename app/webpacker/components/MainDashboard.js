@@ -65,7 +65,7 @@ class MainDashboard extends Component {
         const endMonth = end.getMonth();
         const endDay = end.getDate();
         this.setState({
-          period: `Datos desde el ${ startDay } de ${ monthFormat(startMonth + 1) } de ${ startYear } al ${ endDay } de ${ monthFormat(endMonth + 1) } de ${ endYear }`,
+          period: `Datos desde el ${ startDay + 1} de ${ monthFormat(startMonth + 1) } de ${ startYear } al ${ endDay +1 } de ${ monthFormat(endMonth + 1) } de ${ endYear }`,
         });
         this.setState({loading: false});
       })

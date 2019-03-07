@@ -2,6 +2,7 @@
 import './favicon.png'
 import './tooxs-logo-color.svg'
 import './falabella_logo.jpg'
+import './salcobrand.png'
 import './sodimac_logo.jpg'
 import './tottus_logo.jpg'
 // Backgrounds

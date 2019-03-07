@@ -1,7 +1,7 @@
 class SalesStatsPresenter < StatsPresenter
-  def chart(sales)
+  def chart(sales, label_period)
     {
-      labels: dates_peridiocity(sales[:sales].keys, chart_period),
+      labels: dates_peridiocity(label_period, chart_period),
       datasets: [
         { label: 'Real', data: values_peridiocity(sales[:sales], chart_period) },
         { label: 'Histórico', data: values_peridiocity(sales[:last_year_sales], chart_period) },
@@ -40,12 +40,17 @@ class SalesStatsPresenter < StatsPresenter
   end
 
   def summary(sales)
+    plan_summary = summary_table_values(sales[:categories_plan_sales_by_dates])
+    real_summary = summary_table_values(sales[:sales])
+    if plan_summary.length > real_summary.length
+      (plan_summary.length - real_summary.length).times { real_summary << 0 }
+    end
     {
       datasets: [
-        { label: 'Real', data: summary_table_values(sales[:sales]) },
+        { label: 'Real', data: real_summary },
         { label: 'Histórico', data: summary_table_values(sales[:last_year_sales]) },
-        { label: 'Plan', data: summary_table_values(sales[:categories_plan_sales_by_dates]) }
+        { label: 'Plan', data: plan_summary }
       ]
-    }.merge(summary_table_titles_json(sales[:sales].keys))
+    }.merge(summary_table_titles_json(sales[:categories_plan_sales_by_dates].keys))
   end
 end
