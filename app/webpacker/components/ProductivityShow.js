@@ -195,7 +195,7 @@ class ProductivityShow extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">Resultado de búsqueda</h5>
-            <p className="card-text">Datos desde el 25 de febrero al 24 de marzo de 2019</p>
+            <p className="card-text">Datos desde el 25 de febrero al 7 de marzo de 2019</p>
           </div>
         </div>
         <div className="col-12 mb-2">
