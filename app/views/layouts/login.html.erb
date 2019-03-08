@@ -45,10 +45,6 @@
               <%= f.input :email, required: false, autofocus: true %>
               <%= f.input :password, required: false %>
 
-              <% unless alert.nil? %>
-              <span class="login-alert"><%= alert %></span>
-              <% end %>
-
               <button class="btn login__form__login-form__button" type="submit" name="button">Ingresar</button>
 
             <% end %>
