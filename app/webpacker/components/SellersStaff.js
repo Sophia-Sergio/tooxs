@@ -16,17 +16,23 @@ class StaffingIndex extends Component {
     storeOptions: [],
     department: { value: '12', label: 'Juvenil mujer' },
     departmentOptions: [],
-    year: { value: '2018', label: '2018' },
+    year: { value: '2019', label: '2019' },
     yearOptions: [
-      { value: '2018', label: '2018' },
-      { value: '2017', label: '2017' },
-      { value: '2016', label: '2016' }
+      { value: '2019', label: '2019' },
+      { value: '2018', label: '2018' }
     ],
-    month: { value: '7', label: 'Julio' },
+    month: { value: '3', label: 'Marzo' },
     monthOptions: [
-      { value: '7', label: 'Julio' },
+      { value: '3', label: 'Marzo' },
+      { value: '4', label: 'Abril' },
+      { value: '5', label: 'Mayo' },
       { value: '6', label: 'Junio' },
-      { value: '5', label: 'Mayo' }
+      { value: '7', label: 'Julio' },
+      { value: '8', label: 'Agosto' },
+      { value: '9', label: 'Septiembre' },
+      { value: '10', label: 'Octubre' },
+      { value: '11', label: 'Noviembre' },
+      { value: '12', label: 'Diciembre' }
     ],
     employees: [
       {id:5, name:"Jorge",last_name: "Marroquín", avatar: "", rut: '12.222.008-7', store: 'Alto Las Condes', department: 'Juvenil mujer', shift: 'T1', current_shift_desc: 'Turno 1 de 45 horas', next_shift: 'T1', next_shift_desc: 'Turno 1 de 45 horas'},
@@ -93,7 +99,7 @@ class StaffingIndex extends Component {
       },
       {
         dataField: 'next_shift',
-        text: 'Junio 2018',
+        text: 'Abril 2019',
       },
       {
         dataField: 'next_shift_desc',

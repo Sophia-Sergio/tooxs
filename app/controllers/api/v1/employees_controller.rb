@@ -32,7 +32,9 @@ module Api
         sellers = @store_dep.sellers.working_on_period(@period)
         return unless sellers.any?
 
-        EmployeesTablePresenter.new(sellers, params).sellers(@period)
+        Rails.cache.fetch("/employees/table/#{@store_dep.id}/#{@period}") do
+          EmployeesTablePresenter.new(sellers, params).sellers(@period)
+        end
       end
 
       def staff

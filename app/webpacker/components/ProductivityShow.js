@@ -20,17 +20,24 @@ class ProductivityShow extends Component {
       storeOptions: [],
       department: {},
       departmentOptions: [],
-      year: { value: '2018', label: '2018' },
+      year: { value: '2019', label: '2019' },
       yearOptions: [
+        { value: '2019', label: '2019' },
         { value: '2018', label: '2018' },
-        { value: '2017', label: '2017' },
-        { value: '2016', label: '2016' }
+        { value: '2017', label: '2017' }
       ],
-      month: { value: '7', label: 'Julio' },
+      month: { value: '3', label: 'Marzo' },
       monthOptions: [
-        { value: '7', label: 'Julio' },
+        { value: '3', label: 'Marzo' },
+        { value: '4', label: 'Abril' },
+        { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
-        { value: '5', label: 'Mayo' }
+        { value: '7', label: 'Julio' },
+        { value: '8', label: 'Agosto' },
+        { value: '9', label: 'Septiembre' },
+        { value: '10', label: 'Octubre' },
+        { value: '11', label: 'Noviembre' },
+        { value: '12', label: 'Diciembre' }
       ],
       chartData: {
         labels: [],
@@ -67,7 +74,7 @@ class ProductivityShow extends Component {
 
   getChartData(){
     this.setState({loading: true});
-    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2018&month_start=7`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2019&month_start=3`)
       .then(res => {
         this.setState({chartData: res.data, loading: false});
         this.setState(state => {
@@ -99,7 +106,7 @@ class ProductivityShow extends Component {
 
   getEmployeesData(){
     // Ajax calls here
-    axios.get(`${this.props.root_url}/api/v1/employees/sellers_table?store=${this.state.store.value}&department=${this.state.department.value}&year_start=2018&month_start=7`)
+    axios.get(`${this.props.root_url}/api/v1/employees/sellers_table?store=${this.state.store.value}&department=${this.state.department.value}&year_start=2019&month_start=3`)
       .then(res => {
         this.setState({employees: res.data});
       })
@@ -188,7 +195,7 @@ class ProductivityShow extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">Resultado de búsqueda</h5>
-            <p className="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
+            <p className="card-text">Datos desde el 25 de febrero al 7 de marzo de 2019</p>
           </div>
         </div>
         <div className="col-12 mb-2">

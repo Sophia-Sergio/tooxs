@@ -8,7 +8,6 @@ class Employee < User
   delegate :store, to: :store_department, allow_nil: true
   has_many :work_shifts, through: :shifts
   has_many :shift_breaks, foreign_key: 'user_id'
-  has_one :users_role, foreign_key: 'user_id'
 
   default_scope { active.joins(:roles).where.not(roles: { name: ['admin'] }) }
 
@@ -97,10 +96,6 @@ class Employee < User
 
   def plan_check_out(opts)
     shifts.find_case(opts).work_shift.plan_shifts.find_case(opts).check_out
-  end
-
-  def role
-    users_role.role
   end
 
   def achievements_labor_month_until_today

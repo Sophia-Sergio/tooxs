@@ -74,7 +74,6 @@ class SalesMonth extends Component {
 
   componentDidMount = () => {
     this.getChartData();
-    this.getPeriod();
   }
 
   createFiltersData = () => {
@@ -122,11 +121,9 @@ class SalesMonth extends Component {
         this.setState({
           period: `Datos desde el ${ startDay } de ${ monthFormat(startMonth + 1) } de ${ startYear } al ${ endDay } de ${ monthFormat(endMonth + 1) } de ${ endYear }`,
         });
-        console.log(this.state.period);
       })
       .catch(error => {
         this.setState({ period: `No se encontraron datos, intente nuevamente.` });
-        console.log(error);
       });
   }
 
@@ -145,7 +142,7 @@ class SalesMonth extends Component {
         this.setState({
           chartData: {
             ...this.state.chartData,
-            labels: this.state.chartData.labels.map( label => ( dayMonthFormat(label) ) ),
+            labels: this.state.chartData.labels,
           }
         });
         this.setState(state => {
@@ -169,7 +166,6 @@ class SalesMonth extends Component {
           state.chartData.datasets[2].pointRadius = 5;
           return state
         });
-        this.getPeriod();
       })
       .catch(error => {
         console.log(error);
@@ -251,7 +247,7 @@ class SalesMonth extends Component {
           chartTitle: 'Gráfico comparativo de ventas',
           chartData: {
             datasets: chart,
-            labels: res.data.chart.labels.map( label => ( dayMonthFormat(label) ) )
+            labels: res.data.chart.labels
           },
           summary: {
             datasets: tableMergedStores,

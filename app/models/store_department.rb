@@ -33,23 +33,13 @@ class StoreDepartment < ApplicationRecord
     personalized: 3
   }
 
-  def categories_plan_sales_between_dates(start_date, end_date)
-    start_month = month_by_date(start_date)
-    end_month   = month_by_date(end_date)
-    start_year  = year_by_date(start_date)
-    end_year    = year_by_date(end_date)
-    if start_year == end_year
-      categories.joins(:sales_plans).where('year = ? AND month >= ? AND month <= ? AND category_sales_plans.store_id = ?',
-        start_year, start_month, end_month, store_id).order('category_sales_plans.year, category_sales_plans.month')
-    else
-      categories.joins(:sales_plans).where('year = ? AND month >= ? AND category_sales_plans.store_id = ?',
-        start_year, start_month, store_id).or(categories.joins(:sales_plans).
-        where('year = ? AND month <= ? AND category_sales_plans.store_id = ?',
-        end_year, end_month, store_id)).order('category_sales_plans.year, category_sales_plans.month')
-    end
+  def categories_plan_sales_between_dates(period)
+    categories.joins(:sales_plans).merge(CategorySalesPlan.between(period, store.id))
   end
 
-  def year_month_target_productivity(year, month)
+  def year_month_target_productivity(period = default_period)
+    year  = year_by_date(period[:start])
+    month = month_by_date(period[:start])
     target_productivities = self.target_productivities.
       where(year: year, month: month).pluck(:amount)
     target_productivities.sum / target_productivities.size
@@ -81,16 +71,17 @@ class StoreDepartment < ApplicationRecord
       group(:date).sum('category_sales.amount')
   end
 
-  def categories_plan_sales(period = default_period)
-    categories_plan_sales_between_dates(period[:start], period[:end]).
-      group(:year, :month).sum('category_sales_plans.monthly')
+  def categories_sales_plan_by_dates(period = default_period)
+    daily_sales_plan = categories_plan_sales_between_dates(period).
+      pluck('category_sales_plans.daily')
+    (period[:start]..period[:end]).each_with_object({}) do |date, hash|
+      hash[date] = daily_sales_plan.map { |sales_plan| sales_plan[date.to_s].to_i }.sum
+    end
   end
 
-  def categories_plan_sales_by_dates(period = default_period)
-    sales = categories_plan_sales(period)
-    sales = categories_rate_sales(period).each_with_object({}) do |(date, value), hash|
-      hash[date] = (value * sales[[year_by_date(date), month_by_date(date)]]).round(2)
-    end
+  def categories_plan_sales(period = default_period)
+    categories_plan_sales_between_dates(period).
+      group(:year, :month).sum('category_sales_plans.monthly')
   end
 
   def categories_sales_by_date_hour(date)

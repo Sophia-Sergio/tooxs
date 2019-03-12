@@ -1,11 +1,12 @@
 class World < ApplicationRecord
   include CommercialCalendar::Period
   has_many :store_departments
+  has_many :stores, through: :store_departments
   has_many :departments, through: :store_departments
 
   def as_json(store_id)
     json = super(only: %i[name id])
-    json['departments'] = departments_by_store(store_id)
+    json['departments'] = departments_by_store(store_id) + [{ 'id' => 999, 'name' => 'Todos' }]
     json['bigger_department'] = World.find(id).
       bigger_plan_sale_department(store_id).as_json(only: %i[name id])
     json

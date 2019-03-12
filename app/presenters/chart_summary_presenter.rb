@@ -1,7 +1,7 @@
 class ChartSummaryPresenter < StatsPresenter
   def efficiency
     {
-      name: 'CUMPLIMIENTO DE EFICIENCIA',
+      name: 'EFICIENCIA',
       value: "#{@model.efficiency(@period).round(2)}%",
       description: 'Eficiencia Objetivo 75%'
     }
@@ -16,7 +16,7 @@ class ChartSummaryPresenter < StatsPresenter
   end
 
   def goal_success
-    plan_sales = @model.categories_plan_sales(@period).values.sum.round
+    plan_sales = @model.categories_sales_plan_by_dates(@period).values.sum.round
     sales      = @model.categories_sales(@period)
     {
       name: 'CUMPLIMIENTO PLAN DE VENTA',
@@ -26,10 +26,9 @@ class ChartSummaryPresenter < StatsPresenter
   end
 
   def productivity
-    avg_target_productivity = @model.year_month_target_productivity(
-      year_by_date(@period[:start]), month_by_date(@period[:start]))
+    avg_target_productivity = @model.year_month_target_productivity(@period)
     {
-      name: 'CUMPLIMIENTO REAL',
+      name: 'PRODUCTIVIDAD',
       value: "$#{number_with_delimiter(@model.productivity(@period).round)}",
       description: "Productividad Objetivo $#{number_with_delimiter(avg_target_productivity)}"
     }

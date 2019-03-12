@@ -44,19 +44,13 @@ group :development do
 end
 
 gem 'rubyXL'
-platforms :ruby do
-  gem 'unicorn'
-end
-
-gem 'breadcrumbs_on_rails'
 gem 'chronic'
 gem 'devise'
 gem 'faker'
 gem 'haml-rails'
-gem 'newrelic_rpm'
-gem 'numbers_in_words'
 gem 'rails-i18n'
 gem 'rolify'
 gem 'settingslogic'
 gem 'simple_form'
 gem 'sass-rails', '~> 5.0'
+gem 'redis-rails'

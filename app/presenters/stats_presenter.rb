@@ -46,7 +46,7 @@ class StatsPresenter < SimpleDelegator
   def summary_table_titles(sales)
     if months_difference == 1
       dates_peridiocity(sales, 'weekly').each_with_object({}).with_index do |(date, hash), i|
-        hash["Semana #{i + 1}"] = "#{day_month_format(date)} - #{day_month_format(date + 6)}"
+        hash["Semana #{i + 1}"] = "#{day_month_format(date - 6)} - #{day_month_format(date)}"
       end
     else
       dates_peridiocity(sales, 'monthly').each_with_object({}) do |date, hash|
@@ -72,8 +72,9 @@ class StatsPresenter < SimpleDelegator
     when 'daily'
       data.values
     when 'weekly'
-      times = data.values.length / 7
-      (1..times).each_with_object([]) { |_, array| array << data.values.shift(7).sum }
+      times = ((data.values.length / 7.0) - 1).ceil
+      values = data.values
+      (0..times).each_with_object([]) { |_, a| a << values.shift(7).sum }
     when 'monthly'
       date_start = data.keys.first
       date_end   = data.keys.last

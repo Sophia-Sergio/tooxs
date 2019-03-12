@@ -12,6 +12,7 @@ class User < ApplicationRecord
   belongs_to :store_department, optional: true
   belongs_to :store, optional: true
 
+  has_one :users_role, foreign_key: 'user_id'
   has_many :request
   has_many :shifts, class_name: 'UserShift'
   has_many :worked_shifts
@@ -38,5 +39,9 @@ class User < ApplicationRecord
       worlds_departments: store.worlds.distinct.as_json(store.id),
       world_selected: store.bigger_plan_sale_world.as_json(store.id)
     }
+  end
+
+  def role
+    users_role.role
   end
 end
