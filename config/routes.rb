@@ -28,6 +28,10 @@ Rails.application.routes.draw do
       namespace :filters do
         get :compared_stores
       end
+      namespace :shifts do
+        get :employees_calendar_shifts
+        get :all
+      end
     end
   end
 

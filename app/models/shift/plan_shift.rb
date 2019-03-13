@@ -9,4 +9,8 @@ class PlanShift < ApplicationRecord
       "#{hour} - #{hour + 1}"
     end
   end
+
+  def working_period
+    "#{check_in&.strftime('%H:%M')}-#{check_out&.strftime('%H:%M')}"
+  end
 end

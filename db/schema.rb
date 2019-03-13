@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_26_141411) do
+ActiveRecord::Schema.define(version: 2019_03_13_205404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -288,6 +288,7 @@ ActiveRecord::Schema.define(version: 2019_02_26_141411) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "first_day"
+    t.boolean "fixed_shift", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["rut"], name: "index_users_on_rut", unique: true
