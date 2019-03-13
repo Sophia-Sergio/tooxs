@@ -30,5 +30,5 @@ seeds = [
 ]
 
 seeds.each do |seed|
-  load "#{Rails.root}/db/seeds/plan_shifts.rb"
+  load "#{Rails.root}/db/seeds/#{seed}.rb"
 end
