@@ -32,3 +32,15 @@ seeds = [
 seeds.each do |seed|
   load "#{Rails.root}/db/seeds/#{seed}.rb"
 end
+
+Employee.where(id: (445..454).to_a).each do |employee|
+  employee.achievements.each do |a|
+    achievement = a.achievement.each_with_object({}) do |(k, v), hash|
+      hash[k] = v.to_i / 5
+    end
+    a.achievement = achievement
+    a.save
+  end
+end
+
+
