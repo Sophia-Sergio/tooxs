@@ -30,7 +30,7 @@ class MonthTable extends Component {
       real_vs_plan: this.props.datasets[2].data.map( (real, index) => (
         (( ( parseInt(this.props.datasets[0].data[index]) - parseInt(real) ) / parseInt(real) ) * 100).toFixed(2)
       )),
-      real_vs_historic: this.props.datasets[0].data.map( (real, index) => (
+      real_vs_historic: this.props.datasets[2].data.map( (real, index) => (
         (( ( parseInt(this.props.datasets[1].data[index]) - parseInt(real) ) / parseInt(real) ) * 100).toFixed(2)
       )),
     });
