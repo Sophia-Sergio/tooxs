@@ -21,16 +21,16 @@ class ProductivityReport extends Component {
         { value: '1', label: 'Computación y Hogar' },
         { value: '2', label: 'Cuidado Personal' }
       ],
-      year: { value: '2018', label: '2018' },
+      year: { value: '2019', label: '2019' },
       yearOptions: [
+        { value: '2019', label: '2019' },
         { value: '2018', label: '2018' },
-        { value: '2017', label: '2017' },
-        { value: '2016', label: '2016' }
+        { value: '2017', label: '2017' }
       ],
       month: { value: '3', label: 'Marzo' },
       monthOptions: [
         { value: '3', label: 'Marzo' },
-        { value: '5', label: 'Abril' },
+        { value: '4', label: 'Abril' },
         { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
         { value: '7', label: 'Julio' },
@@ -113,7 +113,7 @@ class ProductivityReport extends Component {
     this.setState(state => ({
       loading: !state.loading
     }));
-    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=13&department=${this.state.department.value}&year_start=2018&month_start=${this.state.month.value}`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=13&department=3&year_start=2019&month_start=${this.state.month.value}`)
       .then(res => {
         this.setState({chartData: res.data, loading: false})
     })
@@ -122,7 +122,7 @@ class ProductivityReport extends Component {
   // Departamento, Año, Mes
 
   render() {
-    const { department, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
+    const { department, departmentOptions, year,  worlds, world, yearOptions, month, monthOptions } = this.state;
 
     return (
       <React.Fragment>

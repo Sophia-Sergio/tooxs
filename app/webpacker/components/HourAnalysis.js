@@ -12,17 +12,21 @@ class ComparativeSales extends Component {
     super(props);
     this.state = {
       loading: false,
+      result: '',
+      worlds : ['Hombre', 'Mujer', 'Niños', 'ElectroHogar', 'Decohogar' ],
+      world: 'ElectroHogar',
       departmentDefault: { value: '1', label: 'Alto Las Condes' },
-      department: { value: '1', label: 'Alto Las Condes' },
+      department: { value: '3', label: 'Audio Video' },
       departmentOptions: [
-        { value: '1', label: 'Alto Las Condes' },
-        { value: '2', label: 'Parque Arauco' },
-        { value: '3', label: 'Costanera Center' }
+        { value: '3', label: 'Audio Video' },
+        { value: '1', label: 'Computación y Hogar' },
+        { value: '2', label: 'Cuidado Personal' }
       ],
       year: { value: '2019', label: '2019' },
       yearOptions: [
         { value: '2019', label: '2019' },
-        { value: '2018', label: '2018' }
+        { value: '2018', label: '2018' },
+        { value: '2017', label: '2017' }
       ],
       month: { value: '3', label: 'Marzo' },
       monthOptions: [
@@ -100,7 +104,7 @@ class ComparativeSales extends Component {
     this.setState(state => ({
       loading: !state.loading
     }));
-    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=13&department=${this.state.department.value}&year_start=2018&month_start=${this.state.month.value}`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=13&department=3&year_start=2019&month_start=${this.state.month.value}`)
       .then(res => {
         this.setState({chartData: res.data, loading: false})
     })
@@ -109,7 +113,7 @@ class ComparativeSales extends Component {
   // Departamento, Año, Mes
 
   render() {
-    const { department, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
+    const { department, departmentOptions, worlds, world, year, yearOptions, month, monthOptions } = this.state;
 
     return (
       <React.Fragment>
@@ -119,17 +123,25 @@ class ComparativeSales extends Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
-                  options={departmentOptions}
+                  options={worlds}
                   placeholder={`Departamento`}
                   onChange={this.departmentChange}
+                  value={world}
+                />
+              </div>
+              <div className="form-group">
+                <Select
+                  options={departments}
+                  placeholder={`Año`}
+                  onChange={this.yearChange}
                   value={department}
                 />
               </div>
               <div className="form-group">
                 <Select
                   options={yearOptions}
-                  placeholder={`Año`}
-                  onChange={this.yearChange}
+                  placeholder={`Mes`}
+                  onChange={this.monthChange}
                   value={year}
                 />
               </div>

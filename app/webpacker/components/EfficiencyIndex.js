@@ -24,16 +24,16 @@ class EfficiencyIndex extends Component {
         { value: '1', label: 'Computación y Hogar' },
         { value: '2', label: 'Cuidado Personal' }
       ],
-      year: { value: '2018', label: '2018' },
+      year: { value: '2019', label: '2019' },
       yearOptions: [
+        { value: '2019', label: '2019' },
         { value: '2018', label: '2018' },
-        { value: '2017', label: '2017' },
-        { value: '2016', label: '2016' }
+        { value: '2017', label: '2017' }
       ],
       month: { value: '3', label: 'Marzo' },
       monthOptions: [
         { value: '3', label: 'Marzo' },
-        { value: '5', label: 'Abril' },
+        { value: '4', label: 'Abril' },
         { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
         { value: '7', label: 'Julio' },
@@ -76,7 +76,7 @@ class EfficiencyIndex extends Component {
 
   getChartData(){
     this.setState({loading: true});
-    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2019&month_start=3`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=${this.state.store.value}&department=3&year_start=2019&month_start=3`)
       .then(res => {
         this.setState({chartData: res.data, loading: false});
         this.setState(state => {
@@ -134,7 +134,7 @@ class EfficiencyIndex extends Component {
   // Departamento, Año, Mes
 
   render() {
-    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
+    const { store, storesOptions, department, worlds, world, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
 
     return (
       <React.Fragment>
