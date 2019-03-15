@@ -15,11 +15,11 @@ class ProductivityReport extends Component {
       worlds : ['Hombre', 'Mujer', 'Niños', 'ElectroHogar', 'Decohogar' ],
       world: 'ElectroHogar',
       departmentDefault: { value: '1', label: 'Alto Las Condes' },
-      department: { value: '1', label: 'Audio Video' },
+      department: { value: '3', label: 'Audio Video' },
       departmentOptions: [
-        { value: '1', label: 'Audio Video' },
-        { value: '2', label: 'Computación y Hogar' },
-        { value: '3', label: 'Cuidado Personal' }
+        { value: '3', label: 'Audio Video' },
+        { value: '1', label: 'Computación y Hogar' },
+        { value: '2', label: 'Cuidado Personal' }
       ],
       year: { value: '2018', label: '2018' },
       yearOptions: [

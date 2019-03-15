@@ -16,30 +16,34 @@ class ProductivityShow extends Component {
     this.state = {
       loading: true,
       result: '',
-      store: {},
-      storeOptions: [],
-      department: { value: '3', label: 'Audio y Video' },
-      departmentOptions: [],
-      year: { value: '2019', label: '2019' },
+      worlds : ['Hombre', 'Mujer', 'Niños', 'ElectroHogar', 'Decohogar' ],
+      world: 'ElectroHogar',
+      departmentDefault: { value: '1', label: 'Alto Las Condes' },
+      department: { value: '3', label: 'Audio Video' },
+      departmentOptions: [
+        { value: '3', label: 'Audio Video' },
+        { value: '1', label: 'Computación y Hogar' },
+        { value: '2', label: 'Cuidado Personal' }
+      ],
+      year: { value: '2018', label: '2018' },
       yearOptions: [
-        { value: '2019', label: '2019' },
         { value: '2018', label: '2018' },
-        { value: '2017', label: '2017' }
+        { value: '2017', label: '2017' },
+        { value: '2016', label: '2016' }
       ],
       month: { value: '3', label: 'Marzo' },
       monthOptions: [
         { value: '3', label: 'Marzo' },
-        { value: '4', label: 'Abril' },
+        { value: '5', label: 'Abril' },
         { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
         { value: '7', label: 'Julio' },
         { value: '8', label: 'Agosto' },
-        { value: '9', label: 'Septiembre' },
+        { value: '9', label: 'septiembre' },
         { value: '10', label: 'Octubre' },
         { value: '11', label: 'Noviembre' },
         { value: '12', label: 'Diciembre' }
-      ],
-      chartData: {
+      ],tData: {
         labels: [],
         datasets:[]
       },
@@ -152,37 +156,33 @@ class ProductivityShow extends Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
-                  noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.storeChange}
-                  options={storesOptions}
-                  placeholder={`Tienda`}
-                  value={store}
+                  options={worlds}
+                  placeholder={`Departamento`}
+                  onChange={this.departmentChange}
+                  value={world}
                 />
               </div>
               <div className="form-group">
                 <Select
-                  noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.departmentChange}
-                  options={departmentOptions}
-                  placeholder={`Departamento`}
+                  options={departments}
+                  placeholder={`Año`}
+                  onChange={this.yearChange}
                   value={department}
                 />
               </div>
               <div className="form-group">
                 <Select
-                  noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.yearChange}
                   options={yearOptions}
-                  placeholder={`Año`}
+                  placeholder={`Mes`}
+                  onChange={this.monthChange}
                   value={year}
                 />
               </div>
               <div className="form-group">
                 <Select
-                  noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.monthChange}
                   options={monthOptions}
                   placeholder={`Mes`}
+                  onChange={this.monthChange}
                   value={month}
                 />
               </div>
