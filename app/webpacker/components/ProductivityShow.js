@@ -16,21 +16,10 @@ class ProductivityShow extends Component {
     this.state = {
       loading: true,
       result: '',
-      worlds: [
-        { value: '1', label: 'Hombre'},
-        { value: '2', label: 'Mujer'},
-        { value: '3', label: 'Niños'},
-        { value: '4', label: 'ElectroHogar'},
-        { value: '5', label: 'Decohogar'}
-      ],
-      world: { value: '4', label: 'ElectroHogar'},
-      departmentDefault: { value: '1', label: 'Alto Las Condes' },
-      department: { value: '3', label: 'Audio Video' },
-      departmentOptions: [
-        { value: '3', label: 'Audio Video' },
-        { value: '1', label: 'Computación y Hogar' },
-        { value: '2', label: 'Cuidado Personal' }
-      ],
+      store: {},
+      storeOptions: [],
+      department: {},
+      departmentOptions: [],
       year: { value: '2019', label: '2019' },
       yearOptions: [
         { value: '2019', label: '2019' },
@@ -45,14 +34,46 @@ class ProductivityShow extends Component {
         { value: '6', label: 'Junio' },
         { value: '7', label: 'Julio' },
         { value: '8', label: 'Agosto' },
-        { value: '9', label: 'septiembre' },
+        { value: '9', label: 'Septiembre' },
         { value: '10', label: 'Octubre' },
         { value: '11', label: 'Noviembre' },
         { value: '12', label: 'Diciembre' }
       ],
       chartData: {
-        labels: [],
-        datasets:[]
+        labels: ["25-02","26-02","27-02","28-02","01-03","02-03","03-03","04-03","05-03",
+                  "06-03","07-03","08-03","09-03","10-03","11-03","12-03","13-03","14-03","15-03","16-03","17-03","18-03","19-03","20-03","21-03","22-03","23-03","24-03"],
+        datasets:[
+          {
+            label: 'PLan',
+            data: [97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500,97500],
+            backgroundColor: 'rgba(227, 58, 62, .0)',
+            borderColor: 'rgba(227, 58, 62, 1)',
+            borderWidth: 2,
+            pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+          },
+          {
+            label: 'Real',
+            data: [70600,45847,41932,40433,50829,103502,89571,50362,43877,175751,51559,53773,48465,57621,40002,88788,39578,63066,69051,47369],
+            backgroundColor: 'rgba(71, 196, 254, .2)',
+            borderColor: 'rgba(71, 196, 254, 1)',
+            borderWidth: 2,
+            pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+          },
+          {
+            label: 'Optimizado',
+            data: [86044,87672,76965,71240,84715,98327,114131,77959,72758,106706,82636,87554,75121,98340,82392,94337,73434,86716,100530,77468,84861,81235,92634,78563,92733,88620,75061,98262],
+            backgroundColor: 'rgba(137, 218, 89, .2)',
+            borderColor: 'rgba(137, 218, 89, 1)',
+            borderWidth: 2,
+            pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+          }
+        ]
       },
       chartOptions: {
         tooltips: {
@@ -61,6 +82,7 @@ class ProductivityShow extends Component {
         maintainAspectRatio: false,
         responsive: true,
       },
+    },
       employees: [],
     }
   }
@@ -78,14 +100,16 @@ class ProductivityShow extends Component {
     this.setState({
       store: this.props.stores.map( (store, index) => ({ value: store.id, label: store.name }) )[0],
       storeOptions: this.props.stores.map( store => ({ value: store.id, label: store.name }) ),
+      department: this.props.departments.map( department => ({ value: department.id, label: department.name }) )[0],
       departmentOptions: this.props.departments.map( department => ({ value: department.id, label: department.name }) )
     })
   }
 
   getChartData(){
     this.setState({loading: true});
-    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=${this.state.store.value}&department=3&year_start=2019&month_start=3`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2019&month_start=3`)
       .then(res => {
+        this.setState({chartData: res.data, loading: false});
         this.setState(state => {
           state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
           state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
@@ -115,7 +139,7 @@ class ProductivityShow extends Component {
 
   getEmployeesData(){
     // Ajax calls here
-    axios.get(`${this.props.root_url}/api/v1/employees/sellers_table?store=${this.state.store.value}&department=3&year_start=2019&month_start=3`)
+    axios.get(`${this.props.root_url}/api/v1/employees/sellers_table?store=${this.state.store.value}&department=${this.state.department.value}&year_start=2019&month_start=3`)
       .then(res => {
         this.setState({employees: res.data});
       })
@@ -153,7 +177,7 @@ class ProductivityShow extends Component {
   // Departamento, Año, Mes
 
   render() {
-    const { store, storesOptions, worlds, world, department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
+    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
 
     return (
       <React.Fragment>
@@ -163,33 +187,37 @@ class ProductivityShow extends Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
-                  options={worlds}
-                  placeholder={`Departamento`}
-                  onChange={this.departmentChange}
-                  value={world}
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.storeChange}
+                  options={storesOptions}
+                  placeholder={`Tienda`}
+                  value={store}
                 />
               </div>
               <div className="form-group">
                 <Select
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.departmentChange}
                   options={departmentOptions}
-                  placeholder={`Año`}
-                  onChange={this.yearChange}
+                  placeholder={`Departamento`}
                   value={department}
                 />
               </div>
               <div className="form-group">
                 <Select
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.yearChange}
                   options={yearOptions}
-                  placeholder={`Mes`}
-                  onChange={this.monthChange}
+                  placeholder={`Año`}
                   value={year}
                 />
               </div>
               <div className="form-group">
                 <Select
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.monthChange}
                   options={monthOptions}
                   placeholder={`Mes`}
-                  onChange={this.monthChange}
                   value={month}
                 />
               </div>

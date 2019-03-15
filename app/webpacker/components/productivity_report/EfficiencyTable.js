@@ -28,7 +28,7 @@ class EfficiencyTable extends Component {
                 </tr>
                 <tr>
                   <td>Mejora de eficiencia</td>
-                  <td>68,96%</td>
+                  <td>61,99%</td>
                 </tr>
               </tbody>
             </table>
