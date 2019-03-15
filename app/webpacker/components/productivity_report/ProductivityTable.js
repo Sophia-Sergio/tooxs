@@ -4,12 +4,12 @@ import { currencyFormat } from '../helpers';
 class ProductivityTable extends Component {
   state = {
     real_productivity: {
-      real_sells: [99826487, 99992969, 99907861, 99999705],
+      real_sells: [86543635, 88784722, 59084909,	0],
       weekly_hours: [780, 805, 827, 748],
       productivity: [57540,	56104, 55081, 60331],
     },
     optimized_productivity: {
-      real_sells: 	[99826487, 99992969, 99907861, 99999705],
+      real_sells: 	[86543635, 88784722, 59084909,	0],
       weekly_hours: [513, 534, 537, 525],
       productivity: [87487,	84576,	84827, 85957],
     },
