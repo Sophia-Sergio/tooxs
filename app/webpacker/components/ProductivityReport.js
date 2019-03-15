@@ -140,7 +140,7 @@ class ProductivityReport extends Component {
               </div>
               <div className="form-group">
                 <Select
-                  options={departments}
+                  options={departmentOptions}
                   placeholder={`Año`}
                   onChange={this.yearChange}
                   value={department}
