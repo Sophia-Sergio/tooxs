@@ -3,7 +3,7 @@ import { currencyFormat } from '../helpers';
 
 class ProductivityTable extends Component {
   state = {
-    real_productivity: [3160, 172803395, 54.684,	92,	1217],
+    real_productivity: [3160, 172803395, 54684,	92,	1217],
     optimized_productivity: [2109, 172803395, 81936, 10, 345],
   }
   render () {

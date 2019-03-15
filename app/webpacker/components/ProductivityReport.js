@@ -13,7 +13,7 @@ class ProductivityReport extends Component {
     this.state = {
       loading: false,
       worlds : ['Hombre', 'Mujer', 'Niños', 'ElectroHogar', 'Decohogar' ],
-      worlds: 'ElectroHogar'
+      world: 'ElectroHogar',
       departmentDefault: { value: '1', label: 'Alto Las Condes' },
       department: { value: '1', label: 'Audio Video' },
       departmentOptions: [
@@ -33,16 +33,16 @@ class ProductivityReport extends Component {
         { value: '5', label: 'Abril' },
         { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
-        { value: '7', label: 'Julio' }
+        { value: '7', label: 'Julio' },
         { value: '8', label: 'Agosto' },
         { value: '9', label: 'septiembre' },
         { value: '10', label: 'Octubre' },
         { value: '11', label: 'Noviembre' },
         { value: '12', label: 'Diciembre' }
-
       ],
       chartData: {
-        labels: ["25","26","27","28","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"],
+        labels: ["25-02","26-02","27-02","28-02","01-03","02-03","03-03","04-03","05-03",
+                  "06-03","07-03","08-03","09-03","10-03","11-03","12-03","13-03","14-03","15-03","16-03","17-03","18-03","19-03","20-03","21-03","22-03","23-03","24-03"],
         datasets:[
           {
             label: 'PLan',
