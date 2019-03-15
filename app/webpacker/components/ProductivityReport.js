@@ -170,7 +170,7 @@ class ProductivityReport extends Component {
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            <p className="card-text">PRODUCTIVIDAD POR HORA - ALTO LAS CONDES - JUVENIL MUJER</p>
+            <p className="card-text">PRODUCTIVIDAD POR HORA - AUDIO Y VIDEO - MARZO 2019</p>
           </div>
         </div>
         <div className="col-12 mb-2">
