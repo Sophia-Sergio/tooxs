@@ -34,7 +34,7 @@ class ProductivityShow extends Component {
       month: { value: '3', label: 'Marzo' },
       monthOptions: [
         { value: '3', label: 'Marzo' },
-        { value: '5', label: 'Abril' },
+        { value: '4', label: 'Abril' },
         { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
         { value: '7', label: 'Julio' },
@@ -43,7 +43,8 @@ class ProductivityShow extends Component {
         { value: '10', label: 'Octubre' },
         { value: '11', label: 'Noviembre' },
         { value: '12', label: 'Diciembre' }
-      ],tData: {
+      ],
+      chartData: {
         labels: [],
         datasets:[]
       },

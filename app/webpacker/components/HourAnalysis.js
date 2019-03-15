@@ -119,17 +119,25 @@ class ComparativeSales extends Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
-                  options={departmentOptions}
+                  options={worlds}
                   placeholder={`Departamento`}
                   onChange={this.departmentChange}
+                  value={world}
+                />
+              </div>
+              <div className="form-group">
+                <Select
+                  options={departments}
+                  placeholder={`Año`}
+                  onChange={this.yearChange}
                   value={department}
                 />
               </div>
               <div className="form-group">
                 <Select
                   options={yearOptions}
-                  placeholder={`Año`}
-                  onChange={this.yearChange}
+                  placeholder={`Mes`}
+                  onChange={this.monthChange}
                   value={year}
                 />
               </div>

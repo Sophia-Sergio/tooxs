@@ -30,7 +30,7 @@ class ProductivityReport extends Component {
       month: { value: '3', label: 'Marzo' },
       monthOptions: [
         { value: '3', label: 'Marzo' },
-        { value: '5', label: 'Abril' },
+        { value: '4', label: 'Abril' },
         { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
         { value: '7', label: 'Julio' },
