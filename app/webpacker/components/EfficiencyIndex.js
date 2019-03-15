@@ -75,7 +75,6 @@ class EfficiencyIndex extends Component {
     this.setState({
       store: this.props.stores.map( (store, index) => ({ value: store.id, label: store.name }) )[0],
       storeOptions: this.props.stores.map( store => ({ value: store.id, label: store.name }) ),
-      department: this.props.departments.map( department => ({ value: department.id, label: department.name }) )[0],
     })
   }
 
