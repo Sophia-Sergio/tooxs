@@ -19,7 +19,7 @@ class ProductivityTable extends Component {
     return (
       <div className="col-12 mb-2">
         <div className="card dashboard__table">
-          <h5 className="card-title">Productividad optimizada</h5>
+          <h5 className="card-title">Productividad Real</h5>
           <div className="table-responsive mb-2">
             <table className="table">
               <thead>
@@ -53,7 +53,7 @@ class ProductivityTable extends Component {
               </tbody>
             </table>
           </div>
-          <h5 className="card-title">Productividad real</h5>
+          <h5 className="card-title">Productividad optimizada</h5>
           <div className="table-responsive mb-2">
             <table className="table">
               <thead>
