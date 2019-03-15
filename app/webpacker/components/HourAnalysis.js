@@ -34,7 +34,7 @@ class ComparativeSales extends Component {
         { value: '2018', label: '2018' },
         { value: '2017', label: '2017' }
       ],
-      month: { value: '3', label: 'Marzo' },
+      month: { value: '4', label: 'Abril' },
       monthOptions: [
         { value: '3', label: 'Marzo' },
         { value: '4', label: 'Abril' },
@@ -53,7 +53,7 @@ class ComparativeSales extends Component {
         datasets:[
           {
             label: 'Real',
-            data: [78,109,145,148,145,76,79,113,131,34,117,127,155,128,138,68,154,99,99],
+            data: [78,109,145,148,145,76,79,113,131,34,117,127,155,128,138,68,154,99,99,76,79,113,131,117,127,155,128,138],
             backgroundColor: 'rgba(71, 196, 254, .2)',
             borderColor: 'rgba(71, 196, 254, 1)',
             borderWidth: 2,

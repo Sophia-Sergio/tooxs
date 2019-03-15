@@ -37,7 +37,7 @@ class ProductivityShow extends Component {
         { value: '2018', label: '2018' },
         { value: '2017', label: '2017' }
       ],
-      month: { value: '3', label: 'Marzo' },
+      month: { value: '4', label: 'Abril' },
       monthOptions: [
         { value: '3', label: 'Marzo' },
         { value: '4', label: 'Abril' },
@@ -55,7 +55,7 @@ class ProductivityShow extends Component {
                   "06-03","07-03","08-03","09-03","10-03","11-03","12-03","13-03","14-03","15-03","16-03","17-03","18-03","19-03","20-03","21-03","22-03","23-03","24-03"],
         datasets:[
           {
-            label: 'PLan',
+            label: 'Ideal',
             data: [85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692,85692],
             backgroundColor: 'rgba(227, 58, 62, .0)',
             borderColor: 'rgba(227, 58, 62, 1)',
@@ -65,7 +65,7 @@ class ProductivityShow extends Component {
             pointRadius: 5,
           },
           {
-            label: 'Real',
+            label: 'Sin Optimizar',
             data: [70600,45847,41932,40433,50829,103502,89571,50362,43877,175751,51559,53773,48465,57621,40002,88788,39578,63066,69051],
             backgroundColor: 'rgba(71, 196, 254, .2)',
             borderColor: 'rgba(71, 196, 254, 1)',
