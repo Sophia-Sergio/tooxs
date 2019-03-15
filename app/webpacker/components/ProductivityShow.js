@@ -25,11 +25,11 @@ class ProductivityShow extends Component {
         { value: '1', label: 'Computación y Hogar' },
         { value: '2', label: 'Cuidado Personal' }
       ],
-      year: { value: '2018', label: '2018' },
+      year: { value: '2019', label: '2019' },
       yearOptions: [
+        { value: '2019', label: '2019' },
         { value: '2018', label: '2018' },
-        { value: '2017', label: '2017' },
-        { value: '2016', label: '2016' }
+        { value: '2017', label: '2017' }
       ],
       month: { value: '3', label: 'Marzo' },
       monthOptions: [
@@ -147,7 +147,7 @@ class ProductivityShow extends Component {
   // Departamento, Año, Mes
 
   render() {
-    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
+    const { store, storesOptions, worlds, world, department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
 
     return (
       <React.Fragment>
