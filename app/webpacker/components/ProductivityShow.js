@@ -78,7 +78,7 @@ class ProductivityShow extends Component {
 
   getChartData(){
     this.setState({loading: true});
-    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2019&month_start=3`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=efficiency&store=${this.state.store.value}&department=3&year_start=2019&month_start=3`)
       .then(res => {
         this.setState(state => {
           state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, .2)';
