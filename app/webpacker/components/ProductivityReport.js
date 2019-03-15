@@ -119,10 +119,6 @@ class ProductivityReport extends Component {
     this.setState(state => ({
       loading: !state.loading
     }));
-    axios.get(`${this.props.root_url}/api/v1/statistics/graph?type=efficiency&store=13&department=3&year_start=2019&month_start=${this.state.month.value}`)
-      .then(res => {
-        this.setState({chartData: res.data, loading: false})
-    })
   }
 
   // Departamento, Año, Mes
