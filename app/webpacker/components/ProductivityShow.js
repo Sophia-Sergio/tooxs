@@ -102,7 +102,6 @@ class ProductivityShow extends Component {
 
   componentDidMount(){
     this.getChartData();
-    this.getEmployeesData();
   }
 
   createFiltersData(){
