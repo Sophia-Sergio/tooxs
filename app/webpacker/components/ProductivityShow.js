@@ -18,7 +18,7 @@ class ProductivityShow extends Component {
       result: '',
       store: {},
       storeOptions: [],
-      department: {},
+      department: { value: '3', label: 'Audio y Video' },
       departmentOptions: [],
       year: { value: '2019', label: '2019' },
       yearOptions: [
@@ -67,7 +67,6 @@ class ProductivityShow extends Component {
     this.setState({
       store: this.props.stores.map( (store, index) => ({ value: store.id, label: store.name }) )[0],
       storeOptions: this.props.stores.map( store => ({ value: store.id, label: store.name }) ),
-      department: this.props.departments.map( department => ({ value: department.id, label: department.name }) )[0],
       departmentOptions: this.props.departments.map( department => ({ value: department.id, label: department.name }) )
     })
   }
