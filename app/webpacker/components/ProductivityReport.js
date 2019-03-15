@@ -21,9 +21,9 @@ class ProductivityReport extends Component {
       ],
       world: { value: '4', label: 'ElectroHogar'},
       departmentDefault: { value: '1', label: 'Alto Las Condes' },
-      department: { value: '3', label: 'Audio Video' },
+      department: { value: '3', label: 'Audio y Video' },
       departmentOptions: [
-        { value: '3', label: 'Audio Video' },
+        { value: '3', label: 'Audio y Video' },
         { value: '1', label: 'Computación y Hogar' },
         { value: '2', label: 'Cuidado Personal' }
       ],

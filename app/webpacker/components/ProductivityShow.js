@@ -16,10 +16,21 @@ class ProductivityShow extends Component {
     this.state = {
       loading: true,
       result: '',
-      store: {},
-      storeOptions: [],
-      department: {},
-      departmentOptions: [],
+      worlds: [
+        { value: '1', label: 'Hombre'},
+        { value: '2', label: 'Mujer'},
+        { value: '3', label: 'Niños'},
+        { value: '4', label: 'ElectroHogar'},
+        { value: '5', label: 'Decohogar'}
+      ],
+      world: { value: '4', label: 'ElectroHogar'},
+      departmentDefault: { value: '1', label: 'Alto Las Condes' },
+      department: { value: '3', label: 'Audio y Video' },
+      departmentOptions: [
+        { value: '3', label: 'Audio y Video' },
+        { value: '1', label: 'Computación y Hogar' },
+        { value: '2', label: 'Cuidado Personal' }
+      ],
       year: { value: '2019', label: '2019' },
       yearOptions: [
         { value: '2019', label: '2019' },
@@ -34,7 +45,7 @@ class ProductivityShow extends Component {
         { value: '6', label: 'Junio' },
         { value: '7', label: 'Julio' },
         { value: '8', label: 'Agosto' },
-        { value: '9', label: 'Septiembre' },
+        { value: '9', label: 'septiembre' },
         { value: '10', label: 'Octubre' },
         { value: '11', label: 'Noviembre' },
         { value: '12', label: 'Diciembre' }
@@ -98,8 +109,6 @@ class ProductivityShow extends Component {
     this.setState({
       store: this.props.stores.map( (store, index) => ({ value: store.id, label: store.name }) )[0],
       storeOptions: this.props.stores.map( store => ({ value: store.id, label: store.name }) ),
-      department: this.props.departments.map( department => ({ value: department.id, label: department.name }) )[0],
-      departmentOptions: this.props.departments.map( department => ({ value: department.id, label: department.name }) )
     })
   }
 
@@ -168,13 +177,12 @@ class ProductivityShow extends Component {
   handleSubmit = (e, month) => {
     e.preventDefault();
     this.getChartData();
-    this.getEmployeesData();
   }
 
   // Departamento, Año, Mes
 
   render() {
-    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
+    const { store, storesOptions, department, worlds, world, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
 
     return (
       <React.Fragment>
@@ -184,37 +192,33 @@ class ProductivityShow extends Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
-                  noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.storeChange}
-                  options={storesOptions}
-                  placeholder={`Tienda`}
-                  value={store}
+                  options={worlds}
+                  placeholder={`Mundo`}
+                  onChange={this.departmentChange}
+                  value={world}
                 />
               </div>
               <div className="form-group">
                 <Select
-                  noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.departmentChange}
                   options={departmentOptions}
-                  placeholder={`Departamento`}
+                  placeholder={`Año`}
+                  onChange={this.yearChange}
                   value={department}
                 />
               </div>
               <div className="form-group">
                 <Select
-                  noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.yearChange}
                   options={yearOptions}
-                  placeholder={`Año`}
+                  placeholder={`Mes`}
+                  onChange={this.monthChange}
                   value={year}
                 />
               </div>
               <div className="form-group">
                 <Select
-                  noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.monthChange}
                   options={monthOptions}
                   placeholder={`Mes`}
+                  onChange={this.monthChange}
                   value={month}
                 />
               </div>
