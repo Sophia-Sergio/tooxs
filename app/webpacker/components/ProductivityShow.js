@@ -14,7 +14,7 @@ class ProductivityShow extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loading: true,
+      loading: false,
       result: '',
       worlds: [
         { value: '1', label: 'Hombre'},
