@@ -76,7 +76,6 @@ class EfficiencyIndex extends Component {
       store: this.props.stores.map( (store, index) => ({ value: store.id, label: store.name }) )[0],
       storeOptions: this.props.stores.map( store => ({ value: store.id, label: store.name }) ),
       department: this.props.departments.map( department => ({ value: department.id, label: department.name }) )[0],
-      departmentOptions: this.props.departments.map( department => ({ value: department.id, label: department.name }) )
     })
   }
 
@@ -151,7 +150,7 @@ class EfficiencyIndex extends Component {
               <div className="form-group">
                 <Select
                   options={worlds}
-                  placeholder={`Departamento`}
+                  placeholder={`Mundo`}
                   onChange={this.departmentChange}
                   value={world}
                 />

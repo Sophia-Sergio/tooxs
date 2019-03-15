@@ -82,8 +82,6 @@ class ProductivityShow extends Component {
         maintainAspectRatio: false,
         responsive: true,
       },
-    },
-      employees: [],
     }
   }
 
@@ -177,7 +175,7 @@ class ProductivityShow extends Component {
   // Departamento, Año, Mes
 
   render() {
-    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions, employees } = this.state;
+    const { store, storesOptions, department, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
 
     return (
       <React.Fragment>
