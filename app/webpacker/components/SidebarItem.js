@@ -119,13 +119,13 @@ class SidebarItem extends Component {
             id: 1,
             name: 'Disponibilizador de turnos',
             icon: MakeAvailableIcon,
-            link: '/staff_requests'
+            link: '/staff_requests/new'
           },
           {
             id: 2,
             name: 'Solicitudes realizadas',
             icon: RequestIcon,
-            link: '/staff_requests/new'
+            link: '/staff_requests'
           },
         ]
       },
