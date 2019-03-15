@@ -136,7 +136,7 @@ class ProductivityShow extends Component {
 
   getEmployeesData(){
     // Ajax calls here
-    axios.get(`${this.props.root_url}/api/v1/employees/sellers_table?store=${this.state.store.value}&department=${this.state.department.value}&year_start=2019&month_start=3`)
+    axios.get(`${this.props.root_url}/api/v1/employees/sellers_table?store=${this.state.store.value}&department=3&year_start=2019&month_start=3`)
       .then(res => {
         this.setState({employees: res.data});
       })
@@ -225,7 +225,7 @@ class ProductivityShow extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">Resultado de búsqueda</h5>
-            <p className="card-text">Datos desde el 25 de febrero al 7 de marzo de 2019</p>
+            <p className="card-text">Datos desde el 25 de febrero al 15 de marzo de 2019</p>
           </div>
         </div>
         <div className="col-12 mb-2">
