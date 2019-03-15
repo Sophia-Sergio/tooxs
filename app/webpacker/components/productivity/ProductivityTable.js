@@ -7,12 +7,12 @@ import PropTypes from 'prop-types';
 class ProductivityTable extends Component {
   state = {
     prod_real: {
-      plan: [44881213, 45163912, 45552588, 45127781],
+      plan: [86543635, 88784722, 59084909,	0],
       weekly_dotation: [780, 805, 827, 748],
       productivity: [57540, 56104, 55081, 60331]
     },
     prod_optimized: {
-      plan: [44881213, 45163912, 45552588, 45127781],
+      plan: [86543635, 88784722, 59084909,	0],
       weekly_dotation: [513, 534, 537, 525],
       productivity: [87487, 84576, 84827, 85957]
     }
@@ -24,7 +24,7 @@ class ProductivityTable extends Component {
       <React.Fragment>
         <div className="col-md-12 mb-2">
           <div className="card dashboard__table">
-            <h5 className="card-title">Productividad sin optimizar</h5>
+            <h5 className="card-title">Productividad Real</h5>
             <div className="table-responsive">
               <table className="table">
                 <thead>
@@ -38,7 +38,7 @@ class ProductivityTable extends Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <td style={{ textAlign: 'center' }} className="shifts" title="Plan de venta">Plan de venta</td>
+                    <td style={{ textAlign: 'center' }} className="shifts" title="Plan de venta">Ventas Reales</td>
                     {prod_real.plan.map( prod => (
                       <td style={{ textAlign: 'center' }}>${ currencyFormat(prod) }</td>
                     ))}
@@ -76,7 +76,7 @@ class ProductivityTable extends Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <td style={{ textAlign: 'center' }} className="shifts" title="Plan de venta">Plan de venta</td>
+                    <td style={{ textAlign: 'center' }} className="shifts" title="Plan de venta">Ventas Reales</td>
                     {prod_optimized.plan.map( prod => (
                       <td style={{ textAlign: 'center' }}>${ currencyFormat(prod) }</td>
                     ))}
