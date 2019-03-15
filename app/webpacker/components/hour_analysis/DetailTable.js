@@ -3,8 +3,8 @@ import { currencyFormat } from '../helpers';
 
 class DetailTable extends Component {
   state = {
-    savings: [-345, -1035000],
-    sell: [-10, -850000],
+    savings: [872,	2616000],
+    sell: [82,	6970000],
   }
   render () {
     const { savings, sell } = this.state;
@@ -29,8 +29,8 @@ class DetailTable extends Component {
                 </tr>
                 <tr>
                   <td className="shifts">Venta recuperada</td>
-                  <td style={{textAlign: 'center'}}>{ sell[0] }</td>
-                  <td style={{textAlign: 'center'}}>{ currencyFormat(sell[1]) }</td>
+                  <td style={{textAlign: 'center'}}>${ sell[0] }</td>
+                  <td style={{textAlign: 'center'}}>${ currencyFormat(sell[1]) }</td>
                 </tr>
               </tbody>
             </table>

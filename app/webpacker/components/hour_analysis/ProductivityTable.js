@@ -3,7 +3,7 @@ import { currencyFormat } from '../helpers';
 
 class ProductivityTable extends Component {
   state = {
-    real_productivity: [0, 172803395, 0, 0, 0],
+    real_productivity: [3160, 172803395, 54.684,	92,	1217],
     optimized_productivity: [2109, 172803395, 81936, 10, 345],
   }
   render () {
@@ -28,16 +28,16 @@ class ProductivityTable extends Component {
                 <tr>
                   <td className="shifts">Producción real</td>
                   <td style={{textAlign: 'center'}}>{ real_productivity[0] }</td>
-                  <td style={{textAlign: 'center'}}>{ currencyFormat(real_productivity[1]) }</td>
-                  <td style={{textAlign: 'center'}}>{ currencyFormat(real_productivity[2]) }</td>
+                  <td style={{textAlign: 'center'}}>#{ currencyFormat(real_productivity[1]) }</td>
+                  <td style={{textAlign: 'center'}}>#{ currencyFormat(real_productivity[2]) }</td>
                   <td style={{textAlign: 'center'}}>{ real_productivity[3] }</td>
                   <td style={{textAlign: 'center'}}>{ real_productivity[4] }</td>
                 </tr>
                 <tr>
                   <td className="shifts">Producción optimizada</td>
                   <td style={{textAlign: 'center'}}>{ optimized_productivity[0] }</td>
-                  <td style={{textAlign: 'center'}}>{ currencyFormat(optimized_productivity[1]) }</td>
-                  <td style={{textAlign: 'center'}}>{ currencyFormat(optimized_productivity[2]) }</td>
+                  <td style={{textAlign: 'center'}}>#{ currencyFormat(optimized_productivity[1]) }</td>
+                  <td style={{textAlign: 'center'}}>#{ currencyFormat(optimized_productivity[2]) }</td>
                   <td style={{textAlign: 'center'}}>{ optimized_productivity[3] }</td>
                   <td style={{textAlign: 'center'}}>{ optimized_productivity[4] }</td>
                 </tr>
