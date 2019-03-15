@@ -184,7 +184,7 @@ class EfficiencyIndex extends Component {
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            <p className="card-text">Datos desde el 30 de abril al 27 de mayo de 2018</p>
+            <p className="card-text">Datos desde el 25 de febrero al 24 de marzo de 2019</p>
           </div>
         </div>
         <div className="col-12 mb-2">
