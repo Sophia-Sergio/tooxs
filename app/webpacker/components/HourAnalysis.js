@@ -13,8 +13,14 @@ class ComparativeSales extends Component {
     this.state = {
       loading: false,
       result: '',
-      worlds : ['Hombre', 'Mujer', 'Niños', 'ElectroHogar', 'Decohogar' ],
-      world: 'ElectroHogar',
+      worlds: [
+        { value: '1', label: 'Hombre'},
+        { value: '2', label: 'Mujer'},
+        { value: '3', label: 'Niños'},
+        { value: '4', label: 'ElectroHogar'},
+        { value: '5', label: 'Decohogar'}
+      ],
+      world: { value: '4', label: 'ElectroHogar'},
       departmentDefault: { value: '1', label: 'Alto Las Condes' },
       department: { value: '3', label: 'Audio Video' },
       departmentOptions: [

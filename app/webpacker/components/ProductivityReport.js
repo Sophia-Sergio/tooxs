@@ -12,8 +12,14 @@ class ProductivityReport extends Component {
     super(props);
     this.state = {
       loading: false,
-      worlds : ['Hombre', 'Mujer', 'Niños', 'ElectroHogar', 'Decohogar' ],
-      world: 'ElectroHogar',
+      worlds: [
+        { value: '1', label: 'Hombre'},
+        { value: '2', label: 'Mujer'},
+        { value: '3', label: 'Niños'},
+        { value: '4', label: 'ElectroHogar'},
+        { value: '5', label: 'Decohogar'}
+      ],
+      world: { value: '4', label: 'ElectroHogar'},
       departmentDefault: { value: '1', label: 'Alto Las Condes' },
       department: { value: '3', label: 'Audio Video' },
       departmentOptions: [
@@ -47,7 +53,7 @@ class ProductivityReport extends Component {
           {
             label: 'PLan',
             data: [70600,45847,41932,40433,50829,103502,89571,50362,43877,175751,51559,53773,48465,57621,40002,88788,39578,63066,69051,47369,65919,69347,179479,38771,95677,53730,46334,57575],
-            backgroundColor: 'rgba(227, 58, 62, 1)',
+            backgroundColor: 'rgba(227, 58, 62, .2)',
             borderColor: 'rgba(227, 58, 62, 1)',
             borderWidth: 2,
             pointBackgroundColor: 'rgba(255, 255, 255, 1)',
