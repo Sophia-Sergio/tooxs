@@ -7,12 +7,12 @@ import PropTypes from 'prop-types';
 class ProductivityTable extends Component {
   state = {
     prod_real: {
-      plan: [86543635, 88784722, 59084909,	0],
+      plan: [99826487, 99992969, 99907861,	99999705],
       weekly_dotation: [780, 805, 827, 748],
       productivity: [57540, 56104, 55081, 60331]
     },
     prod_optimized: {
-      plan: [86543635, 88784722, 59084909,	0],
+      plan: [99826487, 99992969, 99907861,	99999705],
       weekly_dotation: [513, 534, 537, 525],
       productivity: [87487, 84576, 84827, 85957]
     }
@@ -38,7 +38,7 @@ class ProductivityTable extends Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <td style={{ textAlign: 'center' }} className="shifts" title="Plan de venta">Ventas Reales</td>
+                    <td style={{ textAlign: 'center' }} className="shifts" title="Plan de venta">Ventas PLan</td>
                     {prod_real.plan.map( prod => (
                       <td style={{ textAlign: 'center' }}>${ currencyFormat(prod) }</td>
                     ))}
@@ -76,7 +76,7 @@ class ProductivityTable extends Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <td style={{ textAlign: 'center' }} className="shifts" title="Plan de venta">Ventas Reales</td>
+                    <td style={{ textAlign: 'center' }} className="shifts" title="Plan de venta">Ventas PLan</td>
                     {prod_optimized.plan.map( prod => (
                       <td style={{ textAlign: 'center' }}>${ currencyFormat(prod) }</td>
                     ))}
