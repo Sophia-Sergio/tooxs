@@ -4,14 +4,14 @@ import { currencyFormat } from '../helpers';
 class ProductivityTable extends Component {
   state = {
     real_productivity: {
-      real_sells: [44010026, 43361349, 42899028, 42532992],
-      weekly_hours: [513, 534, 537, 525],
-      productivity: [85789, 81201, 79886, 81015],
+      real_sells: [99826487, 99992969, 99907861, 99999705],
+      weekly_hours: [780, 805, 827, 748],
+      productivity: [57540,	56104, 55081, 60331],
     },
     optimized_productivity: {
-      real_sells: [44010026, 43361349, 42899028, 42532992],
+      real_sells: 	[99826487, 99992969, 99907861, 99999705],
       weekly_hours: [513, 534, 537, 525],
-      productivity: [85789, 81201, 79886, 81015],
+      productivity: [87487,	84576,	84827, 85957],
     },
   }
   render () {
@@ -33,19 +33,19 @@ class ProductivityTable extends Component {
               </thead>
               <tbody>
                 <tr>
-                  <td className="shifts">Ventas reales</td>
+                  <td className="shifts">Plan de venta</td>
                   { real_productivity.real_sells.map( sell => (
                     <td style={{textAlign: 'center'}}>${ currencyFormat(sell) }</td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="shifts">Ventas reales</td>
+                  <td className="shifts">Dotación semanal (HH)</td>
                   { real_productivity.weekly_hours.map( hours => (
                     <td style={{textAlign: 'center'}}>{ hours }</td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="shifts">Ventas reales</td>
+                  <td className="shifts">Productividad</td>
                   { real_productivity.productivity.map( sell => (
                     <td style={{textAlign: 'center'}}>${ currencyFormat(sell) }</td>
                   ))}
@@ -67,19 +67,19 @@ class ProductivityTable extends Component {
               </thead>
               <tbody>
                 <tr>
-                  <td className="shifts">Ventas reales</td>
+                  <td className="shifts">Plan de venta</td>
                   { optimized_productivity.real_sells.map( sell => (
                     <td style={{textAlign: 'center'}}>${ currencyFormat(sell) }</td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="shifts">Ventas reales</td>
+                  <td className="shifts">Dotación semanal (HH)</td>
                   { optimized_productivity.weekly_hours.map( hours => (
                     <td style={{textAlign: 'center'}}>{ hours }</td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="shifts">Ventas reales</td>
+                  <td className="shifts">Productividad</td>
                   { optimized_productivity.productivity.map( sell => (
                     <td style={{textAlign: 'center'}}>${ currencyFormat(sell) }</td>
                   ))}

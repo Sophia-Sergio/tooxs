@@ -12,12 +12,14 @@ class ProductivityReport extends Component {
     super(props);
     this.state = {
       loading: false,
+      worlds : ['Hombre', 'Mujer', 'Niños', 'ElectroHogar', 'Decohogar' ],
+      worlds: 'ElectroHogar'
       departmentDefault: { value: '1', label: 'Alto Las Condes' },
-      department: { value: '1', label: 'Alto Las Condes' },
+      department: { value: '1', label: 'Audio Video' },
       departmentOptions: [
-        { value: '1', label: 'Alto Las Condes' },
-        { value: '2', label: 'Parque Arauco' },
-        { value: '3', label: 'Costanera Center' }
+        { value: '1', label: 'Audio Video' },
+        { value: '2', label: 'Computación y Hogar' },
+        { value: '3', label: 'Cuidado Personal' }
       ],
       year: { value: '2018', label: '2018' },
       yearOptions: [
@@ -25,20 +27,28 @@ class ProductivityReport extends Component {
         { value: '2017', label: '2017' },
         { value: '2016', label: '2016' }
       ],
-      month: { value: '7', label: 'Julio' },
+      month: { value: '3', label: 'Marzo' },
       monthOptions: [
-        { value: '7', label: 'Julio' },
+        { value: '3', label: 'Marzo' },
+        { value: '5', label: 'Abril' },
+        { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
-        { value: '5', label: 'Mayo' }
+        { value: '7', label: 'Julio' }
+        { value: '8', label: 'Agosto' },
+        { value: '9', label: 'septiembre' },
+        { value: '10', label: 'Octubre' },
+        { value: '11', label: 'Noviembre' },
+        { value: '12', label: 'Diciembre' }
+
       ],
       chartData: {
-        labels: ["30","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27"],
+        labels: ["25","26","27","28","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"],
         datasets:[
           {
-            label: 'Productividad ideal',
-            data: [112519,128689,84295,69944,67057,69808,89035,98868,92201,120709,79741,74325,52310,70009,103774,109434,77564,81665,84412,59228,59755,99227,114105,84623,87401,73084,54130,71460],
-            backgroundColor: 'rgba(71, 196, 254, .2)',
-            borderColor: 'rgba(71, 196, 254, 1)',
+            label: 'PLan',
+            data: [70600,45847,41932,40433,50829,103502,89571,50362,43877,175751,51559,53773,48465,57621,40002,88788,39578,63066,69051,47369,65919,69347,179479,38771,95677,53730,46334,57575],
+            backgroundColor: 'rgba(227, 58, 62, 1)',
+            borderColor: 'rgba(227, 58, 62, 1)',
             borderWidth: 2,
             pointBackgroundColor: 'rgba(255, 255, 255, 1)',
             pointBorderWidth: 2,
@@ -46,7 +56,7 @@ class ProductivityReport extends Component {
           },
           {
             label: 'Real',
-            data: [112519,128689,84295,69944,67057,69808,89035,98868,92201,120709,79741,74325,52310,70009,103774,109434,77564,81665,84412,59228,59755,99227,114105,84623,87401,73084,54130,71460],
+            data: [70600,45847,41932,40433,50829,103502,89571,50362,43877,175751,51559,53773,48465,57621,40002,88788,39578,63066,69051,47369,65919,69347,179479,38771,95677,53730,46334,57575],
             backgroundColor: 'rgba(71, 196, 254, .2)',
             borderColor: 'rgba(71, 196, 254, 1)',
             borderWidth: 2,
@@ -56,7 +66,7 @@ class ProductivityReport extends Component {
           },
           {
             label: 'Optimizado',
-            data:[112519,128689,84295,69944,67057,69808,89035,98868,92201,120709,79741,74325,52310,70009,103774,109434,77564,81665,84412,59228,59755,99227,114105,84623,87401,73084,54130,71460],
+            data: [86044,87672,76965,71240,84715,98327,114131,77959,72758,106706,82636,87554,75121,98340,82392,94337,73434,86716,100530,77468,84861,81235,92634,78563,92733,88620,75061,98262],
             backgroundColor: 'rgba(137, 218, 89, .2)',
             borderColor: 'rgba(137, 218, 89, 1)',
             borderWidth: 2,
@@ -122,17 +132,25 @@ class ProductivityReport extends Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
-                  options={departmentOptions}
+                  options={worlds}
                   placeholder={`Departamento`}
                   onChange={this.departmentChange}
+                  value={world}
+                />
+              </div>
+              <div className="form-group">
+                <Select
+                  options={departments}
+                  placeholder={`Año`}
+                  onChange={this.yearChange}
                   value={department}
                 />
               </div>
               <div className="form-group">
                 <Select
                   options={yearOptions}
-                  placeholder={`Año`}
-                  onChange={this.yearChange}
+                  placeholder={`Mes`}
+                  onChange={this.monthChange}
                   value={year}
                 />
               </div>
