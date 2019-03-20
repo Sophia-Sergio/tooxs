@@ -40,8 +40,8 @@ class Schedule extends Component {
         }
         const divideWorkHours = (date, hours) => {
           return hours ?
-            { ...defaultStyles, title: hours, start: date, end: date, backgroundColor: '#353E4F' } :
-            { ...defaultStyles, title: 'Libre', start: date, end: date, backgroundColor: '#89DA59' };
+            { ...defaultStyles, title: hours, start: date, end: date, backgroundColor: '#89DA59' } :
+            { ...defaultStyles, title: 'Libre', start: date, end: date, backgroundColor: '#C5C5C5' };
         };
         this.setState({
           events: res.data.map( data => ( divideWorkHours(data[0], data[1]) ) ),
