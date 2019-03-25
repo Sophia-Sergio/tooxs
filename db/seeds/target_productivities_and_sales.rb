@@ -11,7 +11,6 @@ StoreDepartment.where(store: stores, department: DEPARTMENTS).each do |store_dep
         TargetProductivity.create!(store_department: store_department, year: year, month: month, week: week, period: 2, amount: 95000)
         TargetProductivity.create!(store_department: store_department, year: year, month: month, week: week, period: 3, amount: 115000)
         TargetProductivity.create!(store_department: store_department, year: year, month: month, week: week, period: 4, amount: 105000)
-        TargetSale.create!(store_department: store_department, year: year, month: month, week: week, amount: 850000)
       end
     end
   end
