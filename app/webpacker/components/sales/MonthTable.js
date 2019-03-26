@@ -27,10 +27,8 @@ class MonthTable extends Component {
       plan: this.props.datasets[0].data.map(item => ( parseInt(item) )),
       historic: this.props.datasets[1].data.map(item => ( parseInt(item) )),
       real: this.props.datasets[2].data.map(item => ( parseInt(item) )),
-      real_vs_plan: this.props.datasets[2].data.map( (real, index) => (
-        (( ( parseInt(this.props.datasets[0].data[index]) - parseInt(real) ) / parseInt(real) ) * 100).toFixed(2)
-      )),
-      real_vs_historic: [0.34, 2.91, -33.49, '-100.00' ]
+      real_vs_plan: this.props.compared_datasets[0].data.map(item => ( parseInt(item) )),
+      real_vs_historic: this.props.compared_datasets[1].data.map(item => ( parseInt(item) ))
     });
   }
 
@@ -108,7 +106,7 @@ class MonthTable extends Component {
                     {real_vs_historic.map(item => (
                       <td className="bg-secondary text-white">{ item }%</td>
                     ))}
-                    <td className="bg-dark text-white">{ '-33.26' }%</td>
+                    <td className="bg-dark text-white">{  ( real_vs_historic.reduce((total, num) => total + parseInt(num), 0) / real_vs_historic.length ).toFixed(2) }%</td>
                   </tr>
                 </tfoot>
               }

@@ -37,9 +37,8 @@ class ProductivityShow extends Component {
         { value: '2018', label: '2018' },
         { value: '2017', label: '2017' }
       ],
-      month: { value: '4', label: 'Abril' },
+      month: { value: '5', label: 'Mayo' },
       monthOptions: [
-        { value: '3', label: 'Marzo' },
         { value: '4', label: 'Abril' },
         { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
@@ -228,7 +227,7 @@ class ProductivityShow extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">Resultado de búsqueda</h5>
-            <p className="card-text">Datos desde el 25 de marzo al 22 de abril de 2019</p>
+            <p className="card-text">Datos desde el 30 de abril al 29 de mayo de 2019</p>
           </div>
         </div>
         <div className="col-12 mb-2">

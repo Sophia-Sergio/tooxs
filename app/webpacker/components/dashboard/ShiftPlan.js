@@ -23,19 +23,19 @@ class ShiftPlan extends Component {
                   </th>
                   <th style={{ fontSize: '12px', borderTop: 'none', textAlign: 'center' }}>
                     <span data-toggle="tooltip" data-placement="top"
-                      title="Dotación actual abril">
+                      title="Dotación actual mayo">
                       Actual
                     </span>
                   </th>
                   <th style={{ fontSize: '12px', borderTop: 'none', textAlign: 'center' }}>
                     <span data-toggle="tooltip" data-placement="top"
-                      title="Dotación óptima abril">
+                      title="Dotación óptima mayo">
                       Óptimo
                     </span>
                   </th>
                   <th style={{ fontSize: '12px', borderTop: 'none', textAlign: 'center' }}>
                     <span data-toggle="tooltip" data-placement="top"
-                      title="Dotación comprometida abril">
+                      title="Dotación comprometida mayo">
                       Comprometido
                     </span>
                   </th>

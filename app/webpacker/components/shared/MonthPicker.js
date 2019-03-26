@@ -59,7 +59,11 @@ class MonthPicker extends Component {
   }
 
   changeYearPrev = e => {
+
     e.preventDefault();
+    console.log(changedYear)
+    console.log(this.state.currentYear)
+    console.log(this.props.minYear)
     let changedYear = this.state.currentYear - 1;
     if (changedYear < this.props.minYear){
       this.setState({
