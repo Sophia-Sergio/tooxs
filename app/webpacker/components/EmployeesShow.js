@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { currencyFormat } from './helpers';
+import Seller from './sellers/Seller';
+import Objective from './sellers/Objective';
+import Distance from './sellers/Distance';
 import Schedule from './sellers/Schedule';
 import DaysOff from './sellers/DaysOff';
 import MonthSales from './sellers/MonthSales';
@@ -43,55 +46,15 @@ class EmployeesShow extends Component {
     return (
       <React.Fragment>
         <div className="col-md-12">
+          <div className="row dashboard__user-main-items">
+            <Seller employee={ employee } />
+            <Objective employee={ employee } />
+            <Distance employee={ employee } />
+          </div>
+        </div>
+        <div className="col-md-12">
           <div className="card dashboard__user">
             <div className="row">
-              <div className="col-md-12 mb-4">
-                <div className="dashboard__user__avatar">
-                  <div className="dashboard__user__avatar__image">
-                    <figure>
-                      <img
-                        src={ employee.avatar != '' ? employee.avatar : userDefault}
-                        alt={`${employee.name} ${employee.surename_1}`}
-                        />
-                    </figure>
-                  </div>
-                  <div className="dashboard__user__avatar__name">
-                    <h3>
-                      {`${employee.name} ${employee.surname_1}`}
-                      { employee.working_today && <span>En turno</span> }
-                    </h3>
-                    <h4>Sales assistant</h4>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="dashboard__user__item">
-                  <div className="dashboard__user__item__icon">
-                    <i className="fa fa-building-o"></i>
-                  </div>
-                  <p>
-                    Turno asignado: <strong>{employee.work_shift}</strong><br/>
-                    Tienda: <strong>{employee.store}</strong><br/>
-                    Departamento: <strong>{employee.department}</strong><br/>
-                    Activo desde: <strong>Domingo 01 de Octubre 2017</strong><br/>
-                    Cumplimiento: <strong>${ currencyFormat(parseInt(employee.achievements)) }</strong>
-                  </p>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="dashboard__user__item">
-                  <div className="dashboard__user__item__icon">
-                    <i className="fa fa-id-card-o"></i>
-                  </div>
-                  <p>
-                    Dirección: <strong>{employee.address}</strong><br/>
-                    Comuna: <strong>{employee.commune}</strong><br/>
-                    Ciudad: <strong>{employee.city}</strong><br/>
-                    Teléfono: <strong>{employee.phone}</strong><br/>
-                    E-mail: <strong>{employee.email}</strong>
-                  </p>
-                </div>
-              </div>
               <div className="col-md-12 mt-4 dashboard__user__tabs">
                 <ul className="nav nav-tabs nav-fill" id="myTab" role="tablist">
                   <li className="nav-item">
