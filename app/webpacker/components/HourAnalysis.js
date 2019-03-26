@@ -34,9 +34,8 @@ class ComparativeSales extends Component {
         { value: '2018', label: '2018' },
         { value: '2017', label: '2017' }
       ],
-      month: { value: '4', label: 'Abril' },
+      month: { value: '5', label: 'Mayo' },
       monthOptions: [
-        { value: '3', label: 'Marzo' },
         { value: '4', label: 'Abril' },
         { value: '5', label: 'Mayo' },
         { value: '6', label: 'Junio' },
