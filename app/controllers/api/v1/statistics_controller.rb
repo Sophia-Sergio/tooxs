@@ -38,7 +38,9 @@ module Api
       end
 
       def efficiency
-        real = @store_dep.efficiency_by_date(@period)
+        real = Rails.cache.fetch("/efficiency/chart/#{@store_dep.id}/#{@period}") do
+          @store_dep.efficiency_by_date(@period)
+        end
         optimized = @efficiency_optimized
 
         render json: {

@@ -70,11 +70,11 @@ class StatsPresenter < SimpleDelegator
   def values_peridiocity(data, periodicity)
     case periodicity
     when 'daily'
-      data.values
+      data.values.map(&:to_i)
     when 'weekly'
       times = ((data.values.length / 7.0) - 1).ceil
       values = data.values
-      (0..times).each_with_object([]) { |_, a| a << values.shift(7).sum }
+      (0..times).each_with_object([]) { |_, a| a << values.shift(7).sum }.map(&:to_i)
     when 'monthly'
       date_start = data.keys.first
       date_end   = data.keys.last

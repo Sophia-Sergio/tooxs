@@ -43,6 +43,25 @@ class SalesStatsPresenter < StatsPresenter
     end
   end
 
+  def summary(sales)
+    plan = summary_table_values(sales[:categories_plan_sales_by_dates])
+    real = fill_with_zeros(plan, summary_table_values(sales[:sales]))
+    historic = summary_table_values(sales[:last_year_sales])
+    {
+      datasets: [
+        { label: 'Real', data: real },
+        { label: 'Histórico', data: historic },
+        { label: 'Plan', data: plan }
+      ],
+      compared_datasets: [
+        { label: 'Real vs Plan', data: data_vs(real, plan) },
+        { label: 'Real vs Histórico', data: data_vs(real, historic) }
+      ]
+    }.merge(summary_table_titles_json(sales[:categories_plan_sales_by_dates].keys))
+  end
+
+  private
+
   def fill_with_zeros(supposed_bigger, supposed_minor)
     if supposed_bigger.length > supposed_minor.length
       (supposed_bigger.length - supposed_minor.length).times { supposed_minor << 0 }
@@ -50,16 +69,9 @@ class SalesStatsPresenter < StatsPresenter
     supposed_minor
   end
 
-  def summary(sales)
-    plan_summary = summary_table_values(sales[:categories_plan_sales_by_dates])
-    real_summary = summary_table_values(sales[:sales])
-    fill_with_zeros(plan_summary, real_summary)
-    {
-      datasets: [
-        { label: 'Real', data: real_summary },
-        { label: 'Histórico', data: summary_table_values(sales[:last_year_sales]) },
-        { label: 'Plan', data: plan_summary }
-      ]
-    }.merge(summary_table_titles_json(sales[:categories_plan_sales_by_dates].keys))
+  def data_vs(data, divided_by)
+    data.zip(divided_by).map do |elements|
+      number_to_percentage((elements[0].to_f / elements[1] - 1).round(3) * 100, precision: 2)
+    end
   end
 end

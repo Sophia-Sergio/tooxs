@@ -375,17 +375,17 @@ class SalesMonth extends Component {
                 <MonthPicker
                   minYear={yearFrom}
                   minMonth={monthFrom}
-                  maxYear={selectedYearTo}
+                  maxYear={yearTo}
                   maxMonth={selectedMonthTo}
                   onChange={this.onDateFromChange.bind(this)}
                 />
               </div>
               <div className="form-group">
                 <MonthPicker
-                  minYear={selectedYearFrom}
-                  minMonth={selectedMonthFrom}
+                  minYear={yearFrom}
+                  minMonth={monthFrom}
                   maxYear={yearTo}
-                  maxMonth={monthTo}
+                  maxMonth={selectedMonthTo}
                   onChange={this.onDateToChange.bind(this)}
                 />
               </div>
