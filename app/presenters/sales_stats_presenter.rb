@@ -1,5 +1,6 @@
 class SalesStatsPresenter < StatsPresenter
   def chart(sales, label_period)
+    label_period = sales[:categories_plan_sales_by_dates].keys if chart_period == 'monthly'
     {
       labels: dates_peridiocity(label_period, chart_period),
       datasets: [
@@ -11,6 +12,7 @@ class SalesStatsPresenter < StatsPresenter
   end
 
   def compared_stores_chart(sales, label_period)
+    label_period = sales[:actual_store_sales].keys if chart_period == 'monthly'
     actual_store_sales = values_peridiocity(sales[:actual_store_sales], chart_period)
     {
       labels: dates_peridiocity(label_period, chart_period),

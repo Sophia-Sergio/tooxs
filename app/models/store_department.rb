@@ -123,7 +123,9 @@ class StoreDepartment < ApplicationRecord
 
   def productivity_by_date(period = default_period)
     productivities = productivity_by_date_hour(period)
-    productivity_filter_week_periods(productivities)
+    productivities.each_with_object({}) do |(k, v), hash|
+      hash[k] = v.values.sum /  v.values.size
+    end
   end
 
   def target_productivity_by_date(period = default_period)
@@ -133,16 +135,19 @@ class StoreDepartment < ApplicationRecord
 
   private
 
-  def productivity_filter_week_periods(productivity)
-    productivity.keys.each_with_object({}) do |date, hash|
+  def productivity_filter_week_periods(productivities)
+    productivities.keys.each_with_object({}) do |date, hash|
       WEEK_PERIODS.keys.each do |p|
-        hash[p] ||= {}
-        hash[p][date] = if date_included_on_productivity_period?(p, date)
-                          period_selected = productivity[date].slice(*WEEK_PERIODS[p]).values
-                          period_selected.present? ? period_selected.sum / period_selected.size : 0
-                        else
-                          0
-                        end
+        hash[date] ||= 0
+        productivity = productivities[date]
+        period_productivity = if date_included_on_productivity_period?(p, date)
+                                period = productivity.slice(*WEEK_PERIODS[p]).values
+                                weight = (WEEK_PERIODS[p].size / productivity.size.to_f)
+                                period.present? ? (period.sum / period.size) * weight : 0
+                              else
+                                0
+                              end
+        hash[date] += period_productivity
       end
     end
   end
