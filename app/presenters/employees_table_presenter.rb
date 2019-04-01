@@ -31,14 +31,7 @@ class EmployeesTablePresenter < SimpleDelegator
     json = @employees.as_json(only: %i[id email name surname_1 rut avatar])
     achievements = @employees.total_achievements(period)
 
-    puts '-'*200
-    puts @employees.pluck(:id)
-    puts '-'*200
-    puts period
-
     json.each do |seller|
-      puts '*'*200
-      puts seller
       goal = Employee.find(seller['id']).target_achievements(period).values.sum
       seller[:shifts] = @shifts[seller['id']].uniq
       seller[:link] = employee_path(seller['id'])

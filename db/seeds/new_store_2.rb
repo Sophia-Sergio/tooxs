@@ -16,12 +16,11 @@ end
 store = Store.find_by(name: 'Manquehue')
 store_main = Store.find_by(name: 'Alto Las Condes')
 categories = Category.where(cod: StoreDepartment.where(store: store).joins(:categories).pluck(:category_cod).uniq)
+CategorySale.where(category: categories).where(store: store).delete_all
 categories.each do |category|
   date = Date.new(2017, 1, 2)
   (2017..2019).each do
     (1..12).each do |month|
-      next if date > Date.new(2019, 3, 1)
-
       weeks = Settings.weeks_by_month[month]
       (1..weeks).each do
         (1..7).each do
@@ -40,12 +39,11 @@ end
 store = Store.find_by(name: 'La Dehesa')
 store_main = Store.find_by(name: 'Alto Las Condes')
 categories = Category.where(cod: StoreDepartment.where(store: store).joins(:categories).pluck(:category_cod).uniq)
+CategorySale.where(category: categories).where(store: store).delete_all
 categories.each do |category|
   date = Date.new(2017, 1, 2)
   (2017..2019).each do
     (1..12).each do |month|
-      next if date > Date.new(2019, 3, 1)
-
       weeks = Settings.weeks_by_month[month]
       (1..weeks).each do
         (1..7).each do

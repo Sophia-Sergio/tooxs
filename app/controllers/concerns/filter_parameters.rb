@@ -71,9 +71,9 @@ module FilterParameters
     if params[:month_start].to_i == month_by_date(Date.today)
       @period = { start: @period[:start], end: Date.today }
     end
-
     return unless params[:year_end].present? && params[:month_end].present?
 
+    @period = { start: @period[:start], end: month_period(params[:year_end].to_i, params[:month_end])[:end] }
     @full_period = {
       start: @period[:start],
       end: month_period(params[:year_end], params[:month_end])[:end]
