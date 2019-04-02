@@ -1,0 +1,38 @@
+version: "3.3"
+
+services:
+  app_tooxs:
+    container_name: app_tooxs
+    build: .
+    restart: unless-stopped
+    links:
+      - db_tooxs
+    depends_on:
+      - db_tooxs
+    ports:
+      - 3000:3000
+    environment:
+      APP_HOST: localhost
+      APP_PORT: 3000
+      TOOXS_DATABASE_HOST: db_tooxs
+      TOOXS_DATABASE_PORT: 5432
+      TOOXS_DATABASE_NAME: salesforce_reporter_development
+      TOOXS_DATABASE_USERNAME: dbtooxs_user
+      TOOXS_DATABASE_PASSWORD: dbtooxs_pass
+
+    volumes:
+      - .:/var/app/tooxs
+
+  db_tooxs:
+    container_name: db_tooxs
+    image: postgres:9.5.14
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: dbtooxs_user
+      POSTGRES_PASSWORD: dbtooxs_pass
+      PGDATA: /var/pg/data
+    volumes:
+      - ../local_db/pgdata:/var/pg/data
+      - ../local_db/backups:/var/db_backups
