@@ -1,6 +1,6 @@
 Rails.application.configure do
   # redis
-  ENV['REDISTOGO_URL'] = 'redis://redistogo:32b0954968a03cde7d7455ee1f3ce11e@dory.redistogo.com:10732'
+  # ENV['REDISTOGO_URL'] = 'redis://redistogo:32b0954968a03cde7d7455ee1f3ce11e@dory.redistogo.com:10732'
 
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = false
@@ -37,10 +37,11 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
   config.action_mailer.perform_caching = true
   config.cache_store = :redis_store, {
-    host: 'localhost',
-    port: 6379,
+    host: ENV['TOOXS_REDIS_HOST'],
+    port: ENV['TOOXS_REDIS_PORT'],
     db: 0
   }
+  config.cache_store = :redis_store, ENV['REDISTOGO_URL'] unless ENV['REDISTOGO_URL'].nil?
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
