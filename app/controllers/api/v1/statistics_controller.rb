@@ -69,7 +69,8 @@ module Api
       def productivity_data
         {
           real: @store_dep.productivity_by_date(@period),
-          target: @store_dep.target_productivity_by_date(@period)
+          target: @store_dep.target_productivity_by_date(@full_period),
+          optimized: @store_dep.optimized_productivity_by_date(@full_period)
         }
       end
 
