@@ -4,18 +4,11 @@ class ProductivityStatsPresenter < StatsPresenter
   def chart(productivities)
     {
       chart_title_labels: dates_peridiocity(productivities[:real].keys, chart_period),
-      charts: WEEK_PERIODS.keys.each_with_object([]) do |period, array|
-        array << chart_data(productivities, period)
-      end
+      datasets: [
+        { label: 'Productividad Real', values: productivities[:real].values },
+        { label: 'Productividad Ideal', values: productivities[:target].values },
+        { label: 'Productividad Optimizada', values: productivities[:target].values }
+      ]
     }
-  end
-
-  def chart_data(data, period)
-    data.keys.each_with_object({}) do |key, hash|
-      (hash[period] ||= []) << {
-        label: key,
-        data: values_peridiocity(data[key][period], chart_period)
-      }
-    end
   end
 end

@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import { currencyFormat, monthFormat, dayMonthFormat } from './helpers';
-import Loader from "./layout/Loader";
+import Loader from './layout/Loader';
 import Select from 'react-select';
 import Period from './shared/Period';
 import MonthPicker from './shared/MonthPicker';
 import MonthRangePicker from 'react-monthrange-picker';
 import moment from 'moment';
-import {Line} from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import MonthTable from './sales/MonthTable';
 
 class SalesMonth extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       loading: false,
@@ -47,40 +47,48 @@ class SalesMonth extends Component {
               }
               label += '$' + currencyFormat(tooltipItem.yLabel).toString();
               return label;
-            },
-          },
+            }
+          }
         },
         scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: false,
-              // stepSize: 500000,
-             	userCallback: function(value, index, values) {
-                return '$' + currencyFormat(value).toString();
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false,
+                // stepSize: 500000,
+                userCallback: function(value, index, values) {
+                  return '$' + currencyFormat(value).toString();
+                }
               }
             }
-          }]
+          ]
         },
         maintainAspectRatio: false,
-        responsive: true,
+        responsive: true
       },
-      summary: null,
-    }
+      summary: null
+    };
   }
 
   componentWillMount = () => {
     this.createFiltersData();
-  }
+  };
 
   componentDidMount = () => {
     this.getChartData();
-  }
+  };
 
   createFiltersData = () => {
     var filters = this.props.filters;
-    var world = { value: filters.world_selected.id, label: filters.world_selected.name };
+    var world = {
+      value: filters.world_selected.id,
+      label: filters.world_selected.name
+    };
     var departments = this.getDepartments(filters.worlds_departments, world);
-    var department = this.getBiggerDepartment(filters.worlds_departments, world);
+    var department = this.getBiggerDepartment(
+      filters.worlds_departments,
+      world
+    );
     var lastYear = filters.years.slice(-1)[0];
     var firstYear = filters.years.slice(0)[0];
     var lastYearValue = lastYear.value;
@@ -89,12 +97,21 @@ class SalesMonth extends Component {
     var firstMonth = lastYear.months.slice(0)[0];
     var lastMonthValue = lastMonth.value;
     var firstMonthValue = firstMonth.value;
+    console.log(filters);
+    console.log(firstMonth);
+    console.log(firstMonthValue);
     this.setState({
       world: world,
-      worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
+      worldOptions: filters.worlds_departments.map(world => ({
+        value: world.id,
+        label: world.name
+      })),
       store: { value: filters.store.id, label: filters.store.name },
       department: { value: department.id, label: department.name },
-      departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) ),
+      departmentOptions: departments.map(store => ({
+        value: store.id,
+        label: store.name
+      })),
       yearFrom: firstYearValue,
       monthFrom: firstMonthValue,
       yearTo: lastYearValue,
@@ -103,12 +120,15 @@ class SalesMonth extends Component {
       selectedMonthFrom: filters.month.value,
       selectedYearTo: filters.year.value,
       selectedMonthTo: filters.month.value
-    })
-  }
+    });
+  };
 
   getPeriod = () => {
-    var parameters = `year_start=${this.state.yearFrom}&month_start=${this.state.monthFrom}&year_end=${this.state.yearTo}&month_end=${this.state.monthTo}`;
-    axios.get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
+    var parameters = `year_start=${this.state.yearFrom}&month_start=${
+      this.state.monthFrom
+    }&year_end=${this.state.yearTo}&month_end=${this.state.monthTo}`;
+    axios
+      .get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
       .then(res => {
         const start = new Date(res.data.start);
         const startYear = start.getFullYear();
@@ -119,18 +139,31 @@ class SalesMonth extends Component {
         const endMonth = end.getMonth();
         const endDay = end.getDate();
         this.setState({
-          period: `Datos desde el ${ startDay } de ${ monthFormat(startMonth + 1) } de ${ startYear } al ${ endDay } de ${ monthFormat(endMonth + 1) } de ${ endYear }`,
+          period: `Datos desde el ${startDay} de ${monthFormat(
+            startMonth + 1
+          )} de ${startYear} al ${endDay} de ${monthFormat(
+            endMonth + 1
+          )} de ${endYear}`
         });
       })
       .catch(error => {
-        this.setState({ period: `No se encontraron datos, intente nuevamente.` });
+        this.setState({
+          period: `No se encontraron datos, intente nuevamente.`
+        });
       });
-  }
+  };
 
   getChartData = () => {
-    this.setState({loading: true});
-    let parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}`;
-    axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`)
+    this.setState({ loading: true });
+    let parameters = `type=sales&store=${this.state.store.value}&department=${
+      this.state.department.value
+    }&year_start=${this.state.selectedYearFrom}&month_start=${
+      this.state.selectedMonthFrom
+    }&year_end=${this.state.selectedYearTo}&month_end=${
+      this.state.selectedMonthTo
+    }`;
+    axios
+      .get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`)
       .then(res => {
         this.setState({
           isCompared: false,
@@ -142,38 +175,43 @@ class SalesMonth extends Component {
         this.setState({
           chartData: {
             ...this.state.chartData,
-            labels: this.state.chartData.labels,
+            labels: this.state.chartData.labels
           }
         });
         this.setState(state => {
           state.chartData.datasets[0].backgroundColor = 'rgba(71, 196, 254, 0)';
           state.chartData.datasets[0].borderColor = 'rgba(71, 196, 254, 1)';
           state.chartData.datasets[0].borderWidth = 2;
-          state.chartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[0].pointBackgroundColor =
+            'rgba(255, 255, 255, 1)';
           state.chartData.datasets[0].pointBorderWidth = 2;
           state.chartData.datasets[0].pointRadius = 5;
-          state.chartData.datasets[1].backgroundColor = 'rgba(255, 255, 255, 0)';
+          state.chartData.datasets[1].backgroundColor =
+            'rgba(255, 255, 255, 0)';
           state.chartData.datasets[1].borderColor = 'rgba(137, 218, 89, 1)';
           state.chartData.datasets[1].borderWidth = 2;
-          state.chartData.datasets[1].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[1].pointBackgroundColor =
+            'rgba(255, 255, 255, 1)';
           state.chartData.datasets[1].pointBorderWidth = 2;
           state.chartData.datasets[1].pointRadius = 5;
-          state.chartData.datasets[2].backgroundColor = 'rgba(255, 255, 255, 0)';
+          state.chartData.datasets[2].backgroundColor =
+            'rgba(255, 255, 255, 0)';
           state.chartData.datasets[2].borderColor = 'rgba(227, 58, 62, 1)';
           state.chartData.datasets[2].borderWidth = 2;
-          state.chartData.datasets[2].pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+          state.chartData.datasets[2].pointBackgroundColor =
+            'rgba(255, 255, 255, 1)';
           state.chartData.datasets[2].pointBorderWidth = 2;
           state.chartData.datasets[2].pointRadius = 5;
-          return state
+          return state;
         });
       })
       .catch(error => {
         console.log(error);
         this.setState({
-          loading: false,
-        })
+          loading: false
+        });
       });
-  }
+  };
 
   getComparedStores = e => {
     e.preventDefault();
@@ -184,16 +222,27 @@ class SalesMonth extends Component {
       comparedStoreOptions: [],
       alert: false
     });
-    var parameters = `store=${this.state.store.value}&department=${this.state.department.value}`;
-    axios.get(`${this.props.root_url}/api/v1/filters/compared_stores?${parameters}`)
+    var parameters = `store=${this.state.store.value}&department=${
+      this.state.department.value
+    }`;
+    axios
+      .get(
+        `${this.props.root_url}/api/v1/filters/compared_stores?${parameters}`
+      )
       .then(res => {
         let stores = res.data.stores;
-        if(stores.length > 0){
+        if (stores.length > 0) {
           this.setState({
-            comparedStoreOptions: stores.map( store => ({ value: store.id, label: store.name }) ),
-            comparedStore: stores.map( store => ({ value: store.id, label: store.name }) ),
+            comparedStoreOptions: stores.map(store => ({
+              value: store.id,
+              label: store.name
+            })),
+            comparedStore: stores.map(store => ({
+              value: store.id,
+              label: store.name
+            })),
             comparedStoreFilter: true,
-            loading: false,
+            loading: false
           });
         } else {
           this.setState({
@@ -201,7 +250,7 @@ class SalesMonth extends Component {
             comparedStore: {},
             comparedStoreOptions: [],
             alert: true,
-            loading: false,
+            loading: false
           });
         }
       })
@@ -209,38 +258,72 @@ class SalesMonth extends Component {
         this.setState({
           comparedStoreFilter: false,
           alert: true,
-          loading: false,
+          loading: false
         });
         console.log(error);
       });
-  }
+  };
 
-  getComparativeChartData(){
-    this.setState({loading: true});
-    var comparedStores = this.state.comparedStore.map( store => ( '&compared_stores[]=' + store.value )).join('');
-    console.log(comparedStores);
-    const parameters = `type=sales&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.selectedYearFrom}&month_start=${this.state.selectedMonthFrom}&year_end=${this.state.selectedYearTo}&month_end=${this.state.selectedMonthTo}${comparedStores}`;
-    axios.get(`${this.props.root_url}/api/v1/statistics/compared_sales?${parameters}`)
+  getComparativeChartData() {
+    this.setState({ loading: true });
+    var comparedStores = this.state.comparedStore
+      .map(store => '&compared_stores[]=' + store.value)
+      .join('');
+    const parameters = `type=sales&store=${this.state.store.value}&department=${
+      this.state.department.value
+    }&year_start=${this.state.selectedYearFrom}&month_start=${
+      this.state.selectedMonthFrom
+    }&year_end=${this.state.selectedYearTo}&month_end=${
+      this.state.selectedMonthTo
+    }${comparedStores}`;
+    axios
+      .get(
+        `${this.props.root_url}/api/v1/statistics/compared_sales?${parameters}`
+      )
       .then(res => {
         const defaultStyles = {
-          backgroundColor : 'rgba(71, 196, 254, 0)',
-          borderWidth : 2,
-          pointBackgroundColor : 'rgba(255, 255, 255, 1)',
-          pointBorderWidth : 2,
-          pointRadius : 5,
-        }
+          backgroundColor: 'rgba(71, 196, 254, 0)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+          pointBorderWidth: 2,
+          pointRadius: 5
+        };
         const mainBorder = {
-          borderColor: 'rgba(71, 196, 254, 1)',
-        }
+          borderColor: 'rgba(71, 196, 254, 1)'
+        };
         const defaultBorder = () => {
-          return {borderColor: 'rgba(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ', 1)',};
-        }
+          return {
+            borderColor:
+              'rgba(' +
+              Math.floor(Math.random() * 256) +
+              ',' +
+              Math.floor(Math.random() * 256) +
+              ',' +
+              Math.floor(Math.random() * 256) +
+              ', 1)'
+          };
+        };
         const mainStore = res.data.chart.datasets.slice(0, 1);
-        const compStores = res.data.chart.datasets.slice(1).sort((a, b) => { return a.label < b.label ? -1 : 1; return 0; });
+        const compStores = res.data.chart.datasets.slice(1).sort((a, b) => {
+          return a.label < b.label ? -1 : 1;
+          return 0;
+        });
         const mergedStores = mainStore.concat(compStores);
-        const chart = mergedStores.map( (data, index) => ( Object.assign({}, data, defaultStyles, index === 0 ? mainBorder : defaultBorder()) ));
+        const chart = mergedStores.map((data, index) =>
+          Object.assign(
+            {},
+            data,
+            defaultStyles,
+            index === 0 ? mainBorder : defaultBorder()
+          )
+        );
         const tableMainStore = res.data.summary.datasets.slice(0, 1);
-        const tableCompStores = res.data.summary.datasets.slice(1).sort((a, b) => { return a.label < b.label ? -1 : 1; return 0; });
+        const tableCompStores = res.data.summary.datasets
+          .slice(1)
+          .sort((a, b) => {
+            return a.label < b.label ? -1 : 1;
+            return 0;
+          });
         const tableMergedStores = tableMainStore.concat(tableCompStores);
         this.setState({
           isCompared: true,
@@ -266,74 +349,84 @@ class SalesMonth extends Component {
           errors: {
             result: 'No se econtraron coincidencias.'
           }
-        })
+        });
       });
   }
 
-  getDepartments(worlds, world){
+  getDepartments(worlds, world) {
     for (var w of worlds) {
-      if (w['id']==world['value']){
-        return w['departments']
+      if (w['id'] == world['value']) {
+        return w['departments'];
       }
     }
   }
 
-  getBiggerDepartment(worlds, world){
+  getBiggerDepartment(worlds, world) {
     for (var w of worlds) {
-      if (w['id']==world['value']){
-        return w['bigger_department']
+      if (w['id'] == world['value']) {
+        return w['bigger_department'];
       }
     }
   }
 
-  worldChange = (world) => {
-    var departmentOptions = this.getDepartments(this.props.filters.worlds_departments, world)
-    var department = this.getBiggerDepartment(this.props.filters.worlds_departments, world)
+  worldChange = world => {
+    var departmentOptions = this.getDepartments(
+      this.props.filters.worlds_departments,
+      world
+    );
+    var department = this.getBiggerDepartment(
+      this.props.filters.worlds_departments,
+      world
+    );
     this.setState({
       world: world,
-      departmentOptions: departmentOptions.map( store => ({ value: store.id, label: store.name }) ),
-      department: {value: department.id, label: department.name}
+      departmentOptions: departmentOptions.map(store => ({
+        value: store.id,
+        label: store.name
+      })),
+      department: { value: department.id, label: department.name }
     });
-  }
+  };
 
-  storeChange = (department) => {
+  storeChange = department => {
     this.setState({ store });
-  }
+  };
 
-  departmentChange = (department) => {
+  departmentChange = department => {
     this.setState({ department });
-  }
+  };
 
-  onDateFromChange = (year, month) => {
-    let newMonth = month + 1;
-    this.setState({selectedYearFrom: year, selectedMonthFrom: newMonth});
-  }
+  onDateFromChange = (selectedYearFrom, month) =>
+    this.setState({ selectedYearFrom, selectedMonthFrom: month + 1 });
 
-  onDateToChange = (year, month) => {
-    let newMonth = month + 1;
-    this.setState({selectedYearTo: year, selectedMonthTo: newMonth});
-  }
+  onDateToChange = (selectedYearTo, month) =>
+    this.setState({ selectedYearTo, selectedMonthTo: month + 1 });
 
   handleSubmit = (e, month) => {
     e.preventDefault();
     this.setState({ comparedStoreFilter: false });
     this.getChartData();
-  }
+  };
 
-  comparedStoreChange = (comparedStore) => {
+  comparedStoreChange = comparedStore => {
     this.setState({ comparedStore });
-  }
+  };
 
   handleCompareSubmit = (e, month) => {
     e.preventDefault();
     this.getComparativeChartData();
-  }
+  };
 
   render() {
     const {
-      chartTitle, period, isCompared,
-      world, worldOptions,
-      store, storesOptions, comparedStore,
+      chartTitle,
+      period,
+      isCompared,
+      world,
+      worldOptions,
+      store,
+      storesOptions,
+      comparedStore,
       comparedStoreOptions,
       department,
       departmentOptions,
@@ -345,11 +438,12 @@ class SalesMonth extends Component {
       yearTo,
       selectedYearTo,
       selectedMonthTo,
-      summary } = this.state;
+      summary
+    } = this.state;
 
     return (
       <React.Fragment>
-        {this.state.loading && <Loader/>}
+        {this.state.loading && <Loader />}
         <div className="col-12 mb-2">
           <div className="card dashboard__filter">
             <form onSubmit={this.handleSubmit}>
@@ -374,7 +468,7 @@ class SalesMonth extends Component {
               <div className="form-group">
                 <MonthPicker
                   minYear={yearFrom}
-                  minMonth={monthFrom}
+                  minMonth={monthTo}
                   maxYear={yearTo}
                   maxMonth={selectedMonthTo}
                   onChange={this.onDateFromChange.bind(this)}
@@ -392,7 +486,7 @@ class SalesMonth extends Component {
               <button
                 className="btn btn-light"
                 type="button"
-                style={{padding: 0}}
+                style={{ padding: 0 }}
                 onClick={this.getComparedStores.bind(this)}
               >
                 <span
@@ -400,7 +494,7 @@ class SalesMonth extends Component {
                   data-placement="top"
                   title="Comparar con otra tienda"
                 >
-                  <i className="fa fa-exchange"></i>
+                  <i className="fa fa-exchange" />
                 </span>
               </button>
               <button className="btn btn-primary" type="submit">
@@ -408,7 +502,7 @@ class SalesMonth extends Component {
               </button>
             </form>
           </div>
-          { this.state.comparedStoreFilter &&
+          {this.state.comparedStoreFilter && (
             <div className="card dashboard__filter mt-2">
               <form onSubmit={this.handleCompareSubmit}>
                 <div className="form-group">
@@ -426,24 +520,28 @@ class SalesMonth extends Component {
                 </button>
               </form>
             </div>
-          }
+          )}
         </div>
-        { this.state.alert &&
+        {this.state.alert && (
           <div className="col-12 mb-2">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <strong>Lo sentimos!</strong> No se encontraron tiendas con los mismos departamentos.
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <div
+              class="alert alert-warning alert-dismissible fade show"
+              role="alert"
+            >
+              <strong>Lo sentimos!</strong> No se encontraron tiendas con los
+              mismos departamentos.
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
           </div>
-        }
-        { false &&
-          <Period
-            title='Resultado de búsqueda'
-            period={period}
-          />
-        }
+        )}
+        {false && <Period title="Resultado de búsqueda" period={period} />}
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <div className="dashboard__chart__canvas">
@@ -454,9 +552,7 @@ class SalesMonth extends Component {
             </div>
           </div>
         </div>
-        { summary &&
-          <MonthTable {...summary} isCompared={isCompared} />
-        }
+        {summary && <MonthTable {...summary} isCompared={isCompared} />}
       </React.Fragment>
     );
   }

@@ -59,11 +59,7 @@ class MonthPicker extends Component {
   }
 
   changeYearPrev = e => {
-
     e.preventDefault();
-    console.log(changedYear)
-    console.log(this.state.currentYear)
-    console.log(this.props.minYear)
     let changedYear = this.state.currentYear - 1;
     if (changedYear < this.props.minYear){
       this.setState({
@@ -138,6 +134,17 @@ class MonthPicker extends Component {
 
     let formattedMonth = currentMonth + 1;
 
+    const monthsElements = months.map( (month, index) => (
+      <button
+        key={index}
+        className={"month-picker__calendar__months__button " + (currentMonth === index ? 'selected' : '')}
+        onClick={this.changeMonth.bind(this, index)}
+        disabled={((maxMonth < index) && (maxYear === currentYear)) || ((index < minMonth) && (minYear === currentYear))}
+      >
+        {month}
+      </button>
+    ));
+
     return (
       <div className="month-picker">
         <div
@@ -177,16 +184,7 @@ class MonthPicker extends Component {
                 </div>
               }
               <div className="month-picker__calendar__months">
-                {months.map( (month, index) => (
-                  <button
-                    key={index}
-                    className={"month-picker__calendar__months__button " + (currentMonth === index ? 'selected' : '')}
-                    onClick={this.changeMonth.bind(this, index)}
-                    disabled={((maxMonth < index) && (maxYear === currentYear)) || ((index < currentMonth) && (minYear === currentYear))}
-                  >
-                    {month}
-                  </button>
-                ))}
+                {monthsElements}
               </div>
             </div>
           }

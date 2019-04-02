@@ -17,8 +17,7 @@ class CategorySalesPlan < ApplicationRecord
         start_year, start_month, end_month, store_id).order('category_sales_plans.year, category_sales_plans.month')
     else
       where('year = ? AND month >= ? AND category_sales_plans.store_id = ?',
-        start_year, start_month, store_id).or(categories.joins(:sales_plans).
-        where('year = ? AND month <= ? AND category_sales_plans.store_id = ?',
+        start_year, start_month, store_id).or(where('year = ? AND month <= ? AND category_sales_plans.store_id = ?',
         end_year, end_month, store_id)).order('category_sales_plans.year, category_sales_plans.month')
     end
   }
