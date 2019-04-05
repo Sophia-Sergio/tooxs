@@ -40,6 +40,7 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-db-tasks', require: false
+  gem 'ruby-jmeter'
 end
 
 gem 'rubyXL'
