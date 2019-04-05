@@ -16,4 +16,5 @@ COPY ./Gemfile Gemfile
 COPY ./package.json package.json
 
 RUN bundle install && yarn install
-CMD rails s -p $APP_PORT -b '0.0.0.0'
+CMD bundle install && yarn install && rails s -p $APP_PORT -b '0.0.0.0'
+
