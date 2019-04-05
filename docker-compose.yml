@@ -1,0 +1,57 @@
+version: "3.3"
+
+services:
+  app_tooxs:
+    tty: true
+    stdin_open: true
+    container_name: app_tooxs
+    build: .
+    restart: unless-stopped
+    links:
+      - db_tooxs
+      - redis_tooxs
+    depends_on:
+      - db_tooxs
+      - redis_tooxs
+    ports:
+      - 3000:3000
+    environment:
+      APP_HOST: localhost
+      APP_PORT: 3000
+
+      TOOXS_DATABASE_HOST: db_tooxs
+      TOOXS_DATABASE_PORT: 5432
+      TOOXS_DATABASE_NAME: salesforce_reporter_development
+      TOOXS_DATABASE_USERNAME: dbtooxs_user
+      TOOXS_DATABASE_PASSWORD: dbtooxs_pass
+
+      TOOXS_REDIS_HOST: redis_tooxs
+      TOOXS_REDIS_PORT: 6379
+      # REDISTOGO_URL: 'redis://redistogo:32b0954968a03cde7d7455ee1f3ce11e@dory.redistogo.com:10732'
+
+    volumes:
+      - .:/var/app/tooxs
+
+  db_tooxs:
+    container_name: db_tooxs
+    image: postgres:9.5.14
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: dbtooxs_user
+      POSTGRES_PASSWORD: dbtooxs_pass
+      PGDATA: /var/pg/data
+    volumes:
+      - ../local_db/pgdata:/var/pg/data
+      - ../local_db/backups:/var/db_backups
+
+  redis_tooxs:
+    container_name: redis_tooxs
+    image: redis:5
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    volumes:
+      - ../local_db/redis_data:/data
+

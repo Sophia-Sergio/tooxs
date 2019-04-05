@@ -3,11 +3,11 @@ class ProductivityStatsPresenter < StatsPresenter
 
   def chart(productivities)
     {
-      chart_title_labels: dates_peridiocity(productivities[:real].keys, chart_period),
+      labels: dates_peridiocity(productivities[:target].keys, chart_period),
       datasets: [
         { label: 'Productividad Real', values: productivities[:real].values },
         { label: 'Productividad Ideal', values: productivities[:target].values },
-        { label: 'Productividad Optimizada', values: productivities[:target].values }
+        { label: 'Productividad Optimizada', values: productivities[:optimized].values }
       ]
     }
   end
