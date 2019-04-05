@@ -52,22 +52,26 @@ namespace :benchmark do
 
         transaction 'home_login' do
           visit name: '/my/users/sign_in', url: '/my/users/sign_in' do
+            # extract name: 'csrf-token', xpath: '//meta[@name="csrf-token"]/@content', tolerant: true
+            # extract name: 'csrf-param', xpath: '//meta[@name="csrf-param"]/@content', tolerant: true
             # extract name: 'authenticity_token', xpath: "//form[@id='new_user']//input[@name='authenticity_token']/@value", tolerant: true
-            extract name: 'authenticity_token', regex: "value='(.+?)' name='authenticity_token'", tolerant: true
+            extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(*)"', tolerant: true
           end
 
           # http_header_manager name: 'X-CSRF-Token', value: '${authenticity_token}'
 
-          submit name: '/my/users/sign_in', url: '/my/users/sign_in',
-            fill_in: {
-              'authenticity_token' => "${authenticity_token}",
-              'user[email]' => email,
-              'user[password]' => password,
-            }
+          submit  name: '/my/users/sign_in',
+                  url: '/my/users/sign_in',
+                  fill_in: {
+                    'authenticity_token' => '${authenticity_token}',
+                    'user[email]' => email,
+                    'user[password]' => password
+                  }
 
           visit name: '/dashboard/index', url: '/dashboard/index' do
-            extract name: 'kpi-sales-plan', 
-                    xpath: "//div[contains(@class, 'dashboard__chart__info__item')]//h6", tolerant: true
+            extract name: 'kpi-sales-plan',
+                    xpath: "//div[contains(@class, 'dashboard__chart__info__item')]//h6", 
+                    tolerant: true
           end
 
           # visit name: 'Today', url: '${kpi-sales-plan}'
