@@ -7,8 +7,10 @@ services:
     restart: unless-stopped
     links:
       - db_tooxs
+      - redis_tooxs
     depends_on:
       - db_tooxs
+      - redis_tooxs
     ports:
       - 3000:3000
     environment:
@@ -50,3 +52,4 @@ services:
       - 6379:6379
     volumes:
       - ../local_db/redis_data:/data
+
