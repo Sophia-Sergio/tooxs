@@ -72,3 +72,19 @@ export function slugify(text) {
     .replace(/^-+/, "")
     .replace(/-+$/, "");
 }
+
+export function  getDepartments(worlds, world) {
+  for (var w of worlds) {
+    if (w['id'] == world['value']) {
+      return w['departments'];
+    }
+  }
+}
+
+export function  getBiggerDepartment(worlds, world) {
+  for (var w of worlds) {
+    if (w['id'] == world['value']) {
+      return w['bigger_department'];
+    }
+  }
+}
