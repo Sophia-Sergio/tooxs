@@ -24,6 +24,13 @@ class CommercialCalendar
       (period[:start]..period[:end]).to_a[day - 1]
     end
 
+    def equivalent_date_past_year(date)
+      config_date = config_date(date)
+      period = month_period(config_date[:year] - 1, config_date[:month])
+      day = config_date[:week] == 1 ? config_date[:day] : (config_date[:week] - 1) * 7 + config_date[:day]
+      (period[:start]..period[:end]).to_a[day - 1]
+    end
+
     def month_end(year, month)
       month_start(year.to_i, month.to_i) + (WEEKS_BY_MONTH[month.to_i] * 7 - 1)
     end
