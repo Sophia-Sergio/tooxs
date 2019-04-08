@@ -5,9 +5,9 @@ class ProductivityStatsPresenter < StatsPresenter
     {
       labels: dates_peridiocity(productivities[:target].keys, chart_period),
       datasets: [
-        { label: 'Productividad Real', values: productivities[:real].values },
-        { label: 'Productividad Ideal', values: productivities[:target].values },
-        { label: 'Productividad Optimizada', values: productivities[:optimized].values }
+        { label: 'Productividad Sin Optimizar', data: productivities[:no_optimized].values },
+        { label: 'Productividad Ideal', data: productivities[:target].values },
+        { label: 'Productividad Optimizada', data: productivities[:optimized].values }
       ]
     }
   end
