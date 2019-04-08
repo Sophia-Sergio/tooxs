@@ -1,9 +1,9 @@
 class ProductivityStatsPresenter < StatsPresenter
   WEEK_PERIODS = Settings.productivity_week_periods_keys
 
-  def chart(productivities)
+  def chart(productivities, label_period)
     {
-      labels: dates_peridiocity(productivities[:target].keys, chart_period),
+      labels: dates_peridiocity(label_period, chart_period),
       datasets: [
         { label: 'Productividad Sin Optimizar', data: productivities[:no_optimized].values },
         { label: 'Productividad Ideal', data: productivities[:target].values },

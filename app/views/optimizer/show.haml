@@ -1,2 +1,2 @@
 = react_component("components/DashboardHeader", { title: 'Optimizador de turnos' })
-= react_component('containers/Optimizer', { root_url: request.base_url, user: current_user, stores: @stores, departments: @departments }, class: 'row')
+= react_component('containers/Optimizer', { root_url: request.base_url, filters: @filters, user: current_user}, class: 'row')

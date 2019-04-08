@@ -46,7 +46,6 @@ export default class Dashboard extends Component {
 
   componentDidMount(){
     this.getComponentData();
-
   }
 
   getPeriod(){

@@ -60,9 +60,9 @@ module Api
       end
 
       def productivity
-        json = Rails.cache.fetch("/productivity/#{@store_dep.id}/#{@period}") do
-          ProductivityStatsPresenter.new(@store_dep, @period).chart(productivity_data)
-        end
+        # json = Rails.cache.fetch("/productivity/#{@store_dep.id}/#{@period}") do
+        json = ProductivityStatsPresenter.new(@store_dep, @period).chart(productivity_data, @label_period)
+        # end
         render json: { chart: json }
       end
 
