@@ -72,14 +72,12 @@ export default class Chart extends Component {
 
   render(){
     return(
-      <div className="col-12 mb-2">
-        <div className="card dashboard__chart">
-          <div className="dashboard__chart__canvas">
-            {this.state.chartData && <Line
-              data={this.state.chartData}
-              options={this.state.chartOptions}
-            />}
-          </div>
+      <div className="card dashboard__chart">
+        <div className="dashboard__chart__canvas">
+          {this.state.chartData && <Line
+            data={this.state.chartData}
+            options={this.state.chartOptions}
+          />}
         </div>
       </div>
     )

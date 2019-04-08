@@ -11,43 +11,22 @@ import DotationPlan from '../productivity/DotationPlan';
 
 export default class Optimizer extends Component {
   state = {
-    loading: false,
-    worlds: [
-      { value: '1', label: 'Hombre'},
-      { value: '2', label: 'Mujer'},
-      { value: '3', label: 'Niños'},
-      { value: '4', label: 'ElectroHogar'},
-      { value: '5', label: 'Decohogar'}
-    ],
-    world: { value: '4', label: 'ElectroHogar'},
-    departmentDefault: { value: '1', label: 'Alto Las Condes' },
-    department: { value: '3', label: 'Audio y Video' },
-    departmentOptions: [
-      { value: '3', label: 'Audio y Video' },
-      { value: '1', label: 'Computación y Hogar' },
-      { value: '2', label: 'Cuidado Personal' }
-    ],
-    year: { value: '2019', label: '2019' },
-    yearOptions: [
-      { value: '2019', label: '2019' },
-      { value: '2018', label: '2018' },
-      { value: '2017', label: '2017' }
-    ],
-    month: { value: '5', label: 'Mayo' },
-    monthOptions: [
-      { value: '4', label: 'Abril' },
-      { value: '5', label: 'Mayo' },
-      { value: '6', label: 'Junio' },
-      { value: '7', label: 'Julio' },
-      { value: '8', label: 'Agosto' },
-      { value: '9', label: 'septiembre' },
-      { value: '10', label: 'Octubre' },
-      { value: '11', label: 'Noviembre' },
-      { value: '12', label: 'Diciembre' }
-    ],
-    chartData: {}
+    loading: true,
+    result: '',
+    store: {},
+    world: {},
+    worldOptions: [],
+    department: {},
+    year: {},
+    yearOptions: [],
+    month: {},
+    monthOptions: [],
+    stats: {},
+    chartData: {
+      labels: [],
+      datasets:[]
+    },
   }
-
   componentWillMount(){
     this.createFiltersData();
   }
@@ -56,17 +35,9 @@ export default class Optimizer extends Component {
     this.getChartData();
   }
 
-  createFiltersData(){
-    this.setState({
-      store: this.props.stores.map( (store, index) => ({ value: store.id, label: store.name }) )[0],
-      storeOptions: this.props.stores.map( store => ({ value: store.id, label: store.name }) ),
-    })
-  }
-
   getChartData = () => {
     this.setState({ loading: true });
-    console.log(`${this.props.root_url}/api/v1/statistics/chart?type=productivity&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2019&month_start=4`)
-    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=productivity&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2019&month_start=4`)
+    axios.get(`${this.props.root_url}/api/v1/statistics/chart?type=productivity&store=${this.state.store.value}&department=${this.state.department.value}&year_start=2019&month_start=5`)
       .then(res => {
         this.setState({
           isCompared: false,
@@ -95,7 +66,61 @@ export default class Optimizer extends Component {
       });
   }
 
-  storeChange = (department) => {
+  worldChange = (world) => {
+    var departmentOptions = this.getDepartments(this.props.filters.worlds_departments, world)
+    var department = this.getBiggerDepartment(this.props.filters.worlds_departments, world)
+    this.setState({
+      world: world,
+      departmentOptions: departmentOptions.map( store => ({ value: store.id, label: store.name }) ),
+      department: {value: department.id, label: department.name}
+    });
+  }
+
+  createFiltersData(){
+    var filters = this.props.filters;
+    var world = { value: filters.world_selected.id, label: filters.world_selected.name };
+    var departments = this.getDepartments(filters.worlds_departments, world);
+    var department = this.getBiggerDepartment(filters.worlds_departments, world);
+    var monthOptions = this.getMonths(filters.years, filters.year)
+    this.setState({
+      year: { value: 2019, label: "2019"},
+      month: { value: 5, label: "Mayo"},
+      store: { value: filters.store.id, label: filters.store.name },
+      world: world,
+      yearOptions: [{ value: 2019, label: "2019"}],
+      monthOptions: monthOptions.map( month => ({ value: month.value, label: month.label })),
+      worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
+      department: { value: department.id, label: department.name },
+      departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) )
+    })
+  }
+
+  getDepartments(worlds, world){
+    for (var w of worlds) {
+      if (w['id']==world['value']){
+        return w['departments']
+      }
+    }
+  }
+
+  getMonths(years, year){
+    for (var y of years) {
+      if (y['label']==year['value']){
+        return y['months']
+      }
+    }
+  }
+
+  getBiggerDepartment(worlds, world){
+    for (var w of worlds) {
+      if (w['id']==world['value']){
+        return w['bigger_department']
+      }
+    }
+  }
+
+
+  storeChange = (store) => {
     this.setState({ store });
   }
 
@@ -104,9 +129,12 @@ export default class Optimizer extends Component {
   }
 
   yearChange = (year) => {
-    this.setState({ year });
+    var monthOptions = this.getMonths(this.props.filters.years, year)
+    this.setState({
+      year: year,
+      monthOptions: monthOptions
+    });
   }
-
   monthChange = (month) => {
     this.setState({ month });
   }
@@ -119,7 +147,7 @@ export default class Optimizer extends Component {
   // Departamento, Año, Mes
 
   render() {
-    const { store, storesOptions, department, worlds, world, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
+    const { department, worldOptions, world, departmentOptions, year, yearOptions, month, monthOptions } = this.state;
 
     return (
       <React.Fragment>
@@ -129,33 +157,37 @@ export default class Optimizer extends Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
-                  options={worlds}
-                  placeholder={`Mundo`}
-                  onChange={this.departmentChange}
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.worldChange}
+                  options={worldOptions}
+                  placeholder={`World`}
                   value={world}
                 />
               </div>
               <div className="form-group">
                 <Select
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.departmentChange}
                   options={departmentOptions}
-                  placeholder={`Año`}
-                  onChange={this.yearChange}
+                  placeholder={`Departamento`}
                   value={department}
                 />
               </div>
               <div className="form-group">
                 <Select
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.yearChange}
                   options={yearOptions}
-                  placeholder={`Mes`}
-                  onChange={this.monthChange}
+                  placeholder={`Año`}
                   value={year}
                 />
               </div>
               <div className="form-group">
                 <Select
+                  noOptionsMessage={() => 'No se econtraron más opciones'}
+                  onChange={this.monthChange}
                   options={monthOptions}
                   placeholder={`Mes`}
-                  onChange={this.monthChange}
                   value={month}
                 />
               </div>
@@ -166,17 +198,15 @@ export default class Optimizer extends Component {
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <h5 className="card-title">Resultado de búsqueda</h5>
-            <p className="card-text">Datos desde el 30 de abril al 29 de mayo de 2019</p>
+            <p className="card-text">Datos desde el 29 de abril al 26 de mayo de 2019</p>
           </div>
         </div>
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
             <Stats/>
-            <div className="dashboard__chart__canvas">
-              <Chart
-                chartData={this.state.chartData}
-              />
-            </div>
+            <Chart
+              chartData={this.state.chartData}
+            />
           </div>
         </div>
         <ProductivityTable/>
