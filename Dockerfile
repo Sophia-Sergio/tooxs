@@ -12,9 +12,6 @@ RUN gem install bundler
 RUN mkdir -p /var/app/tooxs
 WORKDIR /var/app/tooxs
 
-COPY ./Gemfile Gemfile
-COPY ./package.json package.json
+COPY . .
 
-RUN bundle install && yarn install
-CMD bundle install && yarn install && rails s -p $APP_PORT -b '0.0.0.0'
-
+CMD [ "/var/app/tooxs/entry-point.sh" ]

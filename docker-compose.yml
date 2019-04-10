@@ -5,7 +5,7 @@ services:
     tty: true
     stdin_open: true
     container_name: app_tooxs
-    build: .
+    image: app_tooxs
     restart: unless-stopped
     links:
       - db_tooxs
