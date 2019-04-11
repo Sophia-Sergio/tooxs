@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export function currencyFormat(clp) {
   return (clp).toLocaleString('de-DE', {
     minimumFractionDigits: 0,
@@ -88,3 +90,26 @@ export function  getBiggerDepartment(worlds, world) {
     }
   }
 }
+
+export function getPeriod(_this){
+  var parameters = `year_start=${_this.state.year.value}&month_start=${_this.state.month.value}`;
+  axios.get(`${_this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
+    .then(res => {
+      const start = new Date(res.data.start);
+      const startYear = start.getFullYear();
+      const startMonth = start.getMonth();
+      const startDay = start.getDate();
+      const end = new Date(res.data.end);
+      const endYear = end.getFullYear();
+      const endMonth = end.getMonth();
+      const endDay = end.getDate();
+      _this.setState({
+        period: `Datos desde el ${ startDay + 1} de ${ monthFormat(startMonth + 1) } de ${ startYear } al ${ endDay +1 } de ${ monthFormat(endMonth + 1) } de ${ endYear }`,
+      });
+      _this.setState({loading: false});
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  return;
+};

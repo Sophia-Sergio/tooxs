@@ -74,29 +74,6 @@ export default class SalesStatistics extends Component {
     });
   };
 
-  getPeriod = () => {
-    var parameters = `year_start=${this.state.yearFrom}&month_start=${
-      this.state.monthFrom
-    }&year_end=${this.state.yearTo}&month_end=${this.state.monthTo}`;
-    axios
-      .get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
-      .then(res => {
-        const start = new Date(res.data.start);
-        const end = new Date(res.data.end);
-        let period = `Datos desde el ${start.getDate()} de ${monthFormat(
-          start.getMonth() + 1
-        )} de ${start.getFullYear()} al ${end.getDate()} de ${monthFormat(
-          end.getMonth() + 1
-        )} de ${end.getFullYear()}`;
-        this.setState({ period });
-      })
-      .catch(error => {
-        this.setState({
-          period: `No se encontraron datos, intente nuevamente.`
-        });
-      });
-  };
-
   getChartData = () => {
     this.setState({ loading: true });
     let parameters = `type=sales&store=${this.state.store.value}&department=${
@@ -260,11 +237,13 @@ export default class SalesStatistics extends Component {
     this.setState({ department });
   };
 
-  onDateFromChange = (selectedYearFrom, month) =>
+  onDateFromChange = (selectedYearFrom, month) => {
     this.setState({ selectedYearFrom, selectedMonthFrom: month + 1 });
+  }
 
-  onDateToChange = (selectedYearTo, month) =>
+  onDateToChange = (selectedYearTo, month) => {
     this.setState({ selectedYearTo, selectedMonthTo: month + 1 });
+  }
 
   handleSubmit = (e, month) => {
     e.preventDefault();
@@ -340,7 +319,7 @@ export default class SalesStatistics extends Component {
               <div className="form-group">
                 <MonthPicker
                   minYear={yearFrom}
-                  minMonth={monthFrom}
+                  minMonth={monthTo}
                   maxYear={yearTo}
                   maxMonth={selectedMonthTo}
                   onChange={this.onDateToChange.bind(this)}

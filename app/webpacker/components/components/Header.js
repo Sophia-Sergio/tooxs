@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class DashboardHeader extends Component {
+export default class Header extends Component {
   handleClick(e) {
     const sidebar = document.querySelector('.sidebar');
     const mainContent = document.querySelector('.dashboard__container');
@@ -18,7 +18,7 @@ export default class DashboardHeader extends Component {
             <button onClick={this.handleClick}>
               <i className="fa fa-bars" />
             </button>
-            <h2>{this.props.title}</h2>
+            <h3>{this.props.title}</h3>
           </div>
         </div>
       </div>
@@ -26,10 +26,10 @@ export default class DashboardHeader extends Component {
   }
 }
 
-DashboardHeader.defaultProps = {
+Header.defaultProps = {
   title: 'Dashboard title'
 };
 
-DashboardHeader.propTypes = {
+Header.propTypes = {
   title: PropTypes.string.isRequired
 };

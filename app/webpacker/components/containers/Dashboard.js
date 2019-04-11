@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { currencyFormat, monthFormat, dayMonthFormat } from '../helpers';
+import { currencyFormat, monthFormat, dayMonthFormat, getPeriod } from '../helpers';
 import Loader from '../components/UI/Loader';
 import Select from 'react-select';
-import {Line} from 'react-chartjs-2';
+import Period from '../components/Period';
+import { Line } from 'react-chartjs-2';
 import { merge } from 'lodash';
 import Stats from '../Stats';
 import ShiftPlan from '../components/dashboard/ShiftPlan';
@@ -48,28 +49,6 @@ export default class Dashboard extends Component {
     this.getComponentData();
   }
 
-  getPeriod(){
-    var parameters = `year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
-    axios.get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
-      .then(res => {
-        const start = new Date(res.data.start);
-        const startYear = start.getFullYear();
-        const startMonth = start.getMonth();
-        const startDay = start.getDate();
-        const end = new Date(res.data.end);
-        const endYear = end.getFullYear();
-        const endMonth = end.getMonth();
-        const endDay = end.getDate();
-        this.setState({
-          period: `Datos desde el ${ startDay + 1} de ${ monthFormat(startMonth + 1) } de ${ startYear } al ${ endDay +1 } de ${ monthFormat(endMonth + 1) } de ${ endYear }`,
-        });
-        this.setState({loading: false});
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
   getChartData(parameters){
     axios.get(`${this.props.root_url}/api/v1/statistics/chart?${parameters}`).then(response => {
       this.setState({
@@ -112,7 +91,7 @@ export default class Dashboard extends Component {
         sales_assistants: response.data.sales_assistants ? response.data.sales_assistants : [],
         sellers: response.data.sellers ? response.data.sellers : [],
       });
-      this.getPeriod();
+      getPeriod(this);
     }).catch(error => {
       console.log(error);
     });

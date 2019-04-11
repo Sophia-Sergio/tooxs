@@ -14,37 +14,20 @@ export default class SalesSummary extends Component {
     store_1_vs_store_2: []
   }
 
-  componentDidMount = () => {
-    !this.props.isCompared && this.createDatasets();
-  }
-
-  createDatasets = () => {
-    const { title, datasets } = this.props;
-    this.setState({
-      plan: this.props.datasets[0].data.map(item => ( parseInt(item) )),
-      historic: this.props.datasets[1].data.map(item => ( parseInt(item) )),
-      real: this.props.datasets[2].data.map(item => ( parseInt(item) )),
-      real_vs_plan: this.props.compared_datasets[0].data.map(item => ( parseInt(item) )),
-      real_vs_historic: this.props.compared_datasets[1].data.map(item => ( parseInt(item) ))
-    });
-  }
-
   getPercentageDifference = (val, index) => {
     let percentage = (( ( this.props.datasets[0].data[index] - parseInt(val) ) / parseInt(val) ) * 100).toFixed(2);
-    if (isNaN(percentage)){
+    if (isNaN(percentage) || !isFinite(percentage)){
       percentage = 0;
     }
     return percentage;
   }
 
   render() {
-    const { real_vs_plan, real_vs_historic, compared_stores, compared_stores_title, store_1_vs_store_2 } = this.state;
-    const { isCompared, title, datasets } = this.props;
+    const { isCompared, title, datasets, compared_datasets } = this.props;
     return (
       <div className="col-12">
         <div className="card dashboard__table">
           <h5 className="card-title">Tabla comparativa de ventas</h5>
-
           <div className="table-responsive">
             <table className="table">
               <thead>
@@ -93,17 +76,17 @@ export default class SalesSummary extends Component {
                 <tfoot>
                   <tr>
                     <td className="bg-dark text-white" style={{whiteSpace: 'nowrap'}}>Real vs Plan</td>
-                    {real_vs_plan.map(item => (
+                    {compared_datasets[0].data.map(item => (
                       <td className="bg-secondary text-white">{ item }%</td>
                     ))}
-                    <td className="bg-dark text-white">{ ( real_vs_plan.reduce((total, num) => total + parseInt(num), 0) / real_vs_plan.length ).toFixed(2) }%</td>
+                    <td className="bg-dark text-white">{ ( compared_datasets[0].data.reduce((total, num) => total + parseInt(num), 0) / compared_datasets[0].data.length ).toFixed(2) }%</td>
                   </tr>
                   <tr>
                     <td className="bg-dark text-white" style={{whiteSpace: 'nowrap'}}>Real vs Histórico</td>
-                    {real_vs_historic.map(item => (
+                    {compared_datasets[1].data.map(item => (
                       <td className="bg-secondary text-white">{ item }%</td>
                     ))}
-                    <td className="bg-dark text-white">{  ( real_vs_historic.reduce((total, num) => total + parseInt(num), 0) / real_vs_historic.length ).toFixed(2) }%</td>
+                    <td className="bg-dark text-white">{ ( compared_datasets[1].data.reduce((total, num) => total + parseInt(num), 0) / compared_datasets[1].data.length ).toFixed(2) }%</td>
                   </tr>
                 </tfoot>
               }
