@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_01_214410) do
+ActiveRecord::Schema.define(version: 2019_04_10_173319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -120,6 +120,18 @@ ActiveRecord::Schema.define(version: 2019_04_01_214410) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["work_shift_id"], name: "index_plan_shifts_on_work_shift_id"
+  end
+
+  create_table "planned_shifts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "work_shift_id"
+    t.datetime "check_in"
+    t.datetime "check_out"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_planned_shifts_on_user_id"
+    t.index ["work_shift_id"], name: "index_planned_shifts_on_work_shift_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -347,6 +359,8 @@ ActiveRecord::Schema.define(version: 2019_04_01_214410) do
   add_foreign_key "general_plans", "store_departments"
   add_foreign_key "optimized_productivities", "store_departments"
   add_foreign_key "plan_shifts", "work_shifts"
+  add_foreign_key "planned_shifts", "users"
+  add_foreign_key "planned_shifts", "work_shifts"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories", column: "category_cod", primary_key: "cod", name: "products_category_cod_fkey"
   add_foreign_key "sales", "products"
