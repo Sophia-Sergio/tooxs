@@ -5,14 +5,16 @@ services:
     tty: true
     stdin_open: true
     container_name: app_tooxs
-    build: .
+    image: app_tooxs
     restart: unless-stopped
     links:
       - db_tooxs
       - redis_tooxs
+      - redis_sidekiq_tooxs
     depends_on:
       - db_tooxs
       - redis_tooxs
+      - redis_sidekiq_tooxs
     ports:
       - 3000:3000
     environment:
@@ -28,6 +30,19 @@ services:
       TOOXS_REDIS_HOST: redis_tooxs
       TOOXS_REDIS_PORT: 6379
       # REDISTOGO_URL: 'redis://redistogo:32b0954968a03cde7d7455ee1f3ce11e@dory.redistogo.com:10732'
+
+      TOOXS_REDIS_SIDEQIK_HOST: redis_sidekiq_tooxs
+      TOOXS_REDIS_SIDEQIK_PORT: 6380
+      # REDISTOGO_URL: 'redis://redistogo:32b0954968a03cde7d7455ee1f3ce11e@dory.redistogo.com:10732'
+
+      DEFAULT_URL_HOST: localhost:3000
+      SMTP_EMAIL_ADDRESS: smtp.sendgrid.net
+      SMTP_EMAIL_PORT: 587
+      SMTP_EMAIL_DOMAIN: tooxs.com
+      SMTP_EMAIL_AUTH: plain
+      SMTP_EMAIL_STARTTLS: 'true'
+      SMTP_EMAIL_USERNAME: apikey
+      SMTP_EMAIL_PASSWORD: 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
 
     volumes:
       - .:/var/app/tooxs
@@ -54,4 +69,14 @@ services:
       - 6379:6379
     volumes:
       - ../local_db/redis_data:/data
+
+  redis_sidekiq_tooxs:
+    container_name: redis_sidekiq_tooxs
+    image: redis:5
+    restart: unless-stopped
+    ports:
+      - 6380:6380
+    volumes:
+      - ../local_db/redis__sideqik_data:/data
+    command: redis-server --port 6380
 

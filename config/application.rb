@@ -49,5 +49,23 @@ module SalesforceReporter
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    # Configuración para envío de correos
+    config.action_mailer.default_url_options = { host: ENV['DEFAULT_URL_HOST'] }
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.default charset: 'utf-8'
+
+    config.action_mailer.smtp_settings = {
+      address: ENV['SMTP_EMAIL_ADDRESS'],
+      port: ENV['SMTP_EMAIL_PORT'],
+      domain: ENV['SMTP_EMAIL_DOMAIN'],
+      authentication: ENV['SMTP_EMAIL_AUTH'],
+      enable_starttls_auto: ENV['SMTP_EMAIL_STARTTLS'],
+      user_name: ENV['SMTP_EMAIL_USERNAME'],
+      password: ENV['SMTP_EMAIL_PASSWORD']
+    }
+
   end
 end
