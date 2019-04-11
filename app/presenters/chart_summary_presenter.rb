@@ -1,5 +1,5 @@
 class ChartSummaryPresenter < StatsPresenter
-  def efficiency
+  def efficiency_summary
     {
       name: 'EFICIENCIA',
       value: "#{@model.efficiency(@period).round(2)}%",
@@ -7,15 +7,15 @@ class ChartSummaryPresenter < StatsPresenter
     }
   end
 
-  def chart
+  def efficiency
     {
-      goal_success: goal_success,
-      productivity: productivity,
-      efficiency: efficiency
+      goal_success: goal_success_summary,
+      productivity: productivity_summary,
+      efficiency: efficiency_summary
     }
   end
 
-  def goal_success
+  def goal_success_summary
     plan_sales = @model.categories_sales_plan_by_dates(@period).values.sum.round
     sales      = @model.categories_sales(@period)
     {
@@ -25,7 +25,7 @@ class ChartSummaryPresenter < StatsPresenter
     }
   end
 
-  def productivity
+  def productivity_summary
     avg_target_productivity = @model.year_month_target_productivity(@period)
     {
       name: 'PRODUCTIVIDAD',

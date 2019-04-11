@@ -1,6 +1,6 @@
 class StatisticsController < ApplicationController
   def sales
-    @filters = current_user.filters
+    @filters = current_user.filters('sales')
   end
 
   def hours() end

@@ -88,25 +88,17 @@ class StoreDepartment < ApplicationRecord
   def categories_sales_by_date_hour(date)
     hourly_sales = categories.joins(:sales).where(category_sales: { store_id: store, date: date }).
       pluck('category_sales.hourly')
-
     PERIODS.each_with_object({}) do |key, hash|
       hash[key] = hourly_sales.map { |sale| sale[key].to_i }.sum
     end
   end
 
-  # def categories_sales_by_date_hour2(period)
-  #   sales = categories.joins(:sales).merge(CategorySale.between(period)).
-  #     pluck('category_sales.date, category_sales.hourly')
-  #   sales = sales.each_with_object({}) do |daily_sale, hash|
-  #     (period[:start]..period[:end]).each do |date|
-  #       hash[date] ||= 0
-  #       hash[date] += daily_sale[date.to_s].to_i
-  #     end
-  #   end
-  #   PERIODS.each_with_object({}) do |key, hash|
-  #     hash[key] = hourly_sales.map { |sale| sale[key].to_i }.sum
-  #   end
-  # end
+  def hourly_staff_by_date(period)
+    (period[:start]..period[:end]).each_with_object({}) do |date, hash|
+      employees = self.employees.count_planned_employees_by_hour(date)
+      hash[date] = employees.values.sum
+    end
+  end
 
   def categories_sales_plan_by_date_hour(period)
     sales_plan = categories.joins(:sales_plans).merge(CategorySalesPlan.between(period, store)).
