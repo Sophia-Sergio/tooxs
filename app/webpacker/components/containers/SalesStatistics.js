@@ -405,10 +405,10 @@ export default class SalesStatistics extends Component {
           </div>
         )}
         {false && <Period title="Resultado de búsqueda" period={period} />}
-        <Chart chartData={this.state.chartData} />
-        {summary && (
-          <SalesSummary {...summary} isCompared={isCompared} />
-        )}
+        <div className="col-12 mb-2">
+          <Chart chartData={this.state.chartData} />
+        </div>
+        {summary && <SalesSummary {...summary} isCompared={isCompared} />}
       </React.Fragment>
     );
   }
