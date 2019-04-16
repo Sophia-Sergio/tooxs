@@ -1,37 +1,34 @@
-version: "3.3"
+version: "3"
 
 services:
-  app_tooxs:
-    tty: true
-    stdin_open: true
-    container_name: app_tooxs
-    image: app_tooxs
+  app-tooxs:
+    image: cdgntooxs.azurecr.io/app-tooxs:local-demo
     restart: unless-stopped
     links:
-      - db_tooxs
-      - redis_tooxs
-      - redis_sidekiq_tooxs
+      - db-tooxs
+      - redis-tooxs
+      - redis-sideqik-tooxs
     depends_on:
-      - db_tooxs
-      - redis_tooxs
-      - redis_sidekiq_tooxs
+      - db-tooxs
+      - redis-tooxs
+      - redis-sideqik-tooxs
     ports:
       - 3000:3000
     environment:
       APP_HOST: localhost
       APP_PORT: 3000
 
-      TOOXS_DATABASE_HOST: db_tooxs
+      TOOXS_DATABASE_HOST: db-tooxs
       TOOXS_DATABASE_PORT: 5432
       TOOXS_DATABASE_NAME: salesforce_reporter_development
       TOOXS_DATABASE_USERNAME: dbtooxs_user
       TOOXS_DATABASE_PASSWORD: dbtooxs_pass
 
-      TOOXS_REDIS_HOST: redis_tooxs
+      TOOXS_REDIS_HOST: redis-tooxs
       TOOXS_REDIS_PORT: 6379
       # REDISTOGO_URL: 'redis://redistogo:32b0954968a03cde7d7455ee1f3ce11e@dory.redistogo.com:10732'
 
-      TOOXS_REDIS_SIDEQIK_HOST: redis_sidekiq_tooxs
+      TOOXS_REDIS_SIDEQIK_HOST: redis-sideqik-tooxs
       TOOXS_REDIS_SIDEQIK_PORT: 6380
       # REDISTOGO_URL: 'redis://redistogo:32b0954968a03cde7d7455ee1f3ce11e@dory.redistogo.com:10732'
 
@@ -47,8 +44,7 @@ services:
     volumes:
       - .:/var/app/tooxs
 
-  db_tooxs:
-    container_name: db_tooxs
+  db-tooxs:
     image: postgres:9.5.14
     restart: unless-stopped
     ports:
@@ -61,8 +57,7 @@ services:
       - ../local_db/pgdata:/var/pg/data
       - ../local_db/backups:/var/db_backups
 
-  redis_tooxs:
-    container_name: redis_tooxs
+  redis-tooxs:
     image: redis:5
     restart: unless-stopped
     ports:
@@ -70,8 +65,7 @@ services:
     volumes:
       - ../local_db/redis_data:/data
 
-  redis_sidekiq_tooxs:
-    container_name: redis_sidekiq_tooxs
+  redis-sideqik-tooxs:
     image: redis:5
     restart: unless-stopped
     ports:

@@ -14,4 +14,6 @@ WORKDIR /var/app/tooxs
 
 COPY . .
 
+RUN bundle install && yarn install
+
 CMD [ "/var/app/tooxs/entry-point.sh" ]
