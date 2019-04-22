@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import styled from 'styled-components';
-import { currencyFormat } from "../../helpers";
+import { currencyFormat } from "../../lib/helpers";
 import userDefault from '../../../images/user_default';
 
 class EmployeesTable extends Component {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { currencyFormat } from '../helpers';
+import { currencyFormat } from '../lib/helpers';
 import Schedule from '../components/sellers/Schedule';
 import DaysOff from '../components/sellers/DaysOff';
 import MonthSales from '../components/sellers/MonthSales';

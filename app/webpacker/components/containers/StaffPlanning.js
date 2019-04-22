@@ -3,7 +3,7 @@ import Select from 'react-select';
 import BootstrapTable from 'react-bootstrap-table-next';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { currencyFormat } from "../helpers";
+import { currencyFormat } from "../lib/helpers";
 import userDefault from '../../images/user_default';
 import ShiftPlan from '../components/sellers/ShiftPlan';
 import AvailableShifts from '../components/sellers/AvailableShifts';

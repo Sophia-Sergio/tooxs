@@ -6,8 +6,19 @@ import Select from 'react-select';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { getDepartments, getBiggerDepartment, currencyFormat } from '../helpers';
+import { getPeriod } from '../lib/helpers';
+import {
+  createFiltersData1 as createFiltersData,
+  worldChange,
+  getDepartments,
+  getBiggerDepartment,
+  getMonths,
+  yearChange,
+  departmentChange,
+  monthChange
+} from '../lib/filters';
 import userDefault from '../../images/user_default';
+import Period from '../components/Period';
 
 export default class Employees extends Component {
   state = {
@@ -19,99 +30,46 @@ export default class Employees extends Component {
     month: {},
     monthOptions: [],
     employees: [],
-    resultText: '',
+    period: ''
+  };
+
+  componentWillMount() {
+    createFiltersData(this);
   }
 
-  componentWillMount(){
-    this.createFiltersData();
-  }
-
-  componentDidMount(){
+  componentDidMount() {
     this.getEmployeesData();
   }
 
-  createFiltersData(){
-    var filters = this.props.filters;
-    var world = { value: filters.world_selected.id, label: filters.world_selected.name };
-    var departments = getDepartments(filters.worlds_departments, world);
-    var department = getBiggerDepartment(filters.worlds_departments, world);
-    var monthOptions = this.getMonths(filters.years, filters.year);
-    this.setState({
-      year: { value: filters.year.value, label: filters.year.label},
-      month: { value: filters.month.value, label: filters.month.label},
-      store: { value: filters.store.id, label: filters.store.name },
-      world: world,
-      yearOptions: filters.years.map( year => ({ value: year.value, label: year.label })),
-      monthOptions: monthOptions.map( month => ({ value: month.value, label: month.label })),
-      worldOptions: filters.worlds_departments.map( world => ({ value: world.id, label: world.name })),
-      department: { value: department.id, label: department.name },
-      departmentOptions: departments.map( store => ({ value: store.id, label: store.name }) ),
-      resultText: `Datos correspondientes al mes de ${this.state.month.label} de ${this.state.year.label}`,
-    })
-  }
-
   getEmployeesData = () => {
-    this.setState({loading: true});
-    var parameters = `type=efficiency&store=${this.state.store.value}&department=${this.state.department.value}&year_start=${this.state.year.value}&month_start=${this.state.month.value}`;
-    axios.get(`${this.props.root_url}/api/v1/employees/index?${parameters}`)
+    this.setState({ loading: true });
+    var parameters = `type=efficiency&store=${
+      this.state.store.value
+    }&department=${this.state.department.value}&year_start=${
+      this.state.year.value
+    }&month_start=${this.state.month.value}`;
+    axios
+      .get(`${this.props.root_url}/api/v1/employees/index?${parameters}`)
       .then(res => {
         this.setState({
-          employees: res.data,
+          employees: res.data
         });
         this.setState({
-          resultText: `Datos correspondientes al mes de ${this.state.month.label} de ${this.state.year.label}`,
           loading: false
         });
+        getPeriod(this);
       })
       .catch(error => {
         console.log(error);
       });
-  }
-
-  getMonths = (years, year) => {
-    for (var y of years) {
-      if (y['label']==year['value']){
-        return y['months']
-      }
-    }
-  }
-
-  worldChange = (world) => {
-    var departmentOptions = getDepartments(this.props.filters.worlds_departments, world)
-    var department = getBiggerDepartment(this.props.filters.worlds_departments, world)
-    this.setState({
-      world: world,
-      departmentOptions: departmentOptions.map( store => ({ value: store.id, label: store.name }) ),
-      department: {value: department.id, label: department.name}
-    });
-  }
-
-  storeChange = (store) => {
-    this.setState({ store });
-  }
-
-  departmentChange = (department) => {
-    this.setState({ department });
-  }
-
-  yearChange = (year) => {
-    var monthOptions = this.getMonths(this.props.filters.years, year)
-    this.setState({
-      year: year,
-      monthOptions: monthOptions
-    });
-  }
-
-  monthChange = (month) => {
-    this.setState({ month });
-  }
+  };
 
   handleSubmit = (e, month) => {
     e.preventDefault();
     this.getEmployeesData();
-  }
+  };
 
-  render () {
+  render() {
     const {
       world,
       store,
@@ -124,7 +82,7 @@ export default class Employees extends Component {
       month,
       monthOptions,
       employees,
-      resultText,
+      period
     } = this.state;
 
     const columns = [
@@ -135,8 +93,14 @@ export default class Employees extends Component {
         },
         text: 'Foto',
         formatter: (cellContent, row) => (
-          <div className="avatar border border-primary rounded-circle" style={{overflow: 'hidden', width: '40px'}}>
-            <img src={row.avatar != '' ? row.avatar : userDefault} style={{display: 'block', height: 'auto', width: '100%'}} />
+          <div
+            className="avatar border border-primary rounded-circle"
+            style={{ overflow: 'hidden', width: '40px' }}
+          >
+            <img
+              src={row.avatar != '' ? row.avatar : userDefault}
+              style={{ display: 'block', height: 'auto', width: '100%' }}
+            />
           </div>
         ),
         style: {
@@ -160,24 +124,22 @@ export default class Employees extends Component {
       },
       {
         dataField: 'store.name',
-        text: 'Tienda',
+        text: 'Tienda'
       },
       {
         dataField: 'department.name',
-        text: 'Departamento',
+        text: 'Departamento'
       },
       {
         dataField: 'email',
         text: 'E-mail',
         formatter: (cellContent, row) => (
-          <a href={'mailto:' + cellContent}>
-            {cellContent}
-          </a>
-        ),
+          <a href={'mailto:' + cellContent}>{cellContent}</a>
+        )
       },
       {
         dataField: 'shifts',
-        text: 'Turno',
+        text: 'Turno'
       },
       {
         dataField: 'link',
@@ -186,20 +148,20 @@ export default class Employees extends Component {
           <a class="btn btn-light btn-sm btn-block" href={cellContent}>
             Ver detalle
           </a>
-        ),
-      },
+        )
+      }
     ];
     return (
       <React.Fragment>
-        {this.state.loading && <Loader/>}
-        {this.state.loading && <Loader/>}
+        {this.state.loading && <Loader />}
+        {this.state.loading && <Loader />}
         <div className="col-12 mb-2">
           <div className="card dashboard__filter">
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <Select
                   noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.worldChange}
+                  onChange={node => worldChange(node, this)}
                   options={worldOptions}
                   placeholder={`World`}
                   value={world}
@@ -208,7 +170,7 @@ export default class Employees extends Component {
               <div className="form-group">
                 <Select
                   noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.departmentChange}
+                  onChange={node => departmentChange(node, this)}
                   options={departmentOptions}
                   placeholder={`Departamento`}
                   value={department}
@@ -217,7 +179,7 @@ export default class Employees extends Component {
               <div className="form-group">
                 <Select
                   noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.yearChange}
+                  onChange={node => yearChange(node, this)}
                   options={yearOptions}
                   placeholder={`Año`}
                   value={year}
@@ -226,33 +188,30 @@ export default class Employees extends Component {
               <div className="form-group">
                 <Select
                   noOptionsMessage={() => 'No se econtraron más opciones'}
-                  onChange={this.monthChange}
+                  onChange={node => monthChange(node, this)}
                   options={monthOptions}
                   placeholder={`Mes`}
                   value={month}
                 />
               </div>
-              <button className="btn btn-primary" type="submit">Buscar</button>
+              <button className="btn btn-primary" type="submit">
+                Buscar
+              </button>
             </form>
           </div>
         </div>
-        <div className="col-12 mb-2">
-          <div className="card dashboard__chart">
-            <h5 className="card-title">Resultado de búsqueda</h5>
-            <p className="card-text">{ resultText }</p>
-          </div>
-        </div>
+        <Period period={period} />
         <div className="col-md-12">
           <div className="card dashboard__table">
             <h5 className="card-title">Mis colaboradores</h5>
             <div className="table-responsive">
               <BootstrapTable
                 bootstrap4
-                bordered={ false }
-                columns={ columns }
-                data={ employees }
-                keyField='id'
-                pagination={ paginationFactory() }
+                bordered={false}
+                columns={columns}
+                data={employees}
+                keyField="id"
+                pagination={paginationFactory()}
               />
             </div>
           </div>

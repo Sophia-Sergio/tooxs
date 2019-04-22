@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
 import { Line } from 'react-chartjs-2';
-import { currencyFormat, monthFormat, dayMonthFormat } from '../../helpers';
+import { currencyFormat, monthFormat, dayMonthFormat } from '../../lib/helpers';
 import WeekSells from './WeekSells';
 
 class MonthSells extends Component {

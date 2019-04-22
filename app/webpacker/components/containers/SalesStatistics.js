@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { getDepartments, getBiggerDepartment, monthFormat } from '../helpers';
+import {
+  getDepartments,
+  getBiggerDepartment,
+  getMonths,
+  yearChange,
+  departmentChange,
+  monthChange
+} from '../lib/filters';
 import Loader from '../components/UI/Loader';
 import Select from 'react-select';
 import Period from '../components/Period';
 import MonthPicker from '../components/MonthPicker';
 import SalesSummary from '../components/SalesSummary';
-import Chart from '../components/UI/Chart';
+import Chart from '../components/Chart';
 
 export default class SalesStatistics extends Component {
   state = {
@@ -210,33 +217,6 @@ export default class SalesStatistics extends Component {
       });
   }
 
-  worldChange = world => {
-    var departmentOptions = getDepartments(
-      this.props.filters.worlds_departments,
-      world
-    );
-    var department = getBiggerDepartment(
-      this.props.filters.worlds_departments,
-      world
-    );
-    this.setState({
-      world: world,
-      departmentOptions: departmentOptions.map(store => ({
-        value: store.id,
-        label: store.name
-      })),
-      department: { value: department.id, label: department.name }
-    });
-  };
-
-  storeChange = department => {
-    this.setState({ store });
-  };
-
-  departmentChange = department => {
-    this.setState({ department });
-  };
-
   onDateFromChange = (selectedYearFrom, month) => {
     this.setState({ selectedYearFrom, selectedMonthFrom: month + 1 });
   }
@@ -245,17 +225,17 @@ export default class SalesStatistics extends Component {
     this.setState({ selectedYearTo, selectedMonthTo: month + 1 });
   }
 
+  comparedStoreChange = comparedStore => {
+    this.setState({ comparedStore });
+  };
+
   handleSubmit = (e, month) => {
     e.preventDefault();
     this.setState({ comparedStoreFilter: false });
     this.getChartData();
   };
 
-  comparedStoreChange = comparedStore => {
-    this.setState({ comparedStore });
-  };
-
-  handleCompareSubmit = (e, month) => {
+    handleCompareSubmit = (e, month) => {
     e.preventDefault();
     this.getComparativeChartData();
   };
@@ -383,9 +363,9 @@ export default class SalesStatistics extends Component {
             </div>
           </div>
         )}
-        {false && <Period title="Resultado de búsqueda" period={period} />}
+        {false && <Period period={period} />}
         <div className="col-12 mb-2">
-          <Chart chartData={this.state.chartData} />
+          <Chart background={false} currency chartData={this.state.chartData} />
         </div>
         {summary && <SalesSummary {...summary} isCompared={isCompared} />}
       </React.Fragment>

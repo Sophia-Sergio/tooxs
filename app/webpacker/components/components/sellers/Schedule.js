@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import $ from "jquery";
 import axios from 'axios';
-import { monthFormat } from '../../helpers';
+import { monthFormat } from '../../lib/helpers';
 import 'moment/locale/es';
 import FullCalendar from 'fullcalendar-reactwrapper';
 
