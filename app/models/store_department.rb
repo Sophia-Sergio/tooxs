@@ -93,7 +93,7 @@ class StoreDepartment < ApplicationRecord
     end
   end
 
-  def hourly_staff_by_date(period)
+  def hourly_planned_staff_by_date(period)
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
       employees = self.employees.count_planned_employees_by_hour(date)
       hash[date] = employees.values.sum
@@ -138,6 +138,22 @@ class StoreDepartment < ApplicationRecord
     end
   end
 
+  def hour_analysis_by_date(period = default_period)
+    prods = productivity_by_date_hour(period)
+    targets = target_productivities.by_date_hour(period)
+    (period[:start]..period[:end]).each_with_object({}) do |date, hash|
+      hash[date] = hours_excess_and_deficit(prods[date], targets[date])
+    end
+  end
+
+  def plan_hour_analysis_by_date(period = default_period)
+    prods = productivity_plan_by_date_hour(period)
+    targets = target_productivities.by_date_hour(period)
+    (period[:start]..period[:end]).each_with_object({}) do |date, hash|
+      hash[date] = hours_excess_and_deficit(prods[date], targets[date])
+    end
+  end
+
   def productivity_by_date_hour(period = default_period)
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
       employees = self.employees.count_employees_by_hour(date)
@@ -149,7 +165,7 @@ class StoreDepartment < ApplicationRecord
 
   def productivity_plan_by_date_hour(period = default_period)
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
-      employees = self.employees.count_employees_by_hour(date)
+      employees = self.employees.count_planned_employees_by_hour(date)
       sales = categories_sales_by_date_hour(date)
       productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h

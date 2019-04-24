@@ -54,8 +54,8 @@ class AvailableShifts extends Component {
                 </tr>
               </tbody>
             </table>
-            <div class="d-flex justify-content-end mb-2">
-              <button name="button" type="submit" class="btn btn-primary">Publicar</button>
+            <div className="d-flex justify-content-end mb-2">
+              <button name="button" type="submit" className="btn btn-primary">Publicar</button>
             </div>
           </div>
         </div>

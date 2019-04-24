@@ -4,9 +4,6 @@ import { getPeriod } from '../lib/helpers';
 import {
   createFiltersData1 as createFiltersData,
   worldChange,
-  getDepartments,
-  getBiggerDepartment,
-  getMonths,
   yearChange,
   departmentChange,
   monthChange
@@ -14,8 +11,6 @@ import {
 import Loader from '../components/UI/Loader';
 import Select from 'react-select';
 import Period from '../components/Period';
-import { Line } from 'react-chartjs-2';
-import { merge } from 'lodash';
 import Stats from '../components/Stats';
 import ShiftPlan from '../components/dashboard/ShiftPlan';
 import EmployeesTable from '../components/dashboard/EmployeesTable';
@@ -25,13 +20,6 @@ export default class Dashboard extends Component {
   state = {
     loading: true,
     store: {},
-    world: {},
-    worldOptions: [],
-    department: {},
-    year: {},
-    yearOptions: [],
-    month: {},
-    monthOptions: [],
     stats: {},
     period: '',
     summaryTables: null,
@@ -112,8 +100,6 @@ export default class Dashboard extends Component {
   render() {
     const {
       world,
-      store,
-      storesOptions,
       department,
       departmentOptions,
       worldOptions,

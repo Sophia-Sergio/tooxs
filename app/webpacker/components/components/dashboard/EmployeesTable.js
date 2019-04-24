@@ -51,7 +51,7 @@ class EmployeesTable extends Component {
       },
       {
         dataField: 'shifts',
-        text: 'Turnos',
+        text: 'Turno',
       },
       {
         dataField: 'objective',
@@ -99,7 +99,7 @@ class EmployeesTable extends Component {
       },
       {
         dataField: 'shifts',
-        text: 'Turnos',
+        text: 'Turno',
       },
     ];
     return (

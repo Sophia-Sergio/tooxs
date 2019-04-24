@@ -43,10 +43,10 @@ export default class Optimizer extends Component {
   }
 
   componentDidMount() {
-    this.getChartData();
+    this.getComponentData();
   }
 
-  getChartData = () => {
+  getComponentData = () => {
     this.setState({ loading: true });
     axios
       .get(
@@ -84,7 +84,9 @@ export default class Optimizer extends Component {
       .get(
         `${this.props.root_url}/api/v1/employees/sellers_table?store=${
           this.state.store.value
-        }&department=3&year_start=2019&month_start=3`
+        }&department=${this.state.department.value}&year_start=${
+          this.state.year.value
+        }&month_start=${this.state.month.value}`
       )
       .then(res => {
         this.setState({ employees: res.data });

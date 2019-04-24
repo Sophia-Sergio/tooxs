@@ -1,7 +1,7 @@
 PlannedShift.delete_all
 
 Employee.all.each do |employee|
-  ('2018-01-02'.to_date..'2019-12-29'.to_date).each do |date|
+  ('2017-01-02'.to_date..'2019-12-29'.to_date).each do |date|
     worked_shift = employee.worked_shifts.find_by(date: date)
     work_shift = employee.work_shifts.first
     if worked_shift.present?
