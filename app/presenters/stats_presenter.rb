@@ -38,9 +38,14 @@ class StatsPresenter < SimpleDelegator
     year_start == year_end ? month_count + 1 : (year_end - year_start - 1) * 12 + month_count + 1
   end
 
-  def summary_table_values(sales_data)
+  def summary_table_values(data)
     periodicity = months_difference == 1 ? 'weekly' : 'monthly'
-    values_peridiocity(sales_data, periodicity)
+    values_peridiocity(data, periodicity)
+  end
+
+  def summary_table_avg_values(data)
+    periodicity = months_difference == 1 ? 'weekly' : 'monthly'
+    values_avg_peridiocity(data, periodicity)
   end
 
   def summary_table_titles(sales)
@@ -81,6 +86,23 @@ class StatsPresenter < SimpleDelegator
       (date_start..date_end).each_with_object({}) do |date, hash|
         (hash[year_month_by_date(date)] ||= []) << data[date]
       end.values.map(&:sum)
+    end
+  end
+
+  def values_avg_peridiocity(data, periodicity)
+    case periodicity
+    when 'weekly'
+      times = ((data.values.length / 7.0) - 1).ceil
+      values = data.values
+      (0..times).each_with_object([]) { |_, a| a << (values.shift(7).sum.to_f / 7) }.map(&:to_i)
+    when 'monthly'
+      date_start = data.keys.first
+      date_end   = data.keys.last
+      (date_start..date_end).each_with_object({}) do |date, hash|
+        (hash[year_month_by_date(date)] ||= []) << data[date]
+      end.values.each_with_object({}) do |(k,v), hash|
+        hash[k] = v.values.sum / v.values.count.to_f
+      end
     end
   end
 end

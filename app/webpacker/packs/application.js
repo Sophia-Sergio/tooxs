@@ -10,11 +10,9 @@
 import Rails from 'rails-ujs';
 import $ from 'jquery';
 import 'bootstrap';
-import Hello from '../src/javascript/hello';
 
 const components = [
   {
-    class: Hello,
     selector: '.main-dashboard-chart'
   },
 ]

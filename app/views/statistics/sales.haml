@@ -1,5 +1,5 @@
-= react_component('DashboardHeader', { title: "Estadísticas de ventas" }, class: 'row')
-= react_component('SalesMonth', { root_url: request.base_url,
+= react_component('components/Header', { title: "Estadísticas de ventas" }, class: 'row')
+= react_component('containers/SalesStatistics', { root_url: request.base_url,
                                   user: current_user,
                                   filters: @filters,
                                 }, class: 'row')

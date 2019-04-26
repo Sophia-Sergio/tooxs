@@ -15,7 +15,6 @@ class User < ApplicationRecord
   has_one :users_role, foreign_key: 'user_id'
   has_many :request
   has_many :shifts, class_name: 'UserShift'
-  has_many :worked_shifts
   has_many :achievements
 
   enum status: { active: 1, inactive: 0 }
@@ -30,15 +29,8 @@ class User < ApplicationRecord
     '12.345.678-9'
   end
 
-  def filters(date = Date.today)
-    {
-      years: years_filter,
-      year: { value: default_year, label: default_year },
-      month: { value: month_by_date(date), label: month_name(month_by_date(date)) },
-      store: store.as_json(only: %i[id name]),
-      worlds_departments: store.worlds.distinct.as_json(store.id),
-      world_selected: store.bigger_plan_sale_world.as_json(store.id)
-    }
+  def filters(view)
+    filter_by_view(view)
   end
 
   def role

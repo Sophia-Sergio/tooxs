@@ -1,2 +1,2 @@
-= react_component('DashboardHeader', { title: 'Planificación de dotación' }, class: 'row')
-= react_component('StaffingIndex', { root_url: request.base_url, user: current_user, filters: @filters, }, class: 'row')
+= react_component('components/Header', { title: 'Planificación de dotación' }, class: 'row')
+= react_component('containers/Staff', { root_url: request.base_url, user: current_user, filters: @filters, }, class: 'row')

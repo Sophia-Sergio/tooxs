@@ -1,2 +1,2 @@
-= react_component('DashboardHeader', { title: 'Información del colaborador' }, class: 'row')
-= react_component('EmployeesShow', { root_url: request.base_url, user: current_user, employee: @employee }, class: 'row')
+= react_component('components/Header', { title: 'Información del colaborador' }, class: 'row')
+= react_component('containers/Employee', { root_url: request.base_url, user: current_user, employee: @employee }, class: 'row')
