@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { currencyFormat } from '../helpers';
+import { currencyFormat } from '../lib/helpers';
 import Loader from '../components/UI/Loader';
 import Select from 'react-select';
 import BootstrapTable from 'react-bootstrap-table-next';

@@ -1,6 +1,8 @@
 class StatisticsController < ApplicationController
   def sales
-    @filters = current_user.filters
+    @filters = Rails.cache.fetch("/current_user/#{current_user.role.name}/filters/sales", expires_in: 1.day) do
+      current_user.filters('sales')
+    end
   end
 
   def hours() end

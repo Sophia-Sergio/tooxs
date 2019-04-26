@@ -5,6 +5,7 @@ module Api
     # only statistics
     class StatisticsController < ApplicationController
       include FilterParameters
+      include CommercialCalendar::Period
       before_action :set_store_department, :set_period, :set_label_period, :set_demo_efficiency_optimized
       before_action :set_old_period, only: %i[chart]
 
@@ -54,16 +55,37 @@ module Api
 
       def efficiency_summary
         json = Rails.cache.fetch("/efficiency/summary/#{@store_dep.id}/#{@period}") do
-          ChartSummaryPresenter.new(@store_dep, @period).chart
+          ChartSummaryPresenter.new(@store_dep, @period).efficiency
         end
         render json: json
       end
 
+      def hour_analysis
+        render json: HourAnalysisStatsPresenter.new(@store_dep, @period).call(hour_analysis_data, @label_period)
+      end
+
+      def hour_analysis_data
+        real_or_planned_data = nil
+        real_or_planned_label = ''
+        if month_before_or_equal_to_actual_month?(params[:year_start], params[:month_start])
+          real_or_planned_data = @store_dep.hour_analysis_by_date(@period)
+          real_or_planned_label = 'Real'
+        else
+          real_or_planned_data = @store_dep.plan_hour_analysis_by_date(@period)
+          real_or_planned_label = 'Plan'
+        end
+        {
+          real_or_planned: {
+            label: real_or_planned_label, data: real_or_planned_data
+          }
+        }
+      end
+
       def productivity
-        # json = Rails.cache.fetch("/productivity/#{@store_dep.id}/#{@period}") do
-        json = ProductivityStatsPresenter.new(@store_dep, @period).chart(productivity_data, @label_period)
-        # end
-        render json: { chart: json }
+        json = Rails.cache.fetch("/productivity/data_view/#{@store_dep.id}/#{@period}") do
+          ProductivityStatsPresenter.new(@store_dep, @period).call(productivity_data, @label_period)
+        end
+        render json: json
       end
 
       def productivity_data

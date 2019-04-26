@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { currencyFormat } from "../helpers";
+import { currencyFormat } from "../lib/helpers";
 import Select from 'react-select';
 import {Line} from 'react-chartjs-2';
 import { merge } from 'lodash';
-import ProductivityTable from '../components/productivity_report/ProductivityTable';
-import EfficiencyTable from '../components/productivity_report/EfficiencyTable';
 
 export default class Productivity extends Component {
 
@@ -174,8 +172,6 @@ export default class Productivity extends Component {
             </div>
           </div>
         </div>
-        <ProductivityTable/>
-        <EfficiencyTable/>
       </React.Fragment>
     );
   }

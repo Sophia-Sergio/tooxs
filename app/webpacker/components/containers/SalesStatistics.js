@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { getDepartments, getBiggerDepartment, monthFormat } from '../helpers';
+import {
+  getDepartments,
+  getBiggerDepartment,
+  getMonths,
+  yearChange,
+  departmentChange,
+  monthChange
+} from '../lib/filters';
 import Loader from '../components/UI/Loader';
 import Select from 'react-select';
 import Period from '../components/Period';
 import MonthPicker from '../components/MonthPicker';
 import SalesSummary from '../components/SalesSummary';
-import Chart from '../components/UI/Chart';
+import Chart from '../components/Chart';
 
 export default class SalesStatistics extends Component {
   state = {
@@ -72,29 +79,6 @@ export default class SalesStatistics extends Component {
       selectedYearTo: filters.year.value,
       selectedMonthTo: filters.month.value
     });
-  };
-
-  getPeriod = () => {
-    var parameters = `year_start=${this.state.yearFrom}&month_start=${
-      this.state.monthFrom
-    }&year_end=${this.state.yearTo}&month_end=${this.state.monthTo}`;
-    axios
-      .get(`${this.props.root_url}/api/v1/periods/filter_period?${parameters}`)
-      .then(res => {
-        const start = new Date(res.data.start);
-        const end = new Date(res.data.end);
-        let period = `Datos desde el ${start.getDate()} de ${monthFormat(
-          start.getMonth() + 1
-        )} de ${start.getFullYear()} al ${end.getDate()} de ${monthFormat(
-          end.getMonth() + 1
-        )} de ${end.getFullYear()}`;
-        this.setState({ period });
-      })
-      .catch(error => {
-        this.setState({
-          period: `No se encontraron datos, intente nuevamente.`
-        });
-      });
   };
 
   getChartData = () => {
@@ -233,38 +217,17 @@ export default class SalesStatistics extends Component {
       });
   }
 
-  worldChange = world => {
-    var departmentOptions = getDepartments(
-      this.props.filters.worlds_departments,
-      world
-    );
-    var department = getBiggerDepartment(
-      this.props.filters.worlds_departments,
-      world
-    );
-    this.setState({
-      world: world,
-      departmentOptions: departmentOptions.map(store => ({
-        value: store.id,
-        label: store.name
-      })),
-      department: { value: department.id, label: department.name }
-    });
-  };
-
-  storeChange = department => {
-    this.setState({ store });
-  };
-
-  departmentChange = department => {
-    this.setState({ department });
-  };
-
-  onDateFromChange = (selectedYearFrom, month) =>
+  onDateFromChange = (selectedYearFrom, month) => {
     this.setState({ selectedYearFrom, selectedMonthFrom: month + 1 });
+  }
 
-  onDateToChange = (selectedYearTo, month) =>
+  onDateToChange = (selectedYearTo, month) => {
     this.setState({ selectedYearTo, selectedMonthTo: month + 1 });
+  }
+
+  comparedStoreChange = comparedStore => {
+    this.setState({ comparedStore });
+  };
 
   handleSubmit = (e, month) => {
     e.preventDefault();
@@ -272,11 +235,7 @@ export default class SalesStatistics extends Component {
     this.getChartData();
   };
 
-  comparedStoreChange = comparedStore => {
-    this.setState({ comparedStore });
-  };
-
-  handleCompareSubmit = (e, month) => {
+    handleCompareSubmit = (e, month) => {
     e.preventDefault();
     this.getComparativeChartData();
   };
@@ -340,7 +299,7 @@ export default class SalesStatistics extends Component {
               <div className="form-group">
                 <MonthPicker
                   minYear={yearFrom}
-                  minMonth={monthFrom}
+                  minMonth={monthTo}
                   maxYear={yearTo}
                   maxMonth={selectedMonthTo}
                   onChange={this.onDateToChange.bind(this)}
@@ -404,9 +363,9 @@ export default class SalesStatistics extends Component {
             </div>
           </div>
         )}
-        {false && <Period title="Resultado de búsqueda" period={period} />}
+        {false && <Period period={period} />}
         <div className="col-12 mb-2">
-          <Chart chartData={this.state.chartData} />
+          <Chart background={false} currency chartData={this.state.chartData} />
         </div>
         {summary && <SalesSummary {...summary} isCompared={isCompared} />}
       </React.Fragment>

@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { currencyFormat } from "../helpers";
+import { currencyFormat } from "../lib/helpers";
 import Loader from '../components/UI/Loader';
 import Select from 'react-select';
 import { Line } from 'react-chartjs-2';
 import { merge } from 'lodash';
-import Stats from '../Stats';
 import ShiftPlan from '../components/dashboard/ShiftPlan';
 import EmployeesTable from '../components/dashboard/EmployeesTable';
 

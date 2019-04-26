@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { currencyFormat } from '../../helpers';
+import { currencyFormat } from '../../lib/helpers';
 
 class DetailTable extends Component {
   state = {

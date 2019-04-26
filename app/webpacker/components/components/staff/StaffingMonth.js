@@ -72,11 +72,11 @@ class StaffingMonth extends Component {
                 </thead>
                 <tbody>
                   { week_shifts.map( (shift, i) => (
-                    <tr>
+                    <tr key={i}>
                       <td className="shifts text-center">{ shift.name }</td>
                       { week.map( (day, j) => (
                         <React.Fragment>
-                          <td className="text-center">
+                          <td key={j} className="text-center">
                           {
                             this.getCurrentShift(day.shifts, shift.name)
                           }

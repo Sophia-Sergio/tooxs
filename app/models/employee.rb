@@ -8,6 +8,8 @@ class Employee < User
   delegate :store, to: :store_department, allow_nil: true
   has_many :work_shifts, through: :shifts
   has_many :shift_breaks, foreign_key: 'user_id'
+  has_many :worked_shifts, foreign_key: 'user_id'
+  has_many :planned_shifts, foreign_key: 'user_id'
 
   default_scope { active.joins(:roles).where.not(roles: { name: ['admin'] }) }
 
@@ -15,6 +17,7 @@ class Employee < User
   scope :sales_assistants, -> { active.includes(:roles).where(roles: { name: 'sales_assistant' }) }
   scope :sellers, -> { active.includes(:roles).where(roles: { name: 'seller' }) }
   scope :working_on_date, ->(date) { joins(:worked_shifts).where('date = ?', date) }
+  scope :planned_working_on_date, ->(date) { joins(:planned_shifts).where('date = ?', date) }
   scope :working_on_period, ->(period) {
     joins(:worked_shifts).where(worked_shifts: { date: period[:start]..period[:end] }).distinct
   }
@@ -51,8 +54,13 @@ class Employee < User
   end
 
   def self.count_employees_by_hour(date)
-    dates = DateCountStaffQuery.new.call(date)
-    dates.keys.map { |day| "#{day.hour} - #{(day.hour + 1)}" }.zip(dates.values).to_h
+    day_hours = DateCountStaffQuery.new.call(date, 'worked_shifts')
+    day_hours.keys.map { |day| "#{day.hour} - #{(day.hour + 1)}" }.zip(day_hours.values).to_h
+  end
+
+  def self.count_planned_employees_by_hour(date)
+    day_hours = DateCountStaffQuery.new.call(date, 'planned_shifts')
+    day_hours.keys.map { |day| "#{day.hour} - #{(day.hour + 1)}" }.zip(day_hours.values).to_h
   end
 
   def self.employees_by_hour(date)
