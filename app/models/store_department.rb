@@ -126,6 +126,8 @@ class StoreDepartment < ApplicationRecord
 
   def productivity(period = default_period)
     productivities = productivity_by_date_hour(period).values.flat_map { |k, _| k.values }
+    return 0 unless productivities.size.positive?
+
     productivities.sum / productivities.size
   end
 
