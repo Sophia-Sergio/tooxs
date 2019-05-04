@@ -2,6 +2,7 @@ version: "3"
 
 services:
   app-tooxs:
+    container_name: app-tooxs
     image: cdgntooxs.azurecr.io/app-tooxs:local-demo
     restart: unless-stopped
     links:
@@ -45,6 +46,7 @@ services:
       - .:/var/app/tooxs
 
   db-tooxs:
+    container_name: db-tooxs
     image: postgres:9.5.14
     restart: unless-stopped
     ports:
@@ -58,6 +60,7 @@ services:
       - ../local_db/backups:/var/db_backups
 
   redis-tooxs:
+    container_name: redis-tooxs
     image: redis:5
     restart: unless-stopped
     ports:
@@ -66,6 +69,7 @@ services:
       - ../local_db/redis_data:/data
 
   redis-sideqik-tooxs:
+    container_name: redis-sideqik-tooxs
     image: redis:5
     restart: unless-stopped
     ports:

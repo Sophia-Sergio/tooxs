@@ -15,5 +15,7 @@ WORKDIR /var/app/tooxs
 COPY . .
 
 RUN bundle install && yarn install
+RUN rails assets:clean tmp:clear
+RUN rails assets:precompile
 
 CMD [ "/var/app/tooxs/entry-point.sh" ]
