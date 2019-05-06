@@ -13,7 +13,7 @@ class BetweenDatesWithoutDateAttributeQuery
     else
       @model.order(:year, :month, :week).
         where('year = ? AND month >= ?', year_by_date(@period[:start]), month_by_date(@period[:start])).
-        or(where('year = ? AND month <= ?', year_by_date(@period[:end]), month_by_date(@period[:end])))
+        or('year = ? AND month <= ?', year_by_date(@period[:end]), month_by_date(@period[:end]))
     end
   end
 end
