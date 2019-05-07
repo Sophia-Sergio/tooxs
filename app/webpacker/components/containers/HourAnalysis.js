@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { getPeriod } from '../lib/helpers';
 import {
   createFiltersData1 as createFiltersData,
   worldChange,
@@ -12,6 +13,7 @@ import ProductivityTable from '../components/hour_analysis/ProductivityTable';
 import DetailTable from '../components/hour_analysis/DetailTable';
 import Period from '../components/Period';
 import Loader from '../components/UI/Loader';
+import Chart from '../components/Chart';
 
 export default class HourAnalysis extends Component {
 
@@ -25,11 +27,12 @@ export default class HourAnalysis extends Component {
   };
 
   componentWillMount(){
+    console.log(this)
     createFiltersData(this);
   }
 
   componentDidMount(){
-    getComponentData();
+    this.getComponentData();
   }
 
   getComponentData = () => {
@@ -73,7 +76,7 @@ export default class HourAnalysis extends Component {
   // }
 
   render() {
-    const { department, departmentOptions, worlds, world, year, yearOptions, month, monthOptions } = this.state;
+    const { period, department, departmentOptions, worldOptions, world, year, yearOptions, month, monthOptions, chartData } = this.state;
 
     return (
       <React.Fragment>
@@ -123,10 +126,10 @@ export default class HourAnalysis extends Component {
             </form>
           </div>
         </div>
-        <Period title="Resultado de búsqueda" period={period} />
+        <Period period={period} />
         <div className="col-12 mb-2">
           <div className="card dashboard__chart">
-            {chartData && <Chart currency chartData={chartData} />}
+            {chartData && <Chart chartData={chartData} />}
           </div>
         </div>
         {/* <div className="col-12 mb-2">

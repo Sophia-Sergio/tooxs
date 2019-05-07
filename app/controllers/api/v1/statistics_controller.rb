@@ -65,19 +65,12 @@ module Api
       end
 
       def hour_analysis_data
-        real_or_planned_data = nil
-        real_or_planned_label = ''
-        if month_before_or_equal_to_actual_month?(params[:year_start], params[:month_start])
-          real_or_planned_data = @store_dep.hour_analysis_by_date(@period)
-          real_or_planned_label = 'Real'
-        else
-          real_or_planned_data = @store_dep.plan_hour_analysis_by_date(@period)
-          real_or_planned_label = 'Plan'
-        end
+        real_or_planned_data = real_or_planned_data_for_hour_analysis[:data]
+        real_or_planned_label = real_or_planned_data_for_hour_analysis[:label]
         {
-          real_or_planned: {
-            label: real_or_planned_label, data: real_or_planned_data
-          }
+          real_or_planned: { label: real_or_planned_label, data: real_or_planned_data },
+          planned_hours: @store_dep.hourly_planned_staff_by_date(@period),
+          planned_productivity: @store_dep.no_optimized_productivity_by_date(@period)
         }
       end
 
@@ -113,6 +106,16 @@ module Api
 
       def summary
         send("#{params[:type]}_summary".to_sym)
+      end
+
+      private
+
+      def real_or_planned_data_for_hour_analysis
+        if month_before_or_equal_to_actual_month?(params[:year_start], params[:month_start])
+          { data: @store_dep.hour_analysis_by_date(@period), label: 'Real' }
+        else
+          { data: @store_dep.plan_hour_analysis_by_date(@period), label: 'Plan' }
+        end
       end
     end
   end

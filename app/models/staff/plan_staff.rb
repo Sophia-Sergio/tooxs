@@ -1,3 +1,0 @@
-class PlanStaff < Staff
-
-end

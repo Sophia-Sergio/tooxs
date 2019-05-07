@@ -111,7 +111,7 @@ class StoreDepartment < ApplicationRecord
     end
     (period[:start]..period[:end]).each_with_object({}).each do |date, hash|
       past_sale = categories_sales_by_date_hour(equivalent_date_past_year(date))
-      employees = self.employees.count_employees_by_hour(date)
+      employees = self.employees.working_on_date(date).count_employees_by_hour(date)
       day_past_sale = past_sale.values.sum
       hash[date] = PERIODS.each_with_object({}) do |hour, h|
         h[hour] = sales_plans_by_date[date] * (past_sale[hour].to_f / day_past_sale) / (employees[hour] || 1)
@@ -126,6 +126,8 @@ class StoreDepartment < ApplicationRecord
 
   def productivity(period = default_period)
     productivities = productivity_by_date_hour(period).values.flat_map { |k, _| k.values }
+    return 0 unless productivities.size.positive?
+
     productivities.sum / productivities.size
   end
 
@@ -156,7 +158,7 @@ class StoreDepartment < ApplicationRecord
 
   def productivity_by_date_hour(period = default_period)
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
-      employees = self.employees.count_employees_by_hour(date)
+      employees = self.employees.working_on_date(date).count_employees_by_hour(date)
       sales = categories_sales_by_date_hour(date)
       productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
@@ -174,7 +176,7 @@ class StoreDepartment < ApplicationRecord
 
   def productivity_by_date(period = default_period)
     productivity_by_date_hour(period).each_with_object({}) do |(k, v), hash|
-      hash[k] = v.values.sum /  v.values.size
+      hash[k] = v.values.sum / v.values.size
     end
   end
 
@@ -183,8 +185,8 @@ class StoreDepartment < ApplicationRecord
   end
 
   def no_optimized_productivity_by_date(period = default_period)
-    categories_sales_plan_by_date_hour(period).each_with_object({}) do |(date, values), hash|
-      hash[date] = values.sum / values.count
+    categories_sales_plan_by_date_hour(period).each_with_object({}) do |(date, periods), hash|
+      hash[date] = periods.values.sum / periods.values.count
     end
   end
 

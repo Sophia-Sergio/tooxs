@@ -5,7 +5,11 @@ class StatisticsController < ApplicationController
     end
   end
 
-  def hours() end
+  def hours
+    @filters = Rails.cache.fetch("/current_user/#{current_user.role.name}/filters/hours", expires_in: 1.day) do
+      current_user.filters('hours')
+    end
+  end
 
   def productivity() end
 
