@@ -1,3 +1,0 @@
-class RealStaff < Staff
-
-end

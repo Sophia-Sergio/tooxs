@@ -22,7 +22,7 @@ export default class Chart extends Component {
       pointBorderWidth: 2,
       pointRadius: 5,
       chartOptions: {
-        tootip: null,
+        tooltips: null,
         scales: null,
         maintainAspectRatio: false,
         responsive: true
@@ -87,7 +87,7 @@ export default class Chart extends Component {
       responsive: this.state.chartOptions.responsive
     };
     if (this.props.currency) {
-      chartOptions.tootip = this.tooltipsCurrencyOption();
+      chartOptions.tooltips = this.tooltipsCurrencyOption();
       chartOptions.scales = this.scalesCurrencyOption();
     }
     this.setState({ chartOptions });

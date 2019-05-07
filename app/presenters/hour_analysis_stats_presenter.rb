@@ -1,9 +1,10 @@
 class HourAnalysisStatsPresenter < StatsPresenter
+  PRODUCTIVITY_TABLE_TITLES = ['HH', 'Productividad', 'Horas Faltants', 'Horas Exceso'].freeze
+
   def call(data, label_period)
     {
       chart: chart(data, label_period),
-      # chart_summary: chart_summary(data),
-      # summary_tables: summary_tables(data)
+      summary_tables: summary_tables(data)
     }
   end
 
@@ -16,6 +17,27 @@ class HourAnalysisStatsPresenter < StatsPresenter
           data: data[:real_or_planned][:data].values.map { |v| v.round(2) }
         },
       ]
+    }
+  end
+
+  def summary_tables(data)
+    {
+      datasets: {
+        planned: planned_summary_table(data)
+      }
+    }
+  end
+
+  def planned_summary_table(data)
+    {
+      title: PRODUCTIVITY_TABLE_TITLES,
+      rows: {
+        label: 'Productividad según plan', data: [
+          data[:planned_hours].values.sum,
+          data[:planned_productivity]
+        ]
+      },
+      currency: false
     }
   end
 

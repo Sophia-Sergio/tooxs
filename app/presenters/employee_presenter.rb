@@ -1,4 +1,4 @@
-class EmployeePresenter < SimpleDelegator
+class EmployeePresenter < StatsPresenter
   def initialize(model)
     @model = model
   end
