@@ -42,11 +42,11 @@ module Stats
   module Filter
     include ApplicationHelper
 
-    FILTER_1_VIEWS = %w[dashboard sales employees staff optimizer staff_planning].freeze
+    FILTER_1_VIEWS = %w[dashboard sales employees staff optimizer staff_planning hours].freeze
     FILTER_2_VIEWS = %w[].freeze
-    MONTH_PLUS_ONE_VIEWS = %w[optimizer hour_analysis].freeze
+    MONTH_PLUS_ONE_VIEWS = %w[optimizer hours].freeze
 
-    def filter_1(view, date = Date.today)
+    def filter_1(view)
       {
         years: years_filter(view),
         year: { value: default_year, label: default_year },

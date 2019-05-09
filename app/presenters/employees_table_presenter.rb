@@ -1,4 +1,4 @@
-class EmployeesTablePresenter < SimpleDelegator
+class EmployeesTablePresenter < StatsPresenter
   include Rails.application.routes.url_helpers
 
   def initialize(employees, params)
@@ -35,7 +35,7 @@ class EmployeesTablePresenter < SimpleDelegator
       goal = Employee.find(seller['id']).target_achievements(period).values.sum
       seller[:shifts] = @shifts[seller['id']].uniq
       seller[:link] = employee_path(seller['id'])
-      seller[:sell] = achievements[seller['id']].round
+      seller[:sell] = number_with_delimiter(achievements[seller['id']].round)
       seller[:goal] = goal
       seller[:objective] = (achievements[seller['id']] / goal).round(2)
     end
