@@ -23,7 +23,7 @@ services:
 
       TOOXS_DATABASE_HOST: db_tooxs
       TOOXS_DATABASE_PORT: 5432
-      TOOXS_DATABASE_NAME: salesforce_reporter_development
+      TOOXS_DATABASE_NAME: salco_salesforce_reporter_development
       TOOXS_DATABASE_USERNAME: dbtooxs_user
       TOOXS_DATABASE_PASSWORD: dbtooxs_pass
 

@@ -4,57 +4,66 @@ require 'rubyXL'
 require 'rake'
 
 namespace :db do
-  namespace :load_excel do
-    task all: %w[real_sales plan_sales sale_by_seller available_shifts]
+  task load: :environment do
+    puts 'start loading excel'
+    excel = load_excel('db_tooxs.xlsx')
+    puts 'populating....'
+    load_data(excel)
+  end
 
-    task real_sales: :environment do
-      excel = load_excel('sale_reals.xlsx')
-      load_data('SaleReal', excel)
+  def load_excel(file_name)
+    RubyXL::Parser.parse "lib/tasks/data/#{file_name}"
+  end
+
+  def load_data(excel)
+    delete_all(excel)
+
+    excel.worksheets.each do |sheet|
+      class_ = proper_class_name(sheet)
+      iterate_sheet_rows(class_, sheet)
     end
+  end
 
-    task available_shifts: :environment do
-      excel = load_excel('available_shifts.xlsx')
-      load_data('AvailableShift', excel)
+  def delete_all(excel)
+    ActiveRecord::Base.connection.execute("DELETE from categories_store_departments")
+    UserShift.delete_all
+    CategorySale.delete_all
+    Category.delete_all
+    TargetProductivity.delete_all
+    TargetSale.delete_all
+    UserShift.delete_all
+    WorkedShift.delete_all
+    Achievement.delete_all
+    User.delete_all
+    StoreDepartment.delete_all
+    Store.delete_all
+    Cluster.delete_all
+    Department.delete_all
+    PlanShift.delete_all
+    WorkShift.delete_all
+
+    excel.worksheets.each do |sheet|
+      ActiveRecord::Base.connection.reset_pk_sequence!(sheet.sheet_name)
     end
+  end
 
-    task staffing_real: :environment do
-      excel = load_excel('staffing_real.xlsx')
-      load_data('StaffingReal', excel)
-    end
+  def proper_class_name(sheet)
+    sheet.sheet_name.camelize.singularize.constantize
+  end
 
-    task plan_sales: :environment do
-      excel = load_excel('sale_plans.xlsx')
-      load_data('SalePlan', excel)
-    end
+  def iterate_sheet_rows(class_, sheet)
+    keys = {}
+    puts "populating #{class_.name}"
 
-    task sale_by_seller: :environment do
-      excel = load_excel('sale_by_seller.xlsx')
-      load_data('SaleBySeller', excel)
-    end
+    sheet.each_with_index do |row, i|
+      keys = row.cells.map { |c| c&.value&.delete(' ')&.to_sym if c }.compact if i.zero?
+      next if i.zero?
 
-    def load_excel(file_name)
-      RubyXL::Parser.parse "lib/tasks/data/#{file_name}"
-    end
-
-    def load_data(class_name, excel)
-      class_ = class_name.constantize
-      class_.delete_all
-      excel.worksheets.each do |sheet|
-        break if sheet.sheet_name != class_name
-
-        iterate_sheet_rows(class_, sheet)
-      end
-    end
-
-    def iterate_sheet_rows(class_, sheet)
-      keys = {}
-      sheet.each_with_index do |row, i|
-        keys = row.cells.map { |c| c&.value&.delete(' ')&.to_sym if c }.compact if i.zero?
-        next if i.zero?
-        values = row.cells.map(&:value)
-        params = keys.zip(values).to_h
-        class_.create!(params)
-      end
+      values = row.cells.map(&:value)
+      params = keys.zip(values).to_h
+      object = class_.create!(params)
+      puts '*' * 100
+      puts object.inspect
     end
   end
 end
