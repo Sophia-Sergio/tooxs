@@ -1,37 +1,37 @@
 version: "3.3"
 
 services:
-  app_tooxs:
+  app-tooxs:
     tty: true
     stdin_open: true
-    container_name: app_tooxs
-    image: app_tooxs
+    container_name: app-tooxs
+    image: app-tooxs
     restart: unless-stopped
     links:
-      - db_tooxs
-      - redis_tooxs
-      - redis_sidekiq_tooxs
+      - db-tooxs
+      - redis-tooxs
+      - redis-sidekiq-tooxs
     depends_on:
-      - db_tooxs
-      - redis_tooxs
-      - redis_sidekiq_tooxs
+      - db-tooxs
+      - redis-tooxs
+      - redis-sidekiq-tooxs
     ports:
       - 3000:3000
     environment:
       APP_HOST: localhost
       APP_PORT: 3000
 
-      TOOXS_DATABASE_HOST: db_tooxs
+      TOOXS_DATABASE_HOST: db-tooxs
       TOOXS_DATABASE_PORT: 5432
       TOOXS_DATABASE_NAME: salco_salesforce_reporter_development
       TOOXS_DATABASE_USERNAME: dbtooxs_user
       TOOXS_DATABASE_PASSWORD: dbtooxs_pass
 
-      TOOXS_REDIS_HOST: redis_tooxs
+      TOOXS_REDIS_HOST: redis-tooxs
       TOOXS_REDIS_PORT: 6379
       # REDISTOGO_URL: 'redis://redistogo:32b0954968a03cde7d7455ee1f3ce11e@dory.redistogo.com:10732'
 
-      TOOXS_REDIS_SIDEQIK_HOST: redis_sidekiq_tooxs
+      TOOXS_REDIS_SIDEQIK_HOST: redis-sidekiq-tooxs
       TOOXS_REDIS_SIDEQIK_PORT: 6380
       # REDISTOGO_URL: 'redis://redistogo:32b0954968a03cde7d7455ee1f3ce11e@dory.redistogo.com:10732'
 
@@ -47,8 +47,8 @@ services:
     volumes:
       - .:/var/app/tooxs
 
-  db_tooxs:
-    container_name: db_tooxs
+  db-tooxs:
+    container_name: db-tooxs
     image: postgres:9.5.14
     restart: unless-stopped
     ports:
@@ -61,22 +61,22 @@ services:
       - ../local_db/pgdata:/var/pg/data
       - ../local_db/backups:/var/db_backups
 
-  redis_tooxs:
-    container_name: redis_tooxs
+  redis-tooxs:
+    container_name: redis-tooxs
     image: redis:5
     restart: unless-stopped
     ports:
       - 6379:6379
     volumes:
-      - ../local_db/redis_data:/data
+      - ../local_db/redis-data:/data
 
-  redis_sidekiq_tooxs:
-    container_name: redis_sidekiq_tooxs
+  redis-sidekiq-tooxs:
+    container_name: redis-sidekiq-tooxs
     image: redis:5
     restart: unless-stopped
     ports:
       - 6380:6380
     volumes:
-      - ../local_db/redis__sideqik_data:/data
+      - ../local_db/redis-sideqik-data:/data
     command: redis-server --port 6380
 
