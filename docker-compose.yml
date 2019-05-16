@@ -21,6 +21,9 @@ services:
       APP_HOST: localhost
       APP_PORT: 3000
 
+      # Desactivar Protección CSRF en API
+      DIS_CSRF: OK
+
       TOOXS_DATABASE_HOST: db-tooxs
       TOOXS_DATABASE_PORT: 5432
       TOOXS_DATABASE_NAME: salco_salesforce_reporter_development
