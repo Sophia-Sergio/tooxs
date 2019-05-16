@@ -27,9 +27,12 @@ class ProductivityStatsPresenter < StatsPresenter
   end
 
   def chart_summary(data)
-    no_optimized = (data[:no_optimized].values.sum / data[:no_optimized].values.count).round
-    target = (data[:target].values.sum / data[:target].values.count).round
-    optimized = (data[:optimized].values.sum / data[:optimized].values.count).round
+    no_optimized = 0
+    target = 0
+    optimized = 0
+    no_optimized = (data[:no_optimized].values.sum / data[:no_optimized].values.count).round unless data[:no_optimized].values.empty?
+    target = (data[:target].values.sum / data[:target].values.count).round unless data[:target].values.empty?
+    optimized = (data[:optimized].values.sum / data[:optimized].values.count).round unless data[:optimized].values.empty?
     [
       { label: LABEL[:no_optimized], data: "$#{number_with_delimiter(no_optimized)}" },
       { label: LABEL[:target], data: "$#{number_with_delimiter(target)}" },
