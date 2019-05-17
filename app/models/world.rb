@@ -1,5 +1,6 @@
 class World < ApplicationRecord
   include CommercialCalendar::Period
+  include Defaults
   has_many :store_departments
   has_many :stores, through: :store_departments
   has_many :departments, through: :store_departments
@@ -21,7 +22,7 @@ class World < ApplicationRecord
     opts = if opts.present?
              opts
            else
-             { year: year_by_date(Date.today), month: month_by_date(Date.today) }
+             { year: year_by_date(default_date), month: month_by_date(default_date) }
            end
     department_id = departments.joins(store_departments: { categories: :sales_plans }).
       merge(CategorySalesPlan.by_store_month(store_id, opts)).distinct.

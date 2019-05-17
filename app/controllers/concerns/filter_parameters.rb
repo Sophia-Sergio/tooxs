@@ -4,6 +4,7 @@
 module FilterParameters
   extend ActiveSupport::Concern
   include CommercialCalendar::Period
+  include Defaults
 
   def set_employee
     @employee = Employee.find(params[:id])
@@ -69,8 +70,8 @@ module FilterParameters
 
     @period = month_period(params[:year_start], params[:month_start])
     @full_period = @period
-    if params[:month_start].to_i == month_by_date(Date.today)
-      @period = { start: @period[:start], end: Date.today }
+    if params[:month_start].to_i == month_by_date(default_date)
+      @period = { start: @period[:start], end: default_date }
     end
 
     return unless params[:year_end].present? && params[:month_end].present?
@@ -80,8 +81,8 @@ module FilterParameters
       start: @period[:start],
       end: month_period(params[:year_end], params[:month_end])[:end]
     }
-    if params[:month_end].to_i == month_by_date(Date.today)
-      @period = { start: @period[:start], end: Date.today }
+    if params[:month_end].to_i == month_by_date(default_date)
+      @period = { start: @period[:start], end: default_date }
     end
   end
 

@@ -1,5 +1,6 @@
 module Stats
   extend ActiveSupport::Concern
+  include Defaults
 
   module Efficiency
     PERIODS_KEYS = Settings.productivity_periods_keys
@@ -61,7 +62,7 @@ module Stats
       filter_1(view) if FILTER_1_VIEWS.include? view
     end
 
-    def years_filter(view, date = Date.today)
+    def years_filter(view, date = default_date)
       actual_year = year_by_date(date)
       actual_month = month_by_view(view)
       ((actual_year - 1)..actual_year).each_with_object([]) do |year, array|
@@ -70,7 +71,7 @@ module Stats
       end
     end
 
-    def month_by_view(view, date = Date.today)
+    def month_by_view(view, date = default_date)
       MONTH_PLUS_ONE_VIEWS.include?(view) ? month_by_date(date) + 1 : month_by_date(date)
     end
 

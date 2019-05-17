@@ -15,14 +15,18 @@ module Defaults
   end
 
   def default_month
-    month_by_date(Date.today)
+    month_by_date(default_date)
   end
 
   def default_year
-    year_by_date(Date.today)
+    year_by_date(default_date)
   end
 
   def default_week
-    week_by_date(Date.today)
+    week_by_date(default_date)
+  end
+
+  def default_date
+    CommercialCalendar::DEFAULT_DATE
   end
 end
