@@ -33,7 +33,7 @@ class Store < ApplicationRecord
     opts = if opts.present?
              opts
            else
-             { year: year_by_date(Date.today), month: month_by_date(Date.today) }
+             { year: year_by_date(default_date), month: month_by_date(default_date) }
            end
     world_id = worlds.joins(store_departments: { categories: :sales_plans}).
       merge(CategorySalesPlan.by_store_month(id, opts)).

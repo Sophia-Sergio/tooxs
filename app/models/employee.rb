@@ -23,8 +23,8 @@ class Employee < User
   }
 
   def calendar_shift(period)
-    worked_shift_period = { start: period[:start], end: Date.today - 1 }
-    plan_shift_period   = { start: Date.today, end: period[:end] }
+    worked_shift_period = { start: period[:start], end: default_date - 1 }
+    plan_shift_period   = { start: default_date, end: period[:end] }
     worked_shifts_dates(worked_shift_period).merge(plan_shifts_dates(plan_shift_period))
   end
 
@@ -58,6 +58,7 @@ class Employee < User
     day_hours.keys.map { |day| "#{day.hour} - #{(day.hour + 1)}" }.zip(day_hours.values).to_h
   end
 
+  # planned_shifts (new table for manaing employees shifts)
   def self.count_planned_employees_by_hour(date)
     day_hours = DateCountStaffQuery.new.call(date, 'planned_shifts')
     day_hours.keys.map { |day| "#{day.hour} - #{(day.hour + 1)}" }.zip(day_hours.values).to_h
@@ -93,7 +94,7 @@ class Employee < User
     end
   end
 
-  def hours_period_should_work(date = Date.today)
+  def hours_period_should_work(date = default_date)
     opts = { week: week_by_date(date), day: day_number(date) }
     work_shift.plan_shifts.find_case(opts).hours_should_work
   end
@@ -107,8 +108,8 @@ class Employee < User
   end
 
   def achievements_labor_month_until_today
-    month_period = month_period(year_by_date(Date.today), month_by_date(Date.today))
-    period = { start: month_period[:start], end: Date.today }
+    month_period = month_period(year_by_date(default_date), month_by_date(default_date))
+    period = { start: month_period[:start], end: default_date }
     achievements.between(period)
   end
 
@@ -118,11 +119,11 @@ class Employee < User
   end
 
   def working_today?
-    worked_shifts.find_by(date: Date.today).present?
+    worked_shifts.find_by(date: default_date).present?
   end
 
   def should_work_today?
-    opts = { week: week_by_date(Date.today), day: day_number(Date.today) }
+    opts = { week: week_by_date(default_date), day: day_number(default_date) }
     work_shift.plan_shifts.find_case(opts).check_in.present?
   end
 end

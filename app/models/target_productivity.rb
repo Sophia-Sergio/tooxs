@@ -9,7 +9,7 @@ class TargetProductivity < ApplicationRecord
     monday_friday_am: 1,
     monday_friday_pm: 2,
     saturday_sunday_am: 3,
-    saturday_sunday_pm: 4
+    saturday_sunday_pm: 4,
   }
 
   scope :between_dates, ->(period) { BetweenDatesWithoutDateAttributeQuery.new(self, period).call }

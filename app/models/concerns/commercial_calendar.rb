@@ -2,9 +2,9 @@ class CommercialCalendar
   YEARS = [2017, 2018, 2019].freeze
   WEEKS_BY_MONTH = Settings.weeks_by_month
   PRODUCTIVITY_PERIODS = Settings.productivity_week_periods_keys
+  DEFAULT_DATE = '2019-03-24'.to_date.freeze
 
   extend ActiveSupport::Concern
-
   module Period
     def old_period(period)
       {
@@ -113,9 +113,9 @@ class CommercialCalendar
     end
 
     def month_before_or_equal_to_actual_month?(year, month)
-      if year.to_i == year_by_date(Date.today)
-        month.to_i <= month_by_date(Date.today)
-      elsif year.to_i < year_by_date(Date.today)
+      if year.to_i == year_by_date(DEFAULT_DATE)
+        month.to_i <= month_by_date(DEFAULT_DATE)
+      elsif year.to_i < year_by_date(DEFAULT_DATE)
         true
       end
     end
