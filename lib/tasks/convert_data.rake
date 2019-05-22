@@ -11,14 +11,28 @@ namespace :excel do
     excel = ExcelConvert.load_excel('turnos_tooxs.xlsx')
     data = ExcelConvert.load_data(excel)
     csv = ExcelConvert.to_csv data
-
-    pp csv
+    puts 'Inicia exportación a Excel'
+    puts '*' * 50
+    headers = ['Turno', 'Semana', 'Dia', 'Check In', 'Check Out']
+    ExcelConvert.write_excel('export_turnos_tooxs.xlsx', headers, csv)
+    puts 'Término proceso conversión Excel'
+    puts '*' * 100
   end
 end
 
 class ExcelConvert
   def self.load_excel(file_name)
     RubyXL::Parser.parse "lib/tasks/data/#{file_name}"
+  end
+
+  def self.write_excel(file_name, headers, data)
+    workbook = RubyXL::Workbook.new
+    worksheet = workbook[0]
+    worksheet.sheet_name = 'Turnos TOOXS'
+    headers.each_with_index { |h, i| worksheet.add_cell(0, i, h) }
+    data.each_with_index { |row, r_i| row.each_with_index { |d, i| worksheet.add_cell(r_i + 1, i, d) } }
+
+    workbook.write("lib/tasks/data/#{file_name}")
   end
 
   def self.load_data(excel)
