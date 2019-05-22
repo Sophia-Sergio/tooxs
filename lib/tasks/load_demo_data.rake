@@ -107,7 +107,7 @@ namespace :db do
         monthly = params[:monthly].to_i
         year = params[:date].to_date.year
         object = CategorySalesPlan.create!(
-          year: year, store_id: 1, category_cod: params[:id], year: year,
+          year: year, store_id: 1, category_cod: params[:id],
           month: params[:month], monthly: monthly, daily: daily, weekly: weekly
         )
         weekly = {}
