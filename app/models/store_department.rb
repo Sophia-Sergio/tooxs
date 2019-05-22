@@ -85,10 +85,10 @@ class StoreDepartment < ApplicationRecord
       group(:year, :month).sum('category_sales_plans.monthly')
   end
 
-  def categories_sales_by_date_hour(date)
+  def categories_sales_by_date_hour(date, keys)
     hourly_sales = categories.joins(:sales).where(category_sales: { store_id: store, date: date }).
       pluck('category_sales.hourly')
-    PERIODS.each_with_object({}) do |key, hash|
+    keys.each_with_object({}) do |key, hash|
       hash[key] = hourly_sales.map { |sale| sale[key].to_i }.sum
     end
   end
@@ -110,8 +110,8 @@ class StoreDepartment < ApplicationRecord
       end
     end
     (period[:start]..period[:end]).each_with_object({}).each do |date, hash|
-      past_sale = categories_sales_by_date_hour(equivalent_date_past_year(date))
       employees = self.employees.working_on_date(date).count_employees_by_hour(date)
+      past_sale = categories_sales_by_date_hour(equivalent_date_past_year(date, employees.keys))
       day_past_sale = past_sale.values.sum
       hash[date] = PERIODS.each_with_object({}) do |hour, h|
         h[hour] = sales_plans_by_date[date] * (past_sale[hour].to_f / day_past_sale) / (employees[hour] || 1)
@@ -159,7 +159,7 @@ class StoreDepartment < ApplicationRecord
   def productivity_by_date_hour(period = default_period)
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
       employees = self.employees.working_on_date(date).count_employees_by_hour(date)
-      sales = categories_sales_by_date_hour(date)
+      sales = categories_sales_by_date_hour(date, employees.keys)
       productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
     end
@@ -168,7 +168,7 @@ class StoreDepartment < ApplicationRecord
   def productivity_plan_by_date_hour(period = default_period)
     (period[:start]..period[:end]).each_with_object({}) do |date, hash|
       employees = self.employees.count_planned_employees_by_hour(date)
-      sales = categories_sales_by_date_hour(date)
+      sales = categories_sales_by_date_hour(date, employees.keys)
       productivity = employees.keys.map { |hour| (sales[hour] / employees[hour].to_f).round(2) }
       hash[date] = employees.keys.zip(productivity).to_h
     end

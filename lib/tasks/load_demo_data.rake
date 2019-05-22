@@ -24,6 +24,7 @@ namespace :db do
     end
     populate_categories_sales_plan
     populate_store_department_categories
+    populate_worked_shifts
   end
 
   def delete_all(excel)
@@ -38,7 +39,9 @@ namespace :db do
     UserShift.delete_all
     WorkedShift.delete_all
     Achievement.delete_all
+    UsersRole.delete_all
     User.delete_all
+    Role.delete_all
     StoreDepartment.delete_all
     Store.delete_all
     Cluster.delete_all
@@ -122,6 +125,27 @@ namespace :db do
     StoreDepartment.all.each_with_index do |store_department, index|
       store_department.categories.delete_all
       store_department.categories << Category.where(cod: index.to_s)
+    end
+  end
+
+  def populate_worked_shifts
+    ActiveRecord::Base.connection.reset_pk_sequence!("worked_shifts")
+    Employee.all.each do |employee|
+      date = '2019-02-25'.to_date
+      (1..4).each do |week|
+        (1..7).each do |day|
+
+          opts = { month: 3, day: day, year: 2019, week: week }
+          unless employee.shifts.count.zero? || employee.plan_check_in(opts).nil?
+            worked_shift = WorkedShift.create!(user: employee, date: date,
+              check_in: employee.plan_check_in(opts),
+              check_out: employee.plan_check_out(opts))
+            puts '*' * 100
+            puts worked_shift.inspect
+          end
+          date += 1
+        end
+      end
     end
   end
 end
