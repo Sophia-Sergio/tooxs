@@ -29,13 +29,16 @@ class ExcelConvert
   end
 
   def self.iterate_sheet_rows(class_, sheet)
+    puts '*' * 50
+    puts "Procesando Hoja: #{class_}"
+    puts '*' * 50
     keys = {}
     shift_id = 0
     week = 0
     the_week = []
     check_in, check_out, week, mon, twe, wed, thr, fri, sat, sun = Array.new(10)
     sheet.each do |row|
-      next if row.cells.nil?
+      next if row.nil? || row.cells.nil?
 
       check_in, check_out, *the_week = row.cells.map{|r| (r.nil?) ? nil : r.value}
 
