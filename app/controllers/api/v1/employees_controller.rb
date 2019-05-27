@@ -4,6 +4,9 @@ module Api
   module V1
     # only employees endpoints
     class EmployeesController < ApplicationController
+      protect_from_forgery except: :chart if ENV['DIS_CSRF'] == 'OK'
+      skip_before_action :authenticate_user!, :set_current_user_store_department if ENV['DIS_CSRF'] == 'OK'
+
       include FilterParameters
       before_action :set_store_department, :set_period
       before_action :set_employee, only: %i[calendar_shift achievements_chart]
