@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  # before_action :authenticate_user!, :set_current_user_store_department
+  before_action :authenticate_user!, :set_current_user_store_department
+
   private
 
   def set_current_user_store_department
