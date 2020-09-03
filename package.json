@@ -7,7 +7,7 @@
     "babel-preset-react": "^6.24.1",
     "bootstrap": "4.0.0",
     "bootstrap-datepicker": "^1.8.0",
-    "bootstrap-select": "^1.13.3",
+    "bootstrap-select": "^1.13.6",
     "chart.js": "^2.7.3",
     "font-awesome": "^4.7.0",
     "fullcalendar-reactwrapper": "^1.0.7",
